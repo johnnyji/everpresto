@@ -5,7 +5,6 @@ import NewTimesheetButton from '.././timesheet/NewTimesheetButton';
 import PreviousTimesheets from '.././timesheet/PreviousTimesheets';
 
 import TimesheetStore from '../.././stores/TimesheetStore';
-import TimesheetActions from '../.././actions/TimesheetActions';
 
 export default class TimesheetHandler extends ReactTemplate {
   constructor(props) {

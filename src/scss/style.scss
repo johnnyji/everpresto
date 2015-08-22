@@ -10,8 +10,9 @@
 @import './timesheet/TimesheetHandler';
 @import './timesheet/NewTimesheetForm';
 
+// Shared
 @import './shared/FullScreenModal';
-
+@import './shared/InputField';
 
 body {
   position: relative;

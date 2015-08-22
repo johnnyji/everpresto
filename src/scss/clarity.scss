@@ -74,6 +74,12 @@ $form-background-color: whitesmoke;
   -o-filter: brightness($percentage) blur($blur);
   filter: brightness($percentage) blur($blur);
 }
+
+@mixin label-style {
+  color: darken($primary-brand-color, 10%);
+  padding: 0.5rem 0;
+}
+
 @mixin input-field-style {
   border-radius: 3px;
   border-style: none;

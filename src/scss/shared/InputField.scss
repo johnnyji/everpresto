@@ -1,0 +1,10 @@
+.input-field-wrapper {
+  label {
+    @include label-style;
+    position: relative;
+    display: block;
+  }
+  input {
+    @include input-field-style;
+  }
+}

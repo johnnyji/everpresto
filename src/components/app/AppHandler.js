@@ -42,7 +42,7 @@ export default class AppHandler extends ReactTemplate {
     let modal;
     
     if (s.modal.newTimesheet) {
-      let modalContent = <NewTimesheetForm workTypes={s.workTypes} />;
+      let modalContent = <NewTimesheetForm workTypes={s.workTypes} />
       modal = <FullScreenModal modalContent={modalContent} />;
     }
 
