@@ -1,0 +1,5 @@
+.new-timesheet-form-wrapper {
+  @include position-center(absolute, 50%, 50%);
+  background-color: $form-background-color;
+  padding: 2rem;
+}

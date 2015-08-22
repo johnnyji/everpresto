@@ -1,0 +1,75 @@
+//imports normalize.css for browser normalization
+@import '../.././node_modules/normalize.css/normalize.css';
+// my own SCSS helper file
+@import './clarity';
+
+// App
+@import './app/AppHeader';
+
+// Timesheet
+@import './timesheet/TimesheetHandler';
+@import './timesheet/NewTimesheetForm';
+
+@import './shared/FullScreenModal';
+
+
+body {
+  position: relative;
+  box-sizing: border-box;
+  color: $text-color;
+  font-family: 'Open Sans', sans-serif;
+  min-width: 1000px;
+  font-weight: 400;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  @include medium-viewport {
+    font-size: 0.95em;
+  }
+  @include mobile-viewport {
+    font-size: 0.87em;
+  }
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+  a {
+    text-decoration: none;
+    &:hover, &:focus, &:active, &:visited {
+      text-decoration: none;
+    }
+  }
+}
+
+// CLASSES
+
+.no-scroll {
+  position: fixed !important;
+  overflow: hidden !important;
+}
+
+.content-container {  
+  position: relative;
+  margin: 0 auto;
+  min-width: 900px;
+  max-width: 1300px;
+}
+
+.title {
+  position: relative;
+  margin: 2rem auto;
+  font-size: 2rem;
+  color: $primary-brand-color;
+  text-align: center;
+}
+
+.link {
+  @include text-shadow;
+  position: relative;
+  text-decoration: none;
+}
+
+.pull-left {
+  @include position-y(absolute, 50%);
+  left: 2rem;
+}

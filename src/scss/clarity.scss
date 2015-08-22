@@ -1,0 +1,102 @@
+// VARIABLES
+
+$primary-brand-color: #68C3A3;
+$secondary-brand-color: #4DAF7C;
+$tertiary-brand-color: #C36888;
+$white: whitesmoke;
+
+$text-color: #282828;
+$light-text-color: #777;
+
+$box-shadow-color: lighten(#282828, 20%);
+
+$modal-background-color: rgba(0,0,0,0.6);
+$form-background-color: whitesmoke;
+
+
+// VIEWPORT MIXINS
+
+@mixin mobile-viewport {
+  @media (max-width: 550px) {
+    @content;
+  }
+}
+
+@mixin medium-viewport {
+  @media (min-width: 551px) and (max-width: 1000px) {
+    @content;
+  }
+}
+
+
+//  MIXINS
+
+@mixin span($columns) {
+  @include span-columns($columns);
+  margin-left: 0;
+  margin-right: 0;
+}
+
+@mixin position-center($position, $top, $left) {
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  position: $position;
+  top: $top;
+  left: $left;
+}
+
+@mixin position-x($position, $left) {
+  -webkit-transform: translateX(-50%);
+  -moz-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  -o-transform: translateX(-50%);
+  transform: translateX(-50%);
+  position: $position;
+  left: $left;
+}
+
+@mixin position-y($position, $top) {
+  -webkit-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  -o-transform: translateY(-50%);
+  transform: translateY(-50%);
+  position: $position;
+  top: $top;
+}
+@mixin brightness($percentage, $blur) {
+  -webkit-filter: brightness($percentage) blur($blur);
+  -moz-filter: brightness($percentage) blur($blur);
+  -ms-filter: brightness($percentage) blur($blur);
+  -o-filter: brightness($percentage) blur($blur);
+  filter: brightness($percentage) blur($blur);
+}
+@mixin input-field-style {
+  border-radius: 3px;
+  border-style: none;
+  -webkit-box-shadow: 0 0 3px $box-shadow-color;
+  -moz-box-shadow: 0 0 3px $box-shadow-color;
+  -o-box-shadow: 0 0 3px $box-shadow-color;
+  box-shadow: 0 0 3px $box-shadow-color;
+  outline: none;
+  background-color: #FFF;
+  padding: 0.3rem;
+  font-size: 1.1rem;
+}
+
+@mixin text-shadow {
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+}
+
+@mixin modal-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transition: opacity 150ms ease, visibility 0ms ease 150ms;
+  z-index: 9;
+}
