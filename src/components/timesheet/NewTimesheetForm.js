@@ -40,7 +40,7 @@ export default class NewTimesheetForm extends ReactTemplate {
       timesheet: state.timesheet,
       errors: state.errors,
       creatingTimesheet: state.creatingTimesheet,
-      postCreateTimesheet: true
+      postCreateTimesheet: state.postCreateTimesheet
     };
   }
   _updateState(state) {
