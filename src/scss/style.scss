@@ -24,11 +24,12 @@
 @import './shared/TimeTrackerField';
 @import './shared/Spinner';
 
+
 body {
   position: relative;
   box-sizing: border-box;
   color: $text-color;
-  font-family: 'Lucida Sans Unicode', sans-serif;
+  font-family: 'Lucida Sans Unicode', helvetica, sans-serif;
   min-width: 1000px;
   font-weight: 400;
   margin: 0;
