@@ -19,7 +19,7 @@ var AppStateTemplate = {
 
 var AppStore = Reflux.createStore({
   init: function() {
-    this.state = _.clone(AppStateTemplate);
+    this.state = _.cloneDeep(AppStateTemplate);
     this.listenToMany(AppActions);
   },
   getState: function() {

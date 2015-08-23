@@ -117,9 +117,21 @@ $error-color: #E74C3C;
   background-color: $primary-brand-color;
   padding: 1rem 2rem;
   color: #FFF;
+  outline: none;
+  border-style: none;
   &:hover {
     box-shadow: -2px 3px 11px -3px rgba(0,0,0,0.75);
     cursor: pointer;
+  }
+}
+
+@mixin link-style {
+  @include transition;
+  color: $light-text-color;
+  text-decoration: underline;
+  &:hover {
+    cursor: pointer;
+    color: $primary-brand-color;
   }
 }
 

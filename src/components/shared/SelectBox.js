@@ -43,6 +43,7 @@ export default class SelectBox extends ReactTemplate {
       <div>
         <InputFieldLabel shrinkLabel={s.shrinkLabel} error={p.error} labelName={p.labelName} />
         <select
+          ref='select'
           defaultValue={p.selectPlaceholder} 
           onFocus={this._shrinkLabel}
           onBlur={this._unshrinkLabel}

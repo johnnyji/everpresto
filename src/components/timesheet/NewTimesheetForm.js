@@ -7,6 +7,7 @@ import InputField from '.././shared/InputField';
 import TextField from '.././shared/TextField';
 import SelectBox from '.././shared/SelectBox';
 import TimeTrackerField from '.././shared/TimeTrackerField';
+import PostTimesheetSubmissionView from './PostTimesheetSubmissionView';
 
 import NewTimesheetActions from '../.././actions/NewTimesheetActions';
 import NewTimesheetStore from '../.././stores/NewTimesheetStore';
@@ -23,7 +24,8 @@ export default class NewTimesheetForm extends ReactTemplate {
       '_onChangeNote',
       '_onSelectWorkType',
       '_onSubmitTimesheet',
-      '_regenerateForm'
+      '_regenerateForm',
+      '_clearForm'
     );
   }
   componentDidMount() {
@@ -38,7 +40,7 @@ export default class NewTimesheetForm extends ReactTemplate {
       timesheet: state.timesheet,
       errors: state.errors,
       creatingTimesheet: state.creatingTimesheet,
-      postCreateTimesheet: state.postCreateTimesheet
+      postCreateTimesheet: true
     };
   }
   _updateState(state) {
@@ -64,6 +66,14 @@ export default class NewTimesheetForm extends ReactTemplate {
   _regenerateForm() {
     NewTimesheetActions.resetState();
   }
+  _clearForm() {
+    this.refs.email.refs.input.getDOMNode().value = '';
+    this.refs.workType.refs.select.getDOMNode().value = '';
+    this.refs.notes.refs.textarea.getDOMNode().value = '';
+    this.refs.tracker.refs.hours.getDOMNode().value = '';
+    this.refs.tracker.refs.minutes.getDOMNode().value = '';
+    NewTimesheetActions.resetState();
+  }
   render() {
     let p = this.props;
     let s = this.state;
@@ -78,9 +88,9 @@ export default class NewTimesheetForm extends ReactTemplate {
     let submitButton;
 
     if (noErrors && fieldsFilled) {
-      submitButton = <div className='button' onClick={this._onSubmitTimesheet}>Submit Timesheet</div>;
+      submitButton = <button className='button' onClick={this._onSubmitTimesheet}>Submit Timesheet</button>;
     } else {
-      submitButton = <div className='button inactive-button'>Fill the fields</div>;
+      submitButton = <button className='button inactive-button'>Fill the fields</button>;
     }
 
     if (s.creatingTimesheet) {
@@ -94,17 +104,19 @@ export default class NewTimesheetForm extends ReactTemplate {
     if (s.postCreateTimesheet) {
       return (
         <div className='new-timesheet-form-wrapper'>
-          <h2>Thanks for submitting!</h2>
-          <div className='button' onClick={this._regenerateForm}>Submit Another!</div>
+          <PostTimesheetSubmissionView 
+            timesheet={s.timesheet}
+            regenerateForm={this._regenerateForm}
+          />
         </div>
       ); 
     }
 
     return (
       <div className='new-timesheet-form-wrapper'>
-        <h2 className='form-title'>New Timesheet Entry</h2>
         <div className='subform subform-left'>
           <InputField
+            ref='email'
             label='Email Address'
             type='email'
             inputPlaceholder='email@domain.com'
@@ -112,6 +124,7 @@ export default class NewTimesheetForm extends ReactTemplate {
             onInputChange={this._onChangeEmail}
           />
           <SelectBox
+            ref='workType'
             options={p.workTypes}
             error={s.errors.workType}
             labelName='Work Type'
@@ -119,6 +132,7 @@ export default class NewTimesheetForm extends ReactTemplate {
             onSelectChange={this._onSelectWorkType}
           />
           <TextField
+            ref='notes'
             label='Notes (optional)'
             inputPlaceholder='Leave a note about this entry'
             onInputChange={this._onChangeNote}
@@ -126,10 +140,12 @@ export default class NewTimesheetForm extends ReactTemplate {
         </div>
         <div className='subform subform-right'>
           <TimeTrackerField
+            ref='tracker'
             error={s.errors.timeInSeconds}
           />
           {submitButton}
         </div>
+        <small className='clear-form-button' onClick={this._clearForm}>Clear Form</small>
       </div>
     );
   }

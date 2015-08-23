@@ -4,6 +4,7 @@
   
   // set mins so the form doesnt collapse when we show loading bar/finish screen
   width: 700px;
+  height: 450px;
 
   background-color: $form-background-color;
   padding: 2rem 3rem 3rem 3rem;
@@ -23,5 +24,11 @@
   }
   .subform-right {
     width: 60%;
+  }
+  .clear-form-button {
+    @include link-style;
+    position: absolute;
+    right: 1rem;
+    bottom: 1rem;
   }
 }

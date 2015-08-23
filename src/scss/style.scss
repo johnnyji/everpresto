@@ -10,6 +10,7 @@
 // Timesheet
 @import './timesheet/TimesheetHandler';
 @import './timesheet/NewTimesheetForm';
+@import './timesheet/PostTimesheetSubmissionView';
 
 // Shared
 @import './shared/SelectBox';
@@ -52,9 +53,8 @@ body {
 
 .button {
   @include text-shadow;
-  @include button-style;
+  @include button-style;  
   @include position-x(relative, 50%);
-  display: inline-block;
 }
 
 .inactive-button {

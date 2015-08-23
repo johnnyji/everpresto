@@ -10,7 +10,7 @@ var TimesheetStateTemplate = {
 
 var TimesheetStore = Reflux.createStore({
   init: function() {
-    this.state = _.clone(TimesheetStateTemplate);
+    this.state = _.cloneDeep(TimesheetStateTemplate);
     this.listenToMany(TimesheetActions);
   },
   getState: function() {

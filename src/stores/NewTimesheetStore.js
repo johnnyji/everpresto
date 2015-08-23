@@ -27,7 +27,7 @@ var NewTimesheetStateTemplate = {
 var NewTimesheetStore = Reflux.createStore({
   mixins: [ErrorHandlerMixin, TimeFormatterMixin],
   init: function() {
-    this.state = _.clone(NewTimesheetStateTemplate);
+    this.state = _.cloneDeep(NewTimesheetStateTemplate);
     this.listenToMany(NewTimesheetActions);
   },
   getState: function() {
@@ -53,7 +53,7 @@ var NewTimesheetStore = Reflux.createStore({
     this.trigger(this.state);
   },
   onSetTime: function(hours, minutes) {
-    Promise.all([
+    Promise.all([ // Each validator resolves true or false
       InputValidator.validateStringPresence(hours, minutes),
       InputValidator.validateIntegerOnly(hours, minutes),
       InputValidator.validateLength(2, hours, minutes)
@@ -88,7 +88,7 @@ var NewTimesheetStore = Reflux.createStore({
     this.trigger(this.state);
   },
   onResetState: function() {
-    this.state = _.clone(NewTimesheetStateTemplate);
+    this.state = _.cloneDeep(NewTimesheetStateTemplate);
     this.trigger(this.state);
   }
 });

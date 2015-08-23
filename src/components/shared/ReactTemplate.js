@@ -6,5 +6,9 @@ export default class ReactTemplate extends React.Component {
   _bindFunctions(...funcs) {
     funcs.forEach((func) => { this[func] = this[func].bind(this) });
   }
-  
+  _clearInputFields(...refs) {
+    refs.forEach(ref => {
+      React.findDOMNode(ref).value = '';
+    });
+  }  
 }

@@ -1,0 +1,16 @@
+.post-timesheet-submission-view-wrapper {
+  @include position-center(absolute, 50%, 50%);
+  text-align: center;
+  width: 100%;
+  h2 {
+    position: relative;
+    margin-bottom: 2rem;
+  }
+  p {
+    position: relative;
+    margin-bottom: 3rem;
+  }
+  .button {
+    position: absolute;
+  }
+}
