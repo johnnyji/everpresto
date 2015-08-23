@@ -9,7 +9,10 @@ import InputFieldLabel from './InputFieldLabel';
 export default class TimeTrackerField extends ReactTemplate {
   constructor(props) {
     super(props);
-    this.state = { shrinkLabel: false };
+    this.state = { 
+      shrinkLabel: false,
+      showHourSuffix: true
+    };
     this._bindFunctions(
       '_handleInputFocus',
       '_handleInputBlur',
@@ -19,10 +22,16 @@ export default class TimeTrackerField extends ReactTemplate {
   }
   _handleInputFocus() {
     this._clearPlaceholderTimeInput();
-    this.setState({ shrinkLabel: true });
+    this.setState({ 
+      shrinkLabel: true,
+      showHourSuffix: false
+    });
   }
   _handleInputBlur() {
-   this.setState({ shrinkLabel: false }); 
+    this.setState({ 
+      shrinkLabel: false,
+      showHourSuffix: true
+    }); 
   }
   _clearPlaceholderTimeInput() {
     let minutesValue = React.findDOMNode(this.refs.minutes).value;
@@ -40,6 +49,7 @@ export default class TimeTrackerField extends ReactTemplate {
   render() {
     let p = this.props;
     let s = this.state;
+    let hourSuffixClass = s.showHourSuffix ? 'hour-suffix' : 'hour-suffix invisible';
 
     return (
       <div className='time-tracker-field-wrapper'>
@@ -66,7 +76,7 @@ export default class TimeTrackerField extends ReactTemplate {
             onFocus={this._handleInputFocus}
             onBlur={this._handleInputBlur}
             onChange={this._setTime}></input>
-          <small>Hrs</small>
+          <small className={hourSuffixClass}>Hrs</small>
         </div>
       </div>
     );

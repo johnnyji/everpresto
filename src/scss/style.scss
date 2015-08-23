@@ -28,7 +28,7 @@ body {
   position: relative;
   box-sizing: border-box;
   color: $text-color;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Lucida Sans Unicode', sans-serif;
   min-width: 1000px;
   font-weight: 400;
   margin: 0;
@@ -66,6 +66,10 @@ body {
     box-shadow: none;
     cursor: default;
   }
+}
+
+.invisible {
+  visibility: hidden !important;
 }
 
 .no-scroll {
