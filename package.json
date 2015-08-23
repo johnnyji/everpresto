@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev-server": "webpack-dev-server --devtool-eval --inline --hot --colors --progress --display-error-details --content-base build",
-    "write-to-disk": "webpack --watch --progress --colors --display-error-details -d"
+    "write-to-disk": "webpack --watch --progress --colors --display-error-details -d",
+    "deploy": "NODE_ENV=production webpack -p --config webpack.production.config.js"
   },
   "author": "",
   "license": "ISC",

@@ -5,6 +5,7 @@
   background-color: $primary-brand-color;
   height: 70px;
   .logo {
+    @include text-shadow;
     font-size: 1.8rem;
     font-weight: 600;
     color: #FFF;

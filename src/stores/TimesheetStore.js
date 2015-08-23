@@ -5,7 +5,14 @@ var NewTimesheetActions = require('.././actions/NewTimesheetActions');
 var TimesheetActions = require('.././actions/TimesheetActions');
 
 var TimesheetStateTemplate = {
-  timesheets: [],
+  timesheets: [
+    {
+      email: 'johnny@johnnyji.com',
+      note: null,
+      workType: 'Assistant Director',
+      timeInSeconds: 84527
+    }
+  ],
 };
 
 var TimesheetStore = Reflux.createStore({

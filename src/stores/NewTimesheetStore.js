@@ -61,7 +61,7 @@ var NewTimesheetStore = Reflux.createStore({
       var exists = result[0];
       var isNumbers = result[1];
       var isCorrectLength = result[2];
-
+      var underMaxHours = result[3];
       if (!exists) { 
         return this._triggerInputError('timeInSeconds', 'Please fill out your work duration.');
       }

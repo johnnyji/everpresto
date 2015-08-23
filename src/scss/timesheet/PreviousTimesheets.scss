@@ -1,0 +1,16 @@
+.previous-timesheets-wrapper {
+  padding: 0 2rem;
+  .timesheets-container {
+    position: relative;
+    border: 2px solid $card-background-color;
+    h2 {
+      position: relative;
+      text-align: center;
+      color: $light-text-color;      
+    }
+    .no-timesheets-message {
+      position: relative;
+      color: $light-text-color;
+    }
+  }
+}

@@ -1,10 +1,18 @@
 .timesheet-handler-wrapper {
-  .no-timesheets-header {
+  position: relative;
+  margin: 4rem 2rem;
+  .new-timesheet-button-wrapper {
     position: relative;
-    color: $light-text-color;
+    display: inline-block;
+    vertical-align: top;
+    margin: 0;
+    width: 25%;
+    text-align: right;
   }
-  .no-timesheets-message {
+  .previous-timesheets-wrapper {
     position: relative;
-    color: $light-text-color;
+    display: inline-block;
+    margin: 0;
+    width: 75%;
   }
 }

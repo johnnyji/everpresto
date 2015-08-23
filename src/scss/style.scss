@@ -11,6 +11,9 @@
 @import './timesheet/TimesheetHandler';
 @import './timesheet/NewTimesheetForm';
 @import './timesheet/PostTimesheetSubmissionView';
+@import './timesheet/PreviousTimesheets';
+@import './timesheet/TimesheetCard';
+@import './timesheet/NewTimesheetButton';
 
 // Shared
 @import './shared/SelectBox';
@@ -73,8 +76,7 @@ body {
 .content-container {  
   position: relative;
   margin: 0 auto;
-  min-width: 900px;
-  max-width: 1300px;
+  width: 900px;
 }
 
 .title {

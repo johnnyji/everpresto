@@ -13,8 +13,8 @@ export default class NewTimesheetButton extends ReactTemplate {
   }
   render() {
     return (
-      <div>
-        <p onClick={this._toggleNewTimesheetModal}>New Timesheet</p>
+      <div className='new-timesheet-button-wrapper'>
+        <button className='new-timesheet-button' onClick={this._toggleNewTimesheetModal}>+</button>
       </div>
     );
   }

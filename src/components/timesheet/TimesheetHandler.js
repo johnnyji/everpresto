@@ -37,21 +37,10 @@ export default class TimesheetHandler extends ReactTemplate {
     let p = this.props;
     let content;
 
-    if (s.timesheets.length === 0) {
-      content = (
-        <div>
-          <h2 className='no-timesheets-header'>No Timesheets Yet.</h2>
-          <p className='no-timesheets-message'>Go create one. They're free!</p>
-        </div>
-      );
-    } else {
-      content = <PreviousTimesheets />
-    }
-
     return (
       <div className='timesheet-handler-wrapper'>
         <NewTimesheetButton />
-        {content}
+        <PreviousTimesheets timesheets={s.timesheets} />
       </div>
     );
   }
