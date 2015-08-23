@@ -1,10 +1,10 @@
 .input-field-wrapper {
-  label {
-    @include label-style;
-    position: relative;
-    display: block;
-  }
   input {
     @include input-field-style;
+    width: 100%;
   }
+}
+
+.input-error {
+  box-shadow: 0 0 3px darken($error-color, 5%) !important;
 }

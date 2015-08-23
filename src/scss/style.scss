@@ -13,6 +13,8 @@
 // Shared
 @import './shared/FullScreenModal';
 @import './shared/InputField';
+@import './shared/InputFieldLabel';
+@import './shared/TimeTrackerField';
 
 body {
   position: relative;
@@ -43,6 +45,21 @@ body {
 }
 
 // CLASSES
+
+.button {
+  @include text-shadow;
+  @include button-style;
+  @include position-x(relative, 50%);
+  display: inline-block;
+}
+
+.inactive-button {
+  background-color: lighten($light-text-color, 10%);
+  &:hover {
+    box-shadow: none;
+    cursor: default;
+  }
+}
 
 .no-scroll {
   position: fixed !important;

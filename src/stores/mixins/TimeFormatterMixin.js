@@ -1,10 +1,12 @@
 let TimeFormatterMixin = {
   _formatMinutesToSeconds: (minutes) => {
+    minutes = parseInt(minutes);
     return minutes * 60;
   },
-  formatHoursToSeconds: (hours) => {
+  _formatHoursToSeconds: (hours) => {
+    hours = parseInt(hours);
     let minutes = hours * 60;
-    _formatMinutesToSeconds(minutes);
+    return minutes * 60;
   }
 };
 

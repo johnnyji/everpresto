@@ -1,0 +1,14 @@
+label {
+  @include transition;
+  @include label-style;
+  position: relative;
+  display: block;
+}
+
+.input-field-error {
+  color: $error-color;
+}
+
+.shrinked-label {
+  font-size: 80%;
+}

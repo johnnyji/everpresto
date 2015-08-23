@@ -5,11 +5,11 @@ import InputFieldLabel from './InputFieldLabel';
 export default class InputField extends ReactTemplate {
   constructor(props) {
     super(props);
-    this.state = { showLabel: true };
-    this._bindFunctions('_onInputChange', '_toggleLabel');
+    this.state = { shrinkLabel: false };
+    this._bindFunctions('_onInputChange', '_toggleShrinkLabel');
   }
-  _toggleLabel() {
-    this.setState({ showLabel: !this.state.showLabel });
+  _toggleShrinkLabel() {
+    this.setState({ shrinkLabel: !this.state.shrinkLabel });
   }
   _onInputChange(e) {
     this.props.onInputChange(e);
@@ -18,19 +18,19 @@ export default class InputField extends ReactTemplate {
     let p = this.props;
     let s = this.state;
     let onChangeFunc = p.onInputChange || null;
-    let showLabel = s.showLabel || p.error;
+    let inputClass = p.error ? `${p.inputClassName || ''} input-error` : p.inputClassName;
 
     return (
       <div className='input-field-wrapper'>
-        {showLabel && <InputFieldLabel error={p.error} labelName={p.label} />}
+        <InputFieldLabel shrinkLabel={s.shrinkLabel} error={p.error} labelName={p.label} />
         <input
           ref='input'
-          className={p.inputClassName}
+          className={inputClass}
           placeholder={p.inputPlaceholder}
           type={p.type}
           name={p.name}
-          onFocus={this._toggleLabel}
-          onBlur={this._toggleLabel}
+          onFocus={this._toggleShrinkLabel}
+          onBlur={this._toggleShrinkLabel}
           onChange={onChangeFunc}></input>
       </div>
     );

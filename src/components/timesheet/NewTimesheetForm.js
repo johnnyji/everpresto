@@ -18,7 +18,8 @@ export default class NewTimesheetForm extends ReactTemplate {
       '_getInitialState',
       '_updateState',
       '_onChangeEmail',
-      '_onSelectWorkType'
+      '_onSelectWorkType',
+      '_onSubmitTimesheet'
     );
   }
   componentDidMount() {
@@ -46,9 +47,27 @@ export default class NewTimesheetForm extends ReactTemplate {
   _onSelectWorkType(e) {
     NewTimesheetActions.setWorkType(e.target.value);
   }
+  _onSubmitTimesheet() {
+    NewTimesheetActions.submitTimesheet();
+  }
   render() {
     let p = this.props;
     let s = this.state;
+    let noErrors = 
+      _.isNull(s.errors.workType) && 
+      _.isNull(s.errors.email) &&
+      _.isNull(s.errors.timeInSeconds);
+    let fieldsFilled =
+      !_.isNull(s.timesheet.email) &&
+      !_.isNull(s.timesheet.workType) &&
+      !_.isNull(s.timesheet.timeInSeconds);
+    let submitButton;
+
+    if (noErrors && fieldsFilled) {
+      submitButton = <div className='button' onClick={this._onSubmitTimesheet}>Submit Timesheet</div>;
+    } else {
+      submitButton = <div className='button inactive-button'>Fill the fields</div>;
+    }
 
     return (
       <div className='new-timesheet-form-wrapper'>
@@ -64,13 +83,15 @@ export default class NewTimesheetForm extends ReactTemplate {
         />
         <SelectBox
           options={p.workTypes}
+          error={s.errors.workType}
+          labelName='Work Type'
           selectPlaceholder='Select Work Type'
           onSelectChange={this._onSelectWorkType}
         />
         <TimeTrackerField
           error={s.errors.timeInSeconds}
-          timeTrackMethod={s.timesheet.timeTrackMethod}
         />
+        {submitButton}
       </div>
     );
   }

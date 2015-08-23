@@ -5,14 +5,25 @@ export default class InputValidator {
     return emailRegex.test(email);
   }
 
-  static validateHrs(hours) {
-    let hoursRegex = /^\d+$/;
-    return hoursRegex.test(hours);
+  static validateIntegerOnly(input) {
+    let integersRegex = /^\d+$/;
+    return integersRegex.test(input);
   }
 
-  static validateMins(mins) {
-    let minsRegex = /^\d+$/;
-    return minsRegex.test(mins);
+  static validateLength(length, ...inputs) {
+    let validity;
+    inputs.forEach(input => {
+      validity = input.length === length;
+    });
+    return validity;
+  }
+
+  static validateStringPresence(...inputs) {
+    let validity;
+    inputs.forEach(input => {
+      validity = input !== '';
+    });
+    return validity;
   }
 
 }

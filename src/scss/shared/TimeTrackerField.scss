@@ -1,0 +1,37 @@
+.time-tracker-field-wrapper {
+  position: relative;
+  margin: 1rem auto;
+  input {
+    @include text-shadow;
+    position: relative;
+    display: inline-block;
+    margin: 1rem 0;
+    font-size: 3.5rem;
+    width: 70px;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    &:focus {
+      border-bottom: 2px solid $primary-brand-color;
+    }
+  }
+  .tracker {
+    text-align: center;
+    .hours-input { 
+      text-align: right; 
+      margin-right: 0.5rem;
+    }
+    .minutes-input { 
+      text-align: left; 
+      margin-left: 0.5rem;
+    }
+    span {
+      font-size: 2.35rem;
+    }
+    small {
+      font-weight: bolder;
+      font-weight: 1.2rem;
+      margin-left: 1rem;
+    }
+  }
+}

@@ -13,6 +13,8 @@ $box-shadow-color: lighten(#282828, 20%);
 $modal-background-color: rgba(0,0,0,0.6);
 $form-background-color: whitesmoke;
 
+$error-color: #E74C3C;
+
 
 // VIEWPORT MIXINS
 
@@ -67,6 +69,12 @@ $form-background-color: whitesmoke;
   position: $position;
   top: $top;
 }
+
+@mixin transition {
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+
 @mixin brightness($percentage, $blur) {
   -webkit-filter: brightness($percentage) blur($blur);
   -moz-filter: brightness($percentage) blur($blur);
@@ -91,6 +99,21 @@ $form-background-color: whitesmoke;
   background-color: #FFF;
   padding: 0.3rem;
   font-size: 1.1rem;
+}
+
+@mixin button-style {
+  @include transition;
+  background-color: $primary-brand-color;
+  padding: 1rem 2rem;
+  color: #FFF;
+  &:hover {
+    box-shadow: -2px 3px 11px -3px rgba(0,0,0,0.75);
+    cursor: pointer;
+  }
+}
+
+@mixin box-shadow {
+  box-shadow: -1px 0px 18px -2px rgba(0,0,0,0.75);
 }
 
 @mixin text-shadow {

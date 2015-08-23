@@ -6,13 +6,15 @@ export default class InputFieldLabel extends React.Component {
   }
   render() {
     let p = this.props;
+    let labelClass = p.shrinkLabel ? 'shrinked-label' : '';
 
     if (p.error) { return <p className='input-field-error'>{p.error}</p>; }
-    return <label>{p.labelName}</label>
+    return <label className={labelClass}>{p.labelName}</label>
   }
 }
 
 InputFieldLabel.propTypes = {
+  shrinkLabel: React.PropTypes.bool.isRequired,
   error: React.PropTypes.any,
   labelName: React.PropTypes.string.isRequired,
 };

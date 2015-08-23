@@ -9,83 +9,70 @@ import InputFieldLabel from './InputFieldLabel';
 export default class TimeTrackerField extends ReactTemplate {
   constructor(props) {
     super(props);
-    this.state = { showTimeTrackMethodSetting: false };
+    this.state = { shrinkLabel: false };
     this._bindFunctions(
-      '_toggleTimeTrackMethodSetting',
-      '_setTrackingMethodToMins',
-      '_setTrackingMethodToHrs',
-      '_setHrsInput',
-      '_setMinsInput'
+      '_handleInputFocus',
+      '_handleInputBlur',
+      '_clearPlaceholderTimeInput',
+      '_setTime'
     );
   }
-  _setTrackingMethodToHrs() {
-    if (this.props.timeTrackMethod.hours) { return; }
-    NewTimesheetActions.setTimeTrackToHrs();
+  _handleInputFocus() {
+    this._clearPlaceholderTimeInput();
+    this.setState({ shrinkLabel: true });
   }
-  _setTrackingMethodToMins() {
-    if (this.props.timeTrackMethod.mins) { return; }
-    NewTimesheetActions.setTimeTrackToMins();
+  _handleInputBlur() {
+   this.setState({ shrinkLabel: false }); 
   }
-  _toggleTimeTrackMethodSetting() {
-    this.setState({ 
-      showTimeTrackMethodSetting: !this.state.showTimeTrackMethodSetting 
-    });
+  _clearPlaceholderTimeInput() {
+    let minutesValue = React.findDOMNode(this.refs.minutes).value;
+    let hoursValue = React.findDOMNode(this.refs.hours).value;
+    if (minutesValue === '00' && hoursValue === '00') {
+      React.findDOMNode(this.refs.minutes).value = '';
+      React.findDOMNode(this.refs.hours).value = '';
+    }
   }
-  _setHrsInput(e) {
-    debugger;
-    NewTimesheetActions.setHours(parseInt(e.target.value));
-  }
-  _setMinsInput(e) {
-    NewTimesheetActions.setMins(parseInt(e.target.value));
+  _setTime() {
+    let minutesValue = React.findDOMNode(this.refs.minutes).value;
+    let hoursValue = React.findDOMNode(this.refs.hours).value;
+    NewTimesheetActions.setTime(hoursValue, minutesValue);
   }
   render() {
     let p = this.props;
     let s = this.state;
-    let trackByHours = p.timeTrackMethod.hours;
-    let trackbyMinutes = p.timeTrackMethod.minutes;
-    let timeTrackMethodText;
-    let inputField;
-
-    if (trackByHours) {
-      timeTrackMethodText = 'Hrs';
-      inputField = (
-        <div>
-          <InputFieldLabel error={p.error} labelName={'Track Time'} />
-          <input placeholder='0:00 hrs' onChange={this._setHrsInput}></input>
-        </div>
-      );
-    } else if (trackByMinutes) {
-      timeTrackMethodText = 'Mins';
-      inputField = (
-        <div>
-          <InputFieldLabel error={p.error} labelName={'Track Time'} />
-          <input placeholder='000 mins' onChange={this._setMinsInput}></input>
-        </div>
-      );
-    }
 
     return (
       <div className='time-tracker-field-wrapper'>
-        {inputField}
-        <small 
-          onMouseEnter={this._toggleTimeTrackMethodSetting} 
-          onMouseLeave={this._toggleTimeTrackMethodSetting}>
-          {timeTrackMethodText}
-        </small>
-
-        {s.showTimeTrackMethodSetting &&
-          <div className='pop-up-settings'>
-            <small onClick={this._setTimeTrackToHrs}>Track by Hours</small>
-            <small onClick={this._setTimeTrackToMins}>Track by Minutes</small>
-          </div>
-        }
-
+        <InputFieldLabel shrinkLabel={s.shrinkLabel} error={p.error} labelName={'Track Time'} />
+        <div className='tracker'>
+          <input 
+            type='text' 
+            ref='hours' 
+            className='hours-input'
+            maxLength='2'
+            defaultValue='00'
+            placeholder='00'
+            onFocus={this._handleInputFocus}
+            onBlur={this._handleInputBlur}
+            onChange={this._setTime}></input>
+          <span>:</span>
+          <input 
+            type='text' 
+            ref='minutes' 
+            className='minutes-input'
+            maxLength='2'
+            defaultValue='00'
+            placeholder='00' 
+            onFocus={this._handleInputFocus}
+            onBlur={this._handleInputBlur}
+            onChange={this._setTime}></input>
+          <small>Hrs</small>
+        </div>
       </div>
     );
   }
 }
 
 TimeTrackerField.propTypes = {
-  error: React.PropTypes.any,
-  timeTrackMethod: React.PropTypes.object.isRequired,
+  error: React.PropTypes.any
 };

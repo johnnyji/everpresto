@@ -3,10 +3,8 @@ var Reflux = require('reflux');
 var NewTimesheetActions = Reflux.createActions([
   'setEmail',
   'setWorkType',
-  'setTimeTrackToHrs',
-  'setTimeTrackToMins',
-  'setMins',
-  'setHours'
+  'setTime',
+  'submitTimesheet',
 ]);
 
 module.exports = NewTimesheetActions;
