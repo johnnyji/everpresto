@@ -1,0 +1,9 @@
+select {
+  @include select-field-style;
+  position: relative;
+  width: 100%;
+  color: $placeholder-color;
+  option {
+    color: $text-color;
+  }
+}

@@ -10,20 +10,24 @@ export default class SelectBox extends ReactTemplate {
     this.state = { shrinkLabel: false };
     this._bindFunctions(
       '_handleChange',
-      '_toggleShrinkLabel'
+      '_shrinkLabel',
+      '_unshrinkLabel'
     );
   }
   _handleChange(e) {
+    this._unshrinkLabel();
     this.props.onSelectChange(e);
   }
-  _toggleShrinkLabel() {
-    this.setState({ shrinkLabel: !this.state.shrinkLabel });
+  _shrinkLabel() {
+    this.setState({ shrinkLabel: true });
+  }
+  _unshrinkLabel() {
+    this.setState({ shrinkLabel: false });
   }
   render() {
     let p = this.props;
     let s = this.state;
     let options;
-    let selectClass = p.error ? 'input-error' : '';
 
     if (_.isArray(p.options)) {
       options = _.map(p.options, (option, i) => {
@@ -39,12 +43,11 @@ export default class SelectBox extends ReactTemplate {
       <div>
         <InputFieldLabel shrinkLabel={s.shrinkLabel} error={p.error} labelName={p.labelName} />
         <select
-          className={selectClass}
           defaultValue={p.selectPlaceholder} 
-          onFocus={this._toggleShrinkLabel}
-          onBlur={this._toggleShrinkLabel}
+          onFocus={this._shrinkLabel}
+          onBlur={this._unshrinkLabel}
           onChange={this._handleChange}>
-          <option value='' disabled>{p.selectPlaceholder}</option>
+          <option className='default-option' value='' disabled>{p.selectPlaceholder}</option>
           {options}
         </select>
       </div>

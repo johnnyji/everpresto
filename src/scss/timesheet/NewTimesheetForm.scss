@@ -1,6 +1,27 @@
 .new-timesheet-form-wrapper {
-  @include position-center(absolute, 40%, 50%);
+  @include position-center(absolute, 50%, 50%);
   @include box-shadow;
+  
+  // set mins so the form doesnt collapse when we show loading bar/finish screen
+  width: 700px;
+
   background-color: $form-background-color;
   padding: 2rem 3rem 3rem 3rem;
+  .form-title {
+    @include text-shadow;
+    position: relative;
+    margin: 0.5rem 0 1.5rem 0;
+  }
+  .subform {
+    position: relative;
+    display: inline-block;
+    padding: 1rem;
+  }
+  .subform-left {
+    vertical-align: top;
+    width: 40%;
+  }
+  .subform-right {
+    width: 60%;
+  }
 }

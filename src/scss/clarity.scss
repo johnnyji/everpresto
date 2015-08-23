@@ -7,6 +7,7 @@ $white: whitesmoke;
 
 $text-color: #282828;
 $light-text-color: #777;
+$placeholder-color: lighten(#666666, 25%);
 
 $box-shadow-color: lighten(#282828, 20%);
 
@@ -85,15 +86,25 @@ $error-color: #E74C3C;
 
 @mixin label-style {
   color: darken($primary-brand-color, 10%);
-  padding: 0.5rem 0;
+  padding: 1.5rem 0 0.5rem 0;
+  margin: 0;
+}
+
+@mixin select-field-style {
+  border-radius: 3px;
+  border-style: none;
+  -webkit-box-shadow: 0 0 3px $box-shadow-color;
+  box-shadow: 0 0 3px $box-shadow-color;
+  outline: none;
+  background-color: #FFF;
+  height: 32px;
+  font-size: 1.1rem;
 }
 
 @mixin input-field-style {
   border-radius: 3px;
   border-style: none;
   -webkit-box-shadow: 0 0 3px $box-shadow-color;
-  -moz-box-shadow: 0 0 3px $box-shadow-color;
-  -o-box-shadow: 0 0 3px $box-shadow-color;
   box-shadow: 0 0 3px $box-shadow-color;
   outline: none;
   background-color: #FFF;

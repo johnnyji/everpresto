@@ -2,7 +2,9 @@ import React from 'react';
 import _ from 'lodash';
 import ReactTemplate from '.././shared/ReactTemplate';
 
+import Spinner from '.././shared/Spinner';
 import InputField from '.././shared/InputField';
+import TextField from '.././shared/TextField';
 import SelectBox from '.././shared/SelectBox';
 import TimeTrackerField from '.././shared/TimeTrackerField';
 
@@ -18,8 +20,10 @@ export default class NewTimesheetForm extends ReactTemplate {
       '_getInitialState',
       '_updateState',
       '_onChangeEmail',
+      '_onChangeNote',
       '_onSelectWorkType',
-      '_onSubmitTimesheet'
+      '_onSubmitTimesheet',
+      '_regenerateForm'
     );
   }
   componentDidMount() {
@@ -32,23 +36,33 @@ export default class NewTimesheetForm extends ReactTemplate {
     let state = NewTimesheetStore.getState();
     return {
       timesheet: state.timesheet,
-      errors: state.errors
+      errors: state.errors,
+      creatingTimesheet: state.creatingTimesheet,
+      postCreateTimesheet: state.postCreateTimesheet
     };
   }
   _updateState(state) {
     this.setState({
       timesheet: state.timesheet,
-      errors: state.errors
+      errors: state.errors,
+      creatingTimesheet: state.creatingTimesheet,
+      postCreateTimesheet: state.postCreateTimesheet
     });
   }
   _onChangeEmail(e) {
     NewTimesheetActions.setEmail(e.target.value);
+  }
+  _onChangeNote(e) {
+    NewTimesheetActions.setNote(e.target.value);
   }
   _onSelectWorkType(e) {
     NewTimesheetActions.setWorkType(e.target.value);
   }
   _onSubmitTimesheet() {
     NewTimesheetActions.submitTimesheet();
+  }
+  _regenerateForm() {
+    NewTimesheetActions.resetState();
   }
   render() {
     let p = this.props;
@@ -69,29 +83,53 @@ export default class NewTimesheetForm extends ReactTemplate {
       submitButton = <div className='button inactive-button'>Fill the fields</div>;
     }
 
+    if (s.creatingTimesheet) {
+      return (
+        <div className='new-timesheet-form-wrapper'>
+          <Spinner />
+        </div>
+      );
+    }
+
+    if (s.postCreateTimesheet) {
+      return (
+        <div className='new-timesheet-form-wrapper'>
+          <h2>Thanks for submitting!</h2>
+          <div className='button' onClick={this._regenerateForm}>Submit Another!</div>
+        </div>
+      ); 
+    }
+
     return (
       <div className='new-timesheet-form-wrapper'>
-        <h2>New Timesheet Entry</h2>
-        <InputField
-          label='Email Address'
-          type='email'
-          ref='email'
-          name='email'
-          inputPlaceholder='email@domain.com'
-          error={s.errors.email}
-          onInputChange={this._onChangeEmail}
-        />
-        <SelectBox
-          options={p.workTypes}
-          error={s.errors.workType}
-          labelName='Work Type'
-          selectPlaceholder='Select Work Type'
-          onSelectChange={this._onSelectWorkType}
-        />
-        <TimeTrackerField
-          error={s.errors.timeInSeconds}
-        />
-        {submitButton}
+        <h2 className='form-title'>New Timesheet Entry</h2>
+        <div className='subform subform-left'>
+          <InputField
+            label='Email Address'
+            type='email'
+            inputPlaceholder='email@domain.com'
+            error={s.errors.email}
+            onInputChange={this._onChangeEmail}
+          />
+          <SelectBox
+            options={p.workTypes}
+            error={s.errors.workType}
+            labelName='Work Type'
+            selectPlaceholder='Select Work Type'
+            onSelectChange={this._onSelectWorkType}
+          />
+          <TextField
+            label='Notes (optional)'
+            inputPlaceholder='Leave a note about this entry'
+            onInputChange={this._onChangeNote}
+          />
+        </div>
+        <div className='subform subform-right'>
+          <TimeTrackerField
+            error={s.errors.timeInSeconds}
+          />
+          {submitButton}
+        </div>
       </div>
     );
   }

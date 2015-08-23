@@ -5,25 +5,39 @@ export default class InputValidator {
     return emailRegex.test(email);
   }
 
-  static validateIntegerOnly(input) {
+  static validateIntegerOnly(...inputs) {
     let integersRegex = /^\d+$/;
-    return integersRegex.test(input);
+    return new Promise((resolve, reject) => {
+      inputs.forEach(input => {
+        let valid = integersRegex.test(input);
+        if (!valid) { resolve(false); }
+      });
+      resolve(true);
+    });
   }
 
   static validateLength(length, ...inputs) {
-    let validity;
-    inputs.forEach(input => {
-      validity = input.length === length;
+    return new Promise((resolve, reject) => {
+      inputs.forEach(input => {
+        if (input === undefined || input === null ) { input = ''; }
+
+        let valid = input.length === length;
+        if (!valid) { resolve(false); }
+      });
+      resolve(true);
     });
-    return validity;
   }
 
   static validateStringPresence(...inputs) {
-    let validity;
-    inputs.forEach(input => {
-      validity = input !== '';
+    return new Promise((resolve, reject) => {
+      inputs.forEach(input => {
+        if (input === undefined || input === null ) { input = ''; }
+
+        let valid = input !== '';
+        if (!valid) { resolve(false); }
+      });  
+      resolve(true);
     });
-    return validity;
   }
 
 }

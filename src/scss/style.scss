@@ -1,5 +1,6 @@
-//imports normalize.css for browser normalization
+// normalize.css
 @import '../.././node_modules/normalize.css/normalize.css';
+
 // my own SCSS helper file
 @import './clarity';
 
@@ -11,10 +12,13 @@
 @import './timesheet/NewTimesheetForm';
 
 // Shared
+@import './shared/SelectBox';
 @import './shared/FullScreenModal';
+@import './shared/TextField';
 @import './shared/InputField';
 @import './shared/InputFieldLabel';
 @import './shared/TimeTrackerField';
+@import './shared/Spinner';
 
 body {
   position: relative;
@@ -89,5 +93,10 @@ body {
 
 .pull-left {
   @include position-y(absolute, 50%);
-  left: 2rem;
+  left: 3rem;
+}
+
+.pull-right {
+  @include position-y(absolute, 50%);
+  right: 3rem;
 }

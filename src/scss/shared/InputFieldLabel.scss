@@ -6,6 +6,7 @@ label {
 }
 
 .input-field-error {
+  @include label-style;
   color: $error-color;
 }
 

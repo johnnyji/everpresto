@@ -1,6 +1,7 @@
 var Reflux = require('reflux');
 var _ = require('lodash');
 
+var NewTimesheetActions = require('.././actions/NewTimesheetActions');
 var TimesheetActions = require('.././actions/TimesheetActions');
 
 var TimesheetStateTemplate = {
@@ -14,6 +15,15 @@ var TimesheetStore = Reflux.createStore({
   },
   getState: function() {
     return this.state;
+  },
+  onAddTimesheet: function(timesheet) {
+    this.state.timesheets.unshift(timesheet);
+
+    // sleeps for 1 second to mock creation load
+    setTimeout(function() {
+      NewTimesheetActions.finishCreatingTimesheet();
+      this.trigger(this.state);
+    }.bind(this), 1000);
   }
 });
 

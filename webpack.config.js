@@ -20,7 +20,7 @@ module.exports = {
         test: /.scss$/, 
         include: [srcPath],
         loader: ExtractTextPlugin.extract('style', 'css!sass')
-      }
+      },
     ]
   },
   plugins: [
