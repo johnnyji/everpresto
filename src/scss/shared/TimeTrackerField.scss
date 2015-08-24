@@ -33,12 +33,12 @@
       font-size: 2rem;
     }
     small {
+      @include transition;
       position: relative;
       display: block;
       margin: 0 auto;
       font-weight: bolder;
       font-size: 1.6rem;
-      // margin-left: 0.7rem;
     }
   }
 }
