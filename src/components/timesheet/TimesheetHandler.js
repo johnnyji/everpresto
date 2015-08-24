@@ -25,11 +25,13 @@ export default class TimesheetHandler extends ReactTemplate {
   _getInitialState() {
     let state = TimesheetStore.getState();
     return {
+      dateBeingViewed: state.dateBeingViewed,
       timesheets: state.timesheets
     };
   }
   _updateState(state) {
     this.setState({
+      dateBeingViewed: state.dateBeingViewed,
       timesheets: state.timesheets
     });
   }
@@ -40,7 +42,7 @@ export default class TimesheetHandler extends ReactTemplate {
 
     return (
       <div className='timesheet-handler-wrapper'>
-        <DateNavbar />
+        <DateNavbar dateBeingViewed={s.dateBeingViewed}/>
         <NewTimesheetButton />
         <PreviousTimesheets timesheets={s.timesheets} />
       </div>

@@ -4,4 +4,45 @@
   height: 70px;
   margin-bottom: 2.5rem;
   border-bottom: 2px solid $card-background-color;
+  .navbar-content {
+    position: relative;
+    width: 600px;
+    text-align: center;
+    margin: 0 auto;
+    .current-date {
+      position: relative;
+      display: inline-block;
+    }
+    .week {
+      position: relative;
+      display: inline-block;
+      list-style: none;
+      li {
+        display: inline-block;
+        margin: 0 0.5rem;
+        color: $light-text-color;
+        &:hover {
+          color: $primary-brand-color;
+          cursor: pointer;
+        }
+      }
+      .active-day { 
+        color: $secondary-brand-color;
+        &:hover {
+          color: $secondary-brand-color;
+          cursor: default;
+        }
+      }
+    }
+  }
+  .prev-week, .next-week {
+    @include transition;
+    color: $light-text-color;
+    &:hover { 
+      color: $primary-brand-color;
+      cursor: pointer;
+    }
+  }
+  .prev-week { left: 0; }
+  .next-week { right: 0; }
 }

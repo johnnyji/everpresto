@@ -1,10 +1,12 @@
 var Reflux = require('reflux');
 var _ = require('lodash');
+var moment = require('moment');
 
 var NewTimesheetActions = require('.././actions/NewTimesheetActions');
 var TimesheetActions = require('.././actions/TimesheetActions');
 
 var TimesheetStateTemplate = {
+  dateBeingViewed: new Date,
   timesheets: [
     {
       email: 'johnny@johnnyji.com',
@@ -28,6 +30,10 @@ var TimesheetStore = Reflux.createStore({
   },
   getState: function() {
     return this.state;
+  },
+  onSetDateBeingViewed: function(date) {
+    this.state.dateBeingViewed = date;
+    this.trigger(this.state);
   },
   onAddTimesheet: function(timesheet) {
     this.state.timesheets.unshift(timesheet);
