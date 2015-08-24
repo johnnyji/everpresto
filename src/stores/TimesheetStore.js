@@ -7,18 +7,21 @@ var TimesheetActions = require('.././actions/TimesheetActions');
 
 var TimesheetStateTemplate = {
   dateBeingViewed: new Date,
+  timesheetsBeingViewed: [],
   timesheets: [
     {
       email: 'johnny@johnnyji.com',
       note: null,
       workType: 'Assistant Director',
-      timeInSeconds: 84527
+      timeInSeconds: 84527,
+      createdAt: new Date('2015/08/22')
     },
     {
       email: 'halahmeansandimporium@johnnyji.com',
       note: 'Niggas be bad all day err day',
       workType: 'Assistant Director',
-      timeInSeconds: 3000
+      timeInSeconds: 3000,
+      createdAt: new Date(Date.now())
     }
   ],
 };
@@ -43,7 +46,7 @@ var TimesheetStore = Reflux.createStore({
       NewTimesheetActions.finishCreatingTimesheet();
       this.trigger(this.state);
     }.bind(this), 1000);
-  }
+  },
 });
 
 module.exports = TimesheetStore;

@@ -22,8 +22,6 @@ export default class DateNavbar extends ReactTemplate {
     let weekInDates = DateHelper.getWeekOf(p.dateBeingViewed);
     let weekAcronyms = DateHelper.getWeekInAcronyms();
 
-    let headerDate = DateHelper.formatHeaderDate(p.dateBeingViewed);
-
     let weekdayList = _.map(weekAcronyms, (dayAcronym, i) => {
       let todayIsDateBeingViewed = dayAcronym === DateHelper.formatWeekdayAcronym(p.dateBeingViewed);
       let dayObject = weekInDates[i];
@@ -37,7 +35,7 @@ export default class DateNavbar extends ReactTemplate {
       <div className='date-navbar'>
         <Icon icon='chevron-left' size='3.5rem' iconClass='prev-week pull-left' />
         <div className='navbar-content'>
-          <h2 className='current-date'>{headerDate}</h2>
+          <h2 className='week-being-viewed'>{p.weekBeingViewed}</h2>
           <ul className='week'>{weekdayList}</ul>
         </div>
         <Icon icon='chevron-right' size='3.5rem' iconClass='next-week pull-right' />
@@ -47,5 +45,5 @@ export default class DateNavbar extends ReactTemplate {
 }
 
 DateNavbar.propTypes = {
-  dateBeingViewed: React.PropTypes.object.isRequired
+  weekBeingViewed: React.PropTypes.string.isRequired,
 };

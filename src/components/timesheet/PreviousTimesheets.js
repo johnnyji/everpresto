@@ -14,7 +14,8 @@ export default class PreviousTimesheets extends ReactTemplate {
     if (p.timesheets.length === 0) {
       return (
         <div className='previous-timesheets-wrapper'>
-          <h2 className='no-timesheets-header'>No Timesheets Yet.</h2>
+          <h2>{p.dateBeingViewed}</h2>
+          <h3 className='no-timesheets-header'>No Timesheets Yet.</h3>
           <p className='no-timesheets-message'>Go create one. They're free!</p>
         </div>
       );
@@ -27,10 +28,14 @@ export default class PreviousTimesheets extends ReactTemplate {
     return (
       <div className='previous-timesheets-wrapper'>
         <div className='timesheets-container'>
-          <h2>Previous Timesheets</h2>
+          <h2>{p.dateBeingViewed}</h2>
           {previousTimesheets}
         </div>
       </div>
     );
   }
 }
+
+PreviousTimesheets.propTypes = {
+  dateBeingViewed: React.PropTypes.string.isRequired
+};

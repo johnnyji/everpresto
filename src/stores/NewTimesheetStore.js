@@ -14,6 +14,7 @@ var NewTimesheetStateTemplate = {
     note: null,
     workType: null,
     timeInSeconds: null,
+    createdAt: null
   },
   errors: {
     timeInSeconds: null,
@@ -79,6 +80,7 @@ var NewTimesheetStore = Reflux.createStore({
   },
   onSubmitTimesheet: function() {
     this.state.creatingTimesheet = true;
+    this.state.timesheet.createdAt = new Date(Date.now());
     TimesheetActions.addTimesheet(this.state.timesheet);
     this.trigger(this.state);
   },

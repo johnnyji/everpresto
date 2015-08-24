@@ -5,6 +5,8 @@ import DateNavbar from '.././date/DateNavbar';
 import NewTimesheetButton from '.././timesheet/NewTimesheetButton';
 import PreviousTimesheets from '.././timesheet/PreviousTimesheets';
 
+import DateHelper from '../.././utils/DateHelper';
+
 import TimesheetStore from '../.././stores/TimesheetStore';
 
 export default class TimesheetHandler extends ReactTemplate {
@@ -38,13 +40,23 @@ export default class TimesheetHandler extends ReactTemplate {
   render() {
     let s = this.state;
     let p = this.props;
-    let content;
+    let weekBeingViewed = DateHelper.formatWeekDurationFromDate(s.dateBeingViewed);
+    let formattedDateBeingViewed = DateHelper.formatHeaderDate(s.dateBeingViewed);
+    let timesheetsBeingViewed =  _.filter(s.timesheets, function(timesheet) {
+      return timesheet.createdAt.toLocaleDateString() === s.dateBeingViewed.toLocaleDateString();
+    }.bind(this));
 
     return (
       <div className='timesheet-handler-wrapper'>
-        <DateNavbar dateBeingViewed={s.dateBeingViewed}/>
+        <DateNavbar 
+          weekBeingViewed={weekBeingViewed} 
+          dateBeingViewed={s.dateBeingViewed}
+        />
         <NewTimesheetButton />
-        <PreviousTimesheets timesheets={s.timesheets} />
+        <PreviousTimesheets 
+          timesheets={timesheetsBeingViewed} 
+          dateBeingViewed={formattedDateBeingViewed}
+        />
       </div>
     );
   }

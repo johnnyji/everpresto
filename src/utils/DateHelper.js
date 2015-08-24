@@ -27,13 +27,19 @@ export default class DateHelper {
     return moment(dateObject).format('ddd, MMM Do');
   }
 
+  static formatWeekDurationFromDate(dateObject) {
+    let formattedStartOfWeek = moment(dateObject).startOf('week').format('MMM Do');
+    let formattedEndOfWeek = moment(dateObject).endOf('week').format('MMM Do');
+    return `${formattedStartOfWeek} - ${formattedEndOfWeek}`;
+  }
+
   static convertSecondsToHoursAndMinutes(seconds) {
     let momentSeconds = moment.duration(seconds, 'seconds');
     let hours = Math.floor(momentSeconds.asHours());
     let minutes = Math.floor(momentSeconds.asMinutes()) - (hours * 60);
 
-    if (hours.toString().length === 1) { hours = '0' + hours; }
-    if (minutes.toString().length === 1) { minutes = '0' + minutes; }
+    if (hours.toString().length === 1) { hours = `0${hours}`; }
+    if (minutes.toString().length === 1) { minutes = `0${minutes}`; }
     return {
       hours: hours,
       minutes: minutes
