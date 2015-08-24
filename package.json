@@ -11,9 +11,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "babel-runtime": "^5.8.20",
     "lodash": "^3.10.1",
     "moment": "^2.10.6",
     "normalize.css": "^3.0.3",
+    "object-assign": "^4.0.1",
     "react": "^0.13.3",
     "react-router": "^0.13.3",
     "reflux": "^0.2.12",

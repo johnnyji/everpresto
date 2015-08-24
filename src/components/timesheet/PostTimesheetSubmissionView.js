@@ -2,6 +2,8 @@ import React from 'react';
 import moment from 'moment';
 import ReactTemplate from '.././shared/ReactTemplate';
 
+import Icon from '.././shared/Icon';
+
 export default class PostTimesheetSubmissionView extends ReactTemplate {
   constructor(props) {
     super(props);
@@ -25,6 +27,7 @@ export default class PostTimesheetSubmissionView extends ReactTemplate {
 
     return (
       <div className='post-timesheet-submission-view-wrapper'>
+        <Icon icon='done' size='5rem' />
         <h2>Thanks <strong>{p.timesheet.email}!</strong></h2>
         <p>You have logged {timeLogged} of work today.</p>
         <button className='button' onClick={this._onRegenerateForm}>Submit Another!</button>

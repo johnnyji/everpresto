@@ -1,13 +1,32 @@
 .timesheet-card-wrapper {
-  background-color: $card-background-color;
+  @include transition;
+  color: $light-text-color;
   margin: 1rem;
   padding: 1rem;
-  .time-display {
-    span, small {
-      margin: 1rem 0.1rem;
+  background-color: $card-background-color;
+  .left {
+    @include pull-left-relative(50%);
+    text-align: right;
+    padding-right: 1rem;
+    .time-display {
+      -webkit-tranform: scaleY(1.3);
+      transform: scaleY(1.3);
+      span, small {
+        margin: 1rem 0.1rem;
+        color: $text-color;
+      }
+      span {
+        font-size: 4rem;
+      }
     }
-    span {
-      font-size: 2rem;
+  }
+  .right { 
+    @include pull-right-relative(50%);
+    padding-left: 1rem;
+    .employee-name {
+      position: relative;
+      word-wrap: break-word;
+      color: $text-color;
     }
   }
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactTemplate from '.././shared/ReactTemplate';
 
+import DateNavbar from '.././date/DateNavbar';
 import NewTimesheetButton from '.././timesheet/NewTimesheetButton';
 import PreviousTimesheets from '.././timesheet/PreviousTimesheets';
 
@@ -39,6 +40,7 @@ export default class TimesheetHandler extends ReactTemplate {
 
     return (
       <div className='timesheet-handler-wrapper'>
+        <DateNavbar />
         <NewTimesheetButton />
         <PreviousTimesheets timesheets={s.timesheets} />
       </div>

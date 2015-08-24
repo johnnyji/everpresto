@@ -153,3 +153,18 @@ $error-color: #E74C3C;
   transition: opacity 150ms ease, visibility 0ms ease 150ms;
   z-index: 9;
 }
+
+@mixin pull-left-relative($percentage) {
+  position: relative;
+  margin: 0;
+  display: inline-block;
+  vertical-align: top;
+  width: $percentage;
+}
+
+@mixin pull-right-relative($percentage) {
+  position: relative;
+  margin: 0;
+  display: inline-block;
+  width: $percentage;
+}

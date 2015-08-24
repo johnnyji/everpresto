@@ -11,6 +11,12 @@ var TimesheetStateTemplate = {
       note: null,
       workType: 'Assistant Director',
       timeInSeconds: 84527
+    },
+    {
+      email: 'halahmeansandimporium@johnnyji.com',
+      note: 'Niggas be bad all day err day',
+      workType: 'Assistant Director',
+      timeInSeconds: 3000
     }
   ],
 };

@@ -128,13 +128,13 @@ export default class NewTimesheetForm extends ReactTemplate {
             options={p.workTypes}
             error={s.errors.workType}
             labelName='Work Type'
-            selectPlaceholder='Select Work Type'
+            selectPlaceholder='Select work type'
             onSelectChange={this._onSelectWorkType}
           />
           <TextField
             ref='notes'
-            label='Notes (optional)'
-            inputPlaceholder='Leave a note about this entry'
+            label='Message (optional)'
+            inputPlaceholder='Leave a message...'
             onInputChange={this._onChangeNote}
           />
         </div>

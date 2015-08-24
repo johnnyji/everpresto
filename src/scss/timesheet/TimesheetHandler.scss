@@ -1,18 +1,11 @@
 .timesheet-handler-wrapper {
   position: relative;
-  margin: 4rem 2rem;
+  margin: 2.5rem 2rem;
   .new-timesheet-button-wrapper {
-    position: relative;
-    display: inline-block;
-    vertical-align: top;
-    margin: 0;
-    width: 25%;
+    @include pull-left-relative(15%);
     text-align: right;
   }
   .previous-timesheets-wrapper {
-    position: relative;
-    display: inline-block;
-    margin: 0;
-    width: 75%;
+    @include pull-right-relative(85%);
   }
 }
