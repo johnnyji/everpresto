@@ -559,16 +559,6 @@ th {
   height: 450px;
   background-color: whitesmoke;
   padding: 1rem 3rem 3rem 3rem; }
-  .new-timesheet-form-wrapper .exit-icon-wrapper {
-    -webkit-transition: all 0.3s ease-in-out;
-    transition: all 0.3s ease-in-out;
-    position: absolute;
-    right: 1rem;
-    top: 0.6rem;
-    color: #777; }
-    .new-timesheet-form-wrapper .exit-icon-wrapper:hover {
-      cursor: pointer;
-      color: #68C3A3; }
   .new-timesheet-form-wrapper .form-title {
     text-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
     position: relative;
@@ -878,6 +868,17 @@ label {
   20% {
     transform: scaleY(1);
     -webkit-transform: scaleY(1); } }
+
+.exit-form-icon-wrapper {
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  position: absolute;
+  right: 1rem;
+  top: 0.6rem;
+  color: #777; }
+  .exit-form-icon-wrapper:hover {
+    cursor: pointer;
+    color: #68C3A3; }
 
 html {
   position: relative;
