@@ -69,11 +69,11 @@ export default class NewTimesheetForm extends ReactTemplate {
   _clearForm() {
     this.refs.email.refs.input.getDOMNode().value = '';
     // This targets the DropdownList component, finds the field that represents the input and sets that field's value to empty
-    this.refs.workType.refs.select.getDOMNode().getElementsByClassName('rw-input')[0].innerHTML = '';
-    // this.refs.workType.refs.select.getDOMNode().value = '';
+    this.refs.workType.refs.select.getDOMNode().getElementsByClassName('rw-input')[0].innerHTML = this.props.workTypeDefaultValue;
+    
     this.refs.notes.refs.textarea.getDOMNode().value = '';
-    this.refs.tracker.refs.hours.getDOMNode().value = '';
-    this.refs.tracker.refs.minutes.getDOMNode().value = '';
+    this.refs.tracker.refs.hours.getDOMNode().value = this.props.hoursInputDefaultValue;
+    this.refs.tracker.refs.minutes.getDOMNode().value = this.props.minutesInputDefaultValue;
     NewTimesheetActions.resetState();
   }
   render() {
@@ -130,7 +130,7 @@ export default class NewTimesheetForm extends ReactTemplate {
             options={p.workTypes}
             error={s.errors.workType}
             labelName='Work Type'
-            selectPlaceholder='Select work type'
+            selectPlaceholder={p.workTypeDefaultValue}
             onSelectChange={this._onSelectWorkType}
           />
           <TextField
@@ -155,4 +155,10 @@ export default class NewTimesheetForm extends ReactTemplate {
 
 NewTimesheetForm.propTypes = {
   workTypes: React.PropTypes.array.isRequired,
+};
+
+NewTimesheetForm.defaultProps = {
+  hoursInputDefaultValue: '00',
+  minutesInputDefaultValue: '00',
+  workTypeDefaultValue: 'Select work type'
 };
