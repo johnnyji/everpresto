@@ -1,43 +1,66 @@
 export default class InputValidator {
 
-  static validateEmail(email) {
+  static validateEmail(errorMessage, email) {
     let emailRegex = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
-    return emailRegex.test(email);
+    if (emailRegex.test(email)) {
+      return { valid: true };
+    }
+    return {
+      valid: false,
+      message: (errorMessage || 'Invalid email format')
+    };
   }
 
-  static validateIntegerOnly(...inputs) {
+  static validateIntegerOnly(errorMessage, ...inputs) {
     let integersRegex = /^\d+$/;
-    return new Promise((resolve, reject) => {
-      inputs.forEach(input => {
-        let valid = integersRegex.test(input);
-        if (!valid) { resolve(false); }
-      });
-      resolve(true);
+    let invalidCount = 0;
+
+    inputs.forEach(input => {
+      let valid = integersRegex.test(input);
+      if (!valid) { invalidCount ++; }
     });
+    if (invalidCount === 0) {
+      return { valid: true };
+    }
+    return { 
+      valid: false, 
+      message: (errorMessage || 'Please only enter numbers') 
+    };
   }
 
-  static validateLength(length, ...inputs) {
-    return new Promise((resolve, reject) => {
-      inputs.forEach(input => {
-        if (input === undefined || input === null ) { input = ''; }
+  static validateLength(errorMessage, length, ...inputs) {
+    let invalidCount = 0;
 
-        let valid = input.length === length;
-        if (!valid) { resolve(false); }
-      });
-      resolve(true);
+    inputs.forEach(input => {
+      if (input == null ) { input = ''; }
+
+      let valid = input.length === length;
+      if (!valid) { invalidCount ++; }
     });
+    if (invalidCount === 0) {
+      return { valid: true };
+    }
+    return { 
+      valid: false, 
+      message: (errorMessage || `Must be at least ${length} chars long`) 
+    };
   }
 
-  static validateStringPresence(...inputs) {
-    return new Promise((resolve, reject) => {
-      inputs.forEach(input => {
-        if (input === undefined || input === null ) { input = ''; }
+  static validateStringPresence(errorMessage, ...inputs) {
+    let invalidCount = 0;
+    inputs.forEach(input => {
+      if (input == null ) { input = ''; }
 
-        let valid = input !== '';
-        if (!valid) { resolve(false); }
-      });  
-      resolve(true);
+      let valid = input !== '';
+      if (!valid) { invalidCount ++; }
     });
+    if (invalidCount === 0) {
+      return { valid: true };
+    }
+    return { 
+      valid: false, 
+      message: (errorMessage || `Please fill out this field`) 
+    };
   }
 
 }
