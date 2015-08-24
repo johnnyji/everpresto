@@ -2,11 +2,11 @@ import moment from 'moment';
 
 export default class DateHelper {
   static getWeekOf(currentDate) {
-    var startOfWeek = moment(currentDate).startOf('week');
-    var endOfWeek = moment(currentDate).endOf('week');
+    let startOfWeek = moment(currentDate).startOf('week');
+    let endOfWeek = moment(currentDate).endOf('week');
 
-    var days = [];
-    var day = startOfWeek;
+    let days = [];
+    let day = startOfWeek;
 
     while (day <= endOfWeek) {
       days.push(day.toDate());
