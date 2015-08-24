@@ -1,0 +1,17 @@
+.app-footer-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100px;
+  background: $form-background-color;
+  border-top: 1px solid #DADADA;
+  text-align: center;
+  color: $light-text-color;
+  p {
+    @include position-center(absolute, 50%, 50%);
+    margin: 0;
+    font-weight: normal;
+    a {
+      @include link-style;
+    }
+  }
+}

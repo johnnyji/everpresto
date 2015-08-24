@@ -64,6 +64,9 @@ export default class DateNavbar extends ReactTemplate {
       header = (
         <div className='calender-container'>
           <DateTimePicker 
+            defaultValue={p.dateBeingViewed}
+            editFormat='d'
+            format='MMM dd yyyy'
             time={false} 
             onChange={this._setDateBeingViewedFromCalender}
           />
@@ -78,7 +81,7 @@ export default class DateNavbar extends ReactTemplate {
     }
 
     return (
-      <div className='date-navbar'>
+      <nav className='date-navbar'>
         <div onClick={this._showPrevWeek}>
           <Icon icon='chevron-left' size='3.25rem' iconClass='prev-week pull-left' />
         </div>
@@ -92,7 +95,7 @@ export default class DateNavbar extends ReactTemplate {
         <div onClick={this._showNextWeek}>
           <Icon icon='chevron-right' size='3.25rem' iconClass='next-week pull-right' />
         </div>
-      </div>
+      </nav>
     );
   }
 }

@@ -6,6 +6,7 @@
 
 // App
 @import './app/AppHeader';
+@import './app/AppFooter';
 
 // Date
 @import './date/DateNavbar';
@@ -27,6 +28,10 @@
 @import './shared/TimeTrackerField';
 @import './shared/Spinner';
 
+html {
+  position: relative;
+  height: 100vh;
+}
 
 body {
   position: relative;
@@ -34,6 +39,7 @@ body {
   color: $text-color;
   font-family: 'Lucida Sans Unicode', helvetica, sans-serif;
   min-width: 1000px;
+  height: 100%;
   font-weight: 400;
   margin: 0;
   padding: 0;
@@ -44,6 +50,11 @@ body {
   @include mobile-viewport {
     font-size: 0.87em;
   }
+}
+
+#app {
+  height: 100%;
+  margin: 0 0 -100px 0; // -100px for sticky footer
 }
 
 *, *:before, *:after {

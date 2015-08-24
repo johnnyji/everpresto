@@ -147,7 +147,7 @@ $input-focus-border-color: #66afe9;
 
 @mixin link-style {
   @include transition;
-  color: $light-text-color;
+  color: lighten($light-text-color, 10%);
   text-decoration: underline;
   &:hover {
     cursor: pointer;
