@@ -17,6 +17,8 @@ $card-background-color: whitesmoke;
 
 $error-color: #E74C3C;
 
+$input-focus-border-color: #66afe9;
+
 
 // VIEWPORT MIXINS
 
@@ -85,6 +87,20 @@ $error-color: #E74C3C;
   filter: brightness($percentage) blur($blur);
 }
 
+@mixin box-shadow {
+  box-shadow: -1px 0px 18px -2px rgba(0,0,0,0.75);
+}
+
+@mixin text-shadow {
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+}
+
+@mixin input-focus-style {
+  border: 1px solid $input-focus-border-color;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
+}
+
 @mixin label-style {
   color: darken($primary-brand-color, 10%);
   padding: 1.5rem 0 0.5rem 0;
@@ -111,6 +127,9 @@ $error-color: #E74C3C;
   background-color: #FFF;
   padding: 0.3rem;
   font-size: 1.1rem;
+  &:focus {
+    @include input-focus-style;
+  }
 }
 
 @mixin button-style {
@@ -134,14 +153,6 @@ $error-color: #E74C3C;
     cursor: pointer;
     color: $primary-brand-color;
   }
-}
-
-@mixin box-shadow {
-  box-shadow: -1px 0px 18px -2px rgba(0,0,0,0.75);
-}
-
-@mixin text-shadow {
-  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
 }
 
 @mixin modal-background {

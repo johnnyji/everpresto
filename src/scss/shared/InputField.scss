@@ -6,5 +6,6 @@
 }
 
 .input-error {
+  border: 1px solid $error-color !important;
   box-shadow: 0 0 3px darken($error-color, 5%) !important;
 }
