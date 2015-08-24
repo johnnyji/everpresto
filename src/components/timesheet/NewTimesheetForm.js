@@ -2,13 +2,16 @@ import React from 'react';
 import _ from 'lodash';
 import ReactTemplate from '.././shared/ReactTemplate';
 
+import Icon from '.././shared/Icon';
 import Spinner from '.././shared/Spinner';
 import InputField from '.././shared/InputField';
 import TextField from '.././shared/TextField';
 import SelectBox from '.././shared/SelectBox';
+
 import TimeTrackerField from '.././shared/TimeTrackerField';
 import PostTimesheetSubmissionView from './PostTimesheetSubmissionView';
 
+import AppActions from '../.././actions/AppActions';
 import NewTimesheetActions from '../.././actions/NewTimesheetActions';
 import NewTimesheetStore from '../.././stores/NewTimesheetStore';
 
@@ -70,11 +73,14 @@ export default class NewTimesheetForm extends ReactTemplate {
     this.refs.email.refs.input.getDOMNode().value = '';
     // This targets the DropdownList component, finds the field that represents the input and sets that field's value to empty
     this.refs.workType.refs.select.getDOMNode().getElementsByClassName('rw-input')[0].innerHTML = this.props.workTypeDefaultValue;
-    
+
     this.refs.notes.refs.textarea.getDOMNode().value = '';
     this.refs.tracker.refs.hours.getDOMNode().value = this.props.hoursInputDefaultValue;
     this.refs.tracker.refs.minutes.getDOMNode().value = this.props.minutesInputDefaultValue;
     NewTimesheetActions.resetState();
+  }
+  _exitForm() {
+    AppActions.toggleModal();
   }
   render() {
     let p = this.props;
@@ -116,6 +122,9 @@ export default class NewTimesheetForm extends ReactTemplate {
 
     return (
       <div className='new-timesheet-form-wrapper'>
+        <div className='exit-icon-wrapper' onClick={this._exitForm}>
+          <Icon icon='close' />
+        </div>
         <div className='subform subform-left'>
           <InputField
             ref='email'
@@ -147,7 +156,7 @@ export default class NewTimesheetForm extends ReactTemplate {
           />
           {submitButton}
         </div>
-        <small className='clear-form-button' onClick={this._clearForm}>Clear Form</small>
+        <small className='clear-form-button' onClick={this._clearForm}>Reset Form</small>
       </div>
     );
   }
