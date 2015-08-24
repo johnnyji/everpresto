@@ -8,17 +8,6 @@
 
   background-color: $form-background-color;
   padding: 1rem 3rem 3rem 3rem;
-  .exit-icon-wrapper {
-    @include transition;
-    position: absolute;
-    right: 1rem;
-    top: 0.6rem;
-    color: $light-text-color;
-    &:hover {
-      cursor: pointer;
-      color: $primary-brand-color;
-    }
-  }
   .form-title {
     @include text-shadow;
     position: relative;

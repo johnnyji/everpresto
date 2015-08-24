@@ -3,6 +3,7 @@ import _ from 'lodash';
 import ReactTemplate from '.././shared/ReactTemplate';
 
 import Icon from '.././shared/Icon';
+import ExitFormIcon from '.././shared/ExitFormIcon';
 import Spinner from '.././shared/Spinner';
 import InputField from '.././shared/InputField';
 import TextField from '.././shared/TextField';
@@ -112,6 +113,7 @@ export default class NewTimesheetForm extends ReactTemplate {
     if (s.postCreateTimesheet) {
       return (
         <div className='new-timesheet-form-wrapper'>
+          <ExitFormIcon onExitClick={this._exitForm} />
           <PostTimesheetSubmissionView 
             timesheet={s.timesheet}
             regenerateForm={this._regenerateForm}
@@ -122,9 +124,7 @@ export default class NewTimesheetForm extends ReactTemplate {
 
     return (
       <div className='new-timesheet-form-wrapper'>
-        <div className='exit-icon-wrapper' onClick={this._exitForm}>
-          <Icon icon='close' />
-        </div>
+        <ExitFormIcon onExitClick={this._exitForm} />
         <div className='subform subform-left'>
           <InputField
             ref='email'

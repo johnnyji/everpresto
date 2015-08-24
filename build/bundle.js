@@ -63017,12 +63017,24 @@
 	    _classCallCheck(this, TimesheetCard);
 	
 	    _get(Object.getPrototypeOf(TimesheetCard.prototype), 'constructor', this).call(this, props);
+	    this.state = { viewNote: false };
+	    this._toggleViewNote = this._toggleViewNote.bind(this);
 	  }
 	
 	  _createClass(TimesheetCard, [{
+	    key: '_toggleViewNote',
+	    value: function _toggleViewNote() {
+	      this.setState({ viewNote: !this.state.viewNote });
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var timesheet = this.props.timesheet;
+	      var p = this.props;
+	      var s = this.state;
+	
+	      var timesheet = p.timesheet;
+	      var previewNote = timesheet.note && !s.viewNote;
+	      var viewNote = timesheet.note && s.viewNote;
 	      var convertedTime = _utilsDateHelper2['default'].convertSecondsToHoursAndMinutes(timesheet.timeInSeconds);
 	
 	      return _react2['default'].createElement(
@@ -63071,8 +63083,32 @@
 	          _react2['default'].createElement(
 	            'p',
 	            { className: 'work-type' },
-	            'Task: ',
+	            _react2['default'].createElement(
+	              'span',
+	              { className: 'prefix' },
+	              'Job Type:'
+	            ),
 	            timesheet.workType
+	          ),
+	          previewNote && _react2['default'].createElement(
+	            'p',
+	            { className: 'note', onClick: this._toggleViewNote },
+	            _react2['default'].createElement(
+	              'span',
+	              { className: 'prefix' },
+	              'Message:'
+	            ),
+	            timesheet.note.substring(0, 30) + '...'
+	          ),
+	          viewNote && _react2['default'].createElement(
+	            'p',
+	            { className: 'note', onClick: this._toggleViewNote },
+	            _react2['default'].createElement(
+	              'span',
+	              { className: 'prefix' },
+	              'Message:'
+	            ),
+	            timesheet.note
 	          )
 	        )
 	      );
@@ -63112,13 +63148,7 @@
 	var TimesheetStateTemplate = {
 	  dateBeingViewed: new Date(),
 	  timesheetsBeingViewed: [],
-	  timesheets: [{
-	    email: 'johnny@johnnyji.com',
-	    note: 'Worked from 8am till 8pm',
-	    workType: 'Assistant Director',
-	    timeInSeconds: 3000,
-	    createdAt: new Date(Date.now())
-	  }]
+	  timesheets: []
 	};
 	
 	var TimesheetStore = Reflux.createStore({

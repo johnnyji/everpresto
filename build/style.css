@@ -668,10 +668,16 @@ th {
       margin-bottom: 5px;
       word-wrap: break-word;
       color: #282828; }
-    .timesheet-card-wrapper .right .work-type {
+    .timesheet-card-wrapper .right .work-type, .timesheet-card-wrapper .right .note {
       position: relative;
-      margin-top: 0;
-      font-size: 0.9rem; }
+      margin: 3px 0;
+      word-wrap: break-word;
+      font-size: 0.85rem; }
+    .timesheet-card-wrapper .right .prefix {
+      color: #353535;
+      margin-right: 0.5rem; }
+    .timesheet-card-wrapper .right .note:hover {
+      cursor: pointer; }
 
 .new-timesheet-button {
   -webkit-transition: all 0.3s ease-in-out;

@@ -1,0 +1,11 @@
+.exit-form-icon-wrapper {
+  @include transition;
+  position: absolute;
+  right: 1rem;
+  top: 0.6rem;
+  color: $light-text-color;
+  &:hover {
+    cursor: pointer;
+    color: $primary-brand-color;
+  }
+}
