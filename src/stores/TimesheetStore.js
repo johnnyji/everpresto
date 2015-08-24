@@ -8,15 +8,7 @@ var TimesheetActions = require('.././actions/TimesheetActions');
 var TimesheetStateTemplate = {
   dateBeingViewed: new Date,
   timesheetsBeingViewed: [],
-  timesheets: [
-    {
-      email: 'johnny@johnnyji.com',
-      note: 'Worked from 8am till 8pm',
-      workType: 'Assistant Director',
-      timeInSeconds: 3000,
-      createdAt: new Date(Date.now())
-    },
-  ],
+  timesheets: [],
 };
 
 var TimesheetStore = Reflux.createStore({

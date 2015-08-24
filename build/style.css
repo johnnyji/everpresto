@@ -437,6 +437,35 @@ th {
       margin-top: -5px;
       margin-right: 10px; }
 
+.app-footer-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100px;
+  margin-top: -100px;
+  background: whitesmoke;
+  border-top: 1px solid #DADADA;
+  text-align: center;
+  color: #777; }
+  .app-footer-wrapper p {
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: 0;
+    font-weight: normal; }
+    .app-footer-wrapper p a {
+      -webkit-transition: all 0.3s ease-in-out;
+      transition: all 0.3s ease-in-out;
+      color: #919191;
+      text-decoration: underline; }
+      .app-footer-wrapper p a:hover {
+        cursor: pointer;
+        color: #68C3A3; }
+
 .date-navbar {
   position: relative;
   width: 100%;
@@ -446,6 +475,7 @@ th {
   .date-navbar .navbar-content {
     position: relative;
     width: 700px;
+    bottom: 0.25rem;
     text-align: center;
     margin: 0 auto; }
     .date-navbar .navbar-content .calender-icon-container {
@@ -529,6 +559,16 @@ th {
   height: 450px;
   background-color: whitesmoke;
   padding: 1rem 3rem 3rem 3rem; }
+  .new-timesheet-form-wrapper .exit-icon-wrapper {
+    -webkit-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+    position: absolute;
+    right: 1rem;
+    top: 0.6rem;
+    color: #777; }
+    .new-timesheet-form-wrapper .exit-icon-wrapper:hover {
+      cursor: pointer;
+      color: #68C3A3; }
   .new-timesheet-form-wrapper .form-title {
     text-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
     position: relative;
@@ -545,7 +585,7 @@ th {
   .new-timesheet-form-wrapper .clear-form-button {
     -webkit-transition: all 0.3s ease-in-out;
     transition: all 0.3s ease-in-out;
-    color: #777;
+    color: #919191;
     text-decoration: underline;
     position: absolute;
     right: 1rem;
@@ -739,7 +779,7 @@ label {
   color: #E74C3C; }
 
 .shrinked-label {
-  font-size: 80%; }
+  color: transparent; }
 
 .time-tracker-field-wrapper {
   position: relative;
@@ -772,6 +812,8 @@ label {
     .time-tracker-field-wrapper .tracker span {
       font-size: 2rem; }
     .time-tracker-field-wrapper .tracker small {
+      -webkit-transition: all 0.3s ease-in-out;
+      transition: all 0.3s ease-in-out;
       position: relative;
       display: block;
       margin: 0 auto;
@@ -831,12 +873,17 @@ label {
     transform: scaleY(1);
     -webkit-transform: scaleY(1); } }
 
+html {
+  position: relative;
+  height: 100vh; }
+
 body {
   position: relative;
   box-sizing: border-box;
   color: #282828;
   font-family: 'Lucida Sans Unicode', helvetica, sans-serif;
   min-width: 1000px;
+  height: 100%;
   font-weight: 400;
   margin: 0;
   padding: 0;
@@ -847,6 +894,11 @@ body {
   @media (max-width: 550px) {
     body {
       font-size: 0.87em; } }
+
+#app {
+  padding-bottom: 200px;
+  min-height: 100%;
+  height: auto; }
 
 *, *:before, *:after {
   box-sizing: inherit; }
@@ -885,7 +937,7 @@ body {
     cursor: default; }
 
 .invisible {
-  visibility: hidden !important; }
+  color: transparent; }
 
 .no-scroll {
   position: fixed !important;

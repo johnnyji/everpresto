@@ -31,10 +31,20 @@
       word-wrap: break-word;
       color: $text-color;
     }
-    .work-type {
+    .work-type, .note {
       position: relative;
-      margin-top: 0;
-      font-size: 0.9rem;
+      margin: 3px 0;
+      word-wrap: break-word;
+      font-size: 0.85rem;
+    }
+    .prefix {
+      color: lighten($text-color, 5%);
+      margin-right: 0.5rem;
+    }
+    .note {
+      &:hover {
+        cursor: pointer;
+      }
     }
   }
 }
