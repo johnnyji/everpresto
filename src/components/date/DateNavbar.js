@@ -11,11 +11,23 @@ import DateHelper from '../.././utils/DateHelper';
 export default class DateNavbar extends ReactTemplate {
   constructor(props) {
     super(props);
-    this._bindFunctions('_setDateBeingViewed');
+    this._bindFunctions(
+      '_setDateBeingViewed',
+      '_showPrevWeek',
+      '_showNextWeek'
+    );
   }
   _setDateBeingViewed(e) {
     let selectedDate = new Date(e.target.dataset.date);
     TimesheetActions.setDateBeingViewed(selectedDate);
+  }
+  _showPrevWeek() {
+    let prevWeek = DateHelper.getPreviousWeekFrom(this.props.dateBeingViewed);
+    TimesheetActions.setDateBeingViewed(prevWeek);
+  }
+  _showNextWeek() {
+    let nextWeek = DateHelper.getNextWeekFrom(this.props.dateBeingViewed);
+    TimesheetActions.setDateBeingViewed(nextWeek);
   }
   render() {
     let p = this.props;
@@ -33,12 +45,16 @@ export default class DateNavbar extends ReactTemplate {
 
     return (
       <div className='date-navbar'>
-        <Icon icon='chevron-left' size='3.5rem' iconClass='prev-week pull-left' />
+        <div onClick={this._showPrevWeek}>
+          <Icon icon='chevron-left' size='3.5rem' iconClass='prev-week pull-left' />
+        </div>
         <div className='navbar-content'>
           <h2 className='week-being-viewed'>{p.weekBeingViewed}</h2>
           <ul className='week'>{weekdayList}</ul>
         </div>
-        <Icon icon='chevron-right' size='3.5rem' iconClass='next-week pull-right' />
+        <div onClick={this._showNextWeek}>
+          <Icon icon='chevron-right' size='3.5rem' iconClass='next-week pull-right' />
+        </div>
       </div>
     );
   }

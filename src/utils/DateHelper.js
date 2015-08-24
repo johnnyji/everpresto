@@ -19,6 +19,16 @@ export default class DateHelper {
     return ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   }
 
+  static getPreviousWeekFrom(dateObject) {
+    let prevWeek = dateObject.setDate(dateObject.getDate() - 7);
+    return new Date(prevWeek);
+  }
+
+  static getNextWeekFrom(dateObject) {
+    let nextWeek = dateObject.setDate(dateObject.getDate() + 7);
+    return new Date(nextWeek);
+  }
+
   static formatWeekdayAcronym(dateObject) {
     return moment(dateObject).format('ddd');
   }
