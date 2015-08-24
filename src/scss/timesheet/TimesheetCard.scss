@@ -5,7 +5,7 @@
   padding: 1rem;
   background-color: $card-background-color;
   .left {
-    @include pull-left-relative(50%);
+    @include pull-left-relative(40%);
     text-align: right;
     padding-right: 1rem;
     .time-display {
@@ -21,12 +21,20 @@
     }
   }
   .right { 
-    @include pull-right-relative(50%);
-    padding-left: 1rem;
+    @include pull-right-relative(60%);
+    padding-left: 1.5rem;
     .employee-name {
       position: relative;
+      font-size: 1.03rem;
+      top: -5px;
+      margin-bottom: 5px;
       word-wrap: break-word;
       color: $text-color;
+    }
+    .work-type {
+      position: relative;
+      margin-top: 0;
+      font-size: 0.9rem;
     }
   }
 }

@@ -9,8 +9,10 @@
       text-align: center;
       color: $secondary-brand-color;
     }
-    .no-timesheets-message {
+    .no-timesheets-container {
       position: relative;
+      margin: 4rem 0 6rem 0;
+      text-align: center;
       color: $light-text-color;
     }
   }

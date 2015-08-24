@@ -58,6 +58,10 @@ body {
 
 // CLASSES
 
+.active {
+  color: $secondary-brand-color;
+}
+
 .button {
   @include text-shadow;
   @include button-style;  

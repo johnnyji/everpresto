@@ -9,14 +9,36 @@
     width: 700px;
     text-align: center;
     margin: 0 auto;
-    .week-being-viewed {
+    .calender-icon-container {
+      @include transition;
       position: relative;
       display: inline-block;
+      top: -3px;
+      right: 1rem;
+      &:hover {
+        color: $secondary-brand-color;
+        cursor: pointer;
+      }
+    }
+    .calender-container {
+      position: relative;
+      display: inline-block;
+      width: 270px;
+    }
+    .week-being-viewed {
+      @include transition;
+      position: relative;
+      display: inline-block;
+      &:hover {
+        color: $secondary-brand-color;
+        cursor: pointer;
+      }
     }
     .week {
       position: relative;
       display: inline-block;
       list-style: none;
+      left: 1rem;
       li {
         display: inline-block;
         margin: 0 0.5rem;
@@ -37,7 +59,7 @@
   }
   .prev-week, .next-week {
     @include transition;
-    color: $light-text-color;
+    color: lighten($light-text-color, 15%);
     &:hover { 
       color: $primary-brand-color;
       cursor: pointer;

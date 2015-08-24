@@ -34,7 +34,7 @@ export default class DateHelper {
   }
 
   static formatHeaderDate(dateObject) {
-    return moment(dateObject).format('ddd, MMM Do');
+    return moment(dateObject).format('dddd, MMMM Do YYYY');
   }
 
   static formatWeekDurationFromDate(dateObject) {

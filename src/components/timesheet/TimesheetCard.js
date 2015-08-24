@@ -24,7 +24,7 @@ export default class TimesheetCard extends React.Component {
 
         <div className='right'>
           <p className='employee-name'><strong>{timesheet.email}</strong></p>
-          <p>Task: {timesheet.workType}</p>
+          <p className='work-type'>Task: {timesheet.workType}</p>
         </div>
 
       </div>
