@@ -11,18 +11,11 @@ var TimesheetStateTemplate = {
   timesheets: [
     {
       email: 'johnny@johnnyji.com',
-      note: null,
-      workType: 'Assistant Director',
-      timeInSeconds: 84527,
-      createdAt: new Date('2015/08/25')
-    },
-    {
-      email: 'johnny@johnnyji.com',
-      note: 'Niggas be bad all day err day',
+      note: 'Worked from 8am till 8pm',
       workType: 'Assistant Director',
       timeInSeconds: 3000,
       createdAt: new Date(Date.now())
-    }
+    },
   ],
 };
 

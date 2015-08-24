@@ -48,7 +48,7 @@ export default class AppHandler extends ReactTemplate {
     }
 
     return (
-      <div>
+      <div className='page-wrapper'>
         {modal}
         <AppHeader />
         <div className='content-container'>

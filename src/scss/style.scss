@@ -53,8 +53,9 @@ body {
 }
 
 #app {
-  height: 100%;
-  margin: 0 0 -100px 0; // -100px for sticky footer
+  padding-bottom: 200px;
+  min-height: 100%;
+  height: auto;
 }
 
 *, *:before, *:after {
