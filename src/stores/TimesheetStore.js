@@ -14,10 +14,10 @@ var TimesheetStateTemplate = {
       note: null,
       workType: 'Assistant Director',
       timeInSeconds: 84527,
-      createdAt: new Date('2015/08/22')
+      createdAt: new Date('2015/08/25')
     },
     {
-      email: 'halahmeansandimporium@johnnyji.com',
+      email: 'johnny@johnnyji.com',
       note: 'Niggas be bad all day err day',
       workType: 'Assistant Director',
       timeInSeconds: 3000,
