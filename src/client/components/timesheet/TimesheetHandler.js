@@ -1,4 +1,5 @@
 import React from 'react';
+import $ from 'jquery';
 import _ from 'lodash';
 import ReactTemplate from '.././shared/ReactTemplate';
 
@@ -20,7 +21,7 @@ export default class TimesheetHandler extends ReactTemplate {
     );
   }
   componentDidMount() {
-    this._unsubscribe = TimesheetStore.listen(this._updateState); 
+    this._unsubscribe = TimesheetStore.listen(this._updateState);
   }
   componentWillUnmount() {
     this._unsubscribe();

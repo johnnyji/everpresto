@@ -1,5 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import mongoose from 'mongoose';
 import config from '../.././config';
 
 import React from 'react';
@@ -7,10 +8,14 @@ import Router from 'react-router';
 import clientRoutes from '.././client/routes';
 import AppFooter from '.././client/components/app/AppFooter';
 
-import rootRoutes from './routes/rootRoutes';
+import rootRoute from './routes/rootRoute';
+import timesheetsRoute from './routes/timesheetsRoute';
 
 const app = express();
 const router = express.Router();
+mongoose.connect(`mongodb://localhost/${config.development.databaseName}`, err => {
+  if (err) { throw err; }
+});
 
 // sets the view engine to jade and views to be in the views directory
 app.set('views', './views');
@@ -19,6 +24,13 @@ app.set('view engine', 'jade');
 // parse data from POST request
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+// prefixes all routes call to the server with /api to use express router
+app.use('/api', router);
+
+// routes
+router.use('/', rootRoute);
+router.use('/timesheets', timesheetsRoute);
 
 // react isomorphic render
 app.get('/*', (req, res) => {
@@ -36,12 +48,6 @@ app.get('/*', (req, res) => {
     });
   });
 });
-
-// prefixes all routes call to the server with /api
-app.use('/api', router);
-
-// routes
-router.use('/', rootRoutes);
 
 let server = app.listen(config.development.serverPort, () => {
   console.log('App is live and running at http://localhost:', config.development.serverPort);

@@ -19,7 +19,7 @@ export default class AppHandler extends ReactTemplate {
     )
   }
   componentDidMount() {
-    this._unsubscribe = AppStore.listen(this._updateState);
+    this._unsubscribe = AppStore.listen(this._updateState);    
   }
   componentWillUnmount() {
     this._unsubscribe();
