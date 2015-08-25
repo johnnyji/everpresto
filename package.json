@@ -8,6 +8,7 @@
   "dependencies": {
     "babel-runtime": "^5.8.20",
     "express": "^4.13.3",
+    "jade": "^1.11.0",
     "lodash": "^3.10.1",
     "moment": "^2.10.6",
     "mongoose": "^4.1.3",
@@ -34,26 +35,12 @@
     "webpack-dev-server": "^1.10.1"
   },
   "scripts": {
-
-    "//": "removes the lib folder",
     "clean": "rm -rf lib",
-
-    "//": "babel watches the src folder and writes out any code changes to the lib folder",
     "transpile": "babel src --out-dir lib -w",
-
-    "//": "starts up the webpack dev server and binds it to port 8080",
     "dev-server": "webpack-dev-server --devtool-eval --inline --hot --colors --progress --display-error-details --content-base build",
-
-    "//": "runs the server.js from the transpiled ES5 in the lib folder",
-    "server": "nodemon --debug ./lib/server/server.js",
-
-    "//": "write all the client code changes to the build folder",
+    "server": "nodemon ./lib/server/server.js",
     "write-to-disk": "webpack --watch --progress --colors --display-error-details -d",
-
-    "//": "transpiles all the client side code into dist folder",
     "deploy": "NODE_ENV=production webpack -p --config webpack.production.config.js",
-
-    "//": "watches the project to transpile any changes to lib folder, starts up webpack at 8080 and watches for any client side code changes, and fires up the node server from the lib folder",
     "start": "npm run transpile & npm run dev-server & npm run server"
   }
 }

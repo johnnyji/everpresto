@@ -1,5 +1,6 @@
 var path = require('path');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var config = require('./src/config');
 
 var srcPath = path.resolve(__dirname, './src/client');
 
@@ -7,6 +8,8 @@ module.exports = {
   entry: path.resolve(__dirname, './src/client/index.js'),
   output: {
     path: path.resolve(__dirname, './build'),
+    // makes the public path for HTML/JavaScript http://localhost:8080/build/somefile.ext, needed for isomorphic hot module replacement
+    publicPath: 'http://localhost:' + config.webpackPort + '/build/',
     filename: 'bundle.js'
   },
   module: {

@@ -9,7 +9,7 @@ export default class AppHeader extends React.Component {
       <header className='app-header-wrapper'>
         <Link className='pull-left logo' to='/'>
           <Icon icon='access-time' size='3rem' />
-          Cumul8 Test
+          Tickit
         </Link>
       </header>
     );
