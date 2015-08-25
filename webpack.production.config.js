@@ -4,7 +4,7 @@ var path = require('path');
 
 module.exports = {
   entry: {
-    app: path.resolve(__dirname, './src/index.js'),
+    app: path.resolve(__dirname, './src/client/index.js'),
     vendors: ['react', 'reflux', 'react-widgets'] // seperates external libraries into vendor bundles
   },
   output: {
