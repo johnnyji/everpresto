@@ -1,6 +1,7 @@
 var developmentDbName = 'tickit_development';
 
 var config = {
+  apiUrlPrefix: '/api',
   development: {
     webpackPort: 8080,
     serverPort: 3000,

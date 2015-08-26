@@ -32,6 +32,9 @@ var TimesheetStore = Reflux.createStore({
       this.trigger(this.state);
     }.bind(this), 1000);
   },
+  onLoadTimesheetsCompleted: function(result) {
+    debugger;
+  }
 });
 
 module.exports = TimesheetStore;

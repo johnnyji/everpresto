@@ -12,7 +12,9 @@ import rootRoute from './routes/rootRoute';
 import timesheetsRoute from './routes/timesheetsRoute';
 
 const app = express();
-const router = express.Router();
+const apiRouter = express.Router();
+
+// connect to db
 mongoose.connect(`mongodb://localhost/${config.development.databaseName}`, err => {
   if (err) { throw err; }
 });
@@ -26,11 +28,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // prefixes all routes call to the server with /api to use express router
-app.use('/api', router);
+app.use('/api', apiRouter);
 
-// routes
-router.use('/', rootRoute);
-router.use('/timesheets', timesheetsRoute);
+// api routes
+apiRouter.use('/', rootRoute);
+apiRouter.use('/timesheets', timesheetsRoute);
 
 // react isomorphic render
 app.get('/*', (req, res) => {

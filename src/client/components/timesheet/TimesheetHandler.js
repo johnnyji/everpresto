@@ -9,6 +9,7 @@ import PreviousTimesheets from '.././timesheet/PreviousTimesheets';
 
 import DateHelper from '../.././utils/DateHelper';
 
+import TimesheetActions from '../.././actions/TimesheetActions';
 import TimesheetStore from '../.././stores/TimesheetStore';
 
 export default class TimesheetHandler extends ReactTemplate {
@@ -22,6 +23,7 @@ export default class TimesheetHandler extends ReactTemplate {
   }
   componentDidMount() {
     this._unsubscribe = TimesheetStore.listen(this._updateState);
+    TimesheetActions.loadTimesheets();
   }
   componentWillUnmount() {
     this._unsubscribe();
