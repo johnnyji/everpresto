@@ -7,7 +7,8 @@ var config = {
     serverPort: 3000,
     dbPort: 27017,
     dbName: developmentDbName,
-    dbConnectUrl: 'mongodb://localhost/' + developmentDbName
+    dbConnectUrl: 'mongodb://localhost/' + developmentDbName,
+    
   }
 };
 

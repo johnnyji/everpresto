@@ -1,6 +1,10 @@
 import express from 'express';
+import session from 'express-session';
+import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
+import passport from 'passport';
+import passportLocal from 'passport-local';
 import config from '../.././config';
 
 import React from 'react';
@@ -13,6 +17,7 @@ import timesheetsRoute from './routes/timesheetsRoute';
 
 const app = express();
 const apiRouter = express.Router();
+const LocalStrategy = passportLocal.Strategy();
 
 // connect to db
 mongoose.connect(config.development.dbConnectUrl, err => {
@@ -26,6 +31,18 @@ app.set('view engine', 'jade');
 // parse data from POST request
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+// parses cookies
+app.use(cookieParser());
+
+// sets sessions and user auth with passport
+app.use(session({
+  secret: 'express session secret',
+  resave: false,
+  saveUninitalize: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 
 // prefixes all routes call to the server with /api to use express router
 app.use('/api', apiRouter);
