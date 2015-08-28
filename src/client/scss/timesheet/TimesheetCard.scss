@@ -1,9 +1,28 @@
 .timesheet-card-wrapper {
   @include transition;
+  position: relative;
   color: $light-text-color;
   margin: 1rem;
   padding: 1rem;
   background-color: $card-background-color;
+
+  .options {
+    position: absolute;
+    top: 0;
+    right: 1rem;
+    list-style: none;
+    z-index: 2; // so this is above the email field, and therefore will be clickable
+    li {
+      position: relative;
+      display: inline-block;
+      margin: 0 0.25rem;
+      &:hover {
+        cursor: pointer;
+        color: $secondary-brand-color;
+      }
+    }
+  }
+
   .left {
     @include pull-left-relative(40%);
     text-align: right;
@@ -20,6 +39,7 @@
       }
     }
   }
+
   .right { 
     @include pull-right-relative(60%);
     padding-left: 1.5rem;
@@ -47,4 +67,5 @@
       }
     }
   }
+
 }

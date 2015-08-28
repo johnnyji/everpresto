@@ -15,7 +15,7 @@ const app = express();
 const apiRouter = express.Router();
 
 // connect to db
-mongoose.connect(`mongodb://localhost/${config.development.databaseName}`, err => {
+mongoose.connect(config.development.dbConnectUrl, err => {
   if (err) { throw err; }
 });
 
@@ -38,7 +38,6 @@ apiRouter.use('/timesheets', timesheetsRoute);
 app.get('/*', (req, res) => {
   let scriptPath = `http://localhost:${config.development.webpackPort}/build/bundle.js`;
   let stylePath = `http://localhost:${config.development.webpackPort}/build/style.css`;
-
   Router.run(clientRoutes, req.url, Handler => {
     let content = React.renderToString(<Handler />);
     let footerContent = React.renderToString(<AppFooter />);

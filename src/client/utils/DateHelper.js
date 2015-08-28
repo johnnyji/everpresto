@@ -1,6 +1,11 @@
 import moment from 'moment';
 
 export default class DateHelper {
+
+  static formatDate(dateString) {
+    return new Date(dateString);
+  }
+
   static getWeekOf(currentDate) {
     let startOfWeek = moment(currentDate).startOf('week');
     let endOfWeek = moment(currentDate).endOf('week');

@@ -9,6 +9,7 @@ var TimesheetStateTemplate = {
   dateBeingViewed: new Date,
   timesheetsBeingViewed: [],
   timesheets: [],
+  componentReady: false
 };
 
 var TimesheetStore = Reflux.createStore({
@@ -23,17 +24,25 @@ var TimesheetStore = Reflux.createStore({
     this.state.dateBeingViewed = date;
     this.trigger(this.state);
   },
-  onAddTimesheet: function(timesheet) {
-    this.state.timesheets.unshift(timesheet);
+  onAddTimesheetCompleted: function(result) {
+    this.state.timesheets.unshift(result.data.timesheet);
 
-    // sleeps for 1 second to mock creation load
+    // sleeps for 0.8 second to mock creation load
     setTimeout(function() {
       NewTimesheetActions.finishCreatingTimesheet();
       this.trigger(this.state);
-    }.bind(this), 1000);
+    }.bind(this), 800);
+  },
+  onDeleteTimesheetCompleted: function(result) {
+    _.remove(this.state.timesheets, function(timesheet) {
+      return timesheet._id === result.data._id;
+    });
+    this.trigger(this.state);
   },
   onLoadTimesheetsCompleted: function(result) {
-    debugger;
+    this.state.timesheets = result.data.timesheets;
+    this.state.componentReady = true;
+    this.trigger(this.state);
   }
 });
 

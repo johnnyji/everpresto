@@ -65,7 +65,7 @@ export default class NewTimesheetForm extends ReactTemplate {
     NewTimesheetActions.setWorkType(workType);
   }
   _onSubmitTimesheet() {
-    NewTimesheetActions.submitTimesheet();
+    NewTimesheetActions.submitTimesheet(this.state.timesheet);
   }
   _regenerateForm() {
     NewTimesheetActions.resetState();

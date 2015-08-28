@@ -15,10 +15,17 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-  let timesheet = new Timesheet(req.params.timesheet);
+  let timesheet = new Timesheet(req.body.timesheet);
   timesheet.save((err) => {
+    if (err) { return res.status(500).json({ message: 'Unable to save' }); }
+    res.status(201).json({ timesheet: timesheet });
+  });
+});
+
+router.delete('/', (req, res) => {
+  Timesheet.remove({ _id: req.body._id }, (err) => {
     if (err) { return res.status(500).json(err); }
-    res.state(201).json(null);
+    res.status(200).json({ _id: req.body._id });
   });
 });
 

@@ -1,5 +1,4 @@
 import React from 'react';
-import $ from 'jquery';
 import _ from 'lodash';
 import ReactTemplate from '.././shared/ReactTemplate';
 
@@ -21,9 +20,11 @@ export default class TimesheetHandler extends ReactTemplate {
       '_updateState'
     );
   }
+  componentWillMount() {
+    TimesheetActions.loadTimesheets();
+  }
   componentDidMount() {
     this._unsubscribe = TimesheetStore.listen(this._updateState);
-    TimesheetActions.loadTimesheets();
   }
   componentWillUnmount() {
     this._unsubscribe();
@@ -32,13 +33,15 @@ export default class TimesheetHandler extends ReactTemplate {
     let state = TimesheetStore.getState();
     return {
       dateBeingViewed: state.dateBeingViewed,
-      timesheets: state.timesheets
+      timesheets: state.timesheets,
+      componentReady: state.componentReady
     };
   }
   _updateState(state) {
     this.setState({
       dateBeingViewed: state.dateBeingViewed,
-      timesheets: state.timesheets
+      timesheets: state.timesheets,
+      componentReady: state.componentReady
     });
   }
   render() {
@@ -47,7 +50,7 @@ export default class TimesheetHandler extends ReactTemplate {
     let weekBeingViewed = DateHelper.formatWeekDurationFromDate(s.dateBeingViewed);
     let formattedDateBeingViewed = DateHelper.formatHeaderDate(s.dateBeingViewed);
     let timesheetsBeingViewed =  _.filter(s.timesheets, function(timesheet) {
-      return timesheet.createdAt.toLocaleDateString() === s.dateBeingViewed.toLocaleDateString();
+      return  DateHelper.formatDate(timesheet.createdAt).toLocaleDateString() === DateHelper.formatDate(s.dateBeingViewed).toLocaleDateString();
     }.bind(this));
 
     return (

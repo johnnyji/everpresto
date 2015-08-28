@@ -1,14 +1,33 @@
 import React from 'react';
+import ReactTemplate from '.././shared/ReactTemplate';
 import DateHelper from '../.././utils/DateHelper';
 
-export default class TimesheetCard extends React.Component {
+import Icon from '.././shared/Icon';
+
+import TimesheetActions from '../.././actions/TimesheetActions';
+
+export default class TimesheetCard extends ReactTemplate {
   constructor(props) {
     super(props);
-    this.state = { viewNote: false };
-    this._toggleViewNote = this._toggleViewNote.bind(this);
+    this.state = { viewNote: false, showOptions: false };
+    this._bindFunctions(
+      '_toggleOptions',
+      '_toggleViewNote',
+      '_onEditTimesheet',
+      '_onDeleteTimesheet'
+    );
+  }
+  _toggleOptions() {
+    this.setState({ showOptions: !this.state.showOptions });
   }
   _toggleViewNote() {
     this.setState({ viewNote: !this.state.viewNote });
+  }
+  _onEditTimesheet() {
+
+  }
+  _onDeleteTimesheet() {
+    TimesheetActions.deleteTimesheet(this.props.timesheet._id);
   }
   render() {
     let p = this.props;
@@ -20,10 +39,16 @@ export default class TimesheetCard extends React.Component {
     let convertedTime = DateHelper.convertSecondsToHoursAndMinutes(timesheet.timeInSeconds);
 
     return (
-      <div className='timesheet-card-wrapper'>
+      <div className='timesheet-card-wrapper' onMouseEnter={this._toggleOptions} onMouseLeave={this._toggleOptions}>
+
+        {s.showOptions &&
+          <ul className='options'>
+            <li onClick={this._onEditTimesheet}><Icon icon='create' size='1.3rem'/></li>
+            <li onClick={this._onDeleteTimesheet}><Icon icon='close' size='1.3rem'/></li>
+          </ul>
+        }
 
         <div className='left'>
-
           <div className='time-display'>
             <span>{convertedTime.hours}</span>
             <small>Hrs</small>
