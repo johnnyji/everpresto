@@ -19,6 +19,11 @@ export default class AppHandler extends ReactTemplate {
       '_updateState'
     )
   }
+  componentWillMount() {
+    if (localStorage.jwt && localStorage.userId) {
+      AppActions.fetchCurrentUser(localStorage.jwt, localStorage.userId);
+    }
+  }
   componentDidMount() {
     this._unsubscribe = AppStore.listen(this._updateState);
   }

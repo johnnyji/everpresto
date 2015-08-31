@@ -29,6 +29,9 @@ var AuthStore = Reflux.createStore({
   getState: function() {
     return this.state;
   },
+  isLoggedIn: function() {
+    return _.isObject(this.state.currentUser);
+  },
   onHandleEmailChange: function(input) {
     var result = InputValidator.validateEmail(null, input);
     this._handleUserFieldChange('email', input, result);

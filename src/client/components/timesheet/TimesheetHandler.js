@@ -1,5 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
+import AuthenticatedComponent from '.././shared/AuthenticatedComponent';
 import ReactTemplate from '.././shared/ReactTemplate';
 
 import DateNavbar from '.././date/DateNavbar';
@@ -11,7 +12,7 @@ import DateHelper from '../.././utils/DateHelper';
 import TimesheetActions from '../.././actions/TimesheetActions';
 import TimesheetStore from '../.././stores/TimesheetStore';
 
-export default class TimesheetHandler extends ReactTemplate {
+export default AuthenticatedComponent(class TimesheetHandler extends ReactTemplate {
   constructor(props) {
     super(props);
     this.state = this._getInitialState();
@@ -21,7 +22,6 @@ export default class TimesheetHandler extends ReactTemplate {
     );
   }
   componentWillMount() {
-    this._protectComponent();
     TimesheetActions.loadTimesheets();
   }
   componentDidMount() {
@@ -67,5 +67,11 @@ export default class TimesheetHandler extends ReactTemplate {
         />
       </div>
     );
-  }
-}
+  }  
+});
+
+TimesheetHandler.propTypes = {
+  currentUser: React.PropTypes.any,
+  apiToken: React.PropTypes.any
+};
+

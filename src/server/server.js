@@ -62,10 +62,26 @@ apiRouter.use('/auth', authRoute);
 apiRouter.use('/timesheets', timesheetsRoute);
 
 // react isomorphic render
-app.get('/*', (req, res) => {
+app.use((req, res) => {
   let scriptPath = `http://localhost:${config.development.webpackPort}/build/bundle.js`;
   let stylePath = `http://localhost:${config.development.webpackPort}/build/style.css`;
-  Router.run(clientRoutes, req.url, Handler => {
+
+  let router = Router.create({
+    // onAbort allows for react-router to do server side routing in willTransitionTo
+    onAbort: (options) => {
+      let destination = options.to || '/';
+      res.redirect(302, destination);
+      console.log('Redirecting to: ', destination);
+    },
+    onError: (err) => {
+      res.status(500).json('Error caught.');
+      throw err;
+    },
+    routes: clientRoutes,
+    location: req.url
+  });
+
+  router.run(Handler => {
     let content = React.renderToString(<Handler />);
     let footerContent = React.renderToString(<AppFooter />);
     res.render('index', { 

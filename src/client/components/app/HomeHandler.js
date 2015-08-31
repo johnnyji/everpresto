@@ -8,9 +8,6 @@ export default class HomeHandler extends React.Component {
     if (this.props.currentUser) {
       return this.context.router.replaceWith('timesheets');
     }
-    if (localStorage.jwt) {
-      // AppActions.fetchCurrentUser(localStorage.jwt);
-    }
   }
   render() {
     return (
