@@ -19,14 +19,8 @@ export default class AppHandler extends ReactTemplate {
       '_updateState'
     )
   }
-  componentWillMount() {
-    // sets the current user if the jwt is present in localStorage
-    if (localStorage.jwt) {
-      AppActions.setCurrentUser(localStorage.jwt);
-    }
-  }
   componentDidMount() {
-    this._unsubscribe = AppStore.listen(this._updateState);    
+    this._unsubscribe = AppStore.listen(this._updateState);
   }
   componentWillUnmount() {
     this._unsubscribe();

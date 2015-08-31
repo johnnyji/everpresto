@@ -21,6 +21,7 @@ export default class TimesheetHandler extends ReactTemplate {
     );
   }
   componentWillMount() {
+    this._protectComponent();
     TimesheetActions.loadTimesheets();
   }
   componentDidMount() {
@@ -60,7 +61,7 @@ export default class TimesheetHandler extends ReactTemplate {
           dateBeingViewed={s.dateBeingViewed}
         />
         <NewTimesheetButton />
-        <PreviousTimesheets 
+        <PreviousTimesheets
           timesheets={timesheetsBeingViewed} 
           dateBeingViewed={formattedDateBeingViewed}
         />

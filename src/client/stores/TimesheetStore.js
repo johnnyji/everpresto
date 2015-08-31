@@ -24,8 +24,8 @@ var TimesheetStore = Reflux.createStore({
     this.state.dateBeingViewed = date;
     this.trigger(this.state);
   },
-  onAddTimesheetCompleted: function(result) {
-    this.state.timesheets.unshift(result.data.timesheet);
+  onAddTimesheetCompleted: function(response) {
+    this.state.timesheets.unshift(response.data.timesheet);
 
     // sleeps for 0.8 second to mock creation load
     setTimeout(function() {
@@ -33,14 +33,14 @@ var TimesheetStore = Reflux.createStore({
       this.trigger(this.state);
     }.bind(this), 800);
   },
-  onDeleteTimesheetCompleted: function(result) {
+  onDeleteTimesheetCompleted: function(response) {
     _.remove(this.state.timesheets, function(timesheet) {
-      return timesheet._id === result.data._id;
+      return timesheet._id === response.data._id;
     });
     this.trigger(this.state);
   },
-  onLoadTimesheetsCompleted: function(result) {
-    this.state.timesheets = result.data.timesheets;
+  onLoadTimesheetsCompleted: function(response) {
+    this.state.timesheets = response.data.timesheets;
     this.state.componentReady = true;
     this.trigger(this.state);
   }

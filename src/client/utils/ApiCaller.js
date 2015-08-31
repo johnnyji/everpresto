@@ -20,13 +20,11 @@ export default class ApiCaller {
           status: request.status,
           data: JSON.parse(request.responseText)
         };
-        if (result.status >= 200 && result.status <= 299) {
-          console.log('Response: ', result.data);
-          resolve(result);
-        } else {
-          console.log('Response: ', result.data);
-          reject(result);
-        }
+        
+        result.status >= 200 && result.status <= 299
+          ? resolve(result)
+          : reject(result);
+        console.log('Response: ', result.data);
       };
 
       request.onerror = () => {

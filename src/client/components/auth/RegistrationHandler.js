@@ -18,7 +18,7 @@ export default class RegistrationHandler extends ReactTemplate {
       password: React.findDOMNode(this.refs.password).value,
       passwordConfirmation: React.findDOMNode(this.refs.passwordConfirmation).value
     };
-    AuthActions.registerUser({ user: userData });
+    AuthActions.createUser({ user: userData });
   }
   _dismissError() {
     this.setState({ registrationError: null });

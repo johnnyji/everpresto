@@ -34,15 +34,6 @@ var AppStore = Reflux.createStore({
     this.state.modal = _.mapValues(this.state.modal, function(v) { return v = false; });
     if (modalName) { this.state.modal[modalName] = true; }
     this.trigger(this.state);
-  },
-  onSetCurrentUserCompleted: function(result) {
-    this.state.currentUser = result.data.user;
-    this.state.componentReady = true;
-    this.trigger(this.state);
-  },
-  onSetCurrentUserFailed: function(result) {
-    this.state.componentReady = true;
-    this.trigger(this.state);
   }
 });
 

@@ -10,7 +10,7 @@ import NotFoundHandler from './components/shared/NotFoundHandler';
 
 let routes = (
   <Route path='/' handler={AppHandler}>
-    <DefaultRoute handler={HomeHandler} />
+    <DefaultRoute name='home' handler={HomeHandler} />
     <Route name='login' path='/login' handler={LoginHandler} />
     <Route name='join' path='/join' handler={RegistrationHandler} />
     <Route name='timesheets' path='/timesheets' handler={TimesheetHandler} />
