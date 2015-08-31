@@ -7,6 +7,7 @@ import AppFooter from './AppFooter';
 import FullScreenModal from '.././shared/FullScreenModal';
 import NewTimesheetForm from '.././timesheet/NewTimesheetForm';
 
+import AppActions from '../.././actions/AppActions';
 import AppStore from '../.././stores/AppStore';
 
 export default class AppHandler extends ReactTemplate {
@@ -18,6 +19,12 @@ export default class AppHandler extends ReactTemplate {
       '_updateState'
     )
   }
+  componentWillMount() {
+    // sets the current user if the jwt is present in localStorage
+    if (localStorage.jwt) {
+      AppActions.setCurrentUser(localStorage.jwt);
+    }
+  }
   componentDidMount() {
     this._unsubscribe = AppStore.listen(this._updateState);    
   }
@@ -27,12 +34,14 @@ export default class AppHandler extends ReactTemplate {
   _getInitialState() {
     let state = AppStore.getState();
     return {
+      currentUser: state.currentUser,
       modal: state.modal,
       workTypes: state.workTypes,
     }
   }
   _updateState(state) {
     this.setState({
+      currentUser: state.currentUser,
       modal: state.modal,
       workTypes: state.workTypes,
     });
@@ -50,7 +59,7 @@ export default class AppHandler extends ReactTemplate {
     return (
       <div className='page-wrapper'>
         {modal}
-        <AppHeader />
+        <AppHeader currentUser={s.currentUser} />
         <div className='content-container'>
           <RouteHandler />
         </div>

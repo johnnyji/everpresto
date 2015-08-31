@@ -1,4 +1,5 @@
 import express from 'express';
+import uuid from 'node-uuid';
 import session from 'express-session';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
@@ -6,8 +7,6 @@ import morgan from 'morgan';
 
 import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
-import passport from 'passport';
-import passportLocal from 'passport-local';
 import config from '../.././config';
 
 import React from 'react';
@@ -24,7 +23,6 @@ import timesheetsRoute from './routes/timesheetsRoute';
 const app = express();
 const port = process.env.PORT || config.development.serverPort;
 const apiRouter = express.Router();
-const LocalStrategy = passportLocal.Strategy();
 
 // connect to db
 mongoose.connect(config.development.dbConnectUrl, err => {
@@ -36,7 +34,7 @@ app.set('views', './views');
 app.set('view engine', 'jade');
 
 // sets token secret variable
-app.set('tokenSecret', config.webTokenSecret);
+app.set('tokenSecret', uuid.v4());
 
 // log requests to the console
 app.use(morgan('dev'));
@@ -54,15 +52,6 @@ app.use(session({
   resave: true,
   saveUninitalize: false // doesn't both with unauthenticated users
 }));
-
-// initializes passport, and configures it to use sessions
-app.use(passport.initialize());
-app.use(passport.session());
-
-// passport config 
-passport.use(new LocalStrategy(User.createStrategy()); // static methods provided by passport-local-mongoose
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
 
 // prefixes all routes call to the server with /api to use express router
 app.use('/api', apiRouter);

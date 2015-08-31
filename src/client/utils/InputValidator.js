@@ -11,6 +11,16 @@ export default class InputValidator {
     };
   }
 
+  static validatePasswordConfirmation(errorMessage, password, passwordConfirmation) {
+    if (password === passwordConfirmation) {
+      return { valid: true };
+    }
+    return {
+      valid: false,
+      message: (errorMessage || 'Password confirmation must match password!')
+    }
+  }
+
   static validateIntegerOnly(errorMessage, ...inputs) {
     let integersRegex = /^\d+$/;
     let invalidCount = 0;

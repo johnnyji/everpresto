@@ -2,7 +2,6 @@ var developmentDbName = 'tickit_development';
 
 var config = {
   apiUrlPrefix: '/api',
-  webTokenSecret: 'feelingelectric',
   development: {
     webpackPort: 8080,
     serverPort: 3000,

@@ -1,5 +1,6 @@
 var Reflux = require('reflux');
-var ApiCaller = require('.././utils/api/ApiCaller');
+var ApiCaller = require('.././utils/ApiCaller');
+var apiEndpoints = require('.././apiEndpoints');
 
 var TimesheetActions = Reflux.createActions({
   'loadTimesheets': { children: ['completed', 'failed'] },
@@ -10,8 +11,8 @@ var TimesheetActions = Reflux.createActions({
 
 TimesheetActions.addTimesheet.listen(function(timesheet) {
   ApiCaller.sendAjaxRequest({
-    url: '/api/timesheets',
-    method: 'POST',
+    url: apiEndpoints.timesheets.create.path,
+    method: apiEndpoints.timesheets.create.method,
     data: { timesheet: timesheet }
   })
   .then(this.completed)
@@ -20,8 +21,8 @@ TimesheetActions.addTimesheet.listen(function(timesheet) {
 
 TimesheetActions.loadTimesheets.listen(function() {
   ApiCaller.sendAjaxRequest({
-    url: '/api/timesheets',
-    method: 'GET'
+    url: apiEndpoints.timesheets.collection.path,
+    method: apiEndpoints.timesheets.collection.method
   })
   .then(this.completed)
   .catch(this.failed);
@@ -29,8 +30,8 @@ TimesheetActions.loadTimesheets.listen(function() {
 
 TimesheetActions.deleteTimesheet.listen(function(timesheetId) {
   ApiCaller.sendAjaxRequest({
-    url: '/api/timesheets',
-    method: 'DELETE',
+    url: apiEndpoints.timesheets.delete.path,
+    method: apiEndpoints.timesheets.delete.method,
     data: { _id: timesheetId } 
   })
   .then(this.completed)

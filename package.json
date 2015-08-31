@@ -19,16 +19,15 @@
     "mongodb": "^2.0.42",
     "mongoose": "^4.1.3",
     "morgan": "^1.6.1",
+    "node-uuid": "^1.4.3",
     "nodemon": "^1.4.1",
     "normalize.css": "^3.0.3",
     "object-assign": "^4.0.1",
-    "passport": "^0.3.0",
-    "passport-local": "^1.0.0",
-    "passport-local-mongoose": "^1.2.0",
     "react": "^0.13.3",
     "react-router": "^0.13.3",
     "react-widgets": "^2.8.0",
     "reflux": "^0.2.12",
+    "standard": "^5.1.1",
     "webpack": "^1.11.0"
   },
   "devDependencies": {
@@ -47,7 +46,7 @@
   },
   "scripts": {
     "clean": "rm -rf lib",
-    "transpile": "babel -source-maps src --out-dir lib -w",
+    "transpile": "babel src --out-dir lib -w",
     "dev-server": "webpack-dev-server --devtool-eval --inline --hot --colors --progress --display-error-details --content-base build",
     "server": "iron-node ./lib/server/server.js",
     "write-to-disk": "webpack --watch --progress --colors --display-error-details -d",
