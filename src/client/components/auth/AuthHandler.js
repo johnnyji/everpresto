@@ -52,7 +52,9 @@ export default class AuthHandler extends ReactTemplate {
       );
     } else if (path === '/join') {
       return (
-        <RegistrationForm 
+        <RegistrationForm
+          errors={s.errors}
+          user={s.user}
           registrationError={s.registrationError}
         />
       );

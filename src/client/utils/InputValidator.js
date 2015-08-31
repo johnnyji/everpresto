@@ -1,76 +1,68 @@
-export default class InputValidator {
+import Validator from './Validator';
 
-  static validateEmail(errorMessage, email) {
-    let emailRegex = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
-    if (emailRegex.test(email)) {
-      return { valid: true };
-    }
-    return {
-      valid: false,
-      message: (errorMessage || 'Invalid email format')
+class InputValidator extends Validator {
+  constructor() {
+    super();
+    this.integerOnlyRegex = /^\d+$/;
+    this.emailRegex = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+    this.defaultErrors = {
+      email: 'Invalid Email Format',
+      integerOnly: 'Please only enter numbers',
+      fieldPresence: 'Please fill out this field',
+      passwordConfirmation: 'Passwords must match'
     };
   }
 
-  static validatePasswordConfirmation(errorMessage, password, passwordConfirmation) {
-    if (password === passwordConfirmation) {
-      return { valid: true };
-    }
-    return {
-      valid: false,
-      message: (errorMessage || 'Password confirmation must match password!')
-    }
+  validateEmail(errorMessage, email) {
+    let condition = this.emailRegex.test(email);
+    return this._testCondition(condition, this.defaultErrors.email, errorMessage);
   }
 
-  static validateIntegerOnly(errorMessage, ...inputs) {
-    let integersRegex = /^\d+$/;
+  validatePasswordConfirmation(errorMessage, password, passwordConfirmation) {
+    let condition = password === passwordConfirmation;
+    return this._testCondition(condition, this.defaultErrors.passwordConfirmation, errorMessage);
+  }
+
+  validateIntegerOnly(errorMessage, ...inputs) {
     let invalidCount = 0;
 
     inputs.forEach(input => {
-      let valid = integersRegex.test(input);
-      if (!valid) { invalidCount ++; }
-    });
-    if (invalidCount === 0) {
-      return { valid: true };
-    }
-    return { 
-      valid: false, 
-      message: (errorMessage || 'Please only enter numbers') 
-    };
+      let valid = this.integerOnlyRegex.test(input);
+      if (!valid) invalidCount ++;
+    }.bind(this));
+
+    let condition = invalidCount === 0;
+    return this._testCondition(condition, this.defaultErrors.integerOnly, errorMessage);
   }
 
-  static validateLength(errorMessage, length, ...inputs) {
+  validateLength(errorMessage, length, ...inputs) {
     let invalidCount = 0;
 
     inputs.forEach(input => {
-      if (input == null ) { input = ''; }
+      if (input == null ) input = '';
 
-      let valid = input.length === length;
-      if (!valid) { invalidCount ++; }
+      let valid = input.length >= length;
+      if (!valid) invalidCount ++;
     });
-    if (invalidCount === 0) {
-      return { valid: true };
-    }
-    return { 
-      valid: false, 
-      message: (errorMessage || `Must be at least ${length} chars long`) 
-    };
+
+    let condition = invalidCount === 0;
+    return this._testCondition(condition, `Must be at least ${length} chars long`, errorMessage);
   }
 
-  static validateStringPresence(errorMessage, ...inputs) {
+  validateStringPresence(errorMessage, ...inputs) {
     let invalidCount = 0;
+
     inputs.forEach(input => {
       if (input == null ) { input = ''; }
 
       let valid = input !== '';
       if (!valid) { invalidCount ++; }
     });
-    if (invalidCount === 0) {
-      return { valid: true };
-    }
-    return { 
-      valid: false, 
-      message: (errorMessage || `Please fill out this field`) 
-    };
+
+    let condition = invalidCount === 0;
+    return this._testCondition(condition, this.defaultErrors.fieldPresence, errorMessage);
   }
 
 }
+
+export default new InputValidator;

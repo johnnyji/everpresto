@@ -17,6 +17,7 @@ export default class InputField extends ReactTemplate {
   render() {
     let p = this.props;
     let s = this.state;
+    let placeholder = p.inputPlaceholder || '';
     let onChangeFunc = p.onInputChange || null;
     let inputClass = p.error ? `${p.inputClassName || ''} input-error` : p.inputClassName;
 
@@ -26,7 +27,7 @@ export default class InputField extends ReactTemplate {
         <input
           ref='input'
           className={inputClass}
-          placeholder={p.inputPlaceholder}
+          placeholder={placeholder}
           type={p.type}
           name={p.name}
           onFocus={this._toggleShrinkLabel}
@@ -42,7 +43,7 @@ InputField.propTypes = {
   error: React.PropTypes.any,
   type: React.PropTypes.string.isRequired,
   name: React.PropTypes.string,
-  inputPlaceholder: React.PropTypes.string.isRequired,
+  inputPlaceholder: React.PropTypes.string,
   onInputChange: React.PropTypes.func,
   inputClassName: React.PropTypes.string
 };

@@ -1,6 +1,8 @@
-export default class CustomValidator {
+import Validator from './Validator';
 
-  static validateCorrectTimeInput(hours, minutes) {
+class CustomValidator {
+
+  validateCorrectTimeInput(hours, minutes) {
     hours = parseInt(hours);
     minutes = parseInt(minutes);
     if (isNaN(minutes) || isNaN(hours)) { return; }
@@ -20,3 +22,5 @@ export default class CustomValidator {
   }
 
 }
+
+export default new CustomValidator;

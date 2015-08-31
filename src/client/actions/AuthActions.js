@@ -3,6 +3,9 @@ var ApiCaller = require('.././utils/ApiCaller');
 var apiEndpoints = require('.././apiEndpoints');
 
 var AuthActions = Reflux.createActions({
+  'handleEmailChange': {},
+  'handlePasswordChange': {},
+  'handlePasswordConfirmationChange': {},
   'createUser': { children: ['completed', 'failed'] },
   'loginUser': {}
 });

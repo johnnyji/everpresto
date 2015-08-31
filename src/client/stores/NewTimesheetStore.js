@@ -45,7 +45,7 @@ var NewTimesheetStore = Reflux.createStore({
       this._clearInputError('email');
       this.state.timesheet.email = email;
     } else {
-      this._triggerInputError('email', validation.message);
+      this._addInputError('email', validation.message);
     }
     this.trigger(this.state);
   },
@@ -66,7 +66,7 @@ var NewTimesheetStore = Reflux.createStore({
       var result = validations[i];
       if (!result.valid) {
         valid = false;
-        this._triggerInputError('timeInSeconds', result.message);
+        this._addInputError('timeInSeconds', result.message);
         break; // exits the validations loop if theres an error caught
       }
     };

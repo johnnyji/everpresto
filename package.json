@@ -27,7 +27,6 @@
     "react-router": "^0.13.3",
     "react-widgets": "^2.8.0",
     "reflux": "^0.2.12",
-    "standard": "^5.1.1",
     "webpack": "^1.12.0"
   },
   "devDependencies": {
