@@ -3,7 +3,7 @@ import ReactTemplate from '.././shared/ReactTemplate';
 
 import AuthActions from '../.././actions/AuthActions';
 
-export default class LoginHandler extends ReactTemplate {
+export default class LoginForm extends ReactTemplate {
   constructor(props) {
     super(props);
     this.state = { loginError: null };

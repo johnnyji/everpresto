@@ -3,18 +3,17 @@ import { Route, DefaultRoute, NotFoundRoute } from 'react-router';
 
 import AppHandler from './components/app/AppHandler';
 import HomeHandler from './components/app/HomeHandler';
-import LoginHandler from './components/auth/LoginHandler';
-import RegistrationHandler from './components/auth/RegistrationHandler';
+import AuthHandler from './components/auth/AuthHandler';
 import TimesheetHandler from './components/timesheet/TimesheetHandler';
 import NotFoundHandler from './components/shared/NotFoundHandler';
 
 let routes = (
   <Route path='/' handler={AppHandler}>
     <DefaultRoute name='home' handler={HomeHandler} />
-    <Route name='login' path='/login' handler={LoginHandler} />
-    <Route name='join' path='/join' handler={RegistrationHandler} />
+    <Route name='login' path='/login' handler={AuthHandler} />
+    <Route name='join' path='/join' handler={AuthHandler} />
     <Route name='timesheets' path='/timesheets' handler={TimesheetHandler} />
-    <NotFoundRoute handler={NotFoundHandler} />
+    <NotFoundRoute name='notfound' handler={NotFoundHandler} />
   </Route>
 );
 

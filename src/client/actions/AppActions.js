@@ -3,7 +3,9 @@ var ApiCaller = require('.././utils/ApiCaller');
 var apiEnpoints = require('.././apiEndpoints');
 
 var AppActions = Reflux.createActions({
-  'toggleModal': {}
+  'toggleModal': {},
+  'setCurrentUser': {},
+  'setToken': {}
 });
 
 module.exports = AppActions;

@@ -1,6 +1,3 @@
-import path from 'path';
-import config from '../../.././config';
-
 export default class ApiCaller {
 
   // this method assumes that you are sending/receiving JSON

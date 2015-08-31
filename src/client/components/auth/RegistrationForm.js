@@ -5,10 +5,9 @@ import ErrorMessageBox from '.././shared/ErrorMessageBox';
 
 import AuthActions from '../.././actions/AuthActions';
 
-export default class RegistrationHandler extends ReactTemplate {
+export default class RegistrationForm extends ReactTemplate {
   constructor(props) {
     super(props);
-    this.state = { registrationError: null };
     this._bindFunctions('_registerUser');
   }
   _registerUser(e) {
@@ -25,11 +24,10 @@ export default class RegistrationHandler extends ReactTemplate {
   }
   render() {
     let p = this.props;
-    let s = this.state;
 
     return (
       <form onSubmit={this._registerUser}>
-        <ErrorMessageBox message={s.registrationError} dismissError={this._dismissError} />
+        <ErrorMessageBox message={p.registrationError} dismissError={this._dismissError} />
         <label>Email</label>
         <input type='email' ref='email'/>
         <label>Password</label>
@@ -41,3 +39,7 @@ export default class RegistrationHandler extends ReactTemplate {
     );
   }
 }
+
+RegistrationForm.propTypes = {
+  registrationError: React.PropTypes.string
+};
