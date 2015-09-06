@@ -33,9 +33,6 @@ mongoose.connect(config.development.dbConnectUrl, err => {
 app.set('views', './views');
 app.set('view engine', 'jade');
 
-// sets token secret variable
-app.set('tokenSecret', uuid.v4());
-
 // log requests to the console
 app.use(morgan('dev'));
 
@@ -72,10 +69,6 @@ app.use((req, res) => {
       let destination = options.to || '/';
       res.redirect(302, destination);
       console.log('Redirecting to: ', destination);
-    },
-    onError: (err) => {
-      res.status(500).json('Error caught.');
-      throw err;
     },
     routes: clientRoutes,
     location: req.url

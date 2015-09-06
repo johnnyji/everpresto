@@ -1,10 +1,12 @@
 import express from 'express';
 import uuid from 'node-uuid';
 import jwt from 'jsonwebtoken';
+import config from '../../.././config';
 import User from '.././models/user';
-import TokenHelpers from '.././helpers/tokenHelpers';
 
 const router = express.Router();
+
+// write function to protect routes where jwt is required
 
 router.post('/register', (req, res, next) => {
   let userParams = {
@@ -15,8 +17,15 @@ router.post('/register', (req, res, next) => {
     if (err) return res.status(422).json({ message: err });
     res.status(201).json({ 
       user: user,
-      token: TokenHelpers.createToken(user, req.app.get('tokenSecret'))
+      token: jwt.sign(user._id, config.tokenSecret)
     });
+  });
+});
+
+router.post('/currentUser', (req, res, next) => {
+  jwt.verify(req.body.token, config.tokenSecret, (err, decoded) => {
+    if (err) return res.status(500).json({ message: err.message });
+    res.status(200).json({ user: decoded });
   });
 });
 

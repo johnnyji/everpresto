@@ -42,11 +42,9 @@ var AppStore = Reflux.createStore({
     localStorage.setItem('jwt', token);
     this.trigger(this.state);
   },
-  onFetchCurrentUserCompleted: function() {
-
-  },
-  onFetchCurrentUserFailed: function() {
-
+  onFetchCurrentUserCompleted: function(response) {
+    this.state.currentUser = response.data.user;
+    this.trigger(this.state);
   },
   onToggleModal: function(modalName) {
     // first sets all modals to false, and then sets true to inputted modal name is there is one

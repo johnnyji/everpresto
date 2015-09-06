@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
-import AuthenticatedComponent from '.././shared/AuthenticatedComponent';
 import ReactTemplate from '.././shared/ReactTemplate';
+import ProtectedComponent from '.././shared/ProtectedComponent';
 
 import DateNavbar from '.././date/DateNavbar';
 import NewTimesheetButton from '.././timesheet/NewTimesheetButton';
@@ -12,7 +12,7 @@ import DateHelper from '../.././utils/DateHelper';
 import TimesheetActions from '../.././actions/TimesheetActions';
 import TimesheetStore from '../.././stores/TimesheetStore';
 
-export default AuthenticatedComponent(class TimesheetHandler extends ReactTemplate {
+class TimesheetHandler extends ReactTemplate {
   constructor(props) {
     super(props);
     this.state = this._getInitialState();
@@ -67,11 +67,12 @@ export default AuthenticatedComponent(class TimesheetHandler extends ReactTempla
         />
       </div>
     );
-  }  
-});
+  }
+}
 
 TimesheetHandler.propTypes = {
   currentUser: React.PropTypes.any,
   apiToken: React.PropTypes.any
 };
 
+export default ProtectedComponent(TimesheetHandler);

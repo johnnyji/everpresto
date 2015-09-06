@@ -28,14 +28,14 @@ export default class RegistrationForm extends ReactTemplate {
   }
   _registerUser(e) {
     e.preventDefault();
-    AuthActions.createUser({ user: userData });
+    AuthActions.createUser({ user: this.props.user });
   }
   _dismissError() {
     this.setState({ registrationError: null });
   }
   render() {
     let p = this.props;
-    
+
     return (
       <form onSubmit={this._registerUser}>
         <ErrorMessageBox message={p.registrationError} dismissError={this._dismissError} />

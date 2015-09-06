@@ -1,28 +1,27 @@
 import React from 'react';
 
 import AuthStore from '../.././stores/AuthStore';
-import AppStore from '../.././stores/AppStore';
 
-// wrapper womponent for protecting authenticated components
+// wrapper component for protecting authenticated components
 
 export default (ComponentToBeRendered) => {  
-  return class AuthenticatedComponent extends React.Component {
+  return class ProtectedComponent extends React.Component {
     // called before transitioning to component, will redirect user to login if unauthenticated
     static willTransitionTo(transition) {
-      if (!AuthStore.isLoggedIn()) {
+      if (!AuthStore.getCurrentUser) {
         transition.redirect('/login');
       }
     }
     constructor(props) {
       super(props);
       this.state = {
-        currentUser: AppStore.getCurrentUser(),
-        apiToken: AppStore.getApiToken()
+        currentUser: AuthStore.getCurrentUser(),
+        jwt: AuthStore.getJwt()
       };
       this._updateState = this._updateState.bind(this);
     }
     componentDidMount() {
-      this._unsubscribe = AppStore.listen(this._updateState); 
+      this._unsubscribe = AuthStore.listen(this._updateState); 
     }
     componentWillUnmount() {
       this._unsubscribe();
@@ -30,7 +29,7 @@ export default (ComponentToBeRendered) => {
     _updateState(state) {
       this.setState({
         currentUser: state.currentUser,
-        apiToken: state.apiToken
+        jwt: state.jwt
       });
     }
     render() {
@@ -38,7 +37,7 @@ export default (ComponentToBeRendered) => {
         <ComponentToBeRendered
           {...this.props}
           currentUser={this.state.currentUser}
-          apiToken={this.state.apiToken}
+          jwt={this.state.jwt}
         />
       );
     }

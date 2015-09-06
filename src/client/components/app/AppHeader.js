@@ -3,6 +3,7 @@ import ReactTemplate from '.././shared/ReactTemplate'
 import { Link } from 'react-router';
 
 import AppActions from '../.././actions/AppActions';
+import AuthStore from '../.././stores/AuthStore';
 
 import Icon from '.././shared/Icon';
 
@@ -18,7 +19,7 @@ export default class AppHeader extends ReactTemplate {
       headerContent = (
         <div className='pull-right'>
           <Link to='profile'>Profile</Link>
-          <Link to='logout'>Sign Out</Link>
+          <span>Sign Out</span>
         </div>
       );
     } else {
@@ -29,6 +30,7 @@ export default class AppHeader extends ReactTemplate {
         </div>
       );
     }
+    
     return (
       <header className='app-header-wrapper'>
         <Link className='pull-left logo' to='/'>
@@ -43,4 +45,8 @@ export default class AppHeader extends ReactTemplate {
 
 AppHeader.propTypes = {
   currentUser: React.PropTypes.any
+};
+
+AppHeader.defaultProps = {
+  currentUser: AuthStore.getCurrentUser()
 };

@@ -1,13 +1,33 @@
 import React from 'react';
+import ReactTemplate from '.././shared/ReactTemplate';
 import { Link } from 'react-router';
 
 import AppStore from '../.././stores/AppStore';
 
-export default class HomeHandler extends React.Component {
+export default class HomeHandler extends ReactTemplate {
+  constructor(props) {
+    super(props);
+    this.state = { currentUser: AppStore.getCurrentUser() };
+    this._bindFunctions('_updateState');
+  }
   componentWillMount() {
-    if (this.props.currentUser) {
-      return this.context.router.replaceWith('timesheets');
+    if (AppStore.getCurrentUser()) {
+      this.context.router.transitionTo('/dashboard');
     }
+  }
+  componentDidMount() {
+    this._unsubscribe = AppStore.listen(this._updateState);
+  }
+  componentWillUpdate(nextProps, nextState) {
+    if (nextState.currentUser) {
+      this.context.router.transitionTo('/dashboard');
+    }
+  }
+  componentWillUnmount() {
+    this._unsubscribe();
+  }
+  _updateState(state) {
+    this.setState({ currentUser: state.currentUser });
   }
   render() {
     return (
@@ -20,10 +40,10 @@ export default class HomeHandler extends React.Component {
   }
 }
 
-HomeHandler.defaultProps = {
-  currentUser: AppStore.getCurrentUser()
-};
-
 HomeHandler.contextTypes = {
   router: React.PropTypes.func
+};
+
+HomeHandler.defaultProps = {
+  currentUser: AppStore.getCurrentUser()
 };

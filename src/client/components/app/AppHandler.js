@@ -19,11 +19,6 @@ export default class AppHandler extends ReactTemplate {
       '_updateState'
     )
   }
-  componentWillMount() {
-    if (localStorage.jwt && localStorage.userId) {
-      AppActions.fetchCurrentUser(localStorage.jwt, localStorage.userId);
-    }
-  }
   componentDidMount() {
     this._unsubscribe = AppStore.listen(this._updateState);
   }
@@ -33,14 +28,12 @@ export default class AppHandler extends ReactTemplate {
   _getInitialState() {
     let state = AppStore.getState();
     return {
-      currentUser: state.currentUser,
       modal: state.modal,
       workTypes: state.workTypes,
     }
   }
   _updateState(state) {
     this.setState({
-      currentUser: state.currentUser,
       modal: state.modal,
       workTypes: state.workTypes,
     });
@@ -58,7 +51,7 @@ export default class AppHandler extends ReactTemplate {
     return (
       <div className='page-wrapper'>
         {modal}
-        <AppHeader currentUser={s.currentUser} />
+        <AppHeader />
         <div className='content-container'>
           <RouteHandler />
         </div>
@@ -66,3 +59,7 @@ export default class AppHandler extends ReactTemplate {
     );
   }
 }
+
+AppHandler.contextTypes = {
+  router: React.PropTypes.func
+};

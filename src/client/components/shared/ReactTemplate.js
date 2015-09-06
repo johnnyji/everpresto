@@ -7,7 +7,3 @@ export default class ReactTemplate extends React.Component {
   }
   
 }
-
-ReactTemplate.contextTypes ={
-  router: React.PropTypes.func
-};

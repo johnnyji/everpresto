@@ -62,3 +62,7 @@ export default class AuthHandler extends ReactTemplate {
 
   }
 }
+
+AuthHandler.contextTypes = {
+  router: React.PropTypes.func
+};

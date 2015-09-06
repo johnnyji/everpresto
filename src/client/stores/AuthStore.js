@@ -1,11 +1,15 @@
 var Reflux = require('reflux');
 var _ = require('lodash');
+var RouterContainer = require('.././utils/RouterContainer');
+
 var AuthActions = require('.././actions/AuthActions');
 var AppActions = require('.././actions/AppActions');
 var ErrorHandlerMixin = require('./mixins/ErrorHandlerMixin');
 var InputValidator = require('.././utils/InputValidator');
 
 var AuthStateTemplate = {
+  jwt: null,
+  currentUser: null,
   user: {
     email: null,
     password: null,
@@ -29,8 +33,11 @@ var AuthStore = Reflux.createStore({
   getState: function() {
     return this.state;
   },
-  isLoggedIn: function() {
-    return _.isObject(this.state.currentUser);
+  getCurrentUser: function() {
+    return this.state.currentUser;
+  },
+  getJwt: function() {
+    return this.state.jwt;
   },
   onHandleEmailChange: function(input) {
     var result = InputValidator.validateEmail(null, input);
@@ -45,9 +52,10 @@ var AuthStore = Reflux.createStore({
     this._handleUserFieldChange('passwordConfirmation', input, result);
   },
   onCreateUserCompleted: function(response) {
-    AppActions.setCurrentUser(response.data.user);
-    AppActions.setApiToken(response.data.token);
-    this._resetState();
+    this.state.jwt = response.data.token;
+    this.state.currentUser = response.data.user;
+    debugger;
+    RouterContainer.get().transitionTo('/dashboard');
   },
   onCreateUserFailed: function() {
     //... implement code to display unable to create error
@@ -59,10 +67,6 @@ var AuthStore = Reflux.createStore({
     } else {
       this._addInputError(field, validationResult.message);
     }
-    this.trigger(this.state);
-  },
-  _resetState: function() {
-    this.state = _.cloneDeep(AuthStateTemplate);
     this.trigger(this.state);
   }
 });

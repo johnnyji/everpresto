@@ -1,12 +1,12 @@
 var Reflux = require('reflux');
 var ApiCaller = require('.././utils/ApiCaller');
-var apiEnpoints = require('.././apiEndpoints');
+var apiEndpoints = require('.././apiEndpoints');
 
 var AppActions = Reflux.createActions({
   'toggleModal': {},
   'fetchCurrentUser': { children: ['completed', 'failed'] },
   'setCurrentUser': {},
-  'setToken': {}
+  'setApiToken': {}
 });
 
 AppActions.fetchCurrentUser.listen(function(token) {

@@ -7,7 +7,7 @@ let formApiPath = (path, method) => {
 
 let apiEndpoints = {
   currentUser: {
-    show: formApiPath('/auth/currentUser', 'GET'),
+    show: formApiPath('/auth/currentUser', 'POST'),
   },
   users: {
     create: formApiPath('/auth/register', 'POST'),

@@ -2,13 +2,13 @@ var developmentDbName = 'tickit_development';
 
 var config = {
   apiUrlPrefix: '/api',
+  tokenSecret: 'spiceGuitar',
   development: {
     webpackPort: 8080,
     serverPort: 3000,
     dbPort: 27017,
     dbName: developmentDbName,
-    dbConnectUrl: 'mongodb://localhost/' + developmentDbName,
-    
+    dbConnectUrl: 'mongodb://localhost/' + developmentDbName
   }
 };
 
