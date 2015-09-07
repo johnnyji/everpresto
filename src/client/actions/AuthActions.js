@@ -10,17 +10,21 @@ var AuthActions = Reflux.createActions({
   'loginUser': { children: ['completed', 'failed'] }
 });
 
-AuthActions.loginUser.shouldEmit = function(jwt) {
-  // emits the jwt to the store only if the localStorage jwt matches the one passed into the action
-  var savedJwt = localStorage.getItem('jwt');
-  if (savedJwt !== jwt) {
+AuthActions.loginUser.listen(function(jwt) {
+  if (localStorage.getItem('jwt') !== jwt) {
     var nextPath = RouterContainer.get().getCurrentQuery().nextPath() || '/';
     RouterContainer.get().transitionTo(nextPath);
     localStorage.setItem('jwt', jwt);
   } else {
-    return jwt;
+    ApiCaller.sendAjaxRequest({
+      url: apiEndpoints.users.login.path,
+      method: apiEndpoints.users.login.method,
+      data: { jwt: jwt }
+    })
+    .then(this.completed)
+    .catch(this.failed);
   }
-}
+});
 
 AuthActions.createUser.listen(function(data) {
   ApiCaller.sendAjaxRequest({

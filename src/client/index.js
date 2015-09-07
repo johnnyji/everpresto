@@ -22,7 +22,7 @@ RouterContainer.set(router);
 let jwt = localStorage.getItem('jwt');
 if (jwt) AuthActions.loginUser(jwt);
 
-// runs the router
+// runs the router after the user has been logged in.
 router.run(Handler => {
   React.render(<Handler />, document.getElementById('app'));
 });

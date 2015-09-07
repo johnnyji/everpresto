@@ -65,11 +65,11 @@ app.use((req, res) => {
 
   let router = Router.create({
     // onAbort allows for react-router to do server side routing in willTransitionTo
-    onAbort: (options) => {
-      let destination = options.to || '/';
-      res.redirect(302, destination);
-      console.log('Redirecting to: ', destination);
-    },
+    // onAbort: (options) => {
+    //   let destination = options.to || '/';
+    //   res.redirect(302, destination);
+    //   console.log('Redirecting to: ', destination);
+    // },
     routes: clientRoutes,
     location: req.url
   });

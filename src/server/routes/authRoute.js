@@ -8,6 +8,19 @@ const router = express.Router();
 
 // write function to protect routes where jwt is required
 
+router.post('/login', (req, res, next) => {
+  jwt.verify(req.body.jwt, config.tokenSecret, (err, decoded) => {
+    if (err) return res.status(500).json({ message: err.message });
+
+    User.findOne({ 
+      email: decoded.email, 
+      password: decoded.password
+    }).exec((err, user) => {
+      res.status(201).json({ user: user });
+    });
+  });
+});
+
 router.post('/register', (req, res, next) => {
   let userParams = {
     email: req.body.user.email,

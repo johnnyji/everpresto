@@ -60,6 +60,13 @@ var AuthStore = Reflux.createStore({
   onCreateUserFailed: function() {
     //... implement code to display unable to create error
   },
+  onLoginUserCompleted: function(response) {
+    this.state.currentUser = response.data.user;
+    RouterContainer.get().transitionTo('/dashboard');
+  },
+  onLoginUserFailed: function() {
+    debugger;
+  },
   _handleUserFieldChange: function(field, value, validationResult) {
     if (validationResult.valid) {
       this._clearInputError(field);
