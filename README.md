@@ -1,6 +1,6 @@
 ## Tickit
 
-A time tracking application.
+A time tracking application
 
 
 ### Tech Stack

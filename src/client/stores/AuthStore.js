@@ -39,6 +39,15 @@ var AuthStore = Reflux.createStore({
   getJwt: function() {
     return this.state.jwt;
   },
+  onCreateUserCompleted: function(response) {
+    this.state.jwt = response.data.token;
+    this.state.currentUser = response.data.user;
+    RouterContainer.get().transitionTo('/dashboard');
+  },
+  onLoginUserCompleted: function(response) {
+    this.state.currentUser = response.data.user;
+    RouterContainer.get().transitionTo('/dashboard');
+  },
   onHandleEmailChange: function(input) {
     var result = InputValidator.validateEmail(null, input);
     this._handleUserFieldChange('email', input, result);
@@ -50,22 +59,6 @@ var AuthStore = Reflux.createStore({
   onHandlePasswordConfirmationChange: function(input) {
     var result = InputValidator.validatePasswordConfirmation(null, this.state.user.password, input);
     this._handleUserFieldChange('passwordConfirmation', input, result);
-  },
-  onCreateUserCompleted: function(response) {
-    this.state.jwt = response.data.token;
-    this.state.currentUser = response.data.user;
-    debugger;
-    RouterContainer.get().transitionTo('/dashboard');
-  },
-  onCreateUserFailed: function() {
-    //... implement code to display unable to create error
-  },
-  onLoginUserCompleted: function(response) {
-    this.state.currentUser = response.data.user;
-    RouterContainer.get().transitionTo('/dashboard');
-  },
-  onLoginUserFailed: function() {
-    debugger;
   },
   _handleUserFieldChange: function(field, value, validationResult) {
     if (validationResult.valid) {
