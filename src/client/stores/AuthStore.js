@@ -40,13 +40,13 @@ var AuthStore = Reflux.createStore({
     return this.state.jwt;
   },
   onCreateUserCompleted: function(response) {
-    this._saveSession(response);
+    this._saveSessionAndRedirect(response);
   },
   onAutoLoginUserCompleted: function(response) {
-    this._saveSession(response);
+    this._saveSessionAndRedirect(response);
   },
   onLoginUserCompleted: function(response) {
-    this._saveSession(response);
+    this._saveSessionAndRedirect(response);
   },
   onHandleEmailChange: function(input) {
     var result = InputValidator.validateEmail(null, input);
@@ -69,7 +69,7 @@ var AuthStore = Reflux.createStore({
     }
     this.trigger(this.state);
   },
-  _saveSession: function(response) {
+  _saveSessionAndRedirect: function(response) {
     this.state.jwt = response.data.token;
     this.state.currentUser = response.data.user;
     this.trigger(this.state);

@@ -65,17 +65,17 @@ app.use((req, res) => {
     }
   });
 
-  router.run((Handler, state) => {
-    let content = React.renderToString(<Handler />);
-    let footerContent = React.renderToString(<AppFooter />);
+    router.run((Handler, state) => {
+      let content = React.renderToString(<Handler />);
+      let footerContent = React.renderToString(<AppFooter />);
 
-    res.render('index', { 
-      stylePath: stylePath,
-      scriptPath: scriptPath,
-      content: content,
-      footerContent: footerContent
+      res.render('index', {
+        stylePath: stylePath,
+        scriptPath: scriptPath,
+        content: content,
+        footerContent: footerContent
+      });
     });
-  });
 });
 
 let server = app.listen(port, () => {

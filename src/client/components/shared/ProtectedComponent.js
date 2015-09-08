@@ -7,7 +7,7 @@ import AuthStore from '../.././stores/AuthStore';
 
 // wrapper component for protecting authenticated components
 
-export default (ComponentToBeRendered) => {  
+export default (ComponentToBeRendered) => {
   class ProtectedComponent extends React.Component {
     constructor(props) {
       super(props);
@@ -17,9 +17,12 @@ export default (ComponentToBeRendered) => {
     componentDidMount() {
       this._unsubscribe = AuthStore.listen(this._updateState);
 
+      // if the current user already exists, just return out
+      if (this.state.currentUser) return;
+
       let jwt = localStorage.getItem('jwt');
       let unauthorized = !this.state.currentUser && !jwt;
-      
+
       if (jwt) AuthActions.autoLoginUser(jwt);
       if (unauthorized) this.context.router.transitionTo('/login');
     }
