@@ -7,7 +7,8 @@ import AppFooter from './AppFooter';
 import FullScreenModal from '.././shared/FullScreenModal';
 import NewTimesheetForm from '.././timesheet/NewTimesheetForm';
 
-import AppActions from '../.././actions/AppActions';
+import AuthActions from '../.././actions/AuthActions';
+import AuthStore from '../.././stores/AuthStore';
 import AppStore from '../.././stores/AppStore';
 
 export default class AppHandler extends ReactTemplate {
@@ -16,14 +17,17 @@ export default class AppHandler extends ReactTemplate {
     this.state = this._getInitialState();
     this._bindFunctions(
       '_getInitialState',
-      '_updateState'
-    )
+      '_updateAppState',
+      '_updateAuthState'
+    );
   }
   componentDidMount() {
-    this._unsubscribe = AppStore.listen(this._updateState);
+    this._unsubscribeAppStore = AppStore.listen(this._updateAppState);
+    this._unsubscribeAuthStore = AuthStore.listen(this._updateAuthState);
   }
   componentWillUnmount() {
-    this._unsubscribe();
+    this._unsubscribeAppStore();
+    this._unsubscribeAuthStore();
   }
   _getInitialState() {
     let state = AppStore.getState();
@@ -32,11 +36,14 @@ export default class AppHandler extends ReactTemplate {
       workTypes: state.workTypes,
     }
   }
-  _updateState(state) {
+  _updateAppState(state) {
     this.setState({
       modal: state.modal,
       workTypes: state.workTypes,
     });
+  }
+  _updateAuthState(state) {
+    this.setState({ currentUser: state.currentUser });
   }
   render() {
     let p = this.props;
@@ -51,7 +58,7 @@ export default class AppHandler extends ReactTemplate {
     return (
       <div className='page-wrapper'>
         {modal}
-        <AppHeader />
+        <AppHeader currentUser={s.currentUser} />
         <div className='content-container'>
           <RouteHandler />
         </div>

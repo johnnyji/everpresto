@@ -1,6 +1,4 @@
 import express from 'express';
-import uuid from 'node-uuid';
-import session from 'express-session';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import morgan from 'morgan';
@@ -43,13 +41,6 @@ app.use(bodyParser.json());
 // parses cookies
 app.use(cookieParser());
 
-// sets sessions
-app.use(session({
-  secret: 'express session secret',
-  resave: true,
-  saveUninitalize: false // doesn't both with unauthenticated users
-}));
-
 // prefixes all routes call to the server with /api to use express router
 app.use('/api', apiRouter);
 
@@ -64,19 +55,20 @@ app.use((req, res) => {
   let stylePath = `http://localhost:${config.development.webpackPort}/build/style.css`;
 
   let router = Router.create({
-    // onAbort allows for react-router to do server side routing in willTransitionTo
-    // onAbort: (options) => {
-    //   let destination = options.to || '/';
-    //   res.redirect(302, destination);
-    //   console.log('Redirecting to: ', destination);
-    // },
     routes: clientRoutes,
-    location: req.url
+    location: req.url,
+    // onAbort allows for react-router to do server side transitions in willTransitionTo
+    onAbort: (options) => {
+      let destination = options.to || '/';
+      res.redirect(302, destination);
+      console.log('Redirecting to: ', destination);
+    }
   });
 
-  router.run(Handler => {
+  router.run((Handler, state) => {
     let content = React.renderToString(<Handler />);
     let footerContent = React.renderToString(<AppFooter />);
+
     res.render('index', { 
       stylePath: stylePath,
       scriptPath: scriptPath,

@@ -1,4 +1,4 @@
-export default class Validator {
+export default class BaseValidator {
   _testCondition(condition, defaultError, customError) {
     if (condition) {
       return { valid: true };

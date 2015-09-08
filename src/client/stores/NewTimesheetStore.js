@@ -3,8 +3,8 @@ var _ = require('lodash');
 
 var TimeFormatterMixin = require('./mixins/TimeFormatterMixin');
 var ErrorHandlerMixin = require('./mixins/ErrorHandlerMixin');
-var InputValidator = require('.././utils/InputValidator');
-var CustomValidator = require('.././utils/CustomValidator');
+var InputValidator = require('.././validators/InputValidator');
+var CustomValidator = require('.././validators/CustomValidator');
 
 var NewTimesheetActions = require('.././actions/NewTimesheetActions');
 var TimesheetActions = require('.././actions/TimesheetActions');

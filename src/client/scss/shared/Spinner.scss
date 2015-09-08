@@ -1,3 +1,7 @@
+.full-screen {
+  font-size: 5rem;
+}
+
 .center-spinner {
   @include position-center(absolute, 50%, 50%);
   text-align: center;

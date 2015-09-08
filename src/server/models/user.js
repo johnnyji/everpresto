@@ -1,4 +1,6 @@
 import mongoose from 'mongoose';
+import jwt from 'jsonwebtoken';
+import config from '../../.././config';
 
 let UserSchema = new mongoose.Schema({
   email: { type: String, required: true },
@@ -11,5 +13,19 @@ let UserSchema = new mongoose.Schema({
 });
 
 let User = mongoose.model('User', UserSchema);
+
+UserSchema.statics.findByJwt = jwt => {
+  debugger;
+  return new Promise((resolve, reject) => {
+    jwt.verify(jwt, config.tokenSecret, (err, decoded) => {
+      if (err) reject(err);
+
+      this.findOne(decoded, (err, user) => {
+        if (err) reject(err);
+        resolve(user);
+      });
+    }.bind(this));
+  }.bind(this));
+}
 
 export default User;

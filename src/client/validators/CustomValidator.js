@@ -1,5 +1,3 @@
-import Validator from './Validator';
-
 class CustomValidator {
 
   validateCorrectTimeInput(hours, minutes) {

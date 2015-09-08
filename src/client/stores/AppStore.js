@@ -27,25 +27,6 @@ var AppStore = Reflux.createStore({
   getState: function() {
     return this.state;
   },
-  getCurrentUser: function() {
-    return this.state.currentUser;
-  },
-  getApiToken: function() {
-    return this.state.apiToken;
-  },
-  onSetCurrentUser: function(user) {
-    this.state.currentUser = user;
-    this.trigger(this.state);
-  },
-  onSetApiToken: function(token) {
-    this.state.apiToken = token;
-    localStorage.setItem('jwt', token);
-    this.trigger(this.state);
-  },
-  onFetchCurrentUserCompleted: function(response) {
-    this.state.currentUser = response.data.user;
-    this.trigger(this.state);
-  },
   onToggleModal: function(modalName) {
     // first sets all modals to false, and then sets true to inputted modal name is there is one
     this.state.modal = _.mapValues(this.state.modal, function(v) { return v = false; });

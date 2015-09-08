@@ -5,9 +5,9 @@ import Router from 'react-router';
 import RouterContainer from './utils/RouterContainer';
 import routes from './routes';
 
-import AuthActions from './actions/AuthActions'
+import AppFooter from './components/app/AppFooter';
 
-import AppFooter from './components/app/AppFooter'
+import AuthActions from './actions/AuthActions';
 
 // creates the router instance
 let router = Router.create({
@@ -17,10 +17,6 @@ let router = Router.create({
 
 // sets the router instance in the RouterContainer, so the routes can be accessed by util classes and Reflux
 RouterContainer.set(router);
-
-// logins in the user using JWT if it exists before the app even renders
-let jwt = localStorage.getItem('jwt');
-if (jwt) AuthActions.loginUser(jwt);
 
 // runs the router after the user has been logged in.
 router.run(Handler => {

@@ -36,7 +36,7 @@ router.post('/register', (req, res, next) => {
 });
 
 router.post('/currentUser', (req, res, next) => {
-  jwt.verify(req.body.token, config.tokenSecret, (err, decoded) => {
+  jwt.verify(req.body.jwt, config.tokenSecret, (err, decoded) => {
     if (err) return res.status(500).json({ message: err.message });
     res.status(200).json({ user: decoded });
   });

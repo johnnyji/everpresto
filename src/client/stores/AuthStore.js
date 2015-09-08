@@ -5,7 +5,7 @@ var RouterContainer = require('.././utils/RouterContainer');
 var AuthActions = require('.././actions/AuthActions');
 var AppActions = require('.././actions/AppActions');
 var ErrorHandlerMixin = require('./mixins/ErrorHandlerMixin');
-var InputValidator = require('.././utils/InputValidator');
+var InputValidator = require('.././validators/InputValidator');
 
 var AuthStateTemplate = {
   jwt: null,
@@ -40,13 +40,13 @@ var AuthStore = Reflux.createStore({
     return this.state.jwt;
   },
   onCreateUserCompleted: function(response) {
-    this.state.jwt = response.data.token;
-    this.state.currentUser = response.data.user;
-    RouterContainer.get().transitionTo('/dashboard');
+    this._saveSession(response);
+  },
+  onAutoLoginUserCompleted: function(response) {
+    this._saveSession(response);
   },
   onLoginUserCompleted: function(response) {
-    this.state.currentUser = response.data.user;
-    RouterContainer.get().transitionTo('/dashboard');
+    this._saveSession(response);
   },
   onHandleEmailChange: function(input) {
     var result = InputValidator.validateEmail(null, input);
@@ -68,6 +68,12 @@ var AuthStore = Reflux.createStore({
       this._addInputError(field, validationResult.message);
     }
     this.trigger(this.state);
+  },
+  _saveSession: function(response) {
+    this.state.jwt = response.data.token;
+    this.state.currentUser = response.data.user;
+    this.trigger(this.state);
+    RouterContainer.get().transitionTo('/dashboard');
   }
 });
 

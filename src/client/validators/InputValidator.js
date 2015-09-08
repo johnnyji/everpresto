@@ -1,6 +1,6 @@
-import Validator from './Validator';
+import BaseValidator from './BaseValidator';
 
-class InputValidator extends Validator {
+class InputValidator extends BaseValidator {
   constructor() {
     super();
     this.integerOnlyRegex = /^\d+$/;

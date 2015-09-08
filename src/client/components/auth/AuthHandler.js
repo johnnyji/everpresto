@@ -17,6 +17,9 @@ export default class AuthHandler extends ReactTemplate {
   }
   componentDidMount() {
     this._unsubscribe = AuthStore.listen(this._updateState);
+
+    // redirects the user away from login/join pages if the user session already exists
+    if (localStorage.getItem('jwt')) this.context.router.transitionTo('/dashboard');
   }
   componentWillUnmount() {
     this._unsubscribe(); 

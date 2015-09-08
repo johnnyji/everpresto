@@ -10,7 +10,7 @@ class DashboardHandler extends React.Component {
   }
   render() {
     let p = this.props;
-
+    
     if (p.currentUser.isEmployee) {
       return <EmployeeDashboard currentUser={p.currentUser} />;
     } else if (p.currentUser.isEmployer) {
@@ -19,7 +19,7 @@ class DashboardHandler extends React.Component {
   }
 }
 
-DashboardHandler.propTypes = {
+DashboardHandler.defaultProps = {
   currentUser: React.PropTypes.any,
   apiToken: React.PropTypes.any
 };
