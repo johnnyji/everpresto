@@ -1,16 +1,22 @@
 import React from 'react';
-import ReactTemplate from '.././shared/ReactTemplate'
-import ProtectedComponent from '.././shared/ProtectedComponent';
-import DateNavbar from '.././date/DateNavbar';
+import ReactTemplate from '.././shared/ReactTemplate';
 
-import DateHelper from '../.././utils/DateHelper';
+import { RouteHandler } from 'react-router';
+
+import ProtectedComponent from '.././shared/ProtectedComponent';
+import DashboardNavbar from '.././app/DashboardNavbar';
 
 class EmployerDashboard extends ReactTemplate {
   render() {
-    let weekBeingViewed = DateHelper.formatWeekDurationFromDate(Date.now());
+    let navLinks = [
+      { path: '/dashboard', displayName: 'Projects' },
+      { path: '/dashboard/employees', displayName: 'Employees' },
+    ];
+    
     return (
       <div>
-        <DateNavbar weekBeingViewed={weekBeingViewed} />
+        <DashboardNavbar links={navLinks} />
+        <RouteHandler />
       </div>
     );
   }

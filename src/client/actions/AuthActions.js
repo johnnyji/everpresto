@@ -21,7 +21,7 @@ AuthActions.loginUser.listen(function() {
   .catch(this.failed);
 });
 
-AuthActions.autoLoginUser.listen(function(jwt) {
+AuthActions.autoLoginUser.listen(function(jwt, redirectPath) {
   if (localStorage.getItem('jwt') !== jwt) {
     RouterContainer.get().transitionTo('/login');
   } else {
@@ -30,7 +30,9 @@ AuthActions.autoLoginUser.listen(function(jwt) {
       method: apiEndpoints.users.login.method,
       data: { jwt: jwt }
     })
-    .then(this.completed)
+    .then(function(response) {
+      this.completed(response, redirectPath);
+    }.bind(this))
     .catch(this.failed);
   }
 });

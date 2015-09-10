@@ -22,8 +22,8 @@ export default (ComponentToBeRendered) => {
 
       let jwt = localStorage.getItem('jwt');
       let unauthorized = !this.state.currentUser && !jwt;
-
-      if (jwt) AuthActions.autoLoginUser(jwt);
+      
+      if (jwt) AuthActions.autoLoginUser(jwt, this.context.router.getCurrentPathname());
       if (unauthorized) this.context.router.transitionTo('/login');
     }
     componentWillUnmount() {

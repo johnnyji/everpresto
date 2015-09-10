@@ -42,8 +42,8 @@ var AuthStore = Reflux.createStore({
   onCreateUserCompleted: function(response) {
     this._saveSessionAndRedirect(response);
   },
-  onAutoLoginUserCompleted: function(response) {
-    this._saveSessionAndRedirect(response);
+  onAutoLoginUserCompleted: function(response, redirectPath) {
+    this._saveSessionAndRedirect(response, redirectPath);
   },
   onLoginUserCompleted: function(response) {
     this._saveSessionAndRedirect(response);
@@ -69,11 +69,12 @@ var AuthStore = Reflux.createStore({
     }
     this.trigger(this.state);
   },
-  _saveSessionAndRedirect: function(response) {
+  _saveSessionAndRedirect: function(response, redirectPath) {
+    redirectPath = redirectPath || '/dashboard';
     this.state.jwt = response.data.token;
     this.state.currentUser = response.data.user;
     this.trigger(this.state);
-    RouterContainer.get().transitionTo('/dashboard');
+    RouterContainer.get().transitionTo(redirectPath);
   }
 });
 
