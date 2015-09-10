@@ -1,18 +1,16 @@
 import express from 'express';
-import mongoose from 'mongoose'
 import config from '../../.././config';
 
 import Timesheet from '.././models/timesheet';
 
 const router = express.Router();
-const db = mongoose.connection;
 
 router.route('/')
   .get((req, res, next) => { // get all timesheets
     Timesheet.find({}, (err, timesheets) => {
       err 
         ? res.status(500).json(err)
-        : res.status(200).send({ timesheets: timesheets });
+        : res.status(200).json({ timesheets: timesheets });
     });
   })
   .post((req, res, next) => { // create a timesheet

@@ -13,10 +13,13 @@ let apiEndpoints = {
     create: formApiPath('/auth/register', 'POST'),
     login: formApiPath('/auth/login', 'POST'),
   },
+  projects: {
+    collection: formApiPath('/projects', 'GET'),
+  },
   timesheets: {
     create: formApiPath('/timesheets', 'POST'),
     collection: formApiPath('/timesheets', 'GET'),
-    delete: formApiPath('/timesheets', 'DELETE')
+    delete: formApiPath('/timesheets', 'DELETE'),
   },
 };
 

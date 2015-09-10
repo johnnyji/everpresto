@@ -1,0 +1,10 @@
+.projects-wrapper {
+  .new-project-button {
+    @include button-style;
+    padding: 0.5rem 1rem;
+    border-radius: 3px;
+    svg {
+      margin-top: -3px;
+    }
+  }
+}
