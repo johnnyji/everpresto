@@ -1,10 +1,31 @@
 .projects-wrapper {
-  .new-project-button {
-    @include button-style;
-    padding: 0.5rem 1rem;
-    border-radius: 3px;
-    svg {
-      margin-top: -3px;
+  position: relative;
+  header {
+    position: relative;
+    padding: 1rem 0;
+    margin: 2rem 0;
+    border-bottom: 1px solid $border-color;
+    .new-project {
+      @include pull-left-relative(50%);
+      button {
+        @include button-style;
+        padding: 0.5rem 1rem;
+        border-radius: 3px;
+        svg {
+          margin-top: -3px;
+        }
+      }
+    }
+    .sub-nav {
+      @include pull-right-relative(50%);
+      text-align: right;
+      list-style: none;
+      vertical-align: bottom;
+      li {
+        position: relative;
+        display: inline-block;
+        margin-left: 1rem;
+      }
     }
   }
 }

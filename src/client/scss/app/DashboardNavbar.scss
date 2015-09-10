@@ -4,7 +4,7 @@
   width: 100vw;
   background-color: $navbar-background-color;
   height: 45px;
-  border-bottom: 1px solid #DADADA;
+  border-bottom: 1px solid $border-color;
   ul {
     @include position-y(relative, 50%);
     width: 900px; 

@@ -64,9 +64,11 @@ class ProjectsHandler extends ReactTemplate {
     return (
       <div className='projects-wrapper'>
         <header>
-          <button className='new-project-button' onClick={this._showNewProjectModal}>
-            <Icon icon='add'/> New Project
-          </button>
+          <div className='new-project'>
+            <button onClick={this._showNewProjectModal}>
+              <Icon icon='add'/> New Project
+            </button>
+          </div>
           <ul className='sub-nav'>{navTabs}</ul>
         </header>
         {content[s.activeTabIndex]}
