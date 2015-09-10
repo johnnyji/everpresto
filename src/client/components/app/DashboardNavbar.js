@@ -20,7 +20,11 @@ export default class DashboardNavbar extends ReactTemplate {
       );
     });
 
-    return <div className='dashboard-navbar'><ul>{links}</ul></div>;
+    return (
+      <div className='dashboard-navbar-wrapper'>
+        <ul>{links}</ul>
+      </div>
+    );
   }
 }
 

@@ -1,0 +1,28 @@
+.dashboard-navbar-wrapper {
+  @include position-x(relative, 50%);
+  margin: 0 auto;
+  width: 100vw;
+  background-color: $navbar-background-color;
+  height: 45px;
+  border-bottom: 1px solid #DADADA;
+  ul {
+    @include position-y(relative, 50%);
+    width: 900px; 
+    margin: 0 auto;
+    padding: 0;
+    list-style: none;
+    li {
+      position: relative;
+      margin-right: 1.6rem;
+      display: inline-block;
+      a { 
+        @include transition;
+        color: $navbar-text-color;
+      }
+      .active-tab { 
+        color: $navbar-active-text-color;
+        font-size: 1.1rem;
+      }
+    }
+  }
+}

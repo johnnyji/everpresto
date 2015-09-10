@@ -1,9 +1,15 @@
-.full-screen {
-  font-size: 5rem;
+// full screen spinner
+#full-screen-spinner {
+  @include position-center(fixed, 45%, 50%);
+  .full-screen-spinner-rect {
+    width: 11px;
+    height: 100px;
+  }
 }
 
+
+// reg spinner
 .center-spinner {
-  @include position-center(absolute, 50%, 50%);
   text-align: center;
 }
 
