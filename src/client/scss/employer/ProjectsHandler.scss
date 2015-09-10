@@ -22,9 +22,13 @@
       list-style: none;
       vertical-align: bottom;
       li {
+        @include link-style;
         position: relative;
         display: inline-block;
         margin-left: 1rem;
+      }
+      .active-tab {
+        color: $primary-brand-color;
       }
     }
   }

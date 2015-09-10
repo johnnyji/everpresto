@@ -18,6 +18,9 @@ var ProjectStore = Reflux.createStore({
   getState: function() {
     return this.state;
   },
+  projectsLoaded: function() {
+    return this.state.projectsLoaded;
+  },
   onChangeActiveTabIndex: function(index) {
     this.state.activeTabIndex = index;
     this.trigger(this.state);

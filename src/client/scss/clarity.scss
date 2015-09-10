@@ -157,11 +157,9 @@ $app-content-width: 900px;
 
 @mixin link-style {
   @include transition;
-  color: lighten($light-text-color, 10%);
-  text-decoration: underline;
+  color: $navbar-text-color;
   &:hover {
     cursor: pointer;
-    color: $primary-brand-color;
   }
 }
 

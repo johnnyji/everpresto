@@ -21,9 +21,6 @@ class ProjectsHandler extends ReactTemplate {
       '_showNewProjectModal'
     );
   }
-  componentWillMount() {
-    ProjectActions.loadProjects();
-  }
   componentDidMount() {
     this._unsubscribe = ProjectStore.listen(this._updateState);
   }

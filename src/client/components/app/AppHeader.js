@@ -2,7 +2,7 @@ import React from 'react';
 import ReactTemplate from '.././shared/ReactTemplate'
 import { Link } from 'react-router';
 
-import AppActions from '../.././actions/AppActions';
+import AuthActions from '../.././actions/AuthActions';
 import AuthStore from '../.././stores/AuthStore';
 
 import Icon from '.././shared/Icon';
@@ -13,7 +13,7 @@ export default class AppHeader extends ReactTemplate {
     this._bindFunctions('_logoutUser');
   }
   _logoutUser() {
-    debugger;
+    AuthActions.logoutUser();
   }
   render() {
     let p = this.props;

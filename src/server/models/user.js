@@ -1,10 +1,12 @@
 import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
 import config from '../../.././config';
+import path from 'path';
 
 let UserSchema = new mongoose.Schema({
   email: { type: String, required: true },
   password: { type: String, required: true },
+  profilePictureUrl: { type: String, default: path.resolve(__dirname, './public/images/avatar.png') },
   createdAt: { type: Date, default: Date.now() },
   updatedAt: { type: Date, default: Date.now() },
   admin: { type: Boolean, default: false },
