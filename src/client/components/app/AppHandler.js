@@ -6,6 +6,7 @@ import AppHeader from './AppHeader';
 import AppFooter from './AppFooter';
 import FullScreenModal from '.././shared/FullScreenModal';
 import NewTimesheetForm from '.././timesheet/NewTimesheetForm';
+import NewProjectForm from '.././employer/projects/NewProjectForm';
 
 import AuthActions from '../.././actions/AuthActions';
 import AuthStore from '../.././stores/AuthStore';
@@ -49,6 +50,11 @@ export default class AppHandler extends ReactTemplate {
     let p = this.props;
     let s = this.state;
     let modal;
+
+    if (s.modal.newProject) {
+      let modalContent = <NewProjectForm />
+      modal = <FullScreenModal modalContent={modalContent} />;
+    }
     
     if (s.modal.newTimesheet) {
       let modalContent = <NewTimesheetForm workTypes={s.workTypes} />

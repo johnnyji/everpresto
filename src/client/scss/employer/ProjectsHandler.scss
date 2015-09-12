@@ -10,7 +10,7 @@
       button {
         @include button-style;
         padding: 0.5rem 1rem;
-        border-radius: 3px;
+        border-radius: $border-radius;
         svg {
           margin-top: -3px;
         }

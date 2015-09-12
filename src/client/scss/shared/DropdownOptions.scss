@@ -1,0 +1,15 @@
+.dropdown-options {
+  @include box-shadow;
+  z-index: 9;
+  border-radius: $border-radius;
+  list-style: none;
+  background-color: $form-background-color;
+  padding: 0.5rem 1rem;
+  margin: 1rem;
+  li {
+    &:hover {
+      color: $secondary-brand-color;
+      cursor: pointer;
+    }
+  }
+}

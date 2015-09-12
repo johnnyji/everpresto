@@ -4,6 +4,7 @@ import ReactTemplate from '.././shared/ReactTemplate';
 import { Link } from 'react-router';
 import ProtectedComponent from '.././shared/ProtectedComponent';
 
+import AppActions from '../.././actions/AppActions';
 import ProjectActions from '../.././actions/ProjectActions';
 import ProjectStore from '../.././stores/ProjectStore';
 
@@ -44,7 +45,7 @@ class ProjectsHandler extends ReactTemplate {
     ProjectActions.changeActiveTabIndex(e.target.value);
   }
   _showNewProjectModal() {
-
+    AppActions.toggleModal('newProject');
   }
   render() {
     let s = this.state;
