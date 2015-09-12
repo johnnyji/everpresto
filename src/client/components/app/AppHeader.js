@@ -27,7 +27,8 @@ export default class AppHeader extends ReactTemplate {
             Tickit
           </Link>
           <div className='pull-right'>
-            <Link to='profile'>Profile</Link>
+            <img src={p.currentUser.profilePictureUrl} />
+            <Link to='profile'>{p.currentUser.email}</Link>
             <span onClick={this._logoutUser}>Logout</span>
           </div>
         </header>

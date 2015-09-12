@@ -2,8 +2,6 @@ var developmentDbName = 'tickit_development';
 
 var config = {
   apiUrlPrefix: '/api',
-  tokenSecret: 'spiceGuitar',
-  sessionSecret: 'spiceSession',
   development: {
     webpackPort: 8080,
     serverPort: 3000,

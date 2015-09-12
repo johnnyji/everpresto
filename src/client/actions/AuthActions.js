@@ -9,7 +9,8 @@ var AuthActions = Reflux.createActions({
   'handlePasswordConfirmationChange': {},
   'createUser': { children: ['completed', 'failed'] },
   'autoLoginUser': { children: ['completed', 'failed'] },
-  'loginUser': {}
+  'loginUser': {},
+  'logoutUser': {}
 });
 
 AuthActions.loginUser.listen(function() {

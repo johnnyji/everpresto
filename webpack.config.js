@@ -26,11 +26,11 @@ module.exports = {
       },
       { 
         test: /\.css$/,  
-        loader: 'style-loader!css-loader' 
+        loader: 'style!css' 
       },
       { 
-        test: /\.gif$/, 
-        loader: 'url-loader?mimetype=image/png' 
+        test: /\.(gif)$/, 
+        loader: 'url-loader?mimetype=image/png'
       },
       { 
         test: /\.woff(2)?(\?v=[0-9].[0-9].[0-9])?$/, 
