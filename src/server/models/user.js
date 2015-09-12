@@ -1,14 +1,15 @@
 import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
 import secrets from '../../.././secrets.json';
+import config from '../../.././config';
 import path from 'path';
 
-const profilePicturePath = '../../.././public/images/avatar.jpg';
+const defaultAvatarPath = `${config.s3BucketPath}/public/avatar.jpg`;
 
 let UserSchema = new mongoose.Schema({
   email: { type: String, required: true },
   password: { type: String, required: true },
-  profilePictureUrl: { type: String, default: profilePicturePath },
+  profilePictureUrl: { type: String, default: defaultAvatarPath },
   createdAt: { type: Date, default: Date.now() },
   updatedAt: { type: Date, default: Date.now() },
   admin: { type: Boolean, default: false },

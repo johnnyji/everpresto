@@ -10,7 +10,13 @@ import Icon from '.././shared/Icon';
 export default class AppHeader extends ReactTemplate {
   constructor(props) {
     super(props);
-    this._bindFunctions('_logoutUser');
+    this._bindFunctions(
+      '_logoutUser',
+      '_toggleProfileOptions'
+    );
+  }
+  _toggleProfileOptions() {
+
   }
   _logoutUser() {
     AuthActions.logoutUser();
@@ -27,9 +33,15 @@ export default class AppHeader extends ReactTemplate {
             Tickit
           </Link>
           <div className='pull-right'>
-            <img src={p.currentUser.profilePictureUrl} />
-            <Link to='profile'>{p.currentUser.email}</Link>
-            <span onClick={this._logoutUser}>Logout</span>
+            <Link to='profile'>
+              <img src={p.currentUser.profilePictureUrl} />
+            </Link>
+            <span
+              className='user-email' 
+              onMouseEnter={this._toggleProfileOptions}
+              onMouseLeave={this._toggleProfileOptions}>
+              {p.currentUser.email}
+            </span>
           </div>
         </header>
       );
