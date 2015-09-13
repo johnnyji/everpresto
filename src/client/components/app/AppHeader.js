@@ -46,7 +46,7 @@ export default class AppHeader extends ReactTemplate {
       return (
         <header className='app-header-wrapper'>
           <Link className='pull-left logo' to='/dashboard'>
-            <Icon icon='access-time' size='3rem' />
+            <Icon icon='access-time' size='2.2rem' />
             Tickit
           </Link>
           <div className='pull-right'>

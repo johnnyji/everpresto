@@ -16,11 +16,11 @@
   }
   .pull-right {
     img {
-      width: 35px;
-      height: 35px;
+      width: 30px;
+      height: 30px;
       border-radius: $border-radius;
       vertical-align: middle;
-      margin-right: 1.5rem;
+      margin-right: 1rem;
     }
     .user-email {
       @include text-shadow;

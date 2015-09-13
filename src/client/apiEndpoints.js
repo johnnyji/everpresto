@@ -1,4 +1,4 @@
-let formApiPath = (path, method) => {
+const formApiPath = (path, method) => {
   return {
     path: `/api${path}`,
     method: method
@@ -12,6 +12,7 @@ let apiEndpoints = {
   users: {
     create: formApiPath('/auth/register', 'POST'),
     login: formApiPath('/auth/login', 'POST'),
+    authenticateWithToken: formApiPath('/auth/authenticate_with_token', 'POST')
   },
   projects: {
     collection: formApiPath('/projects', 'GET'),

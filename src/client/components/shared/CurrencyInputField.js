@@ -7,13 +7,6 @@ export default class CurrencyInputField extends React.Component {
     this.state = { value : props.value };
     this._onChange = this._onChange.bind(this);
   }
-
-  componentWillReceiveProps(nextProps) {
-    let {value} = nextProps;
-
-    // allows the user to update the value after render
-    if (value) { this.setState({value}); }
-  }
   _onChange(e) {
     let value = this._maskedInputValue(e.target.value, e.target.validity);
 
@@ -46,7 +39,7 @@ export default class CurrencyInputField extends React.Component {
   }
   render() {
     let value = accounting.formatMoney(this.state.value, '$', 2);
-
+    
     return (
       <input 
         {...this.props}
@@ -62,8 +55,4 @@ export default class CurrencyInputField extends React.Component {
 
 CurrencyInputField.propTypes = {
   onChange: React.PropTypes.func
-};
-
-CurrencyInputField.defaultProps = {
-  value: null
 };

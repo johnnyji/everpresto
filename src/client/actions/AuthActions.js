@@ -9,14 +9,15 @@ var AuthActions = Reflux.createActions({
   'handlePasswordConfirmationChange': {},
   'createUser': { children: ['completed', 'failed'] },
   'autoLoginUser': { children: ['completed', 'failed'] },
-  'loginUser': {},
+  'loginUser': { children: ['completed', 'failed'] },
   'logoutUser': {}
 });
 
-AuthActions.loginUser.listen(function() {
+AuthActions.loginUser.listen(function(data) {
   ApiCaller.sendAjaxRequest({
     url: apiEndpoints.users.login.path,
-    method: apiEndpoints.users.login.method
+    method: apiEndpoints.users.login.method,
+    data: data
   })
   .then(this.completed)
   .catch(this.failed);
@@ -27,8 +28,8 @@ AuthActions.autoLoginUser.listen(function(jwt, redirectPath) {
     RouterContainer.get().transitionTo('/login');
   } else {
     ApiCaller.sendAjaxRequest({
-      url: apiEndpoints.users.login.path,
-      method: apiEndpoints.users.login.method,
+      url: apiEndpoints.users.authenticateWithToken.path,
+      method: apiEndpoints.users.authenticateWithToken.method,
       data: { jwt: jwt }
     })
     .then(function(response) {

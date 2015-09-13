@@ -44,6 +44,7 @@ var AuthStore = Reflux.createStore({
     this.state.jwt = null;
     this.state.currentUser = null;
     this.trigger(this.state);
+    RouterContainer.get().transitionTo('/');
   },
   onCreateUserCompleted: function(response) {
     this._saveSessionAndRedirect(response);
@@ -53,6 +54,10 @@ var AuthStore = Reflux.createStore({
   },
   onLoginUserCompleted: function(response) {
     this._saveSessionAndRedirect(response);
+  },
+  onLoginUserFailed: function(response) {
+    this.state.loginError = response.data.message;
+    this.trigger(this.state);
   },
   onHandleEmailChange: function(input) {
     var result = InputValidator.validateEmail(null, input);
@@ -77,9 +82,9 @@ var AuthStore = Reflux.createStore({
   },
   _saveSessionAndRedirect: function(response, redirectPath) {
     redirectPath = redirectPath || '/dashboard';
-    if (response.data.token) {
-      localStorage.setItem('jwt', response.data.token);
-      this.state.jwt = response.data.token;
+    if (response.data.jwt) {
+      localStorage.setItem('jwt', response.data.jwt);
+      this.state.jwt = response.data.jwt;
     }
     this.state.currentUser = response.data.user;
     this.trigger(this.state);
