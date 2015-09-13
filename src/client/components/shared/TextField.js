@@ -40,7 +40,7 @@ TextField.propTypes = {
   label: React.PropTypes.string,
   error: React.PropTypes.any,
   name: React.PropTypes.string,
-  inputPlaceholder: React.PropTypes.string.isRequired,
+  inputPlaceholder: React.PropTypes.string,
   onInputChange: React.PropTypes.func,
   inputClassName: React.PropTypes.string
 };

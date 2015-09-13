@@ -1,7 +1,10 @@
 var Reflux = require('reflux');
 
 var ProjectActions = Reflux.createActions({
-  'setTitle': {}  
+  'setTitle': {},
+  'setDescription': {},
+  'setMinBudget': {},  
+  'setMaxBudget': {}
 });
 
 module.exports = ProjectActions;

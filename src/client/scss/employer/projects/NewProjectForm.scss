@@ -6,14 +6,22 @@
   width: 850px;
   padding: 1rem;
   .title-input {
-    @include transition;
-    position: relative;
-    margin: 0;
-    min-width: 150px;
+    @include content-editable-input-style;
+    margin-left: 0.5rem;
+    font-size: 2.25rem;
+    max-width: 80%;
+  }
+  .left-content {
+    @include pull-left-relative(60%);
     padding: 1rem;
-    outline: none;
-    &:focus {
-      border-bottom: 1px solid $primary-brand-color;
+    .budget-input {
+      @include input-field-style;
+      width: 150px;
+      margin: 0 0.25rem;
     }
+  }
+  .right-content {
+    @include pull-right-relative(40%);
+    padding: 1rem;
   }
 }

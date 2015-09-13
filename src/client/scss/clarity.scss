@@ -144,6 +144,23 @@ $border-radius: 3px;
   }
 }
 
+@mixin content-editable-input-style {
+  @include transition;
+  position: relative;
+  margin: 0;
+  padding: 0.5rem;
+  outline: none;
+  &:hover {
+    cursor: text;
+    background-color: darken($form-background-color, 5%);
+  }
+  &:focus {
+    cursor: text;
+    border-bottom: 1px solid $primary-brand-color;
+    background-color: darken($form-background-color, 5%);
+  }
+}
+
 @mixin button-style {
   @include transition;
   background-color: $primary-brand-color;

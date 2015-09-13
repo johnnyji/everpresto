@@ -7,10 +7,14 @@ var InputValidator = require('.././validators/InputValidator');
 
 var NewProjectStateTemplate = {
   project: {
-    title: null
+    title: null,
+    budget: {
+      minInCents: null,
+      maxInCents: null,
+    }
   },
   errors: {
-
+    title: null
   }
 };
 
@@ -24,6 +28,14 @@ var NewProjectStore = Reflux.createStore({
   },
   onSetTitle: function(title) {
     this.state.project.title = title;
+    this.trigger(this.state);
+  },
+  onSetDescription: function(description) {
+    this.state.project.description = description;
+    this.trigger(this.state);
+  },
+  onSetMinBudget: function(value) {
+    this.state.project.budget.minInCents = value;
     this.trigger(this.state);
   }
 });
