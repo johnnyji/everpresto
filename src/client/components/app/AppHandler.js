@@ -52,11 +52,6 @@ export default class AppHandler extends ReactTemplate {
     let p = this.props;
     let s = this.state;
     let modal;
-
-    if (s.modal.newProject) {
-      let modalContent = <NewProjectForm />
-      modal = <FullScreenModal modalContent={modalContent} />;
-    }
     
     if (s.modal.newTimesheet) {
       let modalContent = <NewTimesheetForm workTypes={s.workTypes} />

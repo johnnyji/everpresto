@@ -18,8 +18,7 @@ class ProjectsHandler extends ReactTemplate {
     this.state = this._getInitialState();
     this._bindFunctions(
       '_updateState',
-      '_changeActiveTabIndex',
-      '_showNewProjectModal'
+      '_changeActiveTabIndex'
     );
   }
   componentDidMount() {
@@ -44,9 +43,6 @@ class ProjectsHandler extends ReactTemplate {
   _changeActiveTabIndex(e) {
     ProjectActions.changeActiveTabIndex(e.target.value);
   }
-  _showNewProjectModal() {
-    AppActions.toggleModal('newProject');
-  }
   render() {
     let s = this.state;
     let p = this.props;
@@ -64,9 +60,9 @@ class ProjectsHandler extends ReactTemplate {
       <div className='projects-wrapper'>
         <header>
           <div className='new-project'>
-            <button onClick={this._showNewProjectModal}>
+            <Link to='/projects/new'>
               <Icon icon='add'/> New Project
-            </button>
+            </Link>
           </div>
           <ul className='sub-nav'>{navTabs}</ul>
         </header>

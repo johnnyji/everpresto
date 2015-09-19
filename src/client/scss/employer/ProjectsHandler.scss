@@ -7,7 +7,7 @@
     border-bottom: 1px solid $border-color;
     .new-project {
       @include pull-left-relative(50%);
-      button {
+      a {
         @include button-style;
         padding: 0.5rem 1rem;
         border-radius: $border-radius;

@@ -65,7 +65,7 @@ export default class InvoiceSelector extends ReactTemplate {
             className='invoice-datepicker'
             valueField='id'
             textField='name'
-            defaultValue='First Payment'
+            defaultValue='1st Payment'
             onChange={this._setFirstBiweeklyPaymentDate}
             data={monthDates}
           />
@@ -74,7 +74,7 @@ export default class InvoiceSelector extends ReactTemplate {
             className='invoice-datepicker'
             valueField='id'
             textField='name'
-            defaultValue='Second Payment'
+            defaultValue='2nd Payment'
             onChange={this._setSecondBiweeklyPaymentDate}
             data={monthDates}
           />

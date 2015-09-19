@@ -10,6 +10,7 @@ import NotFoundHandler from './components/shared/NotFoundHandler';
 import DashboardHandler from './components/app/DashboardHandler';
 import ProjectsHandler from './components/employer/ProjectsHandler';
 import EmployeesHandler from './components/employer/EmployeesHandler';
+import NewProjectHandler from './components/employer/NewProjectHandler';
 
 let routes = (
   <Route path='/' handler={AppHandler}>
@@ -28,6 +29,8 @@ let routes = (
       {/* redirects the user to the main dashboard tab (projects), when they access /projects */}
       <Redirect from='/projects' to='/dashboard'/>
     </Route>
+
+    <Route name='new-project' path='/projects/new' handler={NewProjectHandler} />
 
   </Route>
 );

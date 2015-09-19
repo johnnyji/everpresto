@@ -13,9 +13,9 @@
 @import './date/DateNavbar';
 
 // Employer
+@import './employer/NewProjectHandler';
 @import './employer/ProjectsHandler';
   // Projects
-  @import './employer/projects/NewProjectForm';
   @import './employer/projects/InvoiceSelector';
 
 // Timesheet

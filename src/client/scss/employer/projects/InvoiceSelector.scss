@@ -1,18 +1,19 @@
 .invoice-selector {
-
+  position: relative;
   .duration-selector {
     position: relative;
     margin: 0.5rem 0;
     .divider {
       position: relative;
+      font-size: 1.5rem;
+      color: $light-text-color;
       vertical-align: top;
-      top: 5px;
       margin: 0 0.5rem;
     }
     .invoice-datepicker {
       position: relative;
       display: inline-block;
-      width: 170px;
+      width: 150px;
     }
   }
 
