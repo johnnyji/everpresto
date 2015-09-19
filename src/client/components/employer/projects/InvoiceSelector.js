@@ -94,19 +94,24 @@ export default class InvoiceSelector extends ReactTemplate {
     }
 
     return (
-      <div className='invoice-selector'>
-        <SelectBox
-          labelName='Invoice Method'
-          valueField='id'
-          textField='name'
-          defaultValue={invoiceOptions[1]}
-          options={invoiceOptions}
-          onSelectChange={this._setInvoiceMethod}
-        />
+      <div className='invoice-selector-wrapper'>
+
+        <div className='invoice-selector'>
+          <SelectBox
+            labelName='Invoice Method'
+            valueField='id'
+            textField='name'
+            defaultValue={invoiceOptions[1]}
+            options={invoiceOptions}
+            onSelectChange={this._setInvoiceMethod}
+          />
+        </div>
+
         <div className='duration-selector'>
           <InputFieldLabel labelName='Payment Dates:' shrinkLabel={false} />
           {selectorContent}
         </div>
+        
       </div>
     );
   }

@@ -1,8 +1,18 @@
-.invoice-selector {
+.invoice-selector-wrapper {
   position: relative;
+  .invoice-selector {
+    position: relative;
+    display: inline-block;
+    width: 35%;
+    margin: 0.5rem 0;
+    padding-right: 1.5rem;
+  }
   .duration-selector {
     position: relative;
+    display: inline-block;
+    width: 65%;
     margin: 0.5rem 0;
+    padding-left: 1.5rem;
     .divider {
       position: relative;
       font-size: 1.5rem;

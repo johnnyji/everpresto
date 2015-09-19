@@ -6,7 +6,6 @@ import AppHeader from './AppHeader';
 import AppFooter from './AppFooter';
 import FullScreenModal from '.././shared/FullScreenModal';
 import NewTimesheetForm from '.././timesheet/NewTimesheetForm';
-import NewProjectForm from '.././employer/projects/NewProjectForm';
 
 import AuthActions from '../.././actions/AuthActions';
 import AuthStore from '../.././stores/AuthStore';
