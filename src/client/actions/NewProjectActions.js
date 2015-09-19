@@ -1,10 +1,13 @@
 var Reflux = require('reflux');
 
-var ProjectActions = Reflux.createActions({
+var NewProjectActions = Reflux.createActions({
   'setTitle': {},
   'setDescription': {},
-  'setMinBudget': {},  
-  'setMaxBudget': {}
+  'setBudget': {},
+  'setInvoiceMethod': {},
+  'setFirstBiweeklyPaymentDate': {},
+  'setSecondBiweeklyPaymentDate': {},
+  'setSinglePaymentDate': {}
 });
 
-module.exports = ProjectActions;
+module.exports = NewProjectActions;

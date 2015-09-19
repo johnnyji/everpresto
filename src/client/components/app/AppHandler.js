@@ -31,10 +31,12 @@ export default class AppHandler extends ReactTemplate {
     this._unsubscribeAuthStore();
   }
   _getInitialState() {
-    let state = AppStore.getState();
+    let authState = AuthStore.getState();
+    let appState = AppStore.getState();
     return {
-      modal: state.modal,
-      workTypes: state.workTypes,
+      currentUser: authState.currentUser,
+      modal: appState.modal,
+      workTypes: appState.workTypes,
     }
   }
   _updateAppState(state) {

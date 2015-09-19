@@ -1,0 +1,25 @@
+.content-editable-wrapper {
+  position: relative;
+  .content-editable-input {
+    @include transition;
+    position: relative;
+    margin: 0;
+    padding: 0.5rem;
+    outline: none;
+    &:hover {
+      cursor: pointer;
+      background-color: darken($form-background-color, 5%);
+    }
+    &:focus {
+      cursor: text;
+      border-bottom: 1px solid $primary-brand-color;
+      background-color: darken($form-background-color, 5%);
+    }
+  }
+  svg {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.8rem;
+    color: $light-text-color;
+  }
+}

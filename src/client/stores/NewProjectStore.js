@@ -8,10 +8,16 @@ var InputValidator = require('.././validators/InputValidator');
 var NewProjectStateTemplate = {
   project: {
     title: null,
-    budget: {
-      minInCents: null,
-      maxInCents: null,
-    }
+    budgetInCents: null,
+    invoice: {
+      method: {
+        weekly: false,
+        biweekly: true,
+        monthly: false,
+        notSpecified: false
+      },
+      paymentDates: []
+    },
   },
   errors: {
     title: null
@@ -34,8 +40,32 @@ var NewProjectStore = Reflux.createStore({
     this.state.project.description = description;
     this.trigger(this.state);
   },
-  onSetMinBudget: function(value) {
-    this.state.project.budget.minInCents = value;
+  onSetBudget: function(value) {
+    this.state.project.budgetInCents = value;
+    this.trigger(this.state);
+  },
+  onSetInvoiceMethod: function(invoiceMethod) {
+    var methods = this.state.project.invoice.method;
+
+    this.state.project.invoice.method = _.mapValues(methods, function(v) { return v = false;
+    });
+    this.state.project.invoice.method[invoiceMethod] = true;
+    this.trigger(this.state);
+  },
+  onSetSinglePaymentDate: function(dateId) {
+    var method = this.state.project.invoice.method;
+
+    // if the invoice method is weekly or monthly, then only a single date needs to be set
+    if (method.weekly) this.state.project.invoice.paymentDates = [dateId];
+    if (method.monthly) this.state.project.invoice.paymentDates = [dateId];
+    this.trigger(this.state);
+  },
+  onSetFirstBiweeklyPaymentDate: function(dateId) {
+    this.state.project.invoice.paymentDates[0] = dateId;
+    this.trigger(this.state);
+  },
+  onSetSecondBiweeklyPaymentDate: function(dateId) {
+    this.state.project.invoice.paymentDates[1] = dateId;
     this.trigger(this.state);
   }
 });

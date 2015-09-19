@@ -31,7 +31,7 @@ var AppStore = Reflux.createStore({
   onToggleModal: function(modalName) {
     // first sets all modals to false, and then sets true to inputted modal name is there is one
     this.state.modal = _.mapValues(this.state.modal, function(v) { return v = false; });
-    if (modalName) { this.state.modal[modalName] = true; }
+    if (modalName) this.state.modal[modalName] = true;
     this.trigger(this.state);
   },
 });

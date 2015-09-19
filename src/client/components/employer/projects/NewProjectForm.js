@@ -1,12 +1,13 @@
 import React from 'react';
+import { Calendar } from 'react-widgets';
 import ReactTemplate from '../.././shared/ReactTemplate';
 
 import AppActions from '../../.././actions/AppActions';
 import NewProjectActions from '../../.././actions/NewProjectActions';
 import NewProjectStore from '../../.././stores/NewProjectStore';
 
+import InvoiceSelector from './InvoiceSelector';
 import CurrencyInputField from '../.././shared/CurrencyInputField';
-import InputField from '../.././shared/InputField';
 import InputFieldLabel from '../.././shared/InputFieldLabel';
 import TextField from '../.././shared/TextField';
 import ContentEditable from '../.././shared/ContentEditable';
@@ -21,8 +22,7 @@ export default class NewProjectForm extends ReactTemplate {
       '_exitForm',
       '_setTitle',
       '_setDescription',
-      '_setMinBudget',
-      '_setMaxBudget'
+      '_setBudget'
     );
   }
   componentDidMount() {
@@ -44,20 +44,17 @@ export default class NewProjectForm extends ReactTemplate {
       errors: state.errors
     });
   }
+  _exitForm() {
+    AppActions.toggleModal();
+  }
   _setTitle(title) {
     NewProjectActions.setTitle(title);
   }
   _setDescription(description) {
     NewProjectActions.setDescription(description); 
   }
-  _setMinBudget(value) {  
-    NewProjectActions.setMinBudget(value);
-  }
-  _setMaxBudget(value) {
-    NewProjectActions.setMaxBudget(value); 
-  }
-  _exitForm() {
-    AppActions.toggleModal();
+  _setBudget(value) {  
+    NewProjectActions.setBudget(value);
   }
   render() {
     let s = this.state;
@@ -70,28 +67,32 @@ export default class NewProjectForm extends ReactTemplate {
           html={s.project.title || 'New Project'} 
           onChange={this._setTitle}
         />
+
         <div className='left-content'>
-          <TextField
-            label='Description'
-            onInputChange={this._setDescription}
+          <InvoiceSelector
+            invoiceMethod={s.project.invoice.method}
+            paymentDates={s.project.invoice.paymentDates}
+          />
+        </div>
+
+        <div className='right-content'>
+          <InputFieldLabel 
+            labelName='Assignees'
+            shrinkLabel={false}
           />
           <div>
-            <InputFieldLabel labelName='Budget' shrinkLabel={false} />
+            <InputFieldLabel labelClass='budget-label' labelName='Budget' shrinkLabel={false} />
             <CurrencyInputField
               className='budget-input'
-              onChange={this._setMinBudget}
-            />
-            <span> - </span>
-            <CurrencyInputField
-              className='budget-input'
-              onChange={this._setMaxBudget}
+              onChange={this._setBudget}
             />
           </div>
+          <TextField 
+            label='Description' 
+            onInputChange={this._setDescription}
+          />
         </div>
-        <div className='right-content'>
-          <InputFieldLabel labelName='Assignees' shrinkLabel={false} />
 
-        </div>
       </div>
     );
   }

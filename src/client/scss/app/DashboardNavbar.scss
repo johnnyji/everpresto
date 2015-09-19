@@ -1,4 +1,5 @@
 .dashboard-navbar-wrapper {
+  min-width: 1000px !important; //so the bar doesn't shrink if the page does
   @include position-x(relative, 50%);
   margin: 0 auto;
   width: 100vw;

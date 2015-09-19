@@ -43,6 +43,7 @@ export default class DateHelper {
   }
 
   static formatWeekDurationFromDate(dateObject) {
+    dateObject = dateObject || new Date();
     let formattedStartOfWeek = moment(dateObject).startOf('week').format('MMM Do');
     let formattedEndOfWeek = moment(dateObject).endOf('week').format('MMM Do');
     return `${formattedStartOfWeek} - ${formattedEndOfWeek}`;

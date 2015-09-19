@@ -50,6 +50,7 @@ class ProjectsHandler extends ReactTemplate {
   render() {
     let s = this.state;
     let p = this.props;
+
     let navTabs = _.map(p.navTabs, (tab, i) => {
       if (i === s.activeTabIndex) return <li key={i} className='active-tab'>{tab}</li>;
       return <li key={i} value={i} onClick={this._changeActiveTabIndex}>{tab}</li>;

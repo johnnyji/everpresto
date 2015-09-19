@@ -26,9 +26,11 @@ export default class AppHeader extends ReactTemplate {
     this.setState({ showProfileOptions: false });
   }
   _viewProfile() {
+    this._hideProfileOptions();
     this.context.router.transitionTo('profile');
   }
   _logoutUser() {
+    this._hideProfileOptions();
     AuthActions.logoutUser();
   }
   render() {
@@ -54,7 +56,7 @@ export default class AppHeader extends ReactTemplate {
               <img src={p.currentUser.profilePictureUrl} />
             </Link>
             <span
-              className='user-email' 
+              className='user-email'
               onMouseEnter={this._showProfileOptions}
               onMouseLeave={this._hideProfileOptions}>
               {p.currentUser.email}

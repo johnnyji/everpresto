@@ -16,6 +16,7 @@
 @import './employer/ProjectsHandler';
   // Projects
   @import './employer/projects/NewProjectForm';
+  @import './employer/projects/InvoiceSelector';
 
 // Timesheet
 @import './timesheet/TimesheetHandler';
@@ -26,6 +27,7 @@
 @import './timesheet/NewTimesheetButton';
 
 // Shared
+@import './shared/ContentEditable';
 @import './shared/DropdownOptions';
 @import './shared/SelectBox';
 @import './shared/FullScreenModal';
@@ -46,18 +48,12 @@ body {
   box-sizing: border-box;
   color: $text-color;
   font-family: 'Lucida Sans Unicode', helvetica, sans-serif;
-  min-width: 1000px;
+  min-width: 1000px !important;
   height: 100%;
   font-weight: 400;
   margin: 0;
   padding: 0;
   overflow-x: hidden;
-  @include medium-viewport {
-    font-size: 0.95em;
-  }
-  @include mobile-viewport {
-    font-size: 0.87em;
-  }
 }
 
 #app {
