@@ -18,13 +18,16 @@ var NewProjectStateTemplate = {
       },
       paymentDates: []
     },
+    assignees: [],
   },
   errors: {
-    title: null
+    title: null,
+    assignees: null
   }
 };
 
 var NewProjectStore = Reflux.createStore({
+  mixins: [ErrorHandlerMixin],
   init: function() {
     this.state = _.cloneDeep(NewProjectStateTemplate);
     this.listenToMany(NewProjectActions);
@@ -66,6 +69,14 @@ var NewProjectStore = Reflux.createStore({
   },
   onSetSecondBiweeklyPaymentDate: function(dateId) {
     this.state.project.invoice.paymentDates[1] = dateId;
+    this.trigger(this.state);
+  },  
+  onSetAssignees: function(employees) {
+    employees.length === 0
+      ? this._addInputError('assignees', 'Please select at least 1 assignee')
+      : this._clearInputError('assignees');
+
+    this.state.project.assignees = employees;
     this.trigger(this.state);
   }
 });

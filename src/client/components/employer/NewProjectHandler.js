@@ -8,6 +8,8 @@ import NewProjectStore from '../.././stores/NewProjectStore';
 import InvoiceSelector from './projects/InvoiceSelector';
 import CurrencyInputField from '.././shared/CurrencyInputField';
 import InputFieldLabel from '.././shared/InputFieldLabel';
+import InputField from '.././shared/InputField'
+import MultiselectField from '.././shared/MultiselectField';
 import TextField from '.././shared/TextField';
 import ContentEditable from '.././shared/ContentEditable';
 
@@ -20,7 +22,8 @@ export default class NewProjectHandler extends ReactTemplate {
       '_updateState',
       '_setTitle',
       '_setDescription',
-      '_setBudget'
+      '_setBudget',
+      '_updateAssignees'
     );
   }
   componentDidMount() {
@@ -51,17 +54,27 @@ export default class NewProjectHandler extends ReactTemplate {
   _setBudget(value) {  
     NewProjectActions.setBudget(value);
   }
+  _updateAssignees(employees) {
+    NewProjectActions.setAssignees(employees);
+  }
   render() {
     let s = this.state;
     let p = this.props;
+    let employees = [
+      { id: 1, name: 'Johnny Ji' },
+      { id: 2, name: 'Jason Derulo' },
+      { id: 3, name: 'Mom Agnes' },
+      { id: 4, name: 'My Little Bird' }
+    ];
 
     return (
       <div className='new-project-handler-wrapper'>
         <div className='form-content'>
-          <ContentEditable 
-            className='title-input'
-            html={s.project.title || 'New Project'} 
-            onChange={this._setTitle}
+
+          <InputField
+            error={null}
+            label='Title'
+            onInputChange={this._setTitle}
           />
 
           <div className='left-content'>
@@ -76,9 +89,11 @@ export default class NewProjectHandler extends ReactTemplate {
           </div>
 
           <div className='right-content'>
-            <InputFieldLabel 
-              labelName='Assignees'
-              shrinkLabel={false}
+            <MultiselectField 
+              label='Assignees'
+              error={s.errors.assignees}
+              options={employees}
+              onUpdateSelections={this._updateAssignees}
             />
             <div>
               <InputFieldLabel labelClass='budget-label' labelName='Budget' shrinkLabel={false} />

@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from 'lodash';
 import ReactTemplate from '../.././shared/ReactTemplate';
 
 import { DropdownList } from 'react-widgets';
@@ -111,7 +112,7 @@ export default class InvoiceSelector extends ReactTemplate {
           <InputFieldLabel labelName='Payment Dates:' shrinkLabel={false} />
           {selectorContent}
         </div>
-        
+
       </div>
     );
   }

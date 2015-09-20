@@ -1,0 +1,10 @@
+.multiselect-field-wrapper {
+  position: relative;
+  .multiselect-input {
+    position: relative;
+    // hides the 'selected items:' message
+    .sr-only {
+      display: none;
+    }
+  }
+}

@@ -28,7 +28,7 @@ export default class InputField extends ReactTemplate {
           ref='input'
           className={inputClass}
           placeholder={placeholder}
-          type={p.type}
+          type={p.type || 'text'}
           name={p.name}
           onFocus={this._toggleShrinkLabel}
           onBlur={this._toggleShrinkLabel}
@@ -41,7 +41,7 @@ export default class InputField extends ReactTemplate {
 InputField.propTypes = {
   label: React.PropTypes.string,
   error: React.PropTypes.any,
-  type: React.PropTypes.string.isRequired,
+  type: React.PropTypes.string,
   name: React.PropTypes.string,
   inputPlaceholder: React.PropTypes.string,
   onInputChange: React.PropTypes.func,

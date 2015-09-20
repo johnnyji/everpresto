@@ -7,7 +7,8 @@ var NewProjectActions = Reflux.createActions({
   'setInvoiceMethod': {},
   'setFirstBiweeklyPaymentDate': {},
   'setSecondBiweeklyPaymentDate': {},
-  'setSinglePaymentDate': {}
+  'setSinglePaymentDate': {},
+  'setAssignees': {}
 });
 
 module.exports = NewProjectActions;
