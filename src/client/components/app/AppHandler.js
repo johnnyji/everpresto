@@ -6,6 +6,7 @@ import AppHeader from './AppHeader';
 import AppFooter from './AppFooter';
 import FullScreenModal from '.././shared/FullScreenModal';
 import NewTimesheetForm from '.././timesheet/NewTimesheetForm';
+import NewArticleForm from '.././groups/articles/NewArticleForm';
 
 import AuthActions from '../.././actions/AuthActions';
 import AuthStore from '../.././stores/AuthStore';
@@ -50,10 +51,18 @@ export default class AppHandler extends ReactTemplate {
   render() {
     let p = this.props;
     let s = this.state;
+    // let pageClass = this.state.modal
+    //   ? 'page-wrapper no-scroll'
+    //   : 'page-wrapper';
     let modal;
     
     if (s.modal.newTimesheet) {
       let modalContent = <NewTimesheetForm workTypes={s.workTypes} />
+      modal = <FullScreenModal modalContent={modalContent} />;
+    }
+
+    if (s.modal.newArticle) {
+      let modalContent = <NewArticleForm contacts={s.currentUser.contacts} />
       modal = <FullScreenModal modalContent={modalContent} />;
     }
 

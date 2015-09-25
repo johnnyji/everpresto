@@ -1,11 +1,11 @@
-.projects-wrapper {
+.groups-wrapper {
   position: relative;
   header {
     position: relative;
     padding: 1rem 0;
     margin: 2rem 0;
     border-bottom: 1px solid $border-color;
-    .new-project {
+    .new-article {
       @include pull-left-relative(50%);
       a {
         @include button-style;
@@ -16,19 +16,20 @@
         }
       }
     }
-    .sub-nav {
+    .search-bar-wrapper {
       @include pull-right-relative(50%);
       text-align: right;
-      list-style: none;
       vertical-align: bottom;
-      li {
-        @include link-style;
-        position: relative;
-        display: inline-block;
-        margin-left: 1rem;
-      }
-      .active-tab {
-        color: $primary-brand-color;
+    }
+  }
+  .placeholder-message {
+    @include position-center(absolute, 50%, 50%);
+    color: $light-text-color;
+    a {
+      color: $primary-brand-color;
+      &:hover { 
+        cursor: pointer;
+        color: $secondary-brand-color;
       }
     }
   }

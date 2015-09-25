@@ -23,6 +23,7 @@
     "normalize.css": "^3.0.3",
     "object-assign": "^4.0.1",
     "react": "^0.13.3",
+    "react-quill": "^0.2.2",
     "react-router": "^0.13.3",
     "react-widgets": "^2.8.0",
     "reflux": "^0.2.12",

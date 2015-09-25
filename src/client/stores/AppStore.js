@@ -7,7 +7,7 @@ var AppStateTemplate = {
   apiToken: null,
   modal: {
     newTimesheet: false,
-    newProject: false
+    newArticle: false
   },
   workTypes: [
     'Grip Boy',

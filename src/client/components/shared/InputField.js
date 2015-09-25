@@ -19,7 +19,9 @@ export default class InputField extends ReactTemplate {
     let s = this.state;
     let placeholder = p.inputPlaceholder || '';
     let onChangeFunc = p.onInputChange || null;
-    let inputClass = p.error ? `${p.inputClassName || ''} input-error` : p.inputClassName;
+    let inputClass = p.error 
+      ? `${p.inputClassName || ''} input-error` 
+      : p.inputClassName;
 
     return (
       <div className='input-field-wrapper'>

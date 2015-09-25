@@ -8,7 +8,7 @@
   border-bottom: 1px solid $border-color;
   ul {
     @include position-y(relative, 50%);
-    width: 900px; 
+    width: $app-content-width; 
     margin: 0 auto;
     padding: 0;
     list-style: none;

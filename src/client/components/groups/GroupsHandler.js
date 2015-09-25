@@ -8,17 +8,20 @@ import AppActions from '../.././actions/AppActions';
 import ProjectActions from '../.././actions/ProjectActions';
 import ProjectStore from '../.././stores/ProjectStore';
 
-import EmployerProjectsList from './projects/EmployerProjectsList';
+import ArticlesList from './articles/ArticlesList';
 
 import Icon from '.././shared/Icon';
+import SearchBar from '.././shared/SearchBar';
 
-class ProjectsHandler extends ReactTemplate {
+class GroupsHandler extends ReactTemplate {
   constructor(props) {
     super(props);
     this.state = this._getInitialState();
     this._bindFunctions(
       '_updateState',
-      '_changeActiveTabIndex'
+      '_changeActiveTabIndex',
+      '_searchArticles',
+      '_toggleNewArticleModal'
     );
   }
   componentDidMount() {
@@ -43,37 +46,36 @@ class ProjectsHandler extends ReactTemplate {
   _changeActiveTabIndex(e) {
     ProjectActions.changeActiveTabIndex(e.target.value);
   }
+  _searchArticles(searchTerms) {
+    console.log('search hit: ', searchTerms);
+  }
+  _toggleNewArticleModal(e) {
+    AppActions.toggleModal('newArticle');
+  }
   render() {
     let s = this.state;
     let p = this.props;
 
-    let navTabs = _.map(p.navTabs, (tab, i) => {
-      if (i === s.activeTabIndex) return <li key={i} className='active-tab'>{tab}</li>;
-      return <li key={i} value={i} onClick={this._changeActiveTabIndex}>{tab}</li>;
-    });
-    let content = [
-      <EmployerProjectsList projects={this.state.projects.archived} />,
-      <EmployerProjectsList archive={true} projects={this.state.projects.archived} />
-    ];
-
     return (
-      <div className='projects-wrapper'>
+      <div className='groups-wrapper'>
         <header>
-          <div className='new-project'>
-            <Link to='/projects/new'>
-              <Icon icon='add'/> New Project
-            </Link>
+          <div className='new-article'>
+            <a onClick={this._toggleNewArticleModal}>
+              <Icon icon='add'/> New Article
+            </a>
           </div>
-          <ul className='sub-nav'>{navTabs}</ul>
+
+          <SearchBar onInputChange={this._searchArticles}/>
+
         </header>
-        {content[s.activeTabIndex]}
+        <ArticlesList articles={this.props.articles} />
       </div>
     );
   }
 }
 
-ProjectsHandler.defaultProps = {
+GroupsHandler.defaultProps = {
   navTabs: ['Active', 'Archived']
 };
 
-export default ProtectedComponent(ProjectsHandler);
+export default ProtectedComponent(GroupsHandler);

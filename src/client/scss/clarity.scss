@@ -27,7 +27,7 @@ $error-color: #E74C3C;
 $input-focus-border-color: #66afe9;
 
 $footer-height: 100px;
-$app-content-width: 900px;
+$app-content-width: 1000px;
 
 $border-radius: 3px;
 
@@ -173,6 +173,22 @@ $border-radius: 3px;
   bottom: 0;
   transition: opacity 150ms ease, visibility 0ms ease 150ms;
   z-index: 9;
+}
+
+@mixin modal-form-style {
+  @include position-center(absolute, 50%, 50%);
+  @include box-shadow;
+  
+  // set mins so the form doesnt collapse when we show loading bar/finish screen
+  min-width: 700px;
+  min-height: 450px;
+  max-height: 90vh;
+  max-width: 90vw;
+  overflow-x: none;
+  overflow-y: auto;
+
+  background-color: $form-background-color;
+  padding: 1rem 3rem 3rem 3rem;
 }
 
 @mixin pull-left-relative($percentage) {

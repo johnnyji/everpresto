@@ -8,12 +8,13 @@ import ProfileHandler from './components/user/ProfileHandler';
 import NotFoundHandler from './components/shared/NotFoundHandler';
 
 import DashboardHandler from './components/app/DashboardHandler';
-import ProjectsHandler from './components/employer/ProjectsHandler';
-import EmployeesHandler from './components/employer/EmployeesHandler';
-import NewProjectHandler from './components/employer/NewProjectHandler';
+import GroupsHandler from './components/groups/GroupsHandler';
+import NotesHandler from './components/notes/NotesHandler';
 
 let routes = (
   <Route path='/' handler={AppHandler}>
+    <Redirect from='/groups' to='/dashboard'/>
+    <Redirect from='/notes' to='/dashboard/notes'/>
 
     <DefaultRoute name='home' handler={HomeHandler} />
     <NotFoundRoute name='notfound' handler={NotFoundHandler} />
@@ -22,15 +23,16 @@ let routes = (
     <Route name='join' path='/join' handler={AuthHandler} />
     <Route name='profile' path='/profile' handler={ProfileHandler} />
 
-    <Route name='dashboard' path='/dashboard' handler={DashboardHandler}>
-      {/* projects is named the same as dashboard so it defaults to it and activeClass is added to the link component */}
-      <Route name='employer-projects' path='/dashboard' handler={ProjectsHandler} />
-      <Route name='employer-employees' path='/dashboard/employees' handler={EmployeesHandler} />
-      {/* redirects the user to the main dashboard tab (projects), when they access /projects */}
-      <Redirect from='/projects' to='/dashboard'/>
-    </Route>
 
-    <Route name='new-project' path='/projects/new' handler={NewProjectHandler} />
+    <Route name='dashboard' path='/dashboard' handler={DashboardHandler}>
+      {/* Redirects from '/dashboard/groups' to 'dashboard' */}
+      <Redirect from='/groups' to='/dashboard' />
+
+      {/* groups is named the same as dashboard so it defaults to it and 
+      activeClass is added to the link component */}
+      <Route name='groups' path='/dashboard' handler={GroupsHandler} />
+      <Route name='notes' path='/dashboard/notes' handler={NotesHandler} />
+    </Route>
 
   </Route>
 );

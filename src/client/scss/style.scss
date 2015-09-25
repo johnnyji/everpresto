@@ -1,6 +1,9 @@
 // normalize.css
 @import '../../.././node_modules/normalize.css/normalize.css';
 
+//react-quill
+@import '../../.././node_modules/react-quill/node_modules/quill/dist/quill.snow.css';
+
 // my own SCSS helper file
 @import './clarity';
 
@@ -13,10 +16,10 @@
 @import './date/DateNavbar';
 
 // Employer
-@import './employer/NewProjectHandler';
-@import './employer/ProjectsHandler';
-  // Projects
-  @import './employer/projects/InvoiceSelector';
+@import './groups/GroupsHandler';
+  // Articles
+  @import './groups/articles/NewArticleForm';
+  @import './groups/articles/ArticlesList';
 
 // Timesheet
 @import './timesheet/TimesheetHandler';
@@ -27,15 +30,19 @@
 @import './timesheet/NewTimesheetButton';
 
 // Shared
+@import './shared/SearchBar';
 @import './shared/MultiselectField';
 @import './shared/ContentEditable';
 @import './shared/DropdownOptions';
 @import './shared/SelectBox';
 @import './shared/FullScreenModal';
+
+@import './shared/BlendedInputField';
 @import './shared/TextField';
 @import './shared/InputField';
 @import './shared/InputFieldLabel';
 @import './shared/TimeTrackerField';
+
 @import './shared/Spinner';
 @import './shared/ExitFormIcon';
 
@@ -95,11 +102,6 @@ body {
 
 .invisible {
   color: transparent;
-}
-
-.no-scroll {
-  position: fixed !important;
-  overflow: hidden !important;
 }
 
 .content-container {  

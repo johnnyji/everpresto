@@ -1,21 +1,32 @@
 import React from 'react';
 import ProtectedComponent from '.././shared/ProtectedComponent';
 
-import EmployeeDashboard from './EmployeeDashboard';
-import EmployerDashboard from './EmployerDashboard';
+import { RouteHandler } from 'react-router';
+
+import DashboardNavbar from '.././app/DashboardNavbar';
+
+import ProjectActions from '../.././actions/ProjectActions';
 
 class DashboardHandler extends React.Component {
   constructor(props) {
     super(props);
   }
+  componentDidMount() {
+    // loads whatever is needed for the employer when their dashboard mounts
+    ProjectActions.loadProjects();
+  }
   render() {
-    let p = this.props;
+    let navLinks = [
+      { path: '/dashboard', displayName: 'Groups' },
+      { path: '/notes', displayName: 'Notes' },
+    ];
     
-    if (p.currentUser.isEmployee) {
-      return <EmployeeDashboard currentUser={p.currentUser} />;
-    } else if (p.currentUser.isEmployer) {
-      return <EmployerDashboard currentUser={p.currentUser} />;
-    }
+    return (
+      <div>
+        <DashboardNavbar links={navLinks} />
+        <RouteHandler />
+      </div>
+    );
   }
 }
 

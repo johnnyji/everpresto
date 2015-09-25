@@ -24,6 +24,7 @@ export default class ContentEditable extends React.Component {
     return ( 
       <div className={`content-editable-wrapper ${this.props.className}`}>
         <div
+          {...this.props}
           ref='inputField'
           contentEditable
           className='content-editable-input'

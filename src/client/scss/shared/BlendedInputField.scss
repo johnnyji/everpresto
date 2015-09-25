@@ -1,0 +1,22 @@
+.blended-input-field {
+  @include transition;
+  width: 100%;
+  position: relative;
+  margin: 0;
+  padding: 0.3rem;
+  background-color: transparent;
+  outline: none;
+  border: none;
+  resize: none;
+  border-radius: none;
+  border-style: none;
+  box-shadow: none;
+  &:focus {
+    outline: none;
+    border: none;
+    resize: none;
+    border-radius: none;
+    border-style: none;
+    box-shadow: none;   
+  }
+}
