@@ -1,0 +1,27 @@
+.note-form-wrapper {
+  position: relative;
+  font-weight: lighter;
+
+  .quill {
+    margin-bottom: 2rem;
+    .note-title {
+      margin: 0.5rem 0;
+      font-size: 1.8rem;
+    }
+    .ql-editor { 
+      @include transition;
+      font-size: 1.2rem;
+      padding: 0.3rem;
+      &:empty:before{
+        content: 'Start typing here...';
+        color: $placeholder-color;
+      }
+    }
+    .note-title, .ql-editor {
+      &:focus {
+        background-color: lighten($form-background-color, 5%);
+      }
+    }
+  }
+
+}

@@ -41,7 +41,7 @@ export default class AppHeader extends ReactTemplate {
     // current user present
     if (p.currentUser) {
       let profileOptions = [
-        { name: 'View Profile', action: this._viewProfile },
+        { name: 'Profile Settings', action: this._viewProfile },
         { name: 'Logout', action: this._logoutUser }
       ];
 

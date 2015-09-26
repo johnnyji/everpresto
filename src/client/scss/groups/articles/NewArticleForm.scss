@@ -1,11 +1,16 @@
 .new-article-form-wrapper {
   @include modal-form-style;
-  font-weight: lighter;
-  .article-title {
-    margin: 0.5rem 0;
-    font-size: 1.8rem;
-  }
-  .article-description {
-    font-size: 1.2rem;
+  .dropzone {
+    position: relative;
+    height: 100px;
+    width: 100px;
+    border: 2px dashed black;
+    p {
+      @include position-center(absolute, 50%, 50%);
+      height: 80px;
+      width: 80px;
+      font-size: 0.8rem;
+      text-align: center;
+    }
   }
 }
