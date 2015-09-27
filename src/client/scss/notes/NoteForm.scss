@@ -11,7 +11,7 @@
     .ql-editor { 
       @include transition;
       font-size: 18px;
-      min-height: 200px;
+      min-height: 250px;
       padding: 0.3rem;
       // mock placeholder for react quill
       &:empty:before {
