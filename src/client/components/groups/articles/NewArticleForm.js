@@ -1,17 +1,14 @@
 import React from 'react';
-import _ from 'lodash';
-import ReactQuill from 'react-quill';
-import { Toolbar } from 'react-quill';
-import Dropzone from 'react-dropzone';
 import ReactTemplate from '../.././shared/ReactTemplate';
 
 import NoteForm from '../.././notes/NoteForm';
 
 import FileUploader from '../.././shared/FileUploader';
 import ExitFormIcon from '../.././shared/ExitFormIcon';
-import BlendedInputField from '../.././shared/BlendedInputField';
 
+import NewNoteActions from '../../.././actions/NewNoteActions';
 import AppActions from '../../.././actions/AppActions';
+import NewNoteStore from '../../.././stores/NewNoteStore';
 
 export default class NewArticleForm extends ReactTemplate {
   constructor(props) {
@@ -21,23 +18,37 @@ export default class NewArticleForm extends ReactTemplate {
       '_handleUpdateFileUploads',
       '_handleTitleChange',
       '_handleDescriptionChange',
-      '_exitForm'
+      '_exitForm',
+      '_updateState'
     );
   }
+  componentDidMount() {
+    this._unsubscribe = NewNoteStore.listen(this._updateState);
+  }
+  componentWillUnmount() {
+    this._unsubscribe();
+  }
   _getInitialState() {
+    var state = NewNoteStore.getState();
     return {
-      files: []
+      note: state.note,
+      errors: state.errors
     };
   }
+  _updateState(state) {
+    this.setState({
+      note: state.note,
+      errors: state.errors
+    });
+  }
   _handleTitleChange(title) {
-    console.log('Title: ', title);
+    NewNoteActions.setTitle(title);
   }
   _handleDescriptionChange(description) {
-    console.log('Desciption: ', description);
-    // update the description of the new article
+    NewNoteActions.setDescription(description);
   }
   _handleUpdateFileUploads(files) {
-    this.setState(files);
+    NewNoteActions.updateAttachments(files);
   }
   _exitForm() {
     AppActions.toggleModal();
@@ -53,7 +64,7 @@ export default class NewArticleForm extends ReactTemplate {
           onDescriptionChange={this._handleDescriptionChange}
         />
         <FileUploader
-          files={s.files}
+          files={s.note.attachments}
           onUpdateFiles={this._handleUpdateFileUploads}
         />
       </div>

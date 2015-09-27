@@ -26,7 +26,14 @@ export default class FileUploader extends ReactTemplate {
     this.props.onUpdateFiles(uploadedFiles);
   }
   _removeUploadedFile(selectedFile) {
-    let updatedFiles = _.remove(this.props.files, file => file.uuid === selectedFile.uuid);
+    let updatedFiles;
+    
+    // _.remove only works if theres more than one item in the array, so if there's only 1 item, it will just reset the array
+    if (this.props.files.length === 1) {
+      updatedFiles = [];
+    } else {
+      updatedFiles = _.remove(this.props.files, file => file.uuid === selectedFile.uuid);
+    }
     this.props.onUpdateFiles(updatedFiles);
   }
   render() {

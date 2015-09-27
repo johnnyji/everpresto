@@ -9,7 +9,7 @@
     width: 100px;
     border: 2px dashed $text-color;
     p {
-      @include position-center(absolute, 50%, 50%);
+      @include position-center(absolute, 48%, 50%);
       height: 80px;
       width: 80px;
       font-size: 0.8rem;

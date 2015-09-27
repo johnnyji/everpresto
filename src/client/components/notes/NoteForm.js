@@ -20,42 +20,25 @@ export default class NoteForm extends ReactTemplate {
     this.props.onTitleChange(e.target.value);
   }
   _handleDescriptionChange(description) {
-    let descriptionIsEmpty = description === '<div><br></div>';
-
-    if (descriptionIsEmpty) this._showPlaceholder();
+    if (description === '<div><br></div>') this._showPlaceholder();
     // update the description of the new article
     this.props.onDescriptionChange(description);
   }
   _showPlaceholder() {
     let editor = this.refs.quill.refs.editor.getDOMNode();
-    editor.firstChild.innerHTML = ''; 
+    editor.firstChild.innerHTML = '';
   }
   render() {
-    let editorStyles = {
-      '.ql-editor': {
-        'font-size': '18px',
-        'min-height': '200px'
-      },
-      '.quill-contents': {
-        'padding': '0.3rem'
-      },
-      '.quill-toolbar': {
-        'padding': '0.3rem',
-        'margin-bottom': '0.5rem'
-      }
-    };
-
     return (
       <div className='note-form-wrapper'>
         <ReactQuill 
           ref='quill'
           theme='snow'
-          styles={editorStyles}
           onChange={this._handleDescriptionChange}>
           <Toolbar
             theme='snow'
+            key='toolbar'
             ref='toolbar'
-            value='toolbar'
             items={Toolbar.defaultItems}
           />
           <BlendedInputField

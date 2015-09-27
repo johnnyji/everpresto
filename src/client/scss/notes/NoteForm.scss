@@ -10,12 +10,21 @@
     }
     .ql-editor { 
       @include transition;
-      font-size: 1.2rem;
+      font-size: 18px;
+      min-height: 200px;
       padding: 0.3rem;
-      &:empty:before{
+      // mock placeholder for react quill
+      &:empty:before {
         content: 'Start typing here...';
         color: $placeholder-color;
       }
+    }
+    .quill-contents {
+      padding: 0.3rem;
+    }
+    .quill-toolbar {
+      padding: 0.3rem;
+      margin-bottom: 0.5rem;
     }
     .note-title, .ql-editor {
       &:focus {
