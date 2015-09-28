@@ -1,17 +1,17 @@
 import React from 'react';
-import ReactTemplate from '../.././shared/ReactTemplate';
+import ReactTemplate from '.././shared/ReactTemplate';
 
-import NoteForm from '../.././notes/NoteForm';
+import NoteForm from '.././notes/NoteForm';
 
-import FileUploader from '../.././shared/FileUploader';
-import ExitFormIcon from '../.././shared/ExitFormIcon';
-import Icon from '../.././shared/Icon';
+import FileUploader from '.././shared/FileUploader';
+import ExitFormIcon from '.././shared/ExitFormIcon';
+import Icon from '.././shared/Icon';
 
-import NewNoteActions from '../../.././actions/NewNoteActions';
-import AppActions from '../../.././actions/AppActions';
-import NewNoteStore from '../../.././stores/NewNoteStore';
+import NewNoteActions from '../.././actions/NewNoteActions';
+import AppActions from '../.././actions/AppActions';
+import NewNoteStore from '../.././stores/NewNoteStore';
 
-export default class NewArticleForm extends ReactTemplate {
+export default class NewNoteForm extends ReactTemplate {
   constructor(props) {
     super(props);
     this.state = this._getInitialState();
@@ -62,7 +62,7 @@ export default class NewArticleForm extends ReactTemplate {
     let s = this.state;
 
     return (
-      <div className='new-article-form-wrapper'>
+      <div className='new-note-form-wrapper'>
         <ExitFormIcon onExitClick={this._exitForm} />
         <NoteForm
           onTitleChange={this._handleTitleChange}
@@ -80,6 +80,6 @@ export default class NewArticleForm extends ReactTemplate {
   }
 }
 
-NewArticleForm.propTypes = {
+NewNoteForm.propTypes = {
   contacts: React.PropTypes.array
 };

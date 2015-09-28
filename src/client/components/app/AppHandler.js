@@ -6,7 +6,7 @@ import AppHeader from './AppHeader';
 import AppFooter from './AppFooter';
 import FullScreenModal from '.././shared/FullScreenModal';
 import NewTimesheetForm from '.././timesheet/NewTimesheetForm';
-import NewArticleForm from '.././groups/articles/NewArticleForm';
+import NewNoteForm from '.././notes/NewNoteForm';
 
 import AuthActions from '../.././actions/AuthActions';
 import AuthStore from '../.././stores/AuthStore';
@@ -61,8 +61,8 @@ export default class AppHandler extends ReactTemplate {
       modal = <FullScreenModal modalContent={modalContent} />;
     }
 
-    if (s.modal.newArticle) {
-      let modalContent = <NewArticleForm contacts={s.currentUser.contacts} />
+    if (s.modal.newNote) {
+      let modalContent = <NewNoteForm contacts={s.currentUser.contacts} />
       modal = <FullScreenModal modalContent={modalContent} />;
     }
 

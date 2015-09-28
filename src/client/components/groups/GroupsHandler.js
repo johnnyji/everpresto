@@ -8,7 +8,7 @@ import AppActions from '../.././actions/AppActions';
 import ProjectActions from '../.././actions/ProjectActions';
 import ProjectStore from '../.././stores/ProjectStore';
 
-import ArticlesList from './articles/ArticlesList';
+import NotesList from '.././notes/NotesList';
 
 import Icon from '.././shared/Icon';
 import SearchBar from '.././shared/SearchBar';
@@ -20,8 +20,8 @@ class GroupsHandler extends ReactTemplate {
     this._bindFunctions(
       '_updateState',
       '_changeActiveTabIndex',
-      '_searchArticles',
-      '_toggleNewArticleModal'
+      '_searchNotes',
+      '_toggleNewNoteModal'
     );
   }
   componentDidMount() {
@@ -46,11 +46,11 @@ class GroupsHandler extends ReactTemplate {
   _changeActiveTabIndex(e) {
     ProjectActions.changeActiveTabIndex(e.target.value);
   }
-  _searchArticles(searchTerms) {
+  _searchNotes(searchTerms) {
     console.log('search hit: ', searchTerms);
   }
-  _toggleNewArticleModal(e) {
-    AppActions.toggleModal('newArticle');
+  _toggleNewNoteModal(e) {
+    AppActions.toggleModal('newNote');
   }
   render() {
     let s = this.state;
@@ -59,23 +59,19 @@ class GroupsHandler extends ReactTemplate {
     return (
       <div className='groups-wrapper'>
         <header>
-          <div className='new-article'>
-            <a onClick={this._toggleNewArticleModal}>
-              <Icon icon='add'/> New Article
+          <div className='new-note'>
+            <a onClick={this._toggleNewNoteModal}>
+              <Icon icon='add'/> New Note
             </a>
           </div>
 
-          <SearchBar onInputChange={this._searchArticles}/>
+          <SearchBar onInputChange={this._searchNotes}/>
 
         </header>
-        <ArticlesList articles={this.props.articles} />
+        <NotesList notes={this.props.notes} />
       </div>
     );
   }
 }
-
-GroupsHandler.defaultProps = {
-  navTabs: ['Active', 'Archived']
-};
 
 export default ProtectedComponent(GroupsHandler);

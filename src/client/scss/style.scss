@@ -15,14 +15,13 @@
 // Date
 @import './date/DateNavbar';
 
-// Notes
-@import './notes/NoteForm';
-
 // Employer
 @import './groups/GroupsHandler';
-  // Articles
-  @import './groups/articles/NewArticleForm';
-  @import './groups/articles/ArticlesList';
+
+// Notes
+@import './notes/NoteForm';
+@import './notes/NewNoteForm';
+@import './notes/NotesList';
 
 // Timesheet
 @import './timesheet/TimesheetHandler';
