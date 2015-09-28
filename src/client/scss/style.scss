@@ -85,6 +85,10 @@ body {
 
 // CLASSES
 
+.noscroll {
+  overflow: hidden;
+}
+
 .active {
   color: $secondary-brand-color;
 }

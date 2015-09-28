@@ -11,7 +11,7 @@
     .ql-editor { 
       @include transition;
       font-size: 18px;
-      min-height: 250px;
+      min-height: 200px;
       padding: 0.3rem;
       // mock placeholder for react quill
       &:empty:before {
@@ -25,11 +25,6 @@
     .quill-toolbar {
       padding: 0.3rem;
       margin-bottom: 0.5rem;
-    }
-    .note-title, .ql-editor {
-      &:focus {
-        background-color: lighten($form-background-color, 5%);
-      }
     }
   }
 

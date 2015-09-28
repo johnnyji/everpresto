@@ -8,6 +8,12 @@ export default class FullScreenModal extends ReactTemplate {
     super(props);
     this._bindFunctions('_exitModal');
   }
+  componentDidMount() {
+    document.body.classList.add('noscroll');
+  }
+  componentWillUnmount() {
+    document.body.classList.remove('noscroll');
+  }
   _exitModal() {
     AppActions.toggleModal();
   }
