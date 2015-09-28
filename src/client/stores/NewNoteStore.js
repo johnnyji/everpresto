@@ -30,6 +30,12 @@ var NewNoteStore = Reflux.createStore({
   onUpdateAttachments: function(files) {
     this.state.note.attachments = files;
     this.trigger(this.state);
+  },
+  onSubmitNoteCompleted: function() {
+
+  },
+  onSubmitNoteFailed: function() {
+
   }
 });
 

@@ -1,3 +1,9 @@
 .new-article-form-wrapper {
   @include modal-form-style;
+  .submit-button {
+    @include button-style;
+    position: absolute;
+    right: 3rem;
+    bottom: 3rem;
+  }
 }

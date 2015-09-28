@@ -147,6 +147,7 @@ $border-radius: 3px;
 @mixin button-style {
   @include transition;
   background-color: $primary-brand-color;
+  border-radius: 3px;
   padding: 1rem 2rem;
   color: #FFF;
   outline: none;

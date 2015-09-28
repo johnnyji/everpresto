@@ -12,7 +12,10 @@ let apiEndpoints = {
   users: {
     create: formApiPath('/auth/register', 'POST'),
     login: formApiPath('/auth/login', 'POST'),
-    authenticateWithToken: formApiPath('/auth/authenticate_with_token', 'POST')
+    authenticateWithToken: formApiPath('/auth/authenticate_with_token', 'POST'),
+  },
+  notes: {
+    create: formApiPath('/notes', 'POST'),
   },
   projects: {
     collection: formApiPath('/projects', 'GET'),

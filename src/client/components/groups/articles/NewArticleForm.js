@@ -5,6 +5,7 @@ import NoteForm from '../.././notes/NoteForm';
 
 import FileUploader from '../.././shared/FileUploader';
 import ExitFormIcon from '../.././shared/ExitFormIcon';
+import Icon from '../.././shared/Icon';
 
 import NewNoteActions from '../../.././actions/NewNoteActions';
 import AppActions from '../../.././actions/AppActions';
@@ -18,6 +19,7 @@ export default class NewArticleForm extends ReactTemplate {
       '_handleUpdateFileUploads',
       '_handleTitleChange',
       '_handleDescriptionChange',
+      '_submitNote',
       '_exitForm',
       '_updateState'
     );
@@ -41,6 +43,9 @@ export default class NewArticleForm extends ReactTemplate {
       errors: state.errors
     });
   }
+  _exitForm() {
+    AppActions.toggleModal();
+  }
   _handleTitleChange(title) {
     NewNoteActions.setTitle(title);
   }
@@ -50,8 +55,8 @@ export default class NewArticleForm extends ReactTemplate {
   _handleUpdateFileUploads(files) {
     NewNoteActions.updateAttachments(files);
   }
-  _exitForm() {
-    AppActions.toggleModal();
+  _submitNote() {
+    NewNoteActions.submitNote();
   }
   render() {
     let s = this.state;
@@ -67,6 +72,9 @@ export default class NewArticleForm extends ReactTemplate {
           files={s.note.attachments}
           onUpdateFiles={this._handleUpdateFileUploads}
         />
+        <button className='submit-button' onClick={this._submitNote}>
+          Submit
+        </button>
       </div>
     );
   }
