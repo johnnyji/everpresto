@@ -16,6 +16,10 @@ export default class FileUploader extends ReactTemplate {
       '_removeUploadedFile'
     );
   }
+  componentWillUnmount() {
+    // clears the uploaded files when the component is about to unmount
+    this.props.onUpdateFiles([]);
+  }
   _handleFileUpload(selectedFiles) {
     let uploadedFiles = this.props.files;
     _.each(selectedFiles, file => {

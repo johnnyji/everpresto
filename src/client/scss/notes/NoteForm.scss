@@ -19,6 +19,29 @@
         color: $placeholder-color;
       }
     }
+
+    //styles for linking text
+    .ql-link-tooltip {
+      padding: 1rem;
+      font-size: 14px;
+      .title {
+        color: $text-color;
+        font-size: 14px;
+        font-weight: bolder;
+      }
+      .input {
+        @include input-field-style;
+      }
+      .done, .change, .remove {
+        font-size: 14px;
+        font-weight: bolder;
+        color: $primary-brand-color;
+        &:hover {
+          color: $secondary-brand-color;
+        }
+      }
+    }
+
     .quill-contents {
       padding: 0.3rem;
     }
