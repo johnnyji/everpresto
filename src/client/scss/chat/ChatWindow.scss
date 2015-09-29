@@ -1,9 +1,10 @@
 .chat-window-wrapper {
-  position: relative;
+  position: fixed;
   display: inline-block;
   vertical-align: top;
+  height: 100%;
   width: 28%;
-  margin: 0;
-  padding: 0 1rem;
-  background-color: $light-text-color;
+  margin: -1rem 0 0 0;
+  padding: 1rem 1rem 0 1rem;
+  border-left: 1px solid $border-color;
 }

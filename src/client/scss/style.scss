@@ -143,3 +143,13 @@ body {
   @include position-y(absolute, 50%);
   right: 3rem;
 }
+
+.tip-box {
+  @include box-shadow;
+  position: relative;
+  margin: 2rem 0;
+  padding: 1rem;
+  color: $light-text-color;
+  border: 1px solid $border-color;
+  border-radius: 3px;
+}

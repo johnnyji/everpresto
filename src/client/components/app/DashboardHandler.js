@@ -5,15 +5,9 @@ import { RouteHandler } from 'react-router';
 
 import DashboardNavbar from '.././app/DashboardNavbar';
 
-import ProjectActions from '../.././actions/ProjectActions';
-
 class DashboardHandler extends React.Component {
   constructor(props) {
     super(props);
-  }
-  componentDidMount() {
-    // loads whatever is needed for the employer when their dashboard mounts
-    ProjectActions.loadProjects();
   }
   render() {
     let navLinks = [

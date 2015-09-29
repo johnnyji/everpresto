@@ -24,7 +24,7 @@
     .search-bar-wrapper {
       @include pull-right-relative(50%);
       text-align: right;
-      vertical-align: bottom;
+      vertical-align: top;
     }
   }
 }

@@ -16,12 +16,17 @@ class GroupsHandler extends ReactTemplate {
 
     return (
       <div className='groups-handler-wrapper'>
-        <GroupsController />
+        <GroupsController groups={null} />
         <ActiveGroupContent group={null} notes={[]} />
         <ChatWindow />
       </div>
     );
   }
 }
+
+// current user is passed from ProtectedComponent decorator
+GroupsHandler.propTypes = {
+  currentUser: React.PropTypes.object.isRequired
+};
 
 export default ProtectedComponent(GroupsHandler);
