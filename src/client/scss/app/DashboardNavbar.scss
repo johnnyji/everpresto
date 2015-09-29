@@ -1,16 +1,16 @@
 .dashboard-navbar-wrapper {
-  min-width: 1000px !important; //so the bar doesn't shrink if the page does
   @include position-x(relative, 50%);
-  margin: 0 auto;
+  min-width: $app-content-min-width !important; //so the bar doesn't shrink if the page does
   width: 100vw;
-  background-color: $navbar-background-color;
   height: 45px;
   border-bottom: 1px solid $border-color;
+  background-color: $navbar-background-color;
+  margin: 0 auto;
   ul {
     @include position-y(relative, 50%);
-    width: $app-content-width; 
+    width: $app-content-min-width; 
     margin: 0 auto;
-    padding: 0;
+    padding: 0 2rem;
     list-style: none;
     li {
       position: relative;

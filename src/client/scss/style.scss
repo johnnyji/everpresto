@@ -62,7 +62,7 @@ body {
   box-sizing: border-box;
   color: $text-color;
   font-family: 'Lucida Sans Unicode', helvetica, sans-serif;
-  min-width: $app-content-width !important;
+  min-width: $app-content-min-width !important;
   height: 100%;
   font-weight: 400;
   margin: 0;
@@ -117,7 +117,7 @@ body {
 .content-container {  
   position: relative;
   margin: 0 auto;
-  width: $app-content-width;
+  max-width: $app-content-max-width;
 }
 
 .title {
