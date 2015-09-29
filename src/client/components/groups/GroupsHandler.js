@@ -18,6 +18,7 @@ class GroupsHandler extends ReactTemplate {
       <div className='groups-handler-wrapper'>
         <GroupsController groups={null} />
         <ActiveGroupContent group={null} notes={[]} />
+        <span className='chat-window-wrapper-container'></span>
         <ChatWindow currentUser={p.currentUser} />
       </div>
     );

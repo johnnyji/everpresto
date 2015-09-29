@@ -1,0 +1,10 @@
+.new-group-form-wrapper {
+  @include modal-form-style;
+  h2 {
+    position: relative;
+    margin: 0;
+  }
+  input[type=text] {
+    width: 300px;
+  }
+}

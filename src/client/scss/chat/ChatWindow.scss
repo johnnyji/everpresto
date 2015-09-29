@@ -1,5 +1,5 @@
 .chat-window-wrapper {
-  position: fixed;
+  position: relative;
   display: inline-block;
   vertical-align: top;
   height: 100%;
@@ -9,9 +9,12 @@
   border-left: 1px solid $border-color;
   .messages-section {
     position: relative;
+    padding-bottom: 2rem;
   }
   .input-section {
-    position: relative;
+    position: fixed;
+    bottom: 1rem;
+    height: 30px;
     img {
       position: relative;
       display: inline-block;
@@ -24,6 +27,13 @@
       position: relative;
       display: inline-block;
       vertical-align: top;
+      height: 100%;
+      border-radius: $border-radius;
+      padding: 0.3rem;
+      border-style: none;
+      -webkit-box-shadow: 0 0 3px $box-shadow-color;
+      box-shadow: 0 0 3px $box-shadow-color;
+      outline: none;
     }
   }
 }

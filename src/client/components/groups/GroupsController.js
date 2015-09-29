@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactTemplate from '.././shared/ReactTemplate';
 
+import AppActions from '../.././actions/AppActions';
+
 import Icon from '.././shared/Icon';
 
 import GroupsListViewItem from './GroupsListViewItem';
@@ -11,7 +13,7 @@ export default class GroupsController extends ReactTemplate {
     this._bindFunctions('_toggleNewGroupModal');
   }
   _toggleNewGroupModal() {
-    debugger;
+    AppActions.toggleModal('newGroup');
   }
   render() {
     let p = this.props;
