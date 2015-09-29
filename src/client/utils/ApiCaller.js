@@ -6,7 +6,7 @@ class ApiCaller {
     return new Promise((resolve, reject) => {
       let request = new XMLHttpRequest();
       request.open(options.method, options.url);
-      request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+      request.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
 
       console.log(`Sending ${options.method} Request to ${options.url}`);
       options.data ? request.send(JSON.stringify(options.data)) : request.send();

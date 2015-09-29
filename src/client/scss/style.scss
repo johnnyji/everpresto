@@ -15,7 +15,12 @@
 // Date
 @import './date/DateNavbar';
 
-// Employer
+// Chat
+@import './chat/ChatWindow';
+
+// Groups
+@import './groups/ActiveGroupContent';
+@import './groups/GroupsController';
 @import './groups/GroupsHandler';
 
 // Notes
@@ -39,13 +44,11 @@
 @import './shared/DropdownOptions';
 @import './shared/SelectBox';
 @import './shared/FullScreenModal';
-
 @import './shared/BlendedInputField';
 @import './shared/TextField';
 @import './shared/InputField';
 @import './shared/InputFieldLabel';
 @import './shared/TimeTrackerField';
-
 @import './shared/Spinner';
 @import './shared/ExitFormIcon';
 
@@ -59,7 +62,7 @@ body {
   box-sizing: border-box;
   color: $text-color;
   font-family: 'Lucida Sans Unicode', helvetica, sans-serif;
-  min-width: 1000px !important;
+  min-width: $app-content-width !important;
   height: 100%;
   font-weight: 400;
   margin: 0;

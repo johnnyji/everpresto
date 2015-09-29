@@ -2,8 +2,10 @@
   @include modal-form-style;
   .submit-button {
     @include button-style;
+  }
+  .submit-button, .center-spinner, .spinner {
     position: absolute;
     right: 3rem;
-    bottom: 3rem;
+    bottom: 3rem; 
   }
 }

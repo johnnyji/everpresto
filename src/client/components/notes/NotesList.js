@@ -16,14 +16,14 @@ export default class NotesList extends React.Component {
     let p = this.props;
     let content;
 
-    if (p.notes) {
+    if (p.notes.length > 0) {
       content = _.map(p.notes, (note, i) => <NoteItem note={note} key={i} />);
     } else {
       content = (
-        <h2 className='placeholder-message'>
+        <h3 className='placeholder-message'>
           No notes yet... Go ahead and
           <a onClick={this._toggleNewNoteModal}> add one!</a>
-        </h2>
+        </h3>
       );
     }
 
@@ -36,5 +36,5 @@ export default class NotesList extends React.Component {
 }
 
 NotesList.propTypes = {
-  notes: React.PropTypes.func
+  notes: React.PropTypes.array.isRequired
 };

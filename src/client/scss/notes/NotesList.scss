@@ -1,4 +1,16 @@
 .notes-list-wrapper {
   position: relative;
   min-height: 300px;
+  .placeholder-message {
+    @include position-center(absolute, 50%, 50%);
+    width: 400px;
+    color: $light-text-color;
+    a {
+      color: $primary-brand-color;
+      &:hover { 
+        cursor: pointer;
+        color: $secondary-brand-color;
+      }
+    }
+  }
 }

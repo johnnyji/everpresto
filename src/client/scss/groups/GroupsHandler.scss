@@ -1,36 +1,3 @@
-.groups-wrapper {
-  position: relative;
-  header {
-    position: relative;
-    padding: 1rem 0;
-    margin: 2rem 0;
-    border-bottom: 1px solid $border-color;
-    .new-note {
-      @include pull-left-relative(50%);
-      a {
-        @include button-style;
-        padding: 0.5rem 1rem;
-        border-radius: $border-radius;
-        svg {
-          margin-top: -3px;
-        }
-      }
-    }
-    .search-bar-wrapper {
-      @include pull-right-relative(50%);
-      text-align: right;
-      vertical-align: bottom;
-    }
-  }
-  .placeholder-message {
-    @include position-center(absolute, 50%, 50%);
-    color: $light-text-color;
-    a {
-      color: $primary-brand-color;
-      &:hover { 
-        cursor: pointer;
-        color: $secondary-brand-color;
-      }
-    }
-  }
+.groups-handler-wrapper {
+  padding: 1rem;
 }

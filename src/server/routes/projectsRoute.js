@@ -1,5 +1,4 @@
 import express from 'express';
-import config from '../../.././config';
 
 import Project from '.././models/project';
 

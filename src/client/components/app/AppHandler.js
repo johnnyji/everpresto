@@ -62,7 +62,7 @@ export default class AppHandler extends ReactTemplate {
     }
 
     if (s.modal.newNote) {
-      let modalContent = <NewNoteForm contacts={s.currentUser.contacts} />
+      let modalContent = <NewNoteForm currentUser={s.currentUser} />
       modal = <FullScreenModal modalContent={modalContent} />;
     }
 

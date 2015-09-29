@@ -18,6 +18,7 @@ import rootRoute from './routes/rootRoute';
 import authRoute from './routes/authRoute';
 import timesheetsRoute from './routes/timesheetsRoute';
 import projectsRoute from './routes/projectsRoute';
+import notesRoute from './routes/notesRoute';
 
 const app = express();
 const port = process.env.PORT || config.development.serverPort;
@@ -50,6 +51,7 @@ apiRouter.use('/', rootRoute);
 apiRouter.use('/auth', authRoute);
 apiRouter.use('/timesheets', timesheetsRoute);
 apiRouter.use('/projects', projectsRoute);
+apiRouter.use('/notes', notesRoute);
 
 // react isomorphic render
 app.use((req, res) => {

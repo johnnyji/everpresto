@@ -1,0 +1,28 @@
+.active-group-content-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 650px;
+  padding:  0 1rem;
+  header {
+    position: relative;
+    padding-bottom: 1rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid $border-color;
+    .new-note {
+      @include pull-left-relative(50%);
+      a {
+        @include button-style;
+        padding: 0.5rem 1rem;
+        border-radius: $border-radius;
+        svg {
+          margin-top: -3px;
+        }
+      }
+    }
+    .search-bar-wrapper {
+      @include pull-right-relative(50%);
+      text-align: right;
+      vertical-align: bottom;
+    }
+  }
+}

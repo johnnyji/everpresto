@@ -6,6 +6,7 @@ import NoteForm from '.././notes/NoteForm';
 import FileUploader from '.././shared/FileUploader';
 import ExitFormIcon from '.././shared/ExitFormIcon';
 import Icon from '.././shared/Icon';
+import Spinner from '.././shared/Spinner';
 
 import NewNoteActions from '../.././actions/NewNoteActions';
 import AppActions from '../.././actions/AppActions';
@@ -26,6 +27,7 @@ export default class NewNoteForm extends ReactTemplate {
   }
   componentDidMount() {
     this._unsubscribe = NewNoteStore.listen(this._updateState);
+    NewNoteActions.setUserId(this.props.currentUser._id);
   }
   componentWillUnmount() {
     this._unsubscribe();
@@ -34,13 +36,15 @@ export default class NewNoteForm extends ReactTemplate {
     var state = NewNoteStore.getState();
     return {
       note: state.note,
-      errors: state.errors
+      errors: state.errors,
+      submitting: state.submitting
     };
   }
   _updateState(state) {
     this.setState({
       note: state.note,
-      errors: state.errors
+      errors: state.errors,
+      submitting: state.submitting
     });
   }
   _exitForm() {
@@ -56,10 +60,21 @@ export default class NewNoteForm extends ReactTemplate {
     NewNoteActions.updateAttachments(files);
   }
   _submitNote() {
-    NewNoteActions.submitNote();
+    NewNoteActions.submitNote(this.state.note);
   }
   render() {
     let s = this.state;
+    let submitButton;
+
+    if (s.submitting) {
+      submitButton = <Spinner />;
+    } else {
+      submitButton = (
+        <button className='submit-button' onClick={this._submitNote}>
+          Submit
+        </button>
+      );
+    }
 
     return (
       <div className='new-note-form-wrapper'>
@@ -72,14 +87,12 @@ export default class NewNoteForm extends ReactTemplate {
           files={s.note.attachments}
           onUpdateFiles={this._handleUpdateFileUploads}
         />
-        <button className='submit-button' onClick={this._submitNote}>
-          Submit
-        </button>
+        {submitButton}
       </div>
     );
   }
 }
 
 NewNoteForm.propTypes = {
-  contacts: React.PropTypes.array
+  currentUser: React.PropTypes.object.isRequired
 };
