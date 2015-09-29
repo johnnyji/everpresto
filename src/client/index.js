@@ -5,8 +5,6 @@ import Router from 'react-router';
 import RouterContainer from './utils/RouterContainer';
 import routes from './routes';
 
-import AppFooter from './components/app/AppFooter';
-
 import AuthActions from './actions/AuthActions';
 
 // creates the router instance
@@ -22,5 +20,3 @@ RouterContainer.set(router);
 router.run(Handler => {
   React.render(<Handler />, document.getElementById('app'));
 });
-
-React.render(<AppFooter />, document.getElementById('app-footer'));

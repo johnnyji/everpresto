@@ -10,7 +10,6 @@ import config from '../.././config';
 import React from 'react';
 import Router from 'react-router';
 import clientRoutes from '.././client/routes';
-import AppFooter from '.././client/components/app/AppFooter';
 
 import User from './models/user';
 
@@ -71,13 +70,11 @@ app.use((req, res) => {
 
     router.run((Handler, state) => {
       let content = React.renderToString(<Handler />);
-      let footerContent = React.renderToString(<AppFooter />);
 
       res.render('index', {
         stylePath: stylePath,
         scriptPath: scriptPath,
-        content: content,
-        footerContent: footerContent
+        content: content
       });
     });
 });

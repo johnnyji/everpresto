@@ -3,7 +3,6 @@ import ReactTemplate from '.././shared/ReactTemplate';
 import { RouteHandler } from 'react-router';
 
 import AppHeader from './AppHeader';
-import AppFooter from './AppFooter';
 import FullScreenModal from '.././shared/FullScreenModal';
 import NewTimesheetForm from '.././timesheet/NewTimesheetForm';
 import NewNoteForm from '.././notes/NewNoteForm';

@@ -9,7 +9,6 @@
 
 // App
 @import './app/AppHeader';
-@import './app/AppFooter';
 @import './app/DashboardNavbar';
 
 // Date
@@ -70,11 +69,11 @@ body {
   overflow-x: hidden;
 }
 
-#app {
-  padding-bottom: 200px;
-  min-height: 100%;
-  height: auto;
-}
+// #app {
+//   padding-bottom: 200px;
+//   min-height: 100%;
+//   height: auto;
+// }
 
 *, *:before, *:after {
   box-sizing: inherit;
