@@ -1,4 +1,5 @@
 import React from 'react';
+import faker from 'faker';
 import _ from 'lodash';
 import uuid from 'node-uuid';
 import ReactTemplate from '.././shared/ReactTemplate';
@@ -26,6 +27,11 @@ export default class ContactInviteForm extends ReactTemplate {
         uuid={uuid.v4()}
         key={uuid.v4()} 
         removeField={this._removeField}
+        placeholder={{
+          firstName: faker.name.firstName(),
+          lastName: faker.name.lastName(),
+          email: faker.internet.email()
+        }}
       />
     );
     this.setState({ inviteFields: fields });
@@ -55,6 +61,9 @@ export default class ContactInviteForm extends ReactTemplate {
         <span className='new-field-button' onClick={this._addNewField}>
           <Icon icon='add-circle' size='60px' />
         </span>
+        <button className='invite-contacts-button' onClick={this._inviteContacts}>
+          <Icon icon='group-add' /> Invite Contacts!
+        </button>
       </div>
     );
   }

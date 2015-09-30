@@ -1,4 +1,5 @@
 var Reflux = require('reflux');
+var _ = require('lodash');
 var NewGroupActions = require('.././actions/NewGroupActions');
 var InputValidator = require('.././validators/InputValidator');
 var ErrorHandlerMixin = require('./mixins/ErrorHandlerMixin');

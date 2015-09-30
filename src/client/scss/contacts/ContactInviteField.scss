@@ -1,7 +1,23 @@
 .contact-invite-field-wrapper {
   position: relative;
+  td {
+    padding: 0 0.5rem;
+    input {
+      border-radius: 3px;
+      border-style: none;
+      -webkit-box-shadow: 0 0 3px $box-shadow-color;
+      box-shadow: 0 0 3px $box-shadow-color;
+      outline: none;
+      background-color: #FFF;
+      padding: 0.3rem;
+      &:focus {
+        @include input-focus-style;
+      }
+    }
+  }
   .exit-icon {
     @include bw-icon-style;
     position: relative;
+    padding-left: 1rem;
   }
 }

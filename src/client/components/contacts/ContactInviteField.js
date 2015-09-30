@@ -31,12 +31,14 @@ export default class ContactInviteField extends ReactTemplate {
     this.setState({ email: e.target.value });
   }
   render() {
+    let p = this.props;
+    
     return (
       <tr className='contact-invite-field-wrapper'>
-        <td><input type='text' placeholder='First Name' onChange={this._handleFirstNameChange}></input></td>
-        <td><input type='text' placeholder='Last Name' onChange={this._handleLastNameChange}></input></td>
+        <td><input type='text' placeholder={p.placeholder.firstName} onChange={this._handleFirstNameChange}></input></td>
+        <td><input type='text' placeholder={p.placeholder.lastName} onChange={this._handleLastNameChange}></input></td>
         <td>
-          <input type='text' placeholder='Email' onChange={this._handleEmailChange}></input>
+          <input type='text' placeholder={p.placeholder.email} onChange={this._handleEmailChange}></input>
           <span className='exit-icon' onClick={this._removeField}>
             <Icon icon='close' />
           </span>
@@ -49,5 +51,6 @@ export default class ContactInviteField extends ReactTemplate {
 // the uuid prop serves as an indentifier for the field if we later want to remove it
 ContactInviteField.propTypes = {
   removeField: React.PropTypes.func.isRequired,
-  uuid: React.PropTypes.string.isRequired
+  uuid: React.PropTypes.string.isRequired,
+  placeholder: React.PropTypes.object.isRequired
 };

@@ -1,5 +1,15 @@
 .contact-invite-form-wrapper {
   position: relative;
+  table{
+    border-collapse: separate; 
+    border-spacing: 0 1rem;
+  }
+  .invite-contacts-button {
+    @include button-style;
+    position: relative;
+    display: block;
+    margin: 3rem auto 0 auto;
+  }
   .new-field-button {
     @include icon-style;
     position: relative;
