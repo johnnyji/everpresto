@@ -1,10 +1,36 @@
 .new-group-form-wrapper {
   @include modal-form-style;
+  text-align: center;
   h2 {
     position: relative;
     margin: 0;
   }
-  input[type=text] {
-    width: 300px;
+  .group-name-input-wrapper {
+    @include position-center(absolute, 50%, 50%);
+    label { 
+      text-align: center;
+    }
+    input[type=text] {
+      width: 300px;
+      margin: 1rem 0 0 0;
+    }
+    button { 
+      @include button-style;
+      margin-top: 2rem;
+    }
+  }
+  .add-members-title {
+    position: relative;
+    margin: 1rem auto;
+  }
+  .add-members-list {
+    position: relative;
+    margin: 0 auto;
+    background-color: #FFF;
+    padding: 1rem;
+    height: 250px;
+    width: 450px;
+    overflow-x: none;
+    overflow-y: auto;
   }
 }
