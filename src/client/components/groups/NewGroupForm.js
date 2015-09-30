@@ -28,6 +28,9 @@ export default class NewGroupForm extends ReactTemplate {
   compoenentDidUnmount() {
     this._unsubscribe();
   }
+  componentWillUnmount() {
+    NewGroupActions.resetState();
+  }
   _getInitialState() {
     let state = NewGroupStore.getState();
     return {

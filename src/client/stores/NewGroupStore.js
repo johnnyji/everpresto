@@ -46,6 +46,10 @@ var NewGroupStore = Reflux.createStore({
       this.state.activeFormPhaseIndex += 1;
     }
     this.trigger(this.state);
+  },
+  onResetState: function() {
+    this.state = _.cloneDeep(NewGroupStateTemplate);
+    this.trigger(this.state);
   }
 });
 

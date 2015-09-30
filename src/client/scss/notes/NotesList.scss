@@ -4,7 +4,7 @@
   .placeholder-message {
     @include position-center(absolute, 50%, 50%);
     width: 400px;
-    color: $light-text-color;
+    color: $placeholder-color;
     a {
       color: $primary-brand-color;
       &:hover { 

@@ -5,6 +5,7 @@
     position: relative;
     margin: 0;
   }
+
   .group-name-input-wrapper {
     @include position-center(absolute, 50%, 50%);
     label { 
@@ -20,18 +21,25 @@
       margin-top: 2rem;
     }
   }
-  .add-members-title {
-    position: relative;
-    margin: 1rem auto;
+
+  .group-add-member-input-wrapper {
+    .add-members-title {
+      position: relative;
+      margin: 1rem auto;
+    }
+    .placeholder-message {
+      color: $placeholder-color;
+    }
+    .add-members-list {
+      position: relative;
+      margin: 0 auto;
+      background-color: #FFF;
+      padding: 1rem;
+      height: 250px;
+      width: 450px;
+      overflow-x: none;
+      overflow-y: auto;
+    }
   }
-  .add-members-list {
-    position: relative;
-    margin: 0 auto;
-    background-color: #FFF;
-    padding: 1rem;
-    height: 250px;
-    width: 450px;
-    overflow-x: none;
-    overflow-y: auto;
-  }
+
 }

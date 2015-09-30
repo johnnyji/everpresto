@@ -29,7 +29,7 @@ export default class GroupAddMembersInput extends ReactTemplate {
       });
     } else {
       members = (
-        <div>
+        <div className='placeholder-message'>
           <h3>You have no contacts</h3>
           <p>Click here to invite some people!</p>
         </div>
@@ -37,7 +37,7 @@ export default class GroupAddMembersInput extends ReactTemplate {
     }
 
     return (
-      <div>
+      <div className='group-add-member-input-wrapper'>
         <h2 className='add-members-title'>Add members</h2>
         <ul className='add-members-list'>
           {members}

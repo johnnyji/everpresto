@@ -2,7 +2,8 @@ var Reflux = require('reflux');
 
 var NewGroupActions = Reflux.createActions({
   'setGroupCreator': {},
-  'setGroupName': {}
+  'setGroupName': {},
+  'resetState': {}
 });
 
 module.exports = NewGroupActions;
