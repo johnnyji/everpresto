@@ -26,6 +26,7 @@
     .add-members-title {
       position: relative;
       margin: 1rem auto;
+      color: $primary-brand-color;
     }
     .placeholder-message {
       color: $placeholder-color;
@@ -39,6 +40,11 @@
       width: 450px;
       overflow-x: none;
       overflow-y: auto;
+      border: 1px solid $border-color;
+      border-radius: $border-radius;
+      a {
+        @include link-style;
+      }
     }
   }
 

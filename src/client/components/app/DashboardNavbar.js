@@ -11,6 +11,13 @@ export default class DashboardNavbar extends ReactTemplate {
     let p = this.props;
     let currentPath = this.context.router.getCurrentPathname();
     let links = _.map(p.links, (linkObject, i) => {
+      if (linkObject.path === currentPath) {
+        return (
+          <li key={i}>
+            <a className='active-tab'>{linkObject.displayName}</a>
+          </li>
+        );
+      }
       return (
         <li key={i}>
           <Link to={linkObject.path} activeClassName='active-tab'>

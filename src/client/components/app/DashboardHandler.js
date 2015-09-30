@@ -12,7 +12,8 @@ class DashboardHandler extends React.Component {
   render() {
     let navLinks = [
       { path: '/dashboard', displayName: 'Groups' },
-      { path: '/notes', displayName: 'Notes' },
+      { path: '/dashboard/notes', displayName: 'Notes' },
+      { path: '/dashboard/contacts', displayName: 'Contacts' },
     ];
     
     return (

@@ -5,6 +5,7 @@ import AppHandler from './components/app/AppHandler';
 import HomeHandler from './components/app/HomeHandler';
 import AuthHandler from './components/auth/AuthHandler';
 import ProfileHandler from './components/user/ProfileHandler';
+import ContactsHandler from './components/contacts/ContactsHandler';
 import NotFoundHandler from './components/shared/NotFoundHandler';
 
 import DashboardHandler from './components/app/DashboardHandler';
@@ -15,6 +16,7 @@ let routes = (
   <Route path='/' handler={AppHandler}>
     <Redirect from='/groups' to='/dashboard'/>
     <Redirect from='/notes' to='/dashboard/notes'/>
+    <Redirect from='/contacts' to='/dashboard/contacts'/>
 
     <DefaultRoute name='home' handler={HomeHandler} />
     <NotFoundRoute name='notfound' handler={NotFoundHandler} />
@@ -32,6 +34,7 @@ let routes = (
       activeClass is added to the link component */}
       <Route name='groups' path='/dashboard' handler={GroupsHandler} />
       <Route name='notes' path='/dashboard/notes' handler={NotesHandler} />
+      <Route name='contacts' path='/dashboard/contacts' handler={ContactsHandler} />
     </Route>
 
   </Route>

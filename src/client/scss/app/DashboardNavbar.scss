@@ -16,11 +16,11 @@
       position: relative;
       margin-right: 1.6rem;
       display: inline-block;
-      a { 
-        @include transition;
+      a {
         color: $navbar-text-color;
       }
-      .active-tab { 
+      .active-tab {
+        @include transition;
         color: $navbar-active-text-color;
         font-size: 1.1rem;
       }

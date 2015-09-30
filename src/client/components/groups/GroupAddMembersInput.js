@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 import ReactTemplate from '.././shared/ReactTemplate';
 
 export default class GroupAddMembersInput extends ReactTemplate {
@@ -31,14 +32,16 @@ export default class GroupAddMembersInput extends ReactTemplate {
       members = (
         <div className='placeholder-message'>
           <h3>You have no contacts</h3>
-          <p>Click here to invite some people!</p>
+          <p>
+            <Link to='/dashboard/contacts'>Click here</Link> to invite some people!
+          </p>
         </div>
       );
     }
 
     return (
       <div className='group-add-member-input-wrapper'>
-        <h2 className='add-members-title'>Add members</h2>
+        <h2 className='add-members-title'>Add Members</h2>
         <ul className='add-members-list'>
           {members}
         </ul>
