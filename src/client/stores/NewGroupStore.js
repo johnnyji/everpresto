@@ -1,5 +1,7 @@
 var Reflux = require('reflux');
 var NewGroupActions = require('.././actions/NewGroupActions');
+var InputValidator = require('.././validators/InputValidator');
+var ErrorHandlerMixin = require('./mixins/ErrorHandlerMixin');
 
 var NewGroupStateTemplate = {
   group: {
@@ -14,6 +16,7 @@ var NewGroupStateTemplate = {
 };
 
 var NewGroupStore = Reflux.createStore({
+  mixins: [ErrorHandlerMixin],
   init: function() {
     this.state = _.cloneDeep(NewGroupStateTemplate);
     this.listenToMany(NewGroupActions);
@@ -29,8 +32,20 @@ var NewGroupStore = Reflux.createStore({
     this.state.group.creator = user;
     this.trigger(this.state);
   },
-  onHandleNameChange: function() {
+  onSetGroupName: function(name) {
+    let exists = InputValidator.validateStringPresence('Please enter a name for your group.', name);
+    let isLongEnough = InputValidator.validateLength('Name is too short! At least 3 chars please.', 3, name);
 
+    if (!exists.valid) {
+      this._addInputError('name', exists.message);
+    } else if (!isLongEnough.valid) {
+      this._addInputError('name', isLongEnough.message);
+    } else {
+      this._clearInputError('name');
+      this.state.group.name = name;
+      this.state.activeFormPhaseIndex += 1;
+    }
+    this.trigger(this.state);
   }
 });
 

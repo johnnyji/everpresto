@@ -9,6 +9,7 @@
     @include position-center(absolute, 50%, 50%);
     label { 
       text-align: center;
+      font-size: 1.2rem;
     }
     input[type=text] {
       width: 300px;

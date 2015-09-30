@@ -10,15 +10,12 @@ export default class GroupNameInput extends ReactTemplate {
   constructor(props) {
     super(props);
     this._bindFunctions(
-      '_incrementActiveFormPhaseIndex',
-      '_onUserInput'
+      '_setGroupName'
     );
   }
-  _onUserInput(e) {
-    NewGroupActions.handleNameChange(e.target.value);
-  }
-  _incrementActiveFormPhaseIndex() {
-    NewGroupActions.incrementActiveFormPhaseIndex();
+  _setGroupName() {
+    let name = React.findDOMNode(this.refs.name.refs.input).value;
+    NewGroupActions.setGroupName(name);
   }
   render() {
     let p = this.props;
@@ -27,12 +24,12 @@ export default class GroupNameInput extends ReactTemplate {
       <div className='group-name-input-wrapper'>
         <InputField
           type='text'
+          ref='name'
           label='Select a name for your group!'
           error={p.error}
           inputPlaceholder='(i.e. Engineering Team)'
-          onInputChange={this._onUserInput}
         />
-        <button onClick={this._incrementActiveFormPhaseIndex}>
+        <button onClick={this._setGroupName}>
           Next <Icon icon='chevron-right' />
         </button>
       </div>

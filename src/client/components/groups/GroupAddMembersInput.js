@@ -17,6 +17,7 @@ export default class GroupAddMembersInput extends ReactTemplate {
   }
   render() {
     let p = this.props;
+    let members;
 
     if (p.contacts) {
       members = _.map(p.contacts, (contact, i) => {
