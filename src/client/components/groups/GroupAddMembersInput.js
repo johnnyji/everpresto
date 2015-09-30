@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router';
 import ReactTemplate from '.././shared/ReactTemplate';
 
+import ContactInviteForm from '.././contacts/ContactInviteForm';
+
 export default class GroupAddMembersInput extends ReactTemplate {
   constructor(props) {
     super(props);
@@ -18,33 +20,24 @@ export default class GroupAddMembersInput extends ReactTemplate {
   }
   render() {
     let p = this.props;
-    let members;
+    let content;
 
     if (p.contacts) {
-      members = _.map(p.contacts, (contact, i) => {
+      content = _.map(p.contacts, (contact, i) => {
         return (
-          <li key={i} className='member-item' onClick={this._addMember}>
+          <div key={i} className='member-item' onClick={this._addMember}>
             <strong>{contact.lastName}</strong>, {contact.firstName}
-          </li>
+          </div>
         );
       });
     } else {
-      members = (
-        <div className='placeholder-message'>
-          <h3>You have no contacts</h3>
-          <p>
-            <Link to='/dashboard/contacts'>Click here</Link> to invite some people!
-          </p>
-        </div>
-      );
+      content = <ContactInviteForm />;
     }
 
     return (
       <div className='group-add-member-input-wrapper'>
         <h2 className='add-members-title'>Add Members</h2>
-        <ul className='add-members-list'>
-          {members}
-        </ul>
+        {content}
       </div>
     );
   }

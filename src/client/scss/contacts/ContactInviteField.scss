@@ -1,0 +1,7 @@
+.contact-invite-field-wrapper {
+  position: relative;
+  .exit-icon {
+    @include bw-icon-style;
+    position: relative;
+  }
+}

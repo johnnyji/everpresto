@@ -159,6 +159,22 @@ $border-radius: 3px;
   }
 }
 
+@mixin bw-icon-style {
+  color: $placeholder-color;
+  &:hover {
+    cursor: pointer;
+    color: $light-text-color;
+  }
+}
+
+@mixin icon-style {
+  color: $primary-brand-color;
+  &:hover {
+    cursor: pointer;
+    color: $secondary-brand-color;
+  }
+}
+
 @mixin link-style {
   @include transition;
   color: $navbar-text-color;

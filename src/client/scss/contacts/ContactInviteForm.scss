@@ -1,0 +1,10 @@
+.contact-invite-form-wrapper {
+  position: relative;
+  .new-field-button {
+    @include icon-style;
+    position: relative;
+    svg {
+      margin-top: 1rem;
+    }
+  }
+}

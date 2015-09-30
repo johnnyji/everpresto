@@ -17,6 +17,10 @@
 // Chat
 @import './chat/ChatWindow';
 
+//  Contacts
+@import './contacts/ContactInviteField';
+@import './contacts/ContactInviteForm';
+
 // Groups
 @import './groups/ActiveGroupContent';
 @import './groups/GroupsController';
