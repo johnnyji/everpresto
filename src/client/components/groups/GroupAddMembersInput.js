@@ -9,11 +9,16 @@ export default class GroupAddMembersInput extends ReactTemplate {
     super(props);
     this._bindFunctions(
       '_addMember',
-      '_removeMember'
+      '_removeMember',
+      '_batchAddNewMembers'
     );
   }
   _addMember() {
 
+  }
+  _batchAddNewMembers(users) {
+    // soft adds the members to the groups and invites them to join the apps
+    debugger;
   }
   _removeMember() {
     
@@ -31,12 +36,13 @@ export default class GroupAddMembersInput extends ReactTemplate {
         );
       });
     } else {
-      content = <ContactInviteForm />;
+      content = <ContactInviteForm onInviteContacts={this._batchAddNewMembers} />;
     }
 
     return (
       <div className='group-add-member-input-wrapper'>
         <h2 className='add-members-title'>Add Members</h2>
+        {p.error && <p className='error'>{p.error}</p>}
         {content}
       </div>
     );
@@ -45,5 +51,6 @@ export default class GroupAddMembersInput extends ReactTemplate {
 
 // contacts should either be an array or null
 GroupAddMembersInput.propTypes = {
-  contacts: React.PropTypes.any
+  contacts: React.PropTypes.any,
+  error: React.PropTypes.any
 };

@@ -11,7 +11,8 @@ var NewGroupStateTemplate = {
     members: []
   },
   errors: {
-    name: null
+    name: null,
+    members: null
   },
   activeFormPhaseIndex: 0
 };

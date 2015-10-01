@@ -35,10 +35,29 @@ export default class ContactInviteField extends ReactTemplate {
     
     return (
       <tr className='contact-invite-field-wrapper'>
-        <td><input type='text' placeholder={p.placeholder.firstName} onChange={this._handleFirstNameChange}></input></td>
-        <td><input type='text' placeholder={p.placeholder.lastName} onChange={this._handleLastNameChange}></input></td>
         <td>
-          <input type='text' placeholder={p.placeholder.email} onChange={this._handleEmailChange}></input>
+          <input 
+            type='text' 
+            ref ='firstName' 
+            placeholder={p.placeholder.firstName} 
+            onChange={this._handleFirstNameChange}>
+          </input>
+        </td>
+        <td>
+          <input 
+            type='text'
+            ref ='lastName' 
+            placeholder={p.placeholder.lastName} 
+            onChange={this._handleLastNameChange}>
+          </input>
+        </td>
+        <td>
+          <input 
+            type='text' 
+            ref='email'
+            placeholder={p.placeholder.email}
+            onChange={this._handleEmailChange}>
+          </input>
           <span className='exit-icon' onClick={this._removeField}>
             <Icon icon='close' />
           </span>

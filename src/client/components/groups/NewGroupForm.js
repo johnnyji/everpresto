@@ -54,7 +54,7 @@ export default class NewGroupForm extends ReactTemplate {
     let s = this.state;
     let phases = [
       <GroupNameInput error={s.errors.name} />,
-      <GroupAddMembersInput contacts={p.currentUser.contacts} />
+      <GroupAddMembersInput contacts={p.currentUser.contacts} error={s.errors.members} />
     ];
 
     return (

@@ -14,7 +14,8 @@ export default class ContactInviteForm extends ReactTemplate {
     this.state = { inviteFields: [] };
     this._bindFunctions(
       '_addNewField',
-      '_removeField'
+      '_removeField',
+      '_inviteContacts'
     );
   }
   componentDidMount() {
@@ -43,6 +44,26 @@ export default class ContactInviteForm extends ReactTemplate {
     _.remove(fields, field => field.props.uuid === fieldId);
     this.setState({ inviteFields: fields });
   }
+  _inviteContacts() {
+    let inviteFields = React.findDOMNode(this.refs.inviteFieldsContainer).children;
+    
+    let contacts = _.map(inviteFields, field => {
+      let inputs = field.getElementsByTagName('input');
+      let firstName = inputs[0].value,
+          lastName = inputs[1].value,
+          email = inputs[2].value
+      if (email !== '') {
+        return {
+          firstName: firstName,
+          lastName: lastName,
+          email: email
+        };
+      }
+    });
+    contacts = _.filter(contacts, contact => typeof(contact) !== 'undefined');
+    
+    this.props.onInviteContacts(contacts);
+  }
   render() {
     let s = this.state;
 
@@ -56,7 +77,7 @@ export default class ContactInviteForm extends ReactTemplate {
               <th>Email</th>
             </tr>
           </thead>
-          <tbody>{s.inviteFields}</tbody>
+          <tbody ref='inviteFieldsContainer'>{s.inviteFields}</tbody>
         </table>
         <span className='new-field-button' onClick={this._addNewField}>
           <Icon icon='add-circle' size='60px' />
@@ -68,3 +89,7 @@ export default class ContactInviteForm extends ReactTemplate {
     );
   }
 }
+
+ContactInviteForm.propTypes = {
+  onInviteContacts: React.PropTypes.func.isRequired
+};
