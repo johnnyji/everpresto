@@ -8,7 +8,7 @@ export default class HomeHandler extends ReactTemplate {
     super(props);
   }
   componentDidMount() {
-    AuthHelper.updateCurrentUser();    
+    AuthHelper.updateCurrentUser();
   }
   render() {
     return (

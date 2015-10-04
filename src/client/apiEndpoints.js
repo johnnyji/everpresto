@@ -7,24 +7,20 @@ const formApiPath = (path, method) => {
 
 let apiEndpoints = {
   currentUser: {
-    show: formApiPath('/auth/currentUser', 'POST'),
+    show: formApiPath('/user/currentUser', 'POST'),
   },
   users: {
     create: formApiPath('/auth/register', 'POST'),
     login: formApiPath('/auth/login', 'POST'),
+    logout: formApiPath('/auth/logout', 'GET'),
     authenticateWithToken: formApiPath('/auth/authenticate_with_token', 'POST'),
   },
   notes: {
     create: formApiPath('/notes', 'POST'),
   },
-  projects: {
-    collection: formApiPath('/projects', 'GET'),
-  },
-  timesheets: {
-    create: formApiPath('/timesheets', 'POST'),
-    collection: formApiPath('/timesheets', 'GET'),
-    delete: formApiPath('/timesheets', 'DELETE'),
-  },
+  groups: {
+    show: formApiPath('/groups/active', 'GET'),
+  }
 };
 
 export default apiEndpoints;

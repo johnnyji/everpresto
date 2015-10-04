@@ -1,6 +1,5 @@
 import express from 'express';
-
-import Note from '.././models/note';
+import Note from '.././models/Note';
 
 const router = express.Router();
 

@@ -12,9 +12,14 @@ class ApiCaller {
       options.data ? request.send(JSON.stringify(options.data)) : request.send();
       
       request.onload = () => {
+        // we don't need to parse it if it's an empty string
+        let responseText = request.responseText
+          ? JSON.parse(request.responseText)
+          : request.responseText;
+
         let result = {
           status: request.status,
-          data: JSON.parse(request.responseText)
+          data: responseText
         };
         
         result.status >= 200 && result.status <= 299

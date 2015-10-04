@@ -5,9 +5,14 @@ import { RouteHandler } from 'react-router';
 
 import DashboardNavbar from '.././app/DashboardNavbar';
 
+import AppActions from '../.././actions/AppActions';
+
 class DashboardHandler extends React.Component {
   constructor(props) {
     super(props);
+  }
+  componentDidMount() {
+    AppActions.loadInitialDashboardData();
   }
   render() {
     let navLinks = [

@@ -39,7 +39,7 @@ var AuthStore = Reflux.createStore({
   getJwt: function() {
     return this.state.jwt;
   },
-  onLogoutUser: function() {
+  onLogoutUserCompleted: function() {
     localStorage.removeItem('jwt');
     this.state.jwt = null;
     this.state.currentUser = null;

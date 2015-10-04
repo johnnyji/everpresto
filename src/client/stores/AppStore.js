@@ -10,15 +10,11 @@ var AppStateTemplate = {
     newNote: false,
     newGroup: false
   },
-  workTypes: [
-    'Grip Boy',
-    '3rd Assistant Director',
-    'Assistant Director',
-    'Boom Mic Operator',
-    'Driver',
-    'Producer'
-  ],
-  appHandlerReady: false,
+  dashboardReady: false,
+  flash: {
+    message: null,
+    error: null
+  }
 };
 
 var AppStore = Reflux.createStore({
@@ -35,6 +31,18 @@ var AppStore = Reflux.createStore({
     if (modalName) this.state.modal[modalName] = true;
     this.trigger(this.state);
   },
+  onLoadInitialDashboardDataCompleted: function() {
+    this.state.dashboardReady = true;
+    this.trigger(this.state);
+  },
+  onTriggerFlashMessage: function(message) {
+    this.state.flash = { error: null, message: message };
+    this.trigger(this.state);
+  },
+  onTriggerFlashError: function(error) {
+    this.state.flash = { error: error, message: null };
+    this.trigger(this.state);
+  }
 });
 
 module.exports = AppStore;

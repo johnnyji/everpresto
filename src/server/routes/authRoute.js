@@ -1,11 +1,9 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
 import secrets from '../../.././secrets.json';
-import User from '.././models/user';
+import User from '.././models/User';
 
 const router = express.Router();
-
-// write function to protect routes where jwt is required
 
 router.post('/login', (req, res, next) => {
   User.findOne({
@@ -15,11 +13,19 @@ router.post('/login', (req, res, next) => {
   .exec((err, user) => {
     if (err) throw new Error(err);
     if (!user) return res.status(422).json({ message: 'Invalid Username/Password' });
+
+    // sets the user session on the backend and sends the jwt to the front end
+    req.session.userId = user._id;
     res.status(200).json({ 
       user: user,
       jwt: jwt.sign(user._id, secrets.jwtSecret)
     });
   });
+});
+
+router.get('/logout', (req, res, next) => {
+  delete req.session.userId;
+  res.status(204).json(null);
 });
 
 router.post('/authenticate_with_token', (req, res, next) => {
@@ -46,13 +52,6 @@ router.post('/register', (req, res, next) => {
       user: user,
       jwt: jwt.sign(user._id, secrets.jwtSecret)
     });
-  });
-});
-
-router.post('/currentUser', (req, res, next) => {
-  jwt.verify(req.body.jwt, secrets.jwtSecret, (err, decoded) => {
-    if (err) return res.status(500).json({ message: err.message });
-    res.status(200).json({ user: decoded });
   });
 });
 

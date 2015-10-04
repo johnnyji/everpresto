@@ -13,8 +13,7 @@ let UserSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now() },
   updatedAt: { type: Date, default: Date.now() },
   admin: { type: Boolean, default: false },
-  isEmployee: { type: Boolean, default: false },
-  isEmployer: { type: Boolean, default: true }
+  groupPreviews: { type: Array, default: [] }
 });
 
 let User = mongoose.model('User', UserSchema);

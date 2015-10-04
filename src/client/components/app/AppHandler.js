@@ -51,9 +51,6 @@ export default class AppHandler extends ReactTemplate {
   render() {
     let p = this.props;
     let s = this.state;
-    // let pageClass = this.state.modal
-    //   ? 'page-wrapper no-scroll'
-    //   : 'page-wrapper';
     let modal;
     
     if (s.modal.newTimesheet) {

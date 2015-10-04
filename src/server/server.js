@@ -1,4 +1,5 @@
 import express from 'express';
+import session from 'express-session';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import morgan from 'morgan';
@@ -6,18 +7,19 @@ import morgan from 'morgan';
 import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
 import config from '../.././config';
+import secrets from '../.././secrets.json';
 
 import React from 'react';
 import Router from 'react-router';
 import clientRoutes from '.././client/routes';
 
-import User from './models/user';
-
 import rootRoute from './routes/rootRoute';
 import authRoute from './routes/authRoute';
-import timesheetsRoute from './routes/timesheetsRoute';
-import projectsRoute from './routes/projectsRoute';
+import userRoute from './routes/userRoute';
 import notesRoute from './routes/notesRoute';
+import groupsRoute from './routes/groupsRoute';
+
+import requireUser from './middlewares/requireUser';
 
 const app = express();
 const port = process.env.PORT || config.development.serverPort;
@@ -39,18 +41,19 @@ app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// parses cookies
+// parses cookies and uses sessions
 app.use(cookieParser());
+app.use(session({ secret: secrets.sessionSecret }));
 
 // prefixes all routes call to the server with /api to use express router
 app.use('/api', apiRouter);
 
 // api routes
 apiRouter.use('/', rootRoute);
+apiRouter.use('/groups', requireUser, groupsRoute);
 apiRouter.use('/auth', authRoute);
-apiRouter.use('/timesheets', timesheetsRoute);
-apiRouter.use('/projects', projectsRoute);
-apiRouter.use('/notes', notesRoute);
+apiRouter.use('/user', requireUser, userRoute);
+apiRouter.use('/notes', requireUser, notesRoute);
 
 // react isomorphic render
 app.use((req, res) => {
