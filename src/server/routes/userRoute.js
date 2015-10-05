@@ -1,7 +1,8 @@
-import express from 'express'
+import express from 'express';
+import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
-import User from '.././models/User';
 
+const User = mongoose.model('User');
 const router = express.Router();
 
 router.post('/currentUser', (req, res, next) => {

@@ -1,9 +1,17 @@
 // full screen spinner
-#full-screen-spinner {
+
+.full-screen-spinner-wrapper {
   @include position-center(fixed, 45%, 50%);
-  .full-screen-spinner-rect {
-    width: 11px;
-    height: 100px;
+  #full-screen-spinner {
+    position: relative;
+    .full-screen-spinner-rect {
+      width: 11px;
+      height: 100px;
+    }
+  }
+  .quote {
+    position: relative;
+    color: $light-text-color;
   }
 }
 

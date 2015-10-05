@@ -1,8 +1,9 @@
 import express from 'express';
+import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
 import secrets from '../../.././secrets.json';
-import User from '.././models/User';
 
+const User = mongoose.model('User');
 const router = express.Router();
 
 router.post('/login', (req, res, next) => {
@@ -15,6 +16,7 @@ router.post('/login', (req, res, next) => {
     if (!user) return res.status(422).json({ message: 'Invalid Username/Password' });
 
     // sets the user session on the backend and sends the jwt to the front end
+    debugger;
     req.session.userId = user._id;
     res.status(200).json({ 
       user: user,

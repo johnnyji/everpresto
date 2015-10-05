@@ -1,6 +1,7 @@
 import express from 'express';
-import Note from '.././models/Note';
+import mongoose from 'mongoose';
 
+const Note = mongoose.model('Note');
 const router = express.Router();
 
 router.post('/', (req, res, next) => {

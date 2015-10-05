@@ -10,16 +10,15 @@ var AppActions = Reflux.createActions({
 });
 
 AppActions.loadInitialDashboardData.listen(function() {
-  // Promise.all([
-    debugger;
+  Promise.all([
     ApiCaller.sendAjaxRequest({
       url: apiEndpoints.groups.show.path,
       method: apiEndpoints.groups.show.method
     })
-  // ])
+  ])
   .then(function(result) {
+    var activeGroup = result[0];
     debugger
-    // var activeGroup = result[0];
   })
   .catch(function() {
     debugger

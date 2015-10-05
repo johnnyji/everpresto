@@ -1,5 +1,6 @@
 import express from 'express';
 import session from 'express-session';
+import connectMongo from 'connect-mongo';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import morgan from 'morgan';
@@ -13,6 +14,10 @@ import React from 'react';
 import Router from 'react-router';
 import clientRoutes from '.././client/routes';
 
+import './models/user';
+import './models/group';
+import './models/note';
+
 import rootRoute from './routes/rootRoute';
 import authRoute from './routes/authRoute';
 import userRoute from './routes/userRoute';
@@ -22,6 +27,7 @@ import groupsRoute from './routes/groupsRoute';
 import requireUser from './middlewares/requireUser';
 
 const app = express();
+const MongoStore = connectMongo(session); // mongo store for session
 const port = process.env.PORT || config.development.serverPort;
 const apiRouter = express.Router();
 
@@ -43,7 +49,12 @@ app.use(bodyParser.json());
 
 // parses cookies and uses sessions
 app.use(cookieParser());
-app.use(session({ secret: secrets.sessionSecret }));
+app.use(session({ 
+  secret: secrets.sessionSecret,
+  store: new MongoStore({ mongooseConnection: mongoose.connection }),
+  resave: false,
+  saveUninitialized: false
+}));
 
 // prefixes all routes call to the server with /api to use express router
 app.use('/api', apiRouter);
