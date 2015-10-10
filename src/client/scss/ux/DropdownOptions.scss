@@ -1,12 +1,11 @@
 .dropdown-options {
   @include box-shadow;
-  z-index: 9;
+  background-color: $form-background-color;
   border-radius: $border-radius;
   list-style: none;
-  background-color: $form-background-color;
-  padding: 0.5rem 1rem;
   margin: 1rem;
-  li {
+  padding: 0.5rem 1rem;
+  &-item {
     &:hover {
       color: $secondary-brand-color;
       cursor: pointer;

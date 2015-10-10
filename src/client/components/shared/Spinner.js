@@ -9,7 +9,7 @@ export default class Spinner extends React.Component {
     if (p.fullScreen) {
       let quote = p.quote || p.defaultQuotes[Math.floor(Math.random() * p.defaultQuotes.length)];
       return (
-        <div className='spinner-wrapper'>
+        <div className='full-screen-spinner-wrapper'>
           <div className='wave spinner center-spinner' id='full-screen-spinner'>
             <div className='rect1 full-screen-spinner-rect'></div>
             <div className='rect2 full-screen-spinner-rect'></div>
@@ -17,7 +17,7 @@ export default class Spinner extends React.Component {
             <div className='rect4 full-screen-spinner-rect'></div>
             <div className='rect5 full-screen-spinner-rect'></div>
           </div>
-          <h3 className='quote'>{quote}</h3>
+          <h2 className='quote'>{quote}</h2>
         </div>
       );
     } else {
@@ -41,6 +41,8 @@ Spinner.propTypes = {
 
 Spinner.defaultProps = {
   defaultQuotes: [
-    "Money isn't important, but having it, that's a different question."
+    'Money isn\'t important, but having it, that\'s a different question.',
+    'What do you call it when Batman skips church? ... Christian Bail.',
+    '3 A.M. Phone Calls: "Are you asleep?", Me: "No I\'m skydiving..."'
   ]
 };

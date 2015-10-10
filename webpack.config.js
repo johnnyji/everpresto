@@ -17,7 +17,7 @@ module.exports = {
       { 
         test: /.js$/, 
         include: [srcPath], 
-        loader: 'react-hot!babel'
+        loaders: ['react-hot-loader', 'babel-loader?stage=0']
       },
       { 
         test: /.scss$/,

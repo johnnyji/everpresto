@@ -18,7 +18,7 @@ AppActions.loadInitialDashboardData.listen(function() {
   ])
   .then(function(result) {
     var activeGroup = result[0];
-    debugger
+    
   })
   .catch(function() {
     debugger

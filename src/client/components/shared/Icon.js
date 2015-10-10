@@ -77,12 +77,16 @@ let Icon = React.createClass({
     }
   },
   render() {
-    let styles = {
+    const styles = {
       fill: "currentcolor",
       verticalAlign: "middle",
-      width: this.props.size, // CSS instead of the width attr to support non-pixel units
-      height: this.props.size // Prevents scaling issue in IE
     };
+
+    if (this.props.size) {
+      styles.width = this.props.size;
+      styles.height = this.props.size;
+    }
+
     return (
       <svg
         className={this.props.iconClass}

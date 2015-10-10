@@ -1,39 +1,47 @@
-.app-header-wrapper {
+.app-header {
   position: relative;
   padding: 0;
   margin: 0;
   background-color: $primary-brand-color;
-  height: 70px;
-  .logo {
+  height: $app-header-height;
+
+  // This is so that certain AppHeader elements such as DropdownOptions are infront of the any Dashboard item
+  z-index: 2;
+
+  &-logo {
     @include text-shadow;
     font-size: 1.8rem;
     font-weight: 600;
     color: #FFF;
-    svg {
+    &-icon {
+      height: 2.2rem; 
+      width: 2.2rem;
       margin-top: -5px;
       margin-right: 10px;
     }
   }
-  .pull-right {
-    img {
+
+  &-nav {
+    &-profile-pic {
       width: 30px;
       height: 30px;
       border-radius: $border-radius;
       vertical-align: middle;
       margin-right: 1rem;
     }
-    .user-email {
+    &-user-email {
       @include text-shadow;
       color: $white;
       &:hover {
         cursor: pointer;
       }
     }
+    &-profile-dropdown-options {
+      position: absolute;
+      width: 150px;
+      right: 0;
+      top: 0.7rem;
+    }
   }
-  .dropdown-options {
-    position: absolute;
-    width: 150px;
-    right: 1.5rem;
-    top: 2rem;
-  }
+
 }

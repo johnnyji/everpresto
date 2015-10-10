@@ -8,11 +8,12 @@ var NewGroupStateTemplate = {
   group: {
     creator: null,
     name: null,
-    members: []
+    exisitingUsers: [],
+    newUsers: []
   },
   errors: {
     name: null,
-    members: null
+    existingUsers: null
   },
   activeFormPhaseIndex: 0
 };
@@ -47,6 +48,10 @@ var NewGroupStore = Reflux.createStore({
       this.state.group.name = name;
       this.state.activeFormPhaseIndex += 1;
     }
+    this.trigger(this.state);
+  },
+  onInviteNewMembers: function(users) {
+    this.state.newMembers = users;
     this.trigger(this.state);
   },
   onResetState: function() {

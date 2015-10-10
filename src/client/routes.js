@@ -12,7 +12,7 @@ import DashboardHandler from './components/app/DashboardHandler';
 import GroupsHandler from './components/groups/GroupsHandler';
 import NotesHandler from './components/notes/NotesHandler';
 
-let routes = (
+const routes = (
   <Route path='/' handler={AppHandler}>
     <Redirect from='/groups' to='/dashboard'/>
     <Redirect from='/notes' to='/dashboard/notes'/>

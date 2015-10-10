@@ -1,97 +1,118 @@
-import React from 'react';
-import ReactTemplate from '.././shared/ReactTemplate'
-import { Link } from 'react-router';
+import React, {PropTypes} from 'react';
+import {Link} from 'react-router';
 
 import AuthActions from '../.././actions/AuthActions';
 import AuthStore from '../.././stores/AuthStore';
 
-import Icon from '.././shared/Icon';
-import DropdownOptions from '.././shared/DropdownOptions';
+import Logo from '.././shared/Logo';
+import DropdownOptions from '.././ux/DropdownOptions';
 
-export default class AppHeader extends ReactTemplate {
-  constructor(props) {
+export default class AppHeader extends React.Component {
+
+  // inherited from ProtectedComponent wrapper
+  static propTypes = {
+    currentUser: PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      createdAt: PropTypes.string,
+      email: PropTypes.string,
+      groupPreviews: PropTypes.arrayOf(
+        PropTypes.shape({
+          name: PropTypes.string.isRequired,
+          iconUrl: PropTypes.string.isRequired
+        })
+      ),
+      profilePictureUrl: PropTypes.string.isRequired,
+      updatedAt: PropTypes.string
+    })
+  }
+
+  // Allows for this.context.router to assume the role of the React Router
+  static contextTypes = {
+    router: PropTypes.func
+  }
+
+  constructor (props) {
     super(props);
     this.state = { showProfileOptions: false };
-    this._bindFunctions(
-      '_showProfileOptions',
-      '_hideProfileOptions',
-      '_logoutUser',
-      '_viewProfile'
-    );
   }
-  _showProfileOptions() {
-    this.setState({ showProfileOptions: true });
+
+  _handleLogoClick = () => {
+    if (this.context.router.getCurrentPath() !== '/dashboard') {
+      this.context.router.transitionTo('/dashboard');
+    }
   }
-  _hideProfileOptions() {
+
+  _hideProfileOptions = () => {
     this.setState({ showProfileOptions: false });
   }
-  _viewProfile() {
-    this._hideProfileOptions();
-    this.context.router.transitionTo('profile');
-  }
-  _logoutUser() {
+
+  _logoutUser = () => {
     this._hideProfileOptions();
     AuthActions.logoutUser();
   }
+
+  _showProfileOptions = () => {
+    this.setState({ showProfileOptions: true });
+  }
+
+  _viewProfile = () => {
+    this._hideProfileOptions();
+    this.context.router.transitionTo('profile');
+  }
+
   render() {
-    let p = this.props;
-    let s = this.state;
-    let headerContent;
+    let headerNavContent;
+    let profileNavOptions;
 
-    // current user present
-    if (p.currentUser) {
-      let profileOptions = [
-        { name: 'Profile Settings', action: this._viewProfile },
-        { name: 'Logout', action: this._logoutUser }
+    // If the current user is present, we're setting the nav content to their profile picture
+    // and profile options. Otherwise it will default to Login and Register buttons
+    if (this.props.currentUser) {
+      profileNavOptions = [
+        { name: 'Profile Settings', callback: this._viewProfile },
+        { name: 'Logout', callback: this._logoutUser }
       ];
-
-      return (
-        <header className='app-header-wrapper'>
-          <Link className='pull-left logo' to='/dashboard'>
-            <Icon icon='access-time' size='2.2rem' />
-            Tickit
+      headerNavContent = (
+        <div>
+          <Link to='profile'>
+            <img className='app-header-nav-profile-pic' src={this.props.currentUser.profilePictureUrl} />
           </Link>
-          <div className='pull-right'>
-            <Link to='profile'>
-              <img src={p.currentUser.profilePictureUrl} />
-            </Link>
-            <span
-              className='user-email'
-              onMouseEnter={this._showProfileOptions}
-              onMouseLeave={this._hideProfileOptions}>
-              {p.currentUser.email}
-            </span>
-          </div>
-          <DropdownOptions 
-            onEnter={this._showProfileOptions}
-            onLeave={this._hideProfileOptions}
-            showOptions={s.showProfileOptions}
-            options={profileOptions}
-          />
-        </header>
+          <span
+            className='app-header-nav-user-email'
+            onMouseEnter={this._showProfileOptions}
+            onMouseLeave={this._hideProfileOptions}>
+            {this.props.currentUser.email}
+          </span>
+          <DropdownOptions
+            dropdownOptionsClassName='app-header-nav-profile-dropdown-options'
+            onShowOptions={this._showProfileOptions}
+            onHideOptions={this._hideProfileOptions}
+            options={profileNavOptions}
+            showDropdownOptions={this.state.showProfileOptions}/>
+        </div>
       );
-    }
-
-    // no current user
-    return (
-      <header className='app-header-wrapper'>
-        <Link className='pull-left logo' to='/'>
-          <Icon icon='access-time' size='3rem' />
-          Tickit
-        </Link>
-        <div className='pull-right'>
+    } else {
+      headerNavContent = (
+        <div>
           <Link to='login'>Login</Link>
           <Link to='join'>Join</Link>
         </div>
+      );
+    }
+
+    return (
+      <header className='app-header'>
+        <Logo
+          iconOnly={false}
+          logoClassName='pull-left app-header-logo'
+          logoIconSize='2.2rem'
+          logoIconClassName='app-header-logo-icon'
+          onLogoClick={this._handleLogoClick} />
+        <div className='pull-right app-header-nav'>
+          {headerNavContent}
+        </div>
       </header>
     );
+
   }
+
 }
-
-AppHeader.contextTypes = {
-  router: React.PropTypes.func
-};
-
-AppHeader.propTypes = {
-  currentUser: React.PropTypes.any
-};

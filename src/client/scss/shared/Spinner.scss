@@ -1,16 +1,19 @@
 // full screen spinner
 
 .full-screen-spinner-wrapper {
-  @include position-center(fixed, 45%, 50%);
+  @include position-center(fixed, 46%, 50%);
   #full-screen-spinner {
     position: relative;
+    margin: 0 auto;
+    margin-bottom: 5rem;
     .full-screen-spinner-rect {
-      width: 11px;
+      width: 15px;
       height: 100px;
     }
   }
   .quote {
     position: relative;
+    text-align: center;
     color: $light-text-color;
   }
 }
