@@ -1,29 +1,36 @@
-.dashboard-navbar-wrapper {
+.horizontal-navbar {
   @include position-x(relative, 50%);
+  background-color: $navbar-background-color;
+  border-bottom: 1px solid $border-color;
+  height: 45px;
+  margin: 0 auto;
   min-width: $app-content-min-width !important; //so the bar doesn't shrink if the page does
   width: 100vw;
-  height: 45px;
-  border-bottom: 1px solid $border-color;
-  background-color: $navbar-background-color;
-  margin: 0 auto;
-  ul {
+
+  &-content {
     @include position-y(relative, 50%);
-    width: $app-content-min-width; 
+    list-style: none;
     margin: 0 auto;
     padding: 0 2rem;
-    list-style: none;
-    li {
+    width: $app-content-min-width;
+
+    &-item {
       position: relative;
       margin-right: 1.6rem;
       display: inline-block;
-      a {
+
+      &-tab {
         @include transition;
         color: $navbar-text-color;
       }
-      .active-tab {
+
+      &-tab-active {
         color: $navbar-active-text-color;
         font-size: 1.1rem;
       }
+
     }
+
   }
+
 }

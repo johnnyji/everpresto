@@ -13,7 +13,7 @@ import AppStore from '../.././stores/AppStore';
 
 export default class AppHandler extends React.Component {
 
-  constructor(props) {
+  constructor (props) {
     super(props);
     this.state = this._getInitialState();
   }
