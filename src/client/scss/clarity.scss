@@ -144,16 +144,6 @@ $border-radius: 3px;
   }
 }
 
-@mixin modal-background {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  transition: opacity 150ms ease, visibility 0ms ease 150ms;
-  z-index: 9;
-}
-
 @mixin modal-form-style {
   @include position-center(absolute, 50%, 50%);
   @extend .box-shadow;

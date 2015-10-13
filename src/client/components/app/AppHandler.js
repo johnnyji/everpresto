@@ -55,13 +55,13 @@ export default class AppHandler extends React.Component {
     // If the user is creating a new note.
     if (this.state.modal.newNote) {
       const modalContent = <NewNoteForm currentUser={this.state.currentUser} />
-      modal = <FullScreenModal modalContent={modalContent} />;
+      modal = <FullScreenModal content={modalContent} />;
     }
 
     // If the user is creating a new group.
     if (this.state.modal.newGroup) {
       const modalContent = <NewGroupForm currentUser={this.state.currentUser} />
-      modal = <FullScreenModal modalContent={modalContent} />;
+      modal = <FullScreenModal content={modalContent} />;
     }
 
     return (

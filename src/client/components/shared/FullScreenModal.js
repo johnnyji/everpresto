@@ -1,34 +1,34 @@
-import React from 'react';
-import ReactTemplate from './ReactTemplate';
-
+import React, {PropTypes} from 'react';
 import AppActions from '../.././actions/AppActions';
 
-export default class FullScreenModal extends ReactTemplate {
+export default class FullScreenModal extends React.Component {
+
+  static propTypes = {
+    content: PropTypes.element.isRequired
+  }
+
   constructor(props) {
     super(props);
-    this._bindFunctions('_exitModal');
   }
-  componentDidMount() {
+
+  componentWillMount() {
     document.body.classList.add('noscroll');
   }
+
   componentWillUnmount() {
     document.body.classList.remove('noscroll');
   }
-  _exitModal() {
+
+  _exitModal = () => {
     AppActions.toggleModal();
   }
+
   render() {
-    let p = this.props;
-    
     return (
-      <div className='full-screen-modal-wrapper'>
-        <div className='modal-background' onClick={this._exitModal}></div>
-        {p.modalContent}
+      <div className='full-screen-modal'>
+        <div className='full-screen-modal-background' onClick={this._exitModal}></div>
+        {this.props.content}
       </div>
     );
   }
 }
-
-FullScreenModal.propTypes = {
-  modalContent: React.PropTypes.element.isRequired
-};

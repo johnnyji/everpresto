@@ -1,6 +1,16 @@
-.full-screen-modal-wrapper {
-  @include modal-background;
-  .modal-background {
+.full-screen-modal {
+  // this makes the modal the entire room of the browser window
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transition: opacity 150ms ease, visibility 0ms ease 150ms;
+  z-index: 9;
+  
+  // the background of the modal that adds the tint,
+  // also allows the user to exit the modal by clicking anywhere beside the modal content
+  &-background {
     position: absolute;
     top: 0;
     left: 0;
@@ -8,4 +18,5 @@
     bottom: 0;
     background-color: $modal-background-color;
   }
+
 }
