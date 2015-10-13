@@ -20,7 +20,7 @@
       display: inline-block;
 
       &-tab {
-        @include transition;
+        @extend .transition;
         color: $navbar-text-color;
       }
 

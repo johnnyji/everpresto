@@ -1,20 +1,25 @@
-import React from 'react';
-
-import Spinner from './Spinner';
+import React, {PropTypes} from 'react';
 
 import AuthActions from '../.././actions/AuthActions';
 import AuthStore from '../.././stores/AuthStore';
+import Spinner from '.././ux/Spinner';
 
 // wrapper component for protecting authenticated components
 
 export default (ComponentToBeRendered) => {
   class ProtectedComponent extends React.Component {
-    constructor(props) {
+
+    static contextTypes = {
+      router: PropTypes.func
+    }
+
+    constructor (props) {
       super(props);
       this.state = { currentUser: AuthStore.getCurrentUser() };
       this._updateState = this._updateState.bind(this);
     }
-    componentDidMount() {
+
+    componentDidMount () {
       this._unsubscribe = AuthStore.listen(this._updateState);
 
       // if the current user already exists, just return out
@@ -26,26 +31,23 @@ export default (ComponentToBeRendered) => {
       if (jwt) AuthActions.autoLoginUser(jwt, this.context.router.getCurrentPathname());
       if (unauthorized) this.context.router.transitionTo('/login');
     }
-    componentWillUnmount() {
+
+    componentWillUnmount () {
       this._unsubscribe();
     }
-    _updateState(state) {
+
+    _updateState (state) {
       this.setState({ currentUser: state.currentUser });
     }
-    render() {
-      let s = this.state;
 
-      if (s.currentUser) {
-        return <ComponentToBeRendered {...this.props} currentUser={s.currentUser} />;
+    render() {
+      if (this.state.currentUser) {
+        return <ComponentToBeRendered {...this.props} currentUser={this.state.currentUser} />;
       } else {
         return <Spinner fullScreen={true} />;
       }
     }
   }
-
-  ProtectedComponent.contextTypes = {
-    router: React.PropTypes.func
-  };
 
   return ProtectedComponent;
 }

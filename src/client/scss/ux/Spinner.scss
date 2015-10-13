@@ -1,6 +1,6 @@
 // full screen spinner
 
-.full-screen-spinner-wrapper {
+.full-screen-spinner {
   @include position-center(fixed, 46%, 50%);
   #full-screen-spinner {
     position: relative;
@@ -11,7 +11,7 @@
       height: 100px;
     }
   }
-  .quote {
+  &-quote {
     position: relative;
     text-align: center;
     color: $light-text-color;

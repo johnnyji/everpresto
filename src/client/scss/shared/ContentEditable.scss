@@ -1,7 +1,7 @@
 .content-editable-wrapper {
   position: relative;
   .content-editable-input {
-    @include transition;
+    @extend .transition;
     position: relative;
     margin: 0;
     padding: 0.5rem;

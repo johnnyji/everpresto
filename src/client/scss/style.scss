@@ -4,6 +4,12 @@
 //react-quill
 @import '../../.././node_modules/react-quill/node_modules/quill/dist/quill.snow.css';
 
+// import color variables
+@import './colors';
+
+// import extends
+@import './extends';
+
 // my own SCSS helper file
 @import './clarity';
 
@@ -51,12 +57,14 @@
 @import './shared/MultiselectField';
 @import './shared/SearchBar';
 @import './shared/SelectBox';
-@import './shared/Spinner';
 @import './shared/TextField';
 
 // UX (Components used throughout the app)
+@import './ux/Button';
 @import './ux/DropdownOptions';
 @import './ux/HorizontalNavbar';
+@import './ux/Spinner';
+@import './ux/TipBox';
 
 html {
   position: relative;
@@ -102,12 +110,6 @@ body {
   color: $secondary-brand-color;
 }
 
-.button {
-  @include text-shadow;
-  @include button-style;  
-  @include position-x(relative, 50%);
-}
-
 .inactive-button {
   background-color: lighten($light-text-color, 10%);
   &:hover {
@@ -135,7 +137,7 @@ body {
 }
 
 .link {
-  @include text-shadow;
+  @extend .text-shadow;
   position: relative;
   text-decoration: none;
 }
@@ -148,16 +150,6 @@ body {
 .pull-right {
   @include position-y(absolute, 50%);
   right: 3rem;
-}
-
-.tip-box {
-  @include box-shadow;
-  position: relative;
-  margin: 2rem 0;
-  padding: 1rem;
-  color: $light-text-color;
-  border: 1px solid $border-color;
-  border-radius: 3px;
 }
 
 .error {

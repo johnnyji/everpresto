@@ -24,7 +24,7 @@ export default class Spinner extends React.Component {
 
     if (this.props.fullScreen) {
       return (
-        <div className='full-screen-spinner-wrapper'>
+        <div className='full-screen-spinner'>
           <div className='wave spinner center-spinner' id='full-screen-spinner'>
             <div className='rect1 full-screen-spinner-rect'></div>
             <div className='rect2 full-screen-spinner-rect'></div>
@@ -32,7 +32,7 @@ export default class Spinner extends React.Component {
             <div className='rect4 full-screen-spinner-rect'></div>
             <div className='rect5 full-screen-spinner-rect'></div>
           </div>
-          <h2 className='quote'>{quote}</h2>
+          <h2 className='full-screen-spinner-quote'>{quote}</h2>
         </div>
       );
     } else {

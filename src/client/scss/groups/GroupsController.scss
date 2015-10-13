@@ -1,26 +1,11 @@
-.groups-controller-wrapper {
+.groups-controller {
   position: relative;
   display: inline-block;
   width: 18%;
   margin: 0;
   padding: 1rem 1rem 0 1rem;
-  header {
+  &-new-group-button {
     position: relative;
-    padding-bottom: 1rem;
     margin-bottom: 2rem;
-    .new-group-button {
-      // background-color: transparent;
-      // border: none;
-      // color: $primary-brand-color;
-      // border-radius: $border-radius;
-      @include button-style;
-      padding: 0.5rem 1rem;
-      // &:hover {
-      //   color: $secondary-brand-color;
-      // }
-      svg {
-        margin-top: -3px;
-      }
-    }
   }
 }

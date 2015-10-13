@@ -1,5 +1,5 @@
 .exit-form-icon-wrapper {
-  @include transition;
+  @extend .transition;
   position: absolute;
   right: 1rem;
   top: 0.6rem;

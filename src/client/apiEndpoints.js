@@ -5,7 +5,7 @@ const formApiPath = (path, method) => {
   };
 }
 
-let apiEndpoints = {
+const apiEndpoints = {
   currentUser: {
     show: formApiPath('/user/currentUser', 'POST'),
   },

@@ -11,7 +11,7 @@
     text-align: center;
     margin: 0 auto;
     .calender-icon-container {
-      @include transition;
+      @extend .transition;
       position: relative;
       display: inline-block;
       top: -3px;
@@ -27,7 +27,7 @@
       width: 270px;
     }
     .week-being-viewed {
-      @include transition;
+      @extend .transition;
       position: relative;
       display: inline-block;
       &:hover {
@@ -59,7 +59,7 @@
     }
   }
   .prev-week, .next-week {
-    @include transition;
+    @extend .transition;
     color: lighten($light-text-color, 15%);
     &:hover { 
       color: $primary-brand-color;

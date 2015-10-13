@@ -1,5 +1,5 @@
 label {
-  @include transition;
+  @extend .transition;
   @include label-style;
   position: relative;
   display: block;

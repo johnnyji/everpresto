@@ -9,7 +9,7 @@
       font-size: 1.8rem;
     }
     .ql-editor { 
-      @include transition;
+      @extend .transition;
       font-size: 18px;
       min-height: 200px;
       padding: 0.3rem;

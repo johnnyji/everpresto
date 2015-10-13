@@ -1,5 +1,5 @@
 .timesheet-card-wrapper {
-  @include transition;
+  @extend .transition;
   position: relative;
   color: $light-text-color;
   margin: 1rem;

@@ -33,7 +33,7 @@
       font-size: 2rem;
     }
     small {
-      @include transition;
+      @extend .transition;
       position: relative;
       display: block;
       margin: 0 auto;

@@ -1,32 +1,5 @@
 // VARIABLES
 
-$primary-brand-color: #68C3A3;
-$secondary-brand-color: #4DAF7C;
-$tertiary-brand-color: #C36888;
-$white: whitesmoke;
-
-$text-color: #282828;
-$light-text-color: #777;
-$placeholder-color: lighten(#666666, 25%);
-
-$box-shadow-color: lighten(#282828, 20%);
-
-$modal-background-color: rgba(0,0,0,0.6);
-
-$border-color: #DADADA;
-
-$navbar-background-color: whitesmoke;
-$navbar-text-color: lighten(#888, 15%);
-$navbar-active-text-color: #888;
-
-$form-background-color: whitesmoke;
-$card-background-color: whitesmoke;
-
-$error-color: #E74C3C;
-
-$input-focus-border-color: #66afe9;
-
-
 $app-header-height: 70px;
 $app-content-min-width: 1200px;
 $app-content-max-width: 1600px;
@@ -88,25 +61,12 @@ $border-radius: 3px;
   top: $top;
 }
 
-@mixin transition {
-  -webkit-transition: all 0.3s ease-in-out;
-  transition: all 0.3s ease-in-out;
-}
-
 @mixin brightness($percentage, $blur) {
   -webkit-filter: brightness($percentage) blur($blur);
   -moz-filter: brightness($percentage) blur($blur);
   -ms-filter: brightness($percentage) blur($blur);
   -o-filter: brightness($percentage) blur($blur);
   filter: brightness($percentage) blur($blur);
-}
-
-@mixin box-shadow {
-  box-shadow: -1px 0px 18px -2px rgba(0,0,0,0.75);
-}
-
-@mixin text-shadow {
-  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
 }
 
 @mixin input-focus-style {
@@ -147,7 +107,7 @@ $border-radius: 3px;
 }
 
 @mixin button-style {
-  @include transition;
+  @extend .transition;
   background-color: $primary-brand-color;
   border-radius: 3px;
   padding: 1rem 2rem;
@@ -177,7 +137,7 @@ $border-radius: 3px;
 }
 
 @mixin link-style {
-  @include transition;
+  @extend .transition;
   color: $navbar-text-color;
   &:hover {
     cursor: pointer;
@@ -196,7 +156,7 @@ $border-radius: 3px;
 
 @mixin modal-form-style {
   @include position-center(absolute, 50%, 50%);
-  @include box-shadow;
+  @extend .box-shadow;
   
   // set mins so the form doesnt collapse when we show loading bar/finish screen
   min-width: 700px;

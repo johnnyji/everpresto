@@ -6,7 +6,7 @@ import NoteForm from '.././notes/NoteForm';
 import FileUploader from '.././shared/FileUploader';
 import ExitFormIcon from '.././shared/ExitFormIcon';
 import Icon from '.././shared/Icon';
-import Spinner from '.././shared/Spinner';
+import Spinner from '.././ux/Spinner';
 
 import NewNoteActions from '../.././actions/NewNoteActions';
 import AppActions from '../.././actions/AppActions';

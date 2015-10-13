@@ -22,7 +22,7 @@ export default ProtectedComponent(class DashboardHandler extends React.Component
       ),
       profilePictureUrl: PropTypes.string.isRequired,
       updatedAt: PropTypes.string
-    })   
+    })
   }
 
   constructor (props) {

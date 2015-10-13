@@ -1,0 +1,36 @@
+.tip-box {
+  background-color: $tip-box-background;
+  color: $light-text-color;
+  margin: 2rem 0;
+  padding: 1rem;
+  position: relative;
+  
+  &-header {
+    position: relative;
+    color: $secondary-brand-color;
+    margin-bottom: 0.75rem;
+    font-size: 22px;
+    font-weight: bolder;
+    &-icon {
+      margin: -3px 0.3rem 0 0;
+      height: 30px;
+      width: 30px;
+    }
+  }
+
+  // This makes the pointed angle at the top left of the box
+  &:after {
+    content: '';
+    border: solid rgba(0, 0, 0, 0);
+    border-bottom-color: $tip-box-background;
+    height: 0;
+    width: 0;
+    left: 40px;
+    position: absolute;
+    pointer-events: none;
+    border-width: 20px;
+    margin-left: -20px;
+    top: -2.2em;
+  }
+
+}

@@ -1,49 +1,54 @@
-import React from 'react';
-import ReactTemplate from '.././shared/ReactTemplate';
+import React, {PropTypes} from 'react';
+
+import Button from '.././ux/Button';
+import GroupsListViewItem from './GroupsListViewItem';
+import TipBox from '.././ux/TipBox';
 
 import AppActions from '../.././actions/AppActions';
 
-import Icon from '.././shared/Icon';
+export default class GroupsController extends React.Component {
 
-import GroupsListViewItem from './GroupsListViewItem';
-
-export default class GroupsController extends ReactTemplate {
-  constructor(props) {
-    super(props);
-    this._bindFunctions('_toggleNewGroupModal');
+  static propTypes = {
+    groups: PropTypes.object
   }
-  _toggleNewGroupModal() {
+
+  constructor (props) {
+    super(props);
+  }
+
+  _toggleNewGroupModal = () => {
     AppActions.toggleModal('newGroup');
   }
-  render() {
-    let p = this.props;
+
+  render () {
+    const noGroups = !this.props.groups || this.props.groups.length === 0;
     let content;
 
-    if (!p.groups || p.groups.length === 0) {
+    if (noGroups) {
       content = (
-        <div className='tip-box'>
-          <p>Looks like you don't have any groups yet...</p>
-          <p>Click the "New Group" button above to create a group and start adding you're teammates!</p>
-        </div>
+        <TipBox
+          text={
+            <div>
+              <p>Looks like you don't have any groups yet...</p>
+              <p>Click the "New Group" button above to create a group and start adding you're teammates!</p>
+            </div>
+          }/>
       );
     } else {
-      let groups = _.map(p.groups, (group, i) => <GroupListViewItem group={group} key={i} />);
-      content = <ul>{groups}</ul>
+      const groups = this.props.groups.map((group, i) => <GroupListViewItem group={group} key={i} />);
+      content = <ul>{groups}</ul>;
     }
 
     return (
-      <div className='groups-controller-wrapper'>
-        <header>
-          <button className='new-group-button' onClick={this._toggleNewGroupModal}>
-            <Icon icon='group-add' /> New Group
-          </button>
-        </header>
+      <div className='groups-controller'>
+        <Button
+          buttonClass='groups-controller-new-group-button'
+          iconName='group-add'
+          onButtonClick={this._toggleNewGroupModal}
+          text='New Group'/>
         {content}
       </div>
     );
   }
-}
 
-GroupsController.propTypes = {
-  groups: React.PropTypes.any
-};
+}

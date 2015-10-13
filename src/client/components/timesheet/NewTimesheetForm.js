@@ -4,7 +4,7 @@ import ReactTemplate from '.././shared/ReactTemplate';
 
 import Icon from '.././shared/Icon';
 import ExitFormIcon from '.././shared/ExitFormIcon';
-import Spinner from '.././shared/Spinner';
+import Spinner from '.././ux/Spinner';
 import InputField from '.././shared/InputField';
 import TextField from '.././shared/TextField';
 import SelectBox from '.././shared/SelectBox';

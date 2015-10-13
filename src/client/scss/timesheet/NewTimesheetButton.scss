@@ -1,6 +1,6 @@
 .new-timesheet-button {
-  @include transition;
-  @include text-shadow;
+  @extend .transition;
+  @extend .text-shadow;
   position: relative;
   border-style: none;
   background-color: transparent;

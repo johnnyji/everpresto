@@ -1,16 +1,15 @@
 import React from 'react';
-import { Route, DefaultRoute, NotFoundRoute, Redirect } from 'react-router';
+import {Route, DefaultRoute, NotFoundRoute, Redirect} from 'react-router';
 
 import AppHandler from './components/app/AppHandler';
-import HomeHandler from './components/app/HomeHandler';
 import AuthHandler from './components/auth/AuthHandler';
-import ProfileHandler from './components/user/ProfileHandler';
 import ContactsHandler from './components/contacts/ContactsHandler';
-import NotFoundHandler from './components/shared/NotFoundHandler';
-
 import DashboardHandler from './components/app/DashboardHandler';
 import GroupsHandler from './components/groups/GroupsHandler';
+import LandingPageHandler from './components/app/LandingPageHandler';
 import NotesHandler from './components/notes/NotesHandler';
+import NotFoundHandler from './components/shared/NotFoundHandler';
+import ProfileHandler from './components/user/ProfileHandler';
 
 const routes = (
   <Route path='/' handler={AppHandler}>
@@ -18,7 +17,7 @@ const routes = (
     <Redirect from='/notes' to='/dashboard/notes'/>
     <Redirect from='/contacts' to='/dashboard/contacts'/>
 
-    <DefaultRoute name='home' handler={HomeHandler} />
+    <DefaultRoute name='home' handler={LandingPageHandler} />
     <NotFoundRoute name='notfound' handler={NotFoundHandler} />
 
     <Route name='login' path='/login' handler={AuthHandler} />

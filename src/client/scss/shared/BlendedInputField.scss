@@ -1,5 +1,5 @@
 .blended-input-field {
-  @include transition;
+  @extend .transition;
   width: 100%;
   position: relative;
   margin: 0;

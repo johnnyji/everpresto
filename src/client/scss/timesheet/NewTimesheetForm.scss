@@ -1,7 +1,7 @@
 .new-timesheet-form-wrapper {
   @include modal-form-style;
   .form-title {
-    @include text-shadow;
+    @extend .text-shadow;
     position: relative;
     margin: 0.5rem 0 1.5rem 0;
   }

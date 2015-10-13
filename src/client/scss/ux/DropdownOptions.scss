@@ -1,5 +1,5 @@
 .dropdown-options {
-  @include box-shadow;
+  @extend .box-shadow;
   background-color: $form-background-color;
   border-radius: $border-radius;
   list-style: none;

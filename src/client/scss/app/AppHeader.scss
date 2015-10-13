@@ -9,7 +9,7 @@
   z-index: 2;
 
   &-logo {
-    @include text-shadow;
+    @extend .text-shadow;
     font-size: 1.8rem;
     font-weight: 600;
     color: #FFF;
@@ -30,7 +30,7 @@
       margin-right: 1rem;
     }
     &-user-email {
-      @include text-shadow;
+      @extend .text-shadow;
       color: $white;
       &:hover {
         cursor: pointer;
