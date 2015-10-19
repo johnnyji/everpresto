@@ -15,6 +15,8 @@ import {renderToString} from 'react-dom/server';
 import {match, RoutingContext} from 'react-router';
 import clientRoutes from '.././client/routes';
 
+import NotFoundHandler from '.././client/components/shared/NotFoundHandler';
+
 import './models/user';
 import './models/group';
 import './models/note';
@@ -79,20 +81,28 @@ app.use((req, res) => {
   match({routes: clientRoutes, location: req.url}, (err, redirectLocation, renderProps) => {
     if (err) {
       // Handle server error
-      debugger
+      // TODO: Have the response render a custom server error component to display
+      // a user friendly message.
       res.send(500, err.message);
     } else if (redirectLocation) {
       // Handle route redirection
-      debugger
       res.redirect(302, redirectLocation.pathname + redirectLocation.search);
     } else if (renderProps) {
       // Handle route rendering
-      res.send(200, renderToString(<RoutingContext {...renderProps}/>));
+      res.render('index', {
+        content: renderToString(<RoutingContext {...renderProps}/>),
+        scriptPath,
+        stylePath
+      });
     } else {
       // Hande route not found
-      debugger
-      res.send(404, 'Not Found');
+      res.send('index', {
+        content: renderToString(<NotFoundHandler />),
+        scriptPath,
+        stylePath
+      });
     }
+    
   });
 
   // // Renders the initial component to an HTML string.

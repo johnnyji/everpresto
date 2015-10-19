@@ -51,9 +51,9 @@ const routes = (
         <Route path='/dashboard/contacts' component={ContactsHandler} />
       </Route>
 
+      {/*Route for Not Found page.*/}
+      <Route component={NotFoundHandler} path='*' />
     </Route>
-    {/*Route for Not Found page.*/}
-    <Route component={NotFoundHandler} path='*' />
   </Router>
 );
 
