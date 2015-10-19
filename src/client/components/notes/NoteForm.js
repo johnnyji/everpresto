@@ -1,33 +1,33 @@
 import React from 'react';
-import ReactQuill, { Toolbar } from 'react-quill';
-import ReactTemplate from '.././shared/ReactTemplate';
+import ReactQuill, {Toolbar} from 'react-quill';
 
 import BlendedInputField from '.././shared/BlendedInputField';
 
-export default class NoteForm extends ReactTemplate {
+export default class NoteForm extends React.Component {
+
   constructor(props) {
     super(props);
-    this._bindFunctions(
-      '_handleTitleChange',
-      '_handleDescriptionChange',
-      '_showPlaceholder'
-    );
   }
+
   componentDidMount() {
     this._showPlaceholder();
   }
-  _handleTitleChange(e) {
+
+  _handleTitleChange = (e) => {
     this.props.onTitleChange(e.target.value);
   }
-  _handleDescriptionChange(description) {
+
+  _handleDescriptionChange = (description) => {
     if (description === '<div><br></div>') this._showPlaceholder();
     // update the description of the new article
     this.props.onDescriptionChange(description);
   }
-  _showPlaceholder() {
-    let editor = this.refs.quill.refs.editor.getDOMNode();
+
+  _showPlaceholder = () => {
+    const editor = this.refs.quill.refs.editor;
     editor.firstChild.innerHTML = '';
   }
+
   render() {
     return (
       <div className='note-form-wrapper'>
@@ -56,6 +56,7 @@ export default class NoteForm extends ReactTemplate {
       </div>
     );
   }
+
 }
 
 NoteForm.propTypes = {

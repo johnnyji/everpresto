@@ -1,30 +1,43 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
+import classNames from 'classnames';
 import Icon from './Icon';
 
 export default class ContentEditable extends React.Component {
+
+  static propTypes = {
+    contentEditableClass: PropTypes.string,
+    html: PropTypes.string,
+    onChange: PropTypes.func.isRequired
+  }
+
   constructor(props) {
     super(props);
-    this.state = { editing: false };
-    this._emitChange = this._emitChange.bind(this);
-    this._activateEditingState = this._activateEditingState.bind(this);
+    this.state = {editing: false};
   }
-  componentDidMount() {
-    React.findDOMNode(this.refs.inputField).innerHTML = this.props.html;
-  }
-  _activateEditingState() {
-    this.setState({ editing: true });
-  }
-  _emitChange() {
-    this.setState({ editing: false });
 
-    let input = React.findDOMNode(this.refs.inputField).value;
+  componentDidMount() {
+    // Sets the contents of the content editable field to the
+    // inital HTML text if one is provided.
+    if (this.props.html) this.refs.inputField.innerHTML = this.props.html;
+  }
+
+  _activateEditingState = () => {
+    this.setState({editing: true});
+  }
+
+  _emitChange = () => {
+    this.setState({editing: false});
+
+    const input = React.findDOMNode(this.refs.inputField).value;
     this.props.onChange(input);
   }
+
   render() {
+    const classes = classNames('content-editable', this.props.contentEditableClass);
+
     return ( 
-      <div className={`content-editable-wrapper ${this.props.className}`}>
+      <div className={classes}>
         <div
-          {...this.props}
           ref='inputField'
           contentEditable
           className='content-editable-input'
@@ -37,10 +50,5 @@ export default class ContentEditable extends React.Component {
       </div>
     );
   }
-}
 
-ContentEditable.propTypes = {
-  className: React.PropTypes.string,
-  html: React.PropTypes.string.isRequired,
-  onChange: React.PropTypes.func.isRequired
-};
+}

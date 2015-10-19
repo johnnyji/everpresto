@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
+import {Link} from 'react-router';
 import ReactTemplate from '.././shared/ReactTemplate';
 import AuthHelper from '../.././utils/AuthHelper';
-import { Link } from 'react-router';
 
 export default class LandingPageHandler extends ReactTemplate {
 
@@ -23,7 +23,7 @@ export default class LandingPageHandler extends ReactTemplate {
       <div>
         <h1>Tickit</h1>
         <p>Track and manage time, the better way.</p>
-        <Link to='join'>Try for free!</Link>
+        <Link to='/join'>Try for free!</Link>
       </div>
     );
   }

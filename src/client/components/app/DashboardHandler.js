@@ -1,5 +1,4 @@
 import React, {PropTypes} from 'react';
-import {RouteHandler} from 'react-router';
 import ProtectedComponent from '.././shared/ProtectedComponent';
 
 import HorizontalNavbar from '.././ux/HorizontalNavbar';
@@ -43,7 +42,9 @@ export default ProtectedComponent(class DashboardHandler extends React.Component
     return (
       <div>
         <HorizontalNavbar navLinks={navLinks} />
-        <RouteHandler />
+        {/*Allows the React Router to run the correct child route,
+        replaced RouteHandler in v1.0.0*/}
+        {this.props.children}
       </div>
     );
   }

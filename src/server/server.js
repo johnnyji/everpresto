@@ -11,7 +11,8 @@ import config from '../.././config';
 import secrets from '../.././secrets.json';
 
 import React from 'react';
-import Router from 'react-router';
+import {renderToString} from 'react-dom/server';
+import {match, RoutingContext} from 'react-router';
 import clientRoutes from '.././client/routes';
 
 import './models/user';
@@ -56,8 +57,10 @@ app.use(session({
   saveUninitialized: false
 }));
 
+
 // prefixes all routes call to the server with /api to use express router
 app.use('/api', apiRouter);
+
 
 // api routes
 apiRouter.use('/', rootRoute);
@@ -66,33 +69,44 @@ apiRouter.use('/auth', authRoute);
 apiRouter.use('/user', requireUser, userRoute);
 apiRouter.use('/notes', requireUser, notesRoute);
 
-// react isomorphic render
-app.use((req, res) => {
-  let scriptPath = `http://localhost:${config.development.webpackPort}/build/bundle.js`;
-  let stylePath = `http://localhost:${config.development.webpackPort}/build/style.css`;
 
-  let router = Router.create({
-    routes: clientRoutes,
-    location: req.url,
-    // onAbort allows for react-router to do server side transitions in willTransitionTo
-    onAbort: (options) => {
-      let destination = options.to || '/';
-      res.redirect(302, destination);
-      console.log('Redirecting to: ', destination);
+// Server-side rendering.
+app.use((req, res) => {
+  const scriptPath = `http://localhost:${config.development.webpackPort}/build/bundle.js`;
+  const stylePath = `http://localhost:${config.development.webpackPort}/build/style.css`;
+
+  // Renders the router routes dependant on the request
+  match({routes: clientRoutes, location: req.url}, (err, redirectLocation, renderProps) => {
+    if (err) {
+      // Handle server error
+      debugger
+      res.send(500, err.message);
+    } else if (redirectLocation) {
+      // Handle route redirection
+      debugger
+      res.redirect(302, redirectLocation.pathname + redirectLocation.search);
+    } else if (renderProps) {
+      // Handle route rendering
+      res.send(200, renderToString(<RoutingContext {...renderProps}/>));
+    } else {
+      // Hande route not found
+      debugger
+      res.send(404, 'Not Found');
     }
   });
 
-    router.run((Handler, state) => {
-      let content = React.renderToString(<Handler />);
+  // // Renders the initial component to an HTML string.
+  // const content = renderToString(clientRoutes);
+  // // This sends our stringified HTML to our HTML file to render
+  // res.render('index', {
+  //   stylePath: stylePath,
+  //   scriptPath: scriptPath,
+  //   content: content
+  // });
 
-      res.render('index', {
-        stylePath: stylePath,
-        scriptPath: scriptPath,
-        content: content
-      });
-    });
 });
 
-let server = app.listen(port, () => {
+// Runs our app server instance.
+const server = app.listen(port, () => {
   console.log('App is live and running at http://localhost:', port);
 });

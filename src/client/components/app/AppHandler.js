@@ -1,9 +1,7 @@
 import React from 'react';
-import { RouteHandler } from 'react-router';
 
 import AppHeader from './AppHeader';
 import FullScreenModal from '.././shared/FullScreenModal';
-import NewTimesheetForm from '.././timesheet/NewTimesheetForm';
 import NewNoteForm from '.././notes/NewNoteForm';
 import NewGroupForm from '.././groups/NewGroupForm';
 
@@ -69,7 +67,8 @@ export default class AppHandler extends React.Component {
         {modal}
         <AppHeader currentUser={this.state.currentUser} />
         <div className='content-container'>
-          <RouteHandler />
+          {/*Allows the React Router to run the correct child route, replaced RouteHandler in v1.0.0*/}
+          {this.props.children}
         </div>
       </div>
     );

@@ -93,8 +93,8 @@ export default class AppHeader extends React.Component {
     } else {
       headerNavContent = (
         <div>
-          <Link to='login'>Login</Link>
-          <Link to='join'>Join</Link>
+          <Link to='/login'>Login</Link>
+          <Link to='/join'>Join</Link>
         </div>
       );
     }

@@ -1,5 +1,5 @@
 import React from 'react';
-import faker from 'faker';
+import faker from 'faker/locale/en';
 import _ from 'lodash';
 import uuid from 'node-uuid';
 import ReactTemplate from '.././shared/ReactTemplate';

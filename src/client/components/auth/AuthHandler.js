@@ -1,30 +1,34 @@
-import React from 'react';
-import ReactTemplate from '.././shared/ReactTemplate';
+import React, {PropTypes} from 'react';
 
 import LoginForm from './LoginForm';
 import RegistrationForm from './RegistrationForm';
 
 import AuthStore from '../.././stores/AuthStore';
 
-export default class AuthHandler extends ReactTemplate {
-  constructor(props) {
+export default class AuthHandler extends React.Component {
+
+  // Gets the location from the route component
+  static contextTypes = {
+    location: PropTypes.object
+  }
+
+  constructor (props) {
     super(props);
     this.state = this._getInitialState();
-    this._bindFunctions(
-      '_getInitialState',
-      '_updateState'
-    );
   }
-  componentDidMount() {
+
+  componentDidMount () {
     this._unsubscribe = AuthStore.listen(this._updateState);
 
     // redirects the user away from login/join pages if the user session already exists
     if (localStorage.getItem('jwt')) this.context.router.transitionTo('/dashboard');
   }
-  componentWillUnmount() {
+
+  componentWillUnmount () {
     this._unsubscribe(); 
   }
-  _getInitialState() {
+
+  _getInitialState = () => {
     let state = AuthStore.getState();
     return {
       user: state.user,
@@ -33,7 +37,8 @@ export default class AuthHandler extends ReactTemplate {
       registrationError: state.registrationError
     };
   }
-  _updateState(state) {
+
+  _updateState = (state) => {
     this.setState({
       user: state.user,
       errors: state.errors, 
@@ -41,31 +46,29 @@ export default class AuthHandler extends ReactTemplate {
       registrationError: state.registrationError
     });
   }
-  render() {
-    let s = this.state;
-    let path = this.context.router.getCurrentPathname();
-    
-    if (path === '/login') {
-      return (
-        <LoginForm 
-          loginError={s.loginError}
-          errors={s.errors}
-          user={s.user}
-        />
-      );
-    } else if (path === '/join') {
+
+  render () {
+    const path = this.context.location.pathname;
+
+    // Returns the registration form if the route path is '/join', otherwise
+    // returns the login form by default.
+    if (path === '/join') {
       return (
         <RegistrationForm
-          errors={s.errors}
-          user={s.user}
-          registrationError={s.registrationError}
+          errors={this.state.errors}
+          user={this.state.user}
+          registrationError={this.state.registrationError}
         />
       );
     }
 
+    return (
+      <LoginForm 
+        loginError={this.state.loginError}
+        errors={this.state.errors}
+        user={this.state.user}
+      />
+    );
+
   }
 }
-
-AuthHandler.contextTypes = {
-  router: React.PropTypes.func
-};

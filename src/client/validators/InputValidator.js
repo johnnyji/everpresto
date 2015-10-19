@@ -1,68 +1,92 @@
 import BaseValidator from './BaseValidator';
 
-class InputValidator extends BaseValidator {
-  constructor() {
-    super();
-    this.integerOnlyRegex = /^\d+$/;
-    this.emailRegex = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
-    this.defaultErrors = {
-      email: 'Invalid Email Format',
-      integerOnly: 'Please only enter numbers',
-      fieldPresence: 'Please fill out this field',
-      passwordConfirmation: 'Passwords must match'
-    };
-  }
+const InputValidator = function () {
 
-  validateEmail(errorMessage, email) {
-    let condition = this.emailRegex.test(email);
-    return this._testCondition(condition, this.defaultErrors.email, errorMessage);
-  }
+  // Private Properties
+  const integerOnlyRegex = /^\d+$/;
+  const emailRegex = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+  const defaultErrors = {
+    email: 'Invalid Email Format',
+    integerOnly: 'Please only enter numbers',
+    fieldPresence: 'Please fill out this field',
+    passwordConfirmation: 'Passwords must match'
+  };
 
-  validatePasswordConfirmation(errorMessage, password, passwordConfirmation) {
-    let condition = password === passwordConfirmation;
-    return this._testCondition(condition, this.defaultErrors.passwordConfirmation, errorMessage);
-  }
+  return {
 
-  validateIntegerOnly(errorMessage, ...inputs) {
-    let invalidCount = 0;
+    validateEmail: (errorMessage, email) => {
+      const condition = emailRegex.test(email);
+      return BaseValidator.testCondition(
+        condition,
+        defaultErrors.email, 
+        errorMessage
+      );
+    },
 
-    inputs.forEach(input => {
-      let valid = this.integerOnlyRegex.test(input);
-      if (!valid) invalidCount ++;
-    }.bind(this));
+    validatePasswordConfirmation: (errorMessage, password, passwordConfirm) => {
+      const condition = password === passwordConfirm;
+      return BaseValidator.testCondition(
+        condition, 
+        defaultErrors.passwordConfirm, 
+        errorMessage
+      );
+    },
 
-    let condition = invalidCount === 0;
-    return this._testCondition(condition, this.defaultErrors.integerOnly, errorMessage);
-  }
+    validateIntegerOnly: (errorMessage, ...inputs) => {
+      let invalidCount = 0;
 
-  validateLength(errorMessage, length, ...inputs) {
-    let invalidCount = 0;
+      inputs.forEach(input => {
+        const valid = integerOnlyRegex.test(input);
+        if (!valid) invalidCount ++;
+      });
 
-    inputs.forEach(input => {
-      if (input == null ) input = '';
+      const condition = invalidCount === 0;
 
-      let valid = input.length >= length;
-      if (!valid) invalidCount ++;
-    });
+      return BaseValidator.testCondition(
+        condition,
+        defaultErrors.integerOnly,
+        errorMessage
+      );
+    },
 
-    let condition = invalidCount === 0;
-    return this._testCondition(condition, `Must be at least ${length} chars long`, errorMessage);
-  }
+    validateLength: (errorMessage, length, ...inputs) => {
+      let invalidCount = 0;
 
-  validateStringPresence(errorMessage, ...inputs) {
-    let invalidCount = 0;
+      inputs.forEach(input => {
+        if (input == null ) input = '';
 
-    inputs.forEach(input => {
-      if (input == null ) { input = ''; }
+        const valid = input.length >= length;
+        if (!valid) invalidCount ++;
+      });
 
-      let valid = input !== '';
-      if (!valid) { invalidCount ++; }
-    });
+      const condition = invalidCount === 0;
+      return BaseValidator.testCondition(
+        condition,
+        `Must be at least ${length} chars long`,
+        errorMessage
+      );
+    },
 
-    let condition = invalidCount === 0;
-    return this._testCondition(condition, this.defaultErrors.fieldPresence, errorMessage);
-  }
+    validateStringPresence(errorMessage, ...inputs) {
+      let invalidCount = 0;
 
-}
+      inputs.forEach(input => {
+        if (input == null ) input = '';
 
-export default new InputValidator;
+        const valid = input !== '';
+        if (!valid) invalidCount ++;
+      });
+
+      const condition = invalidCount === 0;
+      return BaseValidator.testCondition(
+        condition,
+        defaultErrors.fieldPresence,
+        errorMessage
+      );
+    }
+
+  };
+
+};
+
+export default InputValidator;

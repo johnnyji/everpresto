@@ -30,7 +30,7 @@ export default class GroupsController extends React.Component {
           text={
             <div>
               <p>Looks like you don't have any groups yet...</p>
-              <p>Click the "New Group" button above to create a group and start adding you're teammates!</p>
+              <p>Click the "New Group" button above to create a group and start adding teammates!</p>
             </div>
           }/>
       );

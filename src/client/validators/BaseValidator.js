@@ -1,11 +1,16 @@
-export default class BaseValidator {
-  _testCondition(condition, defaultError, customError) {
-    if (condition) {
-      return { valid: true };
+const BaseValidator = function () {
+
+  return {
+    testCondition: (condition, defaultErr, customErr) => {
+      if (condition) return {valid: true};
+
+      return {
+        valid: false,
+        message: defaultErr || customErr
+      };
     }
-    return {
-      valid: false,
-      message: (defaultError || customError)
-    };
-  }
-}
+  };
+  
+};
+
+export default BaseValidator;
