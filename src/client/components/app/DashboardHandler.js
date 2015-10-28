@@ -22,7 +22,7 @@ export default ProtectedComponent(class DashboardHandler extends React.Component
       profilePictureUrl: PropTypes.string.isRequired,
       updatedAt: PropTypes.string
     })
-  }
+  };
 
   constructor (props) {
     super(props);
@@ -36,7 +36,7 @@ export default ProtectedComponent(class DashboardHandler extends React.Component
     let navLinks = [
       { path: '/dashboard', name: 'Groups' },
       { path: '/dashboard/notes', name: 'Notes' },
-      { path: '/dashboard/contacts', name: 'Contacts' },
+      { path: '/dashboard/contacts', name: 'Contacts' }
     ];
     
     return (

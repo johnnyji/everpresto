@@ -30,17 +30,10 @@ router.get('/logout', (req, res, next) => {
   res.status(204).json(null);
 });
 
-router.post('/authenticate_with_token', (req, res, next) => {
-  jwt.verify(req.body.jwt, secrets.jwtSecret, (err, decoded) => {
-    if (err) return res.status(500).json({ message: err.message });
-
-    User.findOne({ 
-      email: decoded.email,
-      password: decoded.password
-    }).exec((err, user) => {
-      res.status(201).json({ user: user });
-    });
-  });
+router.post('/authenticate_from_token', (req, res, next) => {
+  User.findByJwt(req.body.jwt)
+    .then(user => res.status(201).json({user}))
+    .catch(err => res.status(500).json({message: err.message}));
 });
 
 router.post('/register', (req, res, next) => {

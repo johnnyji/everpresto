@@ -13,7 +13,7 @@ const apiEndpoints = {
     create: formApiPath('/auth/register', 'POST'),
     login: formApiPath('/auth/login', 'POST'),
     logout: formApiPath('/auth/logout', 'GET'),
-    authenticateWithToken: formApiPath('/auth/authenticate_with_token', 'POST'),
+    authenticateFromToken: formApiPath('/auth/authenticate_from_token', 'POST'),
   },
   notes: {
     create: formApiPath('/notes', 'POST'),

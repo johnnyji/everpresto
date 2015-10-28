@@ -32,20 +32,15 @@ AuthActions.logoutUser.listen(function() {
   .catch(this.failed);
 });
 
-AuthActions.autoLoginUser.listen(function(jwt, redirectPath) {
-  if (localStorage.getItem('jwt') !== jwt) {
-    RouterContainer.get().transitionTo('/login');
-  } else {
-    ApiCaller.sendAjaxRequest({
-      url: apiEndpoints.users.authenticateWithToken.path,
-      method: apiEndpoints.users.authenticateWithToken.method,
-      data: { jwt: jwt }
-    })
-    .then(function(response) {
-      this.completed(response, redirectPath);
-    }.bind(this))
-    .catch(this.failed);
-  }
+AuthActions.autoLoginUser.listen(function(jwt, redirectPath, routerHistory) {
+  ApiCaller.sendAjaxRequest({
+    url: apiEndpoints.users.authenticateFromToken.path,
+    method: apiEndpoints.users.authenticateFromToken.method,
+    data: {jwt: jwt}
+  })
+  .then(this.completed)
+  .catch(() => RouterContainer.get().props.history.pushState(null, '/login'));
+  // If the authentication fails, we will redirect the user to the login page for manual auth
 });
 
 AuthActions.createUser.listen(function(data) {

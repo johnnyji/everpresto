@@ -12,16 +12,8 @@ import NotesHandler from './components/notes/NotesHandler';
 import NotFoundHandler from './components/shared/NotFoundHandler';
 import ProfileHandler from './components/user/ProfileHandler';
 
+import AuthHelper from './utils/AuthHelper';
 import AuthStore from './stores/AuthStore';
-
-// Passed to every protected route component's onEnter to check if the current user 
-// is authenticated. Replaces the route with /login if the user is unauthenticated.
-const authenticateUser = function (nextState, replaceState) {
-  debugger
-  if (!AuthStore.getCurrentUser()) {
-    replaceState({nextPathname: nextState.location.pathname}, '/login');
-  }
-};
 
 const routes = (
   <Router history={createBrowserHistory()}>
@@ -38,9 +30,9 @@ const routes = (
 
       {/* PROTECTED ROUTES: Requires an authenticated user to access */}
 
-      <Route path='/profile' component={ProfileHandler} onEnter={authenticateUser}/>
+      <Route path='/profile' component={ProfileHandler} onEnter={AuthHelper.authenticateUser}/>
 
-      <Route path='/dashboard' component={DashboardHandler} onEnter={authenticateUser}>
+      <Route path='/dashboard' component={DashboardHandler} onEnter={AuthHelper.authenticateUser}>
         {/* Redirects from '/dashboard/groups' to 'dashboard' */}
         <Redirect from='/groups' to='/dashboard' />
 

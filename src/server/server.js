@@ -10,11 +10,11 @@ import mongoose from 'mongoose';
 import config from '../.././config';
 import secrets from '../.././secrets.json';
 
-import React from 'react';
 import {renderToString} from 'react-dom/server';
 import {match, RoutingContext} from 'react-router';
 import clientRoutes from '.././client/routes';
 
+import Provider from '.././client/components/app/Provider';
 import NotFoundHandler from '.././client/components/shared/NotFoundHandler';
 
 import './models/user';
@@ -28,6 +28,7 @@ import notesRoute from './routes/notesRoute';
 import groupsRoute from './routes/groupsRoute';
 
 import requireUser from './middlewares/requireUser';
+import userHelper from './helpers/userHelper';
 
 const app = express();
 const MongoStore = connectMongo(session); // mongo store for session
@@ -52,6 +53,8 @@ app.use(bodyParser.json());
 
 // parses cookies and uses sessions
 app.use(cookieParser());
+
+// Uses MongoDB as a store for sessions so they can persist
 app.use(session({ 
   secret: secrets.sessionSecret,
   store: new MongoStore({ mongooseConnection: mongoose.connection }),
@@ -90,7 +93,11 @@ app.use((req, res) => {
     } else if (renderProps) {
       // Handle route rendering
       res.render('index', {
-        content: renderToString(<RoutingContext {...renderProps}/>),
+        content: renderToString(
+          <Provider currentUser={userHelper.getUserFromSession}>
+            <RoutingContext {...renderProps}/>
+          </Provider>
+        ),
         scriptPath,
         stylePath
       });
@@ -102,17 +109,7 @@ app.use((req, res) => {
         stylePath
       });
     }
-    
   });
-
-  // // Renders the initial component to an HTML string.
-  // const content = renderToString(clientRoutes);
-  // // This sends our stringified HTML to our HTML file to render
-  // res.render('index', {
-  //   stylePath: stylePath,
-  //   scriptPath: scriptPath,
-  //   content: content
-  // });
 
 });
 

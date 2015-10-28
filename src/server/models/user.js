@@ -6,7 +6,7 @@ import path from 'path';
 
 const defaultAvatarPath = `${config.s3BucketPath}/public/avatar.jpg`;
 
-let UserSchema = new mongoose.Schema({
+const UserSchema = new mongoose.Schema({
   email: { type: String, required: true },
   password: { type: String, required: true },
   profilePictureUrl: { type: String, default: defaultAvatarPath },
@@ -17,20 +17,19 @@ let UserSchema = new mongoose.Schema({
   activeGroupId: String
 });
 
-let User = mongoose.model('User', UserSchema);
-
-UserSchema.statics.findByJwt = jwt => {
-  debugger;
+// Must use `function` syntax in order to scope `this` to be the User model
+UserSchema.statics.findByJwt = function (token) {
+  // returns a pending promise 
   return new Promise((resolve, reject) => {
-    jwt.verify(jwt, secrets.jwtSecret, (err, decoded) => {
+    jwt.verify(token, secrets.jwtSecret, (err, decoded) => {
       if (err) reject(err);
 
       this.findOne(decoded, (err, user) => {
         if (err) reject(err);
         resolve(user);
       });
-    }.bind(this));
-  }.bind(this));
+    });
+  });
 }
 
-export default User;
+export default mongoose.model('User', UserSchema);

@@ -1,12 +1,13 @@
-import React, {PropTypes} from 'react';
+import React, {PropTypes, Component} from 'react';
 import {Link} from 'react-router';
 import ReactTemplate from '.././shared/ReactTemplate';
 import AuthHelper from '../.././utils/AuthHelper';
 
-export default class LandingPageHandler extends ReactTemplate {
+export default class LandingPageHandler extends Component {
 
+  // TODO: Change to history context and find way to manually execute route transitions in v1
   static contextTypes = {
-    router: PropTypes.func
+    history: PropTypes.object.isRequired
   }
 
   constructor (props) {
@@ -15,7 +16,7 @@ export default class LandingPageHandler extends ReactTemplate {
 
   componentWillMount () {
     // if (localStorage.getItem('jwt')) AuthHelper.updateCurrentUser();
-    if (localStorage.getItem('jwt')) this.context.router.transitionTo('/dashboard');
+    if (localStorage.getItem('jwt')) this.context.history.pushState(null, '/dashboard');
   }
 
   render () {

@@ -88,7 +88,9 @@ var AuthStore = Reflux.createStore({
     }
     this.state.currentUser = response.data.user;
     this.trigger(this.state);
-    RouterContainer.get().transitionTo(redirectPath);
+    
+    // Redirects to correct path after successful session save
+    RouterContainer.get().props.history.pushState(null, redirectPath);
   }
 });
 

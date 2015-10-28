@@ -18,28 +18,28 @@ var AppStateTemplate = {
 };
 
 var AppStore = Reflux.createStore({
-  init: function() {
+  init: function () {
     this.state = _.cloneDeep(AppStateTemplate);
     this.listenToMany(AppActions);
   },
-  getState: function() {
+  getState: function () {
     return this.state;
   },
-  onToggleModal: function(modalName) {
+  onToggleModal: function (modalName) {
     // first sets all modals to false, and then sets true to inputted modal name is there is one
     this.state.modal = _.mapValues(this.state.modal, function(v) { return v = false; });
     if (modalName) this.state.modal[modalName] = true;
     this.trigger(this.state);
   },
-  onLoadInitialDashboardDataCompleted: function() {
+  onLoadInitialDashboardDataCompleted: function () {
     this.state.dashboardReady = true;
     this.trigger(this.state);
   },
-  onTriggerFlashMessage: function(message) {
+  onTriggerFlashMessage: function (message) {
     this.state.flash = { error: null, message: message };
     this.trigger(this.state);
   },
-  onTriggerFlashError: function(error) {
+  onTriggerFlashError: function (error) {
     this.state.flash = { error: error, message: null };
     this.trigger(this.state);
   }
