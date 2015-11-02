@@ -5,6 +5,7 @@ var apiEndpoints = require('.././apiEndpoints');
 var AppActions = Reflux.createActions({
   'toggleModal': {},
   'loadInitialDashboardData': {},
+  'setCurrentUser': {},
   'triggerFlashMessage': {},
   'triggerFlashError': {}
 });

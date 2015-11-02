@@ -1,33 +1,28 @@
-import React from 'react';
-import ReactTemplate from '.././shared/ReactTemplate';
-import ProtectedComponent from '.././shared/ProtectedComponent';
+import React, {Component, PropTypes} from 'react';
 
 import GroupsController from './GroupsController';
 import ActiveGroupContent from './ActiveGroupContent';
 import ChatWindow from '.././chat/ChatWindow';
 
-class GroupsHandler extends ReactTemplate {
-  constructor(props) {
+export default class GroupsHandler extends Component {
+  
+  static contextTypes = {
+    currentUser: PropTypes.object
+  };
+
+  constructor (props) {
     super(props);
   }
-  render() {
-    let s = this.state;
-    let p = this.props;
 
+  render () {
     return (
       <div className='groups-handler-wrapper'>
         <GroupsController groups={null} />
         <ActiveGroupContent group={null} notes={[]} />
         <span className='chat-window-wrapper-container'></span>
-        <ChatWindow currentUser={p.currentUser} />
+        <ChatWindow currentUser={this.context.currentUser} />
       </div>
     );
   }
+  
 }
-
-// current user is passed from ProtectedComponent decorator
-GroupsHandler.propTypes = {
-  currentUser: React.PropTypes.object.isRequired
-};
-
-export default ProtectedComponent(GroupsHandler);

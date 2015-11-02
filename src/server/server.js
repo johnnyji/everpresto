@@ -10,6 +10,7 @@ import mongoose from 'mongoose';
 import config from '../.././config';
 import secrets from '../.././secrets.json';
 
+import React from 'react';
 import {renderToString} from 'react-dom/server';
 import {match, RoutingContext} from 'react-router';
 import clientRoutes from '.././client/routes';
@@ -17,7 +18,7 @@ import clientRoutes from '.././client/routes';
 import Provider from '.././client/components/app/Provider';
 import NotFoundHandler from '.././client/components/shared/NotFoundHandler';
 
-import './models/user';
+import User from './models/user';
 import './models/group';
 import './models/note';
 
@@ -28,7 +29,6 @@ import notesRoute from './routes/notesRoute';
 import groupsRoute from './routes/groupsRoute';
 
 import requireUser from './middlewares/requireUser';
-import userHelper from './helpers/userHelper';
 
 const app = express();
 const MongoStore = connectMongo(session); // mongo store for session
@@ -82,6 +82,7 @@ app.use((req, res) => {
 
   // Renders the router routes dependant on the request
   match({routes: clientRoutes, location: req.url}, (err, redirectLocation, renderProps) => {
+    
     if (err) {
       // Handle server error
       // TODO: Have the response render a custom server error component to display
@@ -92,15 +93,51 @@ app.use((req, res) => {
       res.redirect(302, redirectLocation.pathname + redirectLocation.search);
     } else if (renderProps) {
       // Handle route rendering
-      res.render('index', {
-        content: renderToString(
-          <Provider currentUser={userHelper.getUserFromSession}>
-            <RoutingContext {...renderProps}/>
-          </Provider>
-        ),
-        scriptPath,
-        stylePath
-      });
+
+      // DELETE
+      // =====================================
+      // res.render('index', {
+      //   content: renderToString(<RoutingContext {...renderProps} />), scriptPath, stylePath
+      // });
+      // =====================================
+
+      // If there's no userId stored in session, it means there's no current user instance, therefore we
+      // render the response without a current user
+      if (!req.session.userId) {
+        console.log('no userid sess')
+        return res.render('index', {
+          content: renderToString(<Provider><RoutingContext {...renderProps}/></Provider>),
+          scriptPath,
+          stylePath
+        })
+      }
+
+      // Tries to find the current user from the existing session. If successful it will render the app
+      // with the current user, otherwise it will redirect t
+      const currentUser = User.findFromSession(req.session.userId)
+        .then(user => {
+          console.log('user found')
+          // If we find a user that matches the one in session, we render the route with the current user in mind
+          res.render('index', {
+            content: renderToString(
+              <Provider currentUser={user.toObject()}>
+                <RoutingContext {...renderProps}/>
+              </Provider>
+            ),
+            scriptPath,
+            stylePath
+          });
+        })
+        .catch(err => {
+          console.log('no user found: ', req.session.userId)
+          // If the user could not be found, we render the route as if they are not signed in'
+          res.render('index', {
+            content: renderToString(<Provider><RoutingContext {...renderProps}/></Provider>),
+            scriptPath,
+            stylePath
+          });
+        });
+
     } else {
       // Hande route not found
       res.send('index', {

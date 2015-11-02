@@ -9,19 +9,23 @@ export default class AuthHandler extends React.Component {
 
   // Gets the location from the route component
   static contextTypes = {
-    location: PropTypes.object
-  }
+    currentUser: PropTypes.object,
+    history: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired
+  };
 
   constructor (props) {
     super(props);
     this.state = this._getInitialState();
+  };
+
+  componentWillMount() {
+    // Redirects the user to the dashboard if they're already logged in.
+    if (this.context.currentUser) this.context.history.replaceState(null, '/dashboard');
   }
 
   componentDidMount () {
     this._unsubscribe = AuthStore.listen(this._updateState);
-
-    // redirects the user away from login/join pages if the user session already exists
-    if (localStorage.getItem('jwt')) this.context.router.transitionTo('/dashboard');
   }
 
   componentWillUnmount () {
@@ -36,15 +40,6 @@ export default class AuthHandler extends React.Component {
       loginError: state.loginError,
       registrationError: state.registrationError
     };
-  }
-
-  _updateState = (state) => {
-    this.setState({
-      user: state.user,
-      errors: state.errors, 
-      loginError: state.loginError,
-      registrationError: state.registrationError
-    });
   }
 
   render () {
@@ -71,4 +66,14 @@ export default class AuthHandler extends React.Component {
     );
 
   }
+
+  _updateState = (state) => {
+    this.setState({
+      user: state.user,
+      errors: state.errors, 
+      loginError: state.loginError,
+      registrationError: state.registrationError
+    });
+  }
+
 }

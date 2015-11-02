@@ -1,44 +1,62 @@
-import React, {PropTypes} from 'react';
-import ProtectedComponent from '.././shared/ProtectedComponent';
+import React, {Component, PropTypes} from 'react';
 
 import HorizontalNavbar from '.././ux/HorizontalNavbar';
 import AppActions from '../.././actions/AppActions';
 
-export default ProtectedComponent(class DashboardHandler extends React.Component {
+export default class DashboardHandler extends Component {
 
-  // Both apiToken and currentUser come from the ProtectedComponent decorator
-  static propTypes = {
-    apiToken: PropTypes.string,
-    currentUser: PropTypes.shape({
-      _id: PropTypes.string.isRequired,
-      createdAt: PropTypes.string,
-      email: PropTypes.string,
-      groupPreviews: PropTypes.arrayOf(
-        PropTypes.shape({
-          name: PropTypes.string.isRequired,
-          iconUrl: PropTypes.string.isRequired
-        })
-      ),
-      profilePictureUrl: PropTypes.string.isRequired,
-      updatedAt: PropTypes.string
-    })
+  static displayName = 'DashboardHandler';
+
+  static contextTypes = {
+    currentUser: PropTypes.object
+    // currentUser: PropTypes.shape({
+    //   _id: PropTypes.string.isRequired,
+    //   createdAt: PropTypes.string,
+    //   email: PropTypes.string,
+    //   groupPreviews: PropTypes.arrayOf(
+    //     PropTypes.shape({
+    //       name: PropTypes.string.isRequired,
+    //       iconUrl: PropTypes.string.isRequired
+    //     })
+    //   ),
+    //   profilePictureUrl: PropTypes.string.isRequired,
+    //   updatedAt: PropTypes.string
+    // })
   };
+
+  // static propTypes = {
+  //   apiToken: PropTypes.string,
+  //   currentUser: PropTypes.shape({
+  //     _id: PropTypes.string.isRequired,
+  //     createdAt: PropTypes.string,
+  //     email: PropTypes.string,
+  //     groupPreviews: PropTypes.arrayOf(
+  //       PropTypes.shape({
+  //         name: PropTypes.string.isRequired,
+  //         iconUrl: PropTypes.string.isRequired
+  //       })
+  //     ),
+  //     profilePictureUrl: PropTypes.string.isRequired,
+  //     updatedAt: PropTypes.string
+  //   })
+  // };
 
   constructor (props) {
     super(props);
   }
 
   componentWillMount () {
-    AppActions.loadInitialDashboardData();
+    // AppActions.loadInitialDashboardData();
   }
 
   render() {
-    let navLinks = [
+
+    const navLinks = [
       { path: '/dashboard', name: 'Groups' },
       { path: '/dashboard/notes', name: 'Notes' },
       { path: '/dashboard/contacts', name: 'Contacts' }
     ];
-    
+
     return (
       <div>
         <HorizontalNavbar navLinks={navLinks} />
@@ -49,4 +67,4 @@ export default ProtectedComponent(class DashboardHandler extends React.Component
     );
   }
 
-});
+}

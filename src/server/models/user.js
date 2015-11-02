@@ -18,7 +18,7 @@ const UserSchema = new mongoose.Schema({
 });
 
 // Must use `function` syntax in order to scope `this` to be the User model
-UserSchema.statics.findByJwt = function (token) {
+UserSchema.statics.findFromJwt = function (token) {
   // returns a pending promise 
   return new Promise((resolve, reject) => {
     jwt.verify(token, secrets.jwtSecret, (err, decoded) => {
@@ -28,6 +28,15 @@ UserSchema.statics.findByJwt = function (token) {
         if (err) reject(err);
         resolve(user);
       });
+    });
+  });
+}
+
+UserSchema.statics.findFromSession = function (sessionId) {
+  return new Promise((resolve, reject) => {
+    this.findOne(sessionId, (err, user) => {
+      if (err) reject(err);
+      resolve(user);
     });
   });
 }

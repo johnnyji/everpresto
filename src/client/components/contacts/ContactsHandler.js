@@ -1,19 +1,17 @@
-import React from 'react';
-import ReactTemplate from '.././shared/ReactTemplate';
-import ProtectedComponent from '.././shared/ProtectedComponent';
+import React, {Component} from 'react';
 
-class ContactsHandler extends ReactTemplate {
-  constructor(props) {
+export default class ContactsHandler extends Component {
+
+  constructor (props) {
     super(props);
   }
-  render() {
+
+  render () {
     return (
       <div className='contacts-handler-wrapper'>
         Contacts!
       </div>
     );
   }
-}
 
-// currentUser prop comes from ProtectedComponent
-export default ProtectedComponent(ContactsHandler);
+}

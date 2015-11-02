@@ -7,16 +7,19 @@ export default class LandingPageHandler extends Component {
 
   // TODO: Change to history context and find way to manually execute route transitions in v1
   static contextTypes = {
+    currentUser: PropTypes.object,
     history: PropTypes.object.isRequired
-  }
+  };
 
   constructor (props) {
     super(props);
   }
 
   componentWillMount () {
-    // if (localStorage.getItem('jwt')) AuthHelper.updateCurrentUser();
-    if (localStorage.getItem('jwt')) this.context.history.pushState(null, '/dashboard');
+    // if (Boolean(this.context.currentUser)) {
+    //   debugger
+    //   this.context.history.pushState(null, '/dashboard');
+    // }
   }
 
   render () {

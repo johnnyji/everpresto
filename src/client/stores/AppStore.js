@@ -22,6 +22,9 @@ var AppStore = Reflux.createStore({
     this.state = _.cloneDeep(AppStateTemplate);
     this.listenToMany(AppActions);
   },
+  getCurrentUser: function () {
+    return this.state.currentUser;
+  },
   getState: function () {
     return this.state;
   },
@@ -33,6 +36,10 @@ var AppStore = Reflux.createStore({
   },
   onLoadInitialDashboardDataCompleted: function () {
     this.state.dashboardReady = true;
+    this.trigger(this.state);
+  },
+  onSetCurrentUser: function (user) {
+    this.state.currentUser = user;
     this.trigger(this.state);
   },
   onTriggerFlashMessage: function (message) {

@@ -16,6 +16,7 @@
     "express-session": "^1.11.3",
     "faker": "^3.0.1",
     "history": "^1.12.5",
+    "immutable": "^3.7.5",
     "jade": "^1.11.0",
     "jsonwebtoken": "^5.0.5",
     "lodash": "^3.10.1",

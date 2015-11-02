@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import React, {Component, PropTypes} from 'react';
 import {Link} from 'react-router';
 
 import AuthActions from '../.././actions/AuthActions';
@@ -7,13 +7,13 @@ import AuthStore from '../.././stores/AuthStore';
 import Logo from '.././shared/Logo';
 import DropdownOptions from '.././ux/DropdownOptions';
 
-export default class AppHeader extends React.Component {
+export default class AppHeader extends Component {
 
   // inherited from ProtectedComponent wrapper
   static propTypes = {
     currentUser: PropTypes.shape({
-      _id: PropTypes.string.isRequired,
-      createdAt: PropTypes.string,
+      _id: PropTypes.object.isRequired,
+      createdAt: PropTypes.instanceOf(Date).isRequired,
       email: PropTypes.string,
       groupPreviews: PropTypes.arrayOf(
         PropTypes.shape({
@@ -22,14 +22,15 @@ export default class AppHeader extends React.Component {
         })
       ),
       profilePictureUrl: PropTypes.string.isRequired,
-      updatedAt: PropTypes.string
+      updatedAt: PropTypes.instanceOf(Date).isRequired
     })
-  }
+  };
 
-  // Allows for this.context.router to assume the role of the React Router
+  // Allows for this.context.____ to assume the role of the React Router
   static contextTypes = {
-    router: PropTypes.func
-  }
+    location: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired
+  };
 
   constructor (props) {
     super(props);
@@ -37,8 +38,8 @@ export default class AppHeader extends React.Component {
   }
 
   _handleLogoClick = () => {
-    if (this.context.router.getCurrentPath() !== '/dashboard') {
-      this.context.router.transitionTo('/dashboard');
+    if (this.context.location.pathname !== '/dashboard') {
+      this.context.history.replaceState(null, '/dashboard');
     }
   }
 

@@ -14,37 +14,44 @@ import ProfileHandler from './components/user/ProfileHandler';
 
 import AuthHelper from './utils/AuthHelper';
 import AuthStore from './stores/AuthStore';
+import AppStore from './stores/AppStore';
+
+const requireAuth = (nextState, replaceState) => {
+  replaceState({nextPathname: nextState.location.pathname}, '/dashboard');
+}
+
 
 const routes = (
-  <Router history={createBrowserHistory()}>
+  <Router history={history}>
     <Route component={AppHandler} path='/'>
-      <Redirect from='/groups' to='/dashboard'/>
-      <Redirect from='/notes' to='/dashboard/notes'/>
-      <Redirect from='/contacts' to='/dashboard/contacts'/>
+      <IndexRoute component={LandingPageHandler} onEnter={requireAuth}/>
 
-      <IndexRoute component={LandingPageHandler} />
-
-      <Route component={AuthHandler} path='/login' />
-      <Route component={AuthHandler} path='/join' />
+      <Route component={AuthHandler} path='/login'/>
+      <Route component={AuthHandler} path='/join'/>
 
 
       {/* PROTECTED ROUTES: Requires an authenticated user to access */}
 
-      <Route path='/profile' component={ProfileHandler} onEnter={AuthHelper.authenticateUser}/>
+      <Route path='/profile' component={ProfileHandler}/>
 
-      <Route path='/dashboard' component={DashboardHandler} onEnter={AuthHelper.authenticateUser}>
+      <Route path='/dashboard' component={DashboardHandler}>
         {/* Redirects from '/dashboard/groups' to 'dashboard' */}
-        <Redirect from='/groups' to='/dashboard' />
+        <Redirect from='/dashboard/groups' to='/dashboard' />
 
         {/* groups is named the same as dashboard so it defaults to it and 
         activeClass is added to the link component */}
-        <Route path='/dashboard' component={GroupsHandler} />
+        <IndexRoute component={GroupsHandler} />
         <Route path='/dashboard/notes' component={NotesHandler} />
         <Route path='/dashboard/contacts' component={ContactsHandler} />
       </Route>
 
       {/*Route for Not Found page.*/}
       <Route component={NotFoundHandler} path='*' />
+
+      <Redirect from='/dashboard/groups' to='/dashboard' />
+      <Redirect from='/groups' to='/dashboard'/>
+      <Redirect from='/notes' to='/dashboard/notes'/>
+      <Redirect from='/contacts' to='/dashboard/contacts'/>
     </Route>
   </Router>
 );

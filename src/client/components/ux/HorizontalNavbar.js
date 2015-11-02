@@ -3,9 +3,8 @@ import {Link} from 'react-router';
 
 export default class HorizontalNavbar extends React.Component {
 
-  // Enable us to access the react router through this.context.router;
   static contextTypes = {
-    router: PropTypes.func
+    location: PropTypes.object.isRequired
   }
 
   static propTypes = {
@@ -22,7 +21,7 @@ export default class HorizontalNavbar extends React.Component {
   }
 
   render () {
-    const currentPath = this.context.router.getCurrentPathname();
+    const currentPath = this.context.location.pathname;
     const links = this.props.navLinks.map((link, i) => {
       return (
         <li className='horizontal-navbar-content-item' key={i}>

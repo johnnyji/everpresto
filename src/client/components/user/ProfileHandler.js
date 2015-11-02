@@ -1,13 +1,13 @@
-import React from 'react';
-import ReactTemplate from '.././shared/ReactTemplate';
-import ProtectedComponent from '.././shared/ProtectedComponent';
+import React, {Component} from 'react';
 
-class ProfileHandler extends ReactTemplate {
-  render() {
+export default class ProfileHandler extends Component {
+
+  static displayName = 'ProfileHandler';
+
+  render () {
     return (
       <div>user profile!</div>
     );
   }
-}
 
-export default ProtectedComponent(ProfileHandler);
+}
