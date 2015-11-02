@@ -3,6 +3,8 @@ const isDebugger = document.body.getElementsByTagName('footer').length === 1;
 
 const RouteHelper = {
 
+  // TODO: Find a way to determine if the user is authed without having the hit the API every single time... Maybe store it initially in Flux?
+
   // Checks if there's an availiable user session, if so, authenticate
   // and direct the user to their dashboard
   checkSession: (nextState, replaceState) => {
