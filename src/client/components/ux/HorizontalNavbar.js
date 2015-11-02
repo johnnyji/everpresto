@@ -14,7 +14,7 @@ export default class HorizontalNavbar extends React.Component {
         path: PropTypes.string.isRequired
       })
     ).isRequired
-  }
+  };
 
   constructor (props) {
     super(props);

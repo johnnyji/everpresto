@@ -5,7 +5,6 @@ import AuthHelper from '../.././utils/AuthHelper';
 
 export default class LandingPageHandler extends Component {
 
-  // TODO: Change to history context and find way to manually execute route transitions in v1
   static contextTypes = {
     currentUser: PropTypes.object,
     history: PropTypes.object.isRequired
@@ -13,13 +12,6 @@ export default class LandingPageHandler extends Component {
 
   constructor (props) {
     super(props);
-  }
-
-  componentWillMount () {
-    // if (Boolean(this.context.currentUser)) {
-    //   debugger
-    //   this.context.history.pushState(null, '/dashboard');
-    // }
   }
 
   render () {

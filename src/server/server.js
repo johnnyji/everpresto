@@ -82,7 +82,7 @@ app.use((req, res) => {
 
   // Renders the router routes dependant on the request
   match({routes: clientRoutes, location: req.url}, (err, redirectLocation, renderProps) => {
-    
+
     if (err) {
       // Handle server error
       // TODO: Have the response render a custom server error component to display
@@ -94,17 +94,8 @@ app.use((req, res) => {
     } else if (renderProps) {
       // Handle route rendering
 
-      // DELETE
-      // =====================================
-      // res.render('index', {
-      //   content: renderToString(<RoutingContext {...renderProps} />), scriptPath, stylePath
-      // });
-      // =====================================
-
-      // If there's no userId stored in session, it means there's no current user instance, therefore we
       // render the response without a current user
       if (!req.session.userId) {
-        console.log('no userid sess')
         return res.render('index', {
           content: renderToString(<Provider><RoutingContext {...renderProps}/></Provider>),
           scriptPath,
@@ -112,8 +103,8 @@ app.use((req, res) => {
         })
       }
 
-      // Tries to find the current user from the existing session. If successful it will render the app
-      // with the current user, otherwise it will redirect t
+      // Tries to find the current user from the existing session. If successful
+      // it will render the app with the current user, otherwise it will redirect
       const currentUser = User.findFromSession(req.session.userId)
         .then(user => {
           console.log('user found')

@@ -1,11 +1,11 @@
-import React, {PropTypes} from 'react';
+import React, {Component, PropTypes} from 'react';
 
 import LoginForm from './LoginForm';
 import RegistrationForm from './RegistrationForm';
 
 import AuthStore from '../.././stores/AuthStore';
 
-export default class AuthHandler extends React.Component {
+export default class AuthHandler extends Component {
 
   // Gets the location from the route component
   static contextTypes = {
@@ -32,16 +32,6 @@ export default class AuthHandler extends React.Component {
     this._unsubscribe(); 
   }
 
-  _getInitialState = () => {
-    let state = AuthStore.getState();
-    return {
-      user: state.user,
-      errors: state.errors,
-      loginError: state.loginError,
-      registrationError: state.registrationError
-    };
-  }
-
   render () {
     const path = this.context.location.pathname;
 
@@ -65,6 +55,16 @@ export default class AuthHandler extends React.Component {
       />
     );
 
+  }
+
+  _getInitialState = () => {
+    let state = AuthStore.getState();
+    return {
+      user: state.user,
+      errors: state.errors,
+      loginError: state.loginError,
+      registrationError: state.registrationError
+    };
   }
 
   _updateState = (state) => {
