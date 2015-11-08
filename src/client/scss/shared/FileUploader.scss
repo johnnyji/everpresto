@@ -1,4 +1,4 @@
-.file-uploader-wrapper {
+.file-uploader {
   position: relative;
   
   .dropzone {
@@ -20,21 +20,21 @@
     }
   }
 
-  .file-preview {
+  &-preview {
     position: relative;
     display: inline-block;
     margin-left: 1.5rem;
-    h4 {
+    &-title {
       margin: 0;
     }
-    .file-preview-list {
+    &-list {
       position: relative;
       list-style: none;
       padding-left: 0;
-      .file-preview-item {
+      &-item {
         position: relative;
         margin: 0.25rem 0;
-        .file-icon {
+        &-icon {
           position: relative;
           display: inline-block;
           vertical-align: top;
@@ -42,12 +42,12 @@
           height: 20px;
           margin-right: 0.5rem;
         }
-        .file-name {
+        &-name {
           position: relative;
           display: inline-block;
           margin: 0 0.5rem 0 0;
         }
-        .remove-file-icon {
+        &-remove-file-icon {
           position: relative;
           display: inline-block;
           svg {

@@ -1,0 +1,18 @@
+.ui-button {
+  @extend .transition;
+  background-color: $ui-button-background-color;
+  border-radius: 3px;
+  border-style: none;
+  color: $ui-button-color;
+  outline: none;
+  padding: 0.5rem 1rem;
+  &:hover {
+    @extend .button-shadow;
+    cursor: pointer;
+  }
+  &-icon {
+    margin-right: 4px;
+    position: relative;
+    top: -2px;
+  }
+}

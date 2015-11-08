@@ -1,48 +1,39 @@
-import React from 'react';
-import ReactTemplate from '.././shared/ReactTemplate';
-
-import AppActions from '../.././actions/AppActions';
-
+import React, {Component, PropTypes} from 'react';
+import Button from '.././ui/Button';
 import Icon from '.././shared/Icon';
 import SearchBar from '.././shared/SearchBar';
 
+import AppActions from '../.././actions/AppActions';
+
 import NotesList from '.././notes/NotesList';
 
-export default class ActiveGroupContent extends ReactTemplate {
-  constructor(props) {
-    super(props);
-    this._bindFunctions(
-      '_toggleNewNoteModal',
-      '_searchNotes'
-    );
-  }
-  _toggleNewNoteModal() {
-    AppActions.toggleModal('newNote');
-  }
-  _searchNotes(searchTerms) {
+export default class ActiveGroupContent extends Component {
 
-  }
+  static propTypes = {
+    notes: PropTypes.arrayOf(PropTypes.objects),
+  };
+
   render() {
-    let p = this.props;
-
     return (
       <div className='active-group-content-wrapper'>
         <header>
           <div className='new-note'>
-            <a onClick={this._toggleNewNoteModal}>
-              <Icon icon='add'/> New Note
-            </a>
+            <Button icon="add" onClick={this._toggleNewNoteModal} text="New Note" />
           </div>
           <SearchBar onInputChange={this._searchNotes}/>
         </header>
 
-        <NotesList notes={p.notes} />
+        <NotesList notes={this.props.notes} />
       </div>
     );
   }
-}
 
-ActiveGroupContent.propTypes = {
-  notes: React.PropTypes.array,
-  group: React.PropTypes.any
-};
+  _toggleNewNoteModal = () => {
+    AppActions.toggleModal('newNote');
+  }
+
+  _searchNotes = (searchTerms) => {
+
+  }
+
+}

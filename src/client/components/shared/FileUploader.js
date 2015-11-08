@@ -1,5 +1,5 @@
-import React from 'react';
-import ReactTemplate from './ReactTemplate';
+import React, {Component, PropTypes} from 'react';
+import classNames from 'classnames';
 import _ from 'lodash';
 import uuid from 'node-uuid';
 import Dropzone from 'react-dropzone';
@@ -8,65 +8,61 @@ import Icon from './Icon';
 
 import TextHelper from '../.././utils/TextHelper';
 
-export default class FileUploader extends ReactTemplate {
-  constructor(props) {
+export default class FileUploader extends Component {
+
+  static propTypes = {
+    files: React.PropTypes.arrayOf(PropTypes.string).isRequired,
+    onUpdateFiles: React.PropTypes.func.isRequired,
+    uploaderClassName: PropTypes.string
+  };
+
+  constructor (props) {
     super(props);
-    this._bindFunctions(
-      '_handleFileUpload',
-      '_removeUploadedFile'
-    );
   }
-  componentWillUnmount() {
+
+  componentWillUnmount () {
     // clears the uploaded files when the component is about to unmount
     this.props.onUpdateFiles([]);
   }
-  _handleFileUpload(selectedFiles) {
-    let uploadedFiles = this.props.files;
-    _.each(selectedFiles, file => {
-      file.uuid = uuid.v4();
-      uploadedFiles.push(file);
-    });
 
-    this.props.onUpdateFiles(uploadedFiles);
-  }
-  _removeUploadedFile(selectedFile) {
-    _.remove(this.props.files, file => file.uuid === selectedFile.uuid);
-    this.props.onUpdateFiles(this.props.files);
-  }
-  render() {
-    let p = this.props;
+  render () {
+    const fileUploaderClasses = classNames(
+      'file-uploader',
+      this.props.uploaderClassName
+    );
     let filePreview = <div />;
 
-    if (p.files.length > 0) {
-      let filePreviewIcons = _.map(p.files, (file, i) => {
+    if (this.props.files.length > 0) {
+      const filePreviewIcons = _.map(p.files, (file, i) => {
         return (
-          <li key={i} className='file-preview-item'>
-            <img src={file.preview} className='file-icon'/>
-            <p className='file-name'>
+          <li key={i} className='file-uploader-preview-list-item'>
+            <img src={file.preview} className='file-uploader-preview-list-item-icon'/>
+            <p className='file-uploader-preview-list-item-name'>
               {TextHelper.truncateImageFilename(file.name)}
             </p>
-            <div
-              className='remove-file-icon' 
-              onClick={this._removeUploadedFile.bind(this, file)}>
+            <button
+              className='file-uploader-preview-list-item-remove-file-icon'
+              onClick={() => this._removeUploadedFile(file)}>
               <Icon icon='close' />
-            </div>
+            </button>
           </li>
         );
       });
-      let filesLength = p.files.length === 1
+
+      const filesLength = this.props.files.length === 1
         ? '1 file'
-        : `${p.files.length} files`;
+        : `${this.props.files.length} files`;
 
       filePreview = (
-        <div className='file-preview'>
-          <h4>{filesLength} uploaded</h4>
-          <ul className='file-preview-list'>{filePreviewIcons}</ul>
+        <div className='file-uploader-preview'>
+          <h4 className='file-uploader-preview-title'>{filesLength} uploaded</h4>
+          <ul className='file-uploader-preview-list'>{filePreviewIcons}</ul>
         </div>
       );
     }
 
     return (
-      <div className='file-uploader-wrapper'>
+      <div className={fileUploaderClasses}>
         <Dropzone
           className='dropzone'
           onDrop={this._handleFileUpload}
@@ -77,9 +73,20 @@ export default class FileUploader extends ReactTemplate {
       </div>
     );
   }
-}
 
-FileUploader.propTypes = {
-  onUpdateFiles: React.PropTypes.func.isRequired,
-  files: React.PropTypes.array.isRequired
-};
+  _handleFileUpload = (selectedFiles) => {
+    let uploadedFiles = this.props.files;
+    _.each(selectedFiles, (file) => {
+      file.uuid = uuid.v4();
+      uploadedFiles.push(file);
+    });
+
+    this.props.onUpdateFiles(uploadedFiles);
+  }
+
+  _removeUploadedFile = (selectedFile) => {
+    _.remove(this.props.files, (file) => file.uuid === selectedFile.uuid);
+    this.props.onUpdateFiles(this.props.files);
+  }
+
+}

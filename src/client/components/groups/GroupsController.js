@@ -1,8 +1,8 @@
 import React, {PropTypes} from 'react';
 
-import Button from '.././ux/Button';
+import Button from '.././ui/Button';
 import GroupsListViewItem from './GroupsListViewItem';
-import TipBox from '.././ux/TipBox';
+import TipBox from '.././ui/TipBox';
 
 import AppActions from '../.././actions/AppActions';
 
@@ -43,8 +43,8 @@ export default class GroupsController extends React.Component {
       <div className='groups-controller'>
         <Button
           buttonClass='groups-controller-new-group-button'
-          iconName='group-add'
-          onButtonClick={this._toggleNewGroupModal}
+          icon='group-add'
+          onClick={this._toggleNewGroupModal}
           text='New Group'/>
         {content}
       </div>

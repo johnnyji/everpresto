@@ -58,12 +58,12 @@
 @import './shared/SearchBar';
 @import './shared/TextField';
 
-// UX (Components used throughout the app)
-@import './ux/Button';
-@import './ux/DropdownOptions';
-@import './ux/HorizontalNavbar';
-@import './ux/Spinner';
-@import './ux/TipBox';
+// UI Components
+@import './ui/Button';
+@import './ui/DropdownOptions';
+@import './ui/HorizontalNavbar';
+@import './ui/Spinner';
+@import './ui/TipBox';
 
 html {
   position: relative;

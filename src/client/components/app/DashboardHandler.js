@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 
-import HorizontalNavbar from '.././ux/HorizontalNavbar';
+import HorizontalNavbar from '.././ui/HorizontalNavbar';
 import AppActions from '../.././actions/AppActions';
 
 export default class DashboardHandler extends Component {

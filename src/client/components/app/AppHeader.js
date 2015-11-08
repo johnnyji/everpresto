@@ -5,7 +5,7 @@ import AuthActions from '../.././actions/AuthActions';
 import AuthStore from '../.././stores/AuthStore';
 
 import Logo from '.././shared/Logo';
-import DropdownOptions from '.././ux/DropdownOptions';
+import DropdownOptions from '.././ui/DropdownOptions';
 
 export default class AppHeader extends Component {
 

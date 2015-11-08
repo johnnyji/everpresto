@@ -106,20 +106,6 @@ $border-radius: 3px;
   }
 }
 
-@mixin button-style {
-  @extend .transition;
-  background-color: $primary-brand-color;
-  border-radius: 3px;
-  padding: 1rem 2rem;
-  color: #FFF;
-  outline: none;
-  border-style: none;
-  &:hover {
-    box-shadow: -2px 3px 11px -3px rgba(0,0,0,0.75);
-    cursor: pointer;
-  }
-}
-
 @mixin bw-icon-style {
   color: $placeholder-color;
   &:hover {

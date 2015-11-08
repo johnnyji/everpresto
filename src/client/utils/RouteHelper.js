@@ -17,7 +17,7 @@ class RouteHelper {
       AuthHelper.findCurrentUser()
         .then(response => {
           // TODO: The only thing that isn't working is that this replaceState isn't being called
-          debugger
+          // debugger
           replaceState({nextPathname: nextState.location.pathname}, '/dashboard')
         })
         .catch(response => {});
@@ -31,13 +31,12 @@ class RouteHelper {
    * @param  {function} replaceState - the function that executes to replace router state (provided by React Router)
    */
   requireAuth (nextState, replaceState) {
-    debugger
     if (isClient && !isDebugger) {
       AuthHelper.findCurrentUser()
         .then(response => {})
         .catch(response => {
           // TODO: The only thing that isn't working is that this replaceState isn't being called
-          debugger
+          // debugger
           replaceState({nextPathname: nextState.location.pathname}, '/login')
         });
     }

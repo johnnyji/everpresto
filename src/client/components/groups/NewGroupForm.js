@@ -1,6 +1,5 @@
-import React from 'react';
+import React, {Component, PropTypes} from 'react';
 import _ from 'lodash';
-import ReactTemplate from '.././shared/ReactTemplate';
 
 import GroupNameInput from './GroupNameInput';
 import GroupAddMembersInput from './GroupAddMembersInput';
@@ -12,26 +11,47 @@ import NewGroupStore from '../.././stores/NewGroupStore';
 import ExitFormIcon from '.././shared/ExitFormIcon';
 import InputField from '.././shared/InputField';
 
-export default class NewGroupForm extends ReactTemplate {
+export default class NewGroupForm extends Component {
+
   constructor(props) {
     super(props);
     this.state = this._getInitialState();
-    this._bindFunctions(
-      '_exitForm',
-      '_updateState'
-    );
   }
+
   componentDidMount() {
     this._unsubscribe = NewGroupStore.listen(this._updateState);
     NewGroupActions.setGroupCreator(this.props.currentUser);
   }
+
   compoenentDidUnmount() {
     this._unsubscribe();
   }
+
   componentWillUnmount() {
     NewGroupActions.resetState();
   }
-  _getInitialState() {
+
+  render() {
+    const phases = [
+      <GroupNameInput error={this.state.errors.name} />,
+      <GroupAddMembersInput
+        contacts={this.props.currentUser.contacts}
+        error={this.state.errors.members} />
+    ];
+
+    return (
+      <div className='new-group-form-wrapper'>
+        <ExitFormIcon onExitClick={this._exitForm} />
+        {phases[this.state.activeFormPhaseIndex]}
+      </div>
+    );
+  }
+
+  _exitForm = () => {
+    AppActions.toggleModal();
+  }
+
+  _getInitialState = () => {
     let state = NewGroupStore.getState();
     return {
       group: state.group,
@@ -39,33 +59,13 @@ export default class NewGroupForm extends ReactTemplate {
       activeFormPhaseIndex: state.activeFormPhaseIndex
     };
   }
-  _updateState(state) {
+
+  _updateState = (state) => {
     this.setState({
       group: state.group,
       errors: state.errors,
       activeFormPhaseIndex: state.activeFormPhaseIndex
     });
   }
-  _exitForm() {
-    AppActions.toggleModal();
-  }
-  render() {
-    let p = this.props;
-    let s = this.state;
-    let phases = [
-      <GroupNameInput error={s.errors.name} />,
-      <GroupAddMembersInput contacts={p.currentUser.contacts} error={s.errors.members} />
-    ];
 
-    return (
-      <div className='new-group-form-wrapper'>
-        <ExitFormIcon onExitClick={this._exitForm} />
-        {phases[s.activeFormPhaseIndex]}
-      </div>
-    );
-  }
 }
-
-NewGroupForm.propTypes = {
-  currentUser: React.PropTypes.object.isRequired
-};

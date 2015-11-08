@@ -1,11 +1,14 @@
-.new-note-form-wrapper {
+.new-note-form {
   @include modal-form-style;
-  .submit-button {
-    @include button-style;
-  }
-  .submit-button, .center-spinner, .spinner {
-    position: absolute;
-    right: 3rem;
-    bottom: 3rem; 
+  &-footer {
+    position: relative;
+    &-file-uploader {
+      display: inline-block;
+      width: 80%;
+    }
+    &-submit-button {
+      display: inline-block;
+      position: relative;
+    }
   }
 }
