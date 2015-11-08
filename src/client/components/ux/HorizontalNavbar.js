@@ -5,7 +5,7 @@ export default class HorizontalNavbar extends React.Component {
 
   static contextTypes = {
     location: PropTypes.object.isRequired
-  }
+  };
 
   static propTypes = {
     navLinks: PropTypes.arrayOf(

@@ -44,7 +44,7 @@ var AuthStore = Reflux.createStore({
     this.state.jwt = null;
     this.state.currentUser = null;
     this.trigger(this.state);
-    RouterContainer.get().transitionTo('/');
+    RouterContainer.get().props.history.pushState(null, '/');
   },
   onCreateUserCompleted: function(response) {
     this._saveSessionAndRedirect(response);

@@ -22,7 +22,7 @@ import AppStore from './stores/AppStore';
 const routes = (
   <Router history={createBrowserHistory()}>
     <Route component={AppHandler} path='/'>
-      <IndexRoute component={LandingPageHandler} onEnter={RouteHelper.checkSession}/>
+      <IndexRoute component={LandingPageHandler} onEnter={RouteHelper.initialAuthCheck}/>
 
       <Route component={AuthHandler} path='/login'/>
       <Route component={AuthHandler} path='/join'/>
@@ -38,9 +38,9 @@ const routes = (
 
         {/* groups is named the same as dashboard so it defaults to it and 
         activeClass is added to the link component */}
-        <IndexRoute component={GroupsHandler} onEnter={RouteHelper.requireAuth} />
-        <Route path='/dashboard/notes' component={NotesHandler} onEnter={RouteHelper.requireAuth} />
-        <Route path='/dashboard/contacts' component={ContactsHandler} onEnter={RouteHelper.requireAuth}/>
+        <IndexRoute component={GroupsHandler} />
+        <Route path='/dashboard/notes' component={NotesHandler} />
+        <Route path='/dashboard/contacts' component={ContactsHandler} />
       </Route>
 
       {/*Route for Not Found page.*/}

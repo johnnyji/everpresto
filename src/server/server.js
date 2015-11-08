@@ -82,17 +82,19 @@ app.use((req, res) => {
 
   // Renders the router routes dependant on the request
   match({routes: clientRoutes, location: req.url}, (err, redirectLocation, renderProps) => {
-
+    console.log('Beginning ServerSide render: ', req.session.userId);
     if (err) {
       // Handle server error
       // TODO: Have the response render a custom server error component to display
       // a user friendly message.
       res.send(500, err.message);
     } else if (redirectLocation) {
+      console.log('Redirect: ', redirectionLocation.pathname);
       // Handle route redirection
       res.redirect(302, redirectLocation.pathname + redirectLocation.search);
     } else if (renderProps) {
       // Handle route rendering
+      console.log('Render: ', renderProps);
 
       // render the response without a current user
       if (!req.session.userId) {

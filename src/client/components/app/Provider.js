@@ -1,5 +1,6 @@
 import React, {Children, Component, PropTypes} from 'react';
 import AuthHelper from '../.././utils/AuthHelper';
+import AppAction from '../.././actions/AppActions';
 
 export default class Provider extends Component {
 
@@ -16,6 +17,11 @@ export default class Provider extends Component {
   constructor (props) {
     super(props);
   }
+
+  // componentWillMount() {
+  //   debugger
+  //   if (this.props.currentUser) AppActions.setCurrentUser(this.props.currentUser);
+  // }
 
   // This method is required, creates the actual context the child components will access
   getChildContext () {

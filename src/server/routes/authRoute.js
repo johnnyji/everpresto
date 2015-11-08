@@ -30,16 +30,16 @@ router.get('/logout', (req, res, next) => {
   res.status(204).json(null);
 });
 
-// router.get('/authenticate_from_session', (req, res, next) => {
-//   debugger
-//   // If there's no userId in session, it means there's no current user
-//   if (!req.session.userId) return res.status(404).send(null);
+router.get('/authenticate_from_session', (req, res, next) => {
+  debugger
+  // If there's no userId in session, it means there's no current user
+  if (!req.session.userId) return res.status(404).send(null);
 
-//   User.findOne(req.session.userId, (err, user) => {
-//     if (!user) return res.status(422).send(null);
-//     res.status(200).json({user});
-//   });
-// });
+  User.findOne(req.session.userId, (err, user) => {
+    if (!user) return res.status(422).send(null);
+    res.status(200).json({user});
+  });
+});
 
 router.post('/authenticate_from_token', (req, res, next) => {
   User.findFromJwt(req.body.jwt)
@@ -48,12 +48,16 @@ router.post('/authenticate_from_token', (req, res, next) => {
 });
 
 router.post('/register', (req, res, next) => {
-  let userParams = {
+  const userParams = {
     email: req.body.user.email,
     password: req.body.user.password
   };
+
   User.create(userParams, (err, user) => {
     if (err) return res.status(422).json({ message: err });
+
+    req.session.userId = user._id;
+
     res.status(201).json({ 
       user: user,
       jwt: jwt.sign(user._id, secrets.jwtSecret)
