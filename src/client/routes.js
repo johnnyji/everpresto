@@ -5,7 +5,7 @@ import createBrowserHistory from 'history/lib/createBrowserHistory';
 import AppHandler from './components/app/AppHandler';
 import AuthHandler from './components/auth/AuthHandler';
 import ContactsHandler from './components/contacts/ContactsHandler';
-import DashboardHandler from './components/app/DashboardHandler';
+import DashboardHandler from './components/dashboard/DashboardHandler';
 import GroupsHandler from './components/groups/GroupsHandler';
 import LandingPageHandler from './components/app/LandingPageHandler';
 import NotesHandler from './components/notes/NotesHandler';

@@ -5,16 +5,26 @@ import config from '../../.././config';
 import path from 'path';
 
 const defaultAvatarPath = `${config.s3BucketPath}/public/avatar.jpg`;
+const Schema = mongoose.Schema;
 
-const UserSchema = new mongoose.Schema({
-  email: { type: String, required: true },
-  password: { type: String, required: true },
-  profilePictureUrl: { type: String, default: defaultAvatarPath },
-  createdAt: { type: Date, default: Date.now() },
-  updatedAt: { type: Date, default: Date.now() },
-  admin: { type: Boolean, default: false },
-  groupPreviews: { type: Array, default: [] },
-  activeGroupId: String
+const UserSchema = new Schema({
+  coursesOffered: {
+    active: {type: Array, default: []},
+    archived: {type: Array, default: []}
+  },
+  coursesTaking: {
+    active: {type: Array, default: []},
+    archived: {type: Array, default: []}
+  },
+  email: {type: String, required: true},
+  name: {
+    first: {type: String, required: true}
+    last: {type:String, require: true}
+  }
+  password: {type: String, required: true},
+  profilePictureUrl: {type: String, default: defaultAvatarPath},
+  createdAt: {type: Date, default: Date.now()},
+  updatedAt: {type: Date, default: Date.now()}
 });
 
 // Must use `function` syntax in order to scope `this` to be the User model
@@ -32,6 +42,7 @@ UserSchema.statics.findFromJwt = function (token) {
   });
 }
 
+// Must use `function` syntax in order to scope `this` to be the User model
 UserSchema.statics.findFromSession = function (sessionId) {
   return new Promise((resolve, reject) => {
     this.findOne(sessionId, (err, user) => {
