@@ -10,6 +10,7 @@ import AppStore from './stores/AppStore';
 
 import Provider from './components/app/Provider';
 
+
 // sets the router instance in the RouterContainer, so the routes can be accessed by util classes and Reflux
 RouterContainer.set(routes);
 

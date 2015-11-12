@@ -18,15 +18,13 @@ import clientRoutes from '.././client/routes';
 import Provider from '.././client/components/app/Provider';
 import NotFoundHandler from '.././client/components/shared/NotFoundHandler';
 
+
 import User from './models/user';
-import './models/group';
-import './models/note';
+import './models/course';
 
 import rootRoute from './routes/rootRoute';
 import authRoute from './routes/authRoute';
 import userRoute from './routes/userRoute';
-import notesRoute from './routes/notesRoute';
-import groupsRoute from './routes/groupsRoute';
 
 import requireUser from './middlewares/requireUser';
 
@@ -36,7 +34,9 @@ const port = process.env.PORT || config.development.serverPort;
 const apiRouter = express.Router();
 
 // connect to db
-mongoose.connect(config.development.dbConnectUrl, err => {
+mongoose.connection.on('open', (ref) => console.log('Connected to Mongo server...'));
+mongoose.connection.on('error', (err) => console.log('Mongo Server connection error: ', err));
+mongoose.connect(config.development.dbConnectUrl, (err) => {
   if (err) { throw err; }
 });
 
@@ -66,35 +66,34 @@ app.use(session({
 // prefixes all routes call to the server with /api to use express router
 app.use('/api', apiRouter);
 
-
 // api routes
 apiRouter.use('/', rootRoute);
-apiRouter.use('/groups', requireUser, groupsRoute);
 apiRouter.use('/auth', authRoute);
 apiRouter.use('/user', requireUser, userRoute);
-apiRouter.use('/notes', requireUser, notesRoute);
 
 
 // Server-side rendering.
 app.use((req, res) => {
   const scriptPath = `http://localhost:${config.development.webpackPort}/build/bundle.js`;
   const stylePath = `http://localhost:${config.development.webpackPort}/build/style.css`;
-
+  delete req.session.userId;
   // Renders the router routes dependant on the request
   match({routes: clientRoutes, location: req.url}, (err, redirectLocation, renderProps) => {
-    console.log('Beginning ServerSide render: ', req.session.userId);
+
+    console.log('Beginning server render with `userId` session: ', req.session.userId);
+    
     if (err) {
       // Handle server error
       // TODO: Have the response render a custom server error component to display
       // a user friendly message.
       res.send(500, err.message);
     } else if (redirectLocation) {
-      console.log('Redirect: ', redirectionLocation.pathname);
+
       // Handle route redirection
       res.redirect(302, redirectLocation.pathname + redirectLocation.search);
+
     } else if (renderProps) {
       // Handle route rendering
-      console.log('Render: ', renderProps);
 
       // render the response without a current user
       if (!req.session.userId) {
@@ -132,16 +131,19 @@ app.use((req, res) => {
         });
 
     } else {
-      // Hande route not found
+
+      // Handle route not found
       res.send('index', {
         content: renderToString(<NotFoundHandler />),
         scriptPath,
         stylePath
       });
+      
     }
   });
 
 });
+
 
 // Runs our app server instance.
 const server = app.listen(port, () => {

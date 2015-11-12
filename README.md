@@ -8,5 +8,6 @@ A time tracking application
 - React.js
 - Reflux
 - ES6
+- Immutable
 - Webpack
 - SASS

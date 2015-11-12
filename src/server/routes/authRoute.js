@@ -49,6 +49,8 @@ router.post('/authenticate_from_token', (req, res, next) => {
 
 router.post('/register', (req, res, next) => {
   const userParams = {
+    firstName: req.body.user.firstName,
+    lastName: req.body.user.lastName,
     email: req.body.user.email,
     password: req.body.user.password
   };

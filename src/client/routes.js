@@ -4,19 +4,18 @@ import createBrowserHistory from 'history/lib/createBrowserHistory';
 
 import AppHandler from './components/app/AppHandler';
 import AuthHandler from './components/auth/AuthHandler';
-import ContactsHandler from './components/contacts/ContactsHandler';
+// import ContactsHandler from './components/contacts/ContactsHandler';
 import DashboardHandler from './components/dashboard/DashboardHandler';
-import GroupsHandler from './components/groups/GroupsHandler';
+  import StudentDashboard from './components/student/StudentDashboard';
+  import TeacherDashboard from './components/teacher/TeacherDashboard';
+// import GroupsHandler from './components/groups/GroupsHandler';
 import LandingPageHandler from './components/app/LandingPageHandler';
-import NotesHandler from './components/notes/NotesHandler';
+// import NotesHandler from './components/notes/NotesHandler';
 import NotFoundHandler from './components/shared/NotFoundHandler';
 import ProfileHandler from './components/user/ProfileHandler';
 
 import AuthHelper from './utils/AuthHelper';
 import RouteHelper from './utils/RouteHelper';
-
-import AuthStore from './stores/AuthStore';
-import AppStore from './stores/AppStore';
 
 
 const routes = (
@@ -33,23 +32,18 @@ const routes = (
       <Route path='/profile' component={ProfileHandler} onEnter={RouteHelper.requireAuth}/>
 
       <Route path='/dashboard' component={DashboardHandler} onEnter={RouteHelper.requireAuth}>
-        {/* Redirects from '/dashboard/groups' to 'dashboard' */}
-        <Redirect from='/dashboard/groups' to='/dashboard' />
+        {/* The student dashboard is the default one we arrive on */}
+        <IndexRoute component={StudentDashboard} />
 
-        {/* groups is named the same as dashboard so it defaults to it and 
-        activeClass is added to the link component */}
-        <IndexRoute component={GroupsHandler} />
-        <Route path='/dashboard/notes' component={NotesHandler} />
-        <Route path='/dashboard/contacts' component={ContactsHandler} />
+        <Route path='/dashboard/student' component={StudentDashboard}/>
+        <Route path='/dashboard/teacher' component={TeacherDashboard}/>
       </Route>
 
       {/*Route for Not Found page.*/}
       <Route component={NotFoundHandler} path='*' />
 
-      <Redirect from='/dashboard/groups' to='/dashboard' />
-      <Redirect from='/groups' to='/dashboard'/>
-      <Redirect from='/notes' to='/dashboard/notes'/>
-      <Redirect from='/contacts' to='/dashboard/contacts'/>
+      {/* Redirect paths will go under here if necessary */}
+      {/* ... */}
     </Route>
   </Router>
 );

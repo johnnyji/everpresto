@@ -8,7 +8,7 @@ import AuthActions from '../.././actions/AuthActions';
 import AuthStore from '../.././stores/AuthStore';
 import AppStore from '../.././stores/AppStore';
 
-export default class AppHandler extends Component {
+class AppHandler extends Component {
 
   static displayName = 'AppHandler';
 
@@ -77,3 +77,5 @@ export default class AppHandler extends Component {
   }
 
 }
+
+export default AppHandler;

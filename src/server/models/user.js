@@ -8,24 +8,14 @@ const defaultAvatarPath = `${config.s3BucketPath}/public/avatar.jpg`;
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
-  coursesOffered: {
-    active: {type: Array, default: []},
-    archived: {type: Array, default: []}
-  },
-  coursesTaking: {
-    active: {type: Array, default: []},
-    archived: {type: Array, default: []}
-  },
+  coursesOffered: [{type: Schema.Types.ObjectId, ref: 'Course'}],
+  coursesTaking: [{type: Schema.Types.ObjectId, ref: 'Course'}],
   email: {type: String, required: true},
-  name: {
-    first: {type: String, required: true}
-    last: {type:String, require: true}
-  }
+  firstName: {type: String, required: true},
+  lastName: {type:String, require: true},
   password: {type: String, required: true},
-  profilePictureUrl: {type: String, default: defaultAvatarPath},
-  createdAt: {type: Date, default: Date.now()},
-  updatedAt: {type: Date, default: Date.now()}
-});
+  profilePictureUrl: {type: String, default: defaultAvatarPath}
+}, {timestamps: true});
 
 // Must use `function` syntax in order to scope `this` to be the User model
 UserSchema.statics.findFromJwt = function (token) {

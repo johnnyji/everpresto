@@ -14,16 +14,21 @@ class RouteHelper {
    * @param  {function} callback - a callback function to make the onEnter asynchronous
    */
   initialAuthCheck (nextState, replaceState, callback) {
+
     if (isClient && !isDebugger) {
       AuthHelper.findCurrentUser()
         .then(response => {
           // TODO: The only thing that isn't working is that this replaceState isn't being called
           replaceState({nextPathname: nextState.location.pathname}, '/dashboard');
+          debugger
           // Because we're running an asynchronous call, we must invoke the callback in order
           // to declare our call has completed, only then can router perform it's `replaceState`
           callback();
         })
-        .catch(response => {});
+        .catch(response => callback());
+    } else {
+      // Must initiate callback in order for async onEnter to finish
+      callback();
     }
   }
 
@@ -34,14 +39,18 @@ class RouteHelper {
    * @param  {function} replaceState - the function that executes to replace router state (provided by React Router)
    */
   requireAuth (nextState, replaceState) {
+
     if (isClient && !isDebugger) {
       AuthHelper.findCurrentUser()
-        .then(response => {})
+        .then(response => callback())
         .catch(response => {
           // Because we're running an asynchronous call, we must invoke the callback in order
           // to declare our call has completed, only then can router perform it's `replaceState`
           replaceState({nextPathname: nextState.location.pathname}, '/login');
         });
+    } else {
+      // Must initiate callback in order for async onEnter to finish
+      callback();
     }
   }
 

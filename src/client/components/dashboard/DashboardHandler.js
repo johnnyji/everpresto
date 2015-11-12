@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
 
 import DashboardHeader from './DashboardHeader';
 import HorizontalNavbar from '.././ui/HorizontalNavbar';
@@ -8,19 +8,14 @@ export default class DashboardHandler extends Component {
 
   static displayName = 'DashboardHandler';
 
-  static contextTypes = {
-    currentUser: PropTypes.object
-  };
-
   constructor (props) {
     super(props);
   }
 
   render() {
     const navLinks = [
-      { path: '/dashboard', name: 'Groups' },
-      { path: '/dashboard/notes', name: 'Notes' },
-      { path: '/dashboard/contacts', name: 'Contacts' }
+      { path: '/dashboard', name: 'Student' },
+      { path: '/dashboard/teacher', name: 'Teacher' }
     ];
 
     return (

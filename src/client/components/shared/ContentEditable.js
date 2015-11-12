@@ -8,7 +8,7 @@ export default class ContentEditable extends React.Component {
     contentEditableClass: PropTypes.string,
     html: PropTypes.string,
     onChange: PropTypes.func.isRequired
-  }
+  };
 
   constructor(props) {
     super(props);

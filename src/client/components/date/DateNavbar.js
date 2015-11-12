@@ -51,14 +51,14 @@ export default class DateNavbar extends ReactTemplate {
     let calenderSelectClass = s.showCalenderSelect ? 'active' : '';
     let header;
 
-    let weekdayList = _.map(weekAcronyms, (dayAcronym, i) => {
+    let weekdayList = weekAcronyms.map((dayAcronym, i) => {
       let todayIsDateBeingViewed = dayAcronym === DateHelper.formatWeekdayAcronym(p.dateBeingViewed);
       let dayObject = weekInDates[i];
       if (todayIsDateBeingViewed) {
         return <li className='active-day' key={i}>{dayAcronym}</li>;
       }
       return <li data-date={dayObject} onClick={this._setDateBeingViewed} key={i}>{dayAcronym}</li>;
-    }.bind(this));
+    });
 
     if (s.showCalenderSelect) {
       header = (

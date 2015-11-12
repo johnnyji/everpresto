@@ -18,6 +18,11 @@ module.exports = {
         test: /.js$/, 
         include: [srcPath], 
         loaders: ['react-hot-loader', 'babel-loader?stage=0']
+        // query: {
+        //   cacheDirectory: true,
+        //   presets: ['es2015', 'stage-1', 'react'],
+        //   plugins: ['external-helpers-2', 'transform-runtime']
+        // }
       },
       { 
         test: /.scss$/,

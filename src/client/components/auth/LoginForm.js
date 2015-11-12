@@ -5,6 +5,7 @@ import AuthActions from '../.././actions/AuthActions';
 import AuthStore from '../.././stores/AuthStore';
 
 export default class LoginForm extends ReactTemplate {
+
   constructor(props) {
     super(props);
     this.state = { loginError: AuthStore.getState.loginError };
@@ -13,15 +14,19 @@ export default class LoginForm extends ReactTemplate {
       '_updateState'
     );
   }
+
   componentDidMount() {
     this._unsubscribe = AuthStore.listen(this._updateState);
   }
+
   componentWillUnmount() {
     this._unsubscribe();
   }
+
   _updateState(state) {
     this.setState({ loginError: state.loginError });
   }
+
   _loginUser(e) {
     e.preventDefault();
     let userData = {
@@ -31,6 +36,7 @@ export default class LoginForm extends ReactTemplate {
 
     AuthActions.loginUser({ user: userData });
   }
+
   render() {
     let s = this.state;
 
@@ -48,4 +54,5 @@ export default class LoginForm extends ReactTemplate {
       </form>
     );
   }
+  
 }
