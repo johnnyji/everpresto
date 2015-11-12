@@ -1,6 +1,8 @@
 import AuthHelper from './AuthHelper';
 
 const isClient = typeof window !== 'undefined' && Boolean(window.document);
+// We know it's the debugger if there's a footer present, because there are no `footer`
+// elements in the actual app
 const isDebugger = document.body.getElementsByTagName('footer').length === 1;
 
 class RouteHelper {
@@ -18,11 +20,9 @@ class RouteHelper {
     if (isClient && !isDebugger) {
       AuthHelper.findCurrentUser()
         .then(response => {
-          // TODO: The only thing that isn't working is that this replaceState isn't being called
-          replaceState({nextPathname: nextState.location.pathname}, '/dashboard');
-          debugger
           // Because we're running an asynchronous call, we must invoke the callback in order
           // to declare our call has completed, only then can router perform it's `replaceState`
+          replaceState({nextPathname: nextState.location.pathname}, '/dashboard');
           callback();
         })
         .catch(response => callback());
@@ -38,7 +38,7 @@ class RouteHelper {
    * @param  {object} nextState - the next router state object (provided by React Router)
    * @param  {function} replaceState - the function that executes to replace router state (provided by React Router)
    */
-  requireAuth (nextState, replaceState) {
+  requireAuth (nextState, replaceState, callback) {
 
     if (isClient && !isDebugger) {
       AuthHelper.findCurrentUser()
@@ -47,6 +47,7 @@ class RouteHelper {
           // Because we're running an asynchronous call, we must invoke the callback in order
           // to declare our call has completed, only then can router perform it's `replaceState`
           replaceState({nextPathname: nextState.location.pathname}, '/login');
+          callback();
         });
     } else {
       // Must initiate callback in order for async onEnter to finish
