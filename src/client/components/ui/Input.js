@@ -74,7 +74,7 @@ export default class Input extends Component {
           onKeyPress={this._handleKeyPress}
           ref='input'
           value={this.props.value}/>
-        {Boolean(this.props.error) &&
+        {Boolean(this.props.error) && !this.state.focused &&
           <small className='ui-input-error'>{this.props.error}</small>
         }
       </div>
@@ -95,9 +95,11 @@ export default class Input extends Component {
     if (Array.isArray(this.props.patternMatches)) {
       // Goes through all the regex patterns and returns the first the error of the
       // first pattern that the value doesn't match
-      return this.props.patternMatches.find((pattern) => {
+      const match = this.props.patternMatches.find((pattern) => {
         if (!pattern.regex.test(value)) return pattern.error;
       });
+      debugger;
+      return match;
     } else {
       // Checks the validity of the value against the pattern, and returns an error if no match
       return this.props.patternMatches.regex.test(value) ? undefined : this.props.patternMatches.error;
@@ -111,10 +113,10 @@ export default class Input extends Component {
   }
 
   _handleChange = (e) => {
-    this.setState({
-      showLabel: Boolean(e.target.value === ''),
-      value: e.target.value
-    });
+    const value = e.target.value;
+
+    this.setState({showLabel: Boolean(value === '')});
+    this._submitValue(value);
   }
 
   _handleFocus = (e) => {
@@ -132,10 +134,16 @@ export default class Input extends Component {
     if (e.which === ENTER_KEY) this._submitValue(e.target.value);
   }
 
+  /**
+   * Checks the input value, and submits it to the parent component, along with errors if there
+   * are any
+   * 
+   * @param  {string} value - The value of the input field
+   */
   _submitValue = (value) => {
     // If the input value doesn't match the regex we passed in, we're going to trigger an error callback
     const error = this._checkInvalid(value) || null;
-
+    console.log(`${this.props.successKeys}: ${error}`);
     // Updates the parent component with both the value and the error
     const nestedErrorObj = this.props.errorKeys ? createNestedObject(this.props.errorKeys, error) : null;
     const nestedValueObj = this.props.successKeys ? createNestedObject(this.props.successKeys, value) : null;

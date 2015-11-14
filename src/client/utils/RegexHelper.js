@@ -7,7 +7,7 @@ const RegexHelper = {
   },
   matchPassword (password, customError) {
     return {
-      regex: new RegExp(password),
+      regex: new RegExp(`^${password}$`),
       error: customError || 'Your passwords must match!'
     }
   },
