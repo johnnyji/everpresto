@@ -1,70 +1,101 @@
-import React from 'react';
-import ReactTemplate from '.././shared/ReactTemplate';
-
-import ErrorMessageBox from '.././shared/ErrorMessageBox';
-import InputField from '.././shared/InputField';
-
+import React, {Component, PropTypes} from 'react';
+import Immutable from 'immutable';
+import Button from '.././ui/Button';
+import Input from '.././ui/Input';
+import RegexHelper from '../.././utils/RegexHelper';
 import AuthActions from '../.././actions/AuthActions';
 
-export default class RegistrationForm extends ReactTemplate {
-  constructor(props) {
+export default class RegistrationForm extends Component {
+
+  constructor (props) {
     super(props);
-    this._bindFunctions(
-      '_handleEmailChange',
-      '_handlePasswordChange',
-      '_handlePasswordConfirmationChange',
-      '_registerUser'
-    );
+    this.state = {
+      formData: Immutable.fromJS({
+        user: {
+          firstName: null,
+          lastName: null,
+          email: null,
+          password: null,
+          passwordConfirmation: null
+        },
+        errors: {
+          firstName: null,
+          lastName: null,
+          email: null,
+          password: null,
+          passwordConfirmation: null
+        }
+      })
+    }
   }
-  _handleEmailChange(e) {
-    AuthActions.handleEmailChange(e.target.value);
-  }
-  _handlePasswordChange(e) {  
-    AuthActions.handlePasswordChange(e.target.value);
-    AuthActions.handlePasswordConfirmationChange(this.props.user.passwordConfirmation);
-  }
-  _handlePasswordConfirmationChange(e) {
-    AuthActions.handlePasswordConfirmationChange(e.target.value);
-  }
+
   _registerUser(e) {
     e.preventDefault();
-    AuthActions.createUser({ user: this.props.user });
+    AuthActions.createUser({user: this.props.user});
   }
-  _dismissError() {
-    this.setState({ registrationError: null });
+
+  componentWillUpdate(nextProps, nextState) {
+    console.log(JSON.stringify(nextState.formData.get('errors').toJS(), null, 2));
   }
-  render() {
-    let p = this.props;
+
+  render () {
 
     return (
-      <form onSubmit={this._registerUser}>
-        <ErrorMessageBox message={p.registrationError} dismissError={this._dismissError} />
-        <InputField
+      <div className='auth-registration-form'>
+        <Input
+          className='auth-registration-form-input'
+          error={this.state.formData.getIn(['errors', 'firstName'])}
+          errorKeys='errors:firstName'
+          label='First name...'
+          successKeys='user:firstName'
+          onUpdate={this._handleInputUpdate}/>
+        <Input
+          className='auth-registration-form-input'
+          error={this.state.formData.getIn(['errors', 'lastName'])}
+          errorKeys='errors:lastName'
+          label='Last name!'
+          successKeys='user:lastName'
+          onUpdate={this._handleInputUpdate}/>
+        <Input
+          className='auth-registration-form-input'
+          error={this.state.formData.getIn(['errors', 'email'])}
+          errorKeys='errors:email'
           label='Email'
-          type='email'
-          error={p.errors.email}
-          onInputChange={this._handleEmailChange}
-        />
-        <InputField
+          successKeys='user:email'
+          onUpdate={this._handleInputUpdate}
+          patternMatches={RegexHelper.email()}
+          type='email'/>
+        <Input
+          className='auth-registration-form-input'
+          error={this.state.formData.getIn(['errors', 'password'])}
+          errorKeys='errors:password'
           label='Password'
-          type='password'
-          error={p.errors.password}
-          onInputChange={this._handlePasswordChange}
-        />
-        <InputField
+          successKeys='user:password'
+          patternMatches={RegexHelper.minLength(8, 'Password must be longer than 8 characters.')}
+          onUpdate={this._handleInputUpdate}
+          type='password'/>
+        <Input
+          className='auth-registration-form-input'
+          error={this.state.formData.getIn(['errors', 'passwordConfirmation'])}
+          errorKeys='errors:passwordConfirmation'
           label='Confirm Password'
-          type='password'
-          error={p.errors.passwordConfirmation}
-          onInputChange={this._handlePasswordConfirmationChange}
-        />
-        <input type='submit' defaultValue='Join' />
-      </form>
+          patternMatches={RegexHelper.matchPassword(this.state.formData.getIn(['user', 'password']))}
+          onUpdate={this._handleInputUpdate}
+          successKeys='user:passwordConfirmation'
+          type='password'/>
+        <Button onClick={this._handleFormSubmission} text='Ready!' />
+      </div>
     );
   }
-}
 
-RegistrationForm.propTypes = {
-  user: React.PropTypes.object.isRequired,
-  errors: React.PropTypes.object.isRequired,
-  registrationError: React.PropTypes.string
-};
+  _handleFormSubmission = () => {
+    debugger
+    if (this.state.formData.get('errors').toArray()) {}
+  }
+
+  _handleInputUpdate = (value, error, valueObj, errorObj) => {
+    const newData = Object.assign({}, valueObj, errorObj);
+
+    this.setState({formData: this.state.formData.mergeDeep(newData)});
+  }
+}

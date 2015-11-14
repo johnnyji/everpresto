@@ -1,8 +1,12 @@
+// import Roboto font
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,300,500);
+
 // normalize.css
-@import '../../.././node_modules/normalize.css/normalize.css';
+@import '~normalize.css/normalize.css';
 
 //react-quill
-@import '../../.././node_modules/react-quill/node_modules/quill/dist/quill.snow.css';
+@import '~react-quill/node_modules/quill/dist/quill.snow.css';
+
 
 // import color variables
 @import './colors';
@@ -10,8 +14,14 @@
 // import extends
 @import './extends';
 
+// mixins
+@import './mixins';
+
 // my own SCSS helper file
 @import './clarity';
+
+// Auth
+@import './auth/RegistrationForm';
 
 // Dashboard
 @import './dashboard/DashboardHeader';
@@ -62,6 +72,7 @@
 @import './ui/Button';
 @import './ui/DropdownOptions';
 @import './ui/HorizontalNavbar';
+@import './ui/Input';
 @import './ui/Spinner';
 @import './ui/TipBox';
 
@@ -74,7 +85,7 @@ body {
   position: relative;
   box-sizing: border-box;
   color: $text-color;
-  font-family: 'Lucida Sans Unicode', helvetica, sans-serif;
+  font-family: 'Roboto', sans-serif;
   min-width: $app-content-min-width !important;
   height: 100%;
   font-weight: 400;

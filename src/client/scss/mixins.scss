@@ -1,0 +1,26 @@
+@mixin transition($duration) {
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+
+@mixin animate($animationName) {
+  -webkit-animation: #{$animationName};
+  -moz-animation: #{$animationName};
+  -o-animation: #{$animationName};
+  -webkit-animation: #{$animationName};
+}
+
+@mixin keyframes($animation) {
+  @-webkit-keyframes #{$animation} {
+    @content;
+  }
+  @-moz-keyframes #{$animation} {
+    @content;
+  }
+  @-o-keyframes #{$animation} {
+    @content;
+  }
+  @keyframes #{$animation} {
+    @content;
+  }
+}

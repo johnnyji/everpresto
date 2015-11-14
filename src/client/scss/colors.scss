@@ -27,6 +27,10 @@ $input-focus-border-color: #66afe9;
 // Tip Box
 $tip-box-background: whitesmoke;
 
+// INPUT
+$ui-input-label-color: rgba(0, 0, 0, 0.26);
+$ui-input-error-color: $error-color;
+$ui-input-focus-background-color: green;
 
 // BUTTON
 $ui-button-background-color: $primary-brand-color;
