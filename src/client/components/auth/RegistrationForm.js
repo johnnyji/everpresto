@@ -104,7 +104,7 @@ export default class RegistrationForm extends Component {
 
   _handleFormSubmission = () => {
     if (!this.state.readyToSubmit) return;
-
+    
     // TODO: Submit form
   }
 
