@@ -34,10 +34,6 @@ export default class RegistrationForm extends Component {
     AuthActions.createUser({user: this.props.user});
   }
 
-  componentWillUpdate(nextProps, nextState) {
-    console.log(JSON.stringify(nextState.formData.get('errors').toJS(), null, 2));
-  }
-
   render () {
 
     return (
@@ -47,6 +43,7 @@ export default class RegistrationForm extends Component {
           error={this.state.formData.getIn(['errors', 'firstName'])}
           errorKeys='errors:firstName'
           label='First name...'
+          patternMatches={RegexHelper.minLength(1, 'What\'s your first name?')}
           successKeys='user:firstName'
           onUpdate={this._handleInputUpdate}/>
         <Input
@@ -54,6 +51,7 @@ export default class RegistrationForm extends Component {
           error={this.state.formData.getIn(['errors', 'lastName'])}
           errorKeys='errors:lastName'
           label='Last name!'
+          patternMatches={RegexHelper.minLength(1, 'What\'s your last name?')}
           successKeys='user:lastName'
           onUpdate={this._handleInputUpdate}/>
         <Input

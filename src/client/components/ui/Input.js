@@ -91,27 +91,42 @@ export default class Input extends Component {
     return this.refs.input.value;
   }
 
+  /**
+   * Checks it's provided value against the input field's `patternMathches` prop
+   * and returns either an error or undefined
+   * 
+   * @param  {[type]} value [description]
+   * @return {string|undefined} - The error string in `patternMatches` or undefined
+   */
   _checkInvalid = (value) => {
     if (Array.isArray(this.props.patternMatches)) {
       // Goes through all the regex patterns and returns the first the error of the
       // first pattern that the value doesn't match
-      const match = this.props.patternMatches.find((pattern) => {
+      return this.props.patternMatches.find((pattern) => {
         if (!pattern.regex.test(value)) return pattern.error;
       });
-      debugger;
-      return match;
     } else {
       // Checks the validity of the value against the pattern, and returns an error if no match
       return this.props.patternMatches.regex.test(value) ? undefined : this.props.patternMatches.error;
     }
   }
 
+  /**
+   * Handles the blur event
+   *
+   * @param  {[type]} e - The event object
+   */
   _handleBlur = (e) => {
     // Sets `focused` state to false so input errors will show if there is any
     this.setState({focused: false});
     this._submitValue(e.target.value);
   }
 
+  /**
+   * Handles the change event of the input field
+   *
+   * @param  {object} e - The event object
+   */
   _handleChange = (e) => {
     const value = e.target.value;
 
@@ -119,11 +134,14 @@ export default class Input extends Component {
     this._submitValue(value);
   }
 
+  /**
+   * When the input field focuses, we set the state so errors dissapear
+   *
+   * @param  {object} e - The event object
+   */
   _handleFocus = (e) => {
-    // Sets the `focused` state so if there any input errors, they won't show
     this.setState({focused: true});
   }
-
 
   /**
    * Submits the input field value if the key pressed is `Enter`
@@ -143,7 +161,7 @@ export default class Input extends Component {
   _submitValue = (value) => {
     // If the input value doesn't match the regex we passed in, we're going to trigger an error callback
     const error = this._checkInvalid(value) || null;
-    console.log(`${this.props.successKeys}: ${error}`);
+    
     // Updates the parent component with both the value and the error
     const nestedErrorObj = this.props.errorKeys ? createNestedObject(this.props.errorKeys, error) : null;
     const nestedValueObj = this.props.successKeys ? createNestedObject(this.props.successKeys, value) : null;

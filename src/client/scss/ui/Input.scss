@@ -4,14 +4,8 @@
 };
 
 @include keyframes(input-focus) {
-  from {
-    background-color: transparent;
-    border-bottom-color: blue;
-  }
-  to {
-    background-color: $ui-input-focus-background-color;
-    border-bottom-color: red;
-  }
+  from { border-bottom-color: $ui-input-border-bottom-focus-start-color; }
+  to { border-bottom-color: $ui-input-border-bottom-focus-end-color; }
 }
 
 .ui-input {
@@ -36,16 +30,15 @@
   &-input-field {
     position: relative;
     border: none;
-    border-bottom: 2px solid blue;
+    border-bottom: 2px solid $ui-input-border-bottom-color;
     font-size: 1.20rem;
     height: 100%;
     margin-bottom: 0.3rem;
     width: 100%;
     &:focus {
-      @include animate('input-focus 500ms');
-      background-color: $ui-input-focus-background-color;
+      @include animate('input-focus 600ms');
       outline: none;
-      border-bottom-color: red;
+      border-bottom-color: $ui-input-border-bottom-focus-end-color;
     }
   }
 }

@@ -1,9 +1,36 @@
+// BRAND COLORS
+$brand-color-green: #4DCF86;
+$brand-color-green-dark: #2EBD6C;
+$brand-color-green-darker: #0BAF52;
+$brand-color-green-light: #75E1A4;
+$brand-color-green-lighter: #A8F0C7;
+
+$brand-color-blue: #4E9CC2;
+$brand-color-blue-dark: #3082AA;
+$brand-color-blue-darker: #116E9B;
+$brand-color-blue-light: #75B8D8;
+$brand-color-blue-lighter: #A9D6EC;
+
+$brand-color-yellow: #FFB55F;
+$brand-color-yellow-dark: #FFA53E;
+$brand-color-yellow-darker: #F58A0F;
+$brand-color-yellow-light: #FFC684;
+$brand-color-yellow-lighter: #FFDBB2;
+
+$brand-color-red: #FF805F;
+$brand-color-red-dark: #FF663E;
+$brand-color-red-darker: #F53F0F;
+$brand-color-red-light: #FF9E84;
+$brand-color-red-lighter: #FFC2B2;
+
+$error-color: #CF000F;
+$text-color: #212121;
+
 $primary-brand-color: #68C3A3;
 $secondary-brand-color: #4DAF7C;
 $tertiary-brand-color: #C36888;
 $white: whitesmoke;
 
-$text-color: #282828;
 $light-text-color: #777;
 $placeholder-color: lighten(#666666, 25%);
 
@@ -20,7 +47,6 @@ $navbar-active-text-color: #888;
 $form-background-color: whitesmoke;
 $card-background-color: whitesmoke;
 
-$error-color: #E74C3C;
 
 $input-focus-border-color: #66afe9;
 
@@ -30,7 +56,9 @@ $tip-box-background: whitesmoke;
 // INPUT
 $ui-input-label-color: rgba(0, 0, 0, 0.26);
 $ui-input-error-color: $error-color;
-$ui-input-focus-background-color: green;
+$ui-input-border-bottom-color: $brand-color-blue-light;
+$ui-input-border-bottom-focus-start-color: $brand-color-blue-darker;
+$ui-input-border-bottom-focus-end-color: $brand-color-blue;
 
 // BUTTON
 $ui-button-background-color: $primary-brand-color;
