@@ -1,3 +1,5 @@
+$ui-input-font-size: 1rem;
+
 @include keyframes(error-fade-in) {
   from { color: darken($ui-input-error-color, 30%); }
   to { color: $ui-input-error-color; }
@@ -11,10 +13,11 @@
 .ui-input {
   position: relative;
   display: block;
-  width: 300px;
-  height: 40px;
+  font-size: $ui-input-font-size;
+  width: 275px;
+  height: 35px;
   &-error {
-    @include animate('error-fade-in 500ms');
+    @include animate('error-fade-in 700ms');
     position: relative;
     color: $ui-input-error-color;
     font-weight: 500;
@@ -23,22 +26,31 @@
     position: absolute;
     bottom: 0;
     color: $ui-input-label-color;
+    font-size: inherit;
+    font-weight: 500;
     left: 0;
     pointer-events: none;
     z-index: 1;
   }
   &-input-field {
     position: relative;
+    background-color: inherit;
     border: none;
-    border-bottom: 2px solid $ui-input-border-bottom-color;
-    font-size: 1.20rem;
+    border-bottom: 1px solid $ui-input-border-bottom-color;
+    font-size: inherit;
+    margin-bottom: $ui-input-font-size / 0.2rem;
     height: 100%;
-    margin-bottom: 0.3rem;
     width: 100%;
     &:focus {
-      @include animate('input-focus 600ms');
+      @include animate('input-focus 700ms');
       outline: none;
       border-bottom-color: $ui-input-border-bottom-focus-end-color;
     }
+  }
+}
+
+.ui-input-password-field {
+  &-input-field {
+    letter-spacing: 5px;
   }
 }

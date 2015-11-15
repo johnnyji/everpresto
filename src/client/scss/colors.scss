@@ -53,13 +53,18 @@ $input-focus-border-color: #66afe9;
 // Tip Box
 $tip-box-background: whitesmoke;
 
+
+// CARD
+$ui-card-background-color: #FFF;
+
 // INPUT
 $ui-input-label-color: rgba(0, 0, 0, 0.26);
 $ui-input-error-color: $error-color;
-$ui-input-border-bottom-color: $brand-color-blue-light;
+$ui-input-border-bottom-color: rgba(0, 0, 0, 0.26);
 $ui-input-border-bottom-focus-start-color: $brand-color-blue-darker;
-$ui-input-border-bottom-focus-end-color: $brand-color-blue;
+$ui-input-border-bottom-focus-end-color: $brand-color-blue-light;
 
 // BUTTON
-$ui-button-background-color: $primary-brand-color;
+$ui-button-disabled-background-color: rgb(229, 229, 229);
+$ui-button-disabled-color: rgb(127, 127, 127);
 $ui-button-color: #FFF;

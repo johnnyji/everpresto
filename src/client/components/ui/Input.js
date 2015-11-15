@@ -36,7 +36,6 @@ export default class Input extends Component {
       PropTypes.string
     ]),
     type: PropTypes.oneOf(['text', 'email', 'number', 'password']),
-    value: PropTypes.string,
   };
 
   static defaultProps = {
@@ -57,13 +56,11 @@ export default class Input extends Component {
   };
 
   render() {
-    const classes = classNames('ui-input', this.props.className);
+    const classes = classNames(this.props.className, 'ui-input');
 
     return (
       <div className={classes}>
-        {!Boolean(this.props.value) && this.state.showLabel &&
-          <label className='ui-input-label'>{this.props.label}</label> 
-        }
+        {this.state.showLabel && <label className='ui-input-label'>{this.props.label}</label>}
         <input
           className='ui-input-input-field'
           disabled={this.props.disabled}
@@ -73,7 +70,7 @@ export default class Input extends Component {
           onFocus={this._handleFocus}
           onKeyPress={this._handleKeyPress}
           ref='input'
-          value={this.props.value}/>
+          type={this.props.type}/>
         {Boolean(this.props.error) && !this.state.focused &&
           <small className='ui-input-error'>{this.props.error}</small>
         }
@@ -88,7 +85,7 @@ export default class Input extends Component {
    * @return {string} - The value of the input field
    */
   getValue = () => {
-    return this.refs.input.value;
+    return this.props.value;
   }
 
   /**

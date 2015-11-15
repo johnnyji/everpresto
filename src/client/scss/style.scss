@@ -70,6 +70,7 @@
 
 // UI Components
 @import './ui/Button';
+@import './ui/Card';
 @import './ui/DropdownOptions';
 @import './ui/HorizontalNavbar';
 @import './ui/Input';
@@ -93,12 +94,6 @@ body {
   padding: 0;
   overflow-x: hidden;
 }
-
-// #app {
-//   padding-bottom: 200px;
-//   min-height: 100%;
-//   height: auto;
-// }
 
 *, *:before, *:after {
   box-sizing: inherit;

@@ -1,5 +1,25 @@
 .auth-registration-form {
-  &-input {
-    margin: 1.5rem 0;
+  position: relative;
+  width: 600px;
+  height: 500px;
+  margin: 1rem;
+
+  // Specify node as well so CSS takes precendence over the component's
+  // original CSS
+
+  div > &-card {
+    position: relative;
+    margin: 0 auto;
+    &-input {
+      margin: 2.5rem auto;
+      width: 400px;
+    }
+    &-button {
+      position: relative;
+      margin: 4rem auto 5rem auto;
+      padding: 1rem 2rem;
+      width: 400px;
+    }
   }
+
 }

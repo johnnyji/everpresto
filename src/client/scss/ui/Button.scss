@@ -1,18 +1,52 @@
 .ui-button {
   @extend .transition;
-  background-color: $ui-button-background-color;
-  border-radius: 3px;
-  border-style: none;
+  position: relative;
   color: $ui-button-color;
   outline: none;
   padding: 0.5rem 1rem;
+  text-align: center;
   &:hover {
-    @extend .button-shadow;
     cursor: pointer;
   }
   &-icon {
     margin-right: 4px;
     position: relative;
     top: -2px;
+  }
+}
+
+.ui-button-blue {
+  background-color: $brand-color-blue;
+  &:hover {
+    background-color: $brand-color-blue-light;
+  }
+}
+
+.ui-button-disabled {
+  color: $ui-button-disabled-color;
+  background-color: $ui-button-disabled-background-color;
+  &:hover {
+    cursor: default;
+  }
+}
+
+.ui-button-green {
+  background-color: $brand-color-green;
+  &:hover {
+    background-color: $brand-color-green-light;
+  }
+}
+
+.ui-button-red {
+  background-color: $brand-color-red;
+  &:hover {
+    background-color: $brand-color-red-light;
+  }
+}
+
+.ui-button-yellow {
+  background-color: $brand-color-yellow;
+  &:hover {
+    background-color: $brand-color-yellow-light;
   }
 }

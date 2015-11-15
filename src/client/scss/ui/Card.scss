@@ -1,0 +1,5 @@
+.ui-card {
+  @extend .box-shadow;
+  background-color: $ui-card-background-color;
+  padding: 1rem;
+}
