@@ -19,7 +19,7 @@ export default class Input extends Component {
     icon: PropTypes.string,
     label: PropTypes.string.isRequired,
     onUpdate: PropTypes.func.isRequired,
-    patternMatches: PropTypes.oneOf([
+    patternMatches: PropTypes.oneOfType([
       PropTypes.arrayOf(
         PropTypes.shape({
           error: PropTypes.string.isRequired,
