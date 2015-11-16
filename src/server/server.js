@@ -1,32 +1,40 @@
+// SERVER
 import express from 'express';
 import session from 'express-session';
+import mongoose from 'mongoose';
 import connectMongo from 'connect-mongo';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import morgan from 'morgan';
 
-import jwt from 'jsonwebtoken';
-import mongoose from 'mongoose';
-import config from '../.././config';
-import secrets from '../.././secrets.json';
-
+// REACT/ROUTER
 import React from 'react';
 import {renderToString} from 'react-dom/server';
 import {match, RoutingContext} from 'react-router';
 import clientRoutes from '.././client/routes';
-
-import Provider from '.././client/components/app/Provider';
 import NotFoundHandler from '.././client/components/shared/NotFoundHandler';
 
+// REDUX
+import {createStore, combineReducers} from 'redux';
+import {Provider} from 'react-redux';
+import * as reducers from '.././client/reducers';
 
+// SERVER MODELS
 import User from './models/user';
 import './models/course';
 
+// API ROUTES
 import rootRoute from './routes/rootRoute';
 import authRoute from './routes/authRoute';
 import userRoute from './routes/userRoute';
 
+// MIDDLEWARE
 import requireUser from './middlewares/requireUser';
+
+// CONFIG
+import config from '../.././config';
+import secrets from '../.././secrets.json';
+
 
 const app = express();
 const MongoStore = connectMongo(session); // mongo store for session
@@ -72,73 +80,85 @@ apiRouter.use('/auth', authRoute);
 apiRouter.use('/user', requireUser, userRoute);
 
 
-// Server-side rendering.
+// Server-side rendering
 app.use((req, res) => {
   const scriptPath = `http://localhost:${config.development.webpackPort}/build/bundle.js`;
   const stylePath = `http://localhost:${config.development.webpackPort}/build/style.css`;
-  delete req.session.userId;
+
   // Renders the router routes dependant on the request
   match({routes: clientRoutes, location: req.url}, (err, redirectLocation, renderProps) => {
-
-    console.log('Beginning server render with `userId` session: ', req.session.userId);
-    
     if (err) {
       // Handle server error
-      // TODO: Have the response render a custom server error component to display
-      // a user friendly message.
-      res.send(500, err.message);
+      // TODO: Have the response render a custom server error component to display a user friendly message.
+      res.status(500).end('Internal Server Error :(');
     } else if (redirectLocation) {
-
       // Handle route redirection
       res.redirect(302, redirectLocation.pathname + redirectLocation.search);
-
     } else if (renderProps) {
+      console.log('This should only ever hit once, which is when the app is first mounted.');
       // Handle route rendering
 
-      // render the response without a current user
-      if (!req.session.userId) {
-        return res.render('index', {
-          content: renderToString(<Provider><RoutingContext {...renderProps}/></Provider>),
-          scriptPath,
-          stylePath
+      let initialState;
+      // Goes through the flow of loading the initial app state
+      User.findFromSession(req.session.userId)
+        .then((user) => {
+          initialState = {auth: {user}}
         })
-      }
+        .catch(() => {
+          initialState = {auth: {}}
+        })
+        .finally(() => {
+          const store = createStore(combineReducers(reducers), initialState);
+          // Grabs the latest updated state from the store and sets it on the window so
+          // the client side and hydrate it's store with the same state
+          const hydrateInitialClientState = `
+            <script type='application/javascript'>
+              window.__INITIAL_STATE__ = ${JSON.stringify(store.getState())}
+            </script>
+          `;
+          const componentToRender = renderToString(
+            <Provider store={store}>
+              <RoutingContext {...renderProps}/>
+            </Provider>
+          );
 
-      // Tries to find the current user from the existing session. If successful
-      // it will render the app with the current user, otherwise it will redirect
-      const currentUser = User.findFromSession(req.session.userId)
-        .then(user => {
-          console.log('user found')
-          // If we find a user that matches the one in session, we render the route with the current user in mind
-          res.render('index', {
-            content: renderToString(
-              <Provider currentUser={user.toObject()}>
-                <RoutingContext {...renderProps}/>
-              </Provider>
-            ),
-            scriptPath,
-            stylePath
-          });
-        })
-        .catch(err => {
-          console.log('no user found: ', req.session.userId)
-          // If the user could not be found, we render the route as if they are not signed in'
-          res.render('index', {
-            content: renderToString(<Provider><RoutingContext {...renderProps}/></Provider>),
-            scriptPath,
-            stylePath
-          });
+          // Ends the response by sending the HTML string to the browser to render
+          res.end(`
+            <!DOCTYPE html>
+            <html>
+              <head>
+                <meta charset="utf-8">
+                <meta author="Johnny Ji">
+                <meta name="viewport" content="width=device-width, initial-scale=1">
+                <title>Isomorphic Redux Demo</title>
+                <link rel="stylesheet" type="text/css" href="${stylePath}" />
+                ${hydrateInitialClientState}
+              </head>
+              <body>
+                <div id="app">${componentToRender}</div>
+                <script type="application/javascript" src="${scriptPath}"></script>
+              </body>
+            </html>
+          `);
         });
-
     } else {
-
       // Handle route not found
-      res.send('index', {
-        content: renderToString(<NotFoundHandler />),
-        scriptPath,
-        stylePath
-      });
-      
+      res.status(404).end(`
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <meta charset="utf-8">
+            <meta author="Johnny Ji">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <title>Isomorphic Redux Demo</title>
+            <link rel="stylesheet" type="text/css" href="${stylePath}" />
+          </head>
+          <body>
+            <div id="app">${renderToString(<NotFoundHandler />)}</div>
+            <script type="application/javascript" src="${scriptPath}"></script>
+          </body>
+        </html>
+      `);
     }
   });
 

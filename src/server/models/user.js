@@ -1,3 +1,4 @@
+import Promise from 'bluebird';
 import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
 import secrets from '../../.././secrets.json';
@@ -35,6 +36,8 @@ UserSchema.statics.findFromJwt = function (token) {
 // Must use `function` syntax in order to scope `this` to be the User model
 UserSchema.statics.findFromSession = function (sessionId) {
   return new Promise((resolve, reject) => {
+    if (!Boolean(sessionId)) reject();
+
     this.findOne(sessionId, (err, user) => {
       if (err) reject(err);
       resolve(user);

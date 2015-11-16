@@ -1,4 +1,4 @@
-let requireUser = (req, res, next) => {
+const requireUser = (req, res, next) => {
   req.session.userId
     ? next()
     : res.redirect('/');

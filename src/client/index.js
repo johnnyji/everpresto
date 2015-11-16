@@ -1,48 +1,29 @@
-import './scss/style.scss'; //imports the styles
+//imports the styles
+import './scss/style.scss';
+
 import React from 'react';
 import {render} from 'react-dom';
-import Router from 'react-router';
+import {fromJS} from 'immutable';
 
-import RouterContainer from './utils/RouterContainer';
+// The router being rendered with all it's child routes
 import routes from './routes';
-import AuthHelper from './utils/AuthHelper';
-import AppStore from './stores/AppStore';
 
-import Provider from './components/app/Provider';
+import * as reducers from './reducers';
+import {combineReducers, createStore} from 'redux';
+import {Provider} from 'react-redux';
 
+// Grabs the initial store state provided by the server
+const initialStoreState = window.__INITIAL_STATE__;
 
-// sets the router instance in the RouterContainer, so the routes can be accessed by util classes and Reflux
-RouterContainer.set(routes);
+// Transforms into Immutable.js
+Object.keys(initialStoreState).forEach(key => {
+  initialStoreState[key] = fromJS(initialStoreState[key]);
+});
 
-const currentUser = AppStore.getCurrentUser();
-const mountElement = document.getElementById('app');
+debugger
 
-if (currentUser) {
+const reducer = combineReducers(reducers);
+const store = createStore(reducer, initialStoreState);
 
-  render(<Provider currentUser={currentUser}>{routes}</Provider>, mountElement);
-
-} else {
-  // If the currentUser is not yet in our Flux store, we'll need to query the app for one.
-  const jwt = localStorage.getItem('jwt');
-
-  if (!Boolean(jwt)) {
-    // There isn't a JWT, therefore there's no saved user session and we just render the app without a user
-    render(<Provider>{routes}</Provider>, mountElement);
-  } else {
-    AuthHelper.authenticateFromToken(jwt)
-      .then(response => {
-        console.log('Client: User from AJAX');
-        // We found and authenticated a user based on the JWT, the app will now be rendered with
-        // this user as the current user.
-        render(<Provider currentUser={response.data.user}>{routes}</Provider>, mountElement);
-      })
-      .catch(response => {
-        // TODO: This is failing right after .then is called, and the error is:
-        // `history.listen is not a function`
-        console.log('TODO: Catch error in Index.js')
-        // The user could not be found, therefore we render without a user
-        render(<Provider>{routes}</Provider>, mountElement);      
-      });   
-  }
-  
-}
+// Renders the router client side
+render(<Provider store={store}>routes</Provider>, document.getElementById('app'));

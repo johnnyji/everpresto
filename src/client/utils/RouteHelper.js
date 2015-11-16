@@ -15,7 +15,7 @@ class RouteHelper {
    * @param  {function} replaceState - the function that executes to replace router state (provided by React Router)
    * @param  {function} callback - a callback function to make the onEnter asynchronous
    */
-  initialAuthCheck (nextState, replaceState, callback) {
+  initialAuthCheck(nextState, replaceState, callback) {
 
     if (isClient && !isDebugger) {
       AuthHelper.findCurrentUser()
@@ -38,7 +38,7 @@ class RouteHelper {
    * @param  {object} nextState - the next router state object (provided by React Router)
    * @param  {function} replaceState - the function that executes to replace router state (provided by React Router)
    */
-  requireAuth (nextState, replaceState, callback) {
+  requireAuth(nextState, replaceState, callback) {
 
     if (isClient && !isDebugger) {
       AuthHelper.findCurrentUser()
