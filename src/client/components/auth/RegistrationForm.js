@@ -73,7 +73,10 @@ export default class RegistrationForm extends Component {
             errorKeys='errors:password'
             label='Password'
             successKeys='user:password'
-            patternMatches={RegexHelper.minLength(8, 'Password must be longer than 8 characters.')}
+            patternMatches={[
+              RegexHelper.minLength(8, 'Password must be longer than 8 characters.'),
+              RegexHelper.matchPassword(this.state.formData.getIn(['user', 'passwordConfirmation']), 'Your passwords don\'t match!')
+            ]}
             onUpdate={this._handleInputUpdate}
             type='password'/>
           <Input
@@ -96,7 +99,7 @@ export default class RegistrationForm extends Component {
     );
   }
 
-  _checkReadyToSubmit = (errors) => {
+  _checkReadyToSubmit = (data, errors) => {
     // TODO: Move into form helper so every form can check to see if there are errors;
     // Makes sure every error in the form is null
     return errors.every((v, k) => v === null);
@@ -110,7 +113,7 @@ export default class RegistrationForm extends Component {
 
   _handleInputUpdate = (value, error, valueObj, errorObj) => {
     const newFormData = this.state.formData.mergeDeep(Object.assign({}, valueObj, errorObj));
-    const readyToSubmit = this._checkReadyToSubmit(newFormData.get('errors'));
+    const readyToSubmit = this._checkReadyToSubmit(newFormData.get('user'), newFormData.get('errors'));
 
     this.setState({formData: newFormData, readyToSubmit});
   }

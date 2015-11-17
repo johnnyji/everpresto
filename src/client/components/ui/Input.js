@@ -99,9 +99,11 @@ export default class Input extends Component {
     if (Array.isArray(this.props.patternMatches)) {
       // Goes through all the regex patterns and returns the first the error of the
       // first pattern that the value doesn't match
-      return this.props.patternMatches.find((pattern) => {
+      const errorMatch = this.props.patternMatches.find((pattern) => {
         if (!pattern.regex.test(value)) return pattern.error;
       });
+
+      return errorMatch === undefined ? undefined : errorMatch.error;
     } else {
       // Checks the validity of the value against the pattern, and returns an error if no match
       return this.props.patternMatches.regex.test(value) ? undefined : this.props.patternMatches.error;
