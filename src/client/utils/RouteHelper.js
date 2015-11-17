@@ -1,4 +1,4 @@
-import AuthHelper from './AuthHelper';
+import StoreContainer from './../../server/store_container/StoreContainer';
 
 const isClient = typeof window !== 'undefined' && Boolean(window.document);
 // We know it's the debugger if there's a footer present, because there are no `footer`
@@ -18,17 +18,27 @@ class RouteHelper {
   initialAuthCheck(nextState, replaceState, callback) {
 
     if (isClient && !isDebugger) {
-      AuthHelper.findCurrentUser()
-        .then(response => {
-          // Because we're running an asynchronous call, we must invoke the callback in order
-          // to declare our call has completed, only then can router perform it's `replaceState`
-          replaceState({nextPathname: nextState.location.pathname}, '/dashboard');
-          callback();
-        })
-        .catch(response => callback());
+      debugger
+      // IS CLIENT
+      const store = window.__INITIAL_STORE_STATE__;
+
+      if (store.auth.has('currentUser')) {
+        replaceState({nextPathname: nextState.location.pathname}, '/dashboard');
+        callback();
+      } else {
+        callback();
+      }
     } else {
-      // Must initiate callback in order for async onEnter to finish
-      callback();
+      debugger
+      // IS SERVER
+      const store = StoreContainer.getStore();
+
+      if (store.auth.has('currentUser')) {
+        replaceState({nextPathname: nextState.location.pathname}, '/dashboard');
+        callback();
+      } else {
+        callback(); 
+      }
     }
   }
 
@@ -41,17 +51,27 @@ class RouteHelper {
   requireAuth(nextState, replaceState, callback) {
 
     if (isClient && !isDebugger) {
-      AuthHelper.findCurrentUser()
-        .then(response => callback())
-        .catch(response => {
-          // Because we're running an asynchronous call, we must invoke the callback in order
-          // to declare our call has completed, only then can router perform it's `replaceState`
-          replaceState({nextPathname: nextState.location.pathname}, '/login');
-          callback();
-        });
+      debugger
+      // IS CLIENT
+      const state = window.__INITIAL_STORE_STATE__;
+      if (store.auth.has('currentUser')) {
+        callback();
+      } else {
+        // Because we're running an asynchronous call, we must invoke the callback in order
+        // to declare our call has completed, only then can router perform it's `replaceState`
+        replaceState({nextPathname: nextState.location.pathname}, '/login');
+        callback();
+      }
     } else {
-      // Must initiate callback in order for async onEnter to finish
-      callback();
+      debugger
+      // IS SERVER
+      const store = StoreContainer.getStore();
+      if (store.auth.has('currentUser')) {
+        callback();
+      } else {
+        replaceState({nextPathname: nextState.location.pathname}, '/login');
+        callback();
+      }
     }
   }
 

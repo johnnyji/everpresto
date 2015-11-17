@@ -3,27 +3,30 @@ import './scss/style.scss';
 
 import React from 'react';
 import {render} from 'react-dom';
-import {fromJS} from 'immutable';
-
-// The router being rendered with all it's child routes
-import routes from './routes';
-
-import * as reducers from './reducers';
-import {combineReducers, createStore} from 'redux';
+import Router from 'react-router';
 import {Provider} from 'react-redux';
+import {fromJS} from 'immutable';
+import createBrowserHistory from 'history/lib/createBrowserHistory';
 
-// Grabs the initial store state provided by the server
-const initialStoreState = window.__INITIAL_STATE__;
+import routes from './routes/routes';
+
+import configureStore from './store/configureStore';
+
+const initialStoreState = window.__INITIAL_STORE_STATE__;
 
 // Transforms into Immutable.js
 Object.keys(initialStoreState).forEach(key => {
   initialStoreState[key] = fromJS(initialStoreState[key]);
 });
 
-debugger
 
-const reducer = combineReducers(reducers);
-const store = createStore(reducer, initialStoreState);
+const store = configureStore(initialStoreState);
 
 // Renders the router client side
-render(<Provider store={store}>routes</Provider>, document.getElementById('app'));
+render((
+  <Provider store={store}>
+    <Router history={createBrowserHistory()}>
+      {routes}
+    </Router>
+  </Provider>
+), document.getElementById('app'));

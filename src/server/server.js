@@ -9,17 +9,19 @@ import morgan from 'morgan';
 
 // REACT/ROUTER
 import React from 'react';
+import Immutable from 'immutable';
 import {renderToString} from 'react-dom/server';
 import {match, RoutingContext} from 'react-router';
-import clientRoutes from '.././client/routes';
-import NotFoundHandler from '.././client/components/shared/NotFoundHandler';
+import clientRoutes from './../client/routes/routes';
+import createBrowserHistory from 'history/lib/createBrowserHistory';
+import NotFoundHandler from './../client/components/shared/NotFoundHandler';
 
 // REDUX
-import {createStore, combineReducers} from 'redux';
+import {createStore} from 'redux';
 import {Provider} from 'react-redux';
-import * as reducers from '.././client/reducers';
+import configureStore from './../client/store/configureStore';
 
-// SERVER MODELS
+// SERVER MODELS ** Require them before the app executes
 import User from './models/user';
 import './models/course';
 
@@ -43,7 +45,7 @@ const apiRouter = express.Router();
 
 // connect to db
 mongoose.connection.on('open', (ref) => console.log('Connected to Mongo server...'));
-mongoose.connection.on('error', (err) => console.log('Mongo Server connection error: ', err));
+mongoose.connection.on('error', (err) => console.log('Mongo server connection error: ', err));
 mongoose.connect(config.development.dbConnectUrl, (err) => {
   if (err) { throw err; }
 });
@@ -102,18 +104,19 @@ app.use((req, res) => {
       // Goes through the flow of loading the initial app state
       User.findFromSession(req.session.userId)
         .then((user) => {
-          initialState = {auth: {user}}
+          initialState = {auth: Immutable.Map({user})};
         })
         .catch(() => {
-          initialState = {auth: {}}
+          initialState = {auth: Immutable.Map()};
         })
         .finally(() => {
-          const store = createStore(combineReducers(reducers), initialState);
+          const store = configureStore(initialState);
+
           // Grabs the latest updated state from the store and sets it on the window so
           // the client side and hydrate it's store with the same state
           const hydrateInitialClientState = `
             <script type='application/javascript'>
-              window.__INITIAL_STATE__ = ${JSON.stringify(store.getState())}
+              window.__INITIAL_STORE_STATE__ = ${JSON.stringify(store.getState())}
             </script>
           `;
           const componentToRender = renderToString(
@@ -142,6 +145,7 @@ app.use((req, res) => {
           `);
         });
     } else {
+      debugger
       // Handle route not found
       res.status(404).end(`
         <!DOCTYPE html>

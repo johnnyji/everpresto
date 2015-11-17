@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 import {Link} from 'react-router';
 
 import AuthActions from '../.././actions/AuthActions';
@@ -7,18 +8,18 @@ import AuthStore from '../.././stores/AuthStore';
 import Logo from '.././shared/Logo';
 import DropdownOptions from '.././ui/DropdownOptions';
 
+
 export default class DashboardHeader extends Component {
 
   // Allows for this.context.____ to assume the role of the React Router
   static contextTypes = {
-    currentUser: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired
   };
 
-  componentWillMount() {
-    debugger
-  }
+  static propTypes = {
+    user: ImmutablePropTypes.map.isRequired
+  };
 
   constructor (props) {
     super(props);
@@ -28,11 +29,14 @@ export default class DashboardHeader extends Component {
   }
 
   render() {
+    // TODO: Remove this once we've ensured that the current user is always passed in.
+    if (!this.props.user) return <div/>;
+
     let headerNavContent;
     const profileNavOptions = [
-        { name: 'Profile Settings', callback: this._viewProfile },
-        { name: 'Logout', callback: this._logoutUser }
-      ];
+      { name: 'Profile Settings', callback: this._viewProfile },
+      { name: 'Logout', callback: this._logoutUser }
+    ];
 
     return (
       <header className='dashboard-header'>

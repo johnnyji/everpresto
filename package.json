@@ -38,6 +38,8 @@
     "react-toolbox": "^0.11.5",
     "react-widgets": "^2.8.0",
     "redux": "^3.0.4",
+    "redux-logger": "^2.0.4",
+    "redux-thunk": "^1.0.0",
     "reflux": "^0.3.0",
     "webpack": "^1.12.0"
   },

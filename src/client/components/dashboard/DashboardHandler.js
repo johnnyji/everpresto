@@ -12,6 +12,10 @@ export default class DashboardHandler extends Component {
     super(props);
   }
 
+  componentWillMount() {
+    // TODO: Figure out why this component is still flash rendering even though we replace state
+  }
+
   render() {
     const navLinks = [
       { path: '/dashboard', name: 'Student' },

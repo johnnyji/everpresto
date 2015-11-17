@@ -16,7 +16,10 @@ const UserSchema = new Schema({
   lastName: {type:String, require: true},
   password: {type: String, required: true},
   profilePictureUrl: {type: String, default: defaultAvatarPath}
-}, {timestamps: true});
+}, {
+  timestamps: true
+});
+
 
 // Must use `function` syntax in order to scope `this` to be the User model
 UserSchema.statics.findFromJwt = function (token) {
