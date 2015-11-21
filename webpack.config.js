@@ -47,6 +47,18 @@ module.exports = {
       }
     ]
   },
+  // TODO:: Resolve relative require paths
+  // resolve: {
+  //   root: [
+  //     path.resolve(__dirname, './src'),
+  //     path.resolve(__dirname, './node_modules')
+  //   ],
+  //   modulesDirectories: ['client'],
+  //   fallback: [
+  //     path.resolve(__dirname, './src/client')
+  //   ],
+  //   extensions: ['.js', '.json']
+  // },
   plugins: [
     new ExtractTextPlugin('style.css', { allChunks: true })
   ]

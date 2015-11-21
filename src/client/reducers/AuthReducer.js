@@ -2,10 +2,12 @@ import Immutable from 'immutable';
 
 import AuthActionTypes from '.././action_types/AuthActionTypes';
 
-const defaultState = new Immutable.List();
+const initialState = Immutable.Map({
+  currentUser: null
+});
 
 
-export default function authReducer(state = defaultState, action) {
+export default function authReducer(state = initialState, action) {
 
   switch (action.type) {
 

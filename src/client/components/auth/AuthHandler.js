@@ -18,7 +18,8 @@ export default class AuthHandler extends Component {
   };
 
   static propTypes = {
-    auth: ImmutablePropTypes.map.isRequired
+    auth: ImmutablePropTypes.map.isRequired,
+    dispatch: PropTypes.func.isRequired
   };
 
   componentWillMount() {
@@ -26,12 +27,11 @@ export default class AuthHandler extends Component {
     if (this.props.auth.has('user')) this.context.history.replaceState(null, '/dashboard');
   }
 
-  render () {
+  render() {
     const path = this.context.location.pathname;
-
     // Returns the registration form if the route path is '/join', otherwise
     // returns the login form by default.
-    if (path === '/join') return <RegistrationForm />;
+    if (path === '/join') return <RegistrationForm dispatch={this.props.dispatch} />;
 
     return <LoginForm />;
 
