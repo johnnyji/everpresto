@@ -1,4 +1,4 @@
-export default function deepMerge (left, right) {
+export default function mergeDeep (left, right) {
 
   const rightIsArray = Array.isArray(right);
 
@@ -22,7 +22,7 @@ export default function deepMerge (left, right) {
       } else if (typeof element === 'object') {
         // If the element on the right is an object, we need to call this method again
         // and parse that object, once we do, we can set it to the correct index on the final array
-        final[i] = deepMergeRightIntoLeft(left[i], element);
+        final[i] = mergeDeep(left[i], element);
       } else {
         // If the element is present on the left array, it means that the value previously existed
         // thefore the same version on the right array is the updated version, so we take the right version
@@ -55,7 +55,7 @@ export default function deepMerge (left, right) {
         // However if the key doesnt exist in the left object, it means that this is an entirely new K/V
         // so therefore we can just set it directly on the final object.
         Boolean(left[key])
-          ? final[key] = deepMerge(left[key], right[key])
+          ? final[key] = mergeDeep(left[key], right[key])
           : final[key] = right[key];
       }
     }

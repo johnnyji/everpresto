@@ -10,6 +10,7 @@ export default class Input extends Component {
 
   static propTypes = {
     className: PropTypes.string,
+    defaultValue: PropTypes.string.isRequired,
     disabled: PropTypes.bool.isRequired,
     error: PropTypes.string,
     errorKeys: PropTypes.oneOfType([
@@ -20,6 +21,12 @@ export default class Input extends Component {
     label: PropTypes.string.isRequired,
     onUpdate: PropTypes.func.isRequired,
     patternMatches: PropTypes.oneOfType([
+      // ImmtuablePropTypes.listOf(
+      //   ImmutablePropTypes.contains({
+      //     error: PropTypes.string.isRequired,
+      //     regex: PropTypes.instanceOf(RegExp).isRequired
+      //   }).isRequired
+      // ),
       PropTypes.arrayOf(
         PropTypes.shape({
           error: PropTypes.string.isRequired,
@@ -36,9 +43,11 @@ export default class Input extends Component {
       PropTypes.string
     ]),
     type: PropTypes.oneOf(['text', 'email', 'number', 'password']),
+    value: PropTypes.string,
   };
 
   static defaultProps = {
+    defaultValue: '',
     disabled: false,
     patternMatches: {
       regex: /.*/,
@@ -63,6 +72,7 @@ export default class Input extends Component {
         {this.state.showLabel && <label className='ui-input-label'>{this.props.label}</label>}
         <input
           className='ui-input-input-field'
+          defaultValue={this.props.defaultValue}
           disabled={this.props.disabled}
           label={this.props.label}
           onBlur={this._handleBlur}
@@ -79,19 +89,39 @@ export default class Input extends Component {
 
   }
 
-
   /**
-   * Called by parent component, retrieves the current value of the input field
-   *
-   * @return {string} - The value of the input field
+   * Returns whether or not the input field value is valid
+   * 
+   * @return {Boolean} - The validity of the field
    */
-  getValue = () => {
-    return this.props.value;
+  valid = () => {
+    const value = this.props.value || this.refs.input.value;
+    return this.props.error === null && this._checkInvalid(value) === undefined;
   }
 
 
   /**
-   * Checks it's provided value against the input field's `patternMathches` prop
+   * Returns the error value of the input
+   * 
+   * @return {String|Null} - The error if one exists
+   */
+  getError = () => {
+    return this.props.error;
+  }
+
+
+  /**
+   * Called by parent component, retrieves the current value of the input field
+   *
+   * @return {String} - The value of the input field
+   */
+  getValue = () => {
+    return this.props.value || this.refs.input.value;
+  }
+
+
+  /**
+   * Checks it's provided value against the input field's `patternMatches` prop
    * and returns either an error or undefined
    * 
    * @param  {String} value - The value that we're validating
@@ -119,7 +149,6 @@ export default class Input extends Component {
    * @param  {Object} e - The event object
    */
   _handleBlur = (e) => {
-    debugger
     // Sets `focused` state to false so input errors will show if there is any
     this.setState({focused: false});
     this._submitValue(e.target.value);
@@ -133,7 +162,6 @@ export default class Input extends Component {
    */
   _handleChange = (e) => {
     const value = e.target.value;
-
     this.setState({showLabel: Boolean(value === '')});
     this._submitValue(value);
   }

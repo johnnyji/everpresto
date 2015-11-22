@@ -1,12 +1,17 @@
 import React, {Component, PropTypes} from 'react';
 import Immutable from 'immutable';
+import mergeDeep from '../.././utils/mergeDeep';
 import Button from '.././ui/Button';
 import Card from '.././ui/Card';
 import Input from '.././ui/Input';
 import RegexHelper from '../.././utils/RegexHelper';
 import AppActionsCreator from './../../actions/AppActionsCreator';
 
+const displayName = 'RegistrationForm';
+
 export default class RegistrationForm extends Component {
+
+  static displayName = displayName;
 
   static contextTypes = {
     dispatch: PropTypes.func.isRequired
@@ -17,18 +22,26 @@ export default class RegistrationForm extends Component {
     this.state = {
       formData: Immutable.fromJS({
         user: {
-          firstName: '',
-          lastName: '',
-          email: '',
-          password: '',
-          passwordConfirmation: ''
-        },
-        errors: {
-          firstName: '',
-          lastName: '',
-          email: '',
-          password: '',
-          passwordConfirmation: ''
+          firstName: {
+            error: null,
+            value: ''
+          },
+          lastName: {
+            error: null,
+            value: ''
+          },
+          email: {
+            error: null,
+            value: ''
+          },
+          password: {
+            error: null,
+            value: ''
+          },
+          passwordConfirmation: {
+            error: null,
+            value: ''
+          }
         }
       })
     }
@@ -38,68 +51,72 @@ export default class RegistrationForm extends Component {
     const {formData} = this.state;
 
     return (
-      <div className='auth-registration-form'>
-        <Card className='auth-registration-form-card'>
+      <div className={`${displayName}`}>
+        <header className={`${displayName}-header`}>Welcome to the family!</header>
+        <Card className={`${displayName}-card'`} ref='form'>
 
           <Input
-            className='auth-registration-form-card-input'
-            error={formData.getIn(['errors', 'firstName'])}
-            errorKeys='errors:firstName'
+            className={`${displayName}-card-input`}
+            error={formData.getIn(['user', 'firstName', 'error'])}
+            errorKeys='user:firstName:error'
             label='First name...'
             onUpdate={this._handleInputUpdate}
-            patternMatches={RegexHelper.minLength(1, 'What\'s your first name?')}
-            successKeys='user:firstName'/>
+            patternMatches={RegexHelper.minLength(1, 'You\'re first name please!')}
+            ref='firstName'
+            successKeys='user:firstName:value'/>
 
           <Input
-            className='auth-registration-form-card-input'
-            error={formData.getIn(['errors', 'lastName'])}
-            errorKeys='errors:lastName'
+            className={`${displayName}-card-input`}
+            error={formData.getIn(['user', 'lastName', 'error'])}
+            errorKeys='user:lastName:error'
             label='Last name!'
             onUpdate={this._handleInputUpdate}
-            patternMatches={RegexHelper.minLength(1, 'What\'s your last name?')}
-            successKeys='user:lastName'/>
+            patternMatches={RegexHelper.minLength(1, 'You\'re last name please!')}
+            ref='lastName'
+            successKeys='user:lastName:value'/>
 
           <Input
-            className='auth-registration-form-card-input'
-            error={formData.getIn(['errors', 'email'])}
-            errorKeys='errors:email'
+            className={`${displayName}-card-input`}
+            error={formData.getIn(['user', 'email', 'error'])}
+            errorKeys='user:email:error'
             label='Email'
-            successKeys='user:email'
             onUpdate={this._handleInputUpdate}
             patternMatches={RegexHelper.email()}
+            ref='email'
+            successKeys='user:email:value'
             type='email'/>
 
           <Input
-            className='auth-registration-form-card-input'
-            error={formData.getIn(['errors', 'password'])}
-            errorKeys={[
-              'errors:password',
-              'errors:passwordConfirmation'
-            ]}
+            className={`${displayName}-card-input`}
+            error={formData.getIn(['user', 'password', 'error'])}
+            errorKeys='user:password:error'
             label='Password'
             onUpdate={this._handleInputUpdate}
             patternMatches={[
               RegexHelper.minLength(8, 'Passwords must be at least 8 characters!'),
-              RegexHelper.matchValue(formData.getIn(['user', 'passwordConfirmation']), 'Both your passwords must match!')
+              RegexHelper.matchValue(formData.getIn(['user', 'passwordConfirmation', 'value']), 'Both your passwords must match!')
             ]}
-            successKeys='user:password'
+            ref='password'
+            successKeys='user:password:value'
             type='password'/>
 
           <Input
-            className='auth-registration-form-card-input'
-            error={formData.getIn(['errors', 'passwordConfirmation'])}
-            errorKeys={[
-              'errors:password',
-              'errors:passwordConfirmation'
-            ]}
+            className={`${displayName}-card-input`}
+            error={formData.getIn(['user', 'passwordConfirmation', 'error'])}
+            errorKeys='user:passwordConfirmation:error'
             label='Confirm Password'
+            ref='nigga'
             onUpdate={this._handleInputUpdate}
-            patternMatches={RegexHelper.matchValue(formData.getIn(['user', 'password']), 'Both your passwords must match!')}
-            successKeys='user:passwordConfirmation'
+            patternMatches={[
+              RegexHelper.minLength(8, 'Passwords must be at least 8 characters!'),
+              RegexHelper.matchValue(formData.getIn(['user', 'password', 'value']), 'Both your passwords must match!')
+            ]}
+            ref='passwordConfirmation'
+            successKeys='user:passwordConfirmation:value'
             type='password'/>
 
           <Button
-            className='auth-registration-form-card-button'
+            className={`${displayName}-card-button`}
             color='yellow'
             onClick={this._handleFormSubmission}
             text="I'm done!"/>
@@ -109,30 +126,29 @@ export default class RegistrationForm extends Component {
     );
   }
 
+  // TODO:: FIRST THING, Think of way to make this a universal functionality.
   _handleFormSubmission = () => {
-    const error = this.state.formData.get('errors').find((v, k) => Boolean(v));
-    const requiredFieldsEmpty = this.state.formData.get('user').every((v, k) => !Boolean(v));
-
-    // Dispatches a required fields message.
-    if (requiredFieldsEmpty) {
+    const firstInvalidField = this.state.formData.get('user').find((v, k) => {
+      // The first input field we find that isn't value, we stop the loop and return that object
+      return !this.refs[k].valid();
+    });
+    debugger
+    if (firstInvalidField) {
+      // Dispatches the input error if there is one.
       return this.context.dispatch(
-        AppActionsCreator.createFlashMessage('red', 'Looks like you\'ve missed some fields!')
-      );
-    }
-    // Dispatches the input error if there is one.
-    if (error) {
-      return this.context.dispatch(
-        AppActionsCreator.createFlashMessage('red', error)
+        AppActionsCreator.createFlashMessage('red', firstInvalidField.get('error'))
       );
     }
     
-    // TODO:: Submit form
+    return this.context.dispatch(
+      AppActionsCreator.createFlashMessage('green', 'Form Success')
+    );
   }
 
   _handleInputUpdate = (value, error, nestedValueObj, nestedErrorObj) => {
     // We're merging a newly created object with all our nested values and errors into the form data state,
     // so that our state is up to date with the input's returns
-    const newFormData = this.state.formData.mergeDeep(Object.assign({}, nestedValueObj, nestedErrorObj));
+    const newFormData = this.state.formData.mergeDeep(mergeDeep(nestedValueObj, nestedErrorObj));
 
     this.setState({formData: newFormData});
   }

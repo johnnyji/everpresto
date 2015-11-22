@@ -15,7 +15,7 @@ const AppActionsCreator = {
       data: {color: null, message: null}
     }
   }
-  
+
 }
 
 export default AppActionsCreator;
