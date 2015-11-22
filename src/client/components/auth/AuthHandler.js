@@ -31,7 +31,7 @@ export default class AuthHandler extends Component {
     const path = this.context.location.pathname;
     // Returns the registration form if the route path is '/join', otherwise
     // returns the login form by default.
-    if (path === '/join') return <RegistrationForm dispatch={this.props.dispatch} />;
+    if (path === '/join') return <RegistrationForm />;
 
     return <LoginForm />;
 

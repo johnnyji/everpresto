@@ -1,9 +1,8 @@
 import React, {Component, PropTypes} from 'react';
-import {connect} from 'redux';
+import {connect} from 'react-redux';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import FlashMessage from '.././ui/FlashMessage';
 import FullScreenModal from '.././shared/FullScreenModal';
-import NewNoteForm from '.././notes/NewNoteForm';
-import NewGroupForm from '.././groups/NewGroupForm';
 
 @connect((state) => ({
   app: state.app
@@ -14,27 +13,43 @@ export default class AppHandler extends Component {
 
   static propTypes = {
     app: ImmutablePropTypes.contains({
-      flash: ImmtuablePropTypes.contains({
+      flash: ImmutablePropTypes.contains({
         color: PropTypes.oneOf(['blue', 'green', 'red', 'yellow']),
         message: PropTypes.string,
       }).isRequired,
     }).isRequired,
     dispatch: PropTypes.func.isRequired
+  };
+
+  static childContextTypes = {
+    dispatch: PropTypes.func.isRequired
+  };
+
+  // Sets the store's `dispatch` method as context accesible on any child component
+  getChildContext() {
+    return {
+      dispatch: this.props.dispatch
+    };
   }
 
   render() {
-    const {app} = this.state;
+    const {app} = this.props;
+    const flashMessage = app.getIn(['flash', 'message']);
 
     return (
       <div className='page-wrapper'>
-        <FlashMessage color={app.getIn(['flash', 'color'])} message={app.getIn(['flash', 'message'])} />
+
+        {Boolean(flashMessage) &&
+          <FlashMessage color={app.getIn(['flash', 'color'])} content={flashMessage} />
+        }
+
         <div className='content-container'>
           {/*Allows the React Router to run the correct child route, replaced RouteHandler in v1.0.0*/}
           {this.props.children}
         </div>
       </div>
     );
-    
+
   }
 
 }

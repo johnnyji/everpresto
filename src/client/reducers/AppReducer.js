@@ -18,12 +18,20 @@ const initialState = Immutable.fromJS({
  * @return {Object} - The new state
  */
 export default function appReducer(state = initialState, action) {
+  // Each reducer must return a new state, never modify the original.
+  let newState;
 
   switch (action.type) {
 
     // Creates a flash message
     case AppActionTypes.CREATE_FLASH_MESSAGE:
-      return state.get('flash').merge(action.data);
+      newState = state.set('flash', Immutable.Map(action.data));
+      return newState;
+
+    // Dismiss a flash message
+    case AppActionTypes.DISMISS_FLASH_MESSAGE:
+      newState = state.set('flash', Immutable.Map({color: null, message: null}));
+      return newState;
 
     default:
       return state;

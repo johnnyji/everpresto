@@ -1,5 +1,4 @@
 import React, {Component, PropTypes} from 'react';
-import _ from 'lodash';
 import Immutable from 'immutable';
 import Button from '.././ui/Button';
 import Card from '.././ui/Card';
@@ -9,7 +8,7 @@ import AppActionsCreator from './../../actions/AppActionsCreator';
 
 export default class RegistrationForm extends Component {
 
-  static propTypes = {
+  static contextTypes = {
     dispatch: PropTypes.func.isRequired
   };
 
@@ -116,11 +115,15 @@ export default class RegistrationForm extends Component {
 
     // Dispatches a required fields message.
     if (requiredFieldsEmpty) {
-      return this.props.dispatch(AppActionsCreator.createFlashMessage('red', 'Looks like you missed some fields!'));
+      return this.context.dispatch(
+        AppActionsCreator.createFlashMessage('red', 'Looks like you\'ve missed some fields!')
+      );
     }
     // Dispatches the input error if there is one.
     if (error) {
-      return this.props.dispatch(AppActionsCreator.createFlashMessage('red', error));
+      return this.context.dispatch(
+        AppActionsCreator.createFlashMessage('red', error)
+      );
     }
     
     // TODO:: Submit form

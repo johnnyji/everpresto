@@ -1,0 +1,56 @@
+// Have the flash message 'flash' when it first enters
+@include keyframes(flash-enter-blue) {
+  0% {background-color: transparent;}
+  100% {background-color: $brand-color-blue-light;}
+}
+@include keyframes(flash-enter-green) {
+  0% {background-color: transparent;}
+  100% {background-color: $brand-color-green;}
+}
+@include keyframes(flash-enter-red) {
+  0% {background-color: transparent;}
+  100% {background-color: $brand-color-red-darker;}
+}
+@include keyframes(flash-enter-yellow) {
+  0% {background-color: transparent;}
+  100% {background-color: $brand-color-yellow;}
+}
+
+.FlashMessage {
+  @extend .box-shadow;
+  @include position-x(fixed, 50%);
+  min-width: 300px;
+  top: 0;
+  z-index: 9;
+
+  &-content {
+    position: relative;
+    padding: 1rem;
+    &:hover {
+      cursor: pointer; 
+    }
+    &-message {
+      color: #FFF;
+    }
+  }
+
+  &-blue {
+    @include animate('flash-enter-blue 250ms');
+    background-color: $brand-color-blue-light;
+  }
+
+  &-green {
+    @include animate('flash-enter-green 250ms');
+    background-color: $brand-color-green;
+  }
+
+  &-red {
+    @include animate('flash-enter-red 250ms');
+    background-color: $brand-color-red-darker;
+  }
+
+  &-yellow {
+    @include animate('flash-enter-yellow 250ms');
+    background-color: $brand-color-yellow;
+  }
+}
