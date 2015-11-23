@@ -47,24 +47,33 @@ router.post('/authenticate_from_token', (req, res, next) => {
     .catch(err => res.status(500).json({message: err.message}));
 });
 
+
+// Creates a new user
 router.post('/register', (req, res, next) => {
+  const {user} = req.body;
   const userParams = {
-    firstName: req.body.user.firstName,
-    lastName: req.body.user.lastName,
-    email: req.body.user.email,
-    password: req.body.user.password
+    firstName: user.firstName,
+    lastName: user.lastName,
+    email: user.email,
+    password: user.password,
+    passwordConfirmation: user.passwordConfirmation,
   };
 
   User.create(userParams, (err, user) => {
-    if (err) return res.status(422).json({ message: err });
+    debugger;
+    // Returns an error if the creation is unsuccessful
+    if (err) return res.status(422).json({message: err});
 
+    // Sets the user session after creation
     req.session.userId = user._id;
 
+    // Returns the created user
     res.status(201).json({ 
       user: user,
       jwt: jwt.sign(user._id, secrets.jwtSecret)
     });
   });
+
 });
 
 export default router;

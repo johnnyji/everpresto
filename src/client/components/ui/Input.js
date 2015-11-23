@@ -9,6 +9,7 @@ export default class Input extends Component {
   static displayName = 'Input';
 
   static propTypes = {
+    autoFocus: PropTypes.bool.isRequired,
     className: PropTypes.string,
     defaultValue: PropTypes.string.isRequired,
     disabled: PropTypes.bool.isRequired,
@@ -21,12 +22,6 @@ export default class Input extends Component {
     label: PropTypes.string.isRequired,
     onUpdate: PropTypes.func.isRequired,
     patternMatches: PropTypes.oneOfType([
-      // ImmtuablePropTypes.listOf(
-      //   ImmutablePropTypes.contains({
-      //     error: PropTypes.string.isRequired,
-      //     regex: PropTypes.instanceOf(RegExp).isRequired
-      //   }).isRequired
-      // ),
       PropTypes.arrayOf(
         PropTypes.shape({
           error: PropTypes.string.isRequired,
@@ -47,6 +42,7 @@ export default class Input extends Component {
   };
 
   static defaultProps = {
+    autoFocus: false,
     defaultValue: '',
     disabled: false,
     patternMatches: {
@@ -71,6 +67,7 @@ export default class Input extends Component {
       <div className={classes}>
         {this.state.showLabel && <label className='ui-input-label'>{this.props.label}</label>}
         <input
+          autoFocus={this.props.autoFocus}
           className='ui-input-input-field'
           defaultValue={this.props.defaultValue}
           disabled={this.props.disabled}
@@ -95,8 +92,8 @@ export default class Input extends Component {
    * @return {Boolean} - The validity of the field
    */
   valid = () => {
-    const value = this.props.value || this.refs.input.value;
-    return this.props.error === null && this._checkInvalid(value) === undefined;
+    const value = this.props.value || this.refs['input'].value;
+    return this.props.error === null && this._checkForError(value) === undefined;
   }
 
 
@@ -127,7 +124,7 @@ export default class Input extends Component {
    * @param  {String} value - The value that we're validating
    * @return {String|Undefined} - The error string in `patternMatches` or undefined
    */
-  _checkInvalid = (value) => {
+  _checkForError = (value) => {
     if (Array.isArray(this.props.patternMatches)) {
       // Goes through all the regex patterns and returns the first the error of the
       // first pattern that the value doesn't match
@@ -168,12 +165,17 @@ export default class Input extends Component {
 
 
   /**
-   * When the input field focuses, we set the state so errors dissapear
+   * When the input field focuses, we set the state so errors dissapear. We also want to issue to
+   * submit the value on focus so we can get an error for the input field ASAP.
+   * 
+   * This is useful because if we auto focus an input field on every form mount, we'll always have
+   * at least one present error if the user tries to submit immediately.
    *
    * @param  {Object} e - The event object
    */
   _handleFocus = (e) => {
     this.setState({focused: true});
+    this._submitValue(e.target.value);
   }
 
   /**
@@ -194,7 +196,7 @@ export default class Input extends Component {
    */
   _submitValue = (value) => {
     // If the input value doesn't match the regex we passed in, we're going to trigger an error callback
-    const error = this._checkInvalid(value) || null;
+    const error = this._checkForError(value) || null;
     
     // Updates the parent component with both the value and the error
     const nestedErrorObj = this.props.errorKeys ? createNestedObject(this.props.errorKeys, error) : null;

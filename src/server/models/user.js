@@ -13,7 +13,7 @@ const UserSchema = new Schema({
   coursesTaking: [{type: Schema.Types.ObjectId, ref: 'Course'}],
   email: {type: String, required: true},
   firstName: {type: String, required: true},
-  lastName: {type:String, require: true},
+  lastName: {type:String, required: true},
   password: {type: String, required: true},
   profilePictureUrl: {type: String, default: defaultAvatarPath}
 }, {

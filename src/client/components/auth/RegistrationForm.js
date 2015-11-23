@@ -1,11 +1,13 @@
 import React, {Component, PropTypes} from 'react';
 import Immutable from 'immutable';
+import {findDOMNode} from 'react-dom';
 import mergeDeep from '../.././utils/mergeDeep';
 import Button from '.././ui/Button';
 import Card from '.././ui/Card';
 import Input from '.././ui/Input';
 import RegexHelper from '../.././utils/RegexHelper';
 import AppActionsCreator from './../../actions/AppActionsCreator';
+import AuthActionsCreator from './../../actions/AuthActionsCreator';
 
 const displayName = 'RegistrationForm';
 
@@ -56,6 +58,7 @@ export default class RegistrationForm extends Component {
         <Card className={`${displayName}-card'`} ref='form'>
 
           <Input
+            autoFocus={true}
             className={`${displayName}-card-input`}
             error={formData.getIn(['user', 'firstName', 'error'])}
             errorKeys='user:firstName:error'
@@ -128,20 +131,25 @@ export default class RegistrationForm extends Component {
 
   // TODO:: FIRST THING, Think of way to make this a universal functionality.
   _handleFormSubmission = () => {
-    const firstInvalidField = this.state.formData.get('user').find((v, k) => {
-      // The first input field we find that isn't value, we stop the loop and return that object
-      return !this.refs[k].valid();
-    });
-    debugger
-    if (firstInvalidField) {
-      // Dispatches the input error if there is one.
+    const userData = this.state.formData.get('user');
+    // The first input field we find that isn't value, we stop the loop and return that object
+    const firstInvalidField = userData.find((v, k) => !this.refs[k].valid());
+    
+    // Dispatches the input error if there is one.
+    if (firstInvalidField !== undefined) {
       return this.context.dispatch(
-        AppActionsCreator.createFlashMessage('red', firstInvalidField.get('error'))
+        AppActionsCreator.createFlashMessage('red', firstInvalidField.get('error') || 'Please fill out the form properly')
       );
     }
-    
+
     return this.context.dispatch(
-      AppActionsCreator.createFlashMessage('green', 'Form Success')
+      AuthActionsCreator.createUser({
+        firstName: userData.getIn(['firstName', 'value']),
+        lastName: userData.getIn(['lastName', 'value']),
+        email: userData.getIn(['email', 'value']),
+        password: userData.getIn(['password', 'value']),
+        passwordConfirmation: userData.getIn(['passwordConfirmation', 'value'])
+      })
     );
   }
 
