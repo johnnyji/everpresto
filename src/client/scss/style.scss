@@ -78,21 +78,13 @@
 @import './ui/Spinner';
 @import './ui/TipBox';
 
-html {
-  position: relative;
-  height: 100vh;
-}
-
 body {
   position: relative;
   box-sizing: border-box;
   color: $text-color;
   font-family: 'Roboto', sans-serif;
-  min-width: $app-content-min-width !important;
-  height: 100%;
   font-weight: 400;
-  margin: 0;
-  padding: 0;
+  min-width: 600px;
   overflow-x: hidden;
 }
 

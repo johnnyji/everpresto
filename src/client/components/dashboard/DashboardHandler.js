@@ -1,19 +1,45 @@
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
+import ImmutablePropTypes from 'react-immutable-proptypes';
+import Immutable from 'immutable';
+import {connect} from 'react-redux';
 
 import DashboardHeader from './DashboardHeader';
 import HorizontalNavbar from '.././ui/HorizontalNavbar';
 import AppActions from '../.././actions/AppActions';
 
+const displayName = 'DashboardHandler';
+
+@connect((state) => ({
+  currentUser: state.auth.get('user')
+}))
 export default class DashboardHandler extends Component {
 
-  static displayName = 'DashboardHandler';
+  static displayName = displayName;
 
-  constructor (props) {
+  // Router history
+  static contextTypes = {
+    history: PropTypes.object.isRequired
+  };
+
+  static propTypes = {
+    auth: ImmutablePropTypes.contains({
+      user: ImmutablePropTypes.contains({
+        firstName: PropTypes.string.isRequired,
+        lastName: PropTypes.string.isRequired,
+        email: PropTypes.string.isRequired
+      })
+    }).isRequired,
+  };
+
+  constructor(props) {
     super(props);
   }
 
-  componentWillMount() {
-    // TODO: Figure out why this component is still flash rendering even though we replace state
+  componentWillReceiveProps(nextProps) {
+    // If the next `currentUser` prop is null, we want to the user to the main page
+    if (!Boolean(nextProps.currentUser)) {
+      this.context.history.replaceState(null, '/');
+    }
   }
 
   render() {
@@ -23,7 +49,7 @@ export default class DashboardHandler extends Component {
     ];
 
     return (
-      <div>
+      <div className={displayName}>
         <DashboardHeader />
         <HorizontalNavbar navLinks={navLinks} />
         {/*Allows the React Router to run the correct child route,

@@ -1,7 +1,7 @@
 import createBrowserHistory from 'history/lib/createBrowserHistory';
 import {applyMiddleware, combineReducers, compose, createStore} from 'redux';
+import thunkMiddleware from 'redux-thunk';
 import createLogger from 'redux-logger';
-import thunk from 'redux-thunk';
 import reducers from '.././reducers/index';
 
 
@@ -16,24 +16,17 @@ const transformToJs = (state) => {
 };
 
 
-// Specify middleware needed for production
-const productionMiddleware = [thunk];
-
-
 // Here we create the final store,
 // If we're in production, we want to leave out development middleware/tools
 let finalCreateStore;
 if (process.env.NODE_ENV === 'production') {
-  finalCreateStore = applyMiddleware(...productionMiddleware)(createStore);
+  finalCreateStore = applyMiddleware(thunkMiddleware)(createStore);
 } else {
-  finalCreateStore = compose(
-    applyMiddleware(...productionMiddleware),
-    applyMiddleware(
-      createLogger({transformer: transformToJs})
-    )
+  finalCreateStore = applyMiddleware(
+    createLogger({transformer: transformToJs}),
+    thunkMiddleware
   )(createStore);
 }
-
 
 // Exports the function that creates a store
 export default function configureStore(initialState) {

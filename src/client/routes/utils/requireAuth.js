@@ -15,7 +15,7 @@ export default function requireAuth(ComponentToRender) {
     };
 
     componentWillMount() {
-      if (!this.props.auth.has('user')) {
+      if (!Boolean(this.props.auth.get('user'))) {
         // Here we `pushState` and not `replaceState` so the user has the option to
         // navigate back to previous content if they wish
         this.context.history.pushState(null, '/join');
@@ -23,7 +23,7 @@ export default function requireAuth(ComponentToRender) {
     }
 
     render() {
-      return <ComponentToRender {...this.props} />;
+      return <ComponentToRender />;
     }
 
   }

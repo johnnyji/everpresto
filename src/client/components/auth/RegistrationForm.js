@@ -24,25 +24,19 @@ export default class RegistrationForm extends Component {
     this.state = {
       formData: Immutable.fromJS({
         user: {
-          firstName: {
-            error: null,
-            value: ''
+          values: {
+            firstName: '',
+            lastName: '',
+            email: '',
+            password: '',
+            passwordConfirmation: ''
           },
-          lastName: {
-            error: null,
-            value: ''
-          },
-          email: {
-            error: null,
-            value: ''
-          },
-          password: {
-            error: null,
-            value: ''
-          },
-          passwordConfirmation: {
-            error: null,
-            value: ''
+          errors: {
+            firstName: null,
+            lastName: null,
+            email: null,
+            password: null,
+            passwordConfirmation: null
           }
         }
       })
@@ -60,62 +54,61 @@ export default class RegistrationForm extends Component {
           <Input
             autoFocus={true}
             className={`${displayName}-card-input`}
-            error={formData.getIn(['user', 'firstName', 'error'])}
-            errorKeys='user:firstName:error'
+            error={formData.getIn(['user', 'errors', 'firstName'])}
+            errorKeys='user:errors:firstName'
             label='First name...'
             onUpdate={this._handleInputUpdate}
             patternMatches={RegexHelper.minLength(1, 'You\'re first name please!')}
             ref='firstName'
-            successKeys='user:firstName:value'/>
+            successKeys='user:values:firstName'/>
 
           <Input
             className={`${displayName}-card-input`}
-            error={formData.getIn(['user', 'lastName', 'error'])}
-            errorKeys='user:lastName:error'
+            error={formData.getIn(['user', 'errors', 'lastName'])}
+            errorKeys='user:errors:lastName'
             label='Last name!'
             onUpdate={this._handleInputUpdate}
             patternMatches={RegexHelper.minLength(1, 'You\'re last name please!')}
             ref='lastName'
-            successKeys='user:lastName:value'/>
+            successKeys='user:values:lastName'/>
 
           <Input
             className={`${displayName}-card-input`}
-            error={formData.getIn(['user', 'email', 'error'])}
-            errorKeys='user:email:error'
+            error={formData.getIn(['user', 'errors', 'email'])}
+            errorKeys='user:errors:email'
             label='Email'
             onUpdate={this._handleInputUpdate}
             patternMatches={RegexHelper.email()}
             ref='email'
-            successKeys='user:email:value'
+            successKeys='user:values:email'
             type='email'/>
 
           <Input
             className={`${displayName}-card-input`}
-            error={formData.getIn(['user', 'password', 'error'])}
-            errorKeys='user:password:error'
+            error={formData.getIn(['user', 'errors', 'password'])}
+            errorKeys='user:errors:password'
             label='Password'
-            onUpdate={this._handleInputUpdate}
+            onUpdate={this._handlePasswordUpdate}
             patternMatches={[
               RegexHelper.minLength(8, 'Passwords must be at least 8 characters!'),
-              RegexHelper.matchValue(formData.getIn(['user', 'passwordConfirmation', 'value']), 'Both your passwords must match!')
+              RegexHelper.matchValue(formData.getIn(['user', 'values', 'passwordConfirmation']), 'Both your passwords must match!')
             ]}
             ref='password'
-            successKeys='user:password:value'
+            successKeys='user:values:password'
             type='password'/>
 
           <Input
             className={`${displayName}-card-input`}
-            error={formData.getIn(['user', 'passwordConfirmation', 'error'])}
-            errorKeys='user:passwordConfirmation:error'
+            error={formData.getIn(['user', 'errors', 'passwordConfirmation'])}
+            errorKeys='user:errors:passwordConfirmation'
             label='Confirm Password'
-            ref='nigga'
-            onUpdate={this._handleInputUpdate}
+            onUpdate={this._handlePasswordConfirmationUpdate}
             patternMatches={[
               RegexHelper.minLength(8, 'Passwords must be at least 8 characters!'),
-              RegexHelper.matchValue(formData.getIn(['user', 'password', 'value']), 'Both your passwords must match!')
+              RegexHelper.matchValue(formData.getIn(['user', 'values', 'password']), 'Both your passwords must match!')
             ]}
             ref='passwordConfirmation'
-            successKeys='user:passwordConfirmation:value'
+            successKeys='user:values:passwordConfirmation'
             type='password'/>
 
           <Button
@@ -132,25 +125,19 @@ export default class RegistrationForm extends Component {
   // TODO:: FIRST THING, Think of way to make this a universal functionality.
   _handleFormSubmission = () => {
     const userData = this.state.formData.get('user');
-    // The first input field we find that isn't value, we stop the loop and return that object
-    const firstInvalidField = userData.find((v, k) => !this.refs[k].valid());
-    
+    // Goes through each input field by ref, calls the `valid` method on them and on // the first invalid field, `find` will return the error message of that input field.
+    const firstFoundError = userData.get('errors').find((v, k) => {
+      return !this.refs[k].valid();
+    });
+
     // Dispatches the input error if there is one.
-    if (firstInvalidField !== undefined) {
+    if (firstFoundError !== undefined) {
       return this.context.dispatch(
-        AppActionsCreator.createFlashMessage('red', firstInvalidField.get('error') || 'Please fill out the form properly')
+        AppActionsCreator.createFlashMessage('red', firstFoundError || 'Please fill out the form properly')
       );
     }
 
-    return this.context.dispatch(
-      AuthActionsCreator.createUser({
-        firstName: userData.getIn(['firstName', 'value']),
-        lastName: userData.getIn(['lastName', 'value']),
-        email: userData.getIn(['email', 'value']),
-        password: userData.getIn(['password', 'value']),
-        passwordConfirmation: userData.getIn(['passwordConfirmation', 'value'])
-      })
-    );
+    return AuthActionsCreator.createUser({user: userData.get('values').toJS()});
   }
 
   _handleInputUpdate = (value, error, nestedValueObj, nestedErrorObj) => {
@@ -160,4 +147,29 @@ export default class RegistrationForm extends Component {
 
     this.setState({formData: newFormData});
   }
+
+  _handlePasswordUpdate = (value, error, nestedValueObj, nestedErrorObj) => {
+    let formData = this.state.formData.mergeDeep(nestedValueObj, nestedErrorObj);
+
+    // If the password has no errors and both the passwords match. We want to clear
+    // the confirmation's errors as well
+    if (!error && this.state.formData.getIn(['user', 'values', 'passwordConfirmation']) === value) {
+      formData = formData.setIn(['user', 'errors', 'passwordConfirmation'], null);
+    }
+
+    this.setState({formData});
+  }
+
+  _handlePasswordConfirmationUpdate = (value, error, nestedValueObj, nestedErrorObj) => {
+    let formData = this.state.formData.mergeDeep(nestedValueObj, nestedErrorObj);
+
+    // If the confirmation field has no errors and both the passwords match. We want to clear
+    // the password's errors as well
+    if (!error && this.state.formData.getIn(['user', 'values', 'password']) === value) {
+      formData = formData.setIn(['user', 'errors', 'password'], null);
+    }
+
+    this.setState({formData})
+  }
+
 }

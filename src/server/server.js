@@ -107,7 +107,7 @@ app.use((req, res) => {
           initialState = {auth: Immutable.Map({user})};
         })
         .catch(() => {
-          initialState = {auth: Immutable.Map()};
+          initialState = {auth: Immutable.Map({user: null})};
         })
         .finally(() => {
           const store = configureStore(initialState);

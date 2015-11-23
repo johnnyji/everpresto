@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router';
 
 @connect((state) => ({
-  auth: state.auth
+  currentUser: state.auth.get('user')
 }))
 export default class LandingPageHandler extends Component {
 
@@ -14,15 +14,15 @@ export default class LandingPageHandler extends Component {
   };
 
   static propTypes = {
-    auth: ImmutablePropTypes.map.isRequired
+    currentUser: ImmutablePropTypes.contains({
+      firstName: PropTypes.string,
+      lastName: PropTypes.string,
+      email: PropTypes.string
+    })
   };
 
-  constructor (props) {
-    super(props);
-  }
-
   componentWillMount() {
-    if (this.props.auth.has('user')) {
+    if (Boolean(this.props.currentUser)) {
       // We replace state here so the user is authed, so the user can't navigate back to the landing page
       this.context.history.replaceState(null, '/dashboard');
     }

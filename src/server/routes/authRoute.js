@@ -50,6 +50,7 @@ router.post('/authenticate_from_token', (req, res, next) => {
 
 // Creates a new user
 router.post('/register', (req, res, next) => {
+  debugger;
   const {user} = req.body;
   const userParams = {
     firstName: user.firstName,
