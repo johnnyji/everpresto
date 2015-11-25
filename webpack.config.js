@@ -12,14 +12,15 @@ module.exports = {
     publicPath: 'http://localhost:' + config.development.webpackPort + '/build/',
     filename: 'bundle.js'
   },
-  // TODO:: Resolve relative require paths
+  plugins: [
+    new ExtractTextPlugin('style.css', {allChunks: true})
+  ],
   // resolve: {
-  //   root: [
-  //     path.resolve(__dirname, './src'),
-  //     path.resolve(__dirname, './node_modules')
-  //   ],
-  //   modulesDirectories: ['client'],
-  //   fallback: path.resolve(__dirname, './src')
+  //   fallback: [
+  //     path.join(__dirname, '/src/client'),
+  //     path.join(__dirname, '/src/server'),
+  //     path.join(__dirname, '/node_modules')
+  //   ]  
   // },
   module: {
     loaders: [
@@ -55,8 +56,5 @@ module.exports = {
         loader: 'file-loader?name=[name].[ext]' 
       }
     ]
-  },
-  plugins: [
-    new ExtractTextPlugin('style.css', { allChunks: true })
-  ]
+  }
 };

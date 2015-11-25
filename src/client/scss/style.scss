@@ -60,7 +60,6 @@
 @import './shared/ContentEditable';
 @import './shared/ExitFormIcon';
 @import './shared/FileUploader';
-@import './shared/FullScreenModal';
 @import './shared/InputField';
 @import './shared/InputFieldLabel';
 @import './shared/Logo';
@@ -75,6 +74,7 @@
 @import './ui/FlashMessage';
 @import './ui/HorizontalNavbar';
 @import './ui/Input';
+@import './ui/Overlay';
 @import './ui/Spinner';
 @import './ui/TipBox';
 
@@ -99,10 +99,6 @@ body {
 }
 
 // CLASSES
-
-.noscroll {
-  overflow: hidden;
-}
 
 .active {
   color: $secondary-brand-color;

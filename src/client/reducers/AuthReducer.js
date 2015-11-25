@@ -1,5 +1,4 @@
 import Immutable from 'immutable';
-
 import AuthActionTypes from '.././action_types/AuthActionTypes';
 
 const initialState = Immutable.Map({
@@ -13,10 +12,12 @@ export default function authReducer(state = initialState, action) {
 
   switch (action.type) {
 
-    // Sets the current user of the state to the user returned by the API
+    // When the user is succesfully saved into the API
     case AuthActionTypes.CREATE_USER_SUCCESS:
+      // Sets the current user of the state to the user returned by the API
       newState = state.set('user', action.data.user);
 
+    // Default
     default: return newState;
   }
 

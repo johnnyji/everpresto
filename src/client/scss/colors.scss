@@ -36,8 +36,6 @@ $placeholder-color: lighten(#666666, 25%);
 
 $box-shadow-color: lighten(#282828, 20%);
 
-$modal-background-color: rgba(0,0,0,0.6);
-
 $border-color: #DADADA;
 
 $navbar-background-color: whitesmoke;
@@ -54,8 +52,19 @@ $input-focus-border-color: #66afe9;
 $tip-box-background: whitesmoke;
 
 
+// BUTTON
+$ui-button-disabled-background-color: rgb(229, 229, 229);
+$ui-button-disabled-color: rgb(127, 127, 127);
+$ui-button-color: #FFF;
+
+
 // CARD
 $ui-card-background-color: #FFF;
+
+
+// OVERLAY
+$overlay-background-color: rgba(0, 0, 0, 0.6)
+
 
 // INPUT
 $ui-input-label-color: rgba(0, 0, 0, 0.26);
@@ -63,8 +72,3 @@ $ui-input-error-color: $error-color;
 $ui-input-border-bottom-color: rgba(0, 0, 0, 0.26);
 $ui-input-border-bottom-focus-start-color: $brand-color-blue-darker;
 $ui-input-border-bottom-focus-end-color: $brand-color-blue-light;
-
-// BUTTON
-$ui-button-disabled-background-color: rgb(229, 229, 229);
-$ui-button-disabled-color: rgb(127, 127, 127);
-$ui-button-color: #FFF;

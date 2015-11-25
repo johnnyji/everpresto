@@ -1,4 +1,4 @@
-class ApiCaller {
+const ApiCaller = {
 
   // this method assumes that you are sending/receiving JSON
   // options: { url: ..., method:..., data:... }
@@ -36,4 +36,4 @@ class ApiCaller {
 
 }
 
-export default new ApiCaller;
+export default ApiCaller;

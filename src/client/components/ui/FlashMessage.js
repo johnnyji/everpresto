@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import AppActionsCreator from '../.././actions/AppActionsCreator';
+import AppActionCreators from '../.././actions/AppActionCreators';
 
 const displayName = 'FlashMessage';
 
@@ -36,7 +36,7 @@ export default class FlashMessage extends Component {
   }
 
   _handleDismiss = () => {
-    this.context.dispatch(AppActionsCreator.dismissFlashMessage());
+    this.context.dispatch(AppActionCreators.dismissFlashMessage());
   }
 
 }

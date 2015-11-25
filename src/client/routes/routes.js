@@ -3,14 +3,13 @@ import {Route, IndexRoute, Redirect} from 'react-router';
 
 import AppHandler from '.././components/app/AppHandler';
 import AuthHandler from '.././components/auth/AuthHandler';
-// import ContactsHandler from '.././components/contacts/ContactsHandler';
+import LandingPageHandler from '.././components/app/LandingPageHandler';
+import NotFoundHandler from '.././components/shared/NotFoundHandler';
+
 import DashboardHandler from '.././components/dashboard/DashboardHandler';
   import StudentDashboard from '.././components/student/StudentDashboard';
   import TeacherDashboard from '.././components/teacher/TeacherDashboard';
-// import GroupsHandler from '.././components/groups/GroupsHandler';
-import LandingPageHandler from '.././components/app/LandingPageHandler';
-// import NotesHandler from '.././components/notes/NotesHandler';
-import NotFoundHandler from '.././components/shared/NotFoundHandler';
+
 import ProfileHandler from '.././components/user/ProfileHandler';
 
 import requireAuth from './utils/requireAuth';

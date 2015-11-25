@@ -1,13 +1,12 @@
 import React, {Component, PropTypes} from 'react';
 import Immutable from 'immutable';
-import {findDOMNode} from 'react-dom';
 import mergeDeep from '../.././utils/mergeDeep';
 import Button from '.././ui/Button';
 import Card from '.././ui/Card';
 import Input from '.././ui/Input';
 import RegexHelper from '../.././utils/RegexHelper';
-import AppActionsCreator from './../../actions/AppActionsCreator';
-import AuthActionsCreator from './../../actions/AuthActionsCreator';
+import AppActionCreators from './../../actions/AppActionCreators';
+import AuthActionCreators from './../../actions/AuthActionCreators';
 
 const displayName = 'RegistrationForm';
 
@@ -133,11 +132,16 @@ export default class RegistrationForm extends Component {
     // Dispatches the input error if there is one.
     if (firstFoundError !== undefined) {
       return this.context.dispatch(
-        AppActionsCreator.createFlashMessage('red', firstFoundError || 'Please fill out the form properly')
+        AppActionCreators.createFlashMessage('red', firstFoundError || 'Please fill out the form properly')
       );
     }
 
-    return AuthActionsCreator.createUser({user: userData.get('values').toJS()});
+    // Dispatches the create user
+    return this.context.dispatch(
+      AuthActionCreators.createUser({
+        user: userData.get('values').toJS()
+      })
+    );
   }
 
   _handleInputUpdate = (value, error, nestedValueObj, nestedErrorObj) => {

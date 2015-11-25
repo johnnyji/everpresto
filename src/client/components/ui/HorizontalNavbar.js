@@ -1,33 +1,28 @@
-import React, {PropTypes} from 'react';
+import React, {Component, PropTypes} from 'react';
 import {Link} from 'react-router';
 
-export default class HorizontalNavbar extends React.Component {
+const displayName = 'HorizontalNavbar';
 
-  static contextTypes = {
-    location: PropTypes.object.isRequired
-  };
+export default class HorizontalNavbar extends Component {
+
+  static displayName = displayName;
 
   static propTypes = {
-    navLinks: PropTypes.arrayOf(
+    links: PropTypes.arrayOf(
       PropTypes.shape({
-        name: PropTypes.string.isRequired,
+        label: PropTypes.string.isRequired,
         path: PropTypes.string.isRequired
-      })
+      }).isRequired
     ).isRequired
   };
 
-  constructor (props) {
-    super(props);
-  }
-
-  render () {
-    const currentPath = this.context.location.pathname;
-    const links = this.props.navLinks.map((link, i) => {
+  render() {
+    const links = this.props.links.map((link, i) => {
       return (
-        <li className='horizontal-navbar-content-item' key={i}>
+        <li className={`${displayName}-content-item`} key={i}>
           <Link
-            activeClassName='horizontal-navbar-content-item-tab-active'
-            className='horizontal-navbar-content-item-tab'
+            activeClassName={`${displayName}-content-item-link-active`}
+            className={`${displayName}-content-item-link`}
             to={link.path}>
             {link.name}
           </Link>
@@ -36,10 +31,11 @@ export default class HorizontalNavbar extends React.Component {
     });
 
     return (
-      <div className='horizontal-navbar'>
-        <ul className='horizontal-navbar-content'>{links}</ul>
+      <div className={displayName}>
+        <ul className={`${displayName}-content`}>{links}</ul>
       </div>
     );
+
   }
 
 }

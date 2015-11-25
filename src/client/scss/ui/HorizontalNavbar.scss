@@ -1,4 +1,4 @@
-.horizontal-navbar {
+.HorizontalNavbar {
   @include position-x(relative, 50%);
   background-color: $navbar-background-color;
   border-bottom: 1px solid $border-color;
@@ -19,12 +19,12 @@
       margin-right: 1.6rem;
       display: inline-block;
 
-      &-tab {
+      &-link {
         @extend .transition;
         color: $navbar-text-color;
       }
 
-      &-tab-active {
+      &-link-active {
         color: $navbar-active-text-color;
         font-size: 1.1rem;
       }

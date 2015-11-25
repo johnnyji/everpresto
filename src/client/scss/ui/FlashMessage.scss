@@ -9,7 +9,7 @@
 }
 @include keyframes(flash-enter-red) {
   0% {background-color: transparent;}
-  100% {background-color: $brand-color-red-darker;}
+  100% {background-color: $error-color;}
 }
 @include keyframes(flash-enter-yellow) {
   0% {background-color: transparent;}
@@ -47,7 +47,7 @@
 
   &-red {
     @include animate('flash-enter-red 250ms');
-    background-color: $brand-color-red-darker;
+    background-color: $error-color;
   }
 
   &-yellow {

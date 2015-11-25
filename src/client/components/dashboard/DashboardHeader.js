@@ -2,14 +2,14 @@ import React, {Component, PropTypes} from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import {Link} from 'react-router';
 
-import AuthActions from '../.././actions/AuthActions';
-import AuthStore from '../.././stores/AuthStore';
-
 import Logo from '.././shared/Logo';
 import DropdownOptions from '.././ui/DropdownOptions';
 
+const displayName = 'DashboardHeader';
 
 export default class DashboardHeader extends Component {
+
+  static displayName = displayName;
 
   // Allows for this.context.____ to assume the role of the React Router
   static contextTypes = {
@@ -18,7 +18,7 @@ export default class DashboardHeader extends Component {
   };
 
   static propTypes = {
-    user: ImmutablePropTypes.map.isRequired
+    currentUser: ImmutablePropTypes.map.isRequired
   };
 
   constructor (props) {
@@ -29,8 +29,7 @@ export default class DashboardHeader extends Component {
   }
 
   render() {
-    // TODO: Remove this once we've ensured that the current user is always passed in.
-    if (!this.props.user) return <div/>;
+    const {currentUser} = this.props;
 
     let headerNavContent;
     const profileNavOptions = [
@@ -39,7 +38,7 @@ export default class DashboardHeader extends Component {
     ];
 
     return (
-      <header className='dashboard-header'>
+      <header className={displayName}>
         <Logo
           iconOnly={false}
           logoClassName='pull-left dashboard-header-logo'
@@ -80,7 +79,6 @@ export default class DashboardHeader extends Component {
 
   _logoutUser = () => {
     this._hideProfileOptions();
-    AuthActions.logoutUser();
   }
 
   _showProfileOptions = () => {
@@ -89,7 +87,7 @@ export default class DashboardHeader extends Component {
 
   _viewProfile = () => {
     this._hideProfileOptions();
-    this.context.router.transitionTo('profile');
+    this.context.history.replaceState(null, '/profile');
   }
 
 }

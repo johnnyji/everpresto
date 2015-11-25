@@ -31,7 +31,7 @@ export default class AuthHandler extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillUpdate(nextProps) {
     // If the user props are different, we redirect accordingly
     if (!this.props.auth.equals(nextProps.auth)) {
       if (Boolean(nextProps.auth.get('user'))) {

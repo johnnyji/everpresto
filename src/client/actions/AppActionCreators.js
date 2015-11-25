@@ -1,6 +1,6 @@
 import AppActionTypes from './../action_types/AppActionTypes';
 
-const AppActionsCreator = {
+const AppActionCreators = {
 
   createFlashMessage(color = 'blue', message) {
     return {
@@ -18,4 +18,4 @@ const AppActionsCreator = {
 
 }
 
-export default AppActionsCreator;
+export default AppActionCreators;

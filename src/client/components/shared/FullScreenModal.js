@@ -1,15 +1,10 @@
 import React, {PropTypes} from 'react';
-import AppActions from '../.././actions/AppActions';
 
 export default class FullScreenModal extends React.Component {
 
   static propTypes = {
     content: PropTypes.element.isRequired
-  }
-
-  constructor(props) {
-    super(props);
-  }
+  };
 
   componentWillMount() {
     document.body.classList.add('noscroll');
@@ -20,7 +15,7 @@ export default class FullScreenModal extends React.Component {
   }
 
   _exitModal = () => {
-    AppActions.toggleModal();
+
   }
 
   render() {

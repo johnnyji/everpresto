@@ -5,7 +5,7 @@ import createLogger from 'redux-logger';
 import reducers from '.././reducers/index';
 
 
-// Transforms state date from Immutable to JS
+// Transforms state data from Immutable to JS
 const transformToJs = (state) => {
   const transformedState = {};
 
@@ -23,8 +23,8 @@ if (process.env.NODE_ENV === 'production') {
   finalCreateStore = applyMiddleware(thunkMiddleware)(createStore);
 } else {
   finalCreateStore = applyMiddleware(
-    createLogger({transformer: transformToJs}),
-    thunkMiddleware
+    thunkMiddleware,
+    createLogger({transformer: transformToJs})
   )(createStore);
 }
 

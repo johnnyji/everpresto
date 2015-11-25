@@ -1,7 +1,9 @@
-export default class TextHelper {
-  static truncateImageFilename(filename) {
-    let filenamePreview = filename.substring(0, 7);
-    let filenameExtension = filename.substring(filename.lastIndexOf('.') + 1);
+const TextHelper = {
+  truncateImageFilename(filename) {
+    const filenamePreview = filename.substring(0, 7);
+    const filenameExtension = filename.substring(filename.lastIndexOf('.') + 1);
     return `${filenamePreview} ... ${filenameExtension}`;
   }
 }
+
+export default TextHelper;
