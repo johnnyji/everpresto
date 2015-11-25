@@ -51,13 +51,14 @@ router.post('/authenticate_from_token', (req, res, next) => {
 // Creates a new user
 router.post('/register', (req, res, next) => {
   const {user} = req.body;
-  const userParams = {
+
+  User.register({
     firstName: user.firstName,
     lastName: user.lastName,
     email: user.email,
     password: user.password,
     passwordConfirmation: user.passwordConfirmation,
-  };
+  });
 
   User.create(userParams, (err, user) => {
     // Returns an error if the creation is unsuccessful

@@ -1,8 +1,8 @@
 const RegexHelper = {
-  email() {
+  email(customError) {
     return {
       regex: /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i,
-      error: 'Please enter a valid email address.'
+      error: customError || 'Please enter a valid email address.'
     };
   },
   matchValue(value, customError) {
