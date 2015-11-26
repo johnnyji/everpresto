@@ -104,7 +104,7 @@ app.use((req, res) => {
       // Goes through the flow of loading the initial app state
       User.findFromSession(req.session.userId)
         .then((user) => {
-          initialState = {auth: Immutable.Map({user})};
+          initialState = {auth: Immutable.fromJS({user})};
         })
         .catch(() => {
           initialState = {auth: Immutable.Map({user: null})};

@@ -28,6 +28,10 @@ export default class DashboardHandler extends Component {
     }).isRequired,
   };
 
+  componentWillMount() {
+    debugger;
+  }
+
   componentWillUpdate(nextProps, nextState) {
     // If the next `currentUser` prop is null, we want to the user to the main page
     if (!nextProps.currentUser) this.context.history.replaceState(null, '/');

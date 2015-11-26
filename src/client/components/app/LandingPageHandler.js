@@ -22,6 +22,7 @@ export default class LandingPageHandler extends Component {
   };
 
   componentWillMount() {
+    debugger;
     if (Boolean(this.props.currentUser)) {
       // We replace state here so the user is authed, so the user can't navigate back to the landing page
       this.context.history.replaceState(null, '/dashboard');

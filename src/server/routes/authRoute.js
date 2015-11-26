@@ -58,21 +58,17 @@ router.post('/register', (req, res, next) => {
     email: user.email,
     password: user.password,
     passwordConfirmation: user.passwordConfirmation,
-  });
-
-  User.create(userParams, (err, user) => {
-    // Returns an error if the creation is unsuccessful
-    if (err) return res.status(422).json({message: err});
-
-    // Sets the user session after creation
-    req.session.userId = user._id;
-
-    // Returns the created user
-    res.status(201).json({ 
-      user: user,
-      jwt: jwt.sign(user._id, secrets.jwtSecret)
+  })
+    .then((user) => {
+      debugger
+      // Sets the current user session
+      req.session.userId = user._id;
+      res.status(201).json({user});
+    })
+    .catch((err) => {
+      debugger
+      res.status(422).json({message: err.message});
     });
-  });
 
 });
 

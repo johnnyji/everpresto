@@ -1,10 +1,12 @@
 import Promise from 'bluebird';
 import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
-import passwordHashAndSalt from 'password-hash-and-salt';
+import bcrypt from 'bcrypt-nodejs';
 import secrets from '../../.././secrets.json';
 import config from '../../.././config';
 import path from 'path';
+
+import UserValidator from '.././validators/UserValidator';
 
 const defaultAvatarPath = `${config.s3BucketPath}/public/avatar.jpg`;
 const Schema = mongoose.Schema;
@@ -15,7 +17,7 @@ const UserSchema = new Schema({
   email: {
     type: String,
     required: 'What was your email again?',
-    validate: [UserValidator.validateEmail, 'Are you sure is {VALUE}?']
+    validate: [UserValidator.email, 'Are you sure your email is {VALUE}?']
   },
   firstName: {
     type: String,
@@ -33,18 +35,23 @@ const UserSchema = new Schema({
     type: String,
     required: 'I need to know your password! (Said the suspicious looking man...)',
   },
-  profilePictureUrl: {type: String, default: defaultAvatarPath}
+  profilePictureUrl: {
+    type: String,
+    default: defaultAvatarPath
+  }
 }, {
   timestamps: true
 });
 
 // Validates if the password verifies against the hash correctly
 UserSchema.path('password').validate(function(value, done) {
-  passwordHashAndSalt(value).verifyAgainst(this.hash, (err, verified) => {
-    // calls the callback on the valdiation against if the password verified or not
-    done(err || !verified);
+  debugger;
+  bcrypt.compare(value, this.hash, (err, res) => {
+    debugger;
+    if (err) return done(false);
+    done(res);
   });
-}, 'Some fancy server error: Password failed hash verification.');
+}, 'Uh oh, server error: Password failed hash verification.');
 
 
 // Must use `function` syntax in order to scope `this` to be the User model
@@ -79,21 +86,19 @@ UserSchema.statics.register = function(data) {
     if (data.password !== data.passwordConfirmation) return reject(new Error('Both your passwords have to match silly!'));
 
     // Hashes the password
-    const hashedPassword = passwordHashAndSalt(data.password).hash((err, hash) => {
-      if (err) return new Error('Sorry! Our servers are being all weird... Maybe try again?');
-      return hash;
-    });
-    if (hashedPassword instanceof Error) return reject(hashedPassword);
+    const hash = bcrypt.hashSync(data.password);
 
     // Creates the user with the hashed password
     User.create({
       firstName: data.firstName,
       lastName: data.lastName,
       email: data.email,
-      hash: hashedPassword,
+      hash,
       password: data.password
     }, (err, user) => {
-
+      if (err) reject(err);
+      // TODO:: Do not send back the password
+      resolve(user);
     });
 
   });

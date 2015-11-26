@@ -15,7 +15,7 @@ export default function authReducer(state = initialState, action) {
     // When the user is succesfully saved into the API
     case AuthActionTypes.CREATE_USER_SUCCESS:
       // Sets the current user of the state to the user returned by the API
-      newState = state.set('user', action.data.user);
+      newState = state.set('user', Immutable.fromJS(action.data.user));
 
     // Default
     default: return newState;
