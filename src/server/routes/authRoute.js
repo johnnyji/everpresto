@@ -1,6 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
+import Immutable from 'immutable';
 import secrets from '../../.././secrets.json';
 
 const User = mongoose.model('User');
@@ -60,13 +61,11 @@ router.post('/register', (req, res, next) => {
     passwordConfirmation: user.passwordConfirmation,
   })
     .then((user) => {
-      debugger
       // Sets the current user session
       req.session.userId = user._id;
       res.status(201).json({user});
     })
     .catch((err) => {
-      debugger
       res.status(422).json({message: err.message});
     });
 

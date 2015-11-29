@@ -29,11 +29,13 @@ const UserSchema = new Schema({
   },
   hash: {
     type: Object,
-    required: 'Some fancy server error: Error generating password hash.'
+    required: 'Some fancy server error: Error generating password hash.',
+    select: false
   },
   password: {
     type: String,
     required: 'I need to know your password! (Said the suspicious looking man...)',
+    select: false
   },
   profilePictureUrl: {
     type: String,
@@ -45,9 +47,7 @@ const UserSchema = new Schema({
 
 // Validates if the password verifies against the hash correctly
 UserSchema.path('password').validate(function(value, done) {
-  debugger;
   bcrypt.compare(value, this.hash, (err, res) => {
-    debugger;
     if (err) return done(false);
     done(res);
   });
@@ -89,7 +89,7 @@ UserSchema.statics.register = function(data) {
     const hash = bcrypt.hashSync(data.password);
 
     // Creates the user with the hashed password
-    User.create({
+    this.create({
       firstName: data.firstName,
       lastName: data.lastName,
       email: data.email,
@@ -97,8 +97,12 @@ UserSchema.statics.register = function(data) {
       password: data.password
     }, (err, user) => {
       if (err) reject(err);
-      // TODO:: Do not send back the password
-      resolve(user);
+      // Sends back the user without the password fields
+      resolve({
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email
+      });
     });
 
   });

@@ -4,15 +4,14 @@
   border-bottom: 1px solid $border-color;
   height: 45px;
   margin: 0 auto;
-  min-width: $app-content-min-width !important; //so the bar doesn't shrink if the page does
-  width: 100vw;
+  min-width: 100%;
 
   &-content {
     @include position-y(relative, 50%);
     list-style: none;
     margin: 0 auto;
     padding: 0 2rem;
-    width: $app-content-min-width;
+    width: 100%;
 
     &-item {
       position: relative;

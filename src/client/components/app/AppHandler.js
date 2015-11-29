@@ -2,14 +2,15 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import FlashMessage from '.././ui/FlashMessage';
-import FullScreenModal from '.././shared/FullScreenModal';
+
+const displayName = 'AppHandler';
 
 @connect((state) => ({
   app: state.app
 }))
 export default class AppHandler extends Component {
 
-  static displayName = 'AppHandler';
+  static displayName = displayName;
 
   static propTypes = {
     app: ImmutablePropTypes.contains({
@@ -37,13 +38,10 @@ export default class AppHandler extends Component {
     const flashMessage = app.getIn(['flash', 'message']);
 
     return (
-      <div className='page-wrapper'>
+      <div className={displayName}>
+        {Boolean(flashMessage) && <FlashMessage color={app.getIn(['flash', 'color'])} content={flashMessage} />}
 
-        {Boolean(flashMessage) &&
-          <FlashMessage color={app.getIn(['flash', 'color'])} content={flashMessage} />
-        }
-
-        <div className='content-container'>
+        <div className={`${displayName}-content-container`}>
           {/*Allows the React Router to run the correct child route, replaced RouteHandler in v1.0.0*/}
           {this.props.children}
         </div>

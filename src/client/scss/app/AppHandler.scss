@@ -1,0 +1,10 @@
+$app-content-min-width: 1200px;
+$app-content-max-width: 1600px;
+
+.AppHandler {
+  &-content-container {  
+    position: relative;
+    margin: 0 auto;
+    max-width: $app-content-max-width;
+  }
+}

@@ -12,15 +12,19 @@ const AuthActionCreators = {
         url: apiEndpoints.users.create.path,
         data
       })
-        .then((response) => dispatch(this.createUserSuccess(response.data.user)))
-        .catch((err) => dispatch(AppActionCreators.createFlashMessage('red', err.message)));
+        .then(response => {
+          dispatch(this.createUserSuccess(response.data));
+        })
+        .catch(err => {
+          dispatch(AppActionCreators.createFlashMessage('red', err.message));
+        });
     };
   },
 
-  createUserSuccess(user) {
+  createUserSuccess(data) {
     return {
       type: AuthActionTypes.CREATE_USER_SUCCESS,
-      data: user
+      data
     };
   },
 
