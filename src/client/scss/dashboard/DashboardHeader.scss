@@ -1,8 +1,11 @@
+$app-header-height: 70px;
+
 .DashboardHeader {
   position: relative;
   padding: 0;
   margin: 0;
-  background-color: $primary-brand-color;
+  background-color: $brand-color-yellow;
+  line-height: $app-header-height;
   height: $app-header-height;
 
   // This is so that certain AppHeader elements such as DropdownOptions are infront of the any Dashboard item
@@ -10,15 +13,7 @@
 
   &-logo {
     @extend .text-shadow;
-    font-size: 1.8rem;
-    font-weight: 600;
-    color: #FFF;
-    &-icon {
-      height: 2.2rem; 
-      width: 2.2rem;
-      margin-top: -5px;
-      margin-right: 10px;
-    }
+    margin-left: 20px;
   }
 
   &-nav {

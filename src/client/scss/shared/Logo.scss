@@ -1,4 +1,7 @@
-.logo {
+.Logo {
+  &-icon {
+    color: #FFF;
+  }
   &:hover {
     cursor: pointer;
   }

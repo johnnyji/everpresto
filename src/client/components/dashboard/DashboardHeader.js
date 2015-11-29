@@ -48,10 +48,8 @@ export default class DashboardHeader extends Component {
     return (
       <header className={displayName}>
         <Logo
-          iconOnly={false}
-          logoClassName='pull-left dashboard-header-logo'
+          logoIconClassName={`${displayName}-logo`}
           logoIconSize='2.2rem'
-          logoIconClassName='dashboard-header-logo-icon'
           onLogoClick={this._handleLogoClick} />
         <div className='pull-right dashboard-header-nav'>
           <Link to='profile'>
