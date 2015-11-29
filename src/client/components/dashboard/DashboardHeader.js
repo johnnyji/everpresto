@@ -47,27 +47,30 @@ export default class DashboardHeader extends Component {
 
     return (
       <header className={displayName}>
+
         <Logo
           logoIconClassName={`${displayName}-logo`}
           logoIconSize='2.2rem'
           onLogoClick={this._handleLogoClick} />
-        <div className='pull-right dashboard-header-nav'>
+
+        <div className={`${displayName}-nav`}>
           <Link to='profile'>
-            <img className='dashboard-header-nav-profile-pic' src={currentUser.profilePictureUrl} />
+            <img className={`${displayName}-nav-profile-pic`} src={currentUser.profilePictureUrl} />
           </Link>
           <span
-            className='dashboard-header-nav-user-email'
+            className={`${displayName}-nav-profile-email`}
             onMouseEnter={this._showProfileOptions}
             onMouseLeave={this._hideProfileOptions}>
             {currentUser.email}
           </span>
           <DropdownOptions
-            dropdownOptionsClassName='dashboard-header-nav-profile-dropdown-options'
+            dropdownOptionsClassName={`${displayName}-nav-profile-dropdown`}
             onShowOptions={this._showProfileOptions}
             onHideOptions={this._hideProfileOptions}
             options={profileNavOptions}
             showDropdownOptions={this.state.showProfileOptions}/>
         </div>
+
       </header>
     );
 

@@ -11,6 +11,12 @@ $app-header-height: 70px;
   // This is so that certain AppHeader elements such as DropdownOptions are infront of the any Dashboard item
   z-index: 2;
 
+  &-logo,
+  &-nav {
+    position: relative;
+    display: inline-block;
+  }
+
   &-logo {
     @extend .text-shadow;
     margin-left: 20px;
@@ -24,14 +30,13 @@ $app-header-height: 70px;
       vertical-align: middle;
       margin-right: 1rem;
     }
-    &-user-email {
+    &-profile-email {
       @extend .text-shadow;
-      color: $white;
       &:hover {
         cursor: pointer;
       }
     }
-    &-profile-dropdown-options {
+    &-profile-dropdown {
       position: absolute;
       width: 150px;
       right: 0;

@@ -1,13 +1,13 @@
 ## Tickit
 
-A time tracking application
+A course management and marketing application.
 
 
 ### Tech Stack
 
 - React.js
-- Reflux
+- Redux
 - ES6
-- Immutable
+- Immutable.js
 - Webpack
 - SASS
