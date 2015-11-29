@@ -1,7 +1,7 @@
-import React, {PropTypes} from 'react';
+import React, {Component, PropTypes} from 'react';
 import classNames from 'classnames';
 
-export default class DropdownOptions extends React.Component {
+export default class DropdownOptions extends Component {
 
   static propTypes = {
     dropdownOptionsClassName: PropTypes.string,
@@ -16,11 +16,7 @@ export default class DropdownOptions extends React.Component {
     showDropdownOptions: PropTypes.bool.isRequired
   };
 
-  constructor (props) {
-    super(props);
-  }
-
-  render () {
+  render() {
     // If showDropdownOptions is false, the menu is not shown to begin with.
     if (!this.props.showDropdownOptions) return <div/>;
 

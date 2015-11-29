@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import Promise from 'bluebird';
 import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
@@ -98,11 +99,7 @@ UserSchema.statics.register = function(data) {
     }, (err, user) => {
       if (err) reject(err);
       // Sends back the user without the password fields
-      resolve({
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.email
-      });
+      resolve(_.omit(user, ['password', 'hash']));
     });
 
   });

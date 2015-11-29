@@ -67,7 +67,7 @@ app.use(cookieParser());
 // Uses MongoDB as a store for sessions so they can persist
 app.use(session({ 
   secret: secrets.sessionSecret,
-  store: new MongoStore({ mongooseConnection: mongoose.connection }),
+  store: new MongoStore({mongooseConnection: mongoose.connection}),
   resave: false,
   saveUninitialized: false
 }));
@@ -97,7 +97,7 @@ app.use((req, res) => {
       // Handle route redirection
       res.redirect(302, redirectLocation.pathname + redirectLocation.search);
     } else if (renderProps) {
-      console.log('This should only ever hit once, which is when the app is first mounted.');
+      console.log('Session User: ', req.session.userId);
       // Handle route rendering
 
       let initialState;

@@ -18,7 +18,17 @@ export default class DashboardHeader extends Component {
   };
 
   static propTypes = {
-    currentUser: ImmutablePropTypes.map.isRequired
+    currentUser: ImmutablePropTypes.contains({
+      _id: PropTypes.string.isRequired,
+      coursesOffered: ImmutablePropTypes.list.isRequired,
+      coursesTaking: ImmutablePropTypes.list.isRequired,
+      email: PropTypes.string.isRequired,
+      firstName: PropTypes.string.isRequired,
+      lastName: PropTypes.string.isRequired,
+      profilePictureUrl: PropTypes.string.isRequired,
+      createdAt: PropTypes.string.isRequired,
+      updatedAt: PropTypes.string.isRequired
+    }).isRequired
   };
 
   constructor (props) {
@@ -30,11 +40,9 @@ export default class DashboardHeader extends Component {
 
   render() {
     const {currentUser} = this.props;
-
-    let headerNavContent;
     const profileNavOptions = [
-      { name: 'Profile Settings', callback: this._viewProfile },
-      { name: 'Logout', callback: this._logoutUser }
+      {name: 'Profile Settings', callback: this._viewProfile},
+      {name: 'Logout', callback: this._logoutUser}
     ];
 
     return (
@@ -47,13 +55,13 @@ export default class DashboardHeader extends Component {
           onLogoClick={this._handleLogoClick} />
         <div className='pull-right dashboard-header-nav'>
           <Link to='profile'>
-            <img className='dashboard-header-nav-profile-pic' src={this.props.currentUser.profilePictureUrl} />
+            <img className='dashboard-header-nav-profile-pic' src={currentUser.profilePictureUrl} />
           </Link>
           <span
             className='dashboard-header-nav-user-email'
             onMouseEnter={this._showProfileOptions}
             onMouseLeave={this._hideProfileOptions}>
-            {this.props.currentUser.email}
+            {currentUser.email}
           </span>
           <DropdownOptions
             dropdownOptionsClassName='dashboard-header-nav-profile-dropdown-options'
@@ -69,7 +77,7 @@ export default class DashboardHeader extends Component {
 
   _handleLogoClick = () => {
     if (this.context.location.pathname !== '/dashboard') {
-      this.context.history.replaceState(null, '/dashboard');
+      this.context.history.pushState(null, '/dashboard');
     }
   }
 
@@ -87,7 +95,7 @@ export default class DashboardHeader extends Component {
 
   _viewProfile = () => {
     this._hideProfileOptions();
-    this.context.history.replaceState(null, '/profile');
+    this.context.history.pushState(null, '/profile');
   }
 
 }

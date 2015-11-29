@@ -15,9 +15,10 @@ export default class LandingPageHandler extends Component {
 
   static propTypes = {
     currentUser: ImmutablePropTypes.contains({
-      firstName: PropTypes.string,
-      lastName: PropTypes.string,
-      email: PropTypes.string
+      firstName: PropTypes.string.isRequired,
+      lastName: PropTypes.string.isRequired,
+      email: PropTypes.string.isRequired,
+      profilePictureUrl: PropTypes.string.isRequired
     })
   };
 

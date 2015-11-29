@@ -28,10 +28,6 @@ export default class DashboardHandler extends Component {
     }).isRequired,
   };
 
-  componentDidMount() {
-    debugger;
-  }
-
   render() {
     const links = [
       {label: 'Student', path: '/dashboard'},
@@ -40,7 +36,7 @@ export default class DashboardHandler extends Component {
 
     return (
       <div className={displayName}>
-        <DashboardHeader user={this.props.currentUser} />
+        <DashboardHeader currentUser={this.props.currentUser} />
         <HorizontalNavbar links={links} />
         {/*Allows the React Router to run the correct child route,
         replaced RouteHandler in v1.0.0*/}
