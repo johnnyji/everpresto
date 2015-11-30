@@ -2,12 +2,14 @@ $app-header-height: 70px;
 
 .DashboardHeader {
   position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 0;
   margin: 0;
-  background-color: $brand-color-yellow;
-  line-height: $app-header-height;
+  background-color: $primary-brand-color;
   height: $app-header-height;
-
+  color: #FFF;
   // This is so that certain AppHeader elements such as DropdownOptions are infront of the any Dashboard item
   z-index: 2;
 
@@ -18,11 +20,14 @@ $app-header-height: 70px;
   }
 
   &-logo {
-    @extend .text-shadow;
     margin-left: 20px;
   }
 
   &-nav {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+    height: 100%;
     &-profile-pic {
       width: 30px;
       height: 30px;
@@ -30,12 +35,14 @@ $app-header-height: 70px;
       vertical-align: middle;
       margin-right: 1rem;
     }
-    &-profile-email {
+    &-profile-name {
       @extend .text-shadow;
+      margin-right: 1rem;
       &:hover {
         cursor: pointer;
       }
     }
+
     &-profile-dropdown {
       position: absolute;
       width: 150px;

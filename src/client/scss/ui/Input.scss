@@ -10,7 +10,7 @@ $ui-input-font-size: 1rem;
   to { border-bottom-color: $ui-input-border-bottom-focus-end-color; }
 }
 
-.ui-input {
+.ui-Input {
   position: relative;
   display: block;
   font-size: $ui-input-font-size;
@@ -49,7 +49,7 @@ $ui-input-font-size: 1rem;
   }
 }
 
-.ui-input-password-field {
+.ui-Input-password-field {
   &-input-field {
     letter-spacing: 5px;
   }

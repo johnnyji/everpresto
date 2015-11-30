@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import createNestedObject from './utils/createNestedObject';
 
 const ENTER_KEY = 13;
+const className = 'ui-Input';
 
 export default class Input extends Component {
 
@@ -61,14 +62,20 @@ export default class Input extends Component {
   };
 
   render() {
-    const classes = classNames(this.props.className, 'ui-input');
+    const classes = classNames(this.props.className, className);
 
     return (
       <div className={classes}>
-        {this.state.showLabel && <label className='ui-input-label'>{this.props.label}</label>}
+
+        {this.state.showLabel &&
+          <label className={`${className}-label`}>
+            {this.props.label}
+          </label>
+        }
+
         <input
           autoFocus={this.props.autoFocus}
-          className='ui-input-input-field'
+          className={`${className}-input-field`}
           defaultValue={this.props.defaultValue}
           disabled={this.props.disabled}
           label={this.props.label}
@@ -78,9 +85,13 @@ export default class Input extends Component {
           onKeyPress={this._handleKeyPress}
           ref='input'
           type={this.props.type}/>
+
         {Boolean(this.props.error) && !this.state.focused &&
-          <small className='ui-input-error'>{this.props.error}</small>
+          <small className={`${className}-error`}>
+            {this.props.error}
+          </small>
         }
+        
       </div>
     );
 

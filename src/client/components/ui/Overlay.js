@@ -1,10 +1,10 @@
 import React, {Component, PropTypes} from 'react';
 
-const displayName = 'Overlay';
+const className = 'ui-Overlay';
 
 export class Overlay extends Component {
 
-  static displayName = displayName;
+  static displayName = 'Overlay';
 
   static propTypes = {
     onExitModal: PropTypes.func.isRequired,
@@ -20,8 +20,8 @@ export class Overlay extends Component {
 
   render() {
     return (
-      <div className={displayName}>
-        <div className={`${displayName}-background`} onClick={this.props.onExitModal}></div>
+      <div className={className}>
+        <div className={`${className}-background`} onClick={this.props.onExitModal}></div>
         {this.props.children}
       </div>
     );

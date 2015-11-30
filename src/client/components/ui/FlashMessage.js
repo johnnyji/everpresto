@@ -25,11 +25,12 @@ export default class FlashMessage extends Component {
 
   render() {
     const {children, color, content} = this.props;
+    const className = `ui-${displayName}`;
 
     return (
-      <div className={`${displayName}`} onClick={this._handleDismiss}>
-        <div className={`${displayName}-content ${displayName}-${color}`}>
-          <span className={`${displayName}-content-message`}>{content}</span>
+      <div className={`${className}`} onClick={this._handleDismiss}>
+        <div className={`${className}-content ${className}-${color}`}>
+          <span className={`${className}-content-message`}>{content}</span>
         </div>
       </div>
     );

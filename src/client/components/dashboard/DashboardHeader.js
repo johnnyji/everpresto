@@ -4,6 +4,7 @@ import {Link} from 'react-router';
 
 import Logo from '.././shared/Logo';
 import DropdownOptions from '.././ui/DropdownOptions';
+import Tab from '.././ui/Tab';
 
 const displayName = 'DashboardHeader';
 
@@ -31,15 +32,24 @@ export default class DashboardHeader extends Component {
     }).isRequired
   };
 
+  static defaultProps = {
+    dashboardModes: [
+      'Teacher',
+      'Student'
+    ]
+  };
+
   constructor (props) {
     super(props);
     this.state = {
+      activeDashboardModeIndex: 0,
       showProfileOptions: false
     };
   }
 
   render() {
-    const {currentUser} = this.props;
+    const {currentUser, dashboardModes} = this.props;
+    const {activeDashboardModeIndex} = this.state;
     const profileNavOptions = [
       {name: 'Profile Settings', callback: this._viewProfile},
       {name: 'Logout', callback: this._logoutUser}
@@ -55,13 +65,13 @@ export default class DashboardHeader extends Component {
 
         <div className={`${displayName}-nav`}>
           <Link to='profile'>
-            <img className={`${displayName}-nav-profile-pic`} src={currentUser.profilePictureUrl} />
+            <img className={`${displayName}-nav-profile-pic`} src={currentUser.get('profilePictureUrl')} />
           </Link>
           <span
-            className={`${displayName}-nav-profile-email`}
+            className={`${displayName}-nav-profile-name`}
             onMouseEnter={this._showProfileOptions}
             onMouseLeave={this._hideProfileOptions}>
-            {currentUser.email}
+            {`${currentUser.get('firstName')} ${currentUser.get('lastName')}`}
           </span>
           <DropdownOptions
             dropdownOptionsClassName={`${displayName}-nav-profile-dropdown`}
@@ -74,6 +84,10 @@ export default class DashboardHeader extends Component {
       </header>
     );
 
+  }
+
+  _changeDashboardMode = (index) => {
+    this.setState({activeDashboardModeIndex: index});
   }
 
   _handleLogoClick = () => {

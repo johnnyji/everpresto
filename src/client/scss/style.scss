@@ -24,36 +24,16 @@
 @import './auth/RegistrationForm';
 
 // Dashboard
+@import './dashboard/DashboardContentWrapper';
 @import './dashboard/DashboardHeader';
 
-// Date
-@import './date/DateNavbar';
-
-// Chat
-@import './chat/ChatWindow';
-
-//  Contacts
-@import './contacts/ContactInviteField';
-@import './contacts/ContactInviteForm';
-
-// Groups
-@import './groups/ActiveGroupContent';
-@import './groups/GroupsController';
-@import './groups/NewGroupForm';
-@import './groups/GroupsHandler';
+// Teacher
+@import './teacher/CoursesView';
 
 // Notes
 @import './notes/NoteForm';
 @import './notes/NewNoteForm';
 @import './notes/NotesList';
-
-// Timesheet
-@import './timesheet/TimesheetHandler';
-@import './timesheet/NewTimesheetForm';
-@import './timesheet/PostTimesheetSubmissionView';
-@import './timesheet/PreviousTimesheets';
-@import './timesheet/TimesheetCard';
-@import './timesheet/NewTimesheetButton';
 
 // Shared
 @import './shared/BlendedInputField';
@@ -76,6 +56,7 @@
 @import './ui/Input';
 @import './ui/Overlay';
 @import './ui/Spinner';
+@import './ui/Tab';
 @import './ui/TipBox';
 
 body {

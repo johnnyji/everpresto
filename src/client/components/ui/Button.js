@@ -2,7 +2,11 @@ import React, {Component, PropTypes} from 'react';
 import classNames from 'classnames';
 import Icon from './Icon';
 
+const className = 'ui-Button';
+
 export default class Button extends Component {
+
+  static displayName = 'Button';
 
   static propTypes = {
     className: PropTypes.string,
@@ -21,13 +25,13 @@ export default class Button extends Component {
 
   render() {
     const classes = classNames(
-      'ui-button',
+      'ui-Button',
       this.props.className,
-      {[`ui-button-${this.props.color}`]: Boolean(this.props.color) && !this.props.disabled},
-      {'ui-button-disabled': this.props.disabled}
+      {[`ui-Button-${this.props.color}`]: Boolean(this.props.color) && !this.props.disabled},
+      {'ui-Button-disabled': this.props.disabled}
     );
     const iconClasses = classNames(
-      'ui-button-icon',
+      'ui-Button-icon',
       this.props.iconClassName
     );
 

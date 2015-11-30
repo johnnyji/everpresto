@@ -1,11 +1,11 @@
 import React, {Component, PropTypes} from 'react';
 import {Link} from 'react-router';
 
-const displayName = 'HorizontalNavbar';
+const className = 'ui-HorizontalNavbar';
 
 export default class HorizontalNavbar extends Component {
 
-  static displayName = displayName;
+  static displayName = 'HorizontalNavbar';
 
   static propTypes = {
     links: PropTypes.arrayOf(
@@ -19,20 +19,20 @@ export default class HorizontalNavbar extends Component {
   render() {
     const links = this.props.links.map((link, i) => {
       return (
-        <li className={`${displayName}-content-item`} key={i}>
+        <li className={`${className}-content-item`} key={i}>
           <Link
-            activeClassName={`${displayName}-content-item-link-active`}
-            className={`${displayName}-content-item-link`}
+            activeClassName={`${className}-content-item-link-active`}
+            className={`${className}-content-item-link`}
             to={link.path}>
-            {link.name}
+            {link.label}
           </Link>
         </li>
       );
     });
 
     return (
-      <div className={displayName}>
-        <ul className={`${displayName}-content`}>{links}</ul>
+      <div className={className}>
+        <ul className={`${className}-content`}>{links}</ul>
       </div>
     );
 

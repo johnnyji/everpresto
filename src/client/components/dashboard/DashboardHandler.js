@@ -4,7 +4,6 @@ import Immutable from 'immutable';
 import {connect} from 'react-redux';
 
 import DashboardHeader from './DashboardHeader';
-import HorizontalNavbar from '.././ui/HorizontalNavbar';
 
 const displayName = 'DashboardHandler';
 
@@ -29,15 +28,9 @@ export default class DashboardHandler extends Component {
   };
 
   render() {
-    const links = [
-      {label: 'Student', path: '/dashboard'},
-      {label: 'Teacher', path: '/dashboard/teacher'}
-    ];
-
     return (
       <div className={displayName}>
         <DashboardHeader currentUser={this.props.currentUser} />
-        <HorizontalNavbar links={links} />
         {/*Allows the React Router to run the correct child route,
         replaced RouteHandler in v1.0.0*/}
         {this.props.children}

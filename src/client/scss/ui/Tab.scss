@@ -1,0 +1,17 @@
+.ui-Tab {
+  border-style: none;
+  font-weight: 400;
+  outline: none;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &-active {
+    font-weight: 500;
+    &:hover {
+      cursor: default;
+    }
+  }
+
+}

@@ -27,9 +27,14 @@ $error-color: #CF000F;
 $text-color: #212121;
 
 $primary-brand-color: #68C3A3;
-$secondary-brand-color: #4DAF7C;
-$tertiary-brand-color: #C36888;
-$white: whitesmoke;
+$primary-brand-color-dark: darken(#68C3A3, 10%);
+$primary-brand-color-light: lighten(#68C3A3, 10%);
+
+$secondary-brand-color: $brand-color-blue;
+
+$tertiary-brand-color: #FFB55F;
+$tertiary-brand-color-dark: darken(#FFB55F, 10%);
+$tertiary-brand-color-light: lighten(#FFB55F, 10%);
 
 $light-text-color: #777;
 $placeholder-color: lighten(#666666, 25%);

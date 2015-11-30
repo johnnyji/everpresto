@@ -1,4 +1,4 @@
-.ui-button {
+.ui-Button {
   @extend .transition;
   position: relative;
   color: $ui-button-color;
@@ -15,14 +15,14 @@
   }
 }
 
-.ui-button-blue {
+.ui-Button-blue {
   background-color: $brand-color-blue;
   &:hover {
     background-color: $brand-color-blue-light;
   }
 }
 
-.ui-button-disabled {
+.ui-Button-disabled {
   color: $ui-button-disabled-color;
   background-color: $ui-button-disabled-background-color;
   &:hover {
@@ -30,21 +30,21 @@
   }
 }
 
-.ui-button-green {
+.ui-Button-green {
   background-color: $brand-color-green;
   &:hover {
     background-color: $brand-color-green-light;
   }
 }
 
-.ui-button-red {
+.ui-Button-red {
   background-color: $brand-color-red;
   &:hover {
     background-color: $brand-color-red-light;
   }
 }
 
-.ui-button-yellow {
+.ui-Button-yellow {
   background-color: $brand-color-yellow;
   &:hover {
     background-color: $brand-color-yellow-light;

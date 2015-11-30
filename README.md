@@ -11,3 +11,4 @@ A course management and marketing application.
 - Immutable.js
 - Webpack
 - SASS
+- Flexbox

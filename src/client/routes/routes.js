@@ -7,8 +7,9 @@ import LandingPageHandler from '.././components/app/LandingPageHandler';
 import NotFoundHandler from '.././components/shared/NotFoundHandler';
 
 import DashboardHandler from '.././components/dashboard/DashboardHandler';
-  import StudentDashboard from '.././components/student/StudentDashboard';
-  import TeacherDashboard from '.././components/teacher/TeacherDashboard';
+  import StudentDashboard from '.././components/dashboard/StudentDashboard';
+  import TeacherDashboard from '.././components/dashboard/TeacherDashboard';
+    import CoursesView from '.././components/teacher/CoursesView';
 
 import ProfileHandler from '.././components/user/ProfileHandler';
 
@@ -23,17 +24,23 @@ const routes = (
     <Route component={AuthHandler} path='/join'/>
 
 
-    {/* PROTECTED ROUTES: Requires an authenticated user to access */}
-
+    {/*********** PROTECTED ROUTES: Requires Auth ************/}
     <Route path='/profile' component={requireAuth(ProfileHandler)}/>
 
     <Route path='/dashboard' component={requireAuth(DashboardHandler)}>
-      {/* The student dashboard is the default one we arrive on */}
-      <IndexRoute component={StudentDashboard} />
-
+      <IndexRoute component={TeacherDashboard} />
       <Route path='/dashboard/student' component={StudentDashboard}/>
-      <Route path='/dashboard/teacher' component={TeacherDashboard}/>
+      <Route path='/dashboard/teacher' component={TeacherDashboard}>
+        <IndexRoute component={CoursesView} />
+        <Route path='/dashboard/teacher/courses' component={CoursesView}/>
+        <Route path='/dashboard/teacher/email_list' component={CoursesView}/>
+        <Route path='/dashboard/teacher/email_history' component={CoursesView}/>
+        <Route path='/dashboard/teacher/analytics' component={CoursesView}/>
+        <Route path='/dashboard/teacher/profile' component={CoursesView}/>
+      </Route>
     </Route>
+    {/*********** PROTECTED ROUTES: Requires Auth ************/}
+
 
     {/*Route for Not Found page.*/}
     <Route component={NotFoundHandler} path='*' />
