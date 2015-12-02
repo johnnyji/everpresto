@@ -2,9 +2,6 @@ $app-header-height: 70px;
 
 .DashboardHeader {
   position: relative;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   padding: 0;
   margin: 0;
   background-color: $primary-brand-color;
@@ -12,42 +9,43 @@ $app-header-height: 70px;
   color: #FFF;
   // This is so that certain AppHeader elements such as DropdownOptions are infront of the any Dashboard item
   z-index: 2;
-
-  &-logo,
-  &-nav {
+  
+  &-navbar {
+    @include display(flex);
+    @include justify-content(space-between);
     position: relative;
-    display: inline-block;
-  }
-
-  &-logo {
-    margin-left: 20px;
-  }
-
-  &-nav {
-    display: flex;
-    align-items: center;
-    margin-right: 20px;
-    height: 100%;
-    &-profile-pic {
-      width: 30px;
-      height: 30px;
-      border-radius: $border-radius;
-      vertical-align: middle;
-      margin-right: 1rem;
+    padding: 20px;
+    &-logo,
+    &-nav {
+      position: relative;
+      display: inline-block;
     }
-    &-profile-name {
-      @extend .text-shadow;
-      margin-right: 1rem;
-      &:hover {
-        cursor: pointer;
+
+    &-nav {
+      @include display(flex);
+      @include align-items(center);
+      align-items: center;
+      &-profile-pic {
+        width: 30px;
+        height: 30px;
+        border-radius: $border-radius;
+        vertical-align: middle;
+        margin-right: 1rem;
       }
-    }
+      &-profile-name {
+        @extend .text-shadow;
+        margin-right: 1rem;
+        &:hover {
+          cursor: pointer;
+        }
+      }
 
-    &-profile-dropdown {
-      position: absolute;
-      width: 150px;
-      right: 0;
-      top: 0.7rem;
+      &-profile-dropdown {
+        position: absolute;
+        width: 150px;
+        right: 0;
+        top: 0.7rem;
+      }
     }
   }
 

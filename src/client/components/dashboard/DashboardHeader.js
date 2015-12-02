@@ -58,28 +58,32 @@ export default class DashboardHeader extends Component {
     return (
       <header className={displayName}>
 
-        <Logo
-          logoIconClassName={`${displayName}-logo`}
-          logoIconSize='2.2rem'
-          onLogoClick={this._handleLogoClick} />
+        <nav className={`${displayName}-navbar`}>
+          <Logo
+            logoIconClassName={`${displayName}-navbar-logo`}
+            logoIconSize='2.2rem'
+            onLogoClick={this._handleLogoClick} />
 
-        <div className={`${displayName}-nav`}>
-          <Link to='profile'>
-            <img className={`${displayName}-nav-profile-pic`} src={currentUser.get('profilePictureUrl')} />
-          </Link>
-          <span
-            className={`${displayName}-nav-profile-name`}
-            onMouseEnter={this._showProfileOptions}
-            onMouseLeave={this._hideProfileOptions}>
-            {`${currentUser.get('firstName')} ${currentUser.get('lastName')}`}
-          </span>
-          <DropdownOptions
-            dropdownOptionsClassName={`${displayName}-nav-profile-dropdown`}
-            onShowOptions={this._showProfileOptions}
-            onHideOptions={this._hideProfileOptions}
-            options={profileNavOptions}
-            showDropdownOptions={this.state.showProfileOptions}/>
-        </div>
+          <div className={`${displayName}-navbar-nav`}>
+            <Link to='profile'>
+              <img
+                className={`${displayName}-navbar-nav-profile-pic`}
+                src={currentUser.get('profilePictureUrl')} />
+            </Link>
+            <span
+              className={`${displayName}-navbar-nav-profile-name`}
+              onMouseEnter={this._showProfileOptions}
+              onMouseLeave={this._hideProfileOptions}>
+              {`${currentUser.get('firstName')} ${currentUser.get('lastName')}`}
+            </span>
+            <DropdownOptions
+              dropdownOptionsClassName={`${displayName}-navbar-nav-profile-dropdown`}
+              onShowOptions={this._showProfileOptions}
+              onHideOptions={this._hideProfileOptions}
+              options={profileNavOptions}
+              showDropdownOptions={this.state.showProfileOptions}/>
+          </div>
+        </nav>
 
       </header>
     );

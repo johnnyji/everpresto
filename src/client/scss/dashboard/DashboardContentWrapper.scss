@@ -1,5 +1,10 @@
 .DashboardContentWrapper {
+  @include display(flex);
   position: relative;
   padding: 20px;
+  height: 100%;
+  min-width: $app-content-min-width;
+  max-width: $app-content-max-width;
   width: 100%;
+  margin: 0 auto;
 }

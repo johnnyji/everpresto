@@ -18,25 +18,25 @@ import requireAuth from './utils/requireAuth';
 
 const routes = (
   <Route component={AppHandler} path='/'>
+    <Redirect from='dashboard' to='dashboard/teacher' />
     <IndexRoute component={LandingPageHandler} />
 
-    <Route component={AuthHandler} path='/login'/>
-    <Route component={AuthHandler} path='/join'/>
+    <Route component={AuthHandler} path='login'/>
+    <Route component={AuthHandler} path='join'/>
 
 
     {/*********** PROTECTED ROUTES: Requires Auth ************/}
     <Route path='/profile' component={requireAuth(ProfileHandler)}/>
 
-    <Route path='/dashboard' component={requireAuth(DashboardHandler)}>
-      <IndexRoute component={TeacherDashboard} />
-      <Route path='/dashboard/student' component={StudentDashboard}/>
-      <Route path='/dashboard/teacher' component={TeacherDashboard}>
+    <Route path='dashboard' component={requireAuth(DashboardHandler)}>
+      <Route path='student' component={StudentDashboard}/>
+      <Route path='teacher' component={TeacherDashboard}>
         <IndexRoute component={CoursesView} />
-        <Route path='/dashboard/teacher/courses' component={CoursesView}/>
-        <Route path='/dashboard/teacher/email_list' component={CoursesView}/>
-        <Route path='/dashboard/teacher/email_history' component={CoursesView}/>
-        <Route path='/dashboard/teacher/analytics' component={CoursesView}/>
-        <Route path='/dashboard/teacher/profile' component={CoursesView}/>
+        <Route path='courses' component={CoursesView}/>
+        <Route path='email_list' component={CoursesView}/>
+        <Route path='email_history' component={CoursesView}/>
+        <Route path='analytics' component={CoursesView}/>
+        <Route path='profile' component={CoursesView}/>
       </Route>
     </Route>
     {/*********** PROTECTED ROUTES: Requires Auth ************/}

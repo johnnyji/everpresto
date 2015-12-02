@@ -1,0 +1,12 @@
+.CoursePreviewCard {
+  height: 250px;
+  width: 250px;
+  outline: none;
+  border: none;
+  background-color: transparent;
+  &-card {
+    height: 100%;
+    width: 100%;
+  }
+}
+

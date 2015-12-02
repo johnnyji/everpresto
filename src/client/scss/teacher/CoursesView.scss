@@ -1,0 +1,18 @@
+.CoursesView {
+  @include display(flex);
+  @include flex-wrap(wrap);
+  &-new-course {
+    & > .ui-card {
+      @include display(flex);
+      @include align-items(center);
+      @include justify-content(center);
+    }
+    &-icon {
+      @include transition(all 0.3s ease-in-out);
+      color: $brand-color-yellow-light;
+      &:hover {
+        color: $brand-color-yellow-lighter;
+      }
+    }
+  }
+}

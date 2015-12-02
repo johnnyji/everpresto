@@ -1,0 +1,6 @@
+.Quote {
+  @include align-self(center);
+  position: relative;
+  font-size: 20px;
+  text-align: center;
+}

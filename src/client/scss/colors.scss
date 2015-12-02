@@ -25,6 +25,8 @@ $brand-color-red-lighter: #FFC2B2;
 
 $error-color: #CF000F;
 $text-color: #212121;
+$text-color-light: #777;
+
 
 $primary-brand-color: #68C3A3;
 $primary-brand-color-dark: darken(#68C3A3, 10%);
@@ -36,7 +38,7 @@ $tertiary-brand-color: #FFB55F;
 $tertiary-brand-color-dark: darken(#FFB55F, 10%);
 $tertiary-brand-color-light: lighten(#FFB55F, 10%);
 
-$light-text-color: #777;
+
 $placeholder-color: lighten(#666666, 25%);
 
 $box-shadow-color: lighten(#282828, 20%);

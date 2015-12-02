@@ -1,0 +1,21 @@
+.TextEditor {
+  @include display(flex);
+  @include flex-direction(column);
+  position: relative;
+  width: 400px;
+  &-main {
+    @include flex-grow(1);
+    background-color: red;
+    height: 500px;
+    width: 100%;
+    padding: 20px;
+    &-input {
+      height: 100%;
+      width: 100%;
+      outline: none;
+    }
+  }
+  &-save-button {
+    margin-top: 20px;
+  }
+}

@@ -1,14 +1,19 @@
-// import Roboto font
+// Roboto font
 @import url(https://fonts.googleapis.com/css?family=Roboto:400,300,500);
 
-// normalize.css
+// Bourbon for Node.js
+@import '~node-bourbon/node_modules/bourbon/app/assets/stylesheets/_bourbon.scss';
+
+// Normalize.css
 @import '~normalize.css/normalize.css';
 
 //react-quill
 @import '~react-quill/node_modules/quill/dist/quill.snow.css';
 
+// Import dimesions variables
+@import './dimensions';
 
-// import color variables
+// Import color variables
 @import './colors';
 
 // import extends
@@ -30,6 +35,9 @@
 // Teacher
 @import './teacher/CoursesView';
 
+// Courses
+@import './courses/CoursePreviewCard';
+
 // Notes
 @import './notes/NoteForm';
 @import './notes/NewNoteForm';
@@ -44,7 +52,9 @@
 @import './shared/InputFieldLabel';
 @import './shared/Logo';
 @import './shared/MultiselectField';
+@import './shared/Quote';
 @import './shared/SearchBar';
+@import './shared/TextEditor';
 @import './shared/TextField';
 
 // UI Components
@@ -86,7 +96,7 @@ body {
 }
 
 .inactive-button {
-  background-color: lighten($light-text-color, 10%);
+  background-color: lighten($text-color-light, 10%);
   &:hover {
     box-shadow: none;
     cursor: default;

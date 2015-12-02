@@ -43,7 +43,7 @@
       li {
         display: inline-block;
         margin: 0 0.5rem;
-        color: $light-text-color;
+        color: $text-color-light;
         &:hover {
           color: $primary-brand-color;
           cursor: pointer;
@@ -60,7 +60,7 @@
   }
   .prev-week, .next-week {
     @extend .transition;
-    color: lighten($light-text-color, 15%);
+    color: lighten($text-color-light, 15%);
     &:hover { 
       color: $primary-brand-color;
       cursor: pointer;

@@ -1,19 +1,18 @@
 .ui-HorizontalNavbar {
   position: relative;
-  display: flex;
-  align-items: center;
   background-color: $navbar-background-color;
   border-bottom: 1px solid $border-color;
+  line-height: 45px;
   height: 45px;
   margin: 0 auto;
   width: 100%;
-
   &-content {
     position: relative;
     list-style: none;
     margin: 0 auto;
     padding: 0 2rem;
-    width: 100%;
+    min-width: $app-content-min-width;
+    max-width: $app-content-max-width;
 
     &-item {
       position: relative;
