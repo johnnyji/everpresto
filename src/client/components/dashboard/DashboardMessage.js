@@ -18,8 +18,10 @@ export default class DashboardMessage extends Component {
     
     return (
       <div className={classes}>
-        {message && message}
-        {children}
+        <div className={`${displayName}-content`}>
+          {message && message}
+          {children}
+        </div>
       </div>
     );
   }

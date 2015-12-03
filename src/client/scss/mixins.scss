@@ -20,6 +20,12 @@
   }
 }
 
+@mixin translate-pos($posY, $posX) {
+  @include transform(translate(-50%, -50%));
+  top: $posY;
+  left:  $posX
+}
+
 @mixin translate-center {
   @include transform(translate(-50%, -50%));
   top: 50%;

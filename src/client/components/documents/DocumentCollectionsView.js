@@ -37,11 +37,15 @@ export default class DocumentCollectionsView extends Component {
           <Button
             className={`${displayName}-create-template-button`}
             color='yellow'
-            onClick={this._navigateToTemplates}
+            onClick={this._navigateNewTemplateView}
             text='Create a Template!' />
         </DashboardMessage>
       );
     }
+  }
+
+  _navigateNewTemplateView = () => {
+    this.context.history.pushState(null, '/dashboard/templates/new');
   }
 
 }
