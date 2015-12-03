@@ -1,0 +1,16 @@
+.DashboardHandler {
+  position: relative;
+  height: 100%;
+  width: 100%;
+
+  &-create-template {
+    text-align: center;
+    &-message {
+      position: relative;
+    }
+    &-button {
+      position: relative;
+      margin-top: 1rem;
+    }
+  }
+}

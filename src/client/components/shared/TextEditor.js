@@ -15,12 +15,11 @@ export default class TextEditor extends Component {
     onSave: PropTypes.func.isRequired
   };
 
-  static defaultProps = {
-    htmlContent: ''
-  };
-
   componentDidMount() {
-    this.refs.input.focus();
+    const {input} = this.refs;
+
+    input.focus();
+    input.innerHTML = this.props.htmlContent;
   }
 
   render() {
@@ -33,8 +32,8 @@ export default class TextEditor extends Component {
           <div
             className={`${displayName}-main-input`} 
             contentEditable
+            onChange={this._emitChange}
             ref='input'>
-            {htmlContent}
           </div>
         </Card>
         <Button
@@ -45,8 +44,14 @@ export default class TextEditor extends Component {
     );
   }
 
+  _emitChange = () => {
+  }
+
   _handleSave = () => {
-    this.props.onSave(this.refs.input.innerHTML);
+    const html = this.refs.input.innerHTML;
+    const text = this.refs.input.innerText;
+
+    this.props.onSave(text, html);
   }
 
 }

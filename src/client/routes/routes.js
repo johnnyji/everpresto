@@ -7,9 +7,10 @@ import LandingPageHandler from '.././components/app/LandingPageHandler';
 import NotFoundHandler from '.././components/shared/NotFoundHandler';
 
 import DashboardHandler from '.././components/dashboard/DashboardHandler';
-  import StudentDashboard from '.././components/dashboard/StudentDashboard';
-  import TeacherDashboard from '.././components/dashboard/TeacherDashboard';
-    import CoursesView from '.././components/teacher/CoursesView';
+  import DocumentCollectionsView from '.././components/documents/DocumentCollectionsView';
+  // import CoursesView from '.././components/teacher/CoursesView';
+  // import StudentDashboard from '.././components/dashboard/StudentDashboard';
+  // import TeacherDashboard from '.././components/dashboard/TeacherDashboard';
 
 import ProfileHandler from '.././components/user/ProfileHandler';
 
@@ -18,7 +19,7 @@ import requireAuth from './utils/requireAuth';
 
 const routes = (
   <Route component={AppHandler} path='/'>
-    <Redirect from='dashboard' to='dashboard/teacher' />
+    <Redirect from='dashboard' to='dashboard/documents' />
     <IndexRoute component={LandingPageHandler} />
 
     <Route component={AuthHandler} path='login'/>
@@ -26,18 +27,11 @@ const routes = (
 
 
     {/*********** PROTECTED ROUTES: Requires Auth ************/}
-    <Route path='/profile' component={requireAuth(ProfileHandler)}/>
+    <Route path='profile' component={requireAuth(ProfileHandler)}/>
 
     <Route path='dashboard' component={requireAuth(DashboardHandler)}>
-      <Route path='student' component={StudentDashboard}/>
-      <Route path='teacher' component={TeacherDashboard}>
-        <IndexRoute component={CoursesView} />
-        <Route path='courses' component={CoursesView}/>
-        <Route path='email_list' component={CoursesView}/>
-        <Route path='email_history' component={CoursesView}/>
-        <Route path='analytics' component={CoursesView}/>
-        <Route path='profile' component={CoursesView}/>
-      </Route>
+      <IndexRoute component={DocumentCollectionsView} />
+      <Route path='documents' component={DocumentCollectionsView}/>
     </Route>
     {/*********** PROTECTED ROUTES: Requires Auth ************/}
 

@@ -1,10 +1,12 @@
-$app-content-min-width: 1200px;
-$app-content-max-width: 1600px;
-
+// This allows our .AppHandler and .AppHandler-content-container to be the
+// same dimensions as it's parent: #app
 .AppHandler {
-  &-content-container {  
+  position: relative;
+  height: 100%;
+  width: 100%;
+  &-content-container {
     position: relative;
-    margin: 0 auto;
-    max-width: $app-content-max-width;
+    height: 100%;
+    width: 100%;
   }
 }

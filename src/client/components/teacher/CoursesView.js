@@ -16,7 +16,9 @@ export default class CoursesView extends Component {
         {/*<CoursePreviewCard className={`${displayName}-new-course`} onClick={this._handleNewCourseClick}>
           <Icon icon="add" iconClass={`${displayName}-new-course-icon`} size={80} />
         </CoursePreviewCard>*/}
-        <TextEditor onSave={() => {}}/>
+        <TextEditor
+          htmlContent=''
+          onSave={() => {}}/>
       </DashboardContentWrapper>
     );
   }

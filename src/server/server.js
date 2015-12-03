@@ -133,7 +133,7 @@ app.use((req, res) => {
                 <meta charset="utf-8">
                 <meta author="Johnny Ji">
                 <meta name="viewport" content="width=device-width, initial-scale=1">
-                <title>Isomorphic Redux Demo</title>
+                <title>Tickit</title>
                 <link rel="stylesheet" type="text/css" href="${stylePath}" />
                 ${hydrateInitialClientState}
               </head>
@@ -154,7 +154,7 @@ app.use((req, res) => {
             <meta charset="utf-8">
             <meta author="Johnny Ji">
             <meta name="viewport" content="width=device-width, initial-scale=1">
-            <title>Isomorphic Redux Demo</title>
+            <title>Tickit</title>
             <link rel="stylesheet" type="text/css" href="${stylePath}" />
           </head>
           <body>

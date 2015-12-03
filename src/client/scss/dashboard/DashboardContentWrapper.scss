@@ -1,10 +1,21 @@
 .DashboardContentWrapper {
-  @include display(flex);
-  position: relative;
+  position: absolute;
+
+  // Adds extra padding to the top to compensate for the header and navbar
   padding: 20px;
-  height: 100%;
+  padding-top: 20px + $app-header-height + $horizontal-navbar-height;
+
+  // Stretches the Dashboard Content to full page view;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  // Restricts the width to the appropriate dimensions
   min-width: $app-content-min-width;
   max-width: $app-content-max-width;
   width: 100%;
+
+  // Makes sure then content is always centered
   margin: 0 auto;
 }

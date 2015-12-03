@@ -1,0 +1,10 @@
+.DashboardMessage {
+  @include display(flex);
+  @include flex-flow(column wrap);
+  @include align-items(center);
+  @include justify-content(space-around);
+  position: relative;
+  color: $text-color-light;
+  height: 100%;
+  width: 100%;
+}

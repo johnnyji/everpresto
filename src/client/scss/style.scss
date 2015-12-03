@@ -25,23 +25,28 @@
 // my own SCSS helper file
 @import './clarity';
 
+// App
+@import './app/AppHandler';
+
 // Auth
 @import './auth/RegistrationForm';
 
 // Dashboard
 @import './dashboard/DashboardContentWrapper';
+@import './dashboard/DashboardHandler';
 @import './dashboard/DashboardHeader';
+@import './dashboard/DashboardMessage';
 
-// Teacher
-@import './teacher/CoursesView';
+// // Teacher
+// @import './teacher/CoursesView';
 
-// Courses
-@import './courses/CoursePreviewCard';
+// // Courses
+// @import './courses/CoursePreviewCard';
 
-// Notes
-@import './notes/NoteForm';
-@import './notes/NewNoteForm';
-@import './notes/NotesList';
+// // Notes
+// @import './notes/NoteForm';
+// @import './notes/NewNoteForm';
+// @import './notes/NotesList';
 
 // Shared
 @import './shared/BlendedInputField';
@@ -75,8 +80,15 @@ body {
   color: $text-color;
   font-family: 'Roboto', sans-serif;
   font-weight: 400;
-  min-width: 600px;
+  min-height: 100vh;
   overflow-x: hidden;
+}
+
+#app {
+  // This lets #app be the same dimensions as the body
+  position: absolute;
+  height: 100%;
+  width: 100%;
 }
 
 *, *:before, *:after {
@@ -89,48 +101,6 @@ body {
   }
 }
 
-// CLASSES
-
-.active {
-  color: $secondary-brand-color;
-}
-
-.inactive-button {
-  background-color: lighten($text-color-light, 10%);
-  &:hover {
-    box-shadow: none;
-    cursor: default;
-  }
-}
-
 .invisible {
   color: transparent;
-}
-
-.title {
-  position: relative;
-  margin: 2rem auto;
-  font-size: 2rem;
-  color: $primary-brand-color;
-  text-align: center;
-}
-
-.link {
-  @extend .text-shadow;
-  position: relative;
-  text-decoration: none;
-}
-
-.pull-left {
-  @include position-y(absolute, 50%);
-  left: 3rem;
-}
-
-.pull-right {
-  @include position-y(absolute, 50%);
-  right: 3rem;
-}
-
-.error {
-  color: $error-color;
 }
