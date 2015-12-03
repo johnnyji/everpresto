@@ -84,6 +84,7 @@ body {
   font-family: 'Roboto', sans-serif;
   font-weight: 400;
   min-height: 100vh;
+  min-width: $app-content-min-width;
   overflow-x: hidden;
 }
 
