@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {Link} from 'react-router';
+import AppContentWrapper from '.././app/AppContentWrapper';
 
 const className = 'ui-HorizontalNavbar';
 
@@ -32,7 +33,9 @@ export default class HorizontalNavbar extends Component {
 
     return (
       <div className={className}>
-        <ul className={`${className}-content`}>{links}</ul>
+        <AppContentWrapper>
+          <ul className={`${className}-content`}>{links}</ul>
+        </AppContentWrapper>
       </div>
     );
 

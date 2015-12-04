@@ -8,6 +8,10 @@ import NotFoundHandler from '.././components/shared/NotFoundHandler';
 
 import DashboardHandler from '.././components/dashboard/DashboardHandler';
   import DocumentCollectionsView from '.././components/documents/DocumentCollectionsView';
+    import DocumentCollectionsIndex from '.././components/documents/DocumentCollectionsIndex';
+  import TemplatesView from '.././components/templates/TemplatesView';
+    import TemplatesIndex from '.././components/templates/TemplatesIndex';
+    import TemplatesNew from '.././components/templates/TemplatesNew';
   // import CoursesView from '.././components/teacher/CoursesView';
   // import StudentDashboard from '.././components/dashboard/StudentDashboard';
   // import TeacherDashboard from '.././components/dashboard/TeacherDashboard';
@@ -22,25 +26,32 @@ const routes = (
     <Redirect from='dashboard' to='dashboard/documents' />
     <IndexRoute component={LandingPageHandler} />
 
+    {/*********** Auth Routes ************/}
     <Route component={AuthHandler} path='login'/>
     <Route component={AuthHandler} path='join'/>
+    {/*********** Auth Routes ************/}
 
-
-    {/*********** PROTECTED ROUTES: Requires Auth ************/}
+    {/*********** Protected Routes ************/}
     <Route path='profile' component={requireAuth(ProfileHandler)}/>
 
     <Route path='dashboard' component={requireAuth(DashboardHandler)}>
       <IndexRoute component={DocumentCollectionsView} />
-      <Route path='documents' component={DocumentCollectionsView}/>
+
+      <Route path='documents' component={DocumentCollectionsView}>
+        <IndexRoute component={DocumentCollectionsIndex} />
+      </Route>
+
+      <Route path='templates' component={TemplatesView}>
+        <IndexRoute component={TemplatesIndex} />
+        <Route path='new' component={TemplatesNew} />
+      </Route>
+
     </Route>
-    {/*********** PROTECTED ROUTES: Requires Auth ************/}
+    {/*********** Protected Routes ************/}
 
-
-    {/*Route for Not Found page.*/}
+    {/*********** 404 Route ************/}
     <Route component={NotFoundHandler} path='*' />
-
-    {/* Redirect paths will go under here if necessary */}
-    {/* ... */}
+    {/*********** 404 Route ************/}
   </Route>
 );
 

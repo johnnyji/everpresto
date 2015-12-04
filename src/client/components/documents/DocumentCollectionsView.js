@@ -28,7 +28,9 @@ export default class DocumentCollectionsView extends Component {
   }
 
   _renderContent = () => {
-    if (this.props.templates.size === 0) {
+    const {children, templates} = this.props;
+
+    if (templates.size === 0) {
       return (
         <DashboardMessage className={`${displayName}-create-template`}>
           <span className={`${displayName}-create-template-message`}>
@@ -41,6 +43,9 @@ export default class DocumentCollectionsView extends Component {
             text='Create a Template!' />
         </DashboardMessage>
       );
+    } else {
+      // If templates are present, we render the actual children of DocumentCollectionsView
+      return children;
     }
   }
 

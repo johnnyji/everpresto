@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import classNames from 'classnames';
+import AppContentWrapper from '.././app/AppContentWrapper';
 
 const displayName = 'DashboardContentWrapper';
 
@@ -15,9 +16,9 @@ export default class DashboardContentWrapper extends Component {
     const classes = classNames(displayName, this.props.className);
 
     return (
-      <div className={classes}>
+      <AppContentWrapper className={classes}>
         {this.props.children}
-      </div>
+      </AppContentWrapper>
     );
   }
 

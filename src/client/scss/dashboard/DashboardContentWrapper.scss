@@ -11,11 +11,6 @@
   left: 0;
   right: 0;
 
-  // Restricts the width to the appropriate dimensions
-  min-width: $app-content-min-width;
-  max-width: $app-content-max-width;
-  width: 100%;
-
   // Makes sure then content is always centered
   margin: 0 auto;
 }
