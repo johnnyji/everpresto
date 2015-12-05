@@ -1,5 +1,17 @@
 .new-note-form {
-  @include modal-form-style;
+  @include position-center(absolute, 50%, 50%);
+  @extend .box-shadow;
+  
+  // set mins so the form doesnt collapse when we show loading bar/finish screen
+  min-width: 700px;
+  min-height: 450px;
+  max-height: 90vh;
+  max-width: 90vw;
+  overflow-x: none;
+  overflow-y: auto;
+
+  background-color: $form-background-color;
+  padding: 1.5rem 3rem 3rem 3rem;
   &-footer {
     position: relative;
     &-file-uploader {

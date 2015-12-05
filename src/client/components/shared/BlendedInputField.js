@@ -1,25 +1,41 @@
-import React from 'react';
+import React, {Component, PropTypes} from 'react';
+import classNames from 'classnames';
 
-export default class BlendedInputField extends React.Component {
+const displayName = 'BlendedInputField';
+
+export default class BlendedInputField extends Component {
+
+  static displayName = displayName;
+
+  static propTypes = {
+    isTextArea: PropTypes.bool.isRequired
+  };
+
+  static defaultProps = {
+    isTextArea: false
+  };
+
   constructor(props) {
     super(props);
   }
+
   render() {
-    let inputClass = `blended-input-field ${this.props.className}`;
+    const {className, isTextArea} = this.props;
+    const classes = classNames('blended-input-field', className);
     let field;
 
-    if (this.props.text) {
+    if (isTextArea) {
       field = (
-        <textarea 
+        <textarea
           {...this.props}
-          className={inputClass}
+          className={classes}
         ></textarea>
       );
     } else {
       field = (
         <input 
           {...this.props}
-          className={inputClass}
+          className={classes}
         ></input>
       );
     }
@@ -27,7 +43,3 @@ export default class BlendedInputField extends React.Component {
     return field;
   }
 }
-
-BlendedInputField.propTypes = {
-  text: React.PropTypes.bool
-};
