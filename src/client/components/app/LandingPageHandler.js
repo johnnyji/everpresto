@@ -9,8 +9,9 @@ import {Link} from 'react-router';
 export default class LandingPageHandler extends Component {
 
   // React Router history
-  static contextTypes = {
-    history: PropTypes.object.isRequired
+  static contextTypes = { 
+    history: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired
   };
 
   static propTypes = {

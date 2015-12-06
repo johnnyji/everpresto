@@ -35,7 +35,7 @@ export default function requireAuth(ComponentToRender) {
     }
 
     componentWillUpdate(nextProps, nextState) {
-      if (!nextProps.currentUser) this.context.history.replaceState(null, '/');
+      if (!nextProps.auth.get('user')) this.context.history.replaceState(null, '/');
     }
 
     render() {

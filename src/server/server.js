@@ -97,9 +97,7 @@ app.use((req, res) => {
       // Handle route redirection
       res.redirect(302, redirectLocation.pathname + redirectLocation.search);
     } else if (renderProps) {
-      console.log('Session User: ', req.session.userId);
       // Handle route rendering
-
       let initialState;
       // Goes through the flow of loading the initial app state
       User.findFromSession(req.session.userId)
@@ -145,7 +143,6 @@ app.use((req, res) => {
           `);
         });
     } else {
-      debugger
       // Handle route not found
       res.status(404).end(`
         <!DOCTYPE html>
