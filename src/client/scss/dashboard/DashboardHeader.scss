@@ -6,6 +6,7 @@
   height: $app-header-height;
   width: 100%;
   color: #FFF;
+
   // This is so that certain AppHeader elements such as DropdownOptions are infront of the any Dashboard item
   z-index: 2;
   

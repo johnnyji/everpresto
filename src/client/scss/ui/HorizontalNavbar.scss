@@ -6,24 +6,24 @@
   height: $horizontal-navbar-height;
   margin: 0 auto;
   width: 100%;
+
+  z-index: 2;
+
   &-content {
     position: relative;
     list-style: none;
     margin: 0 auto;
     padding: 0 20px;
-
-    &-item {
+    &-link {
+      color: $navbar-text-color;
       position: relative;
       margin-right: 1.6rem;
       display: inline-block;
-      &-link {
-        @extend .transition;
-        color: $navbar-text-color;
-      }
-      &-link-active {
-        color: $navbar-active-text-color;
-        font-size: 1.1rem;
-      }
+      @extend .transition;
+    }
+    &-link-active {
+      color: $navbar-active-text-color;
+      font-size: 1.1rem;
     }
   }
 

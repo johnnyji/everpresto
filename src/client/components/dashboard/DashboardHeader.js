@@ -21,8 +21,6 @@ export default class DashboardHeader extends Component {
   static propTypes = {
     currentUser: ImmutablePropTypes.contains({
       _id: PropTypes.string.isRequired,
-      coursesOffered: ImmutablePropTypes.list.isRequired,
-      coursesTaking: ImmutablePropTypes.list.isRequired,
       email: PropTypes.string.isRequired,
       firstName: PropTypes.string.isRequired,
       lastName: PropTypes.string.isRequired,
@@ -32,24 +30,15 @@ export default class DashboardHeader extends Component {
     }).isRequired
   };
 
-  static defaultProps = {
-    dashboardModes: [
-      'Teacher',
-      'Student'
-    ]
-  };
-
   constructor (props) {
     super(props);
     this.state = {
-      activeDashboardModeIndex: 0,
       showProfileOptions: false
     };
   }
 
   render() {
-    const {currentUser, dashboardModes} = this.props;
-    const {activeDashboardModeIndex} = this.state;
+    const {currentUser} = this.props;
     const profileNavOptions = [
       {name: 'Profile Settings', callback: this._viewProfile},
       {name: 'Logout', callback: this._logoutUser}
@@ -88,10 +77,6 @@ export default class DashboardHeader extends Component {
       </header>
     );
 
-  }
-
-  _changeDashboardMode = (index) => {
-    this.setState({activeDashboardModeIndex: index});
   }
 
   _handleLogoClick = () => {

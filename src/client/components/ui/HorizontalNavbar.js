@@ -20,21 +20,20 @@ export default class HorizontalNavbar extends Component {
   render() {
     const links = this.props.links.map((link, i) => {
       return (
-        <li className={`${className}-content-item`} key={i}>
-          <Link
-            activeClassName={`${className}-content-item-link-active`}
-            className={`${className}-content-item-link`}
-            to={link.path}>
-            {link.label}
-          </Link>
-        </li>
+        <Link
+          activeClassName={`${className}-content-link-active`}
+          className={`${className}-content-link`}
+          key={i}
+          to={link.path}>
+          {link.label}
+        </Link>
       );
     });
 
     return (
       <div className={className}>
         <AppContentWrapper>
-          <ul className={`${className}-content`}>{links}</ul>
+          <div className={`${className}-content`}>{links}</div>
         </AppContentWrapper>
       </div>
     );
