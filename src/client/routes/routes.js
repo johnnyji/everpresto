@@ -23,7 +23,6 @@ import requireAuth from './utils/requireAuth';
 
 const routes = (
   <Route component={AppHandler} path='/'>
-    <Redirect from='dashboard' to='dashboard/documents' />
     <IndexRoute component={LandingPageHandler} />
 
     {/*********** Auth Routes ************/}
@@ -48,6 +47,10 @@ const routes = (
 
     </Route>
     {/*********** Protected Routes ************/}
+
+    {/*********** Redirect Routes ************/}
+    <Redirect from='dashboard' to='dashboard/documents' />
+    {/*********** Redirect Routes ************/}
 
     {/*********** 404 Route ************/}
     <Route component={NotFoundHandler} path='*' />

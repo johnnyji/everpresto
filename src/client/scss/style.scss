@@ -34,6 +34,7 @@
 
 // Dashboard
 @import './dashboard/DashboardContentWrapper';
+@import './dashboard/DashboardContentInnerWrapper';
 @import './dashboard/DashboardHandler';
 @import './dashboard/DashboardHeader';
 @import './dashboard/DashboardMessage';
@@ -55,6 +56,7 @@
 // Shared
 @import './shared/BlendedInputField';
 @import './shared/ContentEditable';
+@import './shared/DocumentEditor';
 @import './shared/ExitFormIcon';
 @import './shared/FileUploader';
 @import './shared/InputField';
