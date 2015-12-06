@@ -12,21 +12,12 @@ export default class HighlightEditor extends Component {
 
   static propTypes = {
     className: PropTypes.string,
+    isTemplateEditor: PropTypes.bool.isRequired,
     onUpdate: PropTypes.func.isRequired
   };
 
   static defaultProps = {
-    toolbarOptions: {
-      buttons: [
-        'bold',
-        'italic',
-        'underline',
-        'anchor',
-        'quote',
-        'highlighter'
-      ],
-      targetBlank: true
-    }
+    isTemplateEditor: false
   }
 
   state = {
@@ -35,12 +26,16 @@ export default class HighlightEditor extends Component {
 
   componentDidMount() {
     const componentDOM = findDOMNode(this);
+    const toolbarButtons = ['bold', 'italic', 'underline', 'quote', 'unorderedlist'];
+
+    // Adds the highlighter component to the toolbar if we're editing a template
+    if (this.props.isTemplateEditor) toolbarButtons.push('highlighter');
 
     this.medium = new MediumEditor(componentDOM, {
-      toolbar: this.props.toolbarOptions,
-      extensions: {
-        'highlighter': new HighlighterExtension()
-      }
+      toolbar: {
+        buttons: toolbarButtons
+      },
+      extensions: {'highlighter': new HighlighterExtension()}
     });
 
     this.medium.subscribe('editableInput', (e) => {
@@ -73,7 +68,8 @@ export default class HighlightEditor extends Component {
   }
 
   _handleUpdate = (text) => {
-    this.props.onUpdate(text);
+    const {isTemplateEditor, onUpdate} = this.props;
+    onUpdate(text);
   }
 
 }

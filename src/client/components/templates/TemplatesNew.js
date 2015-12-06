@@ -27,6 +27,7 @@ export default class TemplatesNew extends Component {
       <DashboardContentWrapper>
         <DocumentEditor
           body={template.get('body')}
+          isTemplateEditor={true}
           onBodyChange={(value) => this._updateTemplateAttribute('body', value)}
           onHighlight={this._handleHighlight}
           onTitleChange={(value) => this._updateTemplateAttribute('title', value)}

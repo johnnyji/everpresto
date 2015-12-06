@@ -147,6 +147,7 @@ export default class DocumentEditor extends Component {
           type='text'/>
         <HighlightEditor
           className={`${displayName}-main-content-input`}
+          isTemplateEditor={isTemplateEditor}
           onUpdate={(text) => this.setState({text})}
           text={this.state.text}/>
         {/*<ReactQuill
