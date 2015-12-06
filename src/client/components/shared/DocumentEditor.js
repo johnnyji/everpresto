@@ -1,7 +1,23 @@
 import React, {Component, PropTypes} from 'react';
 import ReactQuill, {Toolbar} from 'react-quill';
+import MediumEditor from 'medium-editor';
 import classNames from 'classnames';
+import HighlightEditor from '.././shared/HighlightEditor';
+import Button from '.././ui/Button';
 import Card from '.././ui/Card';
+
+const editor = new MediumEditor('.editable');
+
+
+const getSelectedText = () => {
+  let text = "";
+  if (window.getSelection) {
+    text = window.getSelection().toString();
+  } else if (document.selection && document.selection.type != "Control") {
+    text = document.selection.createRange().text;
+  }
+  return text;
+}
 
 const defaultColors = [
   'rgb(  0,   0,   0)', 'rgb(230,   0,   0)', 'rgb(255, 153,   0)',
@@ -62,6 +78,7 @@ const customToolbarItems = [
 ];
 
 const EMPTY_BODY = '<div><br></div>';
+const EDITOR_ID = 'ql-editor-1';
 const displayName = 'DocumentEditor';
 
 export default class DocumentEditor extends Component {
@@ -71,7 +88,10 @@ export default class DocumentEditor extends Component {
   static propTypes = {
     body: PropTypes.string.isRequired,
     className: PropTypes.string,
+    highlightable: PropTypes.bool.isRequired,
+    isTemplateEditor: PropTypes.bool.isRequired,
     onBodyChange: PropTypes.func.isRequired,
+    onHighlight: PropTypes.func.isRequired,
     onTitleChange: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired,
     titlePlaceholder: PropTypes.string.isRequired
@@ -79,23 +99,50 @@ export default class DocumentEditor extends Component {
 
   static defaultProps = {
     body: '',
+    highlightable: true,
+    isTemplateEditor: false,
     title: '',
     titlePlaceholder: 'Untitled Document',
   };
 
-  componentDidMount() {
-    if (!Boolean(this.props.title)) this._showPlaceholder();
+  constructor(props) {
+    super(props);
+    this.state = {
+      text: 'Confucious say, you go to jail bad boy.',
+      highlighted: {
+        text: null,
+        startIndex: null,
+        endIndex: null
+      },
+      yolo: false
+    };
   }
 
+  componentDidMount() {
+    // if (!Boolean(this.props.body)) this._showPlaceholder();
+
+    // TODO: Why is the event listener not working?
+    // 
+    // const editor = document.getElementById('DocumentEditor-content-editor');
+    // editor.addEventListener('onmouseup', this._handleHighlightEnd);
+  }
+
+  // componentWillUnmount() {
+  //   const editor = document.getElementById('DocumentEditor-content-editor');
+  //   editor.removeEventListener('onmouseup', this._handleHighlightEnd); 
+  // }
+
   render() {
-    const {body, className, title, titlePlaceholder} = this.props;
+    const {body, className, isTemplateEditor, title, titlePlaceholder} = this.props;
     const classes = classNames(className, displayName);
 
     return (
       <Card className={classes}>
-        <ReactQuill 
+        <HighlightEditor onUpdate={(text) => this.setState({text})} text={this.state.text}/>
+        {/*<ReactQuill
           className={`${displayName}-main`}
           onChange={this._handleBodyChange}
+          onChangeSelection={this._handleTextHighlight}
           ref='quill'
           theme='snow'>
           <Toolbar
@@ -103,30 +150,52 @@ export default class DocumentEditor extends Component {
             key='toolbar'
             ref='toolbar'
             theme='snow'/>
+          <Button
+            className={`${displayName}-main-create-placeholder-button`}
+            disabled={!this.state.yolo}
+            onClick={() => {}}
+            text='Create Placeholder'/>
           <input
+            autoFocus
             className={`${displayName}-main-title-input`}
-            onChange={this._handleTitleChange}
+            defaultValue={title}
+            ref='title'
             placeholder={titlePlaceholder}
-            type='text'
-            value={title}/>
+            type='text'/>
           <div
-            className={`${displayName}-main-content-input`}
+            className={`${displayName}-main-content-input qull-contents`}
+            id={`${displayName}-content-editor`}
             key='editor'
             ref='editor'>
             {Boolean(body) && body}
           </div>
-        </ReactQuill>
+        </ReactQuill>*/}
       </Card>
     );
-  }
-
-  _handleTitleChange = (e) => {
-    this.props.onTitleChange(e.target.value);
   }
 
   _handleBodyChange = (body) => {
     if (body === EMPTY_BODY) this._showPlaceholder();
     this.props.onBodyChange(body);
+  }
+
+  _handleTextHighlight = (range, source) => {
+    const textHighlighted = range && range.start !== range.end;
+
+    if (this.props.highlightable && source === 'user' && textHighlighted) {
+      this.setState({
+        yolo: true,
+        highlighted: {
+          text: getSelectedText(),
+          startIndex: range.start,
+          endIndex: range.end
+        }
+      });
+    }
+  }
+
+  _handleTitleChange = (e) => {
+    this.props.onTitleChange(e.target.value);
   }
 
   _showPlaceholder = () => {

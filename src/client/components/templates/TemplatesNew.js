@@ -1,6 +1,5 @@
 import React, {Component, PropTypes} from 'react';
 import Immutable from 'immutable';
-import StateUpdater from '.././utils/StateUpdater';
 
 import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
 import DocumentEditor from '.././shared/DocumentEditor';
@@ -22,22 +21,29 @@ export default class TemplatesNew extends Component {
   }
 
   render() {
+    const {template} = this.state;
+
     return (
       <DashboardContentWrapper>
         <DocumentEditor
-          onTitleChange={(title) => this._updateTemplateState(this._setTemplateOption('title', title))}
-          onBodyChange={(body) => this._updateTemplateState(this._setTemplateOption('body', body))}
-          titlePlaceholder="Untitled Template"/>
+          body={template.get('body')}
+          onBodyChange={(value) => this._updateTemplateAttribute('body', value)}
+          onHighlight={this._handleHighlight}
+          onTitleChange={(value) => this._updateTemplateAttribute('title', value)}
+          titlePlaceholder="Untitled Template"
+          title={template.get('title')}/>
       </DashboardContentWrapper>
     );
   }
 
-  _setTemplateOption = () => {
-    return StateUpdater.setStateOptionImmutable(this.state.template);
+  _updateTemplateAttribute = (attr, value) => {
+    this.setState({
+      template: this.state.template.set(attr, value)
+    });
   }
 
-  _updateTemplateState = () => {
-    return StateUpdater.updateStateImmutable(this.state.template);
+  _handleHighlight = (text) => {
+    console.log(text);
   }
 
 }

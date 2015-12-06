@@ -1,0 +1,65 @@
+.HighlightEditor {
+  margin: 0;
+  outline: 0;
+  background-color: aliceblue;
+}
+
+// Medium Editor CSS
+.medium-toolbar-arrow-under:after {
+  top: 45px;
+  border-color: $brand-color-yellow transparent transparent transparent; }
+
+.medium-toolbar-arrow-over:before {
+  top: -6px;
+  border-color: transparent transparent $brand-color-yellow transparent; }
+
+.medium-editor-toolbar {
+  background-color: $brand-color-yellow; }
+  .medium-editor-toolbar li {
+    padding: 0; }
+    .medium-editor-toolbar li button {
+      min-width: 45px;
+      height: 45px;
+      border: none;
+      border-right: 1px solid $brand-color-yellow-light;
+      background-color: transparent;
+      color: #fff;
+      -webkit-transition: background-color .2s ease-in, color .2s ease-in;
+              transition: background-color .2s ease-in, color .2s ease-in; }
+      .medium-editor-toolbar li button:hover {
+        background-color: $brand-color-yellow-light;
+        color: #fff; }
+    .medium-editor-toolbar li .medium-editor-button-active {
+      background-color: $brand-color-yellow-dark;
+      color: #fff; }
+    .medium-editor-toolbar li .medium-editor-button-last {
+      border-right: none; }
+
+.medium-editor-toolbar-form .medium-editor-toolbar-input {
+  height: 45px;
+  background: $brand-color-yellow;
+  color: #fff; }
+  .medium-editor-toolbar-form .medium-editor-toolbar-input::-webkit-input-placeholder {
+    color: #fff;
+    color: rgba(255, 255, 255, 0.8); }
+  .medium-editor-toolbar-form .medium-editor-toolbar-input:-moz-placeholder {
+    /* Firefox 18- */
+    color: #fff;
+    color: rgba(255, 255, 255, 0.8); }
+  .medium-editor-toolbar-form .medium-editor-toolbar-input::-moz-placeholder {
+    /* Firefox 19+ */
+    color: #fff;
+    color: rgba(255, 255, 255, 0.8); }
+  .medium-editor-toolbar-form .medium-editor-toolbar-input:-ms-input-placeholder {
+    color: #fff;
+    color: rgba(255, 255, 255, 0.8); }
+
+.medium-editor-toolbar-form a {
+  color: #fff; }
+
+.medium-editor-toolbar-anchor-preview {
+  background: $brand-color-yellow;
+  color: #fff; }
+
+.medium-editor-placeholder:after {
+  color: #fff; }

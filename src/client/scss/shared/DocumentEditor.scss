@@ -11,11 +11,12 @@ div > .DocumentEditor {
   .quill-toolbar {
     margin-bottom: 16px;
     padding: 0;
+    width: 450px;
   }
 
   &-main {
     @include display(flex);
-    @include flex-flow(column wrap);
+    @include flex-flow(column);
     height: 100%;
     &-title-input {
       border: none;
@@ -23,6 +24,11 @@ div > .DocumentEditor {
       outline: none;
       padding: 8px;
       width: 100%;
+    }
+    &-create-placeholder-button {
+      position: absolute;
+      top: 20px;
+      right: 20px;
     }
     &-content-input {
       // This stretches the body input to the rest of the room of the editor

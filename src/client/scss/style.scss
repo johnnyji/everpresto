@@ -7,6 +7,9 @@
 // Normalize.css
 @import '~normalize.css/normalize.css';
 
+// Medium Rich Text Editor
+@import '~medium-editor/dist/css/medium-editor.css';
+
 //react-quill
 @import '~react-quill/node_modules/quill/dist/quill.snow.css';
 
@@ -59,6 +62,7 @@
 @import './shared/DocumentEditor';
 @import './shared/ExitFormIcon';
 @import './shared/FileUploader';
+@import './shared/HighlightEditor';
 @import './shared/InputField';
 @import './shared/InputFieldLabel';
 @import './shared/Logo';
