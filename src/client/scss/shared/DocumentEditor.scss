@@ -25,11 +25,11 @@ div > .DocumentEditor {
       padding: 8px;
       width: 100%;
     }
-    &-create-placeholder-button {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-    }
+    // &-create-placeholder-button {
+    //   position: absolute;
+    //   top: 20px;
+    //   right: 20px;
+    // }
     &-content-input {
       // This stretches the body input to the rest of the room of the editor
       @include flex-grow(1);

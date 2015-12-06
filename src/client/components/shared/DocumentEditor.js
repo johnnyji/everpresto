@@ -138,7 +138,17 @@ export default class DocumentEditor extends Component {
 
     return (
       <Card className={classes}>
-        <HighlightEditor onUpdate={(text) => this.setState({text})} text={this.state.text}/>
+        <input
+          autoFocus
+          className={`${displayName}-main-title-input`}
+          defaultValue={title}
+          ref='title'
+          placeholder={titlePlaceholder}
+          type='text'/>
+        <HighlightEditor
+          className={`${displayName}-main-content-input`}
+          onUpdate={(text) => this.setState({text})}
+          text={this.state.text}/>
         {/*<ReactQuill
           className={`${displayName}-main`}
           onChange={this._handleBodyChange}

@@ -2,6 +2,12 @@
   margin: 0;
   outline: 0;
   background-color: aliceblue;
+
+  // Makes sure that no HTML elements created by the Rich Text editor will have a margin top or bottom
+  & > * {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
 }
 
 // Medium Editor CSS
@@ -27,13 +33,25 @@
       -webkit-transition: background-color .2s ease-in, color .2s ease-in;
               transition: background-color .2s ease-in, color .2s ease-in; }
       .medium-editor-toolbar li button:hover {
-        background-color: $brand-color-yellow-light;
+        background-color: $brand-color-yellow-dark;
         color: #fff; }
     .medium-editor-toolbar li .medium-editor-button-active {
-      background-color: $brand-color-yellow-dark;
+      background-color: $brand-color-yellow-darker;
       color: #fff; }
+
+    // This will be the last button, aka the "create highlight" button
     .medium-editor-toolbar li .medium-editor-button-last {
-      border-right: none; }
+      background-color: $brand-color-green;
+      border-right: none;
+      &:hover {
+        background-color: $brand-color-green-dark;
+      }
+    }
+
+    // This is for when the last button is active
+    .medium-editor-toolbar li .medium-editor-button-last.medium-editor-button-active {
+      background-color: $brand-color-green-darker;
+    }
 
 .medium-editor-toolbar-form .medium-editor-toolbar-input {
   height: 45px;

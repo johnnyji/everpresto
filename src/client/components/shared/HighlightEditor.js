@@ -23,12 +23,8 @@ export default class HighlightEditor extends Component {
         'underline',
         'anchor',
         'quote',
-        'highlighter',
-        'removeFormat'
+        'highlighter'
       ],
-      placeholder: {
-        text: 'Starting typing here...'
-      },
       targetBlank: true
     }
   }
