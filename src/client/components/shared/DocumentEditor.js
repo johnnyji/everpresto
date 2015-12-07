@@ -43,13 +43,13 @@ export default class DocumentEditor extends Component {
       <Card className={classes}>
         <input
           autoFocus
-          className={`${displayName}-main-title-input`}
+          className={`${displayName}-title-input`}
           defaultValue={title}
           ref='title'
           placeholder={titlePlaceholder}
           type='text'/>
         <HighlightEditor
-          className={`${displayName}-main-content-input`}
+          className={`${displayName}-content-input`}
           isTemplateEditor={isTemplateEditor}
           onUpdate={onBodyChange}
           text={body}/>
