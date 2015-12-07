@@ -1,18 +1,19 @@
 // Using `div >` is to override the original `Card` padding.
 div > .DocumentEditor {
+  @include flex-grow(1);
   position: relative;
   display: inline-block;
   font-weight: 400;
   padding: 20px;
   height: 100%;
-  width: 700px;
+  width: 400px;
   
   // Toolbar Styles
-  .quill-toolbar {
-    margin-bottom: 16px;
-    padding: 0;
-    width: 450px;
-  }
+  // .quill-toolbar {
+  //   margin-bottom: 16px;
+  //   padding: 0;
+  //   width: 450px;
+  // }
 
   &-main {
     @include display(flex);

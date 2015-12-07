@@ -1,0 +1,6 @@
+.EditorSidebar {
+  @include flex-grow(1);
+  background-color: aliceblue;
+  height: 100%;
+  margin-left: 40px;
+}

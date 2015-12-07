@@ -56,10 +56,14 @@
 // @import './notes/NewNoteForm';
 // @import './notes/NotesList';
 
+// Templates
+@import './templates/TemplatesNew';
+
 // Shared
 @import './shared/BlendedInputField';
 @import './shared/ContentEditable';
 @import './shared/DocumentEditor';
+@import './shared/EditorSidebar';
 @import './shared/ExitFormIcon';
 @import './shared/FileUploader';
 @import './shared/HighlightEditor';

@@ -14,6 +14,20 @@ const AppActionCreators = {
       type: AppActionTypes.DISMISS_FLASH_MESSAGE,
       data: {color: null, message: null}
     }
+  },
+
+  createModal(modalElement) {
+    return {
+      type: AppActionTypes.CREATE_MODAL,
+      data: {modalElement: modalElement}
+    };
+  },
+
+  dismissModal() {
+    return {
+      type: AppActionTypes.DISMISS_MODAL,
+      data: {modalElement: null}
+    }
   }
 
 }

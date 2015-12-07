@@ -1,25 +1,32 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
+import classNames from 'classnames';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import FlashMessage from '.././ui/FlashMessage';
+import Overlay from '.././ui/Overlay';
+
+import AppActionCreators from '../.././actions/AppActionCreators';
 
 const displayName = 'AppHandler';
 
 @connect((state) => ({
-  app: state.app
+  flash: state.app.get('flash'),
+  modal: state.app.get('modal')
 }))
 export default class AppHandler extends Component {
 
   static displayName = displayName;
 
   static propTypes = {
-    app: ImmutablePropTypes.contains({
-      flash: ImmutablePropTypes.contains({
-        color: PropTypes.oneOf(['blue', 'green', 'red', 'yellow']),
-        message: PropTypes.string,
-      }).isRequired,
+    dispatch: PropTypes.func.isRequired,
+    flash: ImmutablePropTypes.contains({
+      color: PropTypes.oneOf(['blue', 'green', 'red', 'yellow']),
+      message: PropTypes.string,
     }).isRequired,
-    dispatch: PropTypes.func.isRequired
+    modal: ImmutablePropTypes.contains({
+      display: PropTypes.bool.isRequired,
+      element: PropTypes.element
+    }).isRequired,
   };
 
   static childContextTypes = {
@@ -34,12 +41,26 @@ export default class AppHandler extends Component {
   }
 
   render() {
-    const {app} = this.props;
-    const flashMessage = app.getIn(['flash', 'message']);
+    const {flash, modal} = this.props;
+    const flashMessage = flash.get('message');
+    const modalShouldDisplay = modal.get('display');
+    const modalElement = modal.get('element');
+    console.log('Modal Element: ', modalElement);
 
     return (
       <div className={displayName}>
-        {Boolean(flashMessage) && <FlashMessage color={app.getIn(['flash', 'color'])} content={flashMessage} />}
+
+        {/* Displays a Flash Message */}
+        {Boolean(flashMessage) &&
+          <FlashMessage color={flash.get('color')} content={flashMessage} />
+        }
+
+        {/* Displays a Modal */}
+        {modalShouldDisplay &&
+          <Overlay onExitModal={this._handleExitModal}>
+            <div>hellO!</div>
+          </Overlay>
+        }
 
         <div className={`${displayName}-content-container`}>
           {/*Allows the React Router to run the correct child route, replaced RouteHandler in v1.0.0*/}
@@ -48,6 +69,10 @@ export default class AppHandler extends Component {
       </div>
     );
 
+  }
+
+  _handleExitModal = () => {
+    this.props.dispatch(AppActionCreators.dismissModal());
   }
 
 }

@@ -5,6 +5,10 @@ const initialState = Immutable.fromJS({
   flash: {
     color: null,
     message: null
+  },
+  modal: {
+    display: false,
+    element: null
   }
 });
 
@@ -19,19 +23,24 @@ const initialState = Immutable.fromJS({
  */
 export default function appReducer(state = initialState, action) {
   // Each reducer must return a new state, never modify the original.
-  let newState;
 
   switch (action.type) {
 
     // Creates a flash message
     case AppActionTypes.CREATE_FLASH_MESSAGE:
-      newState = state.set('flash', Immutable.Map(action.data));
-      return newState;
+      return state.set('flash', Immutable.Map(action.data));
 
     // Dismiss a flash message
     case AppActionTypes.DISMISS_FLASH_MESSAGE:
-      newState = state.set('flash', Immutable.Map({color: null, message: null}));
-      return newState;
+      return state.set('flash', Immutable.Map({color: null, message: null}));
+
+    // Creates the modal box
+    case AppActionTypes.CREATE_MODAL:
+      return state.set('modal', Immutable.Map({display: true, element: action.data.modalElement}));
+
+    // Dismiss the modal box
+    case AppActionTypes.DISMISS_MODAL:
+      return state.set('modal', Immutable.Map({display: false, element: null}));
 
     default:
       return state;

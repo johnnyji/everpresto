@@ -15,7 +15,7 @@ export class Overlay extends Component {
   }
 
   componentWillUnmount() {
-    document.body.classList.add('noscroll'); 
+    document.body.classList.remove('noscroll'); 
   }
 
   render() {
