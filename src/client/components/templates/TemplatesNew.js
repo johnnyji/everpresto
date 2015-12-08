@@ -6,6 +6,7 @@ import AppActionCreators from '../.././actions/AppActionCreators';
 
 import Button from '.././ui/Button';
 import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
+import RichTextEditor from '.././shared/RichTextEditor';
 import DocumentEditor from '.././shared/DocumentEditor';
 import EditorSidebar from '.././shared/EditorSidebar';
 
@@ -26,16 +27,26 @@ export default class TemplatesNew extends Component {
     super(props);
     this.state = {
       template: Immutable.fromJS({
-        placeholders: ['no'],
+        placeholders: ['beer'],
         title: '',
-        body: `beer art party church-key fap trust fund, dreamcatcher tofu chillwave jean shorts chartreuse thundercats offal migas vice +1. Bitters poutine typewriter, drinking vinegar forage readymade photo booth food truck twee butcher post-ironic salvia ethical umami. Meggings waistcoat roof party helvetica vegan, mlkshk messenger bag seitan tacos hammock craft beers marfa bicycle rights health goth. Poutine post-ironic literally freegan, organic kitsch banh mi thundercats next level iPhone you probably haven't heard of them. Forage humblebrag helvetica, gluten-free mustache mumblecore tote bag venmo sustainable beerer pinterest kickstarter listicle selvage you probably haven't heard of them retro. Crucifix celiac XOXO, chartreuse shoreditch hoodie single-origin coffee. BEER Knausgaard pitchfork brunch 3 wolf moon.`
+        body: `<mark class="template-placeholder">beer</mark> art party church-key fap trust fund, dreamcatcher tofu chillwave jean shorts chartreuse thundercats offal migas&nbsp;<div><br></div><div>beer vice +1. Bitters poutine typewriter, drinking vinegar forage readymade photo booth food truck twee butcher post-ironic salvia ethical umami.</div>`
       })
     };
   }
 
-  componentDidMount() {
-    const result = replaceWordWithHtml(this.state.template.get('body'), 'beer', PLACEHOLDER_TAG, PLACEHOLDER_CLASS);
-    this._updateTemplateAttribute('body', result);
+  componentWillUpdate(nextProps, nextState) {
+
+    const {template} = nextState;
+    const nextPlaceholders = template.get('placeholders');
+
+    // If the placeholders have changed, we want to rehighlight the text to reflect that change.
+    if (!nextPlaceholders.equals(this.state.template.get('placeholders'))) {
+      console.log('never hit');
+      this._updateTemplateAttribute(
+        'body',
+        this._highlightPlaceholderText(template.get('body'), nextPlaceholders)
+      );
+    }
   }
 
   render() {
@@ -43,16 +54,23 @@ export default class TemplatesNew extends Component {
 
     return (
       <DashboardContentWrapper className={displayName}>
+        {/*<RichTextEditor
+          body={template.get('body')}
+          onBodyChange={this._handleBodyChange}
+          onTitleChange={(value) => this._updateTemplateAttribute('title', value)}
+          templatePlaceholders={template.get('placeholders').toJS()}
+          title={template.get('title')}
+          titlePlaceholder="Untitled Template"/>*/}
         <DocumentEditor
           body={template.get('body')}
           isTemplateEditor={true}
-          onBodyChange={this._handleBodyChange}
-          onHighlight={this._handleHighlight}
+          onBodyChange={(value) => this._updateTemplateAttribute('body', value)}
           onTitleChange={(value) => this._updateTemplateAttribute('title', value)}
+          templatePlaceholders={template.get('placeholders')}
           titlePlaceholder="Untitled Template"
           title={template.get('title')}/>
         <EditorSidebar>
-          <Button color="green" icon="create" onClick={this._showAddPlaceholderModal} text="Add Placeholder" />
+          <Button color='green' icon='add' onClick={this._showAddPlaceholderModal} text="Add Placeholder" />
         </EditorSidebar>
       </DashboardContentWrapper>
     );
@@ -64,21 +82,16 @@ export default class TemplatesNew extends Component {
     });
   }
 
-  _handleBodyChange = (value) => {
-    const body = this._highlightPlaceholderText(value);
+  _handleBodyChange = (text) => {
+    const body = this._highlightPlaceholderText(text);
 
     this._updateTemplateAttribute('body', body);
   }
 
-  _handleHighlight = (text) => {
-    console.log(text);
-  }
-
-  _highlightPlaceholderText = (text) => {
-    this.state.template
-      .get('placeholders')
-      .reduce((...args) => replaceWordWithHtml(...args, PLACEHOLDER_TAG, PLACEHOLDER_CLASS), text);
-    debugger;
+  _highlightPlaceholderText = (text, placeholders = this.state.template.get('placeholders')) => {
+    return placeholders.reduce((alteredText, placeholder) => {
+      return replaceWordWithHtml(alteredText, placeholder, PLACEHOLDER_TAG, PLACEHOLDER_CLASS);
+    }, text);
   }
 
   _showAddPlaceholderModal = () => {

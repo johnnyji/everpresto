@@ -1,18 +1,18 @@
-import React, {PropTypes} from 'react';
+import React, {Component, PropTypes} from 'react';
 import classNames from 'classnames';
 import Icon from './Icon';
 
-export default class ContentEditable extends React.Component {
+export default class ContentEditable extends Component {
 
   static propTypes = {
-    contentEditableClass: PropTypes.string,
+    className: PropTypes.string,
     html: PropTypes.string,
     onChange: PropTypes.func.isRequired
   };
 
   constructor(props) {
     super(props);
-    this.state = {editing: false};
+    this.state = {editing: true};
   }
 
   componentDidMount() {
@@ -21,8 +21,8 @@ export default class ContentEditable extends React.Component {
     if (this.props.html) this.refs.inputField.innerHTML = this.props.html;
   }
 
-  _activateEditingState = () => {
-    this.setState({editing: true});
+  _blurEditingState = () => {
+    this.setState({editing: false});
   }
 
   _emitChange = () => {
@@ -33,21 +33,20 @@ export default class ContentEditable extends React.Component {
   }
 
   render() {
-    const classes = classNames('content-editable', this.props.contentEditableClass);
+    const classes = classNames(
+      'content-editable',
+      this.props.className
+    );
 
-    return ( 
-      <div className={classes}>
-        <div
-          ref='inputField'
-          contentEditable
-          className='content-editable-input'
-          onChange={this._emitChange}
-          onBlur={this._emitChange}
-          onFocus={this._activateEditingState}
-        >
-        </div>
-        {!this.state.editing && <Icon icon='create'/>}
-      </div>
+    return (
+      <div
+        className={classes}
+        ref='inputField'
+        contentEditable
+        className='content-editable-input'
+        onChange={this._emitChange}
+        onBlur={this._emitChange}
+        onFocus={this._blurEditingState}/>
     );
   }
 

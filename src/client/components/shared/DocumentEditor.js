@@ -1,9 +1,15 @@
 import React, {Component, PropTypes} from 'react';
-import ReactQuill, {Toolbar} from 'react-quill';
+import Immutable from 'immutable';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 import classNames from 'classnames';
 import HighlightEditor from '.././shared/HighlightEditor';
+import TrixEditor from 'react-trix/lib/react-trix';
 import Button from '.././ui/Button';
 import Card from '.././ui/Card';
+import replaceWordWithHtml from '../.././utils/replaceWordWithHtml';
+
+const PLACEHOLDER_TAG = 'mark';
+const PLACEHOLDER_CLASS = 'template-placeholder';
 
 const displayName = 'DocumentEditor';
 
@@ -17,8 +23,8 @@ export default class DocumentEditor extends Component {
     highlightable: PropTypes.bool.isRequired,
     isTemplateEditor: PropTypes.bool.isRequired,
     onBodyChange: PropTypes.func.isRequired,
-    onHighlight: PropTypes.func.isRequired,
     onTitleChange: PropTypes.func.isRequired,
+    templatePlaceholders: ImmutablePropTypes.listOf(PropTypes.string).isRequired,
     title: PropTypes.string.isRequired,
     titlePlaceholder: PropTypes.string.isRequired
   };
@@ -27,6 +33,7 @@ export default class DocumentEditor extends Component {
     body: '',
     highlightable: true,
     isTemplateEditor: false,
+    templatePlaceholders: Immutable.List(),
     title: '',
     titlePlaceholder: 'Untitled Document',
   };
@@ -36,7 +43,7 @@ export default class DocumentEditor extends Component {
   }
 
   render() {
-    const {body, className, isTemplateEditor, onBodyChange, title, titlePlaceholder} = this.props;
+    const {body, className, isTemplateEditor, onBodyChange, templatePlaceholders, title, titlePlaceholder} = this.props;
     const classes = classNames(className, displayName);
 
     return (
@@ -50,8 +57,9 @@ export default class DocumentEditor extends Component {
           type='text'/>
         <HighlightEditor
           className={`${displayName}-content-input`}
-          isTemplateEditor={isTemplateEditor}
+          isTemplateEditor={true}
           onUpdate={onBodyChange}
+          templatePlaceholders={['beer']}
           text={body}/>
         {/*<ReactQuill
           className={`${displayName}-main`}
@@ -90,6 +98,26 @@ export default class DocumentEditor extends Component {
 
   _handleTitleChange = (e) => {
     this.props.onTitleChange(e.target.value);
+  }
+
+  _handleChange = (target) => {
+    debugger;
+
+    const {isTemplateEditor, templatePlaceholders, onBodyChange} = this.props;
+    // If we enable the ability to highlight template placeholders, we want to
+    // check for new placeholders everytime the text changes
+    if (isTemplateEditor && templatePlaceholders.size > 0) {
+      text = this._highlightPlaceholders(text, templatePlaceholders);
+      console.log(text);
+    }
+
+    onBodyChange(text);
+  }
+
+  _highlightPlaceholders = (text, placeholders = this.props.templatePlaceholders) => {
+    return placeholders.reduce((alteredText, placeholder) => {
+      return replaceWordWithHtml(text, placeholder, PLACEHOLDER_TAG, PLACEHOLDER_CLASS);
+    }, text);
   }
 
 }

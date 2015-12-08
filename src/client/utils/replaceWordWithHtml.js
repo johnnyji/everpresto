@@ -11,7 +11,7 @@ import requiredArgs from '.././decorators/requiredArgs';
  * @return {String}           - The newly altered text
  */
 // @requiredArgs
-export default function replaceWordWithHtml(text, word, tag = 'span', className) {
+export default function replaceWordWithHtml(text, word, tag = 'span', className, isContentEditable = false) {
   const openingTag = Boolean(className) ? `<${tag} class="${className}">` : `<${tag}>`;
   const closingTag = `</${tag}>`;
 
@@ -22,7 +22,12 @@ export default function replaceWordWithHtml(text, word, tag = 'span', className)
   const negativeLookahead = `(?!${_.escapeRegExp(closingTag)})`;
 
   const matcher = new RegExp(`${_.escapeRegExp(word)}${negativeLookahead}`, 'g');
-  const htmlWord = `${openingTag}${word}${closingTag}`;
+  // If this function is being used to replace words that will be used in a content editale field, we need to
+  // add a unicode zero-width character,
+  // refer to: http://stackoverflow.com/questions/21574522/contenteditable-put-caret-outside-inserted-span
+  const htmlWord = isContentEditable
+    ? `${openingTag}${word}${closingTag}&#8203;`
+    : `${openingTag}${word}${closingTag}`;
 
   return text.replace(matcher, (word, wordStartingIndex) => {
     // Note: This is the workaround for JavaScript's lack of a negative lookbehind...

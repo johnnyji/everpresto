@@ -72,6 +72,7 @@
 @import './shared/Logo';
 @import './shared/MultiselectField';
 @import './shared/Quote';
+@import './shared/RichTextEditor';
 @import './shared/SearchBar';
 @import './shared/TextEditor';
 @import './shared/TextField';
@@ -97,6 +98,10 @@ body {
   min-height: 100vh;
   min-width: $app-content-min-width;
   overflow-x: hidden;
+}
+
+.template-placeholder {
+  color: red;
 }
 
 #app {
