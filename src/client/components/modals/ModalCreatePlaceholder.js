@@ -34,9 +34,9 @@ export default class ModalCreatePlaceholder extends Component {
     return (
       <ModalWrapper className={displayName} height={400} width={600}>
         <div className={`${displayName}-demo-section`}>
-          <h2>Placeholders make life easy!</h2>
-          <p>
-            When you create a document from this template, every <mark>{placeholder.getIn(['values', 'value'])}</mark> in your template will be replaced with whatever you type into an input field called <b>{placeholder.getIn(['values', 'label'])}</b>
+          <h2 className={`${displayName}-demo-section-heading`}>Placeholders make life easy!</h2>
+          <p className={`${displayName}-demo-section-description`}>
+            When you use this template, every <mark>{placeholder.getIn(['values', 'value'])}</mark> will be replaced with whatever you type into an input field called <b>{placeholder.getIn(['values', 'label'])}</b>
           </p>
         </div>
         <div className={`${displayName}-input-section`}>

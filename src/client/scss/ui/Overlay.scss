@@ -26,7 +26,8 @@
 }
 
 
-// Prevents the page from scrolling. This is added to the `body` when the `Overlay` component is mounted
+// This is added to the `body` when the `Overlay` component is mounted
 .noscroll {
+  // Prevents the page from scrolling.
   overflow: hidden;
 }

@@ -42,19 +42,17 @@
 // Documents
 @import './documents/DocumentCollectionsView';
 
-// // Teacher
-// @import './teacher/CoursesView';
-
-// // Courses
-// @import './courses/CoursePreviewCard';
-
 // // Notes
 // @import './notes/NoteForm';
 // @import './notes/NewNoteForm';
 // @import './notes/NotesList';
 
+// Modals
+@import './modals/ModalCreatePlaceholder';
+
 // Templates
 @import './templates/TemplatesNew';
+
 
 // Shared
 @import './shared/BlendedInputField';

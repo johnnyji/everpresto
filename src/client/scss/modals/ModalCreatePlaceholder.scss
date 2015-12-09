@@ -1,21 +1,30 @@
 .ModalCreatePlaceholder {
   @include display(flex);
   @include flex-direction(column);
-  @include align-items(space-around);
+  @include justify-content(center);
   height: 100%;
   &-demo-section {
-    
+    &-heading {
+      // Removes the top margin of the header
+      margin-top: 0;
+    }
+    &-heading,
+    &-description {
+      text-align: center;
+    }
   }
-  &-input-section {
-    position: relative;
+  // Using `div >` overrides the original styles on the ui Input component
+  div > &-input-section {
+    margin: 0 auto;
     &-input-field {
       position: relative;
       display: inline-block;
       margin: 8px;
-      width: 200px;
+      width: 225px;
     }
     &-save-button {
-
+      margin: 30px auto;
+      width: 300px;
     }
   }
 }

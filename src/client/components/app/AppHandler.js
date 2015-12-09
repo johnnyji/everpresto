@@ -25,7 +25,7 @@ export default class AppHandler extends Component {
     }).isRequired,
     modal: ImmutablePropTypes.contains({
       display: PropTypes.bool.isRequired,
-      element: PropTypes.string
+      element: PropTypes.element
     }).isRequired,
   };
 
