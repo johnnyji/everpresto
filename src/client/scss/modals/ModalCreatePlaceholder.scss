@@ -1,0 +1,21 @@
+.ModalCreatePlaceholder {
+  @include display(flex);
+  @include flex-flow(column wrap);
+  @include align-items(space-around);
+  height: 100%;
+  &-demo-section {
+    
+  }
+  &-input-section {
+    position: relative;
+    &-input-field {
+      position: relative;
+      display: inline-block;
+      margin: 8px;
+      width: 200px;
+    }
+    &-save-button {
+
+    }
+  }
+}

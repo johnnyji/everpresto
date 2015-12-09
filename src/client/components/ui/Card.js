@@ -4,17 +4,17 @@ import classNames from 'classnames';
 export default class Card extends Component {
 
   static propTypes = {
-    className: PropTypes.string
+    className: PropTypes.string,
+    style: PropTypes.object
   }
 
   render() {
-    const classes = classNames(this.props.className, 'ui-card');
+    const {children, className, style} = this.props;
+    const classes = classNames(className, 'ui-Card');
 
-    return (
-      <div className={classes}>
-        {this.props.children}
-      </div>
-    );
+    if (style) return <div className={classes} style={style}>{children}</div>;
+
+    return <div className={classes}>{children}</div>;
   }
 
 }

@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import classNames from 'classnames';
 import Card from './Card';
 
 export default class ModalWrapper extends Component {
@@ -6,6 +7,7 @@ export default class ModalWrapper extends Component {
   static displayName = 'ModalWrapper';
 
   static propTypes = {
+    className: PropTypes.string,
     height: PropTypes.number.isRequired,
     unit: PropTypes.oneOf(['px', 'rem', 'em', '%']).isRequired,
     width: PropTypes.number.isRequired
@@ -18,14 +20,15 @@ export default class ModalWrapper extends Component {
   };
 
   render() {
-    const {height, unit, width} = this.props;
+    const {className, height, unit, width} = this.props;
+    const classes = classNames('ui-ModalWrapper', className);
     const style = {
       height: `${height}${unit}`,
       width: `${width}${unit}`
     };
 
     return (
-      <Card className='ui-ModalWrapper' style={style}>
+      <Card className={classes} style={style}>
         {this.props.children}
       </Card>
     );

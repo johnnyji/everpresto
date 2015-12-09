@@ -5,8 +5,8 @@ import replaceWordWithHtml from '../.././utils/replaceWordWithHtml';
 import AppActionCreators from '../.././actions/AppActionCreators';
 
 import Button from '.././ui/Button';
-import ModalWrapper from '.././ui/ModalWrapper';
 import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
+import ModalCreatePlaceholder from '.././modals/ModalCreatePlaceholder';
 import RichTextEditor from '.././shared/RichTextEditor';
 import DocumentEditor from '.././shared/DocumentEditor';
 import EditorSidebar from '.././shared/EditorSidebar';
@@ -88,13 +88,7 @@ export default class TemplatesNew extends Component {
   }
 
   _showAddPlaceholderModal = () => {
-    this.context.dispatch(
-      AppActionCreators.createModal(
-        <ModalWrapper>
-          <h1>hello!</h1>
-        </ModalWrapper>
-      )
-    );
+    this.context.dispatch(AppActionCreators.createModal(<ModalCreatePlaceholder />));
   }
 
 }

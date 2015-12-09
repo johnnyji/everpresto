@@ -61,6 +61,12 @@ export default class Input extends Component {
     };
   };
 
+  componentWillMount() {
+    if (Boolean(this.props.defaultValue)) {
+      this.setState({showLabel: false});
+    }  
+  }
+
   render() {
     const classes = classNames(this.props.className, className);
 
