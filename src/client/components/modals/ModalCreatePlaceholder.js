@@ -63,7 +63,7 @@ export default class ModalCreatePlaceholder extends Component {
             className={`${displayName}-input-section-save-button`}
             color='green'
             onClick={() => {}}
-            text='Save Placeholder'/>
+            text='Create Placeholder'/>
         </div>
       </ModalWrapper>
     );

@@ -27,6 +27,7 @@ export default class TemplatesNew extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      saved: true,
       template: Immutable.fromJS({
         placeholders: ['beer'],
         title: '',
@@ -50,7 +51,7 @@ export default class TemplatesNew extends Component {
   }
 
   render() {
-    const {template} = this.state;
+    const {saved, template} = this.state;
 
     return (
       <DashboardContentWrapper className={displayName}>
@@ -63,7 +64,13 @@ export default class TemplatesNew extends Component {
           titlePlaceholder="Untitled Template"
           title={template.get('title')}/>
         <EditorSidebar>
-          <Button color='green' icon='add' onClick={this._showAddPlaceholderModal} text='Add Placeholder' />
+          <Button color='blue' icon='add' onClick={this._showAddPlaceholderModal} text='Add Placeholder' />
+          <Button
+            color='green'
+            disabled={saved}
+            icon={saved ? 'done' : 'create'}
+            onClick={this._handleSave}
+            text={saved ? 'Saved' : 'Save'} />
         </EditorSidebar>
       </DashboardContentWrapper>
     );
@@ -71,6 +78,7 @@ export default class TemplatesNew extends Component {
 
   _updateTemplateAttribute = (attr, value) => {
     this.setState({
+      saved: false,
       template: this.state.template.set(attr, value)
     });
   }
@@ -79,6 +87,14 @@ export default class TemplatesNew extends Component {
     const body = this._highlightPlaceholderText(text);
 
     this._updateTemplateAttribute('body', body);
+  }
+
+  _handleSave = () => {
+    // TODO: Api call to save template
+    // TODO: Get the saved state as a prop from the store instead...
+    this.setState({
+      saved: true
+    });
   }
 
   _highlightPlaceholderText = (text, placeholders = this.state.template.get('placeholders')) => {
