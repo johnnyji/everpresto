@@ -25,7 +25,7 @@ export default class AppHandler extends Component {
     }).isRequired,
     modal: ImmutablePropTypes.contains({
       display: PropTypes.bool.isRequired,
-      element: PropTypes.element
+      element: PropTypes.string
     }).isRequired,
   };
 
@@ -45,7 +45,7 @@ export default class AppHandler extends Component {
     const flashMessage = flash.get('message');
     const modalShouldDisplay = modal.get('display');
     const modalElement = modal.get('element');
-    console.log('Modal Element: ', modalElement);
+    
 
     return (
       <div className={displayName}>
@@ -57,8 +57,8 @@ export default class AppHandler extends Component {
 
         {/* Displays a Modal */}
         {modalShouldDisplay &&
-          <Overlay onExitModal={this._handleExitModal}>
-            <div>hellO!</div>
+          <Overlay onExit={this._handleExitModal}>
+            {modalElement}
           </Overlay>
         }
 

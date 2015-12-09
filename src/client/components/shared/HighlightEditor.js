@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import Immutable from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import {findDOMNode} from 'react-dom';
 import MediumEditor from 'medium-editor';
@@ -6,7 +7,6 @@ import classNames from 'classnames';
 import replaceWordWithHtml from '../.././utils/replaceWordWithHtml';
 import placeCaretAtEnd from '../.././utils/placeCaretAtEnd';
 
-const BACKSPACE = 8;
 const PLACEHOLDER_TAG = 'mark';
 const PLACEHOLDER_CLASS = 'template-placeholder';
 const displayName = 'HighlightEditor';
@@ -25,7 +25,7 @@ export default class HighlightEditor extends Component {
 
   static defaultProps = {
     isTemplateEditor: false,
-    templatePlaceholders: []
+    templatePlaceholders: Immutable.List()
   };
 
   constructor(props) {
@@ -85,8 +85,7 @@ export default class HighlightEditor extends Component {
       <div
         className={classes}
         contentEditable
-        dangerouslySetInnerHTML={{__html: this.state.text}}
-        style={{display: 'inline-block'}}></div>
+        dangerouslySetInnerHTML={{__html: this.state.text}}></div>
     );
   }
 

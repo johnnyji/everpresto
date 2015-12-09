@@ -17,7 +17,7 @@ $ui-input-font-size: 1rem;
   width: 275px;
   height: 35px;
   &-error {
-    @include animate('error-fade-in 700ms');
+    @include animation(error-fade-in 700ms);
     position: relative;
     color: $ui-input-error-color;
     font-weight: 500;
@@ -42,7 +42,7 @@ $ui-input-font-size: 1rem;
     height: 100%;
     width: 100%;
     &:focus {
-      @include animate('input-focus 700ms');
+      @include animation(input-focus 700ms);
       outline: none;
       border-bottom-color: $ui-input-border-bottom-focus-end-color;
     }

@@ -36,22 +36,22 @@
   }
 
   &-blue {
-    @include animate('flash-enter-blue 250ms');
+    @include animation(flash-enter-blue 250ms);
     background-color: $brand-color-blue-light;
   }
 
   &-green {
-    @include animate('flash-enter-green 250ms');
+    @include animation(flash-enter-green 250ms);
     background-color: $brand-color-green;
   }
 
   &-red {
-    @include animate('flash-enter-red 250ms');
+    @include animation(flash-enter-red 250ms);
     background-color: $error-color;
   }
 
   &-yellow {
-    @include animate('flash-enter-yellow 250ms');
+    @include animation(flash-enter-yellow 250ms);
     background-color: $brand-color-yellow;
   }
 }

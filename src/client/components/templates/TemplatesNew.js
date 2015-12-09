@@ -5,6 +5,7 @@ import replaceWordWithHtml from '../.././utils/replaceWordWithHtml';
 import AppActionCreators from '../.././actions/AppActionCreators';
 
 import Button from '.././ui/Button';
+import ModalWrapper from '.././ui/ModalWrapper';
 import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
 import RichTextEditor from '.././shared/RichTextEditor';
 import DocumentEditor from '.././shared/DocumentEditor';
@@ -41,7 +42,6 @@ export default class TemplatesNew extends Component {
 
     // If the placeholders have changed, we want to rehighlight the text to reflect that change.
     if (!nextPlaceholders.equals(this.state.template.get('placeholders'))) {
-      console.log('never hit');
       this._updateTemplateAttribute(
         'body',
         this._highlightPlaceholderText(template.get('body'), nextPlaceholders)
@@ -54,13 +54,6 @@ export default class TemplatesNew extends Component {
 
     return (
       <DashboardContentWrapper className={displayName}>
-        {/*<RichTextEditor
-          body={template.get('body')}
-          onBodyChange={this._handleBodyChange}
-          onTitleChange={(value) => this._updateTemplateAttribute('title', value)}
-          templatePlaceholders={template.get('placeholders').toJS()}
-          title={template.get('title')}
-          titlePlaceholder="Untitled Template"/>*/}
         <DocumentEditor
           body={template.get('body')}
           isTemplateEditor={true}
@@ -70,7 +63,7 @@ export default class TemplatesNew extends Component {
           titlePlaceholder="Untitled Template"
           title={template.get('title')}/>
         <EditorSidebar>
-          <Button color='green' icon='add' onClick={this._showAddPlaceholderModal} text="Add Placeholder" />
+          <Button color='green' icon='add' onClick={this._showAddPlaceholderModal} text='Add Placeholder' />
         </EditorSidebar>
       </DashboardContentWrapper>
     );
@@ -97,7 +90,9 @@ export default class TemplatesNew extends Component {
   _showAddPlaceholderModal = () => {
     this.context.dispatch(
       AppActionCreators.createModal(
-        'hello'
+        <ModalWrapper>
+          <h1>hello!</h1>
+        </ModalWrapper>
       )
     );
   }

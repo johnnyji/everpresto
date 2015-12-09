@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import {connect} from 'react-redux';
 
-export default function requireAuth(ComponentToRender) {
+export default function requireAuth(ComposedComponent) {
 
   class AuthComponent extends Component {
 
@@ -14,8 +14,6 @@ export default function requireAuth(ComponentToRender) {
       auth: ImmutablePropTypes.contains({
         user: ImmutablePropTypes.contains({
           _id: PropTypes.string.isRequired,
-          coursesOffered: ImmutablePropTypes.list.isRequired,
-          coursesTaking: ImmutablePropTypes.list.isRequired,
           email: PropTypes.string.isRequired,
           firstName: PropTypes.string.isRequired,
           lastName: PropTypes.string.isRequired,
@@ -39,7 +37,7 @@ export default function requireAuth(ComponentToRender) {
     }
 
     render() {
-      return <ComponentToRender {...this.props} />;
+      return <ComposedComponent {...this.props} />;
     }
 
   }
