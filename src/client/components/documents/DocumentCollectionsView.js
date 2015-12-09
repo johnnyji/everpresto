@@ -50,7 +50,7 @@ export default class DocumentCollectionsView extends Component {
   }
 
   _navigateNewTemplateView = () => {
-    this.context.history.pushState(null, '/dashboard/templates/new');
+    this.context.history.push('/dashboard/templates/new');
   }
 
 }

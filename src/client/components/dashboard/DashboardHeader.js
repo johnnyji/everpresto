@@ -81,7 +81,7 @@ export default class DashboardHeader extends Component {
 
   _handleLogoClick = () => {
     if (this.context.location.pathname !== '/dashboard') {
-      this.context.history.pushState(null, '/dashboard');
+      this.context.history.push('/dashboard');
     }
   }
 
@@ -99,7 +99,7 @@ export default class DashboardHeader extends Component {
 
   _viewProfile = () => {
     this._hideProfileOptions();
-    this.context.history.pushState(null, '/profile');
+    this.context.history.push('/profile');
   }
 
 }

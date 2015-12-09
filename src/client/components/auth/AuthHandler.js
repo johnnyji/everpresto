@@ -27,7 +27,7 @@ export default class AuthHandler extends Component {
   componentWillMount() {
     // Redirects the user to the dashboard if they're already authenticated.
     if (Boolean(this.props.auth.get('user'))) {
-      this.context.history.replaceState(null, '/dashboard');
+      this.context.history.replace('/dashboard');
     }
   }
 
@@ -35,9 +35,9 @@ export default class AuthHandler extends Component {
     // If the user props are different, we redirect accordingly
     if (!this.props.auth.equals(nextProps.auth)) {
       if (Boolean(nextProps.auth.get('user'))) {
-        this.context.history.replaceState(null, '/dashboard');
+        this.context.history.replace('/dashboard');
       } else {
-        this.context.histroy.replaceState(null, )
+        this.context.histroy.replace('/');
       }
     }
   } 

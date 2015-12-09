@@ -1,6 +1,6 @@
 .ModalCreatePlaceholder {
   @include display(flex);
-  @include flex-flow(column wrap);
+  @include flex-direction(column);
   @include align-items(space-around);
   height: 100%;
   &-demo-section {

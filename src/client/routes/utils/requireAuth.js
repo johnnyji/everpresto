@@ -26,14 +26,14 @@ export default function requireAuth(ComposedComponent) {
 
     componentWillMount() {
       if (!Boolean(this.props.auth.get('user'))) {
-        // Here we `pushState` and not `replaceState` so the user has the option to
+        // Here we `push` and not `replace` so the user has the option to
         // navigate back to previous content if they wish
-        this.context.history.pushState(null, '/join');
+        this.context.history.push('/join');
       }
     }
 
     componentWillUpdate(nextProps, nextState) {
-      if (!nextProps.auth.get('user')) this.context.history.replaceState(null, '/');
+      if (!nextProps.auth.get('user')) this.context.history.replace('/');
     }
 
     render() {

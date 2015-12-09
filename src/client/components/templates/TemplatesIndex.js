@@ -20,7 +20,7 @@ export default class TemplatesIndex extends Component {
   }
 
   _handleNewTemplate = () => {
-    this.context.history.pushState(null, '/dashboard/templates/new');
+    this.context.history.push('/dashboard/templates/new');
   }
 
 }
