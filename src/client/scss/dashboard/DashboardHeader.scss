@@ -13,8 +13,9 @@
   &-navbar {
     @include display(flex);
     @include justify-content(space-between);
+    height: 100%;
     position: relative;
-    padding: 20px;
+    padding: 10px 20px;
     &-logo,
     &-nav {
       position: relative;

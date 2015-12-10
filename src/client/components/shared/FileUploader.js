@@ -3,8 +3,7 @@ import classNames from 'classnames';
 import _ from 'lodash';
 import uuid from 'node-uuid';
 import Dropzone from 'react-dropzone';
-
-import Icon from './Icon';
+import Icon from '.././ui/Icon';
 
 import TextHelper from '../.././utils/TextHelper';
 

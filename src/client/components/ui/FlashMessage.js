@@ -12,7 +12,7 @@ export default class FlashMessage extends Component {
     content: PropTypes.oneOfType([
       PropTypes.element,
       PropTypes.string
-    ]).isRequired,
+    ]).isRequired
   };
 
   static contextTypes = {
@@ -30,7 +30,9 @@ export default class FlashMessage extends Component {
     return (
       <div className={`${className}`} onClick={this._handleDismiss}>
         <div className={`${className}-content ${className}-${color}`}>
-          <span className={`${className}-content-message`}>{content}</span>
+          <span className={`${className}-content-message`}>
+            {content}
+          </span>
         </div>
       </div>
     );

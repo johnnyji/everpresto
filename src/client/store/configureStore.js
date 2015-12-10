@@ -24,7 +24,7 @@ if (process.env.NODE_ENV === 'production') {
 } else {
   finalCreateStore = applyMiddleware(
     thunkMiddleware,
-    createLogger({transformer: transformToJs})
+    createLogger({stateTransformer: transformToJs})
   )(createStore);
 }
 

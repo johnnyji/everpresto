@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import Button from '.././ui/Button';
-import Icon from '.././shared/Icon';
+import Icon from '.././ui/Icon';
 import SearchBar from '.././shared/SearchBar';
 
 import AppActions from '../.././actions/AppActions';

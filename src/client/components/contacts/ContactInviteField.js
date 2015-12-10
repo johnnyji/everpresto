@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactTemplate from '.././shared/ReactTemplate';
 
-import Icon from '.././shared/Icon';
+import Icon from '.././ui/Icon';
 
 export default class ContactInviteField extends ReactTemplate {
   constructor(props) {

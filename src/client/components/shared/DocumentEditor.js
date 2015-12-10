@@ -54,7 +54,7 @@ export default class DocumentEditor extends Component {
           className={`${displayName}-content-input`}
           isTemplateEditor={true}
           onUpdate={onBodyChange}
-          templatePlaceholders={Immutable.fromJS(['beer', 'no'])}
+          templatePlaceholders={templatePlaceholders}
           text={body}/>
       </Card>
     );

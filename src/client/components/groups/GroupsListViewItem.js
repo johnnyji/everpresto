@@ -1,9 +1,7 @@
 import React from 'react';
-import ReactTemplate from '.././shared/ReactTemplate';
+import Icon from '.././ui/Icon';
 
-import Icon from '.././shared/Icon';
-
-export default class GroupsListViewItem extends ReactTemplate {
+export default class GroupsListViewItem extends React.Component {
   constructor(props) {
     super(props);
   }

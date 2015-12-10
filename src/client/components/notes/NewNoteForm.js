@@ -4,7 +4,7 @@ import NoteForm from '.././notes/NoteForm';
 
 import FileUploader from '.././shared/FileUploader';
 import ExitFormIcon from '.././shared/ExitFormIcon';
-import Icon from '.././shared/Icon';
+import Icon from '.././ui/Icon';
 import Button from '.././ui/Button';
 import Spinner from '.././ui/Spinner';
 

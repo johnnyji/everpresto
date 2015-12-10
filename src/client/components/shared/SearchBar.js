@@ -1,5 +1,5 @@
 import React from 'react';
-import Icon from './Icon';
+import Icon from '.././ui/Icon';
 
 export default class SearchBar extends React.Component {  
   constructor(props) {

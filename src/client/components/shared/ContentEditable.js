@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import classNames from 'classnames';
-import Icon from './Icon';
+import Icon from '.././ui/Icon';
 
 export default class ContentEditable extends Component {
 

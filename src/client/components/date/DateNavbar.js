@@ -6,7 +6,7 @@ import ReactTemplate from '.././shared/ReactTemplate';
 
 import TimesheetActions from '../.././actions/TimesheetActions';
 
-import Icon from '.././shared/Icon';
+import Icon from '.././ui/Icon';
 import DateHelper from '../.././utils/DateHelper';
 
 const DateTimePicker = ReactWidgets.DateTimePicker;

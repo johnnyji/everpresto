@@ -4,7 +4,7 @@ import _ from 'lodash';
 import uuid from 'node-uuid';
 import ReactTemplate from '.././shared/ReactTemplate';
 
-import Icon from '.././shared/Icon';
+import Icon from '.././ui/Icon';
 
 import ContactInviteField from './ContactInviteField';
 
