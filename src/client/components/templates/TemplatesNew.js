@@ -31,27 +31,11 @@ export default class TemplatesNew extends Component {
     super(props);
     this.state = {
       template: Immutable.fromJS({
-        placeholders: [
-          {label: 'First Name', value: 'FIRST_NAME'}
-        ],
+        placeholders: [],
         title: '',
-        body: `<mark class="template-placeholder">beer</mark> art party church-key fap trust fund, dreamcatcher tofu chillwave jean shorts chartreuse thundercats offal migas&nbsp;<div><br></div><div>beer vice +1. Bitters poutine typewriter, drinking vinegar forage readymade photo booth food truck twee butcher post-ironic salvia ethical umami.</div>`
+        body: `<mark class="template-placeholder">beer</mark> art party church-key fap trust fund, dreamcatcher tofu chillwave jean shorts chartreuse thundercats offal migas&nbsp;<div><br></div><div>beer vice +1. Bitters poutine typewriter, drinking FIRST_NAME and something about LAST_NAME</div>`
       })
     };
-  }
-
-  componentWillUpdate(nextProps, nextState) {
-
-    const {template} = nextState;
-    const nextPlaceholders = template.get('placeholders');
-
-    // If the placeholders have changed, we want to rehighlight the text to reflect that change.
-    if (!nextPlaceholders.equals(this.state.template.get('placeholders'))) {
-      // this._updateTemplateAttribute(
-      //   'body',
-      //   this._highlightPlaceholderText(template.get('body'), nextPlaceholders)
-      // );
-    }
   }
 
   render() {
@@ -109,9 +93,10 @@ export default class TemplatesNew extends Component {
   }
 
   _renderPlaceholders = () => {
-    return this.state.template.get('placeholders').map((placeholder) => {
+    return this.state.template.get('placeholders').map((placeholder, i) => {
       return (
         <ListItem
+          key={i}
           onRemove={() => this._updateTemplateAttribute('placeholders', this._removePlaceholder(placeholder))}
           removable={true}>
           {placeholder.get('label')}

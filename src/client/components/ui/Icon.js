@@ -1,7 +1,7 @@
 import React from 'react';
 import objectAssign from 'object-assign';
 
-const Icon = React.createClass({
+export default React.createClass({
   displayName: 'Icon',
   propTypes: {
     icon: React.PropTypes.string.isRequired,
@@ -106,6 +106,4 @@ const Icon = React.createClass({
       </svg>
     );
   }
-});
-
-export default Icon;
+}); 

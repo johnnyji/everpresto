@@ -60,8 +60,13 @@ export default class HighlightEditor extends Component {
     const {isTemplateEditor, templatePlaceholders, text} = nextProps;
 
     if (isTemplateEditor && !templatePlaceholders.equals(this.props.templatePlaceholders)) {
-      // If the placeholders have changed, we want to rehighlight our text
-      this.setState({text: this._highlightPlaceholders(text, templatePlaceholders)});
+      // If the placeholders have changed, we want to re-highlight our text
+      const rehighlightedText = this._highlightPlaceholders(
+        this._clearHighlightsInText(text, this.props.templatePlaceholders),
+        templatePlaceholders
+      );
+
+      this.props.onUpdate(rehighlightedText);
     } else if (text !== this.state.text) {
       // If the text has changed, we want to reset the state and give that to our content editable
       this.setState({text});
@@ -112,6 +117,16 @@ export default class HighlightEditor extends Component {
     return placeholders.reduce((alteredText, placeholder) => {
       return replaceWordWithHtml(alteredText, placeholder, PLACEHOLDER_TAG, PLACEHOLDER_CLASS, true);
     }, text);
+  }
+
+  _clearHighlightsInText = (text, placeholders) => {
+    // TODO: Refactor this into something nice, perhaps make an entire 'ContentEditable' util to store both replace and remove tags from HTML
+    return placeholders.reduce((alteredText, placeholder) => {
+      const highlightedText = `<${PLACEHOLDER_TAG} class="${PLACEHOLDER_CLASS}">${placeholder}</${PLACEHOLDER_TAG}>`;
+      alteredText = alteredText.replace(new RegExp(highlightedText, 'g'), placeholder);
+      console.log(alteredText);
+      return alteredText;
+    }, text.replace(/\u200B/, ''));
   }
 
 }
