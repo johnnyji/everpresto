@@ -31,13 +31,13 @@ export default class TemplateEditor extends Component {
 
     if (!templatePlaceholders.equals(this.props.templatePlaceholders)) {
       // If the placeholders have changed, we want to re-highlight our text
-      const rehighlightedText = TextEditorHelper.highlightText(
-        TextEditorHelper.removeHighlights(text, this.props.templatePlaceholders, PLACEHOLDER_CLASS),
-        templatePlaceholders,
-        PLACEHOLDER_CLASS
-      );
+      let parsedText = TextEditorHelper.removeHighlights(text, this.props.templatePlaceholders, PLACEHOLDER_CLASS);
+
+      if (templatePlaceholders.size > 0) {
+        parsedText = TextEditorHelper.highlightText(parsedText, templatePlaceholders, PLACEHOLDER_CLASS);
+      }
       // Updates the parent with the rehighlighted text
-      this.props.onUpdate(rehighlightedText);
+      this.props.onUpdate(parsedText);
     }
   }
 
