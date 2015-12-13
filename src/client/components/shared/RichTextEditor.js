@@ -4,10 +4,7 @@ import classNames from 'classnames';
 import Immutable from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import MediumEditor from 'medium-editor';
-import TextEditorHelper from '../.././utils/TextEditorHelper';
 
-const PLACEHOLDER_TAG = 'mark';
-const PLACEHOLDER_CLASS = 'template-placeholder';
 const displayName = 'RichTextEditor';
 
 export default class RichTextEditor extends Component {
@@ -16,16 +13,8 @@ export default class RichTextEditor extends Component {
 
   static propTypes = {
     className: PropTypes.string,
-    isTemplateEditor: PropTypes.bool.isRequired,
-    templatePlaceholders: ImmutablePropTypes.listOf(PropTypes.string),
-    
     text: PropTypes.string.isRequired,
     onUpdate: PropTypes.func.isRequired
-  };
-
-  static defaultProps = {
-    isTemplateEditor: false,
-    templatePlaceholders: Immutable.List()
   };
 
   constructor(props) {
@@ -44,6 +33,7 @@ export default class RichTextEditor extends Component {
     const toolbarButtons = ['bold', 'italic', 'underline', 'quote', 'unorderedlist'];
 
     this.medium = new MediumEditor(componentDOM, {
+      placeholder: false,
       toolbar: {buttons: toolbarButtons}
     });
 
@@ -57,27 +47,13 @@ export default class RichTextEditor extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const {isTemplateEditor, templatePlaceholders, text} = nextProps;
-
-    if (isTemplateEditor && !templatePlaceholders.equals(this.props.templatePlaceholders)) {
-      // If the placeholders have changed, we want to re-highlight our text
-      const rehighlightedText = TextEditorHelper.highlightText(
-        TextEditorHelper.removeHighlights(text, this.props.templatePlaceholders, PLACEHOLDER_CLASS),
-        templatePlaceholders,
-        PLACEHOLDER_CLASS
-      );
-
-      this.props.onUpdate(rehighlightedText);
-    } else if (text !== this.state.text) {
-      // If the text has changed, we want to reset the state and give that to our content editable
+    const {text} = nextProps;
+    
+    if (text !== this.state.text) {
       this.setState({text});
     }
 
     if (this._updated) this._updated = false;
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    TextEditorHelper.placeCaretAtEnd(findDOMNode(this));
   }
 
   componentWillUnmount() {
@@ -96,13 +72,13 @@ export default class RichTextEditor extends Component {
   }
 
   _handleUpdate = (text) => {
-    const {isTemplateEditor, templatePlaceholders, onUpdate} = this.props;
-    let parsedText = text;
+    // const {isTemplateEditor, templatePlaceholders, onUpdate} = this.props;
+    // let parsedText = text;
     // If we enable the ability to highlight template placeholders, we want to
     // check for new placeholders everytime the text changes
-    if (isTemplateEditor && templatePlaceholders.size > 0) {
-      parsedText = TextEditorHelper.highlightText(text, templatePlaceholders, PLACEHOLDER_CLASS);
-    }
+    // if (isTemplateEditor && templatePlaceholders.size > 0) {
+    //   parsedText = TextEditorHelper.highlightText(text, templatePlaceholders, PLACEHOLDER_CLASS);
+    // }
 
     // TODO: When we delete a highlighted word or even a word with some style, the browser will automatically drag
     // that style on when you type something else, but in the form of inline-styling. We could write a regex tester that
@@ -111,7 +87,8 @@ export default class RichTextEditor extends Component {
     // http://www.neotericdesign.com/blog/2013/3/working-around-chrome-s-contenteditable-span-bug
     // http://stackoverflow.com/questions/19243432/prevent-contenteditable-mode-from-creating-span-tags
     // http://stackoverflow.com/questions/15015019/prevent-chrome-from-wrapping-contents-of-joined-p-with-a-span
-    onUpdate(parsedText);
+    // onUpdate(parsedText);
+    this.props.onUpdate(text);
   }
 
 }

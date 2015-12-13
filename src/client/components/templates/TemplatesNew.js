@@ -28,7 +28,7 @@ export default class TemplatesNew extends Component {
       template: Immutable.fromJS({
         placeholders: [],
         title: '',
-        body: `<mark class="template-placeholder">beer</mark> art party church-key fap trust fund, dreamcatcher tofu chillwave jean shorts chartreuse thundercats offal migas&nbsp;<div><br></div><div>beer vice +1. Bitters poutine typewriter, drinking FIRST_NAME and something about LAST_NAME</div>`
+        body: ''
       })
     };
   }

@@ -1,18 +1,15 @@
 import React, {Component, PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
-import classNames from 'classnames';
 import Immutable from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import RichTextEditor from '.././shared/RichTextEditor';
 import TextEditorHelper from '../.././utils/TextEditorHelper';
 
-const PLACEHOLDER_TAG = 'mark';
 const PLACEHOLDER_CLASS = 'template-placeholder';
-const displayName = 'TemplateEditor';
 
 export default class TemplateEditor extends Component {
 
-  static displayName = displayName;
+  static displayName = 'TemplateEditor';
 
   static propTypes = {
     className: PropTypes.string,
@@ -25,79 +22,47 @@ export default class TemplateEditor extends Component {
     templatePlaceholders: Immutable.List()
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      text: this.props.text
-    };
-  };
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return nextProps.text !== findDOMNode(this).innerHTML;
-  }
-
   componentDidMount() {
-    const componentDOM = findDOMNode(this);
-    const toolbarButtons = ['bold', 'italic', 'underline', 'quote', 'unorderedlist'];
-
-    this.medium = new MediumEditor(componentDOM, {
-      toolbar: {buttons: toolbarButtons}
-    });
-
-    this.medium.subscribe('editableInput', (e, editable) => {
-      this._updated = true;
-      this._handleUpdate(editable.innerHTML);
-    });
-
-    // Does the initial updating.
-    this._handleUpdate(componentDOM.innerHTML);
+    this._handleUpdate(this.props.text);
   }
 
   componentWillReceiveProps(nextProps) {
-    const {isTemplateEditor, templatePlaceholders, text} = nextProps;
+    const {templatePlaceholders, text} = nextProps;
 
-    if (isTemplateEditor && !templatePlaceholders.equals(this.props.templatePlaceholders)) {
+    if (!templatePlaceholders.equals(this.props.templatePlaceholders)) {
       // If the placeholders have changed, we want to re-highlight our text
       const rehighlightedText = TextEditorHelper.highlightText(
         TextEditorHelper.removeHighlights(text, this.props.templatePlaceholders, PLACEHOLDER_CLASS),
         templatePlaceholders,
         PLACEHOLDER_CLASS
       );
-
+      // Updates the parent with the rehighlighted text
       this.props.onUpdate(rehighlightedText);
-    } else if (text !== this.state.text) {
-      // If the text has changed, we want to reset the state and give that to our content editable
-      this.setState({text});
     }
-
-    if (this._updated) this._updated = false;
   }
 
   componentDidUpdate(prevProps, prevState) {
-    TextEditorHelper.placeCaretAtEnd(findDOMNode(this));
-  }
-
-  componentWillUnmount() {
-    this.medium.destroy();
+    const editor = findDOMNode(this)
+    TextEditorHelper.placeCaretAtEnd(editor);
   }
 
   render() {
-    const classes = classNames(this.props.className, displayName);
+    const {className, text} = this.props;
 
     return (
-      <div
-        className={classes}
-        contentEditable
-        dangerouslySetInnerHTML={{__html: this.state.text}}></div>
+      <RichTextEditor
+        className={className}
+        text={text}
+        onUpdate={this._handleUpdate}/>
     );
   }
 
   _handleUpdate = (text) => {
-    const {isTemplateEditor, templatePlaceholders, onUpdate} = this.props;
+    const {templatePlaceholders, onUpdate} = this.props;
     let parsedText = text;
     // If we enable the ability to highlight template placeholders, we want to
     // check for new placeholders everytime the text changes
-    if (isTemplateEditor && templatePlaceholders.size > 0) {
+    if (templatePlaceholders.size > 0) {
       parsedText = TextEditorHelper.highlightText(text, templatePlaceholders, PLACEHOLDER_CLASS);
     }
 

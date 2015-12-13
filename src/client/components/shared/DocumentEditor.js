@@ -3,7 +3,8 @@ import Immutable from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import classNames from 'classnames';
 
-import RichTextEditor from '.././shared/RichTextEditor';
+import TemplateEditor from '.././templates/TemplateEditor';
+import RichTextEditor from './RichTextEditor';
 import Button from '.././ui/Button';
 import Card from '.././ui/Card';
 
@@ -49,12 +50,19 @@ export default class DocumentEditor extends Component {
           ref='title'
           placeholder={titlePlaceholder}
           type='text'/>
-        <RichTextEditor
-          className={`${displayName}-content-input`}
-          isTemplateEditor={true}
-          onUpdate={onBodyChange}
-          templatePlaceholders={templatePlaceholders}
-          text={body}/>
+        {isTemplateEditor &&
+          <TemplateEditor
+            className={`${displayName}-content-input`}
+            onUpdate={onBodyChange}
+            templatePlaceholders={templatePlaceholders}
+            text={body}/>
+        }
+        {!isTemplateEditor &&
+          <RichTextEditor
+            className={`${displayName}-content-input`}
+            onUpdate={onBodyChange}
+            text={body}/>
+        }
       </Card>
     );
   }

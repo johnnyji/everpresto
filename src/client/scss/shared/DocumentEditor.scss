@@ -20,7 +20,7 @@ div > .DocumentEditor {
     // This stretches the body input to the rest of the room of the editor
     @include flex-grow(1);
     height: auto;
-    padding: 8px;
+    padding: 8px 16px;
       // Mock Placeholder
     &:empty:before {
       content: 'Start typing here...';
