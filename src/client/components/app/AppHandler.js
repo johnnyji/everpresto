@@ -45,7 +45,6 @@ export default class AppHandler extends Component {
     const flashMessage = flash.get('message');
     const modalShouldDisplay = modal.get('display');
     const modalElement = modal.get('element');
-    
 
     return (
       <div className={displayName}>

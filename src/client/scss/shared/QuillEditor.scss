@@ -1,0 +1,62 @@
+// Using `div >` is to override the original `Card` padding.
+div > .QuillEditor {
+  position: relative;
+  display: inline-block;
+  font-weight: 400;
+  padding: 20px;
+  height: 100%;
+  width: 700px;
+  
+  // Toolbar Styles
+  .quill-toolbar {
+    margin-bottom: 16px;
+    padding: 0;
+  }
+
+  &-main {
+    @include display(flex);
+    @include flex-flow(column wrap);
+    height: 100%;
+    &-title-input {
+      border: none;
+      font-size: 24px;
+      outline: none;
+      padding: 8px;
+      width: 100%;
+    }
+    &-content-input {
+      // This stretches the body input to the rest of the room of the editor
+      @include flex-grow(1);
+      height: 100px;
+
+      padding: 8px;
+      .ql-editor {
+        @extend .transition;
+        font-size: 16px;
+        padding: 8px;
+        // Mock Placeholder for React Quill
+        &:empty:before {
+          content: 'Start typing here...';
+          color: $placeholder-color;
+        }
+      }
+    }
+
+    // Text Linking Styles
+    .ql-link-tooltip {
+      padding: 8px;
+      font-size: 14px;
+      .title {
+        color: $text-color;
+        font-size: 14px;
+      }
+      .input {}
+      .done, .change, .remove {
+        &:hover {color: $secondary-brand-color;}
+        color: $primary-brand-color;
+        font-size: 14px;
+      }
+    }
+
+  }
+}

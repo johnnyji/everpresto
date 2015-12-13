@@ -4,7 +4,7 @@ const ApiCaller = {
   // options: { url: ..., method:..., data:... }
   sendAjaxRequest(options) {
     return new Promise((resolve, reject) => {
-      let request = new XMLHttpRequest();
+      const request = new XMLHttpRequest();
       request.open(options.method, options.url);
       request.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
 
@@ -13,11 +13,11 @@ const ApiCaller = {
       
       request.onload = () => {
         // we don't need to parse it if it's an empty string
-        let responseText = request.responseText
+        const responseText = request.responseText
           ? JSON.parse(request.responseText)
           : request.responseText;
 
-        let result = {
+        const result = {
           status: request.status,
           data: responseText
         };

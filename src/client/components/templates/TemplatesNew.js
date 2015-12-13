@@ -1,7 +1,6 @@
+// TODO: Use `_.debounce` to make the placeholder finding less expensive?
 import React, {Component, PropTypes} from 'react';
-import _ from 'lodash' // TODO: Use `_.debounce` to make the placeholder finding less expensive?
 import Immutable from 'immutable';
-import replaceWordWithHtml from '../.././utils/replaceWordWithHtml';
 import AppActionCreators from '../.././actions/AppActionCreators';
 
 import Button from '.././ui/Button';
@@ -10,12 +9,8 @@ import List from '.././ui/List';
 import ListItem from '.././ui/ListItem';
 import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
 import ModalCreatePlaceholder from '.././modals/ModalCreatePlaceholder';
-import RichTextEditor from '.././shared/RichTextEditor';
 import DocumentEditor from '.././shared/DocumentEditor';
 import EditorSidebar from '.././shared/EditorSidebar';
-
-const PLACEHOLDER_TAG = 'mark';
-const PLACEHOLDER_CLASS = 'template-placeholder';
 
 const displayName = 'TemplatesNew';
 
@@ -50,7 +45,7 @@ export default class TemplatesNew extends Component {
           onBodyChange={(value) => this._updateTemplateAttribute('body', value)}
           onTitleChange={(value) => this._updateTemplateAttribute('title', value)}
           templatePlaceholders={placeholderValues}
-          titlePlaceholder="Untitled Template"
+          titlePlaceholder='Untitled Template'
           title={template.get('title')}/>
         <EditorSidebar>
           <Button color='blue' icon='add' onClick={this._showAddPlaceholderModal} text='Add Placeholder' />
@@ -73,18 +68,6 @@ export default class TemplatesNew extends Component {
     this.setState({
       template: this.state.template.set(attr, value)
     });
-  }
-
-  _handleBodyChange = (text) => {
-    const body = this._highlightPlaceholderText(text);
-
-    this._updateTemplateAttribute('body', body);
-  }
-
-  _highlightPlaceholderText = (text, placeholders = this.state.template.get('placeholders')) => {
-    return placeholders.reduce((alteredText, placeholder) => {
-      return replaceWordWithHtml(alteredText, placeholder, PLACEHOLDER_TAG, PLACEHOLDER_CLASS);
-    }, text);
   }
 
   _removePlaceholder = (placeholderObj) => {

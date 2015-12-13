@@ -28,6 +28,12 @@ const RegexHelper = {
       regex: new RegExp(`.{${min},${max}}`),
       error: customError || `Must be between ${min} and ${max} characters.`
     }
+  },
+  noLowerCase(customError) {
+    return {
+      regex: /^[^a-z]*$/,
+      error: customError || 'No lower case characters allowed.'
+    }
   }
 };
 

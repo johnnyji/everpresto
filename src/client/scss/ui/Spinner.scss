@@ -1,5 +1,20 @@
-// full screen spinner
+@-webkit-keyframes stretchdelay {
+  0%, 40%, 100% { -webkit-transform: scaleY(0.4) }
+  20% { -webkit-transform: scaleY(1.0) }
+}
 
+@keyframes stretchdelay {
+  0%, 40%, 100% {
+    transform: scaleY(0.4);
+    -webkit-transform: scaleY(0.4);
+  }
+  20% {
+    transform: scaleY(1.0);
+    -webkit-transform: scaleY(1.0);
+  }
+}
+
+// full screen spinner
 .full-screen-spinner {
   @include position-center(fixed, 46%, 50%);
   #full-screen-spinner {
@@ -30,7 +45,7 @@
 }
 
 .wave > div {
-  background-color: $primary-brand-color;
+  background-color: $brand-color-yellow;
   height: 100%;
   width: 6px;
   display: inline-block;
@@ -57,19 +72,4 @@
 .wave .rect5 {
   -webkit-animation-delay: -0.8s;
   animation-delay: -0.8s;
-}
-
-@-webkit-keyframes stretchdelay {
-  0%, 40%, 100% { -webkit-transform: scaleY(0.4) }
-  20% { -webkit-transform: scaleY(1.0) }
-}
-
-@keyframes stretchdelay {
-  0%, 40%, 100% {
-    transform: scaleY(0.4);
-    -webkit-transform: scaleY(0.4);
-  } 20% {
-    transform: scaleY(1.0);
-    -webkit-transform: scaleY(1.0);
-  }
 }

@@ -60,7 +60,7 @@ export default (ComposedComponent) => (class FormComponent extends Component {
     // We're merging a newly created object with all our nested values and errors into the form data state,
     // so that our state is up to date with the input's returns
     this.setState({
-      [this.formData]: this.state[this.formDataState].mergeDeep(mergeDeep(nestedValueObj, nestedErrorObj));
+      [this.formData]: this.state[this.formDataState].mergeDeep(mergeDeep(nestedValueObj, nestedErrorObj))
     });
   }
 

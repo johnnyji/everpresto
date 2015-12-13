@@ -1,8 +1,14 @@
 $ui-input-font-size: 1rem;
 
 @include keyframes(error-fade-in) {
-  from { color: darken($ui-input-error-color, 30%); }
-  to { color: $ui-input-error-color; }
+  from {
+    color: darken($ui-input-error-color, 30%);
+    display: none;
+  }
+  to {
+    color: $ui-input-error-color;
+    display: block;
+  }
 };
 
 @include keyframes(input-focus) {

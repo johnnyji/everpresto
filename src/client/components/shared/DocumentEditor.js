@@ -2,7 +2,8 @@ import React, {Component, PropTypes} from 'react';
 import Immutable from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import classNames from 'classnames';
-import HighlightEditor from '.././shared/HighlightEditor';
+
+import RichTextEditor from '.././shared/RichTextEditor';
 import Button from '.././ui/Button';
 import Card from '.././ui/Card';
 
@@ -15,7 +16,6 @@ export default class DocumentEditor extends Component {
   static propTypes = {
     body: PropTypes.string.isRequired,
     className: PropTypes.string,
-    highlightable: PropTypes.bool.isRequired,
     isTemplateEditor: PropTypes.bool.isRequired,
     onBodyChange: PropTypes.func.isRequired,
     onTitleChange: PropTypes.func.isRequired,
@@ -26,7 +26,6 @@ export default class DocumentEditor extends Component {
 
   static defaultProps = {
     body: '',
-    highlightable: true,
     isTemplateEditor: false,
     templatePlaceholders: Immutable.List(),
     title: '',
@@ -50,7 +49,7 @@ export default class DocumentEditor extends Component {
           ref='title'
           placeholder={titlePlaceholder}
           type='text'/>
-        <HighlightEditor
+        <RichTextEditor
           className={`${displayName}-content-input`}
           isTemplateEditor={true}
           onUpdate={onBodyChange}

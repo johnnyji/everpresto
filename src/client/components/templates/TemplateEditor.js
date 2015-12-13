@@ -1,30 +1,27 @@
 import React, {Component, PropTypes} from 'react';
+import {findDOMNode} from 'react-dom';
+import classNames from 'classnames';
 import Immutable from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import {findDOMNode} from 'react-dom';
-import MediumEditor from 'medium-editor';
-import classNames from 'classnames';
-import replaceWordWithHtml from '../.././utils/replaceWordWithHtml';
-import placeCaretAtEnd from '../.././utils/placeCaretAtEnd';
+import RichTextEditor from '.././shared/RichTextEditor';
+import TextEditorHelper from '../.././utils/TextEditorHelper';
 
 const PLACEHOLDER_TAG = 'mark';
 const PLACEHOLDER_CLASS = 'template-placeholder';
-const displayName = 'HighlightEditor';
+const displayName = 'TemplateEditor';
 
-export default class HighlightEditor extends Component {
+export default class TemplateEditor extends Component {
 
   static displayName = displayName;
 
   static propTypes = {
     className: PropTypes.string,
-    isTemplateEditor: PropTypes.bool.isRequired,
     templatePlaceholders: ImmutablePropTypes.listOf(PropTypes.string).isRequired,
     text: PropTypes.string.isRequired,
     onUpdate: PropTypes.func.isRequired
   };
 
   static defaultProps = {
-    isTemplateEditor: false,
     templatePlaceholders: Immutable.List()
   };
 
@@ -61,9 +58,10 @@ export default class HighlightEditor extends Component {
 
     if (isTemplateEditor && !templatePlaceholders.equals(this.props.templatePlaceholders)) {
       // If the placeholders have changed, we want to re-highlight our text
-      const rehighlightedText = this._highlightPlaceholders(
-        this._clearHighlightsInText(text, this.props.templatePlaceholders),
-        templatePlaceholders
+      const rehighlightedText = TextEditorHelper.highlightText(
+        TextEditorHelper.removeHighlights(text, this.props.templatePlaceholders, PLACEHOLDER_CLASS),
+        templatePlaceholders,
+        PLACEHOLDER_CLASS
       );
 
       this.props.onUpdate(rehighlightedText);
@@ -76,7 +74,7 @@ export default class HighlightEditor extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    placeCaretAtEnd(findDOMNode(this));
+    TextEditorHelper.placeCaretAtEnd(findDOMNode(this));
   }
 
   componentWillUnmount() {
@@ -100,7 +98,7 @@ export default class HighlightEditor extends Component {
     // If we enable the ability to highlight template placeholders, we want to
     // check for new placeholders everytime the text changes
     if (isTemplateEditor && templatePlaceholders.size > 0) {
-      parsedText = this._highlightPlaceholders(text, templatePlaceholders);
+      parsedText = TextEditorHelper.highlightText(text, templatePlaceholders, PLACEHOLDER_CLASS);
     }
 
     // TODO: When we delete a highlighted word or even a word with some style, the browser will automatically drag
@@ -111,22 +109,6 @@ export default class HighlightEditor extends Component {
     // http://stackoverflow.com/questions/19243432/prevent-contenteditable-mode-from-creating-span-tags
     // http://stackoverflow.com/questions/15015019/prevent-chrome-from-wrapping-contents-of-joined-p-with-a-span
     onUpdate(parsedText);
-  }
-
-  _highlightPlaceholders = (text, placeholders = this.props.templatePlaceholders) => {
-    return placeholders.reduce((alteredText, placeholder) => {
-      return replaceWordWithHtml(alteredText, placeholder, PLACEHOLDER_TAG, PLACEHOLDER_CLASS, true);
-    }, text);
-  }
-
-  _clearHighlightsInText = (text, placeholders) => {
-    // TODO: Refactor this into something nice, perhaps make an entire 'ContentEditable' util to store both replace and remove tags from HTML
-    return placeholders.reduce((alteredText, placeholder) => {
-      const highlightedText = `<${PLACEHOLDER_TAG} class="${PLACEHOLDER_CLASS}">${placeholder}</${PLACEHOLDER_TAG}>`;
-      alteredText = alteredText.replace(new RegExp(highlightedText, 'g'), placeholder);
-      console.log(alteredText);
-      return alteredText;
-    }, text.replace(/\u200B/, ''));
   }
 
 }

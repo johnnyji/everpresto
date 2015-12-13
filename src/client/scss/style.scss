@@ -16,7 +16,7 @@
 // Import color variables
 @import './colors';
 
-// import extends
+// Import extends
 @import './extends';
 
 // mixins
@@ -42,17 +42,11 @@
 // Documents
 @import './documents/DocumentCollectionsView';
 
-// // Notes
-// @import './notes/NoteForm';
-// @import './notes/NewNoteForm';
-// @import './notes/NotesList';
-
 // Modals
 @import './modals/ModalCreatePlaceholder';
 
 // Templates
 @import './templates/TemplatesNew';
-
 
 // Shared
 @import './shared/BlendedInputField';
@@ -61,15 +55,10 @@
 @import './shared/EditorSidebar';
 @import './shared/ExitFormIcon';
 @import './shared/FileUploader';
-@import './shared/HighlightEditor';
-@import './shared/InputField';
-@import './shared/InputFieldLabel';
 @import './shared/Logo';
 @import './shared/MultiselectField';
 @import './shared/Quote';
 @import './shared/RichTextEditor';
-@import './shared/SearchBar';
-@import './shared/TextEditor';
 @import './shared/TextField';
 
 // UI Components

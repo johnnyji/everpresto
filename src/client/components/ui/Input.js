@@ -21,6 +21,7 @@ export default class Input extends Component {
     ]),
     icon: PropTypes.string,
     label: PropTypes.string.isRequired,
+    liveError: PropTypes.bool.isRequired,
     onUpdate: PropTypes.func.isRequired,
     patternMatches: PropTypes.oneOfType([
       PropTypes.arrayOf(
@@ -46,6 +47,7 @@ export default class Input extends Component {
     autoFocus: false,
     defaultValue: '',
     disabled: false,
+    liveError: false,
     patternMatches: {
       regex: /.*/,
       error: ''
@@ -72,13 +74,11 @@ export default class Input extends Component {
 
     return (
       <div className={classes}>
-
         {this.state.showLabel &&
           <label className={`${className}-label`}>
             {this.props.label}
           </label>
         }
-
         <input
           autoFocus={this.props.autoFocus}
           className={`${className}-input-field`}
@@ -91,13 +91,7 @@ export default class Input extends Component {
           onKeyPress={this._handleKeyPress}
           ref='input'
           type={this.props.type}/>
-
-        {Boolean(this.props.error) && !this.state.focused &&
-          <small className={`${className}-error`}>
-            {this.props.error}
-          </small>
-        }
-        
+          {this._renderError()}
       </div>
     );
 
@@ -142,17 +136,18 @@ export default class Input extends Component {
    * @return {String|Undefined} - The error string in `patternMatches` or undefined
    */
   _checkForError = (value) => {
-    if (Array.isArray(this.props.patternMatches)) {
+    const {patternMatches} = this.props;
+
+    if (Array.isArray(patternMatches)) {
       // Goes through all the regex patterns and returns the first the error of the
       // first pattern that the value doesn't match
-      const errorMatch = this.props.patternMatches.find((pattern) => {
+      const errorMatch = patternMatches.find((pattern) => {
         if (!pattern.regex.test(value)) return pattern.error;
       });
-
       return errorMatch === undefined ? undefined : errorMatch.error;
     } else {
       // Checks the validity of the value against the pattern, and returns an error if no match
-      return this.props.patternMatches.regex.test(value) ? undefined : this.props.patternMatches.error;
+      return patternMatches.regex.test(value) ? undefined : patternMatches.error;
     }
   }
 
@@ -202,6 +197,34 @@ export default class Input extends Component {
    */
   _handleKeyPress = (e) => {
     if (e.which === ENTER_KEY) this._submitValue(e.target.value);
+  }
+
+
+  /**
+   * Returns an error message on the input field for the user
+   *
+   * @return {React.Element|Undefined} - The error message to be rendered
+   */
+  _renderError = () => {
+    const {error, liveError} = this.props;
+    // If there's no error, we don't return anything
+    if (!Boolean(error)) return;
+    // If the `liveError` prop is true, we return error as long as there is one
+    if (liveError) {
+      return (
+        <small className={`${className}-error`}>
+          {this.props.error}
+        </small>
+      );
+    }
+    // If the `liveError` prop is not true, we only return an error when we're not focused
+    if (!this.state.focused) {
+      return (
+        <small className={`${className}-error`}>
+          {this.props.error}
+        </small>
+      );
+    }
   }
 
 

@@ -106,4 +106,4 @@ export default React.createClass({
       </svg>
     );
   }
-}); 
+});

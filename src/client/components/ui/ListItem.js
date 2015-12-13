@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import classNames from 'classnames';
-import Icon from './icon';
+import Icon from './Icon';
 
 const displayName = 'ListItem';
 

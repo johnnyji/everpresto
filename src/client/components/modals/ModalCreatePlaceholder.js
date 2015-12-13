@@ -3,13 +3,16 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import Immutable from 'immutable';
 import Button from '.././ui/Button';
 import Input from '.././ui/Input';
+import ModalEnhancer from '../.././decorators/ModalEnhancer';
 import ModalWrapper from '.././ui/ModalWrapper';
 import RegexHelper from '../.././utils/RegexHelper';
+import Spinner from '.././ui/Spinner';
 import mergeDeep from '../.././utils/mergeDeep';
 import AppActionCreators from '../.././actions/AppActionCreators';
 
 const displayName = 'ModalCreatePlaceholder';
 
+@ModalEnhancer
 export default class ModalCreatePlaceholder extends Component {
 
   static displayName = displayName;
@@ -40,15 +43,16 @@ export default class ModalCreatePlaceholder extends Component {
           label: null,
           value: null
         }
-      })
+      }),
+      submitting: false
     };
   }
 
   render() {
-    const {placeholder} = this.state;
+    const {placeholder, submitting} = this.state;
 
     return (
-      <ModalWrapper className={displayName} height={400} width={600}>
+      <ModalWrapper className={displayName} height={450} width={600}>
         <div className={`${displayName}-demo-section`}>
           <h2 className={`${displayName}-demo-section-heading`}>Placeholders make life easy!</h2>
           <p className={`${displayName}-demo-section-description`}>
@@ -56,30 +60,44 @@ export default class ModalCreatePlaceholder extends Component {
           </p>
         </div>
         <div className={`${displayName}-input-section`}>
-          <Input
-            autoFocus={true}
-            className={`${displayName}-input-section-input-field`}
-            defaultValue={placeholder.getIn(['values', 'label'])}
-            errorKeys='errors:label'
-            label='Display'
-            onUpdate={this._updatePlaceholder}
-            patternMatches={RegexHelper.minLength(1, 'What\'s the display label for your placeholder?')}
-            ref='label'
-            successKeys='values:label'/>
-          <Input
-            className={`${displayName}-input-section-input-field`}
-            defaultValue={placeholder.getIn(['values', 'value'])}
-            errorKeys='errors:value'
-            label='Value'
-            onUpdate={this._updatePlaceholder}
-            patternMatches={RegexHelper.minLength(1, 'What\'s the actual placeholder gonna be?')}
-            ref='value'
-            successKeys='values:value'/>
-          <Button
-            className={`${displayName}-input-section-save-button`}
-            color='green'
-            onClick={this._createPlaceholder}
-            text='Create Placeholder'/>
+          {submitting &&
+            <Spinner className={`${displayName}-input-section-spinner`}/>
+          }
+          {!submitting &&
+            <div>
+              <Input
+                autoFocus={true}
+                className={`${displayName}-input-section-input-field`}
+                defaultValue={placeholder.getIn(['values', 'label'])}
+                error={placeholder.getIn(['errors', 'label'])}
+                errorKeys='errors:label'
+                label='Display'
+                liveError={true}
+                onUpdate={this._updatePlaceholder}
+                patternMatches={RegexHelper.minLength(1, 'What\'s the display label for your placeholder?')}
+                ref='label'
+                successKeys='values:label'/>
+              <Input
+                className={`${displayName}-input-section-input-field`}
+                defaultValue={placeholder.getIn(['values', 'value'])}
+                error={placeholder.getIn(['errors', 'value'])}
+                errorKeys='errors:value'
+                label='Value'
+                liveError={true}
+                onUpdate={this._updatePlaceholder}
+                patternMatches={[
+                  RegexHelper.minLength(1, 'What\'s the actual placeholder gonna be?'),
+                  RegexHelper.noLowerCase('Sorry, no lower case chars allowed!')
+                ]}
+                ref='value'
+                successKeys='values:value'/>
+              <Button
+                className={`${displayName}-input-section-save-button`}
+                color='green'
+                onClick={this._createPlaceholder}
+                text='Create Placeholder'/>
+            </div>
+          }
         </div>
       </ModalWrapper>
     );
@@ -92,9 +110,8 @@ export default class ModalCreatePlaceholder extends Component {
   }
 
   _createPlaceholder = () => {
-    // Calls the valid method on every input field to make sure they're all valid
-    const firstFoundError = this.state.placeholder.get('errors').find((v, k) => this.refs[k].valid());
-
+    // Calls the valid method on every input field and returns the error of the first invalid field.
+    const firstFoundError = this.state.placeholder.get('errors').find((v, k) => !this.refs[k].valid());
     if (firstFoundError !== undefined) return this._createFlashError(firstFoundError);
 
     const {placeholders} = this.props;
@@ -102,15 +119,15 @@ export default class ModalCreatePlaceholder extends Component {
 
     // If the display name for the placeholder is already being used, alert an error
     const label = placeholder.getIn(['values', 'label']);
-    const alreadyExistingPlaceholderLabels = placeholders.map((p) => p.get('label'));
-    if (alreadyExistingPlaceholderLabels.indexOf(label) > -1) {
+    const alreadyExistingPlaceholderLabels = placeholders.find((p) => p.get('label') === label);
+    if (alreadyExistingPlaceholderLabels) {
       return this._createFlashError(`${label} is already being used for another placeholder. Try something else!`);
     }
 
     // If the placeholder is already taken, alert an error
-    const alreadyExistingPlaceholderValues = placeholders.map((p) => p.get('value'));
     const value = placeholder.getIn(['values', 'value']);
-    if (alreadyExistingPlaceholderValues.indexOf(value) > -1) {
+    const alreadyExistingPlaceholderValues = placeholders.find((p) => p.get('value') === value);
+    if (alreadyExistingPlaceholderValues) {
       return this._createFlashError(
         <span>
           <mark>{value}</mark> is already a placeholder for this template. Try something else!
@@ -118,15 +135,23 @@ export default class ModalCreatePlaceholder extends Component {
       );
     }
 
-    // Fires a callback to add the placeholder to the template
-    this.props.onCreate(placeholder.get('values'));
+    this.setState({
+      submitting: true
+    });
 
-    AppActionCreators.dismissModal();
+    this._submitPlaceholder();
   }
 
   _updatePlaceholder = (value, error, nestedValueObj, nestedErrorObj) => {
     const placeholder = this.state.placeholder.mergeDeep(mergeDeep(nestedValueObj, nestedErrorObj));
     this.setState({placeholder});
+  }
+
+  _submitPlaceholder = () => {
+    setTimeout(() => {
+      this.props.onCreate(this.state.placeholder.get('values'));
+      this.context.dispatch(AppActionCreators.dismissModal());
+    }, 500);
   }
 
 }
