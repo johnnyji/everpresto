@@ -67,7 +67,7 @@ const TextEditorHelper = {
    * @param  {String} text - The string of text that possibly contains zero width spaces
    * @return {String}      - The new string of text with all the zero width spaces removed
    */
-  removeZeroWidthSpace(text) {
+  removeZeroWithSpace(text) {
     return text.replace(/\u200B/g, '');
   },
 

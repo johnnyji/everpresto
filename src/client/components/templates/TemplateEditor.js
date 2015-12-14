@@ -7,6 +7,39 @@ import 'rangy/lib/rangy-textrange';
 import RichTextEditor from '.././shared/RichTextEditor';
 import TextEditorHelper from '../.././utils/TextEditorHelper';
 
+function getSelectionTextInfo(el) {
+    var atStart = false, atEnd = false;
+    var selRange, testRange;
+    if (window.getSelection) {
+        var sel = window.getSelection();
+        if (sel.rangeCount) {
+            selRange = sel.getRangeAt(0);
+            testRange = selRange.cloneRange();
+
+            testRange.selectNodeContents(el);
+            testRange.setEnd(selRange.startContainer, selRange.startOffset);
+            atStart = (testRange.toString() == "");
+
+            testRange.selectNodeContents(el);
+            testRange.setStart(selRange.endContainer, selRange.endOffset);
+            atEnd = (testRange.toString() == "");
+        }
+    } else if (document.selection && document.selection.type != "Control") {
+        selRange = document.selection.createRange();
+        testRange = selRange.duplicate();
+        
+        testRange.moveToElementText(el);
+        testRange.setEndPoint("EndToStart", selRange);
+        atStart = (testRange.text == "");
+
+        testRange.moveToElementText(el);
+        testRange.setEndPoint("StartToEnd", selRange);
+        atEnd = (testRange.text == "");
+    }
+
+    return { atStart: atStart, atEnd: atEnd };
+}
+
 const PLACEHOLDER_CLASS = 'template-placeholder';
 
 export default class TemplateEditor extends Component {
@@ -61,17 +94,34 @@ export default class TemplateEditor extends Component {
     if (savedSelection) {
       const sel = rangy.getSelection();
       sel.restoreCharacterRanges(findDOMNode(this), savedSelection);
-      sel.move('character', 1, {
-        characterOptions: {
-          ignoreCharacters: '\u200B'
-        }
-      });
-      sel.move('character', -1, {
-        characterOptions: {
-          ignoreCharacters: '\u200B'
-        }
-      });
-      console.log(this.props.text);
+
+      const caretInfo = getSelectionTextInfo(findDOMNode(this));
+
+      // TODO: Refactor the FUCK out of this.
+      // If we're already at the start, don't shift
+      if (!caretInfo.atEnd) {
+        sel.move('character', 1, {
+          characterOptions: {
+            ignoreCharacters: '\u200B'
+          }
+        });
+        sel.move('character', -1, {
+          characterOptions: {
+            ignoreCharacters: '\u200B'
+          }
+        });
+      } else {
+        sel.move('character', -1, {
+          characterOptions: {
+            ignoreCharacters: '\u200B'
+          }
+        });
+        sel.move('character', 1, {
+          characterOptions: {
+            ignoreCharacters: '\u200B'
+          }
+        });
+      }
     }
   }
 
