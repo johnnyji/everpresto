@@ -67,8 +67,7 @@ export default class RichTextEditor extends Component {
       <div
         className={classes}
         contentEditable
-        dangerouslySetInnerHTML={{__html: this.state.text}}
-        style={{display: 'inline-block'}}></div>
+        dangerouslySetInnerHTML={{__html: this.state.text}}></div>
     );
   }
 

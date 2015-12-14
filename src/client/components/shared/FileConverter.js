@@ -104,4 +104,5 @@ export default class FileConverter extends Component {
     const matched = this.props.permittedExtensions.find((ext) => ext === filenameExtension);
     return Boolean(matched);
   }
+
 }

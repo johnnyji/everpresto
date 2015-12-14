@@ -2,29 +2,12 @@ import React, {Component, PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 import Immutable from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import rangy from 'rangy';
+import 'rangy/lib/rangy-textrange';
 import RichTextEditor from '.././shared/RichTextEditor';
 import TextEditorHelper from '../.././utils/TextEditorHelper';
 
 const PLACEHOLDER_CLASS = 'template-placeholder';
-
-const handleFocus = function() {
-  window.setTimeout(function() {
-      var sel, range;
-      if (window.getSelection && document.createRange) {
-          range = document.createRange();
-          range.selectNodeContents(div);
-          range.collapse(true);
-          sel = window.getSelection();
-          sel.removeAllRanges();
-          sel.addRange(range);
-      } else if (document.body.createTextRange) {
-          range = document.body.createTextRange();
-          range.moveToElementText(div);
-          range.collapse(true);
-          range.select();
-      }
-  }, 1);
-}
 
 export default class TemplateEditor extends Component {
 
@@ -32,19 +15,29 @@ export default class TemplateEditor extends Component {
 
   static propTypes = {
     className: PropTypes.string,
+    onUpdate: PropTypes.func.isRequired,
     templatePlaceholders: ImmutablePropTypes.listOf(PropTypes.string).isRequired,
-    text: PropTypes.string.isRequired,
-    onUpdate: PropTypes.func.isRequired
+    text: PropTypes.string.isRequired
   };
 
   static defaultProps = {
     templatePlaceholders: Immutable.List()
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      savedSelection: null
+    };
+  }
+
+  componentWillMount() {
+    rangy.init();
+  }
+
   componentDidMount() {
     const editor = findDOMNode(this);
     this._handleUpdate(this.props.text);
-    editor.addEventListener('onfocus', handleFocus)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -63,14 +56,23 @@ export default class TemplateEditor extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const editor = findDOMNode(this);
-    editor.focus();
-    // TextEditorHelper.placeCaretAtEnd(editor);
-  }
+    const {savedSelection} = this.state;
 
-  componentWillUnmount() {
-    const editor = findDOMNode(this);
-    editor.removeEventListener('onfocus', handleFocus);
+    if (savedSelection) {
+      const sel = rangy.getSelection();
+      sel.restoreCharacterRanges(findDOMNode(this), savedSelection);
+      sel.move('character', 1, {
+        characterOptions: {
+          ignoreCharacters: '\u200B'
+        }
+      });
+      sel.move('character', -1, {
+        characterOptions: {
+          ignoreCharacters: '\u200B'
+        }
+      });
+      console.log(this.props.text);
+    }
   }
 
   render() {
@@ -86,6 +88,10 @@ export default class TemplateEditor extends Component {
 
   _handleUpdate = (htmlText, rawText) => {
     const {templatePlaceholders, onUpdate} = this.props;
+
+    const savedSelection = rangy.getSelection().saveCharacterRanges(findDOMNode(this));
+    this.setState({savedSelection});
+
     let parsedHtmlText = htmlText;
     // If we enable the ability to highlight template placeholders, we want to
     // check for new placeholders everytime the text changes

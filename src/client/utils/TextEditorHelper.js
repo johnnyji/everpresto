@@ -67,7 +67,7 @@ const TextEditorHelper = {
    * @param  {String} text - The string of text that possibly contains zero width spaces
    * @return {String}      - The new string of text with all the zero width spaces removed
    */
-  removeZeroWithSpace(text) {
+  removeZeroWidthSpace(text) {
     return text.replace(/\u200B/g, '');
   },
 
@@ -97,7 +97,7 @@ const TextEditorHelper = {
     // add a unicode zero-width character,
     // refer to: http://stackoverflow.com/questions/21574522/contenteditable-put-caret-outside-inserted-span
     const htmlWord = isContentEditable
-      ? `${openingTag}${word}${closingTag}&#8203;`
+      ? `${openingTag}${word}${closingTag}\u200B`
       : `${openingTag}${word}${closingTag}`;
 
     return text.replace(matcher, (word, wordStartingIndex) => {
