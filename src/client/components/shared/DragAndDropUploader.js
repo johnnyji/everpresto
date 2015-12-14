@@ -7,7 +7,7 @@ import Icon from '.././ui/Icon';
 
 import TextHelper from '../.././utils/TextHelper';
 
-export default class FileUploader extends Component {
+export default class DragAndDropUploader extends Component {
 
   static propTypes = {
     files: React.PropTypes.arrayOf(PropTypes.string).isRequired,

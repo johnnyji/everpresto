@@ -29,10 +29,10 @@ export default class RichTextEditor extends Component {
   }
 
   componentDidMount() {
-    const componentDOM = findDOMNode(this);
-    const toolbarButtons = ['bold', 'italic', 'underline', 'quote', 'unorderedlist'];
+    const editor = findDOMNode(this);
+    const toolbarButtons = ['bold', 'italic', 'underline', 'quote', 'unorderedlist', 'orderedlist'];
 
-    this.medium = new MediumEditor(componentDOM, {
+    this.medium = new MediumEditor(editor, {
       placeholder: false,
       toolbar: {buttons: toolbarButtons}
     });
@@ -43,12 +43,12 @@ export default class RichTextEditor extends Component {
     });
 
     // Does the initial updating.
-    this._handleUpdate(componentDOM.innerHTML);
+    this._handleUpdate(editor.innerHTML);
   }
 
   componentWillReceiveProps(nextProps) {
     const {text} = nextProps;
-    
+
     if (text !== this.state.text) {
       this.setState({text});
     }
@@ -67,28 +67,13 @@ export default class RichTextEditor extends Component {
       <div
         className={classes}
         contentEditable
-        dangerouslySetInnerHTML={{__html: this.state.text}}></div>
+        dangerouslySetInnerHTML={{__html: this.state.text}}
+        style={{display: 'inline-block'}}></div>
     );
   }
 
   _handleUpdate = (text) => {
-    // const {isTemplateEditor, templatePlaceholders, onUpdate} = this.props;
-    // let parsedText = text;
-    // If we enable the ability to highlight template placeholders, we want to
-    // check for new placeholders everytime the text changes
-    // if (isTemplateEditor && templatePlaceholders.size > 0) {
-    //   parsedText = TextEditorHelper.highlightText(text, templatePlaceholders, PLACEHOLDER_CLASS);
-    // }
-
-    // TODO: When we delete a highlighted word or even a word with some style, the browser will automatically drag
-    // that style on when you type something else, but in the form of inline-styling. We could write a regex tester that
-    // removes it but try and find a better solution... Possible solutions? =>
-    // 
-    // http://www.neotericdesign.com/blog/2013/3/working-around-chrome-s-contenteditable-span-bug
-    // http://stackoverflow.com/questions/19243432/prevent-contenteditable-mode-from-creating-span-tags
-    // http://stackoverflow.com/questions/15015019/prevent-chrome-from-wrapping-contents-of-joined-p-with-a-span
-    // onUpdate(parsedText);
-    this.props.onUpdate(text);
+    this.props.onUpdate(text, findDOMNode(this).innerText);
   }
 
 }

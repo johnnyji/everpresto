@@ -1,6 +1,7 @@
 // TODO: Use `_.debounce` to make the placeholder finding less expensive?
 import React, {Component, PropTypes} from 'react';
 import Immutable from 'immutable';
+import mammoth from 'mammoth';
 import AppActionCreators from '../.././actions/AppActionCreators';
 
 import Button from '.././ui/Button';
@@ -11,6 +12,7 @@ import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
 import ModalCreatePlaceholder from '.././modals/ModalCreatePlaceholder';
 import DocumentEditor from '.././shared/DocumentEditor';
 import EditorSidebar from '.././shared/EditorSidebar';
+import FileConverter from '.././shared/FileConverter';
 
 const displayName = 'TemplatesNew';
 
@@ -28,8 +30,9 @@ export default class TemplatesNew extends Component {
       template: Immutable.fromJS({
         placeholders: [],
         title: '',
-        body: ''
-      })
+        body: `Something about the sunshine`
+      }),
+      importingTemplate: false
     };
   }
 
@@ -48,6 +51,7 @@ export default class TemplatesNew extends Component {
           titlePlaceholder='Untitled Template'
           title={template.get('title')}/>
         <EditorSidebar>
+          <FileConverter onEnd={this._handleTemplateUploadEnd} onStart={this._handleTemplateUploadStart} />
           <Button color='blue' icon='add' onClick={this._showAddPlaceholderModal} text='Add Placeholder' />
           <List>{this._renderPlaceholders()}</List>
           <Button
@@ -64,10 +68,15 @@ export default class TemplatesNew extends Component {
     return this.state.template.get('placeholders').push(newPlaceholder);
   }
 
-  _updateTemplateAttribute = (attr, value) => {
+  _handleTemplateUploadEnd = (htmlText) => {
     this.setState({
-      template: this.state.template.set(attr, value)
+      importingTemplate: false,
+      template: this.state.template.set('body', htmlText)
     });
+  }
+
+  _handleTemplateUploadStart = () => {
+    this.setState({importingTemplate: true});
   }
 
   _removePlaceholder = (placeholderObj) => {
@@ -83,7 +92,7 @@ export default class TemplatesNew extends Component {
           onRemove={() => this._updateTemplateAttribute('placeholders', this._removePlaceholder(placeholder))}
           removable={true}>
           {placeholder.get('label')}
-          <Icon icon='arrow-forward' />
+          <Icon icon='arrow-forward' size={12} />
           <mark>{placeholder.get('value')}</mark>
         </ListItem>
       );
@@ -98,6 +107,12 @@ export default class TemplatesNew extends Component {
           placeholders={this.state.template.get('placeholders')}/>
       )
     );
+  }
+
+  _updateTemplateAttribute = (attr, value) => {
+    this.setState({
+      template: this.state.template.set(attr, value)
+    });
   }
 
 }

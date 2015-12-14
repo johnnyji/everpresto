@@ -7,6 +7,25 @@ import TextEditorHelper from '../.././utils/TextEditorHelper';
 
 const PLACEHOLDER_CLASS = 'template-placeholder';
 
+const handleFocus = function() {
+  window.setTimeout(function() {
+      var sel, range;
+      if (window.getSelection && document.createRange) {
+          range = document.createRange();
+          range.selectNodeContents(div);
+          range.collapse(true);
+          sel = window.getSelection();
+          sel.removeAllRanges();
+          sel.addRange(range);
+      } else if (document.body.createTextRange) {
+          range = document.body.createTextRange();
+          range.moveToElementText(div);
+          range.collapse(true);
+          range.select();
+      }
+  }, 1);
+}
+
 export default class TemplateEditor extends Component {
 
   static displayName = 'TemplateEditor';
@@ -23,7 +42,9 @@ export default class TemplateEditor extends Component {
   };
 
   componentDidMount() {
+    const editor = findDOMNode(this);
     this._handleUpdate(this.props.text);
+    editor.addEventListener('onfocus', handleFocus)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -42,8 +63,14 @@ export default class TemplateEditor extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const editor = findDOMNode(this)
-    TextEditorHelper.placeCaretAtEnd(editor);
+    const editor = findDOMNode(this);
+    editor.focus();
+    // TextEditorHelper.placeCaretAtEnd(editor);
+  }
+
+  componentWillUnmount() {
+    const editor = findDOMNode(this);
+    editor.removeEventListener('onfocus', handleFocus);
   }
 
   render() {
@@ -57,13 +84,13 @@ export default class TemplateEditor extends Component {
     );
   }
 
-  _handleUpdate = (text) => {
+  _handleUpdate = (htmlText, rawText) => {
     const {templatePlaceholders, onUpdate} = this.props;
-    let parsedText = text;
+    let parsedHtmlText = htmlText;
     // If we enable the ability to highlight template placeholders, we want to
     // check for new placeholders everytime the text changes
     if (templatePlaceholders.size > 0) {
-      parsedText = TextEditorHelper.highlightText(text, templatePlaceholders, PLACEHOLDER_CLASS);
+      parsedHtmlText = TextEditorHelper.highlightText(htmlText, templatePlaceholders, PLACEHOLDER_CLASS);
     }
 
     // TODO: When we delete a highlighted word or even a word with some style, the browser will automatically drag
@@ -73,7 +100,7 @@ export default class TemplateEditor extends Component {
     // http://www.neotericdesign.com/blog/2013/3/working-around-chrome-s-contenteditable-span-bug
     // http://stackoverflow.com/questions/19243432/prevent-contenteditable-mode-from-creating-span-tags
     // http://stackoverflow.com/questions/15015019/prevent-chrome-from-wrapping-contents-of-joined-p-with-a-span
-    onUpdate(parsedText);
+    onUpdate(parsedHtmlText, rawText);
   }
 
 }

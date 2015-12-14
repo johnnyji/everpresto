@@ -53,18 +53,27 @@ export default class DocumentEditor extends Component {
         {isTemplateEditor &&
           <TemplateEditor
             className={`${displayName}-content-input`}
-            onUpdate={onBodyChange}
+            onUpdate={this._handleBodyChange}
             templatePlaceholders={templatePlaceholders}
             text={body}/>
         }
         {!isTemplateEditor &&
           <RichTextEditor
             className={`${displayName}-content-input`}
-            onUpdate={onBodyChange}
+            onUpdate={this._handleBodyChange}
             text={body}/>
         }
       </Card>
     );
+  }
+
+  _handleBodyChange = (htmlText, rawText) => {
+    const {onBodyChange} = this.props;
+
+    if (rawText === '') {
+      return onBodyChange('<div><br/></div>');
+    }
+    onBodyChange(htmlText);
   }
 
   _handleTitleChange = (e) => {

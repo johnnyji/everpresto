@@ -21,7 +21,10 @@ export default class AppHandler extends Component {
     dispatch: PropTypes.func.isRequired,
     flash: ImmutablePropTypes.contains({
       color: PropTypes.oneOf(['blue', 'green', 'red', 'yellow']),
-      message: PropTypes.string,
+      message: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.element
+      ]),
     }).isRequired,
     modal: ImmutablePropTypes.contains({
       display: PropTypes.bool.isRequired,
