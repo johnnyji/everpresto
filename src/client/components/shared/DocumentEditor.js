@@ -69,11 +69,11 @@ export default class DocumentEditor extends Component {
 
   _handleBodyChange = (htmlText, rawText) => {
     const {onBodyChange} = this.props;
-
+    
     if (rawText === '') {
-      return onBodyChange('<div><br/></div>');
+      return onBodyChange('<div><br/></div>', rawText);
     }
-    onBodyChange(htmlText);
+    onBodyChange(htmlText, rawText);
   }
 
   _handleTitleChange = (e) => {

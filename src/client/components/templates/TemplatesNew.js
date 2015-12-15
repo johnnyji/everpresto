@@ -10,6 +10,7 @@ import List from '.././ui/List';
 import ListItem from '.././ui/ListItem';
 import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
 import ModalCreatePlaceholder from '.././modals/ModalCreatePlaceholder';
+import ModalConfirm from '.././modals/ModalConfirm';
 import DocumentEditor from '.././shared/DocumentEditor';
 import EditorSidebar from '.././shared/EditorSidebar';
 import FileConverter from '.././shared/FileConverter';
@@ -29,8 +30,9 @@ export default class TemplatesNew extends Component {
     this.state = {
       template: Immutable.fromJS({
         placeholders: [],
-        title: '',
-        body: `Something about the sunshine`
+        title: 'd',
+        htmlText: 'd',
+        rawText: 'd'
       }),
       importingTemplate: false
     };
@@ -43,9 +45,9 @@ export default class TemplatesNew extends Component {
     return (
       <DashboardContentWrapper className={displayName}>
         <DocumentEditor
-          body={template.get('body')}
+          body={template.get('htmlText')}
           isTemplateEditor={true}
-          onBodyChange={(value) => this._updateTemplateAttribute('body', value)}
+          onBodyChange={this._handleBodyChange}
           onTitleChange={(value) => this._updateTemplateAttribute('title', value)}
           templatePlaceholders={placeholderValues}
           titlePlaceholder='Untitled Template'
@@ -57,7 +59,7 @@ export default class TemplatesNew extends Component {
           <Button
             color='green'
             icon='done'
-            onClick={() => {}}
+            onClick={this._saveTemplate}
             text='Create Template!' />
         </EditorSidebar>
       </DashboardContentWrapper>
@@ -68,10 +70,20 @@ export default class TemplatesNew extends Component {
     return this.state.template.get('placeholders').push(newPlaceholder);
   }
 
-  _handleTemplateUploadEnd = (htmlText) => {
+  _createError = (message) => {
+    this.context.dispatch(AppActionCreators.createFlashMessage('red', message));
+  }
+
+  _handleBodyChange = (htmlText, rawText) => {
+    this.setState({
+      template: this.state.template.merge({htmlText, rawText})
+    });
+  }
+
+  _handleTemplateUploadEnd = (htmlText, rawText) => {
     this.setState({
       importingTemplate: false,
-      template: this.state.template.set('body', htmlText)
+      template: this.state.template.merge({htmlText, rawText})
     });
   }
 
@@ -97,6 +109,25 @@ export default class TemplatesNew extends Component {
         </ListItem>
       );
     });
+  }
+
+  _saveTemplate = () => {
+    const {template} = this.state;
+
+    if (template.get('title').length === 0) return this._createError('Please provide a title for your template!');
+    if (template.get('rawText').length === 0) return this._createError('Your template can\'t be blank, duh...');
+    if (template.get('placeholders').size === 0) {
+      this.context.dispatch(
+        AppActionCreators.createModal(
+          <ModalConfirm
+            confirmText='Yes, go ahead!'
+            onConfirm={() => {}}>
+            It looks like you have no placeholders. Are you sure you want to create a template 
+            widthout placeholders? - kinda defeats the purpose of a template... Just sayin'
+          </ModalConfirm>
+        )
+      );
+    }
   }
 
   _showAddPlaceholderModal = () => {

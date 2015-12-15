@@ -136,7 +136,7 @@ export default class TemplateEditor extends Component {
     );
   }
 
-  _handleUpdate = (htmlText, rawText) => {
+  _handleUpdate = (htmlText = findDOMNode(this).innerHTML, rawText = findDOMNode(this).innerText) => {
     const {templatePlaceholders, onUpdate} = this.props;
 
     const savedSelection = rangy.getSelection().saveCharacterRanges(findDOMNode(this));

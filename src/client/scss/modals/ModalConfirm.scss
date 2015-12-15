@@ -1,0 +1,15 @@
+.ModalConfirm {
+  @include display(flex);
+  @include flex-flow(column wrap);
+  @include justify-content(center);
+  &-content {
+    @include flex-grow(1);
+    background-color: yellow;
+  }
+  &-button-group {
+    background-color: aliceblue;
+    @include display(flex);
+    &-button {
+    }
+  }
+}

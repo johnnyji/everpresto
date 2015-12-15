@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import mammoth from 'mammoth';
+import strigtags from 'striptags';
 import AppActionCreators from '../.././actions/AppActionCreators';
 
 const displayName = 'FileConverter';
@@ -90,7 +91,7 @@ export default class FileConverter extends Component {
     };
 
     // Reads the user uploaded file as an array buffer
-    reader.readAsArrayBuffer(file);
+    reader.readAsArrayBuffer(file, striptags(file));
   }
 
   /**
