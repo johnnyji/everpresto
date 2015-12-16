@@ -5,6 +5,7 @@ const HIGHLIGHT_CLASS = 'highlighted';
 
 const TextEditorHelper = {
 
+
   /**
    * Goes through a string of text and highlights every unhighlighted word that matches the
    * words provided in the keywords list
@@ -18,6 +19,48 @@ const TextEditorHelper = {
     return keywords.reduce((alteredText, placeholder) => {
       return this.replaceWordWithHtml(alteredText, placeholder, HIGHLIGHT_TAG, className, true);
     }, text);
+  },
+
+
+  /**
+   * Marks the current position of the caret by inserting a tag with a special ID as reference
+   *
+   * @param  {DOM.Element} ele               - The content editable element we're marking the caret position of
+   * @param  {DOM.Element} caretIndexFinder  - The invisible DOM element that we insert to temporarily mark the caret position
+   * @param  {String} caretMarkerNode        - The DOM node we'll inject into our HTML string as a placeholder for
+   *                                           where the caret is
+   * @param  {RegExp} caretMarkerNodeMatcher - The Regex of the `caretMarkerNode`, so we can match and remove the
+   *                                           previous marker if there is one in the HTML string
+   * @return {String}                        - The string with the caret marker injected so we know where the caret last was
+   */
+  markCurrentCaretPosition(ele, text, caretIndexFinder, caretMarkerNode, caretMarkerNodeMatcher) {
+    //Inserts the caret marker into the current caret position
+    document.getSelection().getRangeAt(0).insertNode(caretIndexFinder);
+    // Finds the index of the marker in the HTML String.
+    const currentCaretPosition = ele.innerHTML.indexOf('\u0001');
+    // Removes the marker as soon as the index is found.
+    caretIndexFinder.parentNode.removeChild(caretIndexFinder);
+    // Removes the previous marker from the text if there is one, and adds a new marker where the caret is.
+    let caretMarkedText = text.replace(caretMarkerNodeMatcher, '');
+    return caretMarkedText.slice(0, currentCaretPosition) + caretMarkerNode + caretMarkedText.slice(currentCaretPosition);
+  },
+
+
+  /**
+   *  Places the caret directly after a specified node
+   *
+   * @param  {DOM.Element} node - The DOM Node that we're placing the caret after
+   */
+  placeCaretAfterNode(node) {
+    if (typeof window.getSelection != "undefined") {
+      const range = document.createRange();
+      range.setStartAfter(node);
+      range.collapse(true);
+
+      const selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(range);
+    }
   },
 
 

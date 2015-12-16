@@ -2,45 +2,11 @@ import React, {Component, PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 import Immutable from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import rangy from 'rangy';
-import 'rangy/lib/rangy-textrange';
 import RichTextEditor from '.././shared/RichTextEditor';
 import TextEditorHelper from '../.././utils/TextEditorHelper';
+import Config from '../.././config/main';
 
-function getSelectionTextInfo(el) {
-    var atStart = false, atEnd = false;
-    var selRange, testRange;
-    if (window.getSelection) {
-        var sel = window.getSelection();
-        if (sel.rangeCount) {
-            selRange = sel.getRangeAt(0);
-            testRange = selRange.cloneRange();
-
-            testRange.selectNodeContents(el);
-            testRange.setEnd(selRange.startContainer, selRange.startOffset);
-            atStart = (testRange.toString() == "");
-
-            testRange.selectNodeContents(el);
-            testRange.setStart(selRange.endContainer, selRange.endOffset);
-            atEnd = (testRange.toString() == "");
-        }
-    } else if (document.selection && document.selection.type != "Control") {
-        selRange = document.selection.createRange();
-        testRange = selRange.duplicate();
-        
-        testRange.moveToElementText(el);
-        testRange.setEndPoint("EndToStart", selRange);
-        atStart = (testRange.text == "");
-
-        testRange.moveToElementText(el);
-        testRange.setEndPoint("StartToEnd", selRange);
-        atEnd = (testRange.text == "");
-    }
-
-    return { atStart: atStart, atEnd: atEnd };
-}
-
-const PLACEHOLDER_CLASS = 'template-placeholder';
+const PLACEHOLDER_CLASS = Config.template.placeholderClass;
 
 export default class TemplateEditor extends Component {
 
@@ -64,10 +30,6 @@ export default class TemplateEditor extends Component {
     };
   }
 
-  componentWillMount() {
-    rangy.init();
-  }
-
   componentDidMount() {
     const editor = findDOMNode(this);
     this._handleUpdate(this.props.text);
@@ -88,43 +50,6 @@ export default class TemplateEditor extends Component {
     }
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    const {savedSelection} = this.state;
-
-    if (savedSelection) {
-      const sel = rangy.getSelection();
-      sel.restoreCharacterRanges(findDOMNode(this), savedSelection);
-
-      const caretInfo = getSelectionTextInfo(findDOMNode(this));
-
-      // TODO: Refactor the FUCK out of this.
-      // If we're already at the start, don't shift
-      if (!caretInfo.atEnd) {
-        sel.move('character', 1, {
-          characterOptions: {
-            ignoreCharacters: '\u200B'
-          }
-        });
-        sel.move('character', -1, {
-          characterOptions: {
-            ignoreCharacters: '\u200B'
-          }
-        });
-      } else {
-        sel.move('character', -1, {
-          characterOptions: {
-            ignoreCharacters: '\u200B'
-          }
-        });
-        sel.move('character', 1, {
-          characterOptions: {
-            ignoreCharacters: '\u200B'
-          }
-        });
-      }
-    }
-  }
-
   render() {
     const {className, text} = this.props;
 
@@ -139,9 +64,6 @@ export default class TemplateEditor extends Component {
   _handleUpdate = (htmlText = findDOMNode(this).innerHTML, rawText = findDOMNode(this).innerText) => {
     const {templatePlaceholders, onUpdate} = this.props;
 
-    const savedSelection = rangy.getSelection().saveCharacterRanges(findDOMNode(this));
-    this.setState({savedSelection});
-
     let parsedHtmlText = htmlText;
     // If we enable the ability to highlight template placeholders, we want to
     // check for new placeholders everytime the text changes
@@ -149,13 +71,6 @@ export default class TemplateEditor extends Component {
       parsedHtmlText = TextEditorHelper.highlightText(htmlText, templatePlaceholders, PLACEHOLDER_CLASS);
     }
 
-    // TODO: When we delete a highlighted word or even a word with some style, the browser will automatically drag
-    // that style on when you type something else, but in the form of inline-styling. We could write a regex tester that
-    // removes it but try and find a better solution... Possible solutions? =>
-    // 
-    // http://www.neotericdesign.com/blog/2013/3/working-around-chrome-s-contenteditable-span-bug
-    // http://stackoverflow.com/questions/19243432/prevent-contenteditable-mode-from-creating-span-tags
-    // http://stackoverflow.com/questions/15015019/prevent-chrome-from-wrapping-contents-of-joined-p-with-a-span
     onUpdate(parsedHtmlText, rawText);
   }
 

@@ -4,7 +4,12 @@ import classNames from 'classnames';
 import Immutable from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import MediumEditor from 'medium-editor';
+import TextEditorHelper from '../.././utils/TextEditorHelper';
+import Config from '../.././config/main';
 
+const caretIndexFinder = document.createTextNode('\u0001');
+const {caretMarkerNode, caretMarkerNodeId} = Config.richTextEditor;
+const caretMarkerNodeMatcher = new RegExp(caretMarkerNode);
 const displayName = 'RichTextEditor';
 
 export default class RichTextEditor extends Component {
@@ -49,11 +54,15 @@ export default class RichTextEditor extends Component {
   componentWillReceiveProps(nextProps) {
     const {text} = nextProps;
 
-    if (text !== this.state.text) {
-      this.setState({text});
-    }
+    if (text !== this.state.text) this.setState({text});
 
     if (this._updated) this._updated = false;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const caretMarker = document.getElementById(caretMarkerNodeId);
+
+    if (caretMarker) TextEditorHelper.placeCaretAfterNode(caretMarker);
   }
 
   componentWillUnmount() {
@@ -72,7 +81,19 @@ export default class RichTextEditor extends Component {
   }
 
   _handleUpdate = (text) => {
-    this.props.onUpdate(text, findDOMNode(this).innerText);
+    // Marks the current caret position in the HTML text
+    const textWithCaretPosMarked = TextEditorHelper.markCurrentCaretPosition(
+      findDOMNode(this),
+      text,
+      caretIndexFinder,
+      caretMarkerNode,
+      caretMarkerNodeMatcher
+    );
+
+    this.props.onUpdate(
+      textWithCaretPosMarked,
+      findDOMNode(this).innerText
+    );
   }
 
 }

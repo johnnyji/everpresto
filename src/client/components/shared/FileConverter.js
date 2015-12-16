@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import mammoth from 'mammoth';
-import strigtags from 'striptags';
+import striptags from 'striptags';
 import AppActionCreators from '../.././actions/AppActionCreators';
 
 const displayName = 'FileConverter';

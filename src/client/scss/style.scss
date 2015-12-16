@@ -44,6 +44,7 @@
 
 // Modals
 @import './modals/ModalCreatePlaceholder';
+@import './modals/ModalConfirm';
 
 // Templates
 @import './templates/TemplatesNew';
@@ -91,10 +92,6 @@ body {
   position: absolute;
   height: 100%;
   width: 100%;
-}
-
-.template-placeholder {
-  background-color: yellow;
 }
 
 *, *:before, *:after {

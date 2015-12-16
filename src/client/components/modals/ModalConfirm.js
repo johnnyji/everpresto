@@ -16,7 +16,7 @@ export default class ModalConfirm extends Component {
   };
 
   static propTypes = {
-    className: PropTypes.string.isRequired,
+    className: PropTypes.string,
     confirmText: PropTypes.string.isRequired,
     onConfirm: PropTypes.func.isRequired,
     onRegret: PropTypes.func,
