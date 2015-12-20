@@ -1,7 +1,7 @@
 const requireUser = (req, res, next) => {
-  req.session.userId
-    ? next()
-    : res.redirect('/');
+  if (req.session.userId) return next();
+
+  res.status(401).json({message: 'Error. Please authenticate before performing this action.'});
 };
 
 export default requireUser;

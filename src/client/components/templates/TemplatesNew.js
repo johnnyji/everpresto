@@ -59,7 +59,7 @@ export default class TemplatesNew extends Component {
           <Button
             color='green'
             icon='done'
-            onClick={this._saveTemplate}
+            onClick={this._validateTemplate}
             text='Create Template!' />
         </EditorSidebar>
       </DashboardContentWrapper>
@@ -72,6 +72,12 @@ export default class TemplatesNew extends Component {
 
   _createError = (message) => {
     this.context.dispatch(AppActionCreators.createFlashMessage('red', message));
+  }
+
+  _createTemplate = () => {
+    this.context.dispatch(
+      TemplateActionCreators.createTemplate(this.state.template)
+    );
   }
 
   _handleBodyChange = (htmlText, rawText) => {
@@ -111,25 +117,6 @@ export default class TemplatesNew extends Component {
     });
   }
 
-  _saveTemplate = () => {
-    const {template} = this.state;
-
-    if (template.get('title').length === 0) return this._createError('Please provide a title for your template!');
-    if (template.get('rawText').length === 0) return this._createError('Your template can\'t be blank, duh...');
-    if (template.get('placeholders').size === 0) {
-      this.context.dispatch(
-        AppActionCreators.createModal(
-          <ModalConfirm
-            confirmText='Yes, go ahead!'
-            onConfirm={() => {}}>
-            It looks like you have no placeholders. Are you sure you want to create a template 
-            widthout placeholders? - kinda defeats the purpose of a template... Just sayin'
-          </ModalConfirm>
-        )
-      );
-    }
-  }
-
   _showAddPlaceholderModal = () => {
     this.context.dispatch(
       AppActionCreators.createModal(
@@ -144,6 +131,25 @@ export default class TemplatesNew extends Component {
     this.setState({
       template: this.state.template.set(attr, value)
     });
+  }
+
+  _validateTemplate = () => {
+    const {template} = this.state;
+    debugger;
+    if (template.get('title').length === 0) return this._createError('Please provide a title for your template!');
+    if (template.get('rawText').length === 0) return this._createError('Your template can\'t be blank, duh...');
+    if (template.get('placeholders').size === 0) {
+      this.context.dispatch(
+        AppActionCreators.createModal(
+          <ModalConfirm
+            confirmText='Yes, go ahead!'
+            onConfirm={this._createTemplate}>
+            It looks like you have no placeholders. Are you sure you want to create a template 
+            widthout placeholders? - kinda defeats the purpose of a template... Just sayin'
+          </ModalConfirm>
+        )
+      );
+    }
   }
 
 }

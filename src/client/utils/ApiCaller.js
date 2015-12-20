@@ -1,3 +1,5 @@
+import Promise from 'bluebird';
+
 const ApiCaller = {
 
   // this method assumes that you are sending/receiving JSON

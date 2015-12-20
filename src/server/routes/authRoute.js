@@ -1,7 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
-import Immutable from 'immutable';
 import secrets from '../../.././secrets.json';
 
 const User = mongoose.model('User');
@@ -32,7 +31,6 @@ router.get('/logout', (req, res, next) => {
 });
 
 router.get('/authenticate_from_session', (req, res, next) => {
-  debugger
   // If there's no userId in session, it means there's no current user
   if (!req.session.userId) return res.status(404).send(null);
 
