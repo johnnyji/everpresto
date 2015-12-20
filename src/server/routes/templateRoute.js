@@ -14,7 +14,7 @@ router.post('/create', (req, res, next) => {
 
   // TODO: Test to see if this works
   Template.create({
-    owner: req.session.userId
+    owner: req.session.userId,
     title,
     htmlText,
     rawText,
