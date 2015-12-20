@@ -1,8 +1,9 @@
 // TODO: Use `_.debounce` to make the placeholder finding less expensive?
 import React, {Component, PropTypes} from 'react';
 import Immutable from 'immutable';
-import mammoth from 'mammoth';
+import strip from 'strip';
 import AppActionCreators from '../.././actions/AppActionCreators';
+import TemplateActionCreators from '../.././actions/TemplateActionCreators';
 
 import Button from '.././ui/Button';
 import Icon from '.././ui/Icon';
@@ -29,10 +30,9 @@ export default class TemplatesNew extends Component {
     super(props);
     this.state = {
       template: Immutable.fromJS({
+        body: 'd',
         placeholders: [],
-        title: 'd',
-        htmlText: 'd',
-        rawText: 'd'
+        title: 'd'
       }),
       importingTemplate: false
     };
@@ -45,9 +45,9 @@ export default class TemplatesNew extends Component {
     return (
       <DashboardContentWrapper className={displayName}>
         <DocumentEditor
-          body={template.get('htmlText')}
+          body={template.get('body')}
           isTemplateEditor={true}
-          onBodyChange={this._handleBodyChange}
+          onBodyChange={(value) => this._updateTemplateAttribute('body', value)}
           onTitleChange={(value) => this._updateTemplateAttribute('title', value)}
           templatePlaceholders={placeholderValues}
           titlePlaceholder='Untitled Template'
@@ -74,22 +74,16 @@ export default class TemplatesNew extends Component {
     this.context.dispatch(AppActionCreators.createFlashMessage('red', message));
   }
 
-  _createTemplate = () => {
-    this.context.dispatch(
-      TemplateActionCreators.createTemplate(this.state.template)
-    );
+  _createTemplate = (rawText) => {
+    const template = this.state.template.set('rawText', rawText);
+
+    this.context.dispatch(TemplateActionCreators.createTemplate(template.toJS()));
   }
 
-  _handleBodyChange = (htmlText, rawText) => {
-    this.setState({
-      template: this.state.template.merge({htmlText, rawText})
-    });
-  }
-
-  _handleTemplateUploadEnd = (htmlText, rawText) => {
+  _handleTemplateUploadEnd = (body) => {
     this.setState({
       importingTemplate: false,
-      template: this.state.template.merge({htmlText, rawText})
+      template: this.state.template.merge({body})
     });
   }
 
@@ -135,11 +129,12 @@ export default class TemplatesNew extends Component {
 
   _validateTemplate = () => {
     const {template} = this.state;
-    debugger;
+    const rawText = strip(template.get('body'));
+
     if (template.get('title').length === 0) return this._createError('Please provide a title for your template!');
-    if (template.get('rawText').length === 0) return this._createError('Your template can\'t be blank, duh...');
+    if (rawText.length === 0) return this._createError('Your template can\'t be blank, duh...');
     if (template.get('placeholders').size === 0) {
-      this.context.dispatch(
+      return this.context.dispatch(
         AppActionCreators.createModal(
           <ModalConfirm
             confirmText='Yes, go ahead!'
@@ -150,6 +145,9 @@ export default class TemplatesNew extends Component {
         )
       );
     }
+
+    // If all validations pass, we create the template
+    this._createTemplate(rawText);
   }
 
 }

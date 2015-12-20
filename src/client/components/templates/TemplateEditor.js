@@ -61,7 +61,7 @@ export default class TemplateEditor extends Component {
     );
   }
 
-  _handleUpdate = (htmlText = findDOMNode(this).innerHTML, rawText = findDOMNode(this).innerText) => {
+  _handleUpdate = (htmlText = findDOMNode(this).innerHTML) => {
     const {templatePlaceholders, onUpdate} = this.props;
 
     let parsedHtmlText = htmlText;
@@ -71,7 +71,7 @@ export default class TemplateEditor extends Component {
       parsedHtmlText = TextEditorHelper.highlightText(htmlText, templatePlaceholders, PLACEHOLDER_CLASS);
     }
 
-    onUpdate(parsedHtmlText, rawText);
+    onUpdate(parsedHtmlText);
   }
 
 }

@@ -1,6 +1,5 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import Template from '.././models/template';
 import requireUser from '.././middlewares/requireUser';
 
 const Template = mongoose.model('Template');
@@ -11,7 +10,7 @@ router.use(requireUser);
 
 router.post('/create', (req, res, next) => {
   const {title, body, placeholders} = req.data.template;
-
+  debugger;
   // TODO: Test to see if this works
   Template.create({
     owner: req.session.userId,

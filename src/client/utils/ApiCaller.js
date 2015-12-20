@@ -14,6 +14,7 @@ const ApiCaller = {
       options.data ? request.send(JSON.stringify(options.data)) : request.send();
       
       request.onload = () => {
+        debugger;
         // we don't need to parse it if it's an empty string
         const responseText = request.responseText
           ? JSON.parse(request.responseText)
@@ -30,9 +31,7 @@ const ApiCaller = {
         console.log('Response: ', result.data);
       };
 
-      request.onerror = () => {
-        reject({ status: 500, data: 'Connection error' });
-      }
+      request.onerror = () => reject({status: 500, data: 'Connection error'});
     });
   }
 

@@ -42,6 +42,9 @@ export default class RichTextEditor extends Component {
       toolbar: {buttons: toolbarButtons}
     });
 
+    // No need to manually detach, will do so when the editor is destroyed in `componentWillUnmount`
+    this.medium.on(editor, 'keydown', this._handleKeydown)
+
     this.medium.subscribe('editableInput', (e, editable) => {
       this._updated = true;
       this._handleUpdate(editable.innerHTML);
@@ -90,10 +93,7 @@ export default class RichTextEditor extends Component {
       caretMarkerNodeMatcher
     );
 
-    this.props.onUpdate(
-      textWithCaretPosMarked,
-      findDOMNode(this).innerText
-    );
+    this.props.onUpdate(textWithCaretPosMarked);
   }
 
 }

@@ -15,10 +15,14 @@ const TemplateActionCreators = {
       ApiCaller.sendAjaxRequest({
         method: apiEndpoints.templates.create.method,
         url: apiEndpoints.templates.create.path,
-        data: {template: template.toJS()}
+        data: {template}
       })
-        .then(() => {})
-        .catch(() => {});
+        .then((response) => {
+          debugger;
+        })
+        .catch((response) => {
+          debugger;
+        });
     };
   }
 
