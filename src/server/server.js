@@ -23,11 +23,12 @@ import configureStore from './../client/store/configureStore';
 
 // SERVER MODELS ** Require them before the app executes
 import User from './models/user';
-import './models/course';
+import './models/template';
 
 // API ROUTES
 import rootRoute from './routes/rootRoute';
 import authRoute from './routes/authRoute';
+import templateRoute from './routes/templateRoute';
 import userRoute from './routes/userRoute';
 
 // MIDDLEWARE
@@ -50,6 +51,7 @@ mongoose.connect(config.development.dbConnectUrl, (err) => {
   if (err) { throw err; }
 });
 
+// TODO: Remove, no longer using
 // sets the view engine to jade and views to be in the views directory
 app.set('views', './views');
 app.set('view engine', 'jade');
@@ -58,7 +60,7 @@ app.set('view engine', 'jade');
 app.use(morgan('dev'));
 
 // parse data from POST request
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 // parses cookies and uses sessions
@@ -79,6 +81,7 @@ app.use('/api', apiRouter);
 // api routes
 apiRouter.use('/', rootRoute);
 apiRouter.use('/auth', authRoute);
+apiRouter.use('/template', templateRoute);
 apiRouter.use('/user', requireUser, userRoute);
 
 

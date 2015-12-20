@@ -9,8 +9,8 @@ const router = express.Router();
 router.use(requireUser);
 
 router.post('/create', (req, res, next) => {
-  const {title, body, placeholders} = req.data.template;
   debugger;
+  const {title, body, placeholders} = req.data.template;
   // TODO: Test to see if this works
   Template.create({
     owner: req.session.userId,

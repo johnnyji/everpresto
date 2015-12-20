@@ -10,7 +10,7 @@ const apiEndpoints = {
     show: formApiPath('/user/currentUser', 'POST'),
   },
   templates: {
-    create: formApiPath('/templates/create', 'POST')
+    create: formApiPath('/template/create', 'POST')
   },
   users: {
     create: formApiPath('/auth/register', 'POST'),
