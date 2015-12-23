@@ -1,5 +1,3 @@
-import Promise from 'bluebird';
-
 const ApiCaller = {
 
   // this method assumes that you are sending/receiving JSON
@@ -14,7 +12,6 @@ const ApiCaller = {
       options.data ? request.send(JSON.stringify(options.data)) : request.send();
       
       request.onload = () => {
-        debugger;
         // we don't need to parse it if it's an empty string
         const responseText = request.responseText
           ? JSON.parse(request.responseText)

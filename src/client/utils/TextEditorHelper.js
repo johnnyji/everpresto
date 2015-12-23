@@ -1,7 +1,11 @@
 import _ from 'lodash';
+import Config from '.././config/main';
 
-const HIGHLIGHT_TAG = 'mark';
-const HIGHLIGHT_CLASS = 'highlighted';
+const {template, richTextEditor} = Config;
+
+const HIGHLIGHT_TAG = template.placeholderTag;
+const HIGHLIGHT_CLASS = template.placeholderClass;
+const CARET_POSITION_MARKER_MATCHER = new RegExp(richTextEditor.caretMarkerNode);
 
 const TextEditorHelper = {
 
@@ -105,13 +109,25 @@ const TextEditorHelper = {
 
 
   /**
+   * Remove the caret position marker node from the text if one does exist.
+   *
+   * @param  {String} text               - The text we're parsing
+   * @param  {String} caretMarkerMatcher - The marker node
+   * @return {String}                    - The text with the caret marker removed
+   */
+  removeCaretPositionMarker(text, caretMarkerMatcher = CARET_POSITION_MARKER_MATCHER) {
+    return text.replace(caretMarkerMatcher, '');
+  },
+
+
+  /**
    * Removes all zero width space charaters from the text
    *
    * @param  {String} text - The string of text that possibly contains zero width spaces
    * @return {String}      - The new string of text with all the zero width spaces removed
    */
-  removeZeroWithSpace(text) {
-    return text.replace(/\u200B/g, '');
+  removeZeroWidthSpace(text) {
+    return text.replace(/\u200B/g, '').replace(/\u0001/g, '');
   },
 
 

@@ -2,6 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
 import secrets from '../../.././secrets.json';
+import {findFirstErrorMessage} from './utils/responseHelper';
 
 const User = mongoose.model('User');
 const router = express.Router();
@@ -43,7 +44,7 @@ router.get('/authenticate_from_session', (req, res, next) => {
 router.post('/authenticate_from_token', (req, res, next) => {
   User.findFromJwt(req.body.jwt)
     .then(user => res.status(201).json({user}))
-    .catch(err => res.status(500).json({message: err.message}));
+    .catch(err => res.status(500).json({message: findFirstErrorMessage(err)}));
 });
 
 
@@ -63,9 +64,7 @@ router.post('/register', (req, res, next) => {
       req.session.userId = user._id;
       res.status(201).json({user});
     })
-    .catch((err) => {
-      res.status(422).json({message: err.message});
-    });
+    .catch((err) => res.status(422).json({message: findFirstErrorMessage(err)}));
 
 });
 

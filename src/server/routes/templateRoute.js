@@ -1,6 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import requireUser from '.././middlewares/requireUser';
+import {findFirstErrorMessage} from './utils/responseHelper';
 
 const Template = mongoose.model('Template');
 const router = express.Router();
@@ -8,19 +9,30 @@ const router = express.Router();
 // Makes sure each route requires a user before execution
 router.use(requireUser);
 
-router.post('/create', (req, res, next) => {
-  debugger;
-  const {title, body, placeholders} = req.data.template;
-  // TODO: Test to see if this works
-  Template.create({
+// Creates a new template
+router.post('/create', (req, res) => {
+  const {body, rawText, placeholders, title} = req.body.template;
+  Template.createTemplate({
     owner: req.session.userId,
-    title,
-    htmlText,
+    body,
     rawText,
-    placeholders
+    placeholders,
+    title
   })
-    .then((template) => res.status(201).json({template}))
-    .catch((err) => res.status(422).json({message: err.message}));
+    .then((template) => {
+      res.status(201).json({template})
+    })
+    .catch((result) => {
+      res.status(422).json({message: findFirstErrorMessage(result)});
+    });
+});
+
+// Retrieves all of the current user's existing templates
+router.get('/index', (req, res) => {
+  Template.find({_owner: req.session.userId}, (err, templates) => {
+    if (err) res.status(422).json({message: findFirstErrorMessage(result)});
+    // TODO: Finish retrieving templates functionality
+  });
 });
 
 export default router;

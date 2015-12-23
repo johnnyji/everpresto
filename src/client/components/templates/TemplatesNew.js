@@ -4,6 +4,8 @@ import Immutable from 'immutable';
 import strip from 'strip';
 import AppActionCreators from '../.././actions/AppActionCreators';
 import TemplateActionCreators from '../.././actions/TemplateActionCreators';
+import Config from '../.././config/main';
+import TextEditorHelper from '../.././utils/TextEditorHelper';
 
 import Button from '.././ui/Button';
 import Icon from '.././ui/Icon';
@@ -15,6 +17,10 @@ import ModalConfirm from '.././modals/ModalConfirm';
 import DocumentEditor from '.././shared/DocumentEditor';
 import EditorSidebar from '.././shared/EditorSidebar';
 import FileConverter from '.././shared/FileConverter';
+
+const {caretMarkerNode} = Config.richTextEditor;
+const {removeCaretPositionMarker, removeZeroWidthSpace} = TextEditorHelper;
+const caretMarkerNodeMatcher = new RegExp(caretMarkerNodeMatcher);
 
 const displayName = 'TemplatesNew';
 
@@ -75,7 +81,9 @@ export default class TemplatesNew extends Component {
   }
 
   _createTemplate = (rawText) => {
-    const template = this.state.template.set('rawText', rawText);
+    // Removes any zero width spaces and the caret position marker
+    let template = this.state.template.set('rawText', removeZeroWidthSpace(rawText));
+    template = template.set('body', removeCaretPositionMarker(removeZeroWidthSpace(template.get('body'))));
 
     this.context.dispatch(TemplateActionCreators.createTemplate(template.toJS()));
   }

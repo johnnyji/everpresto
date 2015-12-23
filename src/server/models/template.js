@@ -7,36 +7,37 @@ const Schema = mongoose.Schema;
 const {ObjectId} = Schema.Types;
 
 const TemplateSchema = new Schema({
-  owner: {
+  _owner: {
     type: ObjectId,
-    ref: 'User'
+    ref: 'User',
+    index: true
   },
-  title: {
-    type: String,
-    required: 'Please give your template a title!'
-  },
-  htmlText: {
-    type: String,
-    required: 'Your template can\'t be empty silly!'
-  },
-  rawText: {
+  body: {
     type: String,
     required: 'Your template can\'t be empty silly!'
   },
   placeholders: {
     type: Array,
     default: []
+  },
+  title: {
+    type: String,
+    required: 'Please give your template a title!'
+  },
+  rawText: {
+    type: String,
+    required: 'Your template can\'t be empty silly!'
   }
 }, {
   timestamps: true
 });
 
-TemplateSchema.statics.create = function(data) {
+TemplateSchema.statics.createTemplate = function(data) {
   return new Promise((resolve, reject) => {
     // TODO: Make sure sanitization works.
     // Sanitizes the HTML text to remove any malicious tags
-    const sanitizedData = _.set(data, 'htmlText', sanitizer.sanitize(data.htmlText));
-    debugger;
+    const sanitizedData = _.set(data, 'body', sanitizer.sanitize(data.body));
+
     this.create(sanitizedData, (err, template) => {
       if (err) reject(err);
       resolve(template);
