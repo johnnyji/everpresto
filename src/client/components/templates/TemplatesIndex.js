@@ -14,16 +14,13 @@ export default class TemplatesIndex extends Component {
   static displayName = displayName;
   
   static contextTypes = {
-    dispatch: PropTypes.func.isRequired
-  };
+    dispatch: PropTypes.func.isRequired,
+    history: PropTypes.object.isRequired
+  }
 
   static propTypes = {
     templates: ImmutablePropTypes.listOf(ImmutablePropTypes.map).isRequired
   };
-
-  static contextTypes = {
-    history: PropTypes.object.isRequired
-  }
 
   componentWillMount() {
     const {templates, wasEverFetched} = this.props;
@@ -31,7 +28,8 @@ export default class TemplatesIndex extends Component {
     // If there are no templates and we haven't previously fetched for them,
     // fetch the API for possible templates
     if (!wasEverFetched && templates.size === 0) {
-      this.context.dispatch(TemplateActionCreators.fetchTemplates());
+      console.log('Fetch Templates');
+      // this.context.dispatch(TemplateActionCreators.fetchTemplates());
     }
   }
 
