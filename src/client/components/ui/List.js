@@ -1,25 +1,18 @@
-import React, {Component, PropTypes} from 'react';
+import React, {PropTypes} from 'react';
 import classNames from 'classnames';
 
 const displayName = 'List';
 
-export default class List extends Component {
+const List = (props) => {
+  const {className, children} = props;
+  const classes = classNames(className, displayName);
 
-  static displayName = displayName;
-
-  static propTypes = {
-    className: PropTypes.string
-  };
-
-  render() {
-    const {className, children} = this.props;
-    const classes = classNames(className, displayName);
-
-    return (
-      <ul className={classes}>
-        {children}
-      </ul>
-    );
-  }
-
+  return <ul className={classes}>{children}</ul>;
 }
+
+List.displayName = displayName;
+List.propTypes = {
+ className: PropTypes.string
+};
+
+export default List;
