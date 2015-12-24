@@ -1,20 +1,16 @@
-import React, {Component, PropTypes} from 'react';
+import React, {PropTypes} from 'react';
 import classNames from 'classnames';
 
-export default class Card extends Component {
+const Card = ({children, className, style}) => {
+  const classes = classNames(className, 'ui-Card');
 
-  static propTypes = {
-    className: PropTypes.string,
-    style: PropTypes.object
-  }
-
-  render() {
-    const {children, className, style} = this.props;
-    const classes = classNames(className, 'ui-Card');
-
-    if (style) return <div className={classes} style={style}>{children}</div>;
-
-    return <div className={classes}>{children}</div>;
-  }
-
+  if (style) return <div className={classes} style={style}>{children}</div>;
+  return <div className={classes}>{children}</div>;
 }
+
+Card.propTypes = {
+  className: PropTypes.string,
+  style: PropTypes.object
+};
+
+export default Card;

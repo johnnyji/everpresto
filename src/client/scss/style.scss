@@ -3,6 +3,7 @@
 
 // Bourbon for Node.js
 @import '~node-bourbon/node_modules/bourbon/app/assets/stylesheets/_bourbon.scss';
+@import '~bourbon-neat';
 
 // Normalize.css
 @import '~normalize.css/normalize.css';
@@ -47,6 +48,7 @@
 @import './modals/ModalConfirm';
 
 // Templates
+@import './templates/TemplatesIndex';
 @import './templates/TemplatesNew';
 
 // Shared

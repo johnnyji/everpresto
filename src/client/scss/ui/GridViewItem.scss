@@ -1,5 +1,5 @@
 .ui-GridViewItem {
+  @include span-columns(3);
+  @include omega(4n);
   background-color: yellow;
-  min-width: 200px;
-  min-height: 250px;
 }

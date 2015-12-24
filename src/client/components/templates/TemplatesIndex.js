@@ -8,6 +8,7 @@ import Button from '.././ui/Button';
 import Icon from '.././ui/Icon';
 import GridView from '.././ui/GridView';
 import GridViewItem from '.././ui/GridViewItem';
+import Spinner from '.././ui/Spinner';
 
 const displayName = 'TemplatesIndex';
 
@@ -28,6 +29,13 @@ export default class TemplatesIndex extends Component {
     templates: ImmutablePropTypes.listOf(ImmutablePropTypes.map).isRequired
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      renderView: false
+    };
+  }
+
   componentWillMount() {
     const {templates, wasEverFetched} = this.props;
 
@@ -38,20 +46,18 @@ export default class TemplatesIndex extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    const {renderView, templates} = nextProps;
+
+    if (!renderView && templates.size > 0) this.setState({renderView: true});
+  }
 
   render() {
     const {templates} = this.props;
 
     return (
-      <DashboardContentWrapper>
-        <h1>Amount of templates: {templates.size}</h1>
-        <GridView>
-          <GridViewItem>
-            <Icon icon="add" />
-            <Button color='green' icon='add' onClick={this._handleNewTemplate} text='New Template' />
-          </GridViewItem>
-          {this._renderTemplatePreviews()}
-        </GridView>
+      <DashboardContentWrapper className={displayName}>
+        {this._renderContent()}
       </DashboardContentWrapper>
     );
   }
@@ -59,6 +65,23 @@ export default class TemplatesIndex extends Component {
   _handleNewTemplate = () => {
     this.context.history.push('/dashboard/templates/new');
   }
+
+  _renderContent = () => {
+    if (!this.state.renderView) return <Spinner className={`${displayName}-spinner`}/>;
+
+    return (
+      <div>
+        <h1>Amount of templates: {this.props.templates.size}</h1>
+        <GridView className={`${displayName}-templates`}>
+          <GridViewItem className={`${displayName}-templates-new`}>
+            <Icon icon="add" />
+            <Button color='green' icon='add' onClick={this._handleNewTemplate} text='New Template' />
+          </GridViewItem>
+          {this._renderTemplatePreviews()}
+        </GridView>
+      </div>
+    );
+  };
 
   _renderTemplatePreviews = () => {
     return this.props.templates.map((template, i) => {

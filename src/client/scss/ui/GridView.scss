@@ -1,7 +1,4 @@
 .ui-GridView {
-  @include display(flex);
-  @include flex-wrap(wrap);
-  @include justify-content(space-around);
-  @include align-items(flex-start);
-  @include align-content(flex-start);
+  @include outer-container;
+  width: 100%;
 }
