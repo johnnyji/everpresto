@@ -1,8 +1,18 @@
 .TemplatesIndex {
   &-templates {
     padding: 20px;
+    &-item {
+      min-height: 250px;
+      max-height: 250px;
+    }
     &-new {
-      
+      @include display(flex);
+      @include justify-content(center);
+      @include align-items(center);
+      &-button {
+        background-color: transparent;
+        border: none;
+      }
     }
   }
 }
