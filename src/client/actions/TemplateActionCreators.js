@@ -53,8 +53,26 @@ const TemplateActionCreators = {
         method: apiEndpoints.templates.index.method,
         url: apiEndpoints.templates.index.path
       })
-        .then()
-        .catch();
+        .then((response) => {
+          dispatch(this.fetchTemplatesSuccess(response.data.templates));
+        })
+        .catch((response) => {
+          dispatch(AppActionCreators.createFlashMessage('red', response.message));
+        });
+    };
+  },
+
+
+  /**
+   * Handles the templates returned from the templates fetch
+   *
+   * @param  {Array} templates - The current user's templates
+   * @return {Object}          - The data passed to the Template Reducer
+   */
+  fetchTemplatesSuccess(templates) {
+    return {
+      type: TemplateActionTypes.FETCH_TEMPLATES_SUCCESS,
+      data: {templates}
     };
   }
 

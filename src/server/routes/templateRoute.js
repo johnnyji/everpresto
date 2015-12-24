@@ -13,7 +13,7 @@ router.use(requireUser);
 router.post('/create', (req, res) => {
   const {body, rawText, placeholders, title} = req.body.template;
   Template.createTemplate({
-    owner: req.session.userId,
+    _owner: req.session.userId,
     body,
     rawText,
     placeholders,
@@ -31,7 +31,7 @@ router.post('/create', (req, res) => {
 router.get('/index', (req, res) => {
   Template.find({_owner: req.session.userId}, (err, templates) => {
     if (err) res.status(422).json({message: findFirstErrorMessage(result)});
-    // TODO: Finish retrieving templates functionality
+    res.status(200).json({templates});
   });
 });
 

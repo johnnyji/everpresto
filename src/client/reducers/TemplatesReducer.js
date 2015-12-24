@@ -17,6 +17,9 @@ export default function templatesReducer(state = initialState, action) {
         return templates.push(Immutable.fromJS(action.data.template));
       });
 
+    case TemplateActionTypes.FETCH_TEMPLATES_SUCCESS:
+      return state.set('templates', Immutable.fromJS(action.data.templates));
+
     default:
       return state;
   }

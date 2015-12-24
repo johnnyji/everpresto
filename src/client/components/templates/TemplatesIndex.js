@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
-import ImmutablePropTypes from 'react-immutable-proptypes';
 import {connect} from 'react-redux';
+import ImmutablePropTypes from 'react-immutable-proptypes';
+import TemplateActionCreators from '../.././actions/TemplateActionCreators';
 import Button from '.././ui/Button';
 
 const displayName = 'TemplatesIndex';
@@ -16,7 +17,7 @@ export default class TemplatesIndex extends Component {
   static contextTypes = {
     dispatch: PropTypes.func.isRequired,
     history: PropTypes.object.isRequired
-  }
+  };
 
   static propTypes = {
     templates: ImmutablePropTypes.listOf(ImmutablePropTypes.map).isRequired
@@ -28,15 +29,17 @@ export default class TemplatesIndex extends Component {
     // If there are no templates and we haven't previously fetched for them,
     // fetch the API for possible templates
     if (!wasEverFetched && templates.size === 0) {
-      console.log('Fetch Templates');
-      // this.context.dispatch(TemplateActionCreators.fetchTemplates());
+      this.context.dispatch(TemplateActionCreators.fetchTemplates());
     }
   }
 
 
   render() {
+    const {templates} = this.props;
+
     return (
       <div>
+        <h1>Amount of templates: {templates.size}</h1>
         <Button color='green' icon='add' onClick={this._handleNewTemplate} text='New Template' />
       </div>
     );
