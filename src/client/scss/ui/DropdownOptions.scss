@@ -2,7 +2,7 @@
   @include animation(fade-in 200ms ease);
   @include display(flex);
   @include flex-direction(column);
-  background-color: #FFF;
+  background-color: $form-background-color;
   padding: 10px 0;
   &-item {
     @extend .transition;
@@ -13,7 +13,7 @@
     padding: 5px 8px;
     text-align: left;
     &:hover {
-      background-color: $form-background-color;
+      background-color: #FFF;
       color: $primary-brand-color;
     }
   }
