@@ -3,10 +3,16 @@ import {connect} from 'react-redux';
 import CustomPropTypes from '.././CustomPropTypes';
 import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
 
+import TemplateActionCreators from '../.././actions/TemplateActionCreators';
+
 @connect((state) => ({
   template: state.templates.get('templateBeingEdited')
 }))
 export default class TemplatesEdit extends Component {
+
+  static contextTypes = {
+    dispatch: PropTypes.func.isRequired
+  };
 
   static propTypes = {
     template: CustomPropTypes.template.isRequired
@@ -18,7 +24,7 @@ export default class TemplatesEdit extends Component {
 
   render() {
     const {template} = this.props;
-    
+
     return (
       <DashboardContentWrapper>
         {template.get('title')}

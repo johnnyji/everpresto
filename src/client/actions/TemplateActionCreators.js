@@ -126,7 +126,7 @@ const TemplateActionCreators = {
    * @return {Object} - The data passed to the Template Reducer
    */
   resetTemplateBeingEdited() {
-    return {type: TemplateActionTypes.RESET_TEMPLATE_EDITED};
+    return {type: TemplateActionTypes.RESET_TEMPLATE_BEING_EDITED};
   },
 
 

@@ -5,7 +5,6 @@ import Immutable from 'immutable';
 import strip from 'strip';
 import AppActionCreators from '../.././actions/AppActionCreators';
 import TemplateActionCreators from '../.././actions/TemplateActionCreators';
-import Config from '../.././config/main';
 import TextEditorHelper from '../.././utils/TextEditorHelper';
 
 import Button from '.././ui/Button';
@@ -19,10 +18,7 @@ import DocumentEditor from '.././shared/DocumentEditor';
 import EditorSidebar from '.././shared/EditorSidebar';
 import FileConverter from '.././shared/FileConverter';
 
-const {caretMarkerNode} = Config.richTextEditor;
 const {removeCaretPositionMarker, removeZeroWidthSpace} = TextEditorHelper;
-const caretMarkerNodeMatcher = new RegExp(caretMarkerNodeMatcher);
-
 const displayName = 'TemplatesNew';
 
 @connect((state) => ({
