@@ -41,7 +41,7 @@ router.get('/index', (req, res) => {
 
 
 router.post('/delete', (req, res) => {
-  Template.remove(req.body.templateId, (err, template) => {
+  Template.remove({_id: req.body.templateId}, (err) => {
     debugger;
     if (err) res.status(422).json({message: findFirstErrorMessage(result)});
     res.status(204).end();

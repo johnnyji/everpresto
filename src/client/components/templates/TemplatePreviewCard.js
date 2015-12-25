@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import classNames from 'classNames';
+import classNames from 'classnames';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import {truncateString} from '../.././utils/TextHelper';
 

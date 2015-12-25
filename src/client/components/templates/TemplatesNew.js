@@ -54,16 +54,19 @@ export default class TemplatesNew extends Component {
   }
 
   componentDidUpdate() {
-    if (this.props.templateCreated) this.context.history.push('/dashboard/templates');
+    if (this.props.templateCreated) {
+      this.context.dispatch(AppActionCreators.createFlashMessage('green', 'Template created!'));
+      this.context.history.push('/dashboard/templates');
+    }
   }
 
   componentWillUnmount() {
-    debugger;
+    // Resets the `templateCreated` state to false, because we've already used it to navigate
+    // to the template index.
     this.context.dispatch(TemplateActionCreators.resetTemplateCreated());
   }
 
   render() {
-    console.log(this.props.templateCreated);
     const {template} = this.state;
     const placeholderValues = template.get('placeholders').map((placeholder) => placeholder.get('value'));
 

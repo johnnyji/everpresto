@@ -69,8 +69,6 @@ export default class TemplatesIndex extends Component {
   }
 
   render() {
-    console.log(this.props.templates.toJS());
-    console.log(this.state.renderView);
     return (
       <DashboardContentWrapper className={displayName}>
         {this._renderContent()}

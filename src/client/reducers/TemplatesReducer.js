@@ -25,10 +25,9 @@ export default function templatesReducer(state = initialState, action) {
       });
 
     case DELETE_TEMPLATE_SUCCESS:
-      debugger;
       return state.update('templates', (templates) => {
         return templates.delete(
-          templates.findIndex((template) => template.get('_id') === action.data.deletedTemplateId);
+          templates.findIndex((template) => template.get('_id') === action.data.deletedTemplateId)
         );
       }); 
 
