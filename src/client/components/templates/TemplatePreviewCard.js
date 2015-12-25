@@ -19,7 +19,7 @@ export default class TemplatePreviewCard extends Component {
   };
 
   static propTypes = {
-    className: PropTypes.string.isRequired,
+    className: PropTypes.string,
     template: ImmutablePropTypes.contains({
       _id: PropTypes.string.isRequired,
       body: PropTypes.string.isRequired,
@@ -33,12 +33,16 @@ export default class TemplatePreviewCard extends Component {
       rawText: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
       updatedAt: PropTypes.string.isRequired
-    }).isRequired
+    })
   };
 
   render() {
-    const {className, template} = this.props;
+    const {children, className} = this.props;
     const classes = classNames(className, displayName);
+
+    if (children) return <GridViewItem className={classes}>{children}</GridViewItem>;
+
+    const {template} = this.props;
     const titlePreview = truncateString(template.get('title'), 25);
 
     return (

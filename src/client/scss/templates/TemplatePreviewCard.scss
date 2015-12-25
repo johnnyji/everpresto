@@ -1,4 +1,6 @@
 .TemplatePreviewCard {
+  min-height: 300px;
+  max-height: 300px;
   &-header {
     @include display(flex);
     @include justify-content(space-between);

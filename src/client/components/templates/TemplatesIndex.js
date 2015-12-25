@@ -86,13 +86,13 @@ export default class TemplatesIndex extends Component {
     return (
       <div>
         <GridView className={`${displayName}-templates`}>
-          <GridViewItem className={`${displayName}-templates-item ${displayName}-templates-new`}>
+          <TemplatePreviewCard className={`${displayName}-templates-new`}>
             <button
               className={`${displayName}-templates-new-button`}
               onClick={this._handleNewTemplate}>
               <Icon icon='add' size='70'/>
             </button>
-          </GridViewItem>
+          </TemplatePreviewCard>
           {this._renderTemplatePreviews()}
         </GridView>
       </div>
@@ -101,12 +101,7 @@ export default class TemplatesIndex extends Component {
 
   _renderTemplatePreviews = () => {
     return this.props.templates.map((template, i) => {
-      return (
-        <TemplatePreviewCard
-          className={`${displayName}-templates-item`}
-          key={i}
-          template={template}/>
-      );
+      return <TemplatePreviewCard key={i} template={template}/>;
     });
   }
 
