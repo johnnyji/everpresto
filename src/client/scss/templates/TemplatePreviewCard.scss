@@ -18,4 +18,10 @@
       }
     }
   }
+  &-body {
+    // @include filter(blur(1px));
+    color: $text-color-light;
+    overflow: hidden;
+    font-size: 10px;
+  }
 }

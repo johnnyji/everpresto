@@ -9,6 +9,7 @@ import Icon from '.././ui/Icon';
 import TemplateActionCreators from '../.././actions/TemplateActionCreators';
 
 const displayName = 'TemplatePreviewCard';
+const domParser = new DOMParser();
 
 export default class TemplatePreviewCard extends Component {
 
@@ -53,6 +54,9 @@ export default class TemplatePreviewCard extends Component {
             <Icon icon='close' size='24'/>
           </span>
         </header>
+        <div
+          className={`${displayName}-body`}
+          dangerouslySetInnerHTML={{__html: template.get('body')}}/>
       </GridViewItem>
     );
   }
