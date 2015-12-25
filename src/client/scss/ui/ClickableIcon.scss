@@ -1,5 +1,5 @@
 .ui-ClickableIcon {
-  @include transition(all 200ms ease);
+  @extend .transition;
   background-color: transparent;
   color: $placeholder-color;
   border: none;

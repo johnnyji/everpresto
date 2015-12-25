@@ -70,7 +70,7 @@ export default class TemplatePreviewCard extends Component {
           dangerouslySetInnerHTML={{__html: template.get('body')}}/>
         <div className={`${displayName}-options`}>
           <ClickableIcon
-            icon='ellipsis'
+            icon={showDropdownOptions ? 'close' : 'ellipsis'}
             onClick={this._toggleOptions}/>
         </div>
         <DropdownOptions

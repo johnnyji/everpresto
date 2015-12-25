@@ -1,6 +1,6 @@
 $template-preview-card-dropdown-height: 110px;
 
-@include keyframes(dropdown-fade-in) {
+@include keyframes(dropdown-pop-in) {
   0% {
     opacity: 0;
     overflow: hidden;
@@ -8,6 +8,7 @@ $template-preview-card-dropdown-height: 110px;
   }
   30% { opacity: 1; }
   60% { height: $template-preview-card-dropdown-height + 30px; }
+  80% { height: $template-preview-card-dropdown-height - 10px; }
   100% { height: $template-preview-card-dropdown-height; }
 }
 
@@ -41,7 +42,7 @@ $template-preview-card-dropdown-height: 110px;
     @include justify-content(flex-end);
   }
   div > &-dropdown {
-    @include animation(dropdown-fade-in 300ms ease-in-out);
+    @include animation(dropdown-pop-in 300ms ease-in-out);
     position: absolute;
     bottom: 10px;
     left: 10px;
