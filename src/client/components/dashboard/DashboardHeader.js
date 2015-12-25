@@ -67,8 +67,7 @@ export default class DashboardHeader extends Component {
             </span>
             <DropdownOptions
               className={`${displayName}-navbar-nav-profile-dropdown`}
-              onShowOptions={this._showProfileOptions}
-              onHideOptions={this._hideProfileOptions}
+              onHideDropdown={this._hideProfileOptions}
               options={profileNavOptions}
               showDropdownOptions={this.state.showProfileOptions}/>
           </div>

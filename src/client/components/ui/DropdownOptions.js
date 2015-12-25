@@ -10,6 +10,7 @@ export default class DropdownOptions extends Component {
 
   static propTypes = {
     className: PropTypes.string,
+    onHideDropdown: PropTypes.func.isRequired,
     options: PropTypes.arrayOf(
       PropTypes.shape({
         label: PropTypes.oneOfType([
@@ -41,11 +42,16 @@ export default class DropdownOptions extends Component {
         <button
           className={`${displayName}-item`}
           key={i}
-          onClick={option.callback}>
+          onClick={() => this._handleOptionClick(option.callback)}>
           {option.label}
         </button>
       );
     });
+  }
+
+  _handleOptionClick = (cb) => {
+    this.props.onHideDropdown();
+    cb();
   }
 
 }

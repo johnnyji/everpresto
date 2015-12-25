@@ -1,4 +1,8 @@
 .ui-GridViewItem {
+  @include media($tablet) {
+    @include span-columns(4);
+    @include omega(3n);
+  }
   @include span-columns(3);
   @include omega(4n);
   margin-top: 10px;

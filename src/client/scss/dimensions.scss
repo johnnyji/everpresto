@@ -5,3 +5,9 @@ $app-header-height: 60px;
 $border-radius: 3px;
 
 $horizontal-navbar-height: 45px;
+
+// Breakpoints
+$mobile: new-breakpoint(max-width 600px);
+$tablet: new-breakpoint(min-width 601px max-width 1000px);
+$laptop: new-breakpoint(min-width 1001px max-width 1300px);
+$desktop: new-breakpoint(min-width 1301px);

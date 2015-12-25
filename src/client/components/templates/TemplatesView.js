@@ -1,8 +1,5 @@
-import React from 'react';
+const TemplateView = ({children}) => children;
 
-const TemplatesView = ({children}) => children;
+TemplateView.displayName = 'TemplateView';
 
-TemplatesView.displayName = 'TemplatesView';
-
-export default TemplatesView;
-    
+export default TemplateView;

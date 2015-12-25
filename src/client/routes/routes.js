@@ -12,9 +12,7 @@ import DashboardHandler from '.././components/dashboard/DashboardHandler';
   import TemplatesView from '.././components/templates/TemplatesView';
     import TemplatesIndex from '.././components/templates/TemplatesIndex';
     import TemplatesNew from '.././components/templates/TemplatesNew';
-  // import CoursesView from '.././components/teacher/CoursesView';
-  // import StudentDashboard from '.././components/dashboard/StudentDashboard';
-  // import TeacherDashboard from '.././components/dashboard/TeacherDashboard';
+    import TemplatesEdit from '.././components/templates/TemplatesEdit';
 
 import ProfileHandler from '.././components/user/ProfileHandler';
 
@@ -42,6 +40,7 @@ const routes = (
       <Route path='templates' component={TemplatesView}>
         <IndexRoute component={TemplatesIndex} />
         <Route path='new' component={TemplatesNew} />
+        <Route path='edit' component={TemplatesEdit} />
       </Route>
     </Route>
     {/*********** Protected Routes ************/}

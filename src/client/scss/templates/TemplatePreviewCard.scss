@@ -1,6 +1,6 @@
 $template-preview-card-dropdown-height: 110px;
 
-@include keyframes(dropdown-pop-in) {
+@include keyframes(pop-in-up) {
   0% {
     opacity: 0;
     overflow: hidden;
@@ -40,7 +40,7 @@ $template-preview-card-dropdown-height: 110px;
     right: 20px;
   }
   div > &-dropdown {
-    @include animation(dropdown-pop-in 300ms ease-in-out);
+    @include animation(pop-in-up 300ms ease-in-out);
     position: absolute;
     bottom: 15px;
     left: 15px;

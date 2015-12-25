@@ -117,6 +117,29 @@ const TemplateActionCreators = {
    */
   resetTemplateCreated() {
     return {type: TemplateActionTypes.RESET_TEMPLATE_CREATED};
+  },
+
+
+  /**
+   * Resets the template being edited to no template.
+   *
+   * @return {Object} - The data passed to the Template Reducer
+   */
+  resetTemplateBeingEdited() {
+    return {type: TemplateActionTypes.RESET_TEMPLATE_EDITED};
+  },
+
+
+  /**
+   * Sets the current template being edited in the state
+   *
+   * @param {Immutable.Map} template - The template being edited
+   */
+  setTemplateBeingEdited(template) {
+    return {
+      type: TemplateActionTypes.SET_TEMPLATE_BEING_EDITED,
+      data: {template}
+    };
   }
 
 }

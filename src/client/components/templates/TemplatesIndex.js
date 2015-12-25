@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import CustomPropTypes from '.././CustomPropTypes';
 import TemplatePreviewCard from './TemplatePreviewCard';
 import TemplateActionCreators from '../.././actions/TemplateActionCreators';
 import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
@@ -17,6 +18,7 @@ const displayName = 'TemplatesIndex';
 
 @connect((state) => ({
   shouldFetchTemplates: state.templates.get('shouldFetchTemplates'),
+  templateBeingEdited: state.templates.get('templateBeingEdited'),
   templates: state.templates.get('templates')
 }))
 export default class TemplatesIndex extends Component {
@@ -30,22 +32,7 @@ export default class TemplatesIndex extends Component {
 
   static propTypes = {
     shouldFetchTemplates: PropTypes.bool.isRequired,
-    templates: ImmutablePropTypes.listOf(
-      ImmutablePropTypes.contains({
-        _id: PropTypes.string.isRequired,
-        body: PropTypes.string.isRequired,
-        createdAt: PropTypes.string.isRequired,
-        placeholders: ImmutablePropTypes.listOf(
-          ImmutablePropTypes.contains({
-            label: PropTypes.string.isRequired,
-            value: PropTypes.string.isRequired
-          })
-        ).isRequired,
-        rawText: PropTypes.string.isRequired,
-        title: PropTypes.string.isRequired,
-        updatedAt: PropTypes.string.isRequired
-      })
-    ).isRequired
+    templates: ImmutablePropTypes.listOf(CustomPropTypes.template).isRequired
   };
 
   constructor(props) {
@@ -63,8 +50,9 @@ export default class TemplatesIndex extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const {shouldFetchTemplates, templates} = nextProps;
+    const {shouldFetchTemplates, templateBeingEdited, templates} = nextProps;
 
+    if (templateBeingEdited) return this.context.history.push('/dashboard/templates/edit');
     if (shouldFetchTemplates) return this.context.dispatch(TemplateActionCreators.fetchTemplates());
     this.setState({renderView: true});
   }

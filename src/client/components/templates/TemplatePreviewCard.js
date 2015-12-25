@@ -7,7 +7,9 @@ import ClickableIcon from '.././ui/ClickableIcon';
 import DropdownOptions from '.././ui/DropdownOptions';
 import GridViewItem from '.././ui/GridViewItem';
 import Icon from '.././ui/Icon';
+import ModalDocumentPreview from '.././modals/ModalDocumentPreview';
 
+import AppActionCreators from '../.././actions/AppActionCreators';
 import TemplateActionCreators from '../.././actions/TemplateActionCreators';
 
 const displayName = 'TemplatePreviewCard';
@@ -76,6 +78,7 @@ export default class TemplatePreviewCard extends Component {
         </div>
         <DropdownOptions
           className={`${displayName}-dropdown`}
+          onHideDropdown={this._toggleOptions}
           options={dropdownOptions}
           showDropdownOptions={showDropdownOptions}/>
       </GridViewItem>
@@ -83,7 +86,9 @@ export default class TemplatePreviewCard extends Component {
   }
 
   _handleEditView = () => {
-
+    this.context.dispatch(
+      TemplateActionCreators.setTemplateBeingEdited(this.props.template)
+    );
   }
 
   _handleDelete = () => {
@@ -93,7 +98,15 @@ export default class TemplatePreviewCard extends Component {
   }
 
   _handlePreview = () => {
+    const {template} = this.props;
 
+    this.context.dispatch(
+      AppActionCreators.createModal(
+        <ModalDocumentPreview
+          body={template.get('body')}
+          title={template.get('title')}/>
+      )
+    );
   }
 
   _renderOptions = () => {
