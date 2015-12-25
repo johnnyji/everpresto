@@ -43,10 +43,12 @@ export default class TemplatePreviewCard extends Component {
 
     return (
       <GridViewItem className={classes}>
-        <h4 className={`${displayName}-title`}>{titlePreview}</h4>
-        <span onClick={this._handleDelete}>
-          <Icon icon='close' size='24'/>
-        </span>
+        <header className={`${displayName}-header`}>
+          <h4 className={`${displayName}-header-title`}>{titlePreview}</h4>
+          <span className={`${displayName}-header-button`} onClick={this._handleDelete}>
+            <Icon icon='close' size='24'/>
+          </span>
+        </header>
       </GridViewItem>
     );
   }

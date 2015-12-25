@@ -1,5 +1,19 @@
 .TemplatePreviewCard {
-  &-title {
-    margin: 0;
+  &-header {
+    @include display(flex);
+    @include justify-content(space-between);
+    @include align-items(center);
+    &-title {
+      margin: 0;
+      height: 100%;
+    }
+    &-button {
+      @include transition(all 200ms ease);
+      color: $placeholder-color;
+      &:hover {
+        color: $primary-brand-color;
+        cursor: pointer;
+      }
+    }
   }
 }
