@@ -7,9 +7,10 @@ import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
 import {truncateString} from '../.././utils/TextHelper';
 
 import Button from '.././ui/Button';
-import Icon from '.././ui/Icon';
+import ClickableIcon from '.././ui/ClickableIcon';
 import GridView from '.././ui/GridView';
 import GridViewItem from '.././ui/GridViewItem';
+import Icon from '.././ui/Icon';
 import Spinner from '.././ui/Spinner';
 
 const displayName = 'TemplatesIndex';
@@ -87,11 +88,11 @@ export default class TemplatesIndex extends Component {
       <div>
         <GridView className={`${displayName}-templates`}>
           <TemplatePreviewCard className={`${displayName}-templates-new`}>
-            <button
+            <ClickableIcon
               className={`${displayName}-templates-new-button`}
-              onClick={this._handleNewTemplate}>
-              <Icon icon='add' size='70'/>
-            </button>
+              icon='add'
+              onClick={this._handleNewTemplate}
+              size={70}/>
           </TemplatePreviewCard>
           {this._renderTemplatePreviews()}
         </GridView>

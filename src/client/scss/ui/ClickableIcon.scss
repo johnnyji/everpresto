@@ -1,0 +1,11 @@
+.ui-ClickableIcon {
+  @include transition(all 200ms ease);
+  background-color: transparent;
+  color: $placeholder-color;
+  border: none;
+  outline: none;
+  padding: 0;
+  &:hover {
+    color: $primary-brand-color;
+  }
+}

@@ -3,13 +3,13 @@ import classNames from 'classnames';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import {truncateString} from '../.././utils/TextHelper';
 
+import ClickableIcon from '.././ui/ClickableIcon';
 import GridViewItem from '.././ui/GridViewItem';
 import Icon from '.././ui/Icon';
 
 import TemplateActionCreators from '../.././actions/TemplateActionCreators';
 
 const displayName = 'TemplatePreviewCard';
-const domParser = new DOMParser();
 
 export default class TemplatePreviewCard extends Component {
 
@@ -50,13 +50,16 @@ export default class TemplatePreviewCard extends Component {
       <GridViewItem className={classes}>
         <header className={`${displayName}-header`}>
           <h4 className={`${displayName}-header-title`}>{titlePreview}</h4>
-          <span className={`${displayName}-header-button`} onClick={this._handleDelete}>
-            <Icon icon='close' size='24'/>
-          </span>
+          <ClickableIcon
+            icon='close'
+            onClick={this._handleDelete}
+            size={24}/>
         </header>
         <div
           className={`${displayName}-body`}
           dangerouslySetInnerHTML={{__html: template.get('body')}}/>
+        <div className={`${displayName}-options`}>
+        </div>
       </GridViewItem>
     );
   }
