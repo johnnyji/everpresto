@@ -67,7 +67,8 @@ export default class TemplatePreviewCard extends Component {
         </header>
         <div
           className={`${displayName}-body`}
-          dangerouslySetInnerHTML={{__html: template.get('body')}}/>
+          dangerouslySetInnerHTML={{__html: template.get('body')}}
+          onClick={this._handleEditView}/>
         <div className={`${displayName}-options`}>
           <ClickableIcon
             icon={showDropdownOptions ? 'close' : 'ellipsis'}

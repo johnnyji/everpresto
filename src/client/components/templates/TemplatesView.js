@@ -1,13 +1,8 @@
-import React, {Component, PropTypes} from 'react';
+import React from 'react';
 
-const displayName = 'TemplatesView';
+const TemplatesView = ({children}) => children;
 
-export default class TemplatesView extends Component {
+TemplatesView.displayName = 'TemplatesView';
 
-  static displayName = displayName;
-
-  render() {
-    return this.props.children;
-  }
-
-}
+export default TemplatesView;
+    
