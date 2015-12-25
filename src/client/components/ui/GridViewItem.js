@@ -8,6 +8,7 @@ const GridViewItem = ({children, className, isCard}) => {
   const classes = classNames(className, displayName);
 
   if (isCard) return <Card className={classes}>{children}</Card>;
+
   return <div className={classes}>{children}</div>;
 };
 

@@ -5,7 +5,7 @@ import uuid from 'node-uuid';
 import Dropzone from 'react-dropzone';
 import Icon from '.././ui/Icon';
 
-import TextHelper from '../.././utils/TextHelper';
+import {truncateImageFilename} from '../.././utils/TextHelper';
 
 export default class DragAndDropUploader extends Component {
 
@@ -36,9 +36,7 @@ export default class DragAndDropUploader extends Component {
         return (
           <li key={i} className='file-uploader-preview-list-item'>
             <img src={file.preview} className='file-uploader-preview-list-item-icon'/>
-            <p className='file-uploader-preview-list-item-name'>
-              {TextHelper.truncateImageFilename(file.name)}
-            </p>
+            <p className='file-uploader-preview-list-item-name'>{truncateImageFilename(file.name)}</p>
             <button
               className='file-uploader-preview-list-item-remove-file-icon'
               onClick={() => this._removeUploadedFile(file)}>

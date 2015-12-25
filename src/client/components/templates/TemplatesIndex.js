@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import TemplateActionCreators from '../.././actions/TemplateActionCreators';
 import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
+import {truncateString} from '../.././utils/TextHelper';
 
 import Button from '.././ui/Button';
 import Icon from '.././ui/Icon';
@@ -13,8 +14,8 @@ import Spinner from '.././ui/Spinner';
 const displayName = 'TemplatesIndex';
 
 @connect((state) => ({
-  templates: state.templates.get('templates'),
-  wasEverFetched: state.templates.get('wasEverFetched')
+  shouldFetchTemplates: state.templates.get('shouldFetchTemplates'),
+  templates: state.templates.get('templates')
 }))
 export default class TemplatesIndex extends Component {
 
@@ -26,7 +27,23 @@ export default class TemplatesIndex extends Component {
   };
 
   static propTypes = {
-    templates: ImmutablePropTypes.listOf(ImmutablePropTypes.map).isRequired
+    shouldFetchTemplates: PropTypes.bool.isRequired,
+    templates: ImmutablePropTypes.listOf(
+      ImmutablePropTypes.contains({
+        _id: PropTypes.string.isRequired,
+        body: PropTypes.string.isRequired,
+        createdAt: PropTypes.string.isRequired,
+        placeholders: ImmutablePropTypes.listOf(
+          ImmutablePropTypes.contains({
+            label: PropTypes.string.isRequired,
+            value: PropTypes.string.isRequired
+          })
+        ).isRequired,
+        rawText: PropTypes.string.isRequired,
+        title: PropTypes.string.isRequired,
+        updatedAt: PropTypes.string.isRequired
+      })
+    ).isRequired
   };
 
   constructor(props) {
@@ -37,24 +54,22 @@ export default class TemplatesIndex extends Component {
   }
 
   componentWillMount() {
-    const {templates, wasEverFetched} = this.props;
+    const {templates, shouldFetchTemplates} = this.props;
 
-    // If there are no templates and we haven't previously fetched for them,
-    // fetch the API for possible templates
-    if (!wasEverFetched && templates.size === 0) {
-      this.context.dispatch(TemplateActionCreators.fetchTemplates());
-    }
+    if (shouldFetchTemplates) return this.context.dispatch(TemplateActionCreators.fetchTemplates());
+    this.setState({renderView: true});
   }
 
   componentWillReceiveProps(nextProps) {
-    const {renderView, templates} = nextProps;
+    const {shouldFetchTemplates, templates} = nextProps;
 
-    if (!renderView && templates.size > 0) this.setState({renderView: true});
+    if (shouldFetchTemplates) return this.context.dispatch(TemplateActionCreators.fetchTemplates());
+    this.setState({renderView: true});
   }
 
   render() {
-    const {templates} = this.props;
-
+    console.log(this.props.templates.toJS());
+    console.log(this.state.renderView);
     return (
       <DashboardContentWrapper className={displayName}>
         {this._renderContent()}
@@ -72,11 +87,11 @@ export default class TemplatesIndex extends Component {
     return (
       <div>
         <GridView className={`${displayName}-templates`}>
-          <GridViewItem className={`${displayName}-templates-item ${displayName}-templates-item`}>
+          <GridViewItem className={`${displayName}-templates-item ${displayName}-templates-new`}>
             <button
               className={`${displayName}-templates-new-button`}
               onClick={this._handleNewTemplate}>
-              <Icon icon="add" />
+              <Icon icon='add' size='70'/>
             </button>
           </GridViewItem>
           {this._renderTemplatePreviews()}
@@ -87,9 +102,11 @@ export default class TemplatesIndex extends Component {
 
   _renderTemplatePreviews = () => {
     return this.props.templates.map((template, i) => {
+      const titlePreview = truncateString(template.get('title'), 25);
+
       return (
         <GridViewItem className={`${displayName}-templates-item`} key={i}>
-          <h3>{template.get('title')}</h3>
+          <h4 className={`${displayName}-templates-item-title`}>{titlePreview}</h4>
         </GridViewItem>
       );
     });

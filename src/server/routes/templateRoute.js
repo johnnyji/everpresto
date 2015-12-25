@@ -20,7 +20,8 @@ router.post('/create', (req, res) => {
     title
   })
     .then((template) => {
-      res.status(201).json({template})
+      // No need to send back the template because we will query for all of them.
+      res.status(201).end();
     })
     .catch((result) => {
       res.status(422).json({message: findFirstErrorMessage(result)});

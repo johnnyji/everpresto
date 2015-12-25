@@ -1,4 +1,6 @@
 .ui-GridViewItem {
   @include span-columns(3);
   @include omega(4n);
+  margin-top: 10px;
+  margin-bottom: 20px;
 }

@@ -2,16 +2,26 @@
   &-templates {
     padding: 20px;
     &-item {
+      position: relative;
       min-height: 250px;
       max-height: 250px;
+      &-title {
+        
+      }
     }
     &-new {
-      @include display(flex);
-      @include justify-content(center);
-      @include align-items(center);
+      position: relative;
       &-button {
+        @extend .center-absolute;
+        @include transition(all 200ms ease);
+        top: 45%;
+        outline: none;
         background-color: transparent;
         border: none;
+        color: $placeholder-color;
+        &:hover {
+          color: $primary-brand-color;
+        }
       }
     }
   }

@@ -18,8 +18,8 @@ const TemplateActionCreators = {
         url: apiEndpoints.templates.create.path,
         data: {template}
       })
-        .then((response) => {
-          dispatch(this.createTemplateSuccess(response.data.template));
+        .then(() => {
+          dispatch(this.createTemplateSuccess());
         })
         .catch((response) => {
           dispatch(AppActionCreators.createFlashMessage('red', response.message));
@@ -31,14 +31,11 @@ const TemplateActionCreators = {
   /**
    * Handles the successful return of a new template write
    *
-   * @param  {Object} template - The recently created template
+   * @param  {Object} template - The action type being emitted
    * @return {Object}          - The data passed to the Template Reducer
    */
   createTemplateSuccess(template) {
-    return {
-      type: TemplateActionTypes.CREATE_TEMPLATE_SUCCESS,
-      data: {template}
-    };
+    return {type: TemplateActionTypes.CREATE_TEMPLATE_SUCCESS};
   },
 
 

@@ -38,7 +38,15 @@ export default class DocumentEditor extends Component {
   }
 
   render() {
-    const {body, className, isTemplateEditor, onBodyChange, templatePlaceholders, title, titlePlaceholder} = this.props;
+    const {
+      body,
+      className,
+      isTemplateEditor,
+      onBodyChange,
+      onTitleChange,
+      templatePlaceholders,
+      title,
+      titlePlaceholder} = this.props;
     const classes = classNames(className, displayName);
 
     return (
@@ -47,6 +55,7 @@ export default class DocumentEditor extends Component {
           autoFocus
           className={`${displayName}-title-input`}
           defaultValue={title}
+          onChange={(e) => onTitleChange(e.target.value)}
           ref='title'
           placeholder={titlePlaceholder}
           type='text'/>
@@ -65,19 +74,6 @@ export default class DocumentEditor extends Component {
         }
       </Card>
     );
-  }
-
-  // _handleBodyChange = (htmlText, rawText) => {
-  //   const {onBodyChange} = this.props;
-    
-  //   if (rawText === '') {
-  //     return onBodyChange('<div><br/></div>', rawText);
-  //   }
-  //   onBodyChange(htmlText, rawText);
-  // }
-
-  _handleTitleChange = (e) => {
-    this.props.onTitleChange(e.target.value);
   }
 
 }
