@@ -13,11 +13,9 @@ $template-preview-card-dropdown-height: 110px;
 }
 
 .TemplatePreviewCard {
-  @include display(flex);
-  @include flex-direction(column);
+  position: relative;
   min-height: 300px;
   max-height: 300px;
-  position: relative;
   &-header {
     @include display(flex);
     @include justify-content(space-between);
@@ -37,15 +35,15 @@ $template-preview-card-dropdown-height: 110px;
     padding: 8px;
   }
   &-options {
-    @include flex-grow(1);
-    @include display(flex);
-    @include justify-content(flex-end);
+    position: absolute;
+    bottom: 15px;
+    right: 20px;
   }
   div > &-dropdown {
     @include animation(dropdown-pop-in 300ms ease-in-out);
     position: absolute;
-    bottom: 10px;
-    left: 10px;
+    bottom: 15px;
+    left: 15px;
     height: $template-preview-card-dropdown-height;
     width: 100px;
   }
