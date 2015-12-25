@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import TemplatePreviewCard from './TemplatePreviewCard';
 import TemplateActionCreators from '../.././actions/TemplateActionCreators';
 import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
 import {truncateString} from '../.././utils/TextHelper';
@@ -102,12 +103,11 @@ export default class TemplatesIndex extends Component {
 
   _renderTemplatePreviews = () => {
     return this.props.templates.map((template, i) => {
-      const titlePreview = truncateString(template.get('title'), 25);
-
       return (
-        <GridViewItem className={`${displayName}-templates-item`} key={i}>
-          <h4 className={`${displayName}-templates-item-title`}>{titlePreview}</h4>
-        </GridViewItem>
+        <TemplatePreviewCard
+          className={`${displayName}-templates-item`}
+          key={i}
+          template={template}/>
       );
     });
   }

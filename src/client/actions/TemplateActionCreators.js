@@ -40,6 +40,42 @@ const TemplateActionCreators = {
 
 
   /**
+   * Executes the API call to delete a template
+   *
+   * @param  {String} templateId - The `_id` of the template to delete
+   * @return {Function}  - The thunk that makes the API call
+   */
+  deleteTemplate(templateId) {
+    return (dispatch) => {
+      ApiCaller.sendAjaxRequest({
+        method: apiEndpoints.templates.delete.method,
+        url: apiEndpoints.templates.delete.path,
+        data: {templateId}
+      })
+        .then(() => {
+          dispatch(this.deleteTemplateSuccess(templateId));
+        })
+        .catch((response) => {
+          dispatch(AppActionCreators.createFlashMessage('red', response.message));
+        });
+    };
+  },
+
+
+  /**
+   * Handles the success of the delete template
+   * @param  {String} deletedTemplateId - The `_id` of the recently deleted template
+   * @return {Object}                   - The data passed to the Template Reducer
+   */
+  deleteTemplateSuccess(deletedTemplateId) {
+    return {
+      type: TemplateActionTypes.DELETE_TEMPLATE_SUCCESS,
+      data: {deletedTemplateId}
+    };
+  },  
+
+
+  /**
    * Fetches the templates for the current user
    *
    * @return {Function} - The thunk that makes the API call
@@ -71,6 +107,16 @@ const TemplateActionCreators = {
       type: TemplateActionTypes.FETCH_TEMPLATES_SUCCESS,
       data: {templates}
     };
+  },
+
+
+  /**
+   * Resets the flag for a template being just created to false.
+   *
+   * @return {Object} - The data passed to the Template Reducer
+   */
+  resetTemplateCreated() {
+    return {type: TemplateActionTypes.RESET_TEMPLATE_CREATED};
   }
 
 }

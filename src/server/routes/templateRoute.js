@@ -30,9 +30,21 @@ router.post('/create', (req, res) => {
 
 // Retrieves all of the current user's existing templates
 router.get('/index', (req, res) => {
-  Template.find({_owner: req.session.userId}, (err, templates) => {
+  Template
+    .find({_owner: req.session.userId})
+    .sort({updatedAt: -1})
+    .exec((err, templates) => {
+      if (err) res.status(422).json({message: findFirstErrorMessage(result)});
+      res.status(200).json({templates});
+    });
+});
+
+
+router.post('/delete', (req, res) => {
+  Template.remove(req.body.templateId, (err, template) => {
+    debugger;
     if (err) res.status(422).json({message: findFirstErrorMessage(result)});
-    res.status(200).json({templates});
+    res.status(204).end();
   });
 });
 

@@ -1,5 +1,6 @@
 // TODO: Use `_.debounce` to make the placeholder finding less expensive?
 import React, {Component, PropTypes} from 'react';
+import {connect} from 'react-redux';
 import Immutable from 'immutable';
 import strip from 'strip';
 import AppActionCreators from '../.././actions/AppActionCreators';
@@ -24,12 +25,20 @@ const caretMarkerNodeMatcher = new RegExp(caretMarkerNodeMatcher);
 
 const displayName = 'TemplatesNew';
 
+@connect((state) => ({
+  templateCreated: state.templates.get('templateCreated')
+}))
 export default class TemplatesNew extends Component {
 
   static displayName = displayName;
 
   static contextTypes = {
-    dispatch: PropTypes.func.isRequired
+    dispatch: PropTypes.func.isRequired,
+    history: PropTypes.object.isRequired
+  };
+
+  static propTypes = {
+    templateCreated: PropTypes.bool.isRequired
   };
 
   constructor(props) {
@@ -44,7 +53,17 @@ export default class TemplatesNew extends Component {
     };
   }
 
+  componentDidUpdate() {
+    if (this.props.templateCreated) this.context.history.push('/dashboard/templates');
+  }
+
+  componentWillUnmount() {
+    debugger;
+    this.context.dispatch(TemplateActionCreators.resetTemplateCreated());
+  }
+
   render() {
+    console.log(this.props.templateCreated);
     const {template} = this.state;
     const placeholderValues = template.get('placeholders').map((placeholder) => placeholder.get('value'));
 
@@ -146,7 +165,7 @@ export default class TemplatesNew extends Component {
         AppActionCreators.createModal(
           <ModalConfirm
             confirmText='Yes, go ahead!'
-            onConfirm={this._createTemplate}>
+            onConfirm={() => this._createTemplate(rawText)}>
             It looks like you have no placeholders. Are you sure you want to create a template 
             widthout placeholders? - kinda defeats the purpose of a template... Just sayin'
           </ModalConfirm>

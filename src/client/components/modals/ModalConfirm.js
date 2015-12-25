@@ -29,7 +29,7 @@ export default class ModalConfirm extends Component {
   };
 
   render() {
-    const {children, className, confirmText, onConfirm, onRegret, regretText} = this.props;
+    const {children, className, confirmText, onRegret, regretText} = this.props;
     const classes = classNames(className, displayName);
 
     return (
@@ -41,7 +41,7 @@ export default class ModalConfirm extends Component {
           <Button
             className={`${displayName}-button-group-button`}
             color='green'
-            onClick={onConfirm}
+            onClick={this._handleConfirm}
             text={confirmText}/>
           <Button
             className={`${displayName}-button-group-button`}
@@ -51,6 +51,11 @@ export default class ModalConfirm extends Component {
         </div>
       </ModalWrapper>
     );
+  }
+
+  _handleConfirm = () => {
+    this.props.onConfirm();
+    this._handleDismissModal();
   }
 
   _handleDismissModal = () => {
