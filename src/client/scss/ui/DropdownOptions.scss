@@ -1,14 +1,20 @@
-.dropdown-options {
-  @extend .box-shadow;
-  background-color: $form-background-color;
-  border-radius: $border-radius;
-  list-style: none;
-  margin: 1rem;
-  padding: 0.5rem 1rem;
+.ui-DropdownOptions {
+  @include animation(fade-in 200ms ease);
+  @include display(flex);
+  @include flex-direction(column);
+  background-color: #FFF;
+  padding: 10px 0;
   &-item {
+    @extend .transition;
+    background-color: inherit;
+    border: none;
+    color: $text-color-light;
+    outline: none;
+    padding: 5px 8px;
+    text-align: left;
     &:hover {
-      color: $secondary-brand-color;
-      cursor: pointer;
+      background-color: $form-background-color;
+      color: $primary-brand-color;
     }
   }
 }

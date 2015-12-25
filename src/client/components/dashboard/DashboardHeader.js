@@ -40,8 +40,8 @@ export default class DashboardHeader extends Component {
   render() {
     const {currentUser} = this.props;
     const profileNavOptions = [
-      {name: 'Profile Settings', callback: this._viewProfile},
-      {name: 'Logout', callback: this._logoutUser}
+      {label: 'Profile Settings', callback: this._viewProfile},
+      {label: 'Logout', callback: this._logoutUser}
     ];
 
     return (
@@ -66,7 +66,7 @@ export default class DashboardHeader extends Component {
               {`${currentUser.get('firstName')} ${currentUser.get('lastName')}`}
             </span>
             <DropdownOptions
-              dropdownOptionsClassName={`${displayName}-navbar-nav-profile-dropdown`}
+              className={`${displayName}-navbar-nav-profile-dropdown`}
               onShowOptions={this._showProfileOptions}
               onHideOptions={this._hideProfileOptions}
               options={profileNavOptions}

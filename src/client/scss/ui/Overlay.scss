@@ -1,6 +1,6 @@
 @include keyframes(fade-in-modal) {
-  from { background-color: transparent }
-  to { background-color: $overlay-background-color }
+  from { background-color: transparent; }
+  to { background-color: $overlay-background-color; }
 }
 
 .ui-Overlay {

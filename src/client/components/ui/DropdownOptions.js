@@ -1,15 +1,21 @@
 import React, {Component, PropTypes} from 'react';
 import classNames from 'classnames';
+import Card from './Card';
+
+const displayName = 'ui-DropdownOptions';
 
 export default class DropdownOptions extends Component {
 
+  static displayName = displayName;
+
   static propTypes = {
-    dropdownOptionsClassName: PropTypes.string,
-    onShowOptions: PropTypes.func.isRequired,
-    onHideOptions: PropTypes.func.isRequired,
+    className: PropTypes.string,
     options: PropTypes.arrayOf(
       PropTypes.shape({
-        name: PropTypes.string.isRequired,
+        label: PropTypes.oneOfType([
+          PropTypes.element,
+          PropTypes.string
+        ]).isRequired,
         callback: PropTypes.func.isRequired
       })
     ).isRequired,
@@ -17,29 +23,29 @@ export default class DropdownOptions extends Component {
   };
 
   render() {
-    // If showDropdownOptions is false, the menu is not shown to begin with.
+    // If `showDropdownOptions` is false, the menu is not shown to begin with.
     if (!this.props.showDropdownOptions) return <div/>;
 
-    const dropdownOptionsClasses = classNames('dropdown-options', this.props.dropdownOptionsClassName);
-    const options = this.props.options.map((option, i) => {
-      return (
-        <li
-          className='dropdown-options-item'
-          key={i}
-          onClick={option.callback}>
-          {option.name}
-        </li>
-      );
-    });
+    const classes = classNames(displayName, this.props.className);
 
     return (
-      <ul 
-        className={dropdownOptionsClasses}
-        onMouseEnter={this.props.onShowOptions}
-        onMouseLeave={this.props.onHideOptions}>
-        {options}
-      </ul>
+      <Card className={classes}>
+        {this._renderOptions()}
+      </Card>
     );
+  }
+
+  _renderOptions = () => {
+    return this.props.options.map((option, i) => {
+      return (
+        <button
+          className={`${displayName}-item`}
+          key={i}
+          onClick={option.callback}>
+          {option.label}
+        </button>
+      );
+    });
   }
 
 }

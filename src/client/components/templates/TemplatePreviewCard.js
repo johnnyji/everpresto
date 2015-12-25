@@ -4,6 +4,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import {truncateString} from '../.././utils/TextHelper';
 
 import ClickableIcon from '.././ui/ClickableIcon';
+import DropdownOptions from '.././ui/DropdownOptions';
 import GridViewItem from '.././ui/GridViewItem';
 import Icon from '.././ui/Icon';
 
@@ -37,37 +38,69 @@ export default class TemplatePreviewCard extends Component {
     })
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      showDropdownOptions: false
+    };
+  }
+
   render() {
     const {children, className} = this.props;
+    const {showDropdownOptions} = this.state;
     const classes = classNames(className, displayName);
 
     if (children) return <GridViewItem className={classes}>{children}</GridViewItem>;
 
     const {template} = this.props;
     const titlePreview = truncateString(template.get('title'), 25);
+    const dropdownOptions = [
+      {label: 'Preview', callback: this._handlePreview},
+      {label: 'Edit', callback: this._handleEditView},
+      {label: 'Delete', callback: this._handleDelete}
+    ];
 
     return (
       <GridViewItem className={classes}>
         <header className={`${displayName}-header`}>
           <h4 className={`${displayName}-header-title`}>{titlePreview}</h4>
-          <ClickableIcon
-            icon='close'
-            onClick={this._handleDelete}
-            size={24}/>
         </header>
         <div
           className={`${displayName}-body`}
           dangerouslySetInnerHTML={{__html: template.get('body')}}/>
         <div className={`${displayName}-options`}>
+          <ClickableIcon
+            icon='ellipsis'
+            onClick={this._toggleOptions}/>
         </div>
+        <DropdownOptions
+          className={`${displayName}-dropdown`}
+          options={dropdownOptions}
+          showDropdownOptions={showDropdownOptions}/>
       </GridViewItem>
     );
+  }
+
+  _handleEditView = () => {
+
   }
 
   _handleDelete = () => {
     if (confirm('Are you sure you want to delete this template?')) {
       this.context.dispatch(TemplateActionCreators.deleteTemplate(this.props.template.get('_id')));
     }
+  }
+
+  _handlePreview = () => {
+
+  }
+
+  _renderOptions = () => {
+    if (!this.state.showDropdownOptions) return;
+  }
+
+  _toggleOptions = () => {
+    this.setState({showDropdownOptions: !this.state.showDropdownOptions});
   }
 
 }
