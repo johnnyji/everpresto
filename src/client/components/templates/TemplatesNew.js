@@ -2,23 +2,11 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import Immutable from 'immutable';
-import strip from 'strip';
 import AppActionCreators from '../.././actions/AppActionCreators';
 import TemplateActionCreators from '../.././actions/TemplateActionCreators';
-import TextEditorHelper from '../.././utils/TextEditorHelper';
 
-import Button from '.././ui/Button';
-import Icon from '.././ui/Icon';
-import List from '.././ui/List';
-import ListItem from '.././ui/ListItem';
-import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
-import ModalCreatePlaceholder from '.././modals/ModalCreatePlaceholder';
-import ModalConfirm from '.././modals/ModalConfirm';
-import DocumentEditor from '.././shared/DocumentEditor';
-import EditorSidebar from '.././shared/EditorSidebar';
-import FileConverter from '.././shared/FileConverter';
+import TemplateEditorView from './TemplateEditorView';
 
-const {removeCaretPositionMarker, removeZeroWidthSpace} = TextEditorHelper;
 const displayName = 'TemplatesNew';
 
 @connect((state) => ({
@@ -41,9 +29,9 @@ export default class TemplatesNew extends Component {
     super(props);
     this.state = {
       template: Immutable.fromJS({
-        body: 'd',
+        body: '',
         placeholders: [],
-        title: 'd'
+        title: ''
       }),
       importingTemplate: false
     };
@@ -67,98 +55,20 @@ export default class TemplatesNew extends Component {
     const placeholderValues = template.get('placeholders').map((placeholder) => placeholder.get('value'));
 
     return (
-      <DashboardContentWrapper className={displayName}>
-        <DocumentEditor
-          body={template.get('body')}
-          isTemplateEditor={true}
-          onBodyChange={(value) => this._updateTemplateAttribute('body', value)}
-          onTitleChange={(value) => this._updateTemplateAttribute('title', value)}
-          templatePlaceholders={placeholderValues}
-          titlePlaceholder='Untitled Template'
-          title={template.get('title')}/>
-        <EditorSidebar>
-          <FileConverter onEnd={this._handleTemplateUploadEnd} onStart={this._handleTemplateUploadStart} />
-          <Button color='blue' icon='add' onClick={this._showAddPlaceholderModal} text='Add Placeholder' />
-          <List>{this._renderPlaceholders()}</List>
-          <Button
-            color='green'
-            icon='done'
-            onClick={this._validateTemplate}
-            text='Create Template!' />
-        </EditorSidebar>
-      </DashboardContentWrapper>
+      <TemplateEditorView
+        onSave={this._validateTemplate}
+        template={template}/>
     );
-  }
-
-  _addPlaceholder = (newPlaceholder) => {
-    return this.state.template.get('placeholders').push(newPlaceholder);
   }
 
   _createError = (message) => {
     this.context.dispatch(AppActionCreators.createFlashMessage('red', message));
   }
 
-  _createTemplate = (rawText) => {
-    // Removes any zero width spaces and the caret position marker
-    let template = this.state.template.set('rawText', removeZeroWidthSpace(rawText));
-    template = template.set('body', removeCaretPositionMarker(removeZeroWidthSpace(template.get('body'))));
-
-    this.context.dispatch(TemplateActionCreators.createTemplate(template.toJS()));
-  }
-
-  _handleTemplateUploadEnd = (body) => {
-    this.setState({
-      importingTemplate: false,
-      template: this.state.template.merge({body})
-    });
-  }
-
-  _handleTemplateUploadStart = () => {
-    this.setState({importingTemplate: true});
-  }
-
-  _removePlaceholder = (placeholderObj) => {
-    const placeholderState = this.state.template.get('placeholders');
-    return placeholderState.splice(placeholderState.indexOf(placeholderObj), 1);
-  }
-
-  _renderPlaceholders = () => {
-    return this.state.template.get('placeholders').map((placeholder, i) => {
-      return (
-        <ListItem
-          key={i}
-          onRemove={() => this._updateTemplateAttribute('placeholders', this._removePlaceholder(placeholder))}
-          removable={true}>
-          {placeholder.get('label')}
-          <Icon icon='arrow-forward' size={12} />
-          <mark>{placeholder.get('value')}</mark>
-        </ListItem>
-      );
-    });
-  }
-
-  _showAddPlaceholderModal = () => {
-    this.context.dispatch(
-      AppActionCreators.createModal(
-        <ModalCreatePlaceholder
-          onCreate={(placeholder) => this._updateTemplateAttribute('placeholders', this._addPlaceholder(placeholder))}
-          placeholders={this.state.template.get('placeholders')}/>
-      )
-    );
-  }
-
-  _updateTemplateAttribute = (attr, value) => {
-    this.setState({
-      template: this.state.template.set(attr, value)
-    });
-  }
-
-  _validateTemplate = () => {
-    const {template} = this.state;
-    const rawText = strip(template.get('body'));
+  _validateTemplate = (template) => {
 
     if (template.get('title').length === 0) return this._createError('Please provide a title for your template!');
-    if (rawText.length === 0) return this._createError('Your template can\'t be blank, duh...');
+    if (template.get('rawText').length === 0) return this._createError('Your template can\'t be blank, duh...');
     if (template.get('placeholders').size === 0) {
       return this.context.dispatch(
         AppActionCreators.createModal(
@@ -173,7 +83,7 @@ export default class TemplatesNew extends Component {
     }
 
     // If all validations pass, we create the template
-    this._createTemplate(rawText);
+    this.context.dispatch(TemplateActionCreators.createTemplate(template.toJS()));
   }
 
 }

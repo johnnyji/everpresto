@@ -1,0 +1,4 @@
+.TemplateEditorView {
+  @include display(flex);
+  @include flex-flow(column no-wrap);
+}

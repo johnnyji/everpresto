@@ -2,6 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import CustomPropTypes from '.././CustomPropTypes';
 import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
+import TemplateEditorView from './TemplateEditorView';
 
 import TemplateActionCreators from '../.././actions/TemplateActionCreators';
 
@@ -24,11 +25,16 @@ export default class TemplatesEdit extends Component {
 
   render() {
     const {template} = this.props;
-
+    console.log(template);
     return (
-      <DashboardContentWrapper>
-        {template.get('title')}
-      </DashboardContentWrapper>
+      <TemplateEditorView
+        mode='edit'
+        template={template}
+        onSave={this._handleSave}/>
     );
+  }
+
+  _handleSave = (template) => {
+    console.log(template.toJS());
   }
 }

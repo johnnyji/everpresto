@@ -6,6 +6,7 @@
 .ModalDocumentPreview {
   @include display(flex);
   @include flex-direction(column);
+  overflow-y: scroll;
   &-title {
     font-weight: 500;
     font-size: 24px;
