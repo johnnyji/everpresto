@@ -8,4 +8,10 @@
   &:hover {
     color: $primary-brand-color;
   }
+  &-white {
+    color: #FFF;
+    &:hover {
+      color: #FFF;
+    }
+  }
 }

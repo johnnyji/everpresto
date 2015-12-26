@@ -5,6 +5,11 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import CustomPropTypes from '.././CustomPropTypes';
 
 import Button from '.././ui/Button';
+import ClickableIcon from '.././ui/ClickableIcon';
+import FolderCard from '.././ui/FolderCard';
+// import GridView from '.././ui/GridView';
+// import GridViewItem from '.././ui/GridViewItem';
+import Spinner from '.././ui/Spinner';
 import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
 import DashboardMessage from '.././dashboard/DashboardMessage';
 
@@ -49,13 +54,22 @@ export default class DocumentCollectionsIndex extends Component {
   }
 
   render() {
-    const {templates} = this.props;
+    const {shouldFetchTemplates, templates} = this.props;
 
-    if (templates.size === 0) return this._renderCreateTemplateMessage();
+    if (shouldFetchTemplates) return <Spinner />;
+
+    if (!shouldFetchTemplates && templates.size === 0) return this._renderCreateTemplateMessage();
 
     return (
       <DashboardContentWrapper className={displayName}>
-                
+        <FolderCard className={`${displayName}-folder`} height={100} width={150}>
+          <ClickableIcon
+            className={`${displayName}-folder-create-icon`}
+            icon='add'
+            isWhite={true}
+            onClick={() => console.log('hit')}
+            size={32}/>
+        </FolderCard>
       </DashboardContentWrapper>
     );
   }

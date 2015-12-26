@@ -10,4 +10,29 @@
       margin-top: 20px;
     }
   }
+
+  &-folder {
+    position: relative;
+    &-create-icon {
+      @extend .center-absolute;
+      color: #FFF;
+    }
+  }
+
+  &-folders {
+    &-item {
+      position: relative;
+      background-color: yellow;
+      height: 200px;
+      width: 300px;
+      svg {
+        width: 100%;
+        height: 100%;
+      }
+      &-icon {
+        position: relative;
+        color: $primary-brand-color;
+      }
+    }
+  }
 }

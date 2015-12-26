@@ -11,17 +11,23 @@ export default class ClickableIcon extends Component {
   static propTypes = {
     className: PropTypes.string,
     icon: PropTypes.string.isRequired,
+    isWhite: PropTypes.bool.isRequired,
     onClick: PropTypes.func.isRequired,
     size: PropTypes.number.isRequired
   };
 
   static defaultProps = {
+    isWhite: false,
     size: 24
   };
 
   render() {
-    const {className, icon, onClick, size} = this.props;
-    const classes = classNames(className, displayName);
+    const {className, icon, isWhite, onClick, size} = this.props;
+    const classes = classNames(
+      className,
+      displayName,
+      {[`${displayName}-white`]: isWhite}
+    );
 
     return (
       <button className={classes} onClick={onClick}>

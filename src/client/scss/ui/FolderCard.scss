@@ -1,0 +1,30 @@
+.ui-FolderCard {
+  @include display(flex);
+  @include flex-direction(column);
+  &-tab {
+    height: 15%;
+    position: relative;
+    &-left, &-right {
+      position: absolute;
+    }
+    &-left {
+      background-color: $primary-brand-color;
+      left: 0;
+      height: 100%;
+      width: 58%;
+    }
+    &-right {
+      background-color: $secondary-brand-color;
+      bottom: 0;
+      right: 0;
+      height: 70%;
+      width: 53%;
+    }
+  }
+  &-main {
+    background-color: $secondary-brand-color;
+    height: 85%;
+    width: 100%;
+    padding: 8px;
+  }
+}
