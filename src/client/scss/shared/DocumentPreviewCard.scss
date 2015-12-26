@@ -1,0 +1,29 @@
+.DocumentPreviewCard {
+  position: relative;
+  min-height: 300px;
+  max-height: 300px;
+  &-header {
+    @include display(flex);
+    @include justify-content(space-between);
+    @include align-items(center);
+    margin-top: 5px;
+    &-title {
+      margin: 0;
+      height: 100%;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+  &-body {
+    @include filter(blur(1px));
+    color: $text-color-light;
+    font-size: 10px;
+    height: 211px;
+    overflow: hidden;
+    padding: 8px;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}

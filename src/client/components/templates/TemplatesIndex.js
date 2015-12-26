@@ -2,6 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import CustomPropTypes from '.././CustomPropTypes';
+import DocumentPreviewCard from '.././shared/DocumentPreviewCard';
 import TemplatePreviewCard from './TemplatePreviewCard';
 import TemplateActionCreators from '../.././actions/TemplateActionCreators';
 import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
@@ -54,7 +55,7 @@ export default class TemplatesIndex extends Component {
 
     if (templateBeingEdited) return this.context.history.push('/dashboard/templates/edit');
     if (shouldFetchTemplates) return this.context.dispatch(TemplateActionCreators.fetchTemplates());
-    this.setState({renderView: true});
+    if (!this.state.renderView) this.setState({renderView: true});
   }
 
   render() {
@@ -75,13 +76,13 @@ export default class TemplatesIndex extends Component {
     return (
       <div>
         <GridView className={`${displayName}-templates`}>
-          <TemplatePreviewCard className={`${displayName}-templates-new`}>
+          <DocumentPreviewCard className={`${displayName}-templates-new`}>
             <ClickableIcon
               className={`${displayName}-templates-new-button`}
               icon='add'
               onClick={this._handleNewTemplate}
               size={70}/>
-          </TemplatePreviewCard>
+          </DocumentPreviewCard>
           {this._renderTemplatePreviews()}
         </GridView>
       </div>

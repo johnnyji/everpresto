@@ -1,13 +1,14 @@
 import React, {Component, PropTypes} from 'react';
 import classNames from 'classnames';
-import ImmutablePropTypes from 'react-immutable-proptypes';
-import {truncateString} from '../.././utils/TextHelper';
+import CustomPropTypes from '.././CustomPropTypes';
+// import {truncateString} from '../.././utils/TextHelper';
 
 import ClickableIcon from '.././ui/ClickableIcon';
 import DropdownOptions from '.././ui/DropdownOptions';
-import GridViewItem from '.././ui/GridViewItem';
+// import GridViewItem from '.././ui/GridViewItem';
 import Icon from '.././ui/Icon';
 import ModalDocumentPreview from '.././modals/ModalDocumentPreview';
+import DocumentPreviewCard from '.././shared/DocumentPreviewCard';
 
 import AppActionCreators from '../.././actions/AppActionCreators';
 import TemplateActionCreators from '../.././actions/TemplateActionCreators';
@@ -24,20 +25,7 @@ export default class TemplatePreviewCard extends Component {
 
   static propTypes = {
     className: PropTypes.string,
-    template: ImmutablePropTypes.contains({
-      _id: PropTypes.string.isRequired,
-      body: PropTypes.string.isRequired,
-      createdAt: PropTypes.string.isRequired,
-      placeholders: ImmutablePropTypes.listOf(
-        ImmutablePropTypes.contains({
-          label: PropTypes.string.isRequired,
-          value: PropTypes.string.isRequired
-        })
-      ).isRequired,
-      rawText: PropTypes.string.isRequired,
-      title: PropTypes.string.isRequired,
-      updatedAt: PropTypes.string.isRequired
-    })
+    template: CustomPropTypes.template.isRequired
   };
 
   constructor(props) {
@@ -48,14 +36,9 @@ export default class TemplatePreviewCard extends Component {
   }
 
   render() {
-    const {children, className} = this.props;
+    const {className, template} = this.props;
     const {showDropdownOptions} = this.state;
     const classes = classNames(className, displayName);
-
-    if (children) return <GridViewItem className={classes}>{children}</GridViewItem>;
-
-    const {template} = this.props;
-    const titlePreview = truncateString(template.get('title'), 25);
     const dropdownOptions = [
       {label: 'Preview', callback: this._handlePreview},
       {label: 'Edit', callback: this._handleEditView},
@@ -63,14 +46,12 @@ export default class TemplatePreviewCard extends Component {
     ];
 
     return (
-      <GridViewItem className={classes}>
-        <header className={`${displayName}-header`}>
-          <h4 className={`${displayName}-header-title`}>{titlePreview}</h4>
-        </header>
-        <div
-          className={`${displayName}-body`}
-          dangerouslySetInnerHTML={{__html: template.get('body')}}
-          onClick={this._handleEditView}/>
+      <DocumentPreviewCard
+        body={template.get('body')}
+        className={classes}
+        onBodyClick={this._handleEditView}
+        onTitleClick={this._handleEditView}
+        title={template.get('title')}>
         <div className={`${displayName}-options`}>
           <ClickableIcon
             icon={showDropdownOptions ? 'close' : 'ellipsis'}
@@ -81,7 +62,7 @@ export default class TemplatePreviewCard extends Component {
           onHideDropdown={this._toggleOptions}
           options={dropdownOptions}
           showDropdownOptions={showDropdownOptions}/>
-      </GridViewItem>
+      </DocumentPreviewCard>
     );
   }
 

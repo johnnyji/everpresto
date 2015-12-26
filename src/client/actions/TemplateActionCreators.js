@@ -3,6 +3,8 @@ import ApiCaller from '.././utils/ApiCaller';
 import AppActionCreators from './AppActionCreators';
 import TemplateActionTypes from './../action_types/TemplateActionTypes';
 
+const {createFlashMessage} = AppActionCreators;
+
 const TemplateActionCreators = {
 
   /**
@@ -22,7 +24,7 @@ const TemplateActionCreators = {
           dispatch(this.createTemplateSuccess());
         })
         .catch((response) => {
-          dispatch(AppActionCreators.createFlashMessage('red', response.message));
+          dispatch(createFlashMessage('red', response.message));
         });
     };
   },
@@ -56,7 +58,7 @@ const TemplateActionCreators = {
           dispatch(this.deleteTemplateSuccess(templateId));
         })
         .catch((response) => {
-          dispatch(AppActionCreators.createFlashMessage('red', response.message));
+          dispatch(createFlashMessage('red', response.message));
         });
     };
   },
@@ -90,7 +92,10 @@ const TemplateActionCreators = {
           dispatch(this.fetchTemplatesSuccess(response.data.templates));
         })
         .catch((response) => {
-          dispatch(AppActionCreators.createFlashMessage('red', response.message));
+          if (response.status === 500) {
+            dispatch(createFlashMessage('red', 'Sorry, we\'re having a connection error... Maybe try again?'));
+          }
+          dispatch(createFlashMessage('red', response.message));
         });
     };
   },
@@ -161,7 +166,7 @@ const TemplateActionCreators = {
           dispatch(this.updateTemplateSuccess());
         })
         .catch((response) => {
-          dispatch(AppActionCreators.createFlashMessage('red', response.message));
+          dispatch(createFlashMessage('red', response.message));
         });
     }
   },

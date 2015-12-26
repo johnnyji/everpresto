@@ -34,6 +34,7 @@ const routes = (
 
     <Route path='dashboard' component={requireAuth(DashboardHandler)}>
       <IndexRoute component={DocumentCollectionsView} />
+
       <Route path='documents' component={DocumentCollectionsView}>
         <IndexRoute component={DocumentCollectionsIndex} />
       </Route>
