@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import Promise from 'bluebird';
 import mongoose from 'mongoose';
-// import sanitizer from 'sanitizer';
 import xss from 'xss';
 
 const Schema = mongoose.Schema;
