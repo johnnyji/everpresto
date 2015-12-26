@@ -73,6 +73,7 @@ export default class ModalCreatePlaceholder extends Component {
                 errorKeys='errors:label'
                 label='Display'
                 liveError={true}
+                onEnterKeyPress={this._createPlaceholder}
                 onUpdate={this._updatePlaceholder}
                 patternMatches={RegexHelper.minLength(1, 'What\'s the display label for your placeholder?')}
                 ref='label'
@@ -84,6 +85,7 @@ export default class ModalCreatePlaceholder extends Component {
                 errorKeys='errors:value'
                 label='Value'
                 liveError={true}
+                onEnterKeyPress={this._createPlaceholder}
                 onUpdate={this._updatePlaceholder}
                 patternMatches={[
                   RegexHelper.minLength(1, 'What\'s the actual placeholder gonna be?'),
@@ -110,6 +112,7 @@ export default class ModalCreatePlaceholder extends Component {
   }
 
   _createPlaceholder = () => {
+    console.log('hit');
     // Calls the valid method on every input field and returns the error of the first invalid field.
     const firstFoundError = this.state.placeholder.get('errors').find((v, k) => !this.refs[k].valid());
     if (firstFoundError !== undefined) return this._createFlashError(firstFoundError);
@@ -129,9 +132,7 @@ export default class ModalCreatePlaceholder extends Component {
     const alreadyExistingPlaceholderValues = placeholders.find((p) => p.get('value') === value);
     if (alreadyExistingPlaceholderValues) {
       return this._createFlashError(
-        <span>
-          <mark>{value}</mark> is already a placeholder for this template. Try something else!
-        </span>
+        <span><b>{value}</b> is already a placeholder for this template. Try something else!</span>
       );
     }
 

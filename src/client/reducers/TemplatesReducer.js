@@ -7,7 +7,8 @@ const {
   FETCH_TEMPLATES_SUCCESS,
   RESET_TEMPLATE_CREATED,
   RESET_TEMPLATE_BEING_EDITED,
-  SET_TEMPLATE_BEING_EDITED} = TemplateActionTypes;
+  SET_TEMPLATE_BEING_EDITED,
+  UPDATE_TEMPLATE_SUCCESS} = TemplateActionTypes;
 
 const initialState = Immutable.fromJS({
   shouldFetchTemplates: true,
@@ -50,6 +51,12 @@ export default function templatesReducer(state = initialState, action) {
       // No need to convert to Immutable.js, the template being passed in is already
       // and Immutable.Map
       return state.set('templateBeingEdited', action.data.template);
+
+    case UPDATE_TEMPLATE_SUCCESS:
+      return state.merge({
+        shouldFetchTemplates: true,
+        templateBeingEdited: null
+      });
 
     default:
       return state;

@@ -22,6 +22,7 @@ export default class Input extends Component {
     icon: PropTypes.string,
     label: PropTypes.string.isRequired,
     liveError: PropTypes.bool.isRequired,
+    onEnterKeyPress: PropTypes.func,
     onUpdate: PropTypes.func.isRequired,
     patternMatches: PropTypes.oneOfType([
       PropTypes.arrayOf(
@@ -196,7 +197,12 @@ export default class Input extends Component {
    * @param  {Object} e - The event object
    */
   _handleKeyPress = (e) => {
-    if (e.which === ENTER_KEY) this._submitValue(e.target.value);
+    if (e.which === ENTER_KEY) {
+      const {onEnterKeyPress} = this.props;
+
+      if (onEnterKeyPress) onEnterKeyPress();
+      this._submitValue(e.target.value);
+    }
   }
 
 

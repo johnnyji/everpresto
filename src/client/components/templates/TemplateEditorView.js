@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import Immutable from 'immutable';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 import strip from 'strip';
 import CustomPropTypes from '.././CustomPropTypes';
 import TextEditorHelper from '../.././utils/TextEditorHelper';
@@ -31,7 +32,14 @@ export default class TemplateEditorView extends Component {
   static propTypes = {
     mode: PropTypes.oneOf(['create', 'edit']).isRequired,
     onSave: PropTypes.func.isRequired,
-    template: CustomPropTypes.template
+    template: PropTypes.oneOfType([
+      CustomPropTypes.template,
+      ImmutablePropTypes.contains({
+        body: PropTypes.string.isRequired,
+        placeholders: ImmutablePropTypes.listOf(PropTypes.string).isRequired,
+        title: PropTypes.string.isRequired
+      })
+    ]).isRequired
   };
 
   static defaultProps = {

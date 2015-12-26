@@ -12,7 +12,8 @@ const apiEndpoints = {
   templates: {
     index: formApiPath('/template/index', 'GET'),
     create: formApiPath('/template/create', 'POST'),
-    delete: formApiPath('/template/delete', 'POST')
+    delete: formApiPath('/template/delete', 'POST'),
+    update: formApiPath('/template/update', 'POST')
   },
   users: {
     create: formApiPath('/auth/register', 'POST'),

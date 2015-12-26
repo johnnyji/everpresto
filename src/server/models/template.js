@@ -1,7 +1,8 @@
 import _ from 'lodash';
 import Promise from 'bluebird';
 import mongoose from 'mongoose';
-import sanitizer from 'sanitizer';
+// import sanitizer from 'sanitizer';
+import xss from 'xss';
 
 const Schema = mongoose.Schema;
 const {ObjectId} = Schema.Types;
@@ -34,11 +35,22 @@ const TemplateSchema = new Schema({
 
 TemplateSchema.statics.createTemplate = function(data) {
   return new Promise((resolve, reject) => {
-    // TODO: Make sure sanitization works.
     // Sanitizes the HTML text to remove any malicious tags
-    const sanitizedData = _.set(data, 'body', sanitizer.sanitize(data.body));
+    const sanitizedData = _.set(data, 'body', xss(data.body));
 
     this.create(sanitizedData, (err, template) => {
+      if (err) reject(err);
+      resolve(template);
+    });
+  });
+}
+
+TemplateSchema.statics.updateTemplate = function(id, data) {
+  return new Promise((resolve, reject) => {
+    // Sanitizes the HTML text to remove any malicious tags
+    const sanitizedData = _.set(data, 'body', xss(data.body));
+    debugger;
+    this.findOneAndUpdate({_id: id}, sanitizedData, (err, template) => {
       if (err) reject(err);
       resolve(template);
     });

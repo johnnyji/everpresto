@@ -140,6 +140,40 @@ const TemplateActionCreators = {
       type: TemplateActionTypes.SET_TEMPLATE_BEING_EDITED,
       data: {template}
     };
+  },
+
+
+  /**
+   * Sends an API call to update the template passed in
+   *
+   * @param  {String} templateId   - The `_id` of the template we're updating
+   * @param  {Object} templateData - The new template data
+   * @return {Function}            - The thunk that makes the API call
+   */
+  updateTemplate(templateId, templateData) {
+    return (dispatch) => {
+      ApiCaller.sendAjaxRequest({
+        method: apiEndpoints.templates.update.method,
+        url: apiEndpoints.templates.update.path,
+        data: {templateId, templateData}
+      })
+        .then(() => {
+          dispatch(this.updateTemplateSuccess());
+        })
+        .catch((response) => {
+          dispatch(AppActionCreators.createFlashMessage('red', response.message));
+        });
+    }
+  },
+
+
+  /**
+   * Handles the success return of the template update
+   * 
+   * @return {Object} - The data passed to the Template Reducer
+   */
+  updateTemplateSuccess() {
+    return {type: TemplateActionTypes.UPDATE_TEMPLATE_SUCCESS};
   }
 
 }

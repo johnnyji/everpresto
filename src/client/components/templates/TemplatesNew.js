@@ -37,9 +37,9 @@ export default class TemplatesNew extends Component {
     };
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps, prevState) {
     if (this.props.templateCreated) {
-      this.context.dispatch(AppActionCreators.createFlashMessage('green', 'Template created!'));
+      this.context.dispatch(AppActionCreators.createFlashMessage('green', 'Template successfully created!'));
       this.context.history.push('/dashboard/templates');
     }
   }
