@@ -10,6 +10,7 @@ import FolderCard from '.././ui/FolderCard';
 // import GridView from '.././ui/GridView';
 // import GridViewItem from '.././ui/GridViewItem';
 import Spinner from '.././ui/Spinner';
+import CollectionPreviewCard from '.././collections/CollectionPreviewCard';
 import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
 import DashboardMessage from '.././dashboard/DashboardMessage';
 
@@ -88,15 +89,28 @@ export default class DocumentCollectionsIndex extends Component {
   _renderCollections = () => {
     return [1, 2, 3, 4, 5, 6, 7, 8].map((n, i) => {
       return (
-        <FolderCard
+        <CollectionPreviewCard
           className={`${displayName}-folders-folder`}
           contentClassName={`${displayName}-folders-folder-main`}
-          height={150}
-          key={i}
-          width={200}>
-          {n}
-        </FolderCard>
-      );
+          key={i}/>
+      )
+      // return (
+      //   <FolderCard
+      //     className={`${displayName}-folders-folder`}
+      //     contentClassName={`${displayName}-folders-folder-main`}
+      //     height={150}
+      //     key={i}
+      //     width={200}>
+      //     {n}
+      //     <div className={`${displayName}-folders-folder-main-options`}>
+      //       <ClickableIcon
+      //         className={`${displayName}-folders-folder-main-options-delete`}
+      //         icon='delete'
+      //         isWhite={true}
+      //         onClick={this._}/>
+      //     </div>
+      //   </FolderCard>
+      // );
     });
   }
 

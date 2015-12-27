@@ -1,4 +1,5 @@
 .DocumentCollectionsIndex {
+
   &-create-template {
     font-size: 18px;
     text-align: center;
@@ -25,6 +26,9 @@
         &-create-icon {
           @extend .center-absolute;
           color: #FFF;
+        }
+        &-options {
+          background-color: red;
         }
       }
     }
