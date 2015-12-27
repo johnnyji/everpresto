@@ -25,6 +25,9 @@
       &-date {
         color: $brand-color-blue-darker;
         padding: 0 5px;
+        &:hover {
+          cursor: default;
+        }
       }
       & svg {
         color: $brand-color-blue-lighter;

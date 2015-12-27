@@ -43,7 +43,7 @@ export default class CollectionPreviewCard extends Component {
     const {className, collection, contentClassName, height, width} = this.props;
     const classes = classNames(className, displayName);
     const contentClasses = classNames(contentClassName, `${displayName}-main`);
-    const createdAt = moment(collection.get('createdAt')).format('YYYY-MM-DD');
+    const createdAt = moment(collection.get('createdAt')).format('MMM DD, YYYY');
 
     return (
       <FolderCard
@@ -58,10 +58,7 @@ export default class CollectionPreviewCard extends Component {
         </button>
         <div className={`${displayName}-main-options`}>
           <small className={`${displayName}-main-options-date`}>{createdAt}</small>
-          <ClickableIcon
-            icon='delete'
-            isWhite={true}
-            onClick={this._handleDeleteCollection}/>
+          <ClickableIcon icon='delete' onClick={this._handleDeleteCollection}/>
         </div>
       </FolderCard>
     );
