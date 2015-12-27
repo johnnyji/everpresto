@@ -62,16 +62,42 @@ export default class DocumentCollectionsIndex extends Component {
 
     return (
       <DashboardContentWrapper className={displayName}>
-        <FolderCard className={`${displayName}-folder`} height={100} width={150}>
-          <ClickableIcon
-            className={`${displayName}-folder-create-icon`}
-            icon='add'
-            isWhite={true}
-            onClick={() => console.log('hit')}
-            size={32}/>
-        </FolderCard>
+        <div className={`${displayName}-folders`}>
+          <FolderCard
+            className={`${displayName}-folders-folder`}
+            contentClassName={`${displayName}-folders-folder-main`}
+            height={150}
+            width={200}>
+            <ClickableIcon
+              className={`${displayName}-folders-folder-main-create-icon`}
+              icon='add'
+              isWhite={true}
+              onClick={this._createCollection}
+              size={48}/>
+          </FolderCard>
+          {this._renderCollections()}
+        </div>
       </DashboardContentWrapper>
     );
+  }
+
+  _createCollection = () => {
+
+  }
+
+  _renderCollections = () => {
+    return [1, 2, 3, 4, 5, 6, 7, 8].map((n, i) => {
+      return (
+        <FolderCard
+          className={`${displayName}-folders-folder`}
+          contentClassName={`${displayName}-folders-folder-main`}
+          height={150}
+          key={i}
+          width={200}>
+          {n}
+        </FolderCard>
+      );
+    });
   }
 
   _renderCreateTemplateMessage = () => {

@@ -11,28 +11,23 @@
     }
   }
 
-  &-folder {
-    position: relative;
-    &-create-icon {
-      @extend .center-absolute;
-      color: #FFF;
+  &-folders {
+    @include outer-container;
+    margin: 0 auto;
+    padding: 20px;
+    &-folder {
+      @include span-columns(3);
+      @include omega(4n);
+      margin: 20px;
+      position: relative;
+      &-main {
+        position: relative;
+        &-create-icon {
+          @extend .center-absolute;
+          color: #FFF;
+        }
+      }
     }
   }
 
-  &-folders {
-    &-item {
-      position: relative;
-      background-color: yellow;
-      height: 200px;
-      width: 300px;
-      svg {
-        width: 100%;
-        height: 100%;
-      }
-      &-icon {
-        position: relative;
-        color: $primary-brand-color;
-      }
-    }
-  }
 }

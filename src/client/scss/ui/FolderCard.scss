@@ -1,3 +1,6 @@
+$main-folder-color: $brand-color-blue-light;
+$secondary-folder-color: $brand-color-blue-lighter;
+
 .ui-FolderCard {
   @include display(flex);
   @include flex-direction(column);
@@ -8,13 +11,13 @@
       position: absolute;
     }
     &-left {
-      background-color: $primary-brand-color;
+      background-color: $secondary-folder-color;
       left: 0;
       height: 100%;
       width: 58%;
     }
     &-right {
-      background-color: $secondary-brand-color;
+      background-color: $main-folder-color;
       bottom: 0;
       right: 0;
       height: 70%;
@@ -22,7 +25,7 @@
     }
   }
   &-main {
-    background-color: $secondary-brand-color;
+    background-color: $main-folder-color;
     height: 85%;
     width: 100%;
     padding: 8px;
