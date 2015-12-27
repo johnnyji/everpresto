@@ -38,7 +38,10 @@ router.post('/delete', (req, res) => {
 
 // Updates a collection
 router.post('/update', (req, res) => {
-  debugger;
+  Collection.findOneAndUpdate({_id: req.body.collectionId}, collectionData, (err, collection) => {
+    if (err) res.status(422).json({message: findFirstErrorMessage(result)});
+    res.status(200).end({collection});
+  });
 });
 
 export default router;

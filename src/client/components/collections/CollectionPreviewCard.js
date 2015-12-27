@@ -28,16 +28,18 @@ export default class CollectionPreviewCard extends Component {
     contentClassName: PropTypes.string,
     collection: CustomPropTypes.collection.isRequired,
     height: PropTypes.number.isRequired,
+    isBeingEdited: PropTypes.bool.isRequired,
     width: PropTypes.number.isRequired
   };
 
   static defaultProps = {
     height: 150,
+    isBeingEdited: false,
     width: 200
   };
 
   render() {
-    const {className, collection, contentClassName, height, width} = this.props;
+    const {className, collection, contentClassName, height, isBeingEdited, width} = this.props;
     const classes = classNames(className, displayName);
     const contentClasses = classNames(contentClassName, `${displayName}-main`);
     const createdAt = moment(collection.get('createdAt')).format('MMM DD, YYYY');
@@ -48,6 +50,7 @@ export default class CollectionPreviewCard extends Component {
         contentClassName={contentClasses}
         height={height}
         width={width}>
+        {this._renderTitle(collection.get('title'), isBeingEdited)}
         <button
           className={`${displayName}-main-title`}
           onClick={this._handleEnterCollection}>
@@ -96,4 +99,24 @@ export default class CollectionPreviewCard extends Component {
       this.context.dispatch(CollectionActionCreators.deleteCollection(collection.get('_id')));
     }
   }
+
+  _renderTitle = (title, isBeingEdited) => {
+
+    if (isBeingEdited) {
+      return (
+        <input
+          className={`${displayName}-main-title`}
+          defaultValue={title}/>
+      );
+    }
+      
+    return (
+      <button
+        className={`${displayName}-main-title`}
+        onClick={this._handleEnterCollection}>
+        {title}
+      </button>
+    );
+  }
+
 }

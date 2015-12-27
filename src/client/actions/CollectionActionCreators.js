@@ -148,21 +148,21 @@ const CollectionActionCreators = {
 
 
   /**
-   * Sends an API call to update the template passed in
+   * Sends an API call to update the collection passed in
    *
-   * @param  {String} templateId   - The `_id` of the template we're updating
-   * @param  {Object} templateData - The new template data
+   * @param  {String} collectionId   - The `_id` of the collection we're updating
+   * @param  {Object} collectionData - The new collection data
    * @return {Function}            - The thunk that makes the API call
    */
-  updateTemplate(templateId, templateData) {
+  updateCollection(collectionId, collectionData) {
     return (dispatch) => {
       ApiCaller.sendAjaxRequest({
-        method: apiEndpoints.templates.update.method,
-        url: apiEndpoints.templates.update.path,
-        data: {templateId, templateData}
+        method: apiEndpoints.collections.update.method,
+        url: apiEndpoints.collections.update.path,
+        data: {collectionId, collectionData}
       })
-        .then(() => {
-          dispatch(this.updateTemplateSuccess());
+        .then((response) => {
+          dispatch(this.updateCollectionSuccess(response.data.collection));
         })
         .catch((response) => {
           dispatch(createFlashMessage('red', response.message));
@@ -172,12 +172,16 @@ const CollectionActionCreators = {
 
 
   /**
-   * Handles the success return of the template update
-   * 
-   * @return {Object} - The data passed to the Template Reducer
+   * Handles the success return of the collection update
+   *
+   * @param  {Object} collection - The collection that was just updated
+   * @return {Object}            - The data passed to the Collection Reducer
    */
-  updateTemplateSuccess() {
-    return {type: CollectionActionTypes.UPDATE_COLLECTION_SUCCESS};
+  updateCollectionSuccess(collection) {
+    return {
+      type: CollectionActionTypes.UPDATE_COLLECTION_SUCCESS,
+      data: {collection}
+    };
   }
 
 }

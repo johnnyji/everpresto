@@ -101,13 +101,16 @@ export default class DocumentCollectionsIndex extends Component {
   }
 
   _renderCollections = () => {
-    return this.props.collections.map((collection, i) => {
+    const {collectionBeingEdited, collections} = this.props;
+    
+    return collections.map((collection, i) => {
       return (
         <GridViewItem key={i} isCard={false}>
           <CollectionPreviewCard
             collection={collection}
             className={`${displayName}-folders-folder`}
-            contentClassName={`${displayName}-folders-folder-main`}/>
+            contentClassName={`${displayName}-folders-folder-main`}
+            isBeingEdited={collectionBeingEdited && collectionBeingEdited.get('_id') === collection.get('_id')}/>
         </GridViewItem>
       );
     });
