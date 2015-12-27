@@ -4,12 +4,11 @@ import moment from 'moment';
 import Immutable from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import CustomPropTypes from '.././CustomPropTypes';
+import AppActionCreators from '../.././actions/AppActionCreators';
+import CollectionActionCreators from '../.././actions/CollectionActionCreators';
 
 import ClickableIcon from '.././ui/ClickableIcon';
 import FolderCard from '.././ui/FolderCard';
-
-import AppActionCreators from '../.././actions/AppActionCreators';
-import CollectionActionCreators from '../.././actions/CollectionActionCreators';
 
 const ENTER_KEY = 13;
 const displayName = 'CollectionPreviewCard';

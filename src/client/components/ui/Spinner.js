@@ -7,21 +7,20 @@ export default class Spinner extends Component {
 
   static propTypes = {
     className: PropTypes.string,
-    color: PropTypes.oneOf(['blue', 'green', 'red', 'yellow']).isRequired,
     defaultQuotes: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-    fullScreen: PropTypes.bool,
+    fullScreen: PropTypes.bool.isRequired,
     quote: PropTypes.string
   };
 
   static defaultProps = {
-    color: 'yellow',
     defaultQuotes: [
       'Money isn\'t important, but having it, that\'s a different question.',
       'What do you call it when Batman skips church? Christian Bail.',
       '3 A.M. Phone Calls: "Are you asleep?", Me: "No I\'m skydiving..."',
       'Laughter is the best medicine, but if you\'re laughing for no reason, you probably need medicine.',
       'Knowledge is knowing tomatos are a fruit. Wisdom is knowing not to put tomatos in a fruit salad.'
-    ]
+    ],
+    fullScreen: false
   };
 
   render() {

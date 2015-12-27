@@ -4,12 +4,12 @@ import Immutable from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import CustomPropTypes from '.././CustomPropTypes';
 
+import DashboardSpinner from '.././shared/DashboardSpinner';
 import Button from '.././ui/Button';
 import ClickableIcon from '.././ui/ClickableIcon';
 import FolderCard from '.././ui/FolderCard';
 import GridView from '.././ui/GridView';
 import GridViewItem from '.././ui/GridViewItem';
-import Spinner from '.././ui/Spinner';
 import CollectionPreviewCard from '.././collections/CollectionPreviewCard';
 import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
 import DashboardMessage from '.././dashboard/DashboardMessage';
@@ -43,25 +43,16 @@ export default class DocumentCollectionsIndex extends Component {
     templates: ImmutablePropTypes.listOf(CustomPropTypes.template).isRequired
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      renderView: false
-    }
-  }
-
   componentWillMount() {
     // Fetches the templates and collections if needed, otherwise if the templates are already fetched, render the view.
     if (this.props.shouldFetchCollections) return this.context.dispatch(CollectionActionCreators.fetchCollections());
     if (this.props.shouldFetchTemplates) return this.context.dispatch(TemplateActionCreators.fetchTemplates());
-    this.setState({renderView: true});
   }
 
   componentWillReceiveProps(nextProps) {
     // Fetches the templates and sets render view to true only if needed.
     if (nextProps.shouldFetchCollections) return this.context.dispatch(CollectionActionCreators.fetchCollections());
     if (nextProps.shouldFetchTemplates) return this.context.dispatch(TemplateActionCreators.fetchTemplates());
-    if (!this.state.renderView) this.setState({renderView: true});
   }
 
   componentWillUnmount() {
@@ -71,7 +62,7 @@ export default class DocumentCollectionsIndex extends Component {
   render() {
     const {shouldFetchCollections, shouldFetchTemplates, templates} = this.props;
 
-    if (shouldFetchTemplates || shouldFetchCollections) return <Spinner />;
+    if (shouldFetchTemplates || shouldFetchCollections) return <DashboardSpinner />;
 
     if (!shouldFetchTemplates && templates.size === 0) return this._renderCreateTemplateMessage();
 

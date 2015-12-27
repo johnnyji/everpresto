@@ -8,12 +8,12 @@ import TemplateActionCreators from '../.././actions/TemplateActionCreators';
 import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
 import {truncateString} from '../.././utils/TextHelper';
 
+import DashboardSpinner from '.././shared/DashboardSpinner';
 import Button from '.././ui/Button';
 import ClickableIcon from '.././ui/ClickableIcon';
 import GridView from '.././ui/GridView';
 import GridViewItem from '.././ui/GridViewItem';
 import Icon from '.././ui/Icon';
-import Spinner from '.././ui/Spinner';
 
 const displayName = 'TemplatesIndex';
 
@@ -36,18 +36,10 @@ export default class TemplatesIndex extends Component {
     templates: ImmutablePropTypes.listOf(CustomPropTypes.template).isRequired
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      renderView: false
-    };
-  }
-
   componentWillMount() {
     const {templates, shouldFetchTemplates} = this.props;
 
-    if (shouldFetchTemplates) return this.context.dispatch(TemplateActionCreators.fetchTemplates());
-    this.setState({renderView: true});
+    if (shouldFetchTemplates) this.context.dispatch(TemplateActionCreators.fetchTemplates());
   }
 
   componentWillReceiveProps(nextProps) {
@@ -55,26 +47,13 @@ export default class TemplatesIndex extends Component {
 
     if (templateBeingEdited) return this.context.history.push('/dashboard/templates/edit');
     if (shouldFetchTemplates) return this.context.dispatch(TemplateActionCreators.fetchTemplates());
-    if (!this.state.renderView) this.setState({renderView: true});
   }
 
   render() {
+    if (this.props.shouldFetchTemplates) return <DashboardSpinner />;
+
     return (
       <DashboardContentWrapper className={displayName}>
-        {this._renderContent()}
-      </DashboardContentWrapper>
-    );
-  }
-
-  _handleNewTemplate = () => {
-    this.context.history.push('/dashboard/templates/new');
-  }
-
-  _renderContent = () => {
-    if (!this.state.renderView) return <Spinner className={`${displayName}-spinner`}/>;
-
-    return (
-      <div>
         <GridView className={`${displayName}-templates`}>
           <DocumentPreviewCard className={`${displayName}-templates-new`}>
             <ClickableIcon
@@ -85,9 +64,13 @@ export default class TemplatesIndex extends Component {
           </DocumentPreviewCard>
           {this._renderTemplatePreviews()}
         </GridView>
-      </div>
+      </DashboardContentWrapper>
     );
-  };
+  }
+
+  _handleNewTemplate = () => {
+    this.context.history.push('/dashboard/templates/new');
+  }
 
   _renderTemplatePreviews = () => {
     return this.props.templates.map((template, i) => {
