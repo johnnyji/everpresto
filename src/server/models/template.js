@@ -48,7 +48,7 @@ TemplateSchema.statics.updateTemplate = function(id, data) {
   return new Promise((resolve, reject) => {
     // Sanitizes the HTML text to remove any malicious tags
     const sanitizedData = _.set(data, 'body', xss(data.body));
-    debugger;
+
     this.findOneAndUpdate({_id: id}, sanitizedData, (err, template) => {
       if (err) reject(err);
       resolve(template);

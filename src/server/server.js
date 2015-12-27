@@ -23,11 +23,14 @@ import configureStore from './../client/store/configureStore';
 
 // SERVER MODELS ** Require them before the app executes
 import User from './models/user';
+import './models/collection';
+import './models/document';
 import './models/template';
 
 // API ROUTES
 import rootRoute from './routes/rootRoute';
 import authRoute from './routes/authRoute';
+import collectionRoute from './routes/collectionRoute';
 import templateRoute from './routes/templateRoute';
 import userRoute from './routes/userRoute';
 
@@ -78,9 +81,11 @@ app.use(session({
 // prefixes all routes call to the server with /api to use express router
 app.use('/api', apiRouter);
 
+
 // api routes
 apiRouter.use('/', rootRoute);
 apiRouter.use('/auth', authRoute);
+apiRouter.use('/collection', collectionRoute);
 apiRouter.use('/template', templateRoute);
 apiRouter.use('/user', requireUser, userRoute);
 

@@ -6,6 +6,11 @@ const formApiPath = (path, method) => {
 }
 
 const apiEndpoints = {
+  collections: {
+    index: formApiPath('/collection/index', 'GET'),
+    create: formApiPath('/collection/create', 'POST'),
+    delete: formApiPath('/collection/delete', 'POST'),
+  },
   currentUser: {
     show: formApiPath('/user/currentUser', 'POST'),
   },

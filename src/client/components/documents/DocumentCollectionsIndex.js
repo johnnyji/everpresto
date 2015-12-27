@@ -14,11 +14,14 @@ import CollectionPreviewCard from '.././collections/CollectionPreviewCard';
 import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
 import DashboardMessage from '.././dashboard/DashboardMessage';
 
+import CollectionActionCreators from '../.././actions/CollectionActionCreators';
 import TemplateActionCreators from '../.././actions/TemplateActionCreators';
 
 const displayName = 'DocumentCollectionsIndex';
 
 @connect((state) => ({
+  collections: state.collections.get('collections'),
+  shouldFetchCollections: state.collections.get('shouldFetchCollections'),
   shouldFetchTemplates: state.templates.get('shouldFetchTemplates'),
   templates: state.templates.get('templates')
 }))
@@ -32,6 +35,9 @@ export default class DocumentCollectionsIndex extends Component {
   };
 
   static propTypes = {
+    collections: ImmutablePropTypes.listOf(CustomPropTypes.collection).isRequired,
+    shouldFetchCollections: PropTypes.bool.isRequired,
+    shouldFetchTemplates: PropTypes.bool.isRequired,
     templates: ImmutablePropTypes.listOf(CustomPropTypes.template).isRequired
   };
 
@@ -43,21 +49,27 @@ export default class DocumentCollectionsIndex extends Component {
   }
 
   componentWillMount() {
-    // Fetches the templates if needed, otherwise if the templates are already fetched, render the view.
+    // Fetches the templates and collections if needed, otherwise if the templates are already fetched, render the view.
+    if (this.props.shouldFetchCollections) return this.context.dispatch(CollectionActionCreators.fetchCollections());
     if (this.props.shouldFetchTemplates) return this.context.dispatch(TemplateActionCreators.fetchTemplates());
     this.setState({renderView: true});
   }
 
   componentWillReceiveProps(nextProps) {
     // Fetches the templates and sets render view to true only if needed.
+    if (nextProps.shouldFetchCollections) return this.context.dispatch(CollectionActionCreators.fetchCollections());
     if (nextProps.shouldFetchTemplates) return this.context.dispatch(TemplateActionCreators.fetchTemplates());
     if (!this.state.renderView) this.setState({renderView: true});
   }
 
-  render() {
-    const {shouldFetchTemplates, templates} = this.props;
+  componentWillUnmount() {
+    this.context.dispatch(CollectionActionCreators.resetShouldFetchCollections());
+  }
 
-    if (shouldFetchTemplates) return <Spinner />;
+  render() {
+    const {shouldFetchCollections, shouldFetchTemplates, templates} = this.props;
+
+    if (shouldFetchTemplates || shouldFetchCollections) return <Spinner />;
 
     if (!shouldFetchTemplates && templates.size === 0) return this._renderCreateTemplateMessage();
 
@@ -85,14 +97,15 @@ export default class DocumentCollectionsIndex extends Component {
   }
 
   _createCollection = () => {
-
+    this.context.dispatch(CollectionActionCreators.createCollection());
   }
 
   _renderCollections = () => {
-    return [1, 2, 3, 4, 5, 6, 7, 8].map((n, i) => {
+    return this.props.collections.map((collection, i) => {
       return (
         <GridViewItem key={i} isCard={false}>
           <CollectionPreviewCard
+            collection={collection}
             className={`${displayName}-folders-folder`}
             contentClassName={`${displayName}-folders-folder-main`}/>
         </GridViewItem>

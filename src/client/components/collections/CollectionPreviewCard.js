@@ -3,11 +3,13 @@ import classNames from 'classnames';
 import moment from 'moment';
 import Immutable from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import CustomPropTypes from '.././CustomPropTypes';
 
 import ClickableIcon from '.././ui/ClickableIcon';
 import FolderCard from '.././ui/FolderCard';
 
 import AppActionCreators from '../.././actions/AppActionCreators';
+import CollectionActionCreators from '../.././actions/CollectionActionCreators';
 
 const displayName = 'CollectionPreviewCard';
 
@@ -24,17 +26,12 @@ export default class CollectionPreviewCard extends Component {
   static propTypes = {
     className: PropTypes.string,
     contentClassName: PropTypes.string,
-    collection: ImmutablePropTypes.map,
+    collection: CustomPropTypes.collection.isRequired,
     height: PropTypes.number.isRequired,
     width: PropTypes.number.isRequired
   };
 
   static defaultProps = {
-    collection: Immutable.fromJS({
-      createdAt: dateString.toString(),
-      documents: [1,2,2,2,2,2],
-      title: 'Employee Wage Contracts'
-    }),
     height: 150,
     width: 200
   };
@@ -58,10 +55,30 @@ export default class CollectionPreviewCard extends Component {
         </button>
         <div className={`${displayName}-main-options`}>
           <small className={`${displayName}-main-options-date`}>{createdAt}</small>
-          <ClickableIcon icon='delete' onClick={this._handleDeleteCollection}/>
+          <div>
+            <ClickableIcon
+              className={`${displayName}-main-options-icon`}
+              icon='create'
+              onClick={this._handleEditCollection}
+              size={20}/>
+            <ClickableIcon
+              className={`${displayName}-main-options-icon`}
+              icon='delete'
+              onClick={this._handleDeleteCollection}
+              size={20}/>
+          </div>
         </div>
       </FolderCard>
     );
+  }
+
+  _handleEditCollection = () => {
+    // TODO: Make sure the user can edit the name of the collection
+    // this.context.dispatch(
+    //   AppActionCreators.createModal(
+    //     <ModalInputField value={} onChange={} onSubmit={}/>
+    //   )
+    // );
   }
 
   _handleEnterCollection = () => {
@@ -69,10 +86,14 @@ export default class CollectionPreviewCard extends Component {
   }
 
   _handleDeleteCollection = () => {
-    const confirmDelete = confirm(`Are you sure you want to delete this folder? \n All ${this.props.collection.get('documents').size} documents will be deleted!`);
+    const {collection} = this.props;
+    const amountOfDocuments = collection.get('documents').size;
+    const confirmMessage = amountOfDocuments === 0
+      ? 'Are you sure you want to delete this folder? No backsies!'
+      : `Are you sure you want to delete this folder? \n All ${amountOfDocuments} documents will be deleted!`;
 
-    if (confirmDelete) {
-      this.context.dispatch(AppActionCreators.createFlashMessage('green', 'Deleted!'));
+    if (confirm(confirmMessage)) {
+      this.context.dispatch(CollectionActionCreators.deleteCollection(collection.get('_id')));
     }
   }
 }

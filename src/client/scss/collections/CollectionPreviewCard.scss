@@ -29,6 +29,9 @@
           cursor: default;
         }
       }
+      &-icon {
+        margin-left: 5px;
+      }
       & svg {
         color: $brand-color-blue-lighter;
         &:hover {

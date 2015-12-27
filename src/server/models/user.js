@@ -13,8 +13,6 @@ const defaultAvatarPath = `${config.s3BucketPath}/public/avatar.jpg`;
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
-  books: [{type: Schema.Types.ObjectId, ref: 'Course'}],
-  coursesTaking: [{type: Schema.Types.ObjectId, ref: 'Course'}],
   email: {
     type: String,
     required: 'What was your email again?',

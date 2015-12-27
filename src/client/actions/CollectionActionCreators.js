@@ -1,27 +1,27 @@
 import apiEndpoints from '.././apiEndpoints';
 import ApiCaller from '.././utils/ApiCaller';
 import AppActionCreators from './AppActionCreators';
-import TemplateActionTypes from './../action_types/TemplateActionTypes';
+import CollectionActionTypes from './../action_types/CollectionActionTypes';
 
 const {createFlashMessage} = AppActionCreators;
 
-const TemplateActionCreators = {
+const CollectionActionCreators = {
 
   /**
-   * Sends the AJAX request to create the template on the server
+   * Sends the AJAX request to create a collection on the server
    *
-   * @param  {Immutable.Map} template - The map containing the template details
-   * @return {Function}               - The thunk that makes the API call
+   * @param  {Immutable.Map} collection - The map containing the collection details
+   * @return {Function}                 - The thunk that makes the API call
    */
-  createTemplate(template) {
+  createCollection(collection) {
     return (dispatch) => {
       ApiCaller.sendAjaxRequest({
-        method: apiEndpoints.templates.create.method,
-        url: apiEndpoints.templates.create.path,
-        data: {template}
+        method: apiEndpoints.collections.create.method,
+        url: apiEndpoints.collections.create.path,
+        data: {collection}
       })
-        .then(() => {
-          dispatch(this.createTemplateSuccess());
+        .then((response) => {
+          dispatch(this.createCollectionSuccess(response.data.collection));
         })
         .catch((response) => {
           dispatch(createFlashMessage('red', response.message));
@@ -33,62 +33,62 @@ const TemplateActionCreators = {
   /**
    * Handles the successful return of a new template write
    *
-   * @return {Object}          - The data passed to the Template Reducer
+   * @param  {Object} collection - The recently created collection
+   * @return {Object}            - The data passed to the Collection Reducer
    */
-  createTemplateSuccess() {
-    return {type: TemplateActionTypes.CREATE_TEMPLATE_SUCCESS};
-  },
-
-
-  /**
-   * Executes the API call to delete a template
-   *
-   * @param  {String} templateId - The `_id` of the template to delete
-   * @return {Function}  - The thunk that makes the API call
-   */
-  deleteTemplate(templateId) {
-    return (dispatch) => {
-      ApiCaller.sendAjaxRequest({
-        method: apiEndpoints.templates.delete.method,
-        url: apiEndpoints.templates.delete.path,
-        data: {templateId}
-      })
-        .then(() => {
-          dispatch(this.deleteTemplateSuccess(templateId));
-        })
-        .catch((response) => {
-          dispatch(createFlashMessage('red', response.message));
-        });
+  createCollectionSuccess(collection) {
+    return {
+      type: CollectionActionTypes.CREATE_COLLECTION_SUCCESS,
+      data: {collection}
     };
   },
 
 
   /**
-   * Handles the success of the delete template
-   * @param  {String} deletedTemplateId - The `_id` of the recently deleted template
-   * @return {Object}                   - The data passed to the Template Reducer
+   * Executes the API call to delete a collection
+   *
+   * @param  {String} templateId - The `_id` of the template to delete
+   * @return {Function}  - The thunk that makes the API call
    */
-  deleteTemplateSuccess(deletedTemplateId) {
+  deleteCollection(collectionId) {
+    return (dispatch) => {
+      ApiCaller.sendAjaxRequest({
+        method: apiEndpoints.collections.delete.method,
+        url: apiEndpoints.collections.delete.path,
+        data: {collectionId}
+      })
+        .then(() => dispatch(this.deleteCollectionSuccess(collectionId)))
+        .catch((response) => dispatch(createFlashMessage('red', response.message)));
+    };
+  },
+
+
+  /**
+   * Handles the success of the delete collection
+   * @param  {String} deletedCollectionId - The `_id` of the recently deleted collection
+   * @return {Object}                     - The data passed to the Collection Reducer
+   */
+  deleteCollectionSuccess(deletedCollectionId) {
     return {
-      type: TemplateActionTypes.DELETE_TEMPLATE_SUCCESS,
-      data: {deletedTemplateId}
+      type: CollectionActionTypes.DELETE_COLLECTION_SUCCESS,
+      data: {deletedCollectionId}
     };
   },  
 
 
   /**
-   * Fetches the templates for the current user
+   * Fetches the collections for the current user
    *
    * @return {Function} - The thunk that makes the API call
    */
-  fetchTemplates() {
+  fetchCollections() {
     return (dispatch) => {
       ApiCaller.sendAjaxRequest({
-        method: apiEndpoints.templates.index.method,
-        url: apiEndpoints.templates.index.path
+        method: apiEndpoints.collections.index.method,
+        url: apiEndpoints.collections.index.path
       })
         .then((response) => {
-          dispatch(this.fetchTemplatesSuccess(response.data.templates));
+          dispatch(this.fetchCollectionsSuccess(response.data.collections));
         })
         .catch((response) => {
           if (response.status === 500) {
@@ -101,26 +101,26 @@ const TemplateActionCreators = {
 
 
   /**
-   * Handles the templates returned from the templates fetch
+   * Handles the collections returned from the collections fetch
    *
-   * @param  {Array} templates - The current user's templates
-   * @return {Object}          - The data passed to the Template Reducer
+   * @param  {Array} collections - The current user's collections
+   * @return {Object}            - The data passed to the Collection Reducer
    */
-  fetchTemplatesSuccess(templates) {
+  fetchCollectionsSuccess(collections) {
     return {
-      type: TemplateActionTypes.FETCH_TEMPLATES_SUCCESS,
-      data: {templates}
+      type: CollectionActionTypes.FETCH_COLLECTIONS_SUCCESS,
+      data: {collections}
     };
   },
 
 
   /**
-   * Resets the flag for a template being just created to false.
+   * Resets the flag for fetching collections
    *
    * @return {Object} - The data passed to the Template Reducer
    */
-  resetTemplateCreated() {
-    return {type: TemplateActionTypes.RESET_TEMPLATE_CREATED};
+  resetShouldFetchCollections() {
+    return {type: CollectionActionTypes.RESET_SHOULD_FETCH_COLLECTIONS};
   },
 
 
@@ -130,7 +130,7 @@ const TemplateActionCreators = {
    * @return {Object} - The data passed to the Template Reducer
    */
   resetTemplateBeingEdited() {
-    return {type: TemplateActionTypes.RESET_TEMPLATE_BEING_EDITED};
+    return {type: CollectionActionTypes.RESET_COLLECTION_BEING_EDITED};
   },
 
 
@@ -141,7 +141,7 @@ const TemplateActionCreators = {
    */
   setTemplateBeingEdited(template) {
     return {
-      type: TemplateActionTypes.SET_TEMPLATE_BEING_EDITED,
+      type: CollectionActionTypes.SET_COLLECTION_BEING_EDITED,
       data: {template}
     };
   },
@@ -177,9 +177,9 @@ const TemplateActionCreators = {
    * @return {Object} - The data passed to the Template Reducer
    */
   updateTemplateSuccess() {
-    return {type: TemplateActionTypes.UPDATE_TEMPLATE_SUCCESS};
+    return {type: CollectionActionTypes.UPDATE_COLLECTION_SUCCESS};
   }
 
 }
 
-export default TemplateActionCreators;
+export default CollectionActionCreators;
