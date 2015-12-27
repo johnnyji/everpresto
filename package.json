@@ -1,7 +1,7 @@
 {
   "name": "Tickit",
   "version": "1.0.0",
-  "description": "A contract template and management app",
+  "description": "You tell us who needs to sign, we take care of everything else.",
   "main": "index.js",
   "author": "Johnny Ji",
   "license": "ISC",

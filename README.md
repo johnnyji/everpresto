@@ -1,13 +1,14 @@
 ## Tickit
 
-A course management and marketing application.
+You tell us who needs to sign, we take care of everything else.
 
 
 ### Tech Stack
 
 - React.js
 - Redux
-- ES6
+- Node.js
+- MongoDB
 - Immutable.js
 - Webpack
 - SASS
