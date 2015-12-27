@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import Immutable from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import strip from 'strip';
+import striptags from 'striptags';
 import CustomPropTypes from '.././CustomPropTypes';
 import TextEditorHelper from '../.././utils/TextEditorHelper';
 
@@ -111,7 +111,7 @@ export default class TemplateEditorView extends Component {
     // Strips away the zero-width spaces and the caret markers in the text
     template = this.state.template.set('body', removeCaretPositionMarker(removeZeroWidthSpace(template.get('body'))));
     // Strips the HTML from the text to give just the raw body
-    template = template.set('rawText', strip(template.get('body')));
+    template = template.set('rawText', striptags(template.get('body')));
 
     this.props.onSave(template);
   }
