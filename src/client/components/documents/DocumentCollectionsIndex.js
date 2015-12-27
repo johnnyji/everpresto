@@ -20,6 +20,7 @@ import TemplateActionCreators from '../.././actions/TemplateActionCreators';
 const displayName = 'DocumentCollectionsIndex';
 
 @connect((state) => ({
+  collectionBeingEdited: state.collections.get('collectionBeingEdited'),
   collections: state.collections.get('collections'),
   shouldFetchCollections: state.collections.get('shouldFetchCollections'),
   shouldFetchTemplates: state.templates.get('shouldFetchTemplates'),
@@ -35,6 +36,7 @@ export default class DocumentCollectionsIndex extends Component {
   };
 
   static propTypes = {
+    collectionBeingEdited: CustomPropTypes.collection,
     collections: ImmutablePropTypes.listOf(CustomPropTypes.collection).isRequired,
     shouldFetchCollections: PropTypes.bool.isRequired,
     shouldFetchTemplates: PropTypes.bool.isRequired,
@@ -102,7 +104,7 @@ export default class DocumentCollectionsIndex extends Component {
 
   _renderCollections = () => {
     const {collectionBeingEdited, collections} = this.props;
-    
+
     return collections.map((collection, i) => {
       return (
         <GridViewItem key={i} isCard={false}>

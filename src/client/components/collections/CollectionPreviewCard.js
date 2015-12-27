@@ -11,9 +11,8 @@ import FolderCard from '.././ui/FolderCard';
 import AppActionCreators from '../.././actions/AppActionCreators';
 import CollectionActionCreators from '../.././actions/CollectionActionCreators';
 
+const ENTER_KEY = 13;
 const displayName = 'CollectionPreviewCard';
-
-const dateString = new Date();
 
 export default class CollectionPreviewCard extends Component {
 
@@ -50,19 +49,14 @@ export default class CollectionPreviewCard extends Component {
         contentClassName={contentClasses}
         height={height}
         width={width}>
-        {this._renderTitle(collection.get('title'), isBeingEdited)}
-        <button
-          className={`${displayName}-main-title`}
-          onClick={this._handleEnterCollection}>
-          {collection.get('title')}
-        </button>
+        {this._renderTitle()}
         <div className={`${displayName}-main-options`}>
           <small className={`${displayName}-main-options-date`}>{createdAt}</small>
           <div>
             <ClickableIcon
               className={`${displayName}-main-options-icon`}
               icon='create'
-              onClick={this._handleEditCollection}
+              onClick={this._handleEditState}
               size={20}/>
             <ClickableIcon
               className={`${displayName}-main-options-icon`}
@@ -76,12 +70,21 @@ export default class CollectionPreviewCard extends Component {
   }
 
   _handleEditCollection = () => {
-    // TODO: Make sure the user can edit the name of the collection
-    // this.context.dispatch(
-    //   AppActionCreators.createModal(
-    //     <ModalInputField value={} onChange={} onSubmit={}/>
-    //   )
-    // );
+    this.context.dispatch(
+      CollectionActionCreators.setCollectionBeingEdited(this.props.collection)
+    );
+  }
+
+  _handleUpdateCollection = (title) => {
+    console.log('hit');
+    title = title || 'Untitled';
+
+    this.context.dispatch(
+      CollectionActionCreators.updateCollection(
+        this.props.collection.get('_id'),
+        {title}
+      )
+    );
   }
 
   _handleEnterCollection = () => {
@@ -100,21 +103,27 @@ export default class CollectionPreviewCard extends Component {
     }
   }
 
-  _renderTitle = (title, isBeingEdited) => {
+  _handleKeyPress = (e) => {
+    if (e.which === ENTER_KEY) this._handleUpdateCollection(e.target.value);
+  }
+
+  _renderTitle = () => {
+    const {collection, isBeingEdited} = this.props;
 
     if (isBeingEdited) {
       return (
         <input
+          autoFocus
           className={`${displayName}-main-title`}
-          defaultValue={title}/>
+          onKeyPress={this._handleKeyPress}
+          onBlur={(e) => this._handleUpdateCollection(e.target.value)}/>
       );
     }
-      
     return (
       <button
         className={`${displayName}-main-title`}
         onClick={this._handleEnterCollection}>
-        {title}
+        {collection.get('title')}
       </button>
     );
   }

@@ -13,6 +13,9 @@
       text-align: center;
       margin: 0;
     }
+    input > &-title {
+      border-bottom: 1px solid white;  
+    }
     &-options {
       @include display(flex);
       @include align-items(center);

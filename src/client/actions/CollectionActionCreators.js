@@ -125,24 +125,24 @@ const CollectionActionCreators = {
 
 
   /**
-   * Resets the template being edited to no template.
+   * Resets the template being edited to no collection.
    *
-   * @return {Object} - The data passed to the Template Reducer
+   * @return {Object} - The data passed to the Collection Reducer
    */
-  resetTemplateBeingEdited() {
+  resetCollectionBeingEdited() {
     return {type: CollectionActionTypes.RESET_COLLECTION_BEING_EDITED};
   },
 
 
   /**
-   * Sets the current template being edited in the state
+   * Sets the current collection being edited in the state
    *
-   * @param {Immutable.Map} template - The template being edited
+   * @param {Immutable.Map} collection - The collection being edited
    */
-  setTemplateBeingEdited(template) {
+  setCollectionBeingEdited(collection) {
     return {
       type: CollectionActionTypes.SET_COLLECTION_BEING_EDITED,
-      data: {template}
+      data: {collection}
     };
   },
 

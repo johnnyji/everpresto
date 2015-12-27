@@ -38,7 +38,9 @@ router.post('/delete', (req, res) => {
 
 // Updates a collection
 router.post('/update', (req, res) => {
-  Collection.findOneAndUpdate({_id: req.body.collectionId}, collectionData, (err, collection) => {
+  const {collectionData, collectionId} = req.body;
+
+  Collection.findOneAndUpdate({_id: collectionId}, collectionData, (err, collection) => {
     if (err) res.status(422).json({message: findFirstErrorMessage(result)});
     res.status(200).end({collection});
   });

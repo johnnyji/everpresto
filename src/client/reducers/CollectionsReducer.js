@@ -5,7 +5,9 @@ const {
   CREATE_COLLECTION_SUCCESS,
   DELETE_COLLECTION_SUCCESS,
   FETCH_COLLECTIONS_SUCCESS,
+  RESET_COLLECTION_BEING_EDITED,
   RESET_SHOULD_FETCH_COLLECTIONS,
+  SET_COLLECTION_BEING_EDITED,
   UPDATE_COLLECTION_SUCCESS} = CollectionActionTypes;
 
 const initialState = Immutable.fromJS({
@@ -41,6 +43,13 @@ export default function collectionsReducer(state = initialState, action) {
 
     case RESET_SHOULD_FETCH_COLLECTIONS:
       return state.set('shouldFetchCollections', true);
+
+    case RESET_COLLECTION_BEING_EDITED:
+      return state.set('collectionBeingEdited', null);
+
+    case SET_COLLECTION_BEING_EDITED:
+      // No need to convert to Immutable.Map, because it already is.
+      return state.set('collectionBeingEdited', action.data.collection);
 
     case UPDATE_COLLECTION_SUCCESS:
       const collections = state.get('collections');
