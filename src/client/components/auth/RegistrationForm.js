@@ -49,44 +49,44 @@ export default class RegistrationForm extends Component {
       <div className={`${displayName}`}>
         <header className={`${displayName}-header`}>Welcome to the family!</header>
         <Card className={`${displayName}-card'`} ref='form'>
-
           <Input
             autoFocus={true}
             className={`${displayName}-card-input`}
             error={formData.getIn(['user', 'errors', 'firstName'])}
             errorKeys='user:errors:firstName'
             label='First name...'
+            onEnterKeyPress={this._handleFormSubmission}
             onUpdate={this._handleInputUpdate}
             patternMatches={RegexHelper.minLength(1, 'You\'re first name please!')}
             ref='firstName'
             successKeys='user:values:firstName'/>
-
           <Input
             className={`${displayName}-card-input`}
             error={formData.getIn(['user', 'errors', 'lastName'])}
             errorKeys='user:errors:lastName'
             label='Last name!'
+            onEnterKeyPress={this._handleFormSubmission}
             onUpdate={this._handleInputUpdate}
             patternMatches={RegexHelper.minLength(1, 'You\'re last name please!')}
             ref='lastName'
             successKeys='user:values:lastName'/>
-
           <Input
             className={`${displayName}-card-input`}
             error={formData.getIn(['user', 'errors', 'email'])}
             errorKeys='user:errors:email'
             label='Email'
+            onEnterKeyPress={this._handleFormSubmission}
             onUpdate={this._handleInputUpdate}
             patternMatches={RegexHelper.email()}
             ref='email'
             successKeys='user:values:email'
             type='email'/>
-
           <Input
             className={`${displayName}-card-input`}
             error={formData.getIn(['user', 'errors', 'password'])}
             errorKeys='user:errors:password'
             label='Password'
+            onEnterKeyPress={this._handleFormSubmission}
             onUpdate={this._handlePasswordUpdate}
             patternMatches={[
               RegexHelper.minLength(8, 'Passwords must be at least 8 characters!'),
@@ -95,12 +95,12 @@ export default class RegistrationForm extends Component {
             ref='password'
             successKeys='user:values:password'
             type='password'/>
-
           <Input
             className={`${displayName}-card-input`}
             error={formData.getIn(['user', 'errors', 'passwordConfirmation'])}
             errorKeys='user:errors:passwordConfirmation'
             label='Confirm Password'
+            onEnterKeyPress={this._handleFormSubmission}
             onUpdate={this._handlePasswordConfirmationUpdate}
             patternMatches={[
               RegexHelper.minLength(8, 'Passwords must be at least 8 characters!'),
@@ -109,13 +109,11 @@ export default class RegistrationForm extends Component {
             ref='passwordConfirmation'
             successKeys='user:values:passwordConfirmation'
             type='password'/>
-
           <Button
             className={`${displayName}-card-button`}
             color='yellow'
             onClick={this._handleFormSubmission}
             text="I'm done!"/>
-
         </Card>
       </div>
     );

@@ -40,12 +40,10 @@ export default class TemplatesEdit extends Component {
   }
 
   render() {
-    const {template} = this.props;
-    console.log(template);
     return (
       <TemplateEditorView
         mode='edit'
-        template={template}
+        template={this.props.template}
         onSave={this._handleSave}/>
     );
   }

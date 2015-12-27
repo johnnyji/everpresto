@@ -13,12 +13,7 @@
   }
 
   &-folders {
-    @include outer-container;
-    margin: 0 auto;
-    padding: 20px;
     &-folder {
-      @include span-columns(3);
-      @include omega(4n);
       margin: 20px;
       position: relative;
       &-main {

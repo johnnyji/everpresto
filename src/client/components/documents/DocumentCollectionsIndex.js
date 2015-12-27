@@ -7,8 +7,8 @@ import CustomPropTypes from '.././CustomPropTypes';
 import Button from '.././ui/Button';
 import ClickableIcon from '.././ui/ClickableIcon';
 import FolderCard from '.././ui/FolderCard';
-// import GridView from '.././ui/GridView';
-// import GridViewItem from '.././ui/GridViewItem';
+import GridView from '.././ui/GridView';
+import GridViewItem from '.././ui/GridViewItem';
 import Spinner from '.././ui/Spinner';
 import CollectionPreviewCard from '.././collections/CollectionPreviewCard';
 import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
@@ -63,21 +63,23 @@ export default class DocumentCollectionsIndex extends Component {
 
     return (
       <DashboardContentWrapper className={displayName}>
-        <div className={`${displayName}-folders`}>
-          <FolderCard
-            className={`${displayName}-folders-folder`}
-            contentClassName={`${displayName}-folders-folder-main`}
-            height={150}
-            width={200}>
-            <ClickableIcon
-              className={`${displayName}-folders-folder-main-create-icon`}
-              icon='add'
-              isWhite={true}
-              onClick={this._createCollection}
-              size={48}/>
-          </FolderCard>
+        <GridView className={`${displayName}-folders`}>
+          <GridViewItem isCard={false}>
+            <FolderCard
+              className={`${displayName}-folders-folder`}
+              contentClassName={`${displayName}-folders-folder-main`}
+              height={150}
+              width={200}>
+              <ClickableIcon
+                className={`${displayName}-folders-folder-main-create-icon`}
+                icon='add'
+                isWhite={true}
+                onClick={this._createCollection}
+                size={48}/>
+            </FolderCard>
+          </GridViewItem>
           {this._renderCollections()}
-        </div>
+        </GridView>
       </DashboardContentWrapper>
     );
   }
@@ -89,28 +91,12 @@ export default class DocumentCollectionsIndex extends Component {
   _renderCollections = () => {
     return [1, 2, 3, 4, 5, 6, 7, 8].map((n, i) => {
       return (
-        <CollectionPreviewCard
-          className={`${displayName}-folders-folder`}
-          contentClassName={`${displayName}-folders-folder-main`}
-          key={i}/>
-      )
-      // return (
-      //   <FolderCard
-      //     className={`${displayName}-folders-folder`}
-      //     contentClassName={`${displayName}-folders-folder-main`}
-      //     height={150}
-      //     key={i}
-      //     width={200}>
-      //     {n}
-      //     <div className={`${displayName}-folders-folder-main-options`}>
-      //       <ClickableIcon
-      //         className={`${displayName}-folders-folder-main-options-delete`}
-      //         icon='delete'
-      //         isWhite={true}
-      //         onClick={this._}/>
-      //     </div>
-      //   </FolderCard>
-      // );
+        <GridViewItem key={i} isCard={false}>
+          <CollectionPreviewCard
+            className={`${displayName}-folders-folder`}
+            contentClassName={`${displayName}-folders-folder-main`}/>
+        </GridViewItem>
+      );
     });
   }
 
