@@ -42,7 +42,7 @@ router.post('/update', (req, res) => {
 
   Collection.findOneAndUpdate({_id: collectionId}, collectionData, (err, collection) => {
     if (err) res.status(422).json({message: findFirstErrorMessage(result)});
-    res.status(200).end({collection});
+    res.status(200).json({collection});
   });
 });
 
