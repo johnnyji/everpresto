@@ -55,7 +55,7 @@ export default class CollectionPreviewCard extends Component {
             <ClickableIcon
               className={`${displayName}-main-options-icon`}
               icon='create'
-              onClick={this._handleEditState}
+              onClick={this._handleEditCollection}
               size={20}/>
             <ClickableIcon
               className={`${displayName}-main-options-icon`}
@@ -75,7 +75,6 @@ export default class CollectionPreviewCard extends Component {
   }
 
   _handleUpdateCollection = (title) => {
-    console.log('hit');
     title = title || 'Untitled';
 
     this.context.dispatch(

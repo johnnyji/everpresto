@@ -49,7 +49,7 @@ TemplateSchema.statics.updateTemplate = function(id, data) {
     // Sanitizes the HTML text to remove any malicious tags
     const sanitizedData = _.set(data, 'body', xss(data.body));
 
-    this.findOneAndUpdate({_id: id}, sanitizedData, (err, template) => {
+    this.findOneAndUpdate({_id: id}, sanitizedData, {'new': true}, (err, template) => {
       if (err) reject(err);
       resolve(template);
     });

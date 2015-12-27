@@ -112,7 +112,6 @@ export default class ModalCreatePlaceholder extends Component {
   }
 
   _createPlaceholder = () => {
-    console.log('hit');
     // Calls the valid method on every input field and returns the error of the first invalid field.
     const firstFoundError = this.state.placeholder.get('errors').find((v, k) => !this.refs[k].valid());
     if (firstFoundError !== undefined) return this._createFlashError(firstFoundError);

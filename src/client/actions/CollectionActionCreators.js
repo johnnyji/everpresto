@@ -162,6 +162,7 @@ const CollectionActionCreators = {
         data: {collectionId, collectionData}
       })
         .then((response) => {
+          debugger;
           dispatch(this.updateCollectionSuccess(response.data.collection));
         })
         .catch((response) => {
