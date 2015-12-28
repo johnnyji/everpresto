@@ -24,7 +24,7 @@ const TemplateActionCreators = {
           dispatch(this.createTemplateSuccess());
         })
         .catch((response) => {
-          dispatch(createFlashMessage('red', response.message));
+          dispatch(createFlashMessage('red', response.data.message));
         });
     };
   },
@@ -57,7 +57,7 @@ const TemplateActionCreators = {
           dispatch(this.deleteTemplateSuccess(templateId));
         })
         .catch((response) => {
-          dispatch(createFlashMessage('red', response.message));
+          dispatch(createFlashMessage('red', response.data.message));
         });
     };
   },
@@ -94,7 +94,7 @@ const TemplateActionCreators = {
           if (response.status === 500) {
             dispatch(createFlashMessage('red', 'Sorry, we\'re having a connection error... Maybe try again?'));
           }
-          dispatch(createFlashMessage('red', response.message));
+          dispatch(createFlashMessage('red', response.data.message));
         });
     };
   },
@@ -165,7 +165,7 @@ const TemplateActionCreators = {
           dispatch(this.updateTemplateSuccess());
         })
         .catch((response) => {
-          dispatch(createFlashMessage('red', response.message));
+          dispatch(createFlashMessage('red', response.data.message));
         });
     }
   },

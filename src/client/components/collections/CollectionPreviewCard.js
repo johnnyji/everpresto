@@ -6,10 +6,12 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import CustomPropTypes from '.././CustomPropTypes';
 import AppActionCreators from '../.././actions/AppActionCreators';
 import CollectionActionCreators from '../.././actions/CollectionActionCreators';
+import Config from '../.././config/main';
 
 import ClickableIcon from '.././ui/ClickableIcon';
 import FolderCard from '.././ui/FolderCard';
 
+const DEFAULT_TITLE = Config.collection.defaultTitle;
 const ENTER_KEY = 13;
 const displayName = 'CollectionPreviewCard';
 
@@ -75,7 +77,7 @@ export default class CollectionPreviewCard extends Component {
   }
 
   _handleUpdateCollection = (title) => {
-    title = title || 'Untitled';
+    title = title || DEFAULT_TITLE;
 
     this.context.dispatch(
       CollectionActionCreators.updateCollection(
@@ -107,21 +109,24 @@ export default class CollectionPreviewCard extends Component {
 
   _renderTitle = () => {
     const {collection, isBeingEdited} = this.props;
+    const title = collection.get('title');
 
     if (isBeingEdited) {
       return (
         <input
           autoFocus
-          className={`${displayName}-main-title`}
+          className={`${displayName}-main-title-input`}
+          defaultValue={title === DEFAULT_TITLE ? '' : title}
           onKeyPress={this._handleKeyPress}
-          onBlur={(e) => this._handleUpdateCollection(e.target.value)}/>
+          onBlur={(e) => this._handleUpdateCollection(e.target.value)}
+          ref='titleInput'/>
       );
     }
     return (
       <button
         className={`${displayName}-main-title`}
         onClick={this._handleEnterCollection}>
-        {collection.get('title')}
+        {title}
       </button>
     );
   }

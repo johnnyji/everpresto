@@ -1,9 +1,8 @@
 import apiEndpoints from '.././apiEndpoints';
 import ApiCaller from '.././utils/ApiCaller';
-import AppActionCreators from './AppActionCreators';
+import {createFlashMessage} from './AppActionCreators';
 import CollectionActionTypes from './../action_types/CollectionActionTypes';
 
-const {createFlashMessage} = AppActionCreators;
 
 const CollectionActionCreators = {
 
@@ -24,7 +23,7 @@ const CollectionActionCreators = {
           dispatch(this.createCollectionSuccess(response.data.collection));
         })
         .catch((response) => {
-          dispatch(createFlashMessage('red', response.message));
+          dispatch(createFlashMessage('red', response.data.message));
         });
     };
   },
@@ -58,7 +57,7 @@ const CollectionActionCreators = {
         data: {collectionId}
       })
         .then(() => dispatch(this.deleteCollectionSuccess(collectionId)))
-        .catch((response) => dispatch(createFlashMessage('red', response.message)));
+        .catch((response) => dispatch(createFlashMessage('red', response.data.message)));
     };
   },
 
@@ -94,7 +93,7 @@ const CollectionActionCreators = {
           if (response.status === 500) {
             dispatch(createFlashMessage('red', 'Sorry, we\'re having a connection error... Maybe try again?'));
           }
-          dispatch(createFlashMessage('red', response.message));
+          dispatch(createFlashMessage('red', response.data.message));
         });
     };
   },
@@ -162,11 +161,10 @@ const CollectionActionCreators = {
         data: {collectionId, collectionData}
       })
         .then((response) => {
-          debugger;
           dispatch(this.updateCollectionSuccess(response.data.collection));
         })
         .catch((response) => {
-          dispatch(createFlashMessage('red', response.message));
+          dispatch(createFlashMessage('red', response.data.message));
         });
     }
   },

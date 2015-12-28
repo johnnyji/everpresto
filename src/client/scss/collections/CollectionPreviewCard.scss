@@ -1,7 +1,7 @@
 .CollectionPreviewCard {
   &-main {
     position: relative;
-    &-title {
+    &-title, &-title-input {
       @include transform(translate(-50%, -50%));
       position: absolute;
       background-color: transparent;
@@ -12,9 +12,10 @@
       top: 40%;
       text-align: center;
       margin: 0;
-    }
-    input > &-title {
-      border-bottom: 1px solid white;  
+      &-input {
+        padding-bottom: 5px;
+        border-bottom: 1px solid #FFF;
+      }
     }
     &-options {
       @include display(flex);

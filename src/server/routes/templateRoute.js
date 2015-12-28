@@ -15,7 +15,7 @@ router.get('/index', (req, res) => {
     .find({_owner: req.session.userId})
     .sort({updatedAt: -1})
     .exec((err, templates) => {
-      if (err) res.status(422).json({message: findFirstErrorMessage(err)});
+      if (err) return res.status(422).json({message: findFirstErrorMessage(err)});
       res.status(200).json({templates});
     });
 });
@@ -40,7 +40,7 @@ router.post('/create', (req, res) => {
 // Deletes a template
 router.post('/delete', (req, res) => {
   Template.remove({_id: req.body.templateId}, (err) => {
-    if (err) res.status(422).json({message: findFirstErrorMessage(err)});
+    if (err) return res.status(422).json({message: findFirstErrorMessage(err)});
     res.status(204).end();
   });
 });

@@ -1,6 +1,9 @@
 const caretMarkerNodeId = 'tickit-caret-position';
 
 export default {
+  collection: {
+    defaultTitle: 'Untitled',
+  },
   template: {
     placeholderTag: 'mark',
     placeholderClass: 'template-placeholder'
@@ -8,5 +11,5 @@ export default {
   richTextEditor: {
     caretMarkerNodeId,
     caretMarkerNode: `<span id="${caretMarkerNodeId}"></span>`
-  },
+  }
 };

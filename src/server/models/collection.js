@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import Promise from 'bluebird';
 
 const Schema = mongoose.Schema;
 const {ObjectId} = Schema.Types;
@@ -22,14 +21,5 @@ const CollectionSchema = new Schema({
 }, {
   timestamps: true
 });
-
-CollectionSchema.statics.updateCollection = function(collectionId, collectionData) {
-  return new Promise((resolve, reject) => {
-    this.findOneAndUpdate({_id: collectionId}, collectionData, {'new': true}, (err, collection) => {
-      if (err) reject(err);
-      resolve(collection);
-    });
-  });
-};
 
 export default mongoose.model('Collection', CollectionSchema);

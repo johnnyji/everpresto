@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import Promise from 'bluebird';
 import mongoose from 'mongoose';
 import xss from 'xss';
 
@@ -49,7 +48,7 @@ TemplateSchema.statics.updateTemplate = function(id, data) {
     // Sanitizes the HTML text to remove any malicious tags
     const sanitizedData = _.set(data, 'body', xss(data.body));
 
-    this.findOneAndUpdate({_id: id}, sanitizedData, {'new': true}, (err, template) => {
+    this.findOneAndUpdate({_id: id}, {$set: sanitizedData}, {'new': true}, (err, template) => {
       if (err) reject(err);
       resolve(template);
     });
