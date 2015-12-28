@@ -19,13 +19,13 @@ const TemplateSchema = new Schema({
     type: Array,
     default: []
   },
-  title: {
-    type: String,
-    required: 'Please give your template a title!'
-  },
   rawText: {
     type: String,
     required: 'Your template can\'t be empty silly!'
+  },
+  title: {
+    type: String,
+    required: 'Please give your template a title!'
   }
 }, {
   timestamps: true
@@ -48,7 +48,11 @@ TemplateSchema.statics.updateTemplate = function(id, data) {
     // Sanitizes the HTML text to remove any malicious tags
     const sanitizedData = _.set(data, 'body', xss(data.body));
 
-    this.findOneAndUpdate({_id: id}, {$set: sanitizedData}, {'new': true}, (err, template) => {
+    this.findOneAndUpdate(
+      {_id: id},
+      {$set: sanitizedData},
+      {'new': true, runValidators: true}
+    ).exec((err, template) => {
       if (err) reject(err);
       resolve(template);
     });

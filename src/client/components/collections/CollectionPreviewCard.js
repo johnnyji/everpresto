@@ -94,13 +94,14 @@ export default class CollectionPreviewCard extends Component {
   _handleDeleteCollection = () => {
     const {collection} = this.props;
     const amountOfDocuments = collection.get('documents').size;
-    const confirmMessage = amountOfDocuments === 0
-      ? 'Are you sure you want to delete this folder? No backsies!'
-      : `Are you sure you want to delete this folder? \n All ${amountOfDocuments} documents will be deleted!`;
+    const confirmMessage = `Are you sure you want to delete this folder? \n All ${amountOfDocuments} documents will be deleted!`;
 
-    if (confirm(confirmMessage)) {
-      this.context.dispatch(CollectionActionCreators.deleteCollection(collection.get('_id')));
+    if (amountOfDocuments > 0) {
+      if (confirm(confirmMessage)) {
+        return this.context.dispatch(CollectionActionCreators.deleteCollection(collection.get('_id')));
+      }
     }
+    return this.context.dispatch(CollectionActionCreators.deleteCollection(collection.get('_id')));
   }
 
   _handleKeyPress = (e) => {

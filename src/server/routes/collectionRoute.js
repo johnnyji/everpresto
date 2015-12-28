@@ -41,13 +41,15 @@ router.post('/update', (req, res) => {
   const {collectionData, collectionId} = req.body;
 
   Collection.findById(collectionId, (err, collection) => {
-    if (err) return res.status(422).json({message: findFirstErrorMessage(err)});
+    debugger;
+  });
 
-    collection.title = collectionData.title;
-    collection.save((err, collection) => {
-      if (err) return res.status(422).json({message: findFirstErrorMessage(err)});
-      res.status(200).json({collection});
-    });
+  Collection.findOneAndUpdate(
+    {_id: collectionId},
+    {$set: collectionData},
+    {new: true, runValidators: true}
+  ).exec((err, collection) => {
+    debugger;
   });
 });
 

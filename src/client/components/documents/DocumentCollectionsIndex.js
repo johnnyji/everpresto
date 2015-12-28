@@ -97,13 +97,16 @@ export default class DocumentCollectionsIndex extends Component {
     const {collectionBeingEdited, collections} = this.props;
 
     return collections.map((collection, i) => {
+      const isBeingEdited = Boolean(collectionBeingEdited)
+        ? collectionBeingEdited.get('_id') === collection.get('_id')
+        : false;
       return (
         <GridViewItem key={i} isCard={false}>
           <CollectionPreviewCard
             collection={collection}
             className={`${displayName}-folders-folder`}
             contentClassName={`${displayName}-folders-folder-main`}
-            isBeingEdited={collectionBeingEdited && collectionBeingEdited.get('_id') === collection.get('_id')}/>
+            isBeingEdited={isBeingEdited}/>
         </GridViewItem>
       );
     });

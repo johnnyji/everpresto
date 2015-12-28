@@ -9,10 +9,6 @@ const CollectionSchema = new Schema({
     ref: 'User',
     index: true
   },
-  documents: [{
-    type: ObjectId,
-    ref: 'Document'
-  }],
   title: {
     type: String,
     default: 'Untitled',
