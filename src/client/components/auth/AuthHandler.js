@@ -25,7 +25,7 @@ export default class AuthHandler extends Component {
 
   componentWillMount() {
     // Redirects the user to the dashboard if they're already authenticated.
-    if (Boolean(this.props.currentUser) {
+    if (Boolean(this.props.currentUser)) {
       this.context.history.replace('/dashboard');
     }
   }
