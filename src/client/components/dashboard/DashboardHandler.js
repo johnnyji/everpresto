@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
-import ImmutablePropTypes from 'react-immutable-proptypes';
-import Immutable from 'immutable';
 import {connect} from 'react-redux';
+import Immutable from 'immutable';
+import CustomPropTypes from '.././CustomPropTypes';
 
 import DashboardHeader from './DashboardHeader';
 import HorizontalNavbar from '.././ui/HorizontalNavbar';
@@ -21,11 +21,7 @@ export default class DashboardHandler extends Component {
   };
 
   static propTypes = {
-    currentUser: ImmutablePropTypes.contains({
-      firstName: PropTypes.string.isRequired,
-      lastName: PropTypes.string.isRequired,
-      email: PropTypes.string.isRequired
-    }).isRequired,
+    currentUser: CustomPropTypes.user.isRequired
   };
 
   render() {
