@@ -4,7 +4,7 @@ import mergeDeep from '../.././utils/mergeDeep';
 import Button from '.././ui/Button';
 import Card from '.././ui/Card';
 import Input from '.././ui/Input';
-import RegexHelper from '../.././utils/RegexHelper';
+import {email, matchValue, minLength} from '../.././utils/RegexHelper';
 import AppActionCreators from './../../actions/AppActionCreators';
 import AuthActionCreators from './../../actions/AuthActionCreators';
 
@@ -22,6 +22,14 @@ export default class RegistrationForm extends Component {
     super(props);
     this.state = {
       formData: Immutable.fromJS({
+        company: {
+          values: {
+            name: ''
+          },
+          errors: {
+            name: ''
+          }
+        },
         user: {
           values: {
             firstName: '',
@@ -47,18 +55,28 @@ export default class RegistrationForm extends Component {
 
     return (
       <div className={`${displayName}`}>
-        <header className={`${displayName}-header`}>Welcome to the family!</header>
-        <Card className={`${displayName}-card'`} ref='form'>
+        <Card className={`${displayName}-card'`}>
+          <header className={`${displayName}-card-header`}>Welcome to the family!</header>
           <Input
             autoFocus={true}
+            className={`${displayName}-card-input`}
+            error={formData.getIn(['company', 'errors', 'name'])}
+            errorKeys='company:errors:name'
+            label='Company Name'
+            onEnterKeyPress={this._handleFormSubmission}
+            onUpdate={this._handleInputUpdate}
+            patternMatches={minLength(1, 'Please provide your company\'s name')}
+            ref='company-name'
+            successKeys='company:values:name'/>
+          <Input
             className={`${displayName}-card-input`}
             error={formData.getIn(['user', 'errors', 'firstName'])}
             errorKeys='user:errors:firstName'
             label='First name...'
             onEnterKeyPress={this._handleFormSubmission}
             onUpdate={this._handleInputUpdate}
-            patternMatches={RegexHelper.minLength(1, 'You\'re first name please!')}
-            ref='firstName'
+            patternMatches={minLength(1, 'You\'re first name please!')}
+            ref='user-firstName'
             successKeys='user:values:firstName'/>
           <Input
             className={`${displayName}-card-input`}
@@ -67,8 +85,8 @@ export default class RegistrationForm extends Component {
             label='Last name!'
             onEnterKeyPress={this._handleFormSubmission}
             onUpdate={this._handleInputUpdate}
-            patternMatches={RegexHelper.minLength(1, 'You\'re last name please!')}
-            ref='lastName'
+            patternMatches={minLength(1, 'You\'re last name please!')}
+            ref='user-lastName'
             successKeys='user:values:lastName'/>
           <Input
             className={`${displayName}-card-input`}
@@ -77,8 +95,8 @@ export default class RegistrationForm extends Component {
             label='Email'
             onEnterKeyPress={this._handleFormSubmission}
             onUpdate={this._handleInputUpdate}
-            patternMatches={RegexHelper.email()}
-            ref='email'
+            patternMatches={email()}
+            ref='user-email'
             successKeys='user:values:email'
             type='email'/>
           <Input
@@ -89,10 +107,10 @@ export default class RegistrationForm extends Component {
             onEnterKeyPress={this._handleFormSubmission}
             onUpdate={this._handlePasswordUpdate}
             patternMatches={[
-              RegexHelper.minLength(8, 'Passwords must be at least 8 characters!'),
-              RegexHelper.matchValue(formData.getIn(['user', 'values', 'passwordConfirmation']), 'Both your passwords must match!')
+              minLength(8, 'Passwords must be at least 8 characters!'),
+              matchValue(formData.getIn(['user', 'values', 'passwordConfirmation']), 'Both your passwords must match!')
             ]}
-            ref='password'
+            ref='user-password'
             successKeys='user:values:password'
             type='password'/>
           <Input
@@ -103,10 +121,10 @@ export default class RegistrationForm extends Component {
             onEnterKeyPress={this._handleFormSubmission}
             onUpdate={this._handlePasswordConfirmationUpdate}
             patternMatches={[
-              RegexHelper.minLength(8, 'Passwords must be at least 8 characters!'),
-              RegexHelper.matchValue(formData.getIn(['user', 'values', 'password']), 'Both your passwords must match!')
+              minLength(8, 'Passwords must be at least 8 characters!'),
+              matchValue(formData.getIn(['user', 'values', 'password']), 'Both your passwords must match!')
             ]}
-            ref='passwordConfirmation'
+            ref='user-passwordConfirmation'
             successKeys='user:values:passwordConfirmation'
             type='password'/>
           <Button
@@ -121,22 +139,28 @@ export default class RegistrationForm extends Component {
 
   // TODO:: FIRST THING, Think of way to make this a universal functionality.
   _handleFormSubmission = () => {
+    const companyData = this.state.formData.get('company');
     const userData = this.state.formData.get('user');
     // Goes through each input field by ref, calls the `valid` method on them and on // the first invalid field, `find` will return the error message of that input field.
-    const firstFoundError = userData.get('errors').find((v, k) => {
-      return !this.refs[k].valid();
-    });
+    const firstUserError = userData.get('errors').find((v, k) => !this.refs[`user-${k}`].valid());
+    const firstCompanyError = companyData.get('errors').find((v, k) => !this.refs[`company-${k}`].valid());
 
     // Dispatches the input error if there is one.
-    if (firstFoundError !== undefined) {
+    if (firstUserError) {
       return this.context.dispatch(
-        AppActionCreators.createFlashMessage('red', firstFoundError || 'Please fill out the form properly')
+        AppActionCreators.createFlashMessage('red', firstUserError || 'Please fill out the form properly')
+      );
+    }
+    if (firstCompanyError) {
+      return this.context.dispatch(
+        AppActionCreators.createFlashMessage('red', firstCompanyError || 'Please fill out the form properly')
       );
     }
 
     // Dispatches the create user
-    return this.context.dispatch(
-      AuthActionCreators.createUser({
+    this.context.dispatch(
+      AuthActionCreators.createUserWithCompany({
+        company: companyData.get('values').toJS(),
         user: userData.get('values').toJS()
       })
     );

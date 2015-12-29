@@ -21,7 +21,7 @@ import {createStore} from 'redux';
 import {Provider} from 'react-redux';
 import configureStore from './../client/store/configureStore';
 
-// DECLARING MODELS, TODO: Right now they must be declared in dependant order... This is fucking awful.
+// MODELS, TODO: Right now they MUST be declared in dependant order... This is fucking awful.
 import './models/Template';
 import './models/Document';
 import User from './models/User';

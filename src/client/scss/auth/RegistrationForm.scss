@@ -1,20 +1,18 @@
 .RegistrationForm {
   position: relative;
   width: 600px;
-  height: 500px;
+  height: 700px;
   margin: 3rem auto 2rem auto;
-
-  &-header {
-    color: $brand-color-blue-dark;
-    font-size: 32px;
-    margin: 3rem auto;
-    text-align: center;
-  }
-
   // Specify node as well so CSS takes precendence over the component's
   // original CSS
   div > &-card {
     position: relative;
+    &-header {
+      color: $brand-color-blue-dark;
+      font-size: 32px;
+      margin: 1rem auto;
+      text-align: center;
+    }
     &-input {
       color: $brand-color-blue-darker;
       margin: 2.5rem auto;

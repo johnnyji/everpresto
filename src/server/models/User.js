@@ -55,9 +55,6 @@ const UserSchema = new Schema({
   timestamps: true
 });
 
-// Must export prior to declaring and using other models due to dependency and loading issues.
-export default mongoose.model('User', UserSchema);
-
 // Must use `function` syntax in order to scope `this` to be the User model.
 // Used in `server.js`, must use `bluebird` Promise to access `finally` method.
 UserSchema.statics.findWithCompany = function(objectId) {
@@ -76,6 +73,9 @@ UserSchema.statics.findWithCompany = function(objectId) {
       });
   });
 }
+
+// Must export prior to declaring and using other models due to dependency and loading issues.
+export default mongoose.model('User', UserSchema);
 
 // Finds a user WITHOUT the password and hash
 UserSchema.statics.findUser = function(conditions, notFoundMessage = 'No user found') {
