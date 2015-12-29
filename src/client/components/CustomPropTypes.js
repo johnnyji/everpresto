@@ -27,6 +27,15 @@ const CustomPropTypes = {
     rawText: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     updatedAt: PropTypes.string.isRequired
+  }),
+
+  user: ImmutablePropTypes.contains({
+    account: ImmutablePropTypes.contains({
+      email: PropTypes.string.isRequired,
+      firstName: PropTypes.string.isRequired,
+      lastName: PropTypes.string.isRequired,
+      profilePictureUrl: PropTypes.string.isRequired
+    }).isRequired
   })
 
 };

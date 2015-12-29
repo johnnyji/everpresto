@@ -1,7 +1,8 @@
 import React, {PropTypes, Component} from 'react';
-import ImmutablePropTypes from 'react-immutable-proptypes';
 import {connect} from 'react-redux'
 import {Link} from 'react-router';
+import ImmutablePropTypes from 'react-immutable-proptypes';
+import CustomPropTypes from '.././CustomPropTypes';
 
 @connect((state) => ({
   currentUser: state.auth.get('user')
@@ -15,12 +16,7 @@ export default class LandingPageHandler extends Component {
   };
 
   static propTypes = {
-    currentUser: ImmutablePropTypes.contains({
-      firstName: PropTypes.string.isRequired,
-      lastName: PropTypes.string.isRequired,
-      email: PropTypes.string.isRequired,
-      profilePictureUrl: PropTypes.string.isRequired
-    })
+    currentUser: CustomPropTypes.user
   };
 
   componentWillMount() {

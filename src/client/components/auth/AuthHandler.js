@@ -1,13 +1,13 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import ImmutablePropTypes from 'react-immutable-proptypes';
+import CustomPropTypes from '.././CustomPropTypes';
 
 import LoginForm from './LoginForm';
 import RegistrationForm from './RegistrationForm';
 
 
 @connect((state) => ({
-  auth: state.auth
+  currentUser: state.auth.get('user')
 }))
 export default class AuthHandler extends Component {
 
@@ -20,25 +20,21 @@ export default class AuthHandler extends Component {
   };
 
   static propTypes = {
-    auth: ImmutablePropTypes.map.isRequired,
-    dispatch: PropTypes.func.isRequired
+    currentUser: CustomPropTypes.user
   };
 
   componentWillMount() {
     // Redirects the user to the dashboard if they're already authenticated.
-    if (Boolean(this.props.auth.get('user'))) {
+    if (Boolean(this.props.currentUser) {
       this.context.history.replace('/dashboard');
     }
   }
 
   componentWillUpdate(nextProps) {
     // If the user props are different, we redirect accordingly
-    if (!this.props.auth.equals(nextProps.auth)) {
-      if (Boolean(nextProps.auth.get('user'))) {
-        this.context.history.replace('/dashboard');
-      } else {
-        this.context.histroy.replace('/');
-      }
+    if (!this.props.currentUser.equals(nextProps.currentUser)) {
+      if (Boolean(nextProps.currentUser)) return this.context.history.replace('/dashboard');
+      this.context.histroy.replace('/');
     }
   } 
 
@@ -49,6 +45,5 @@ export default class AuthHandler extends Component {
     if (path === '/join') return <RegistrationForm />;
 
     return <LoginForm />;
-
   }
 }

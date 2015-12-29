@@ -62,7 +62,7 @@ export default class RegistrationForm extends Component {
             className={`${displayName}-card-input`}
             error={formData.getIn(['company', 'errors', 'name'])}
             errorKeys='company:errors:name'
-            label='Company Name'
+            label='Company name'
             onEnterKeyPress={this._handleFormSubmission}
             onUpdate={this._handleInputUpdate}
             patternMatches={minLength(1, 'Please provide your company\'s name')}
@@ -159,7 +159,7 @@ export default class RegistrationForm extends Component {
 
     // Dispatches the create user
     this.context.dispatch(
-      AuthActionCreators.createUserWithCompany({
+      AuthActionCreators.createCompanyWithUser({
         company: companyData.get('values').toJS(),
         user: userData.get('values').toJS()
       })
