@@ -58,16 +58,8 @@ const UserSchema = new Schema({
   timestamps: true
 });
 
-// Validates if the password verifies against the hash correctly
-UserSchema.path('password').validate(function(value, done) {
-  bcrypt.compare(value, this.hash, (err, res) => {
-    if (err) return done(false);
-    done(res);
-  });
-}, 'Uh oh, server error: Password failed hash verification.');
-
-
-// Must use `function` syntax in order to scope `this` to be the User model
+// Must use `function` syntax in order to scope `this` to be the User model.
+// Used in `server.js`, must use `bluebird` Promise to access `finally` method.
 UserSchema.statics.findFromSession = function(sessionId) {
   return new Promise((resolve, reject) => {
     if (!Boolean(sessionId)) reject();
