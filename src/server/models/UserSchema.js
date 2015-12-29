@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import Promise from 'bluebird';
 import mongoose from 'mongoose';
-import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt-nodejs';
 import secrets from '../../.././secrets.json';
 import config from '../../.././config';
@@ -10,10 +9,16 @@ import path from 'path';
 import UserValidator from '.././validators/UserValidator';
 
 const defaultAvatarPath = `${config.s3BucketPath}/public/avatar.jpg`;
-const Schema = mongoose.Schema;
+const {Schema} = mongoose;
 const {ObjectId} = Schema.Types;
 
 const UserSchema = new Schema({
+  _company: {
+    type: ObjectId,
+    ref: 'Company',
+    required: true,
+    index: true
+  },
   account: {
     email: {
       type: String,
@@ -73,21 +78,6 @@ UserSchema.path('password').validate(function(value, done) {
 
 
 // Must use `function` syntax in order to scope `this` to be the User model
-UserSchema.statics.findFromJwt = function(token) {
-  // returns a pending promise 
-  return new Promise((resolve, reject) => {
-    jwt.verify(token, secrets.jwtSecret, (err, decoded) => {
-      if (err) reject(err);
-
-      this.findOne(decoded, (err, user) => {
-        if (err) reject(err);
-        resolve(user);
-      });
-    });
-  });
-}
-
-// Must use `function` syntax in order to scope `this` to be the User model
 UserSchema.statics.findFromSession = function(sessionId) {
   return new Promise((resolve, reject) => {
     if (!Boolean(sessionId)) reject();
@@ -98,6 +88,7 @@ UserSchema.statics.findFromSession = function(sessionId) {
     });
   });
 }
+
 
 UserSchema.statics.register = function(data) {
   return new Promise((resolve, reject) => {
@@ -122,4 +113,4 @@ UserSchema.statics.register = function(data) {
   });
 }
 
-export default mongoose.model('User', UserSchema);
+export default UserSchema;

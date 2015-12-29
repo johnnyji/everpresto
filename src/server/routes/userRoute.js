@@ -1,14 +1,14 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import jwt from 'jsonwebtoken';
+import {findFirstErrorMessage} from './utils/ResponseHelper';
 
 const User = mongoose.model('User');
 const router = express.Router();
 
-router.post('/currentUser', (req, res, next) => {
-  User.findOne({ _id: req.session.userId })
-  .exec((err, user) => {
-    if (err) return res.status(500).json({message: err.message});
+// Finds the current user
+router.post('/current_user', (req, res, next) => {
+  User.findOne({_id: req.session.userId}, (err, user) => {
+    if (err) return res.status(422).json({message: findFirstErrorMessage(err)});
     res.status(200).json({user});
   });
 });

@@ -21,14 +21,14 @@ import {createStore} from 'redux';
 import {Provider} from 'react-redux';
 import configureStore from './../client/store/configureStore';
 
-// SERVER MODELS ** Require them before the app executes
-import User from './models/user';
-import './models/collection';
-import './models/document';
-import './models/template';
+// MODEL SCHEMAS
+import CompanySchema './models/CollectionSchema';
+import UserSchema from './models/UserSchema';
+import CollectionSchema './models/CollectionSchema';
+import DocumentSchema './models/DocumentSchema';
+import TemplateSchema './models/TemplateSchema';
 
 // API ROUTES
-import rootRoute from './routes/rootRoute';
 import authRoute from './routes/authRoute';
 import collectionRoute from './routes/collectionRoute';
 import templateRoute from './routes/templateRoute';
@@ -42,12 +42,20 @@ import config from '../.././config';
 import secrets from '../.././secrets.json';
 
 
+// Initiating Models
+const Company = mongoose.model('Company', CompanySchema);
+const User = mongoose.model('User', UserSchema);
+mongoose.model('Collection', CollectionSchema);
+mongoose.model('Document', DocumentSchema);
+mongoose.model('Template', TemplateSchema);
+
+
 const app = express();
 const MongoStore = connectMongo(session); // mongo store for session
 const port = process.env.PORT || config.development.serverPort;
 const apiRouter = express.Router();
 
-// connect to db
+// Connecting to the DB
 mongoose.connection.on('open', (ref) => console.log('Connected to Mongo server...'));
 mongoose.connection.on('error', (err) => console.log('Mongo server connection error: ', err));
 mongoose.connect(config.development.dbConnectUrl, (err) => {
@@ -83,7 +91,6 @@ app.use('/api', apiRouter);
 
 
 // api routes
-apiRouter.use('/', rootRoute);
 apiRouter.use('/auth', authRoute);
 apiRouter.use('/collection', collectionRoute);
 apiRouter.use('/template', templateRoute);

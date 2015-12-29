@@ -6,7 +6,13 @@ const Schema = mongoose.Schema;
 const {ObjectId} = Schema.Types;
 
 const TemplateSchema = new Schema({
-  _owner: {
+  _company: {
+    type: ObjectId,
+    ref: 'Company',
+    required: true,
+    index: true
+  },
+  _creator: {
     type: ObjectId,
     ref: 'User',
     index: true
@@ -15,10 +21,16 @@ const TemplateSchema = new Schema({
     type: String,
     required: 'Your template can\'t be empty silly!'
   },
-  placeholders: {
-    type: Array,
-    default: []
-  },
+  placeholders: [{
+    label: {
+      type: String,
+      required: 'Please make sure all placeholders have labels'
+    },
+    value: {
+      type: String,
+      required: 'Please make sure all placeholders have values'
+    }
+  }],
   rawText: {
     type: String,
     required: 'Your template can\'t be empty silly!'
@@ -51,7 +63,7 @@ TemplateSchema.statics.updateTemplate = function(id, data) {
     this.findOneAndUpdate(
       {_id: id},
       {$set: sanitizedData},
-      {'new': true, runValidators: true}
+      {new: true, runValidators: true}
     ).exec((err, template) => {
       if (err) reject(err);
       resolve(template);
@@ -59,4 +71,4 @@ TemplateSchema.statics.updateTemplate = function(id, data) {
   });
 }
 
-export default mongoose.model('Template', TemplateSchema);
+export default TemplateSchema;

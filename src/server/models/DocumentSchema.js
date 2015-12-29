@@ -4,6 +4,12 @@ const Schema = mongoose.Schema;
 const {ObjectId} = Schema.Types;
 
 const DocumentSchema = new Schema({
+  _company: {
+    type: ObjectId,
+    ref: 'Company',
+    required: true,
+    index: true
+  },
   _collection: {
     type: ObjectId,
     ref: 'Collection',
@@ -14,7 +20,9 @@ const DocumentSchema = new Schema({
     default: 'Untitled Folder',
     required: true
   },
-  expiresAt: Date,
+  expiresAt: {
+    type: Date
+  },
   signed: {
     type: Boolean,
     default: false
@@ -28,4 +36,4 @@ const DocumentSchema = new Schema({
   timestamps: true
 });
 
-export default mongoose.model('Document', DocumentSchema);
+export default DocumentSchema;

@@ -1,7 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import requireUser from '.././middlewares/requireUser';
-import {findFirstErrorMessage} from './utils/responseHelper';
+import {findFirstErrorMessage} from './utils/ResponseHelper';
 
 const Template = mongoose.model('Template');
 const router = express.Router();

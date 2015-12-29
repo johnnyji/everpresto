@@ -7,6 +7,6 @@
  */
 const findFirstErrorMessage = (response) => {
   return response.errors[Object.keys(response.errors)[0]].message;
-}
+};
 
 export default {findFirstErrorMessage};
