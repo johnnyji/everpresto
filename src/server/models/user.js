@@ -11,35 +11,54 @@ import UserValidator from '.././validators/UserValidator';
 
 const defaultAvatarPath = `${config.s3BucketPath}/public/avatar.jpg`;
 const Schema = mongoose.Schema;
+const {ObjectId} = Schema.Types;
 
 const UserSchema = new Schema({
-  email: {
+  account: {
+    email: {
+      type: String,
+      required: 'What was your email again?',
+      validate: [UserValidator.email, 'Are you sure your email is {VALUE}?']
+    },
+    firstName: {
+      type: String,
+      required: 'I bet you have a first name...'
+    },
+    lastName: {
+      type:String,
+      required: 'Did you forget to enter your last name?'
+    },
+    hash: {
+      type: Object,
+      required: 'Some fancy server error: Error generating password hash.',
+      select: false
+    },
+    password: {
+      type: String,
+      required: 'I need to know your password! (Said the suspicious looking man...)',
+      select: false
+    },
+    profilePictureUrl: {
+      type: String,
+      default: defaultAvatarPath
+    }
+  },
+  clearanceLevel: {
     type: String,
-    required: 'What was your email again?',
-    validate: [UserValidator.email, 'Are you sure your email is {VALUE}?']
+    enum: ['admin', 'user'],
+    default: 'user',
+    required: 'Please select a clearance level for this user.'
   },
-  firstName: {
-    type: String,
-    required: 'I bet you have a first name...'
-  },
-  lastName: {
-    type:String,
-    required: 'Did you forget to enter your last name?'
-  },
-  hash: {
-    type: Object,
-    required: 'Some fancy server error: Error generating password hash.',
-    select: false
-  },
-  password: {
-    type: String,
-    required: 'I need to know your password! (Said the suspicious looking man...)',
-    select: false
-  },
-  profilePictureUrl: {
-    type: String,
-    default: defaultAvatarPath
-  }
+  documentSubscriptions: [{
+    type: ObjectId,
+    ref: 'Document',
+    required: true
+  }],
+  templateSubscriptions: [{
+    type: ObjectId,
+    ref: 'Template',
+    required: true
+  }]
 }, {
   timestamps: true
 });
