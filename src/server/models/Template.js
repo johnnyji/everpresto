@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import xss from 'xss';
 
 const Schema = mongoose.Schema;
-const {ObjectId} = Schema.Types;
+const ObjectId = Schema.Types.ObjectId;
 
 const TemplateSchema = new Schema({
   _company: {
@@ -43,6 +43,9 @@ const TemplateSchema = new Schema({
   timestamps: true
 });
 
+// Must export prior to declaring and using other models due to dependency and loading issues.
+export default mongoose.model('Template', TemplateSchema);
+
 TemplateSchema.statics.createTemplate = function(data) {
   return new Promise((resolve, reject) => {
     // Sanitizes the HTML text to remove any malicious tags
@@ -70,5 +73,3 @@ TemplateSchema.statics.updateTemplate = function(id, data) {
     });
   });
 }
-
-export default TemplateSchema;

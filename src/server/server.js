@@ -21,12 +21,12 @@ import {createStore} from 'redux';
 import {Provider} from 'react-redux';
 import configureStore from './../client/store/configureStore';
 
-// MODEL SCHEMAS
-import CompanySchema './models/CollectionSchema';
-import UserSchema from './models/UserSchema';
-import CollectionSchema './models/CollectionSchema';
-import DocumentSchema './models/DocumentSchema';
-import TemplateSchema './models/TemplateSchema';
+// DECLARING MODELS
+import User from './models/User';
+import './models/Collection';
+import './models/Collection';
+import './models/Document';
+import './models/Template';
 
 // API ROUTES
 import AuthRoutes from './routes/AuthRoutes';
@@ -40,14 +40,6 @@ import requireUser from './middlewares/requireUser';
 // CONFIG
 import config from '../.././config';
 import secrets from '../.././secrets.json';
-
-
-// Initiating Models
-const Company = mongoose.model('Company', CompanySchema);
-const User = mongoose.model('User', UserSchema);
-mongoose.model('Collection', CollectionSchema);
-mongoose.model('Document', DocumentSchema);
-mongoose.model('Template', TemplateSchema);
 
 
 const app = express();
@@ -114,12 +106,17 @@ app.use((req, res) => {
       // Handle route rendering
       let initialState;
       // Goes through the flow of loading the initial app state
-      User.findFromSession(req.session.userId)
-        .then((user) => {
-          initialState = {auth: Immutable.fromJS({user})};
+      User.findWithCompany(req.session.userId)
+        .then((response) => {
+          const {company, user} = response;
+          initialState = {
+            auth: Immutable.fromJS({company, user})
+          };
         })
         .catch(() => {
-          initialState = {auth: Immutable.Map({user: null})};
+          initialState = {
+            auth: Immutable.Map({company: null, user: null})
+          };
         })
         .finally(() => {
           const store = configureStore(initialState);

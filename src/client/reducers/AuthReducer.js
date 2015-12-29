@@ -2,6 +2,7 @@ import Immutable from 'immutable';
 import AuthActionTypes from '.././action_types/AuthActionTypes';
 
 const initialState = Immutable.Map({
+  company: null,
   user: null
 });
 

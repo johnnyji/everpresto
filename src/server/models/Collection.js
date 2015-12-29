@@ -1,8 +1,7 @@
 import mongoose from 'mongoose';
 
-const {model, Schema} = mongoose.Schema;
-const {ObjectId} = Schema.Types;
-const Document = model('Document');
+const Schema = mongoose.Schema;
+const ObjectId = Schema.Types.ObjectId;
 
 const CollectionSchema = new Schema({
   _company: {
@@ -25,6 +24,11 @@ const CollectionSchema = new Schema({
 }, {
   timestamps: true
 });
+
+// Must export prior to declaring and using other models due to dependency and loading issues.
+export default mongoose.model('Collection', CollectionSchema);
+
+const Document = mongoose.model('Document');
 
 // Removes dependency documents.
 CollectionSchema.pre('remove', function(next) {

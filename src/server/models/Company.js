@@ -1,12 +1,6 @@
 import mongoose from 'mongoose';
 
-const {model, Schema} = mongoose;
-const {ObjectId} = Schema.Types;
-
-const Collection = model('Collection');
-const Document = model('Document');
-const Template = model('Template');
-const User = model('User');
+const Schema = mongoose.Schema;
 
 const CompanySchema = new Schema({
   name: {
@@ -16,6 +10,14 @@ const CompanySchema = new Schema({
 }, {
   timestamps: true
 });
+
+// Must export prior to declaring and using other models due to dependency and loading issues.
+export default mongoose.model('Company', CompanySchema);
+
+const Template = mongoose.model('Template');
+const Document = mongoose.model('Document');
+const Collection = mongoose.model('Collection');
+const User = mongoose.model('User');
 
 // Removes all associated documents before it is removed
 CompanySchema.pre('remove', function(next) {
@@ -27,7 +29,7 @@ CompanySchema.pre('remove', function(next) {
 });
 
 // STATICS
-Company.statics.createWithUser = function(companyData, userData) {
+CompanySchema.statics.createWithUser = function(companyData, userData) {
   return new Promise((resolve, reject) => {
     const {name} = companyData;
 
@@ -40,5 +42,3 @@ Company.statics.createWithUser = function(companyData, userData) {
     });
   });
 };
-
-export default CompanySchema;
