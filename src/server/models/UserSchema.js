@@ -53,17 +53,7 @@ const UserSchema = new Schema({
     enum: ['admin', 'user'],
     default: 'user',
     required: 'Please select a clearance level for this user.'
-  },
-  documentSubscriptions: [{
-    type: ObjectId,
-    ref: 'Document',
-    required: true
-  }],
-  templateSubscriptions: [{
-    type: ObjectId,
-    ref: 'Template',
-    required: true
-  }]
+  }
 }, {
   timestamps: true
 });
@@ -90,7 +80,7 @@ UserSchema.statics.findFromSession = function(sessionId) {
 }
 
 
-UserSchema.statics.register = function(data) {
+UserSchema.statics.register = function(companyObjectId, data, clearanceLevel) {
   return new Promise((resolve, reject) => {
     const {firstName, lastName, email, hash, password, passwordConfirmation} = data;
     
@@ -98,7 +88,11 @@ UserSchema.statics.register = function(data) {
     // Hashes the password
     const hash = bcrypt.hashSync(password);
     // Creates the user with the hashed password
-    this.create({firstName, lastName, email, hash, password}, (err, user) => {
+    this.create({
+      _company: companyObjectId,
+      account: {firstName, lastName, email, hash, password},
+      clearanceLevel: Boolean(clearanceLevel) ? clearanceLevel : 'user'
+    }, (err, user) => {
       if (err) reject(err);
       // Sends back the user without the password fields
       resolve(_.omit(user, ['password', 'hash']));
