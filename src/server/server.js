@@ -21,12 +21,12 @@ import {createStore} from 'redux';
 import {Provider} from 'react-redux';
 import configureStore from './../client/store/configureStore';
 
-// DECLARING MODELS
+// DECLARING MODELS, TODO: Right now they must be declared in dependant order... This is fucking awful.
+import './models/Template';
+import './models/Document';
 import User from './models/User';
 import './models/Collection';
-import './models/Collection';
-import './models/Document';
-import './models/Template';
+import './models/Company';
 
 // API ROUTES
 import AuthRoutes from './routes/AuthRoutes';
@@ -85,7 +85,7 @@ app.use('/api', apiRouter);
 apiRouter.use('/auth', AuthRoutes);
 apiRouter.use('/collections', requireUser, CollectionRoutes);
 apiRouter.use('/templates', requireUser, TemplateRoutes);
-apiRouter.use('/users', requireUser, userRoute);
+apiRouter.use('/users', requireUser, UserRoutes);
 
 
 // Server-side rendering

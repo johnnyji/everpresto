@@ -10,7 +10,6 @@ router.post('/current_user', (req, res, next) => {
   User.findUser({_id: req.session.userId})
     .then((user) => res.status(200).json({user}))
     .catch((err) => res.status(422).json({message: extractErrorMessage(err)}));
-  });
 });
 
 export default router;
