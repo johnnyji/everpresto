@@ -26,4 +26,19 @@ CompanySchema.pre('remove', function(next) {
   next();
 });
 
+// STATICS
+Company.statics.createWithUser = function(companyData, userData) {
+  return new Promise((resolve, reject) => {
+    const {name} = companyData;
+
+    this.create({name}, (err, company) => {
+      if (err) reject(err);
+      // Creates the user if the company was successfully created
+      User.register(userData)
+        .then((user) => resolve({company, user}))
+        .catch((err) => reject(err));
+    });
+  });
+};
+
 export default CompanySchema;

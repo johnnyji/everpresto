@@ -92,24 +92,17 @@ UserSchema.statics.findFromSession = function(sessionId) {
 
 UserSchema.statics.register = function(data) {
   return new Promise((resolve, reject) => {
-    if (data.password !== data.passwordConfirmation) return reject(new Error('Both your passwords have to match silly!'));
-
+    const {firstName, lastName, email, hash, password, passwordConfirmation} = data;
+    
+    if (password !== passwordConfirmation) return reject(new Error('Both your passwords have to match silly!'));
     // Hashes the password
-    const hash = bcrypt.hashSync(data.password);
-
+    const hash = bcrypt.hashSync(password);
     // Creates the user with the hashed password
-    this.create({
-      firstName: data.firstName,
-      lastName: data.lastName,
-      email: data.email,
-      hash,
-      password: data.password
-    }, (err, user) => {
+    this.create({firstName, lastName, email, hash, password}, (err, user) => {
       if (err) reject(err);
       // Sends back the user without the password fields
       resolve(_.omit(user, ['password', 'hash']));
     });
-
   });
 }
 

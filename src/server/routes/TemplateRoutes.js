@@ -6,9 +6,6 @@ import {findFirstErrorMessage} from './utils/ResponseHelper';
 const Template = mongoose.model('Template');
 const router = express.Router();
 
-// Makes sure each route requires a user before execution
-router.use(requireUser);
-
 // Retrieves all of the current user's existing templates
 router.get('/index', (req, res) => {
   Template

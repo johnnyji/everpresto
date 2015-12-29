@@ -29,10 +29,10 @@ import DocumentSchema './models/DocumentSchema';
 import TemplateSchema './models/TemplateSchema';
 
 // API ROUTES
-import authRoute from './routes/authRoute';
-import collectionRoute from './routes/collectionRoute';
-import templateRoute from './routes/templateRoute';
-import userRoute from './routes/userRoute';
+import AuthRoutes from './routes/AuthRoutes';
+import CollectionRoutes from './routes/CollectionRoutes';
+import TemplateRoutes from './routes/TemplateRoutes';
+import UserRoutes from './routes/UserRoutes';
 
 // MIDDLEWARE
 import requireUser from './middlewares/requireUser';
@@ -64,8 +64,8 @@ mongoose.connect(config.development.dbConnectUrl, (err) => {
 
 // TODO: Remove, no longer using
 // sets the view engine to jade and views to be in the views directory
-app.set('views', './views');
-app.set('view engine', 'jade');
+// app.set('views', './views');
+// app.set('view engine', 'jade');
 
 // log requests to the console
 app.use(morgan('dev'));
@@ -86,15 +86,14 @@ app.use(session({
 }));
 
 
-// prefixes all routes call to the server with /api to use express router
+// Prefixes API routes with `/api`
 app.use('/api', apiRouter);
 
-
-// api routes
-apiRouter.use('/auth', authRoute);
-apiRouter.use('/collection', collectionRoute);
-apiRouter.use('/template', templateRoute);
-apiRouter.use('/user', requireUser, userRoute);
+// Declare API routes with middleware
+apiRouter.use('/auth', AuthRoutes);
+apiRouter.use('/collections', requireUser, CollectionRoutes);
+apiRouter.use('/templates', requireUser, TemplateRoutes);
+apiRouter.use('/users', requireUser, userRoute);
 
 
 // Server-side rendering

@@ -3,7 +3,8 @@
 // Delete all associated documents in the `pre` hook when deleting a document
 // `id` is the string representation of `_id` from a model
 
-// TODO: Implement subscription feature
+// TODO: Implement document/template notification subscription feature for user
+// TODO: Implement payment plan feature
 
 {
   company: {
