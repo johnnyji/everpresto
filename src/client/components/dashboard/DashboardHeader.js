@@ -31,6 +31,9 @@ export default class DashboardHeader extends Component {
 
   render() {
     const {currentUser} = this.props;
+    const firstName = currentUser.getIn(['account', 'firstName']);
+    const lastName = currentUser.getIn(['account', 'lastName']);
+    const profilePictureUrl = currentUser.getIn(['account', 'profilePictureUrl']);
     const profileNavOptions = [
       {label: 'Profile Settings', callback: this._viewProfile},
       {label: 'Logout', callback: this._logoutUser}
@@ -49,13 +52,13 @@ export default class DashboardHeader extends Component {
             <Link to='profile'>
               <img
                 className={`${displayName}-navbar-nav-profile-pic`}
-                src={currentUser.get('profilePictureUrl')} />
+                src={profilePictureUrl} />
             </Link>
             <span
               className={`${displayName}-navbar-nav-profile-name`}
               onMouseEnter={this._showProfileOptions}
               onMouseLeave={this._hideProfileOptions}>
-              {`${currentUser.get('firstName')} ${currentUser.get('lastName')}`}
+              {`${firstName} ${lastName}`}
             </span>
             <DropdownOptions
               className={`${displayName}-navbar-nav-profile-dropdown`}
