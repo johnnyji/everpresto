@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import CustomPropTypes from '../.././components/CustomPropTypes';
+import Spinner from '../.././components/ui/Spinner';
 
 export default function requireAuth(ComposedComponent) {
 
@@ -18,7 +19,7 @@ export default function requireAuth(ComposedComponent) {
       if (!Boolean(this.props.currentUser)) {
         // Here we `push` and not `replace` so the user has the option to
         // navigate back to previous content if they wish
-        this.context.history.push('/join');
+        return this.context.history.push('/join');
       }
     }
 
@@ -27,7 +28,8 @@ export default function requireAuth(ComposedComponent) {
     }
 
     render() {
-      return <ComposedComponent {...this.props} />;
+      if (!this.props.currentUser) return <Spinner fullScreen={true}/>;
+      return <Spinner fullScreen={true}/>;
     }
 
   }
