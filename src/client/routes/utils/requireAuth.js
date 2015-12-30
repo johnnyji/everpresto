@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
-import ImmutablePropTypes from 'react-immutable-proptypes';
 import {connect} from 'react-redux';
+import CustomPropTypes from '../.././components/CustomPropTypes';
 
 export default function requireAuth(ComposedComponent) {
 
@@ -11,21 +11,11 @@ export default function requireAuth(ComposedComponent) {
     };
 
     static propTypes = {
-      auth: ImmutablePropTypes.contains({
-        user: ImmutablePropTypes.contains({
-          _id: PropTypes.string.isRequired,
-          email: PropTypes.string.isRequired,
-          firstName: PropTypes.string.isRequired,
-          lastName: PropTypes.string.isRequired,
-          profilePictureUrl: PropTypes.string.isRequired,
-          createdAt: PropTypes.string.isRequired,
-          updatedAt: PropTypes.string.isRequired
-        })
-      }).isRequired
+      currentUser: CustomPropTypes.user
     };
 
     componentWillMount() {
-      if (!Boolean(this.props.auth.get('user'))) {
+      if (!Boolean(this.props.currentUser)) {
         // Here we `push` and not `replace` so the user has the option to
         // navigate back to previous content if they wish
         this.context.history.push('/join');
@@ -33,7 +23,7 @@ export default function requireAuth(ComposedComponent) {
     }
 
     componentWillUpdate(nextProps, nextState) {
-      if (!nextProps.auth.get('user')) this.context.history.replace('/');
+      if (!nextProps.currentUser) this.context.history.replace('/');
     }
 
     render() {
@@ -44,7 +34,7 @@ export default function requireAuth(ComposedComponent) {
 
   // maps the store state to our component props
   return connect((state) => ({
-    auth: state.auth
+    currentUser: state.auth.get('user')
   }))(AuthComponent);
 
 }

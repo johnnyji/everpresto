@@ -74,9 +74,8 @@ export default class DashboardHeader extends Component {
   }
 
   _handleLogoClick = () => {
-    if (this.context.location.pathname !== '/dashboard') {
-      this.context.history.push('/dashboard');
-    }
+    const {location, history} = this.context;
+    if (location.pathname !== '/dashboard') history.push('/dashboard');
   }
 
   _hideProfileOptions = () => {
