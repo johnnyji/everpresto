@@ -32,7 +32,7 @@ router.post('/register', (req, res) => {
       req.session.userId = user._id;
       res.status(201).json({user});
     })
-    .catch((err) => res.status(422).json({message: findFirstErrorMessage(err)}));
+    .catch((err) => res.status(422).json({message: extractErrorMessage(err)}));
 });
 
 // Creates a user along with the company. The created user will be the admin and the very first
@@ -47,7 +47,7 @@ router.post('/register_with_company', (req, res) => {
       req.session.userId = user._id;
       res.status(201).json({company, user});
     })
-    .catch((err) => res.status(422).json({message: findFirstErrorMessage(err)}));
+    .catch((err) => res.status(422).json({message: extractErrorMessage(err)}));
 });
 
 export default router;

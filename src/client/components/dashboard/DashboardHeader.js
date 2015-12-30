@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
-import ImmutablePropTypes from 'react-immutable-proptypes';
 import {Link} from 'react-router';
+import CustomPropTypes from '.././CustomPropTypes';
 
 import Logo from '.././shared/Logo';
 import DropdownOptions from '.././ui/DropdownOptions';
@@ -19,15 +19,7 @@ export default class DashboardHeader extends Component {
   };
 
   static propTypes = {
-    currentUser: ImmutablePropTypes.contains({
-      _id: PropTypes.string.isRequired,
-      email: PropTypes.string.isRequired,
-      firstName: PropTypes.string.isRequired,
-      lastName: PropTypes.string.isRequired,
-      profilePictureUrl: PropTypes.string.isRequired,
-      createdAt: PropTypes.string.isRequired,
-      updatedAt: PropTypes.string.isRequired
-    }).isRequired
+    currentUser: CustomPropTypes.user.isRequired
   };
 
   constructor (props) {

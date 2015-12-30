@@ -12,6 +12,13 @@ const CustomPropTypes = {
     updatedAt: PropTypes.string.isRequired
   }),
 
+  company: ImmutablePropTypes.contains({
+    _id: PropTypes.string.isRequired,
+    createdAt: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    updatedAt: PropTypes.string.isRequired
+  }),
+
   document: ImmutablePropTypes.map,
 
   template: ImmutablePropTypes.contains({
@@ -30,12 +37,17 @@ const CustomPropTypes = {
   }),
 
   user: ImmutablePropTypes.contains({
+    _company: PropTypes.string.isRequired,
+    _id: PropTypes.string.isRequired,
     account: ImmutablePropTypes.contains({
       email: PropTypes.string.isRequired,
       firstName: PropTypes.string.isRequired,
       lastName: PropTypes.string.isRequired,
       profilePictureUrl: PropTypes.string.isRequired
-    }).isRequired
+    }).isRequired,
+    clearanceLevel: PropTypes.oneOf(['admin', 'user']).isRequired,
+    createdAt: PropTypes.string.isRequired,
+    updatedAt: PropTypes.string.isRequired,
   })
 
 };

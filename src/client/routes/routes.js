@@ -1,5 +1,6 @@
 import React from 'react';
 import {Route, IndexRoute, Redirect} from 'react-router';
+import requireAuth from './utils/requireAuth';
 
 import AppHandler from '.././components/app/AppHandler';
 import AuthHandler from '.././components/auth/AuthHandler';
@@ -15,9 +16,6 @@ import DashboardHandler from '.././components/dashboard/DashboardHandler';
     import TemplatesEdit from '.././components/templates/TemplatesEdit';
 
 import ProfileHandler from '.././components/user/ProfileHandler';
-
-import requireAuth from './utils/requireAuth';
-
 
 const routes = (
   <Route component={AppHandler} path='/'>

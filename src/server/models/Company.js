@@ -1,6 +1,10 @@
 import mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
+const Template = mongoose.model('Template');
+const Document = mongoose.model('Document');
+const Collection = mongoose.model('Collection');
+const User = mongoose.model('User');
 
 const CompanySchema = new Schema({
   name: {
@@ -10,14 +14,6 @@ const CompanySchema = new Schema({
 }, {
   timestamps: true
 });
-
-// Must export prior to declaring and using other models due to dependency and loading issues.
-export default mongoose.model('Company', CompanySchema);
-
-const Template = mongoose.model('Template');
-const Document = mongoose.model('Document');
-const Collection = mongoose.model('Collection');
-const User = mongoose.model('User');
 
 // Removes all associated documents before it is removed
 CompanySchema.pre('remove', function(next) {
@@ -36,9 +32,12 @@ CompanySchema.statics.createWithUser = function(companyData, userData) {
     this.create({name}, (err, company) => {
       if (err) reject(err);
       // Creates the user as an admin of the company if the company was successfully created
+      company = company.toObject();
       User.register(company._id, userData, 'admin')
         .then((user) => resolve({company, user}))
         .catch((err) => reject(err));
     });
   });
 };
+
+export default mongoose.model('Company', CompanySchema);

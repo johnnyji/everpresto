@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
 const ObjectId = Schema.Types.ObjectId;
+const Document = mongoose.model('Document');
 
 const CollectionSchema = new Schema({
   _company: {
@@ -25,11 +26,6 @@ const CollectionSchema = new Schema({
   timestamps: true
 });
 
-// Must export prior to declaring and using other models due to dependency and loading issues.
-export default mongoose.model('Collection', CollectionSchema);
-
-const Document = mongoose.model('Document');
-
 // Removes dependency documents.
 CollectionSchema.pre('remove', function(next) {
   Document.remove({_collection: this._id}, (err) => {
@@ -42,4 +38,4 @@ CollectionSchema.pre('remove', function(next) {
   });
 });
 
-export default CollectionSchema;
+export default mongoose.model('Collection', CollectionSchema);

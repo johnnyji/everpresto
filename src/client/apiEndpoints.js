@@ -10,9 +10,6 @@ const apiEndpoints = {
     delete: formApiPath('/collections/delete', 'POST'),
     update: formApiPath('/collections/update', 'POST')
   },
-  company: {
-    create: formApiPath('/company/create', 'POST')
-  },
   currentUser: {
     show: formApiPath('/users/current_user', 'POST'),
   },

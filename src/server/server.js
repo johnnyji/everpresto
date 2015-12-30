@@ -113,7 +113,8 @@ app.use((req, res) => {
             auth: Immutable.fromJS({company, user})
           };
         })
-        .catch(() => {
+        .catch((err) => {
+          if (err) console.error(err);
           initialState = {
             auth: Immutable.Map({company: null, user: null})
           };

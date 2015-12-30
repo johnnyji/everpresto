@@ -14,8 +14,8 @@ const AuthActionCreators = {
   createCompanyWithUser(data) {
     return (dispatch) => {
       sendAjaxRequest({
-        method: apiEndpoints.company.create.method,
-        url: apiEndpoints.company.create.path,
+        method: apiEndpoints.users.createWithCompany.method,
+        url: apiEndpoints.users.createWithCompany.path,
         data
       })
         .then((response) => dispatch(this.createCompanyWithUserSuccess(response.data)))

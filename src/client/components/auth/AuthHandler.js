@@ -32,7 +32,7 @@ export default class AuthHandler extends Component {
 
   componentWillUpdate(nextProps) {
     // If the user props are different, we redirect accordingly
-    if (!this.props.currentUser.equals(nextProps.currentUser)) {
+    if (nextProps.currentUser && !this.props.currentUser.equals(nextProps.currentUser)) {
       if (Boolean(nextProps.currentUser)) return this.context.history.replace('/dashboard');
       this.context.histroy.replace('/');
     }
