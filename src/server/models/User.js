@@ -68,14 +68,14 @@ UserSchema.set('toObject', {
 // Used in `server.js`, must use `bluebird` Promise to access `finally` method.
 UserSchema.statics.findWithCompany = function(stringId) {
   return new Promise((resolve, reject) => {
-    if (!Boolean(stringId)) reject('Please provide an ObjectID string for the user.');
+    if (!Boolean(stringId)) return reject();
 
     this
       .findOne(ObjectId(stringId))
       .populate('_company')
       .exec((err, user) => {
-        if (err) reject(err);
-        if (!user) reject('Server Error: This user doesn\'t exist.');
+        if (err) return reject(err);
+        if (!user) return reject();
         user = user.toObject();
         // Removes the populated company from the user, and sends it back as it's own entity
         resolve({
@@ -90,8 +90,8 @@ UserSchema.statics.findWithCompany = function(stringId) {
 UserSchema.statics.findUser = function(conditions, notFoundMessage = 'No user found') {
   return new Promise((resolve, reject) => {
     this.findOne(conditions, (err, user) => {
-      if (err) reject(err);
-      if (!user) reject(notFoundMessage);
+      if (err) return reject(err);
+      if (!user) return reject(notFoundMessage);
       resolve(user.toObject());
     });
   });
@@ -101,8 +101,8 @@ UserSchema.statics.findUser = function(conditions, notFoundMessage = 'No user fo
 UserSchema.statics.findUsers = function(conditions, notFoundMessage = 'No users found') {
   return new Promise((resolve, reject) => {
     this.find(conditions, (err, users) => {
-      if (err) reject(err);
-      if (!Boolean(users)) reject('No users found');
+      if (err) return reject(err);
+      if (!Boolean(users)) return reject('No users found');
       resolve(users.map((user) => user.toObject()));
     });
   });
@@ -121,7 +121,7 @@ UserSchema.statics.register = function(companyObjectId, data, clearanceLevel) {
       account: {firstName, lastName, email, hash, password},
       clearanceLevel: Boolean(clearanceLevel) ? clearanceLevel : 'user'
     }, (err, user) => {
-      if (err) reject(err);
+      if (err) return reject(err);
       // Sends back the user without the password fields
       resolve(user.toObject());
     });

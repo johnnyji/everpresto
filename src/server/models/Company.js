@@ -30,7 +30,7 @@ CompanySchema.statics.createWithUser = function(companyData, userData) {
     const {name} = companyData;
 
     this.create({name}, (err, company) => {
-      if (err) reject(err);
+      if (err) return reject(err);
       // Creates the user as an admin of the company if the company was successfully created
       company = company.toObject();
       User.register(company._id, userData, 'admin')

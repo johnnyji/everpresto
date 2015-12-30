@@ -13,6 +13,7 @@ router.post('/login', (req, res, next) => {
   User.findUser({email, password}, 'Oops! Wrong username or password...')
     .then((user) => {
       req.session.userId = user._id;
+      req.session.companyId = user._company;
       res.status(201).json({user});  
     })
     .catch((err) => res.status(422).json({message: extractErrorMessage(err)}));
@@ -21,6 +22,7 @@ router.post('/login', (req, res, next) => {
 // Deletes the userId session and logs out the user
 router.get('/logout', (req, res) => {
   delete req.session.userId;
+  delete req.session.companyId;
   res.status(204).end();
 });
 
@@ -30,6 +32,7 @@ router.post('/register', (req, res) => {
     .then((user) => {
       // Sets the current user session
       req.session.userId = user._id;
+      req.session.companyId = user._company;
       res.status(201).json({user});
     })
     .catch((err) => res.status(422).json({message: extractErrorMessage(err)}));
@@ -45,6 +48,7 @@ router.post('/register_with_company', (req, res) => {
       const {company, user} = response;
       // Saves the user's id into session after successful creation
       req.session.userId = user._id;
+      req.session.companyId = company._id;
       res.status(201).json({company, user});
     })
     .catch((err) => res.status(422).json({message: extractErrorMessage(err)}));

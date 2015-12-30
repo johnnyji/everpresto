@@ -6,6 +6,7 @@ import AppActionCreators from '../.././actions/AppActionCreators';
 import TemplateActionCreators from '../.././actions/TemplateActionCreators';
 
 import TemplateEditorView from './TemplateEditorView';
+import ModalConfirm from '.././modals/ModalConfirm';
 
 const displayName = 'TemplatesNew';
 
@@ -36,6 +37,7 @@ export default class TemplatesNew extends Component {
       importingTemplate: false
     };
   }
+
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.templateCreated) {

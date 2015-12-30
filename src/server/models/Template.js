@@ -47,10 +47,18 @@ TemplateSchema.statics.createTemplate = function(data) {
   return new Promise((resolve, reject) => {
     // Sanitizes the HTML text to remove any malicious tags
     const sanitizedData = _.set(data, 'body', xss(data.body));
-
-    this.create(sanitizedData, (err, template) => {
-      if (err) reject(err);
-      resolve(template);
+    const {_company, _creator, body, placeholders, rawText, title} = sanitizedData;
+    debugger;
+    this.create({
+      _company,
+      _creator,
+      body,
+      placeholders,
+      rawText,
+      title  
+    }, (err, template) => {
+      if (err) return reject(err);
+      resolve(template.toObject());
     });
   });
 }
@@ -65,7 +73,7 @@ TemplateSchema.statics.updateTemplate = function(id, data) {
       {$set: sanitizedData},
       {new: true, runValidators: true}
     ).exec((err, template) => {
-      if (err) reject(err);
+      if (err) return reject(err);
       resolve(template);
     });
   });

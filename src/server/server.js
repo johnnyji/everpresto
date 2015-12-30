@@ -21,7 +21,8 @@ import {createStore} from 'redux';
 import {Provider} from 'react-redux';
 import configureStore from './../client/store/configureStore';
 
-// MODELS, TODO: Right now they MUST be declared in dependant order... This is fucking awful.
+// MODELS
+// TODO: Right now they MUST be declared in the order in which they are dependant of each other... This is fucking awful.
 import './models/Template';
 import './models/Document';
 import User from './models/User';
@@ -54,19 +55,14 @@ mongoose.connect(config.development.dbConnectUrl, (err) => {
   if (err) { throw err; }
 });
 
-// TODO: Remove, no longer using
-// sets the view engine to jade and views to be in the views directory
-// app.set('views', './views');
-// app.set('view engine', 'jade');
-
-// log requests to the console
+// Logs requests to the console.
 app.use(morgan('dev'));
 
-// parse data from POST request
+// Parses data from POST requests
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
-// parses cookies and uses sessions
+// Parses cookies
 app.use(cookieParser());
 
 // Uses MongoDB as a store for sessions so they can persist
@@ -90,6 +86,7 @@ apiRouter.use('/users', requireUser, UserRoutes);
 
 // Server-side rendering
 app.use((req, res) => {
+  // TODO: Add conditional for development/production
   const scriptPath = `http://localhost:${config.development.webpackPort}/build/bundle.js`;
   const stylePath = `http://localhost:${config.development.webpackPort}/build/style.css`;
 
@@ -114,7 +111,6 @@ app.use((req, res) => {
           };
         })
         .catch((err) => {
-          if (err) console.error(err);
           initialState = {
             auth: Immutable.Map({company: null, user: null})
           };
