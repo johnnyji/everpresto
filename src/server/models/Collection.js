@@ -1,18 +1,18 @@
 import mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
-const ObjectId = Schema.Types.ObjectId;
+const SchemaObjectId = Schema.Types.ObjectId;
 const Document = mongoose.model('Document');
 
 const CollectionSchema = new Schema({
   _company: {
-    type: ObjectId,
+    type: SchemaObjectId,
     ref: 'Company',
     required: true,
     index: true
   },
   _creator: {
-    type: ObjectId,
+    type: SchemaObjectId,
     ref: 'User',
     required: true,
     index: true

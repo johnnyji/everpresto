@@ -9,11 +9,11 @@ import UserValidator from '.././validators/UserValidator';
 
 const defaultAvatarPath = `${config.s3BucketPath}/public/avatar.jpg`;
 const Schema = mongoose.Schema;
-const ObjectId = Schema.Types.ObjectId;
+const SchemaObjectId = Schema.Types.ObjectId;
 
 const UserSchema = new Schema({
   _company: {
-    type: ObjectId,
+    type: SchemaObjectId,
     ref: 'Company',
     required: true,
     index: true
@@ -71,7 +71,7 @@ UserSchema.statics.findWithCompany = function(stringId) {
     if (!Boolean(stringId)) return reject();
 
     this
-      .findOne(ObjectId(stringId))
+      .findOne({_id: stringId})
       .populate('_company')
       .exec((err, user) => {
         if (err) return reject(err);
@@ -112,7 +112,7 @@ UserSchema.statics.register = function(companyObjectId, data, clearanceLevel) {
   return new Promise((resolve, reject) => {
     const {firstName, lastName, email, password, passwordConfirmation} = data;
     
-    if (password !== passwordConfirmation) return reject(new Error('Both your passwords have to match silly!'));
+    if (password !== passwordConfirmation) return reject('Both your passwords have to match silly!');
     // Hashes the password
     const hash = bcrypt.hashSync(password);
     // Creates the user with the hashed password

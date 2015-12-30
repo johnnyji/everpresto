@@ -1,19 +1,20 @@
 import _ from 'lodash';
+import {ObjectId} from 'mongodb';
 import mongoose from 'mongoose';
 import xss from 'xss';
 
 const Schema = mongoose.Schema;
-const ObjectId = Schema.Types.ObjectId;
+const SchemaObjectId = Schema.Types.ObjectId;
 
 const TemplateSchema = new Schema({
   _company: {
-    type: ObjectId,
+    type: SchemaObjectId,
     ref: 'Company',
     required: true,
     index: true
   },
   _creator: {
-    type: ObjectId,
+    type: SchemaObjectId,
     ref: 'User',
     index: true
   },
@@ -46,9 +47,10 @@ const TemplateSchema = new Schema({
 TemplateSchema.statics.createTemplate = function(data) {
   return new Promise((resolve, reject) => {
     // Sanitizes the HTML text to remove any malicious tags
+    // TODO: Find way to keep classes and ids (only remove script tags)
     const sanitizedData = _.set(data, 'body', xss(data.body));
     const {_company, _creator, body, placeholders, rawText, title} = sanitizedData;
-    debugger;
+
     this.create({
       _company,
       _creator,
@@ -63,17 +65,18 @@ TemplateSchema.statics.createTemplate = function(data) {
   });
 }
 
-TemplateSchema.statics.updateTemplate = function(id, data) {
+TemplateSchema.statics.updateTemplate = function(stringId, data) {
   return new Promise((resolve, reject) => {
     // Sanitizes the HTML text to remove any malicious tags
     const sanitizedData = _.set(data, 'body', xss(data.body));
-
+    debugger;
     this.findOneAndUpdate(
-      {_id: id},
+      {_id: ObjectId(stringId)},
       {$set: sanitizedData},
       {new: true, runValidators: true}
     ).exec((err, template) => {
       if (err) return reject(err);
+      if (!template) return reject('Sorry but this template doesn\'t exist...');
       resolve(template);
     });
   });

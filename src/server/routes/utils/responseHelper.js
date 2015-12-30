@@ -8,18 +8,17 @@ const ResponseHelper = {
    */
   extractErrorMessage(err) {
     if (typeof err === 'string') return err;
-    return this.findFirstErrorMessage(err);
+    return response.errors[Object.keys(response.errors)[0]].message;
   },
 
   /**
-   * Finds the first error message from the response object given back by Mongoose
-   * after a write to the database.
+   * Converts model instances to objects
    *
-   * @param  {Object} response - The error object returned
-   * @return {String}          - The error message
+   * @param  {[type]} models [description]
+   * @return {[type]}        [description]
    */
-  findFirstErrorMessage(response) {
-    return response.errors[Object.keys(response.errors)[0]].message;
+  toObjects(models) {
+    return models.map((model) => model.toObject());
   }
 
 };

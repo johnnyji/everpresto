@@ -29,7 +29,7 @@ export default function requireAuth(ComposedComponent) {
 
     render() {
       if (!this.props.currentUser) return <Spinner fullScreen={true}/>;
-      return <Spinner fullScreen={true}/>;
+      return <ComposedComponent {...this.props}/>;
     }
 
   }

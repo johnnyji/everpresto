@@ -1,7 +1,8 @@
 import express from 'express';
 import mongoose from 'mongoose';
+import {ObjectId} from 'mongodb';
 import requireUser from '.././middlewares/requireUser';
-import {findFirstErrorMessage} from './utils/ResponseHelper';
+import {extractErrorMessage, toObjects} from './utils/ResponseHelper';
 
 const Template = mongoose.model('Template');
 const router = express.Router();
@@ -9,11 +10,11 @@ const router = express.Router();
 // Retrieves all of the current user's existing templates
 router.get('/index', (req, res) => {
   Template
-    .find({_owner: req.session.userId})
+    .find({_creator: ObjectId(req.session.userId)})
     .sort({updatedAt: -1})
     .exec((err, templates) => {
-      if (err) return res.status(422).json({message: findFirstErrorMessage(err)});
-      res.status(200).json({templates});
+      if (err) return res.status(422).json({message: extractErrorMessage(err)});
+      res.status(200).json({templates: toObjects(templates)});
     });
 });
 
@@ -21,7 +22,8 @@ router.get('/index', (req, res) => {
 router.post('/create', (req, res) => {
   const {body, rawText, placeholders, title} = req.body.template;
   Template.createTemplate({
-    _owner: req.session.userId,
+    _company: req.session.companyId,
+    _creator: req.session.userId,
     body,
     rawText,
     placeholders,
@@ -29,15 +31,15 @@ router.post('/create', (req, res) => {
   })
     .then((template) => {
       // No need to send back the template because we will query for all of them.
-      res.status(201).end();
+      res.status(204).end();
     })
-    .catch((err) => res.status(422).json({message: findFirstErrorMessage(err)}));
+    .catch((err) => res.status(422).json({message: extractErrorMessage(err)}));
 });
 
 // Deletes a template
 router.post('/delete', (req, res) => {
-  Template.remove({_id: req.body.templateId}, (err) => {
-    if (err) return res.status(422).json({message: findFirstErrorMessage(err)});
+  Template.remove({_id: ObjectId(req.body.templateId)}, (err) => {
+    if (err) return res.status(422).json({message: extractErrorMessage(err)});
     res.status(204).end();
   });
 });
@@ -48,7 +50,7 @@ router.post('/update', (req, res) => {
 
   Template.updateTemplate(templateId, templateData)
     .then(() => res.status(204).end())
-    .catch((err) => res.status(422).json({message: findFirstErrorMessage(err)}));
+    .catch((err) => res.status(422).json({message: extractErrorMessage(err)}));
 });
 
 export default router;

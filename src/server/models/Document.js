@@ -1,17 +1,17 @@
 import mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
-const ObjectId = Schema.Types.ObjectId;
+const SchemaObjectId = Schema.Types.ObjectId;
 
 const DocumentSchema = new Schema({
   _company: {
-    type: ObjectId,
+    type: SchemaObjectId,
     ref: 'Company',
     required: true,
     index: true
   },
   _collection: {
-    type: ObjectId,
+    type: SchemaObjectId,
     ref: 'Collection',
     index: true
   },
