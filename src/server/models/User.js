@@ -77,8 +77,11 @@ UserSchema.statics.findWithCompany = function(stringId) {
         if (err) reject(err);
         if (!user) reject('Server Error: This user doesn\'t exist.');
         user = user.toObject();
-        // Returns the company and the user found
-        resolve({company: user._company, user});
+        // Removes the populated company from the user, and sends it back as it's own entity
+        resolve({
+          company: user._company,
+          user: _.set(user, '_company', user._company._id)
+        });
       });
   });
 }
