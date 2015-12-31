@@ -45,8 +45,10 @@ router.post('/delete', (req, res) => {
 router.post('/update', (req, res) => {
   const {collectionData, collectionId} = req.body;
 
-  Collection.findByIdAndUpdate(ObjectId(collectionId), {$set: collectionData}, (err, collection) => {
-    debugger;
+  Collection.findByIdAndUpdate(
+    ObjectId(collectionId),
+    {$set: {title: collectionData.title}},
+    {new: true, runValidators: true}, (err, collection) => {
     if (err) return res.status(422).json({message: extractErrorMessage(err)});
     res.status(200).json({collection});
   });

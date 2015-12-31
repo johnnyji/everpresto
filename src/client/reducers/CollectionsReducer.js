@@ -60,7 +60,7 @@ export default function collectionsReducer(state = initialState, action) {
 
       return state.merge({
         collectionBeingEdited: null,
-        collections: collections.splice(collectionBeingEditedIndex, updatedCollection)
+        collections: collections.splice(collectionBeingEditedIndex, 1, updatedCollection)
       });
 
     default:

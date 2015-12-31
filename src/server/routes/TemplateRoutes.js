@@ -7,10 +7,10 @@ const ObjectId = mongoose.Types.ObjectId;
 const Template = mongoose.model('Template');
 const router = express.Router();
 
-// Retrieves all of the current user's existing templates
+// Retrieves all of the current company's existing templates
 router.get('/index', (req, res) => {
   Template
-    .find({_creator: ObjectId(req.session.userId)})
+    .find({_company: ObjectId(req.session.companyId)})
     .sort({updatedAt: -1})
     .exec((err, templates) => {
       if (err) return res.status(422).json({message: extractErrorMessage(err)});

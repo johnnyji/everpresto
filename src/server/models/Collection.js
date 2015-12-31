@@ -39,26 +39,4 @@ CollectionSchema.pre('remove', function(next) {
   });
 });
 
-
-// CollectionSchema.static.getPreviews = function(companyIdString) {
-//   return new Promise((resolve, reject) => {
-//     this
-//       .find({_company: ObjectId(companyIdString)})
-//       .sort({createdAt: -1})
-//       .exec((err, collections) => {
-//         if (err) return reject(err);
-//         if (collections.length === 0) return resolve(collections);
-
-//         // Converts each collection to an object and adds the document count as well.
-//         return collections.map((collection) => {
-//           collection = collection.toObject();
-//           Document.count({_})
-//         });
-//       });
-//   });
-// }
-
-// TODO: Make sure that we retrieve the amount of documents associated with the collection
-
-
 export default mongoose.model('Collection', CollectionSchema);

@@ -4,10 +4,10 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 const CustomPropTypes = {
 
   collection: ImmutablePropTypes.contains({
+    _company: PropTypes.string.isRequired,
+    _creator: PropTypes.string.isRequired,
     _id: PropTypes.string.isRequired,
-    _owner: PropTypes.string.isRequired,
     createdAt: PropTypes.string.isRequired,
-    documents: ImmutablePropTypes.listOf(ImmutablePropTypes.map).isRequired,
     title: PropTypes.string.isRequired,
     updatedAt: PropTypes.string.isRequired
   }),
@@ -22,6 +22,8 @@ const CustomPropTypes = {
   document: ImmutablePropTypes.map,
 
   template: ImmutablePropTypes.contains({
+    _company: PropTypes.string.isRequired,
+    _creator: PropTypes.string.isRequired,
     _id: PropTypes.string.isRequired,
     body: PropTypes.string.isRequired,
     createdAt: PropTypes.string.isRequired,

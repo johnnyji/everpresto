@@ -99,7 +99,7 @@ UserSchema.statics.findUsers = function(conditions, notFoundMessage = 'No users 
   return new Promise((resolve, reject) => {
     this.find(conditions, (err, users) => {
       if (err) return reject(err);
-      if (!Boolean(users)) return reject('No users found');
+      if (!Boolean(users)) return reject(notFoundMessage);
       resolve(users.map((user) => user.toObject()));
     });
   });

@@ -49,6 +49,7 @@ TemplateSchema.statics.createTemplate = function(data) {
     // TODO: Find way to keep classes and ids (only remove script tags)
     const sanitizedData = _.set(data, 'body', xss(data.body));
 
+    // Whitelist attributes
     this.create({
       _company: sanitizedData._company,
       _creator: sanitizedData._creator,
