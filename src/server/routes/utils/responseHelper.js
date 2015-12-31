@@ -8,7 +8,7 @@ const ResponseHelper = {
    */
   extractErrorMessage(err) {
     if (typeof err === 'string') return err;
-    return response.errors[Object.keys(response.errors)[0]].message;
+    return err.errors[Object.keys(err.errors)[0]].message;
   },
 
   /**

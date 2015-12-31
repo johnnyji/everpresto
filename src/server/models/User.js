@@ -1,12 +1,12 @@
-import _ from 'lodash';
 import Promise from 'bluebird';
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt-nodejs';
 import config from '../../.././config';
-import path from 'path';
-
 import UserValidator from '.././validators/UserValidator';
+// Models must be imported from their direct source file due to cross-model dependency issues. See README
+import Company from './Company';
 
+const ObjectId = mongoose.Types.ObjectId;
 const defaultAvatarPath = `${config.s3BucketPath}/public/avatar.jpg`;
 const Schema = mongoose.Schema;
 const SchemaObjectId = Schema.Types.ObjectId;
@@ -14,7 +14,6 @@ const SchemaObjectId = Schema.Types.ObjectId;
 const UserSchema = new Schema({
   _company: {
     type: SchemaObjectId,
-    ref: 'Company',
     required: true,
     index: true
   },
@@ -70,19 +69,17 @@ UserSchema.statics.findWithCompany = function(stringId) {
   return new Promise((resolve, reject) => {
     if (!Boolean(stringId)) return reject();
 
-    this
-      .findOne({_id: stringId})
-      .populate('_company')
-      .exec((err, user) => {
+    this.findById(ObjectId(stringId), (err, user) => {
+      if (err) return reject(err);
+      if (!user) return reject(`No user found by id: ${stringId}`);
+      // Finds the company associated with the user we just found
+      Company.findById(user._company, (err, company) => {
         if (err) return reject(err);
-        if (!user) return reject();
-        user = user.toObject();
-        // Removes the populated company from the user, and sends it back as it's own entity
-        resolve({
-          company: user._company,
-          user: _.set(user, '_company', user._company._id)
-        });
+        if (!company) return reject(`No company found from id: ${user._company.toString()}`);
+        // Returns the found user and company
+        resolve({company, user: user.toObject()});
       });
+    });
   });
 }
 

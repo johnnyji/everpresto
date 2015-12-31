@@ -22,12 +22,11 @@ import {Provider} from 'react-redux';
 import configureStore from './../client/store/configureStore';
 
 // MODELS
-// TODO: Right now they MUST be declared in the order in which they are dependant of each other... This is fucking awful.
-import './models/Template';
-import './models/Document';
-import User from './models/User';
 import './models/Collection';
 import './models/Company';
+import './models/Document';
+import './models/Template';
+import User from './models/User';
 
 // API ROUTES
 import AuthRoutes from './routes/AuthRoutes';
@@ -111,6 +110,7 @@ app.use((req, res) => {
           };
         })
         .catch((err) => {
+          if (err) console.error(err);
           initialState = {
             auth: Immutable.Map({company: null, user: null})
           };

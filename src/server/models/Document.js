@@ -6,13 +6,11 @@ const SchemaObjectId = Schema.Types.ObjectId;
 const DocumentSchema = new Schema({
   _company: {
     type: SchemaObjectId,
-    ref: 'Company',
     required: true,
     index: true
   },
   _collection: {
     type: SchemaObjectId,
-    ref: 'Collection',
     index: true
   },
   body: {

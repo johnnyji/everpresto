@@ -1,21 +1,20 @@
 import _ from 'lodash';
-import {ObjectId} from 'mongodb';
 import mongoose from 'mongoose';
 import xss from 'xss';
 
+const ObjectId = mongoose.Types.ObjectId;
 const Schema = mongoose.Schema;
 const SchemaObjectId = Schema.Types.ObjectId;
 
 const TemplateSchema = new Schema({
   _company: {
     type: SchemaObjectId,
-    ref: 'Company',
     required: true,
     index: true
   },
   _creator: {
+    // This references to the `User` that created the template
     type: SchemaObjectId,
-    ref: 'User',
     index: true
   },
   body: {
@@ -49,15 +48,14 @@ TemplateSchema.statics.createTemplate = function(data) {
     // Sanitizes the HTML text to remove any malicious tags
     // TODO: Find way to keep classes and ids (only remove script tags)
     const sanitizedData = _.set(data, 'body', xss(data.body));
-    const {_company, _creator, body, placeholders, rawText, title} = sanitizedData;
 
     this.create({
-      _company,
-      _creator,
-      body,
-      placeholders,
-      rawText,
-      title  
+      _company: sanitizedData._company,
+      _creator: sanitizedData._creator,
+      body: sanitizedData.body,
+      placeholders: sanitizedData.placeholders,
+      rawText: sanitizedData.rawText,
+      title: sanitizedData.title
     }, (err, template) => {
       if (err) return reject(err);
       resolve(template.toObject());
@@ -69,15 +67,15 @@ TemplateSchema.statics.updateTemplate = function(stringId, data) {
   return new Promise((resolve, reject) => {
     // Sanitizes the HTML text to remove any malicious tags
     const sanitizedData = _.set(data, 'body', xss(data.body));
-    debugger;
-    this.findOneAndUpdate(
-      {_id: ObjectId(stringId)},
+
+    this.findByIdAndUpdate(
+      ObjectId(stringId),
       {$set: sanitizedData},
       {new: true, runValidators: true}
     ).exec((err, template) => {
       if (err) return reject(err);
       if (!template) return reject('Sorry but this template doesn\'t exist...');
-      resolve(template);
+      resolve(template.toObject());
     });
   });
 }

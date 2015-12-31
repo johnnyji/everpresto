@@ -1,10 +1,11 @@
 import mongoose from 'mongoose';
+// Models must be imported from their direct source file due to cross-model dependency issues. See README
+import Collection from './Collection';
+import Document from './Document';
+import Template from './Template';
+import User from './User';
 
 const Schema = mongoose.Schema;
-const Template = mongoose.model('Template');
-const Document = mongoose.model('Document');
-const Collection = mongoose.model('Collection');
-const User = mongoose.model('User');
 
 const CompanySchema = new Schema({
   name: {

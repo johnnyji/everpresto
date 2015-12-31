@@ -1,9 +1,9 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import {ObjectId} from 'mongodb';
 import requireUser from '.././middlewares/requireUser';
 import {extractErrorMessage, toObjects} from './utils/ResponseHelper';
 
+const ObjectId = mongoose.Types.ObjectId;
 const Template = mongoose.model('Template');
 const router = express.Router();
 

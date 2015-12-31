@@ -1,8 +1,8 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import {ObjectId} from 'mongodb';
 import {extractErrorMessage} from './utils/ResponseHelper';
 
+const ObjectId = mongoose.Types.ObjectId;
 const User = mongoose.model('User');
 const router = express.Router();
 

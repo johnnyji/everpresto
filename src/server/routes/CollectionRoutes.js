@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import requireUser from '.././middlewares/requireUser';
 import {extractErrorMessage} from './utils/ResponseHelper';
 
+const ObjectId = mongoose.Types.ObjectId;
 const Collection = mongoose.model('Collection');
 const router = express.Router();
 
@@ -12,7 +13,7 @@ router.use(requireUser);
 // Retrieves all of the current user's existing collections
 router.get('/index', (req, res) => {
   Collection
-    .find({_owner: req.session.userId})
+    .find({_company: ObjectId(req.session.companyId)})
     .sort({createdAt: -1})
     .exec((err, collections) => {
       if (err) return res.status(422).json({message: extractErrorMessage(err)});
@@ -22,7 +23,11 @@ router.get('/index', (req, res) => {
 
 // Creates a new collection
 router.post('/create', (req, res) => {
-  Collection.create({_owner: req.session.userId}, (err, collection) => {
+  Collection.create({
+    _company: ObjectId(req.session.companyId),
+    _creator: ObjectId(req.session.userId),
+    title: 'Untitled'
+  }, (err, collection) => {
     if (err) return res.status(422).json({message: extractErrorMessage(err)});
     res.status(201).json({collection});
   });
@@ -30,7 +35,7 @@ router.post('/create', (req, res) => {
 
 // Deletes a collection
 router.post('/delete', (req, res) => {
-  Collection.remove({_id: req.body.collectionId}, (err) => {
+  Collection.remove({_id: ObjectId(req.body.collectionId)}, (err) => {
     if (err) return res.status(422).json({message: extractErrorMessage(err)});
     res.status(204).end();
   });
@@ -40,16 +45,10 @@ router.post('/delete', (req, res) => {
 router.post('/update', (req, res) => {
   const {collectionData, collectionId} = req.body;
 
-  Collection.findById(collectionId, (err, collection) => {
+  Collection.findByIdAndUpdate(ObjectId(collectionId), {$set: collectionData}, (err, collection) => {
     debugger;
-  });
-
-  Collection.findOneAndUpdate(
-    {_id: collectionId},
-    {$set: collectionData},
-    {new: true, runValidators: true}
-  ).exec((err, collection) => {
-    debugger;
+    if (err) return res.status(422).json({message: extractErrorMessage(err)});
+    res.status(200).json({collection});
   });
 });
 
