@@ -1,5 +1,5 @@
+import {sendAjaxRequest} from '.././utils/ApiCaller';
 import apiEndpoints from '.././apiEndpoints';
-import ApiCaller from '.././utils/ApiCaller';
 import AppActionCreators from './AppActionCreators';
 import TemplateActionTypes from './../action_types/TemplateActionTypes';
 
@@ -15,7 +15,7 @@ const TemplateActionCreators = {
    */
   createTemplate(template) {
     return (dispatch) => {
-      ApiCaller.sendAjaxRequest({
+      sendAjaxRequest({
         method: apiEndpoints.templates.create.method,
         url: apiEndpoints.templates.create.path,
         data: {template}
@@ -48,7 +48,7 @@ const TemplateActionCreators = {
    */
   deleteTemplate(templateId) {
     return (dispatch) => {
-      ApiCaller.sendAjaxRequest({
+      sendAjaxRequest({
         method: apiEndpoints.templates.delete.method,
         url: apiEndpoints.templates.delete.path,
         data: {templateId}
@@ -83,7 +83,7 @@ const TemplateActionCreators = {
    */
   fetchTemplates() {
     return (dispatch) => {
-      ApiCaller.sendAjaxRequest({
+      sendAjaxRequest({
         method: apiEndpoints.templates.index.method,
         url: apiEndpoints.templates.index.path
       })
@@ -95,6 +95,31 @@ const TemplateActionCreators = {
             dispatch(createFlashMessage('red', 'Sorry, we\'re having a connection error... Maybe try again?'));
           }
           dispatch(createFlashMessage('red', response.data.message));
+        });
+    };
+  },
+
+
+  /**
+   * Fetches a template from the API using the `_id` attribute
+   *
+   * @param {String} id - The id of the template we're fetching
+   * @param {Function} id - The action creator to invoke on success of the fetch
+   */
+  fetchTemplateById(id, success) {
+    return (dispatch) => {
+      const endpoint = apiEndpoints.templates.show(id);
+      sendAjaxRequest({
+        url: endpoint.path,
+        method: endpoint.method
+      })
+        .then((response) => {
+          console.log('fetched');
+          dispatch(success(response.data.template))
+        })
+        .catch((response) => {
+          console.log('err');
+          dispatch(createFlashMessage('red', 'Oops! We couldn\'t find the template you were looking for!'))
         });
     };
   },

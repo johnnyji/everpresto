@@ -50,7 +50,10 @@ export default function templatesReducer(state = initialState, action) {
     case SET_TEMPLATE_BEING_EDITED:
       // No need to convert to Immutable.js, the template being passed in is already
       // and Immutable.Map
-      return state.set('templateBeingEdited', action.data.template);
+      const template = Immutable.is(action.data.template)
+        ? action.data.template
+        : Immutable.fromJS(action.data.template);
+      return state.set('templateBeingEdited', template);
 
     case UPDATE_TEMPLATE_SUCCESS:
       return state.merge({

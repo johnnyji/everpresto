@@ -2,6 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import CustomPropTypes from '.././CustomPropTypes';
 import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
+import DashboardSpinner from '.././shared/DashboardSpinner';
 import TemplateEditorView from './TemplateEditorView';
 
 import AppActionCreators from '../.././actions/AppActionCreators'
@@ -18,8 +19,19 @@ export default class TemplatesEdit extends Component {
   };
 
   static propTypes = {
-    template: CustomPropTypes.template.isRequired
+    template: CustomPropTypes.template
   };
+
+  componentWillMount() {
+    const {params, template} = this.props;
+    // If there's a template ID in the URL and no template being edited, we'll fetch that
+    // template from the server.
+    if (!template && params.id) {
+      this.context.dispatch(
+        TemplateActionCreators.fetchTemplateById(params.id, TemplateActionCreators.setTemplateBeingEdited)
+      );
+    }
+  }
 
   componentWillUnmount() {
     this.context.dispatch(TemplateActionCreators.resetTemplateBeingEdited());
@@ -40,6 +52,8 @@ export default class TemplatesEdit extends Component {
   }
 
   render() {
+    if (!this.props.template) return <DashboardSpinner />;
+
     return (
       <TemplateEditorView
         mode='edit'
