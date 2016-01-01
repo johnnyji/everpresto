@@ -5,9 +5,10 @@ const formApiPath = (path, method) => ({
 
 const apiEndpoints = {
   collections: {
-    index: formApiPath('/collections/index', 'GET'),
     create: formApiPath('/collections/create', 'POST'),
     delete: formApiPath('/collections/delete', 'POST'),
+    index: formApiPath('/collections/index', 'GET'),
+    show: (id) => formApiPath(`/collections/${id}`, 'GET'),
     update: formApiPath('/collections/update', 'POST')
   },
   currentUser: {
@@ -17,7 +18,7 @@ const apiEndpoints = {
     create: formApiPath('/templates/create', 'POST'),
     delete: formApiPath('/templates/delete', 'POST'),
     index: formApiPath('/templates/index', 'GET'),
-    show: (id) => formApiPath(`/templates/show/${id}`, 'GET'),
+    show: (id) => formApiPath(`/templates/${id}`, 'GET'),
     update: formApiPath('/templates/update', 'POST')
   },
   users: {

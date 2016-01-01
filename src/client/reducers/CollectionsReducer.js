@@ -4,14 +4,17 @@ import CollectionActionTypes from '.././action_types/CollectionActionTypes';
 const {
   CREATE_COLLECTION_SUCCESS,
   DELETE_COLLECTION_SUCCESS,
+  FETCH_COLLECTION_BEING_VIEWED_SUCCESS,
   FETCH_COLLECTIONS_SUCCESS,
   RESET_COLLECTION_BEING_EDITED,
+  RESET_COLLECTION_BEING_VIEWED,
   RESET_SHOULD_FETCH_COLLECTIONS,
   SET_COLLECTION_BEING_EDITED,
   UPDATE_COLLECTION_SUCCESS} = CollectionActionTypes;
 
 const initialState = Immutable.fromJS({
   collectionBeingEdited: null,
+  collectionBeingViewed: null,
   collections: [],
   shouldFetchCollections: true
 });
@@ -33,7 +36,10 @@ export default function collectionsReducer(state = initialState, action) {
         return collections.delete(
           collections.findIndex((collection) => collection.get('_id') === action.data.deletedCollectionId)
         );
-      }); 
+      });
+
+    case FETCH_COLLECTION_BEING_VIEWED_SUCCESS:
+      return state.set('collectionBeingViewed', Immutable.fromJS(action.data.collection));
 
     case FETCH_COLLECTIONS_SUCCESS:
       return state.merge({
@@ -41,15 +47,18 @@ export default function collectionsReducer(state = initialState, action) {
         shouldFetchCollections: false
       });
 
+    case SET_COLLECTION_BEING_EDITED:
+      // No need to convert to Immutable.Map, because it already is.
+      return state.set('collectionBeingEdited', action.data.collection);
+
     case RESET_SHOULD_FETCH_COLLECTIONS:
       return state.set('shouldFetchCollections', true);
 
     case RESET_COLLECTION_BEING_EDITED:
       return state.set('collectionBeingEdited', null);
 
-    case SET_COLLECTION_BEING_EDITED:
-      // No need to convert to Immutable.Map, because it already is.
-      return state.set('collectionBeingEdited', action.data.collection);
+    case RESET_COLLECTION_BEING_VIEWED:
+      return state.set('collectionBeingViewed', null);
 
     case UPDATE_COLLECTION_SUCCESS:
       const collections = state.get('collections');

@@ -19,7 +19,7 @@ router.get('/index', (req, res) => {
 });
 
 // Gets a specific template by the `_id` string in the request params
-router.get('/show/:id', (req, res) => {
+router.get('/:id', (req, res) => {
   Template.findById(ObjectId(req.params.id), (err, template) => {
     if (err) return res.status(422).json({message: extractErrorMessage(err)});
     res.status(200).json({template: template.toObject()});

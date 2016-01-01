@@ -1,8 +1,7 @@
 import apiEndpoints from '.././apiEndpoints';
-import ApiCaller from '.././utils/ApiCaller';
+import {sendAjaxRequest} from '.././utils/ApiCaller';
 import {createFlashMessage} from './AppActionCreators';
 import CollectionActionTypes from './../action_types/CollectionActionTypes';
-
 
 const CollectionActionCreators = {
 
@@ -14,7 +13,7 @@ const CollectionActionCreators = {
    */
   createCollection(collection) {
     return (dispatch) => {
-      ApiCaller.sendAjaxRequest({
+      sendAjaxRequest({
         method: apiEndpoints.collections.create.method,
         url: apiEndpoints.collections.create.path,
         data: {collection}
@@ -51,7 +50,7 @@ const CollectionActionCreators = {
    */
   deleteCollection(collectionId) {
     return (dispatch) => {
-      ApiCaller.sendAjaxRequest({
+      sendAjaxRequest({
         method: apiEndpoints.collections.delete.method,
         url: apiEndpoints.collections.delete.path,
         data: {collectionId}
@@ -72,7 +71,45 @@ const CollectionActionCreators = {
       type: CollectionActionTypes.DELETE_COLLECTION_SUCCESS,
       data: {deletedCollectionId}
     };
-  },  
+  },
+
+
+  /**
+   * Fetches the collection being viewed, along with it's documents
+   *
+   * @param  {String} id - The `_id` of the collection we're fetching
+   * @return {Function}  - The thunk that makes the API call
+   */
+  fetchCollectionBeingViewed(id) {
+    return (dispatch) => {
+      const endpoint = apiEndpoints.collections.show(id);
+      sendAjaxRequest({
+        method: endpoint.method,
+        url: endpoint.path
+      })
+        .then((response) => dispatch(this.fetchCollectionBeingViewedSuccess(response.data.collection)))
+        .catch((response) => {
+          if (response.status === 500) {
+            dispatch(createFlashMessage('red', 'Sorry, we\'re having a connection error... Maybe try again?'));
+          }
+          dispatch(createFlashMessage('red', response.data.message));
+        });
+    };
+  },
+
+
+  /**
+   * Handles the collection returned from the collection show fetch
+   *
+   * @param  {Array} collections - The collection returned from the API
+   * @return {Object}            - The data passed to the Collection Reducer
+   */
+  fetchCollectionBeingViewedSuccess(collection) {
+    return {
+      type: CollectionActionTypes.FETCH_COLLECTION_BEING_VIEWED_SUCCESS,
+      data: {collection}
+    };
+  },
 
 
   /**
@@ -82,7 +119,7 @@ const CollectionActionCreators = {
    */
   fetchCollections() {
     return (dispatch) => {
-      ApiCaller.sendAjaxRequest({
+      sendAjaxRequest({
         method: apiEndpoints.collections.index.method,
         url: apiEndpoints.collections.index.path
       })
@@ -134,6 +171,16 @@ const CollectionActionCreators = {
 
 
   /**
+   * Resets the template being viewed to no collection.
+   *
+   * @return {Object} - The data passed to the Collection Reducer
+   */
+  resetCollectionBeingViewed() {
+    return {type: CollectionActionTypes.RESET_COLLECTION_BEING_VIEWED};
+  },
+
+
+  /**
    * Sets the current collection being edited in the state
    *
    * @param {Immutable.Map} collection - The collection being edited
@@ -155,7 +202,7 @@ const CollectionActionCreators = {
    */
   updateCollection(collectionId, collectionData) {
     return (dispatch) => {
-      ApiCaller.sendAjaxRequest({
+      sendAjaxRequest({
         method: apiEndpoints.collections.update.method,
         url: apiEndpoints.collections.update.path,
         data: {collectionId, collectionData}

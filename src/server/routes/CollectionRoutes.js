@@ -7,9 +7,6 @@ const ObjectId = mongoose.Types.ObjectId;
 const Collection = mongoose.model('Collection');
 const router = express.Router();
 
-// Makes sure each route requires a user before execution
-router.use(requireUser);
-
 // Retrieves all of the current user's existing collections
 router.get('/index', (req, res) => {
   Collection
@@ -19,6 +16,13 @@ router.get('/index', (req, res) => {
       if (err) return res.status(422).json({message: extractErrorMessage(err)});
       res.status(200).json({collections});
     });
+});
+
+// Shows a collection with all it's documents
+router.get('/:id', (req, res) => {
+  Collection.findWithDocuments(req.params.id)
+    .then((collection) => res.status(200).json({collection}))
+    .catch((err) => res.status(422).json({message: extractErrorMessage(err)}));
 });
 
 // Creates a new collection

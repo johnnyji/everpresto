@@ -33,10 +33,12 @@ const routes = (
 
     <Route path='dashboard' component={requireAuth(DashboardHandler)}>
       <IndexRoute component={CollectionsView} />
+
       <Route path='collections' component={CollectionsView}>
         <IndexRoute component={CollectionsIndex} />
         <Route path=':id' component={CollectionsShow} />
       </Route>
+
       <Route path='templates' component={TemplatesView}>
         <IndexRoute component={TemplatesIndex} />
         <Route path='new' component={TemplatesNew} />

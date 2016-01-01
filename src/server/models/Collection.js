@@ -1,4 +1,6 @@
+import _ from 'lodash';
 import mongoose from 'mongoose';
+import {toObjects} from '.././routes/utils/ResponseHelper';
 // Models must be imported from their direct source file due to cross-model dependency issues. See README
 import Document from './Document';
 
@@ -38,5 +40,21 @@ CollectionSchema.pre('remove', function(next) {
     next();
   });
 });
+
+// Finds a collection and sets it's documents as an attribute on itself.
+CollectionSchema.statics.findWithDocuments = function(stringId) {
+  return new Promise((resolve, reject) => {
+    this.findById(ObjectId(stringId), (err, collection) => {
+      if (err) return reject(err);
+      if (!collection) return reject('Hmmm... This collection doesn\'t exist for some reason');
+      Document.find({_collection: collection._id}, (err, documents) => {
+        if (err) return reject(err);
+        // Sets the the collection's documents as an attribute on the collection
+        // and returns the collection
+        resolve(_.set(collection.toObject(), 'documents', toObjects(documents)));
+      });
+    });
+  });
+};
 
 export default mongoose.model('Collection', CollectionSchema);
