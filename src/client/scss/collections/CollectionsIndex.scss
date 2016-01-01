@@ -1,0 +1,32 @@
+.CollectionsIndex {
+
+  &-create-template {
+    font-size: 18px;
+    text-align: center;
+    width: 500px;
+    &-message {
+      line-height: 25px;
+    }
+    &-button {
+      margin-top: 20px;
+    }
+  }
+
+  &-folders {
+    &-folder {
+      margin: 20px;
+      position: relative;
+      &-main {
+        position: relative;
+        &-create-icon {
+          @extend .center-absolute;
+          color: #FFF;
+        }
+        &-options {
+          background-color: red;
+        }
+      }
+    }
+  }
+
+}

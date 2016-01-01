@@ -8,8 +8,9 @@ import LandingPageHandler from '.././components/app/LandingPageHandler';
 import NotFoundHandler from '.././components/shared/NotFoundHandler';
 
 import DashboardHandler from '.././components/dashboard/DashboardHandler';
-  import DocumentCollectionsView from '.././components/documents/DocumentCollectionsView';
-    import DocumentCollectionsIndex from '.././components/documents/DocumentCollectionsIndex';
+  import CollectionsView from '.././components/collections/CollectionsView';
+    import CollectionsIndex from '.././components/collections/CollectionsIndex';
+    import CollectionsShow from '.././components/collections/CollectionsShow';
   import TemplatesView from '.././components/templates/TemplatesView';
     import TemplatesIndex from '.././components/templates/TemplatesIndex';
     import TemplatesNew from '.././components/templates/TemplatesNew';
@@ -19,7 +20,7 @@ import ProfileHandler from '.././components/user/ProfileHandler';
 
 const routes = (
   <Route component={AppHandler} path='/'>
-    <Redirect from='dashboard' to='dashboard/documents' />
+    <Redirect from='dashboard' to='dashboard/collections' />
     <IndexRoute component={LandingPageHandler} />
 
     {/*********** Auth Routes ************/}
@@ -31,10 +32,10 @@ const routes = (
     <Route path='profile' component={requireAuth(ProfileHandler)}/>
 
     <Route path='dashboard' component={requireAuth(DashboardHandler)}>
-      <IndexRoute component={DocumentCollectionsView} />
-
-      <Route path='documents' component={DocumentCollectionsView}>
-        <IndexRoute component={DocumentCollectionsIndex} />
+      <IndexRoute component={CollectionsView} />
+      <Route path='collections' component={CollectionsView}>
+        <IndexRoute component={CollectionsIndex} />
+        <Route path=':id' component={CollectionsShow} />
       </Route>
       <Route path='templates' component={TemplatesView}>
         <IndexRoute component={TemplatesIndex} />

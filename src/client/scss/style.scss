@@ -34,6 +34,8 @@
 @import './auth/RegistrationForm';
 
 // Collections
+@import './collections/CollectionsIndex';
+@import './collections/CollectionsShow';
 @import './collections/CollectionPreviewCard';
 
 // Dashboard
@@ -44,7 +46,6 @@
 @import './dashboard/DashboardMessage';
 
 // Documents
-@import './documents/DocumentCollectionsIndex';
 
 // Modals
 @import './modals/ModalCreatePlaceholder';
