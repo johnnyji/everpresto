@@ -45,7 +45,9 @@ export default class TemplatesIndex extends Component {
   componentWillReceiveProps(nextProps) {
     const {shouldFetchTemplates, templateBeingEdited, templates} = nextProps;
 
-    if (templateBeingEdited) return this.context.history.push('/dashboard/templates/edit');
+    if (templateBeingEdited) {
+      return this.context.history.push(`/dashboard/templates/edit/${templateBeingEdited.get('_id')}`);
+    }
     if (shouldFetchTemplates) return this.context.dispatch(TemplateActionCreators.fetchTemplates());
   }
 

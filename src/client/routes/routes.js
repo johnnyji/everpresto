@@ -39,7 +39,7 @@ const routes = (
       <Route path='templates' component={TemplatesView}>
         <IndexRoute component={TemplatesIndex} />
         <Route path='new' component={TemplatesNew} />
-        <Route path='edit' component={TemplatesEdit} />
+        <Route path='edit/:id' component={TemplatesEdit} />
       </Route>
     </Route>
     {/*********** Protected Routes ************/}
