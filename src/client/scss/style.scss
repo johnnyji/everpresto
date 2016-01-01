@@ -39,8 +39,8 @@
 @import './collections/CollectionPreviewCard';
 
 // Dashboard
+@import './dashboard/DashboardContentHeader';
 @import './dashboard/DashboardContentWrapper';
-@import './dashboard/DashboardContentInnerWrapper';
 @import './dashboard/DashboardHandler';
 @import './dashboard/DashboardHeader';
 @import './dashboard/DashboardMessage';
@@ -48,6 +48,7 @@
 // Documents
 
 // Modals
+@import './modals/ModalCreateCollection';
 @import './modals/ModalCreatePlaceholder';
 @import './modals/ModalConfirm';
 @import './modals/ModalDocumentPreview';
@@ -87,6 +88,7 @@
 @import './ui/ListItem';
 @import './ui/ModalWrapper';
 @import './ui/Overlay';
+@import './ui/SearchBar';
 @import './ui/Spinner';
 @import './ui/Tab';
 @import './ui/TipBox';

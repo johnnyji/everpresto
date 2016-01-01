@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import Button from '.././ui/Button';
 import Icon from '.././ui/Icon';
-import SearchBar from '.././shared/SearchBar';
+import SearchBar from '.././ui/SearchBar';
 
 import AppActions from '../.././actions/AppActions';
 
@@ -20,7 +20,7 @@ export default class ActiveGroupContent extends Component {
           <div className='new-note'>
             <Button icon="add" onClick={this._toggleNewNoteModal} text="New Note" />
           </div>
-          <SearchBar onInputChange={this._searchNotes}/>
+          <SearchBar onUpdate={this._searchNotes}/>
         </header>
 
         <NotesList notes={this.props.notes} />

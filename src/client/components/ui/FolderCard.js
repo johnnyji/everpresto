@@ -22,10 +22,14 @@ const FolderCard = ({className, children, contentClassName, height, width}) => {
 };
 
 FolderCard.displayName = displayName;
+FolderCard.defaultProps = {
+  height: 150,
+  width: 200
+};
 FolderCard.propTypes = {
   className: PropTypes.string,
-  height: PropTypes.number,
-  width: PropTypes.number
+  height: PropTypes.number.isRequired,
+  width: PropTypes.number.isRequired
 };
 
 export default FolderCard;

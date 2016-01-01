@@ -1,0 +1,13 @@
+.ModalCreateCollection {
+  @include display(flex);
+  @include justify-content(space-around);
+  @include align-items(center);
+  &-folder {
+    position: relative;
+    &-title {
+      @extend .center-absolute;
+      font-weight: 500;
+      margin: 0;
+    }
+  }  
+}

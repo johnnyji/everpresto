@@ -2,12 +2,16 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import CustomPropTypes from '.././CustomPropTypes';
+import DashboardContentHeader from '.././dashboard/DashboardContentHeader';
 import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
 import DashboardSpinner from '.././shared/DashboardSpinner';
+import SearchBar from '.././ui/SearchBar';
 
 import CollectionActionCreators from '../.././actions/CollectionActionCreators';
 
 const displayName = 'CollectionsShow';
+const SIGNED = 'signed';
+const UNSIGNED = 'unsigned';
 
 @connect((state) => ({
   collection: state.collections.get('collectionBeingViewed')
@@ -32,6 +36,13 @@ export default class CollectionsShow extends Component {
     })
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      filter: null
+    };
+  }
+
   componentWillMount() {
     // If the collection being viewed do not exist, fetch them
     if (!this.props.collection) {
@@ -52,6 +63,9 @@ export default class CollectionsShow extends Component {
 
     return (
       <DashboardContentWrapper>
+        <DashboardContentHeader>
+          <SearchBar onUpdate={() => {}} />
+        </DashboardContentHeader>
         {collection.get('documents').size}
       </DashboardContentWrapper>
     );
