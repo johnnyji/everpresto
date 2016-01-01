@@ -24,8 +24,8 @@ export default class TemplatesEdit extends Component {
 
   componentWillMount() {
     const {params, template} = this.props;
-    // If there's a template ID in the URL and no template being edited, we'll fetch that
-    // template from the server.
+    // If there's a template `_id` in the route params and no template being edited, we'll fetch that
+    // template from the server using the `_id`.
     if (!template && params.id) {
       this.context.dispatch(
         TemplateActionCreators.fetchTemplateById(params.id, TemplateActionCreators.setTemplateBeingEdited)

@@ -181,7 +181,7 @@ const TemplateActionCreators = {
    */
   updateTemplate(templateId, templateData) {
     return (dispatch) => {
-      ApiCaller.sendAjaxRequest({
+      sendAjaxRequest({
         method: apiEndpoints.templates.update.method,
         url: apiEndpoints.templates.update.path,
         data: {templateId, templateData}
