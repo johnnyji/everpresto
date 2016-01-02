@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import FolderCard from '.././ui/FolderCard';
+import Clickable from '.././ui/Clickable';
 import ModalWrapper from '.././ui/ModalWrapper';
 
 import AppActionCreators from '../.././actions/AppActionCreators';
@@ -25,18 +26,18 @@ export default class ModalCreateCollection extends Component {
     return (
       <ModalWrapper className={displayName} width={650} height={450}>
         <FolderCard contentClassName={`${displayName}-folder`}>
-          <p
+          <Clickable
             className={`${displayName}-folder-title`}
             onClick={() => this._handleChooseOption(onCreateBlank)}>
-            With Documents
-          </p>
+            New Blank Folder
+          </Clickable>
         </FolderCard>
         <FolderCard contentClassName={`${displayName}-folder`}>
-          <p
+          <Clickable
             className={`${displayName}-folder-title`}
             onClick={() => this._handleChooseOption(onCreatePopulated)}>
-            Blank Folder
-          </p>
+            New Folder With Documents
+          </Clickable>
         </FolderCard>
       </ModalWrapper>
     );

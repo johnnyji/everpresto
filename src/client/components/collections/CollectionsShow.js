@@ -4,7 +4,11 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import CustomPropTypes from '.././CustomPropTypes';
 import DashboardContentHeader from '.././dashboard/DashboardContentHeader';
 import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
+import DashboardQuote from '.././dashboard/DashboardQuote';
 import DashboardSpinner from '.././shared/DashboardSpinner';
+import DocumentPreviewCard from '.././shared/DocumentPreviewCard';
+import Button from '.././ui/Button';
+import GridView from '.././ui/GridView';
 import SearchBar from '.././ui/SearchBar';
 
 import CollectionActionCreators from '../.././actions/CollectionActionCreators';
@@ -62,12 +66,58 @@ export default class CollectionsShow extends Component {
     if (!collection) return <DashboardSpinner />;
 
     return (
-      <DashboardContentWrapper>
-        <DashboardContentHeader>
+      <DashboardContentWrapper className={displayName}>
+        <DashboardContentHeader className={`${displayName}-header`}>
+          <div className={`${displayName}-header-options`}>
+            <Button
+              className={`${displayName}-header-options-create-button`}
+              color='green'
+              icon='add'
+              onClick={this._handleCreateContract}
+              text='Create Contract' />
+            <Button
+              className={`${displayName}-header-options-create-button`}
+              color='green'
+              icon='group-add'
+              onClick={this._handleBatchCreateContract}
+              text='Batch Create Contract' />
+          </div>
           <SearchBar onUpdate={() => {}} />
         </DashboardContentHeader>
-        {collection.get('documents').size}
+        {this._renderDocuments(collection)}
       </DashboardContentWrapper>
     );
   }
+
+  _handleCreateContract = () => {
+
+  }
+
+  _handleBatchCreateContract = () => {
+
+  }
+
+  _renderDocuments = (collection) => {
+    const documents = collection.get('documents');
+
+    if (documents.size === 0) {
+      return (
+        <DashboardQuote
+          author='Jedi Master Yoda'
+          quote="If it's ease of workflow you seek, create contracts from templates you must!"/>
+      );
+    }
+
+    return (
+      <GridView>
+        {documents.map((doc, i) => (
+          <DocumentPreviewCard
+            body={doc.get('body')}
+            key={i}
+            title={doc.get('title')}/>
+        ))}
+      </GridView>
+    );
+  }
+
 }

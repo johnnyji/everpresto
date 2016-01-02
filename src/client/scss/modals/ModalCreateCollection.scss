@@ -6,6 +6,7 @@
     position: relative;
     &-title {
       @extend .center-absolute;
+      color: #FFF;
       font-weight: 500;
       margin: 0;
     }
