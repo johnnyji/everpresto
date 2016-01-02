@@ -1,20 +1,16 @@
 .DashboardQuote {
   color: $placeholder-color;
-  width: auto;
+  width: 70%;
   &-quote {
-    @include display(flex);
-    @include flex-flow(column wrap);
+    text-align: center;
     &-message {
       font-size: 1.25rem;
       margin-top: 0;
       position: relative;
-      text-align: center;
     }
     &-author {
       font-size: 1rem;
       position: relative;
-      margin-left: auto;
-      margin-right: 0;
     }
   }
 }
