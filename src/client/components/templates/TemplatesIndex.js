@@ -37,9 +37,9 @@ export default class TemplatesIndex extends Component {
   };
 
   componentWillMount() {
-    const {templates, shouldFetchTemplates} = this.props;
-
-    if (shouldFetchTemplates) this.context.dispatch(TemplateActionCreators.fetchTemplates());
+    if (this.props.shouldFetchTemplates) {
+      this.context.dispatch(TemplateActionCreators.fetchTemplates());
+    }
   }
 
   componentWillReceiveProps(nextProps) {

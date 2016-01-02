@@ -31,6 +31,7 @@ import User from './models/User';
 // API ROUTES
 import AuthRoutes from './routes/AuthRoutes';
 import CollectionRoutes from './routes/CollectionRoutes';
+import DocumentRoutes from './routes/DocumentRoutes';
 import TemplateRoutes from './routes/TemplateRoutes';
 import UserRoutes from './routes/UserRoutes';
 
@@ -79,6 +80,7 @@ app.use('/api', apiRouter);
 // Declare API routes with middleware
 apiRouter.use('/auth', AuthRoutes);
 apiRouter.use('/collections', requireUser, CollectionRoutes);
+apiRouter.use('/documents', requireUser, DocumentRoutes);
 apiRouter.use('/templates', requireUser, TemplateRoutes);
 apiRouter.use('/users', requireUser, UserRoutes);
 

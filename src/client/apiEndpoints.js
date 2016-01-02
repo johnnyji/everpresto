@@ -14,6 +14,9 @@ const apiEndpoints = {
   currentUser: {
     show: formApiPath('/users/current_user', 'POST'),
   },
+  documents: {
+    index: formApiPath('/documents/index', 'GET')
+  },
   templates: {
     create: formApiPath('/templates/create', 'POST'),
     delete: formApiPath('/templates/delete', 'POST'),

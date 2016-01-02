@@ -25,7 +25,8 @@ export default class CollectionsShow extends Component {
   static displayName = displayName;
 
   static contextTypes = {
-    dispatch: PropTypes.func.isRequired
+    dispatch: PropTypes.func.isRequired,
+    history: PropTypes.func.isRequired
   };
 
   static propTypes = {
@@ -90,7 +91,7 @@ export default class CollectionsShow extends Component {
   }
 
   _handleCreateContract = () => {
-
+    this.context.history.push('/dashboard/documents/new');
   }
 
   _handleBatchCreateContract = () => {

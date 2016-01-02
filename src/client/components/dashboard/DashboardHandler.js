@@ -27,6 +27,7 @@ export default class DashboardHandler extends Component {
   render() {
     const dashboardTabs = [
       {label: 'Collections', path: '/dashboard/collections'},
+      {label: 'Documents', path: '/dashboard/documents'},
       {label: 'Activity', path: '/dashboard/activity'},
       {label: 'Templates', path: '/dashboard/templates'},
       {label: 'Profile Settings', path: '/dashboard/settings'}

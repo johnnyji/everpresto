@@ -8,13 +8,17 @@ import LandingPageHandler from '.././components/app/LandingPageHandler';
 import NotFoundHandler from '.././components/shared/NotFoundHandler';
 
 import DashboardHandler from '.././components/dashboard/DashboardHandler';
-  import CollectionsView from '.././components/collections/CollectionsView';
-    import CollectionsIndex from '.././components/collections/CollectionsIndex';
-    import CollectionsShow from '.././components/collections/CollectionsShow';
-  import TemplatesView from '.././components/templates/TemplatesView';
-    import TemplatesIndex from '.././components/templates/TemplatesIndex';
-    import TemplatesNew from '.././components/templates/TemplatesNew';
-    import TemplatesEdit from '.././components/templates/TemplatesEdit';
+import DashboardView from '.././components/dashboard/DashboardView';
+  // Collections
+  import CollectionsIndex from '.././components/collections/CollectionsIndex';
+  import CollectionsShow from '.././components/collections/CollectionsShow';
+  // Documents
+  import DocumentsIndex from '.././components/documents/DocumentsIndex';
+  import DocumentsNew from '.././components/documents/DocumentsNew';
+  // Templates
+  import TemplatesIndex from '.././components/templates/TemplatesIndex';
+  import TemplatesNew from '.././components/templates/TemplatesNew';
+  import TemplatesEdit from '.././components/templates/TemplatesEdit';
 
 import ProfileHandler from '.././components/user/ProfileHandler';
 
@@ -32,14 +36,19 @@ const routes = (
     <Route path='profile' component={requireAuth(ProfileHandler)}/>
 
     <Route path='dashboard' component={requireAuth(DashboardHandler)}>
-      <IndexRoute component={CollectionsView} />
+      <IndexRoute component={DashboardView} />
 
-      <Route path='collections' component={CollectionsView}>
+      <Route path='collections' component={DashboardView}>
         <IndexRoute component={CollectionsIndex} />
         <Route path=':id' component={CollectionsShow} />
       </Route>
 
-      <Route path='templates' component={TemplatesView}>
+      <Route path='documents' component={DashboardView}>
+        <IndexRoute component={DocumentsIndex} />
+        <Route path='new' component={DocumentsNew} />
+      </Route>
+
+      <Route path='templates' component={DashboardView}>
         <IndexRoute component={TemplatesIndex} />
         <Route path='new' component={TemplatesNew} />
         <Route path='edit/:id' component={TemplatesEdit} />

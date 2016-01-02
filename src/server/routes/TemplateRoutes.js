@@ -1,6 +1,5 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import requireUser from '.././middlewares/requireUser';
 import {extractErrorMessage, toObjects} from './utils/ResponseHelper';
 
 const ObjectId = mongoose.Types.ObjectId;
