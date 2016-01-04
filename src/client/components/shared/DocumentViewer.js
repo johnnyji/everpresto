@@ -1,4 +1,5 @@
 import React, {PropTypes} from 'react';
+import classNames from 'classnames';
 import Card from '.././ui/Card';
 
 const displayName = 'DocumentViewer';
