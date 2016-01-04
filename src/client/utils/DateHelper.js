@@ -1,14 +1,21 @@
 import moment from 'moment';
 
-export default class DateHelper {
+const DateHelper = {
 
-  static formatDate(dateString) {
-    return new Date(dateString);
-  }
+  convertSecondsToHoursAndMinutes(seconds) {
+    const momentSeconds = moment.duration(seconds, 'seconds');
+    let hours = Math.floor(momentSeconds.asHours());
+    let minutes = Math.floor(momentSeconds.asMinutes()) - (hours * 60);
 
-  static getWeekOf(currentDate) {
-    let startOfWeek = moment(currentDate).startOf('week');
-    let endOfWeek = moment(currentDate).endOf('week');
+    if (hours.toString().length === 1) hours = `0${hours}`;
+    if (minutes.toString().length === 1) minutes = `0${minutes}`;
+
+    return {hours, minutes};
+  },
+
+  getWeekOf(currentDate) {
+    const startOfWeek = moment(currentDate).startOf('week');
+    const endOfWeek = moment(currentDate).endOf('week');
 
     let days = [];
     let day = startOfWeek;
@@ -18,48 +25,36 @@ export default class DateHelper {
       day = day.clone().add(1, 'd'); // increments the weekday to avoid infinite loop
     }
     return days;
-  }
+  },
 
-  static getWeekInAcronyms() {
+  getWeekInAcronyms() {
     return ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-  }
+  },
 
-  static getPreviousWeekFrom(dateObject) {
-    let prevWeek = dateObject.setDate(dateObject.getDate() - 7);
+  getPreviousWeekFrom(dateObject) {
+    const prevWeek = dateObject.setDate(dateObject.getDate() - 7);
     return new Date(prevWeek);
-  }
+  },
 
-  static getNextWeekFrom(dateObject) {
-    let nextWeek = dateObject.setDate(dateObject.getDate() + 7);
+  getNextWeekFrom(dateObject) {
+    const nextWeek = dateObject.setDate(dateObject.getDate() + 7);
     return new Date(nextWeek);
-  }
+  },
 
-  static formatWeekdayAcronym(dateObject) {
+  formatDateString(dateString, dateFormat = 'MMM DD, YYYY') {
+    return moment(dateString).format(dateFormat);
+  },
+
+  formatWeekdayAcronym(dateObject) {
     return moment(dateObject).format('ddd');
-  }
+  },
 
-  static formatHeaderDate(dateObject) {
-    return moment(dateObject).format('dddd, MMMM Do YYYY');
-  }
-
-  static formatWeekDurationFromDate(dateObject) {
-    dateObject = dateObject || new Date();
-    let formattedStartOfWeek = moment(dateObject).startOf('week').format('MMM Do');
-    let formattedEndOfWeek = moment(dateObject).endOf('week').format('MMM Do');
+  formatWeekDurationFromDate(dateObject = new Date()) {
+    const formattedStartOfWeek = moment(dateObject).startOf('week').format('MMM Do');
+    const formattedEndOfWeek = moment(dateObject).endOf('week').format('MMM Do');
     return `${formattedStartOfWeek} - ${formattedEndOfWeek}`;
   }
 
-  static convertSecondsToHoursAndMinutes(seconds) {
-    let momentSeconds = moment.duration(seconds, 'seconds');
-    let hours = Math.floor(momentSeconds.asHours());
-    let minutes = Math.floor(momentSeconds.asMinutes()) - (hours * 60);
-
-    if (hours.toString().length === 1) { hours = `0${hours}`; }
-    if (minutes.toString().length === 1) { minutes = `0${minutes}`; }
-    return {
-      hours: hours,
-      minutes: minutes
-    };
-  }
-
 }
+
+export default DateHelper;

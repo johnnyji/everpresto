@@ -1,11 +1,9 @@
 import React, {Component, PropTypes} from 'react';
 import classNames from 'classnames';
 import CustomPropTypes from '.././CustomPropTypes';
-// import {truncateString} from '../.././utils/TextHelper';
 
 import ClickableIcon from '.././ui/ClickableIcon';
 import DropdownOptions from '.././ui/DropdownOptions';
-// import GridViewItem from '.././ui/GridViewItem';
 import Icon from '.././ui/Icon';
 import ModalDocumentPreview from '.././modals/ModalDocumentPreview';
 import DocumentPreviewCard from '.././shared/DocumentPreviewCard';

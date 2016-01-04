@@ -47,6 +47,7 @@
 @import './dashboard/DashboardQuote';
 
 // Documents
+@import './documents/DocumentsNew';
 
 // Modals
 @import './modals/ModalCreateCollection';
@@ -66,7 +67,8 @@
 @import './shared/DashboardSpinner';
 @import './shared/DocumentEditor';
 @import './shared/DocumentPreviewCard';
-@import './shared/EditorSidebar';
+@import './shared/DocumentViewer';
+@import './shared/FormSidebar';
 @import './shared/ExitFormIcon';
 @import './shared/Logo';
 @import './shared/MultiselectField';

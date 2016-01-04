@@ -12,34 +12,45 @@ export default class DocumentPreviewCard extends Component {
   static propTypes = {
     body: PropTypes.string,
     className: PropTypes.string,
+    isGridViewItem: PropTypes.bool.isRequired,
     title: PropTypes.string,
     titleDisplayLength: PropTypes.number.isRequired
   };
 
   static defaultProps = {
+    isGridViewItem: true,
     titleDisplayLength: 25
-  }
+  };
 
   render() {
-    const {body, children, className, title} = this.props;
+    const {className, isGridViewItem} = this.props;
     const classes = classNames(className, displayName);
-    // DO NOT REMOVE: This is used for the `create` cards
-    if (!body && !title && children) return <GridViewItem className={classes}>{children}</GridViewItem>;
 
-    const {onBodyClick, onTitleClick, titleDisplayLength} = this.props;
-    const titlePreview = truncateString(title, titleDisplayLength);
+    if (isGridViewItem) {
+      return <GridViewItem className={classes}>{this._renderContent()}</GridViewItem>
+    }
+
+    return <div className={classes}>{this._renderContent()}</div>;
+  }
+
+  _renderContent = () => {
+    const {body, children, onBodyClick, onTitleClick, title, titleDisplayLength} = this.props;
 
     return (
-      <GridViewItem className={classes}>
-        <header className={`${displayName}-header`} onClick={onTitleClick}>
-          <h4 className={`${displayName}-header-title`}>{titlePreview}</h4>
-        </header>
-        <div
-          className={`${displayName}-body`}
-          dangerouslySetInnerHTML={{__html: body}}
-          onClick={onBodyClick}/>
+      <div>
+        {title &&
+          <header className={`${displayName}-header`} onClick={onTitleClick}>
+            <h4 className={`${displayName}-header-title`}>{truncateString(title, titleDisplayLength)}</h4>
+          </header>
+        }
+        {body &&
+          <div
+            className={`${displayName}-body`}
+            dangerouslySetInnerHTML={{__html: body}}
+            onClick={onBodyClick}/>
+        }
         {children}
-      </GridViewItem>
+      </div>
     );
   }
 

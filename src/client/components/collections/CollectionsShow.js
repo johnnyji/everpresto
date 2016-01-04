@@ -26,7 +26,7 @@ export default class CollectionsShow extends Component {
 
   static contextTypes = {
     dispatch: PropTypes.func.isRequired,
-    history: PropTypes.func.isRequired
+    history: PropTypes.object.isRequired
   };
 
   static propTypes = {
@@ -95,7 +95,6 @@ export default class CollectionsShow extends Component {
   }
 
   _handleBatchCreateContract = () => {
-
   }
 
   _renderDocuments = (collection) => {

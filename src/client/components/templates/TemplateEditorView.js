@@ -13,7 +13,7 @@ import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
 import ModalCreatePlaceholder from '.././modals/ModalCreatePlaceholder';
 import ModalConfirm from '.././modals/ModalConfirm';
 import DocumentEditor from '.././shared/DocumentEditor';
-import EditorSidebar from '.././shared/EditorSidebar';
+import FormSidebar from '.././shared/FormSidebar';
 import FileConverter from '.././shared/FileConverter';
 
 import AppActionCreators from '../.././actions/AppActionCreators';
@@ -87,7 +87,7 @@ export default class TemplateEditorView extends Component {
           templatePlaceholders={placeholderValues}
           titlePlaceholder='Untitled Template'
           title={template.get('title')}/>
-        <EditorSidebar> 
+        <FormSidebar> 
           <FileConverter onEnd={this._handleTemplateUploadEnd} onStart={this._handleTemplateUploadStart} />
           <Button color='blue' icon='add' onClick={this._showAddPlaceholderModal} text='Add Placeholder' />
           <List>{this._renderPlaceholders()}</List>
@@ -96,7 +96,7 @@ export default class TemplateEditorView extends Component {
             icon='done'
             onClick={this._handleSave}
             text={mode === 'create' ? 'Create Template!' : 'Save Template'}/>
-        </EditorSidebar>
+        </FormSidebar>
       </DashboardContentWrapper>
     );
   }

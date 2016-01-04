@@ -39,7 +39,7 @@ export default class DocumentsIndex extends Component {
   }
 
   componentWillUnmount() {
-    this.context.dispatch(DocumentsActionCreators.resetShouldFetchDocs());
+    this.context.dispatch(DocumentActionCreators.resetShouldFetchDocs());
   }
 
   render() {

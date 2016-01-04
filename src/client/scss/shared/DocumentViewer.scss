@@ -1,0 +1,15 @@
+.DocumentViewer {
+  @include display(flex);
+  @include flex-direction(column);
+  overflow-y: scroll;
+  &-title {
+    font-weight: 500;
+    font-size: 24px;
+    margin-top: 0;
+    padding: 0 8px;
+  }
+  &-body {
+    @include flex-grow(1);
+    padding: 0 12px;
+  }
+}
