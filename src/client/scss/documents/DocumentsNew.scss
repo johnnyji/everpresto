@@ -1,27 +1,27 @@
 .DocumentsNew {
-  @include display(flex);
-  div > &-document-preview {
-    @include flex-grow(1);
+  // When we're on the template selecting phase of the new document
+  &-template-selector {
     @include display(flex);
     @include flex-flow(column wrap);
-    font-weight: 400;
-    height: 100%;
-    width: 400px;
-    &-template-selector {
-      div > &-preview-card {
-        display: inline-block;
-        max-height: 200px;
-        width: 200px;
-        &-options {
-          @include display(flex);
-          @include align-items(center);
-          @include justify-content(space-between);
-          color: $text-color-light;
-        }
+    &-header {
+      @include display(flex);
+      @include justify-content(space-between);
+      @include align-items(center);
+      &-title {
+        font-size: 24px;
+        font-weight: 500;
+      }
+    }
+    &-preview-card {
+      &-options {
+        @include display(flex);
+        @include align-items(center);        
+        @include justify-content(space-between);
+        color: $text-color-light;
       }
     }
   }
-  div > &-form-sidebar {
-     
-  }
+
+  // When we're on the contact adding phase of the new document
+  
 }

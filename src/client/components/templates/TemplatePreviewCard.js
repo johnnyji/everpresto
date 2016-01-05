@@ -50,16 +50,15 @@ export default class TemplatePreviewCard extends Component {
         onBodyClick={this._handleEditView}
         onTitleClick={this._handleEditView}
         title={template.get('title')}>
-        <div className={`${displayName}-options`}>
-          <ClickableIcon
-            icon={showDropdownOptions ? 'close' : 'ellipsis'}
-            onClick={this._toggleOptions}/>
-        </div>
         <DropdownOptions
           className={`${displayName}-dropdown`}
           onHideDropdown={this._toggleOptions}
           options={dropdownOptions}
           showDropdownOptions={showDropdownOptions}/>
+        <ClickableIcon
+          className={`${displayName}-more-options`}
+          icon={showDropdownOptions ? 'close' : 'ellipsis'}
+          onClick={this._toggleOptions}/>
       </DocumentPreviewCard>
     );
   }

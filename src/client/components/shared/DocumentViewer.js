@@ -14,7 +14,8 @@ const DocumentViewer = ({body, children, className, title}) => {
         className={`${displayName}-body`}
         contentEditable
         dangerouslySetInnerHTML={{__html: body}}
-        disabled/>
+        disabled
+        onFocus={(e) => e.target.blur()}/>
     </Card>
   );
 };

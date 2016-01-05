@@ -1,12 +1,14 @@
+
+
 .DocumentPreviewCard {
-  position: relative;
-  min-height: 300px;
-  max-height: 300px;
+  @include display(flex);
+  @include flex-flow(column wrap);
   &-header {
     @include display(flex);
     @include justify-content(space-between);
     @include align-items(center);
     margin-top: 5px;
+    margin-bottom: 5px;
     &-title {
       margin: 0;
       height: 100%;
@@ -25,5 +27,14 @@
     &:hover {
       cursor: pointer;
     }
+  }
+  &-options {
+    position: relative;
+    margin-top: 5px;
+    height: 24px;
+  }
+  &-new-button {
+    @extend .center-absolute;
+    @extend .transition;
   }
 }

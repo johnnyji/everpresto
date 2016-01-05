@@ -4,10 +4,13 @@ import Card from './Card';
 
 const displayName = 'ui-GridViewItem';
 
-const GridViewItem = ({children, className, isCard}) => {
+const GridViewItem = ({children, className, isCard, style}) => {
   const classes = classNames(className, displayName);
 
-  if (isCard) return <Card className={classes}>{children}</Card>;
+  if (isCard) {
+    if (style) return <Card className={classes} style={style}>{children}</Card>;
+    return <Card className={classes}>{children}</Card>;
+  }
 
   return <div className={classes}>{children}</div>;
 };
@@ -15,7 +18,8 @@ const GridViewItem = ({children, className, isCard}) => {
 GridViewItem.displayName = displayName;
 GridViewItem.propTypes = {
   className: PropTypes.string,
-  isCard: PropTypes.bool.isRequired
+  isCard: PropTypes.bool.isRequired,
+  style: PropTypes.object
 };
 GridViewItem.defaultProps = {
   isCard: true

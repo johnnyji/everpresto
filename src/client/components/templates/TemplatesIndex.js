@@ -9,11 +9,7 @@ import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
 import {truncateString} from '../.././utils/TextHelper';
 
 import DashboardSpinner from '.././shared/DashboardSpinner';
-import Button from '.././ui/Button';
-import ClickableIcon from '.././ui/ClickableIcon';
 import GridView from '.././ui/GridView';
-import GridViewItem from '.././ui/GridViewItem';
-import Icon from '.././ui/Icon';
 
 const displayName = 'TemplatesIndex';
 
@@ -57,13 +53,10 @@ export default class TemplatesIndex extends Component {
     return (
       <DashboardContentWrapper className={displayName}>
         <GridView className={`${displayName}-templates`}>
-          <DocumentPreviewCard className={`${displayName}-templates-new`}>
-            <ClickableIcon
-              className={`${displayName}-templates-new-button`}
-              icon='add'
-              onClick={this._handleNewTemplate}
-              size={70}/>
-          </DocumentPreviewCard>
+          <DocumentPreviewCard
+            className={`${displayName}-templates-new`}
+            isNewCard={true}
+            onNewIconClick={this._handleNewTemplate}/>
           {this._renderTemplatePreviews()}
         </GridView>
       </DashboardContentWrapper>

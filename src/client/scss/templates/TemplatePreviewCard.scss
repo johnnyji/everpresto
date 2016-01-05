@@ -13,17 +13,16 @@ $template-preview-card-dropdown-height: 110px;
 }
 
 .TemplatePreviewCard {
-  &-options {
-    position: absolute;
-    bottom: 15px;
-    right: 20px;
-  }
   div > &-dropdown {
     @include animation(pop-in-up 300ms ease-in-out);
     position: absolute;
-    bottom: 15px;
-    left: 15px;
+    bottom: 0;
+    left: 0;
     height: $template-preview-card-dropdown-height;
     width: 100px;
+  }
+  div > &-more-options {
+    position: absolute;
+    right: 0;
   }
 }

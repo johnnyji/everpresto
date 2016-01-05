@@ -4,6 +4,7 @@ import Immutable from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import CustomPropTypes from '.././CustomPropTypes';
 import ModalDocumentPreview from '.././modals/ModalDocumentPreview';
+import DashboardContentHeader from '.././dashboard/DashboardContentHeader';
 import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
 import DashboardSpinner from '.././shared/DashboardSpinner';
 import DocumentPreviewCard from '.././shared/DocumentPreviewCard';
@@ -11,6 +12,7 @@ import DocumentViewer from '.././shared/DocumentViewer';
 import FormSidebar from '.././shared/FormSidebar';
 import Card from '.././ui/Card';
 import ClickableIcon from '.././ui/ClickableIcon';
+import GridView from '.././ui/GridView';
 import SearchBar from '.././ui/SearchBar';
 
 import {formatDateString} from '../.././utils/DateHelper';
@@ -81,9 +83,6 @@ export default class DocumentsNew extends Component {
     return (
       <DashboardContentWrapper className={displayName}>
         {this._renderDocumentPreview()}
-        <FormSidebar className={`${displayName}-config`}>
-          something
-        </FormSidebar>
       </DashboardContentWrapper>
     );
   }
@@ -111,19 +110,25 @@ export default class DocumentsNew extends Component {
 
     if (Boolean(templateBeingUsed)) {
       return (
-        <DocumentViewer body={templateBeingUsed.get('body')}/>
+        <div>
+          <DocumentViewer body={templateBeingUsed.get('body')}/>
+          <FormSidebar className={`${displayName}-config`}>
+            something
+          </FormSidebar>
+        </div>
       );
     }
 
     return (
-      <Card className={`${displayName}-document-preview`}>
-        <SearchBar
-          className={`${displayName}-document-preview-searchbar`}
-          onUpdate={this._handleTemplateSearch} />
-        <div className={`${displayName}-document-preview-template-selector`}>
-          {this._renderTemplatePreviewCards()}
-        </div>
-      </Card>
+      <div className={`${displayName}-template-selector`}>
+        <DashboardContentHeader className={`${displayName}-template-selector-header`}>
+          <span className={`${displayName}-template-selector-header-title`}>Choose A Template</span>
+          <SearchBar
+            className={`${displayName}-template-selector-header-search-bar`}
+            onUpdate={this._handleTemplateSearch} />
+        </DashboardContentHeader>
+        <GridView>{this._renderTemplatePreviewCards()}</GridView>
+      </div>
     );
   }
 
@@ -131,13 +136,12 @@ export default class DocumentsNew extends Component {
     return this.state.filteredTemplates.map((template, i) => (
       <DocumentPreviewCard
         body={template.get('body')}
-        className={`${displayName}-document-preview-template-selector-preview-card`}
-        isGridViewItem={false}
+        className={`${displayName}-template-selector-preview-card`}
         key={i}
         onBodyClick={() => this._handleChooseTemplate(template)}
         onTitleClick={() => this._handleChooseTemplate(template)}
         title={template.get('title')}>
-        <div className={`${displayName}-document-preview-template-selector-preview-card-options`}>
+        <div className={`${displayName}-template-selector-preview-card-options`}>
           <ClickableIcon icon='preview' onClick={() => this._handlePreviewTemplate(template)}/>
           <small>{formatDateString(template.get('createdAt'))}</small>
         </div>
