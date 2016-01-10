@@ -1,0 +1,10 @@
+.DocumentsNewEditorView {
+  @include display(flex);
+  @include flex-flow(column no-wrap);
+  &-preview {
+    @include flex-grow(1);
+  }
+  &-sidebar {
+    @include flex-grow(1);
+  }
+}

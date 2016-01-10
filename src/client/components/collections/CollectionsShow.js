@@ -14,8 +14,6 @@ import SearchBar from '.././ui/SearchBar';
 import CollectionActionCreators from '../.././actions/CollectionActionCreators';
 
 const displayName = 'CollectionsShow';
-const SIGNED = 'signed';
-const UNSIGNED = 'unsigned';
 
 @connect((state) => ({
   collection: state.collections.get('collectionBeingViewed')
@@ -91,7 +89,7 @@ export default class CollectionsShow extends Component {
   }
 
   _handleCreateContract = () => {
-    this.context.history.push('/dashboard/documents/new');
+    this.context.history.push(`/dashboard/documents/${this.props.params.id}/new`);
   }
 
   _handleBatchCreateContract = () => {

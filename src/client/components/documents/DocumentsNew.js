@@ -3,19 +3,11 @@ import {connect} from 'react-redux';
 import Immutable from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import CustomPropTypes from '.././CustomPropTypes';
-import ModalDocumentPreview from '.././modals/ModalDocumentPreview';
-import DashboardContentHeader from '.././dashboard/DashboardContentHeader';
-import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
-import DashboardSpinner from '.././shared/DashboardSpinner';
-import DocumentPreviewCard from '.././shared/DocumentPreviewCard';
-import DocumentViewer from '.././shared/DocumentViewer';
-import FormSidebar from '.././shared/FormSidebar';
-import Card from '.././ui/Card';
-import ClickableIcon from '.././ui/ClickableIcon';
-import GridView from '.././ui/GridView';
-import SearchBar from '.././ui/SearchBar';
 
-import {formatDateString} from '../.././utils/DateHelper';
+import DashboardSpinner from '.././shared/DashboardSpinner';
+import DocumentsNewEditorView from './DocumentsNewEditorView';
+import DocumentsNewTemplateSelectView from './DocumentsNewTemplateSelectView';
+
 import AppActionCreators from '../.././actions/AppActionCreators';
 import TemplateActionCreators from '../.././actions/TemplateActionCreators';
 
@@ -55,11 +47,9 @@ export default class DocumentsNew extends Component {
       !nextProps.templates.equals(this.props.templates)
     ) {
       this.setState({
-        filteredTemplates: nextProps.templates.filter((template) => {
-          return template.get('title').toLowerCase().indexOf(
-            nextState.templateFilterTerms.trim().toLowerCase()
-          ) > -1;
-        })
+        filteredTemplates: nextProps.templates.filter((template) => (
+          template.get('title').toLowerCase().indexOf(nextState.templateFilterTerms.trim().toLowerCase()) > -1
+        ))
       });
     }
   }
@@ -80,73 +70,28 @@ export default class DocumentsNew extends Component {
   render() {
     if (this.props.shouldFetchTemplates) return <DashboardSpinner />;
 
-    return (
-      <DashboardContentWrapper className={displayName}>
-        {this._renderDocumentPreview()}
-      </DashboardContentWrapper>
-    );
-  }
+    const {filteredTemplates, templateBeingUsed} = this.state;
 
-  _handleChooseTemplate = (template) => {
-    this.setState({templateBeingUsed: template});
-  }
-
-  _handlePreviewTemplate = (template) => {
-    this.context.dispatch(
-      AppActionCreators.createModal(
-        <ModalDocumentPreview
-          body={template.get('body')}
-          title={template.get('title')}/>
-      )
-    );
-  }
-
-  _handleTemplateSearch = (searchTerms) => {
-    this.setState({templateFilterTerms: searchTerms});
-  }
-
-  _renderDocumentPreview = () => {
-    const {templateBeingUsed} = this.state;
-
-    if (Boolean(templateBeingUsed)) {
+    // If a template has yet to be chosen, show the template selector view
+    if (!templateBeingUsed) {
       return (
-        <div>
-          <DocumentViewer body={templateBeingUsed.get('body')}/>
-          <FormSidebar className={`${displayName}-config`}>
-            something
-          </FormSidebar>
-        </div>
+        <DocumentsNewTemplateSelectView
+          onTemplateChoose={this._handleTemplateChoose}
+          onTemplateFilter={this._handleTemplateFilter}
+          templates={filteredTemplates} />
       );
     }
 
-    return (
-      <div className={`${displayName}-template-selector`}>
-        <DashboardContentHeader className={`${displayName}-template-selector-header`}>
-          <span className={`${displayName}-template-selector-header-title`}>Choose A Template</span>
-          <SearchBar
-            className={`${displayName}-template-selector-header-search-bar`}
-            onUpdate={this._handleTemplateSearch} />
-        </DashboardContentHeader>
-        <GridView>{this._renderTemplatePreviewCards()}</GridView>
-      </div>
-    );
+    // Show the document editing view
+    return <DocumentsNewEditorView template={templateBeingUsed} />;
   }
 
-  _renderTemplatePreviewCards = () => {
-    return this.state.filteredTemplates.map((template, i) => (
-      <DocumentPreviewCard
-        body={template.get('body')}
-        className={`${displayName}-template-selector-preview-card`}
-        key={i}
-        onBodyClick={() => this._handleChooseTemplate(template)}
-        onTitleClick={() => this._handleChooseTemplate(template)}
-        title={template.get('title')}>
-        <div className={`${displayName}-template-selector-preview-card-options`}>
-          <ClickableIcon icon='preview' onClick={() => this._handlePreviewTemplate(template)}/>
-          <small>{formatDateString(template.get('createdAt'))}</small>
-        </div>
-      </DocumentPreviewCard>
-    ));
+  _handleTemplateChoose = (template) => {
+    this.setState({templateBeingUsed: template});
+  }
+
+  _handleTemplateFilter = (templateFilterTerms) => {
+    this.setState({templateFilterTerms});
   }
 
 }

@@ -139,7 +139,7 @@ export default class CollectionsIndex extends Component {
             className={`${displayName}-create-template-button`}
             color='green'
             onClick={this._navigateNewTemplateView}
-            text='Create a Template!' />
+            text='Create a Template!'/>
         </DashboardMessage>
       </DashboardContentWrapper>
     );
