@@ -6,6 +6,8 @@ import CustomPropTypes from '.././CustomPropTypes';
 import TextEditorHelper from '../.././utils/TextEditorHelper';
 
 import Button from '.././ui/Button';
+import Card from '.././ui/Card';
+import Clickable from '.././ui/Clickable';
 import Icon from '.././ui/Icon';
 import List from '.././ui/List';
 import ListItem from '.././ui/ListItem';
@@ -14,7 +16,6 @@ import ModalCreatePlaceholder from '.././modals/ModalCreatePlaceholder';
 import ModalConfirm from '.././modals/ModalConfirm';
 import DocumentEditor from '.././shared/DocumentEditor';
 import FormSidebar from '.././shared/FormSidebar';
-import FormSidebarTitle from '.././shared/FormSidebarTitle';
 import FileConverter from '.././shared/FileConverter';
 
 import AppActionCreators from '../.././actions/AppActionCreators';
@@ -89,11 +90,21 @@ export default class TemplateEditorView extends Component {
           templatePlaceholders={placeholderValues}
           titlePlaceholder='Untitled Template'
           title={template.get('title')}/>
-        <FormSidebar className={`${displayName}-sidebar`}> 
-          <FormSidebarTitle title='Create Template'/>
-          <FileConverter onEnd={this._handleTemplateUploadEnd} onStart={this._handleTemplateUploadStart} />
-          <Button color='blue' icon='add' onClick={this._showAddPlaceholderModal} text='Add Placeholder' />
-          <List>{this._renderPlaceholders()}</List>
+        <FormSidebar className={`${displayName}-sidebar`}>
+          <FileConverter
+            label='Import Existing Template'
+            onEnd={this._handleTemplateUploadEnd}
+            onStart={this._handleTemplateUploadStart} />
+          <List className={`${displayName}-sidebar-placeholders`}>
+            <Card>
+              <Clickable
+                className={`${displayName}-sidebar-placeholders-new-button`}
+                onClick={this._showAddPlaceholderModal}>
+                <Icon icon='add' /> New Placeholder
+              </Clickable>
+              {this._renderPlaceholders()}
+            </Card>
+          </List>
           <Button
             color='green'
             icon='done'
@@ -139,11 +150,11 @@ export default class TemplateEditorView extends Component {
     return this.state.template.get('placeholders').map((placeholder, i) => {
       return (
         <ListItem
+          className={`${displayName}-sidebar-placeholders-placeholder`}
           key={i}
           onRemove={() => this._updateTemplateAttr('placeholders', this._removePlaceholder(placeholder))}
           removable={true}>
-          {placeholder.get('label')}
-          <Icon icon='arrow-forward' size={12} />
+          <label>{placeholder.get('label')}: </label> 
           <mark>{placeholder.get('value')}</mark>
         </ListItem>
       );

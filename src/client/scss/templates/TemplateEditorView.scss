@@ -5,5 +5,13 @@
   }
   &-sidebar {
     @include flex-grow(3);
+    &-placeholders {
+      &-new-button {
+        
+      }
+      &-placeholder {
+
+      }
+    }
   }
 }

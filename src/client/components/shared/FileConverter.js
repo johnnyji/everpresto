@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import classNames from 'classnames';
 import mammoth from 'mammoth';
 import striptags from 'striptags';
 import AppActionCreators from '../.././actions/AppActionCreators';
@@ -14,18 +15,43 @@ export default class FileConverter extends Component {
   };
 
   static propTypes = {
-    permittedExtensions: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+    className: PropTypes.string,
+    label: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
     onStart: PropTypes.func.isRequired,
     onEnd: PropTypes.func.isRequired,
+    permittedExtensions: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired
   };
 
   static defaultProps = {
+    label: 'Choose a file',
     permittedExtensions: ['.docx']
   };
 
+  shouldComponentUpdate(nextProps, nextState) {
+    // Only update the component when the selected file's name will be different
+    return nextState.filename !== this.state.filename;
+  }
+
+  constructor() {
+    super();
+    this.state = {
+      filename: null
+    };
+  }
+
   render() {
+    const {className, label} = this.props;
+    const classes = classNames(className, displayName);
     return (
-      <input type='file' onChange={this._handleUpload}/>
+      <div className={classes}>
+        <label className={`${displayName}-label`} htmlFor='file'>
+          {this.state.filename || label}
+        </label>
+        <input
+          className={`${displayName}-input`}
+          onChange={this._handleUpload}
+          type='file'/>
+      </div>
     );
   }
 
@@ -41,7 +67,7 @@ export default class FileConverter extends Component {
 
     if (onError) return onError(error);
     if (dispatch) dispatch(AppActionCreators.createFlashMessage('red', error));
-  }
+  };
 
   /**
    * Formats the error message for an invalid file extension, and passes the
@@ -59,7 +85,7 @@ export default class FileConverter extends Component {
     );
 
     this._handleError(error);
-  }
+  };
 
   /**
    * Handles when the user uploads a file. Either returns an error or transforms the file to an HTML string,
@@ -84,15 +110,18 @@ export default class FileConverter extends Component {
       // If the file reader has trouble reading a file, we alert the error
       if (reader.error) return _this._handleError(reader.error);
       // Converts the array buffer of to HTML
-      // TODO: Sanitize HTML before setting state to prevent script injection!
       mammoth.convertToHtml({arrayBuffer: reader.result})
-        .then((result) => _this.props.onEnd(result.value))
+        .then((result) => {
+          _this.props.onEnd(result.value);
+          _this.setState({filename: file.name});
+          debugger; 
+        })
         .catch((err) => _this._handleError(err));
     };
 
     // Reads the user uploaded file as an array buffer
     reader.readAsArrayBuffer(file, striptags(file));
-  }
+  };
 
   /**
    * Validates if the extension of the filename to see if this certain file format is permitted
@@ -101,9 +130,9 @@ export default class FileConverter extends Component {
    * @return {Boolean}          - Whether or not the file extension is permitted
    */
   _validateExtension = (filename) => {
-    const filenameExtension = filename.substring(filename.lastIndexOf('.'));
-    const matched = this.props.permittedExtensions.find((ext) => ext === filenameExtension);
+    const filenameExt = filename.substring(filename.lastIndexOf('.'));
+    const matched = this.props.permittedExtensions.find((ext) => ext === filenameExt);
     return Boolean(matched);
-  }
+  };
 
 }
