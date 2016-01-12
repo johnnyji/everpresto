@@ -14,6 +14,7 @@ import ModalCreatePlaceholder from '.././modals/ModalCreatePlaceholder';
 import ModalConfirm from '.././modals/ModalConfirm';
 import DocumentEditor from '.././shared/DocumentEditor';
 import FormSidebar from '.././shared/FormSidebar';
+import FormSidebarTitle from '.././shared/FormSidebarTitle';
 import FileConverter from '.././shared/FileConverter';
 
 import AppActionCreators from '../.././actions/AppActionCreators';
@@ -81,13 +82,15 @@ export default class TemplateEditorView extends Component {
       <DashboardContentWrapper className={displayName}>
         <DocumentEditor
           body={template.get('body')}
+          className={`${displayName}-editor`}
           isTemplateEditor={true}
           onBodyChange={(value) => this._updateTemplateAttr('body', value)}
           onTitleChange={(value) => this._updateTemplateAttr('title', value)}
           templatePlaceholders={placeholderValues}
           titlePlaceholder='Untitled Template'
           title={template.get('title')}/>
-        <FormSidebar> 
+        <FormSidebar className={`${displayName}-sidebar`}> 
+          <FormSidebarTitle title='Create Template'/>
           <FileConverter onEnd={this._handleTemplateUploadEnd} onStart={this._handleTemplateUploadStart} />
           <Button color='blue' icon='add' onClick={this._showAddPlaceholderModal} text='Add Placeholder' />
           <List>{this._renderPlaceholders()}</List>

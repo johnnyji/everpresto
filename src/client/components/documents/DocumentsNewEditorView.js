@@ -34,4 +34,5 @@ export default class DocumentsNewEditorView extends Component {
       </DashboardContentWrapper>
     );
   }
+
 }

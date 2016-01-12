@@ -1,6 +1,6 @@
 .DocumentViewer {
   @include display(flex);
-  @include flex-direction(column);
+  @include flex-flow(column wrap);
   overflow-y: scroll;
   &-title {
     font-weight: 500;

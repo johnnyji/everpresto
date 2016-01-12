@@ -1,4 +1,9 @@
 .TemplateEditorView {
   @include display(flex);
-  @include flex-flow(column no-wrap);
+  &-editor {
+    @include flex-grow(5);
+  }
+  &-sidebar {
+    @include flex-grow(3);
+  }
 }

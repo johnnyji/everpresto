@@ -1,6 +1,5 @@
 // Using `div >` is to override the original `Card` padding.
 div > .DocumentEditor {
-  @include flex-grow(1);
   @include display(flex);
   @include flex-flow(column wrap);
   font-weight: 400;
