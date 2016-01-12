@@ -1,14 +1,13 @@
 // Using `div >` is to override the original `Card` padding.
 div > .DocumentEditor {
-  @include display(flex);
-  @include flex-flow(column wrap);
+  position: relative;
   font-weight: 400;
   height: 100%;
   width: 400px;
-
+  overflow-y: scroll;
   &-title-input {
-    @include flex-grow(0);
     border: none;
+    display: block;
     font-size: 24px;
     outline: none;
     margin-bottom: 12px;
@@ -16,9 +15,9 @@ div > .DocumentEditor {
     width: 100%;
   }
   &-content-input {
-    // This stretches the body input to the rest of the room of the editor
-    @include flex-grow(1);
+    display: block;
     height: auto;
+    width: 100%;
     padding: 8px 16px;
       // Mock Placeholder
     &:empty:before {

@@ -23,7 +23,8 @@ export default class ModalDocumentPreview extends Component {
           className={`${displayName}-body`}
           contentEditable
           dangerouslySetInnerHTML={{__html: body}}
-          disabled/>
+          disabled
+          onFocus={(e => e.target.blur())}/>
       </ModalWrapper>
     );
   }
