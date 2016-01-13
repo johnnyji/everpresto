@@ -2,6 +2,7 @@ import Immutable from 'immutable';
 import TemplateActionTypes from '.././action_types/TemplateActionTypes';
 
 const {
+  ADD_PLACEHOLDER,
   CREATE_TEMPLATE_SUCCESS,
   DELETE_TEMPLATE_SUCCESS,
   FETCH_TEMPLATES_SUCCESS,
@@ -21,6 +22,7 @@ export default function templatesReducer(state = initialState, action) {
   // Always return a new state, never already the one passed in
 
   switch (action.type) {
+
     case CREATE_TEMPLATE_SUCCESS:
       // Makes sure we refetch the templates to include our newly created one.
       return state.merge({

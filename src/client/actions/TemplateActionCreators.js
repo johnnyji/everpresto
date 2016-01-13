@@ -7,6 +7,10 @@ const {createFlashMessage} = AppActionCreators;
 
 const TemplateActionCreators = {
 
+  addPlaceholder() {
+    return {type: TemplateActionTypes.ADD_PLACEHOLDER}
+  },
+
   /**
    * Sends the AJAX request to create the template on the server
    *

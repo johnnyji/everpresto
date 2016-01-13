@@ -1,17 +1,27 @@
 .TemplateEditorView {
   @include display(flex);
+
   &-editor {
     @include flex-grow(5);
   }
+
   &-sidebar {
     @include flex-grow(3);
     &-placeholders {
-      &-new-button {
-        
+      &-new {
+        position: relative;
+        text-align: center;
+        &-new-button {
+          color: $text-color-light;
+          &:hover {
+            color: $brand-color-green;
+          }
+        }
       }
       &-placeholder {
 
       }
     }
   }
+
 }

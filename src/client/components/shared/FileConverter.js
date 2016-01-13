@@ -114,7 +114,6 @@ export default class FileConverter extends Component {
         .then((result) => {
           _this.props.onEnd(result.value);
           _this.setState({filename: file.name});
-          debugger; 
         })
         .catch((err) => _this._handleError(err));
     };
