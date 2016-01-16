@@ -161,7 +161,7 @@ export default class Input extends Component {
   _handleBlur = (e) => {
     // Sets `focused` state to false so input errors will show if there is any
     this.setState({focused: false});
-    this._submitValue(e.target.value);
+    this._submitValue(e.target.value, e);
   }
 
 
@@ -173,7 +173,7 @@ export default class Input extends Component {
   _handleChange = (e) => {
     const value = e.target.value;
     this.setState({showLabel: Boolean(value === '')});
-    this._submitValue(value);
+    this._submitValue(value, e);
   }
 
 
@@ -188,7 +188,7 @@ export default class Input extends Component {
    */
   _handleFocus = (e) => {
     this.setState({focused: true});
-    this._submitValue(e.target.value);
+    this._submitValue(e.target.value, e);
   }
 
   /**
@@ -201,7 +201,7 @@ export default class Input extends Component {
       const {onEnterKeyPress} = this.props;
 
       if (onEnterKeyPress) onEnterKeyPress();
-      this._submitValue(e.target.value);
+      this._submitValue(e.target.value, e);
     }
   }
 
@@ -239,8 +239,9 @@ export default class Input extends Component {
    * are any
    * 
    * @param  {String} value - The value of the input field
+   * @param  {Object} e     - The event object that triggered the value submit
    */
-  _submitValue = (value) => {
+  _submitValue = (value, e) => {
     // If the input value doesn't match the regex we passed in, we're going to trigger an error callback
     const error = this._checkForError(value) || null;
     
@@ -248,7 +249,7 @@ export default class Input extends Component {
     const nestedErrorObj = this.props.errorKeys ? createNestedObject(this.props.errorKeys, error) : null;
     const nestedValueObj = this.props.successKeys ? createNestedObject(this.props.successKeys, value) : null;
 
-    this.props.onUpdate(value, error, nestedValueObj, nestedErrorObj);
+    this.props.onUpdate(value, error, nestedValueObj, nestedErrorObj, e);
   }
 
 }

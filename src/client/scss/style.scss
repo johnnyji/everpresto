@@ -53,7 +53,6 @@
 
 // Modals
 @import './modals/ModalCreateCollection';
-@import './modals/ModalCreatePlaceholder';
 @import './modals/ModalConfirm';
 @import './modals/ModalDocumentPreview';
 
@@ -72,6 +71,8 @@
 @import './shared/DocumentViewer';
 @import './shared/FileConverter';
 @import './shared/FormSidebar';
+@import './shared/FormSidebarBody';
+@import './shared/FormSidebarSection';
 @import './shared/FormSidebarTitle';
 @import './shared/Logo';
 @import './shared/MultiselectField';

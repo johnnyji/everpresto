@@ -5,7 +5,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import striptags from 'striptags';
 import CustomPropTypes from '.././CustomPropTypes';
 import {minLength, noLowerCase} from '../.././utils/RegexHelper';
-import TextEditorHelper from '../.././utils/TextEditorHelper';
+import {removeCaretPositionMarker, removeZeroWidthSpace} from '../.././utils/TextEditorHelper';
 
 import Button from '.././ui/Button';
 import Clickable from '.././ui/Clickable';
@@ -14,16 +14,17 @@ import Input from '.././ui/Input';
 import List from '.././ui/List';
 import ListItem from '.././ui/ListItem';
 import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
-import ModalCreatePlaceholder from '.././modals/ModalCreatePlaceholder';
 import ModalConfirm from '.././modals/ModalConfirm';
 import DocumentEditor from '.././shared/DocumentEditor';
-import FormSidebar from '.././shared/FormSidebar';
 import FileConverter from '.././shared/FileConverter';
+import FormSidebar from '.././shared/FormSidebar';
+import FormSidebarBody from '.././shared/FormSidebarBody';
+import FormSidebarSection from '.././shared/FormSidebarSection';
 
 import AppActionCreators from '../.././actions/AppActionCreators';
 import TemplateActionCreators from '../.././actions/TemplateActionCreators';
   
-const {removeCaretPositionMarker, removeZeroWidthSpace} = TextEditorHelper;
+const ENTER_KEY = 13;
 const displayName = 'TemplateEditorView';
 
 export default class TemplateEditorView extends Component {
@@ -99,21 +100,27 @@ export default class TemplateEditorView extends Component {
           titlePlaceholder='Untitled Template'
           title={template.get('title')}/>
         <FormSidebar className={`${displayName}-sidebar`}>
-          <FileConverter
-            label='Import Existing Template'
-            onEnd={this._handleTemplateUploadEnd}
-            onStart={this._handleTemplateUploadStart} />
-          <List className={`${displayName}-sidebar-placeholders`}>
-            <div className={`${displayName}-sidebar-placeholders-new`}>
-              <Clickable
-                className={`${displayName}-sidebar-placeholders-new-button`}
-                onClick={this._handleNewPlaceholder}>
-                <Icon icon='add' /> Add Placeholder
-              </Clickable>
-            </div>
-            {this._renderUnsavedPlaceholders()}
-            {this._renderPlaceholders()}
-          </List>
+          <FormSidebarBody>
+            <FormSidebarSection>
+              <FileConverter
+                label='Import Existing Template'
+                onEnd={this._handleTemplateUploadEnd}
+                onStart={this._handleTemplateUploadStart} />
+            </FormSidebarSection>
+            <FormSidebarSection>
+              <List className={`${displayName}-sidebar-placeholders`}>
+                <div className={`${displayName}-sidebar-placeholders-new`}>
+                  <Clickable
+                    className={`${displayName}-sidebar-placeholders-new-button`}
+                    onClick={this._handleNewPlaceholder}>
+                    <Icon icon='add' /> Add Placeholder
+                  </Clickable>
+                </div>
+                {this._renderUnsavedPlaceholders()}
+                {this._renderPlaceholders()}
+              </List>
+            </FormSidebarSection>
+          </FormSidebarBody>
           <Button
             color='green'
             icon='done'
@@ -196,7 +203,7 @@ export default class TemplateEditorView extends Component {
           label='ex. YOUR_PLACEHOLDER_HERE'
           liveError={true}
           onEnterKeyPress={(value) => this._saveUnsavedPlaceholder(placeholder)}
-          onUpdate={(value, err) => this._updateUnsavedPlaceholder(placeholder, value, err)}
+          onUpdate={(value, err, valObj, errObj, e) => this._updateUnsavedPlaceholder(placeholder, value, err, e)}
           patternMatches={[
             minLength(1, 'Your placeholder can\'t be empty!'),
             noLowerCase('Sorry, no lower case chars allowed!')
@@ -224,42 +231,27 @@ export default class TemplateEditorView extends Component {
     const firstFoundError = placeholder.get('errors').find((v, k) => !this.refs[k].valid());
     if (firstFoundError !== undefined) return;
 
-    const value = placeholder.getIn(['values', 'value']);
     const {template, unsavedPlaceholders} = this.state;
+    const value = placeholder.getIn(['values', 'value']);
     const indexInUnsavedPlaceholders = unsavedPlaceholders.findIndex((p) => p.get('id') === placeholder.get('id'));
-    const alreadyExistingPlaceholderValues = this.state.template.get('placeholders').find((p) => p.get('value') === value);
+    const alreadyExistingPlaceholderValues = template.get('placeholders').find((p) => p.get('value') === value);
     // If the placeholder is already taken, set the error on this placeholder
     if (alreadyExistingPlaceholderValues) {
       return this.setState({
-        unsavedPlaceholders: unsavedPlaceholders.splice(
-          indexInUnsavedPlaceholders,
-          1,
+        unsavedPlaceholders: unsavedPlaceholders.splice(indexInUnsavedPlaceholders, 1,
           placeholder.setIn(['errors', 'value'], 'This placeholder is already being used!')
         )
       });
     }
     // If the placeholder is correct, we remove it from the list of unsaved placeholders and add it
     // as a placeholder on the template
-    const hello = unsavedPlaceholders.delete(indexInUnsavedPlaceholders);
-    // TODO: Why is fuck isn't it dissapearing?
-    debugger;
     this.setState({
       template: template.set('placeholders', this._addPlaceholder(Immutable.fromJS({
         label: '',
         value
       }))),
-      unsavedPlaceholders: hello
+      unsavedPlaceholders: unsavedPlaceholders.delete(indexInUnsavedPlaceholders)
     });
-  };
-
-  _showAddPlaceholderModal = () => {
-    this.context.dispatch(
-      AppActionCreators.createModal(
-        <ModalCreatePlaceholder
-          onCreate={(placeholder) => this._updateTemplateAttr('placeholders', this._addPlaceholder(placeholder))}
-          placeholders={this.state.template.get('placeholders')}/>
-      )
-    );
   };
 
   _updateTemplateAttr = (attr, value) => {
@@ -268,7 +260,11 @@ export default class TemplateEditorView extends Component {
     });
   };
 
-  _updateUnsavedPlaceholder = (placeholder, value, error) => {
+  _updateUnsavedPlaceholder = (placeholder, value, error, e) => {
+    // If the enter key is hit, we don't want to update, instead we want to ignore
+    // because the placeholder will be sumitted instead in `this._saveUnsavedPlaceholder`
+    if (e.which === ENTER_KEY) return;
+
     const {unsavedPlaceholders} = this.state;
     const indexInUnsavedPlaceholders = unsavedPlaceholders.findIndex((p) => p.get('id') === placeholder.get('id'));
     let newPlaceholder = placeholder.setIn(['values', 'value'], value);

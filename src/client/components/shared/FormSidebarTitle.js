@@ -3,16 +3,19 @@ import classNames from 'classnames';
 
 const displayName = 'FormSidebarTitle';
 
-const FormSidebarTitle = ({children, className, title}) => {
-  const classes = classNames(className, displayName);
-  if (children) return <header className={classes}>{children}</header>;
-  return <header className={classes}>{title}</header>;
-};
+const FormSidebarTitle = ({className, title}) => (
+  <header className={classNames(className, displayName)}>
+    {title}
+  </header>
+);
 
 FormSidebarTitle.displayName = displayName;
 FormSidebarTitle.propTypes = {
   className: PropTypes.string,
-  title: PropTypes.string
+  title: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.string
+  ])
 };
 
 export default FormSidebarTitle;
