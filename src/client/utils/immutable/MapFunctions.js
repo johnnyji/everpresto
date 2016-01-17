@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import curry from 'lodash/function/curry';
 
 /**
  * A collection of curried functions on `Immutable.Map`

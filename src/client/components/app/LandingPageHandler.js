@@ -11,8 +11,8 @@ export default class LandingPageHandler extends Component {
 
   // React Router history
   static contextTypes = { 
-    history: PropTypes.object.isRequired,
-    location: PropTypes.object.isRequired
+    location: PropTypes.object.isRequired,
+    router: PropTypes.object.isRequired
   };
 
   static propTypes = {
@@ -22,7 +22,7 @@ export default class LandingPageHandler extends Component {
   componentWillMount() {
     if (Boolean(this.props.currentUser)) {
       // We replace state here so the user is authed, so the user can't navigate back to the landing page
-      this.context.history.replace('/dashboard');
+      this.context.router.replace('/dashboard');
     }
   }
 

@@ -34,7 +34,7 @@ export default class CollectionsIndex extends Component {
 
   static contextTypes = {
     dispatch: PropTypes.func.isRequired,
-    history: PropTypes.object.isRequired
+    router: PropTypes.object.isRequired
   };
 
   static propTypes = {
@@ -146,7 +146,7 @@ export default class CollectionsIndex extends Component {
   }
 
   _navigateNewTemplateView = () => {
-    this.context.history.push('/dashboard/templates/new');
+    this.context.router.push('/dashboard/templates/new');
   }
 
 }

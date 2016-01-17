@@ -15,7 +15,7 @@ export default class TemplatesEdit extends Component {
 
   static contextTypes = {
     dispatch: PropTypes.func.isRequired,
-    history: PropTypes.object.isRequired
+    router: PropTypes.object.isRequired
   };
 
   static propTypes = {
@@ -47,7 +47,7 @@ export default class TemplatesEdit extends Component {
           <span><b>{this.props.template.get('title')}</b> was successfully updated!</span>
         )
       );
-      this.context.history.push('/dashboard/templates');
+      this.context.router.push('/dashboard/templates');
     }
   }
 

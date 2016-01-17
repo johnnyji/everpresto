@@ -24,7 +24,7 @@ export default class TemplatesIndex extends Component {
   
   static contextTypes = {
     dispatch: PropTypes.func.isRequired,
-    history: PropTypes.object.isRequired
+    router: PropTypes.object.isRequired
   };
 
   static propTypes = {
@@ -42,7 +42,7 @@ export default class TemplatesIndex extends Component {
     const {shouldFetchTemplates, templateBeingEdited, templates} = nextProps;
 
     if (templateBeingEdited) {
-      return this.context.history.push(`/dashboard/templates/edit/${templateBeingEdited.get('_id')}`);
+      return this.context.router.push(`/dashboard/templates/edit/${templateBeingEdited.get('_id')}`);
     }
     if (shouldFetchTemplates) return this.context.dispatch(TemplateActionCreators.fetchTemplates());
   }
@@ -64,7 +64,7 @@ export default class TemplatesIndex extends Component {
   }
 
   _handleNewTemplate = () => {
-    this.context.history.push('/dashboard/templates/new');
+    this.context.router.push('/dashboard/templates/new');
   }
 
   _renderTemplatePreviews = () => {

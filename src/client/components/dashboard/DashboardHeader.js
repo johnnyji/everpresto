@@ -15,7 +15,7 @@ export default class DashboardHeader extends Component {
   // Allows for this.context.____ to assume the role of the React Router
   static contextTypes = {
     location: PropTypes.object.isRequired,
-    history: PropTypes.object.isRequired
+    router: PropTypes.object.isRequired
   };
 
   static propTypes = {
@@ -92,7 +92,7 @@ export default class DashboardHeader extends Component {
 
   _viewProfile = () => {
     this._hideProfileOptions();
-    this.context.history.push('/profile');
+    this.context.router.push('/profile');
   }
 
 }

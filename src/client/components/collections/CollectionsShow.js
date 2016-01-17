@@ -24,7 +24,7 @@ export default class CollectionsShow extends Component {
 
   static contextTypes = {
     dispatch: PropTypes.func.isRequired,
-    history: PropTypes.object.isRequired
+    router: PropTypes.object.isRequired
   };
 
   static propTypes = {
@@ -89,7 +89,7 @@ export default class CollectionsShow extends Component {
   }
 
   _handleCreateContract = () => {
-    this.context.history.push(`/dashboard/documents/${this.props.params.id}/new`);
+    this.context.router.push(`/dashboard/documents/${this.props.params.id}/new`);
   }
 
   _handleBatchCreateContract = () => {

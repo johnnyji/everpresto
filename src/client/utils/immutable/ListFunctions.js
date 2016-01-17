@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import curry from 'lodash/function/curry';
 import Immutable from 'immutable';
 
 /**
@@ -12,7 +12,7 @@ const ListFunctions = {
    * @param  {Immtutable.List} list - The list we're adding onto
    * @return {Immutable.List}       - The new list
    */
-  unshift: _.curry((item, list) => {
+  unshift: curry((item, list) => {
     if (Immutable.is(item)) return list.unshift(item);
     return list.unshift(Immutable.fromJS(item));
   })

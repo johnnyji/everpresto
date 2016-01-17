@@ -19,7 +19,7 @@ export default class TemplatesNew extends Component {
 
   static contextTypes = {
     dispatch: PropTypes.func.isRequired,
-    history: PropTypes.object.isRequired
+    router: PropTypes.object.isRequired
   };
 
   static propTypes = {
@@ -29,7 +29,7 @@ export default class TemplatesNew extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.templateCreated) {
       this.context.dispatch(AppActionCreators.createFlashMessage('green', 'Template successfully created!'));
-      this.context.history.push('/dashboard/templates');
+      this.context.router.push('/dashboard/templates');
     }
   }
 

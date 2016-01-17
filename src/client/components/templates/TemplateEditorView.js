@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import flow from 'lodash/function/flow';
 import uuid from 'node-uuid';
 import Immutable from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
@@ -24,6 +25,7 @@ import FormSidebarBody from '.././shared/FormSidebarBody';
 import FormSidebarSection from '.././shared/FormSidebarSection';
   
 const ENTER_KEY = 13;
+const cleanTemplateHTML = flow(removeZeroWidthSpace, removeCaretPositionMarker);
 const matchesId = matchesAttr('id');
 const matchesValue = matchesAttr('value');
 
@@ -148,10 +150,8 @@ export default class TemplateEditorView extends Component {
   };
 
   _handleSave = () => {
-    let {template} = this.state;
-
     // Strips away the zero-width spaces and the caret markers in the text
-    template = this.state.template.set('body', removeCaretPositionMarker(removeZeroWidthSpace(template.get('body'))));
+    template = this.state.template.set('body', cleanTemplateHTML(template.get('body')));
     // Strips the HTML from the text to give just the raw body
     template = template.set('rawText', striptags(template.get('body')));
 
@@ -261,14 +261,13 @@ export default class TemplateEditorView extends Component {
     if (e.which === ENTER_KEY) return;
 
     const {unsavedPlaceholders} = this.state;
-    let newPlaceholder = placeholder.setIn(['values', 'value'], value);
-    newPlaceholder = newPlaceholder.setIn(['errors', 'value'], error);
 
+    // Updates the placeholder currently being altered in the list of unsavedPlaceholders
     this.setState({
       unsavedPlaceholders: unsavedPlaceholders.splice(
         unsavedPlaceholders.findIndex(matchesId(placeholder.get('id'))),
         1,
-        newPlaceholder
+        placeholder.merge({values: {value}, errors: {error}})
       )
     })
   };

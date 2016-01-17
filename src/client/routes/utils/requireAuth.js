@@ -8,7 +8,7 @@ export default function requireAuth(ComposedComponent) {
   class AuthComponent extends Component {
 
     static contextTypes = {
-      history: PropTypes.object.isRequired
+      router: PropTypes.object.isRequired
     };
 
     static propTypes = {
@@ -19,12 +19,12 @@ export default function requireAuth(ComposedComponent) {
       if (!Boolean(this.props.currentUser)) {
         // Here we `push` and not `replace` so the user has the option to
         // navigate back to previous content if they wish
-        return this.context.history.push('/join');
+        return this.context.router.push('/join');
       }
     }
 
     componentWillUpdate(nextProps, nextState) {
-      if (!nextProps.currentUser) this.context.history.replace('/');
+      if (!nextProps.currentUser) this.context.router.replace('/');
     }
 
     render() {

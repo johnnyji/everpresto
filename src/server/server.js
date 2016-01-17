@@ -11,7 +11,7 @@ import morgan from 'morgan';
 import React from 'react';
 import Immutable from 'immutable';
 import {renderToString} from 'react-dom/server';
-import {match, RoutingContext} from 'react-router';
+import {match, RouterContext} from 'react-router';
 import clientRoutes from './../client/routes/routes';
 import createBrowserHistory from 'history/lib/createBrowserHistory';
 import NotFoundHandler from './../client/components/shared/NotFoundHandler';
@@ -129,7 +129,7 @@ app.use((req, res) => {
           `;
           const componentToRender = renderToString(
             <Provider store={store}>
-              <RoutingContext {...renderProps}/>
+              <RouterContext {...renderProps}/>
             </Provider>
           );
 

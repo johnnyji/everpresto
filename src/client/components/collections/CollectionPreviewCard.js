@@ -21,7 +21,7 @@ export default class CollectionPreviewCard extends Component {
 
   static contextTypes = {
     dispatch: PropTypes.func.isRequired,
-    history: PropTypes.object.isRequired
+    router: PropTypes.object.isRequired
   };
 
   static propTypes = {
@@ -89,7 +89,7 @@ export default class CollectionPreviewCard extends Component {
   }
 
   _handleEnterCollection = () => {
-    this.context.history.push(`/dashboard/collections/${this.props.collection.get('_id')}`);
+    this.context.router.push(`/dashboard/collections/${this.props.collection.get('_id')}`);
   }
 
   _handleDeleteCollection = () => {

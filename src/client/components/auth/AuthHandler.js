@@ -15,8 +15,8 @@ export default class AuthHandler extends Component {
 
   // Gets the location from the route component
   static contextTypes = {
-    history: PropTypes.object.isRequired,
-    location: PropTypes.object.isRequired
+    location: PropTypes.object.isRequired,
+    router: PropTypes.object.isRequired
   };
 
   static propTypes = {
@@ -26,13 +26,13 @@ export default class AuthHandler extends Component {
   componentWillMount() {
     // Redirects the user to the dashboard if they're already authenticated.
     if (Boolean(this.props.currentUser)) {
-      this.context.history.replace('/dashboard');
+      this.context.router.replace('/dashboard');
     }
   }
 
   componentWillUpdate(nextProps) {
     // If the user props are different, we redirect accordingly
-    if (nextProps.currentUser) return this.context.history.replace('/dashboard');
+    if (nextProps.currentUser) return this.context.router.replace('/dashboard');
     this.context.histroy.replace('/');
   }
 
