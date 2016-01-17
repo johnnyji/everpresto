@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import curry from 'lodash/function/curry';
 
 /**
  * A collection of util functions on `Immutable.js` iterables
@@ -21,7 +21,7 @@ const IterableFunctions = {
    * @param  {Immutable.Map} predicate       - The predicate we're trying to match
    * @return {Boolean}                       - Whether or not the attribute on the predicate matches the matcher
    */
-  matchesAttr: _.curry((attr, matcher, predicate) => {
+  matchesAttr: curry((attr, matcher, predicate) => {
     if (!predicate.has(attr)) return false;
     return predicate.get(attr) === matcher;
   }),

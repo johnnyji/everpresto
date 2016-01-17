@@ -151,7 +151,7 @@ export default class TemplateEditorView extends Component {
 
   _handleSave = () => {
     // Strips away the zero-width spaces and the caret markers in the text
-    template = this.state.template.set('body', cleanTemplateHTML(template.get('body')));
+    let template = this.state.template.set('body', cleanTemplateHTML(this.state.template.get('body')));
     // Strips the HTML from the text to give just the raw body
     template = template.set('rawText', striptags(template.get('body')));
 

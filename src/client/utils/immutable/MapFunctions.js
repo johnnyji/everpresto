@@ -10,7 +10,7 @@ const MapFunctions = {
    * @param  {String} attr                   - The name of the attribute on the predicate
    * @param  {Immutable.Map} predicate       - The map in question
    */
-  getAttr: _.curry((attr, predicate) => {
+  getAttr: curry((attr, predicate) => {
     return predicate.get(attr);
   })
   
