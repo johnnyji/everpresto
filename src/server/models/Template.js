@@ -22,10 +22,6 @@ const TemplateSchema = new Schema({
     required: 'Your template can\'t be empty silly!'
   },
   placeholders: [{
-    label: {
-      type: String,
-      required: 'Please make sure all placeholders have labels'
-    },
     value: {
       type: String,
       required: 'Please make sure all placeholders have values'

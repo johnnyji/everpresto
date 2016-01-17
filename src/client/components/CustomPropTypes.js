@@ -29,7 +29,6 @@ const CustomPropTypes = {
     createdAt: PropTypes.string.isRequired,
     placeholders: ImmutablePropTypes.listOf(
       ImmutablePropTypes.contains({
-        label: PropTypes.string.isRequired,
         value: PropTypes.string.isRequired
       })
     ).isRequired,

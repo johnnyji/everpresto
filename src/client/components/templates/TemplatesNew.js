@@ -2,11 +2,11 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import Immutable from 'immutable';
+import ModalConfirm from '.././modals/ModalConfirm';
+import TemplateEditorView from './TemplateEditorView';
+
 import AppActionCreators from '../.././actions/AppActionCreators';
 import TemplateActionCreators from '../.././actions/TemplateActionCreators';
-
-import TemplateEditorView from './TemplateEditorView';
-import ModalConfirm from '.././modals/ModalConfirm';
 
 const displayName = 'TemplatesNew';
 
@@ -26,19 +26,6 @@ export default class TemplatesNew extends Component {
     templateCreated: PropTypes.bool.isRequired
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      template: Immutable.fromJS({
-        body: '',
-        placeholders: [],
-        title: ''
-      }),
-      importingTemplate: false
-    };
-  }
-
-
   componentDidUpdate(prevProps, prevState) {
     if (this.props.templateCreated) {
       this.context.dispatch(AppActionCreators.createFlashMessage('green', 'Template successfully created!'));
@@ -53,30 +40,26 @@ export default class TemplatesNew extends Component {
   }
 
   render() {
-    const {template} = this.state;
-    const placeholderValues = template.get('placeholders').map((placeholder) => placeholder.get('value'));
-
-    return (
-      <TemplateEditorView
-        onSave={this._validateTemplate}
-        template={template}/>
-    );
+    return <TemplateEditorView onSave={this._validateTemplate}/>;
   }
 
   _createError = (message) => {
     this.context.dispatch(AppActionCreators.createFlashMessage('red', message));
-  }
+  };
+
+  _createTemplate = (template) => {
+    this.context.dispatch(TemplateActionCreators.createTemplate(template.toJS()));
+  };
 
   _validateTemplate = (template) => {
-
     if (template.get('title').length === 0) return this._createError('Please provide a title for your template!');
-    if (template.get('rawText').length === 0) return this._createError('Your template can\'t be blank, duh...');
+    if (template.get('rawText').length === 0) return this._createError('Your template can\'t be blank!');
     if (template.get('placeholders').size === 0) {
       return this.context.dispatch(
         AppActionCreators.createModal(
           <ModalConfirm
             confirmText='Yes, go ahead!'
-            onConfirm={() => this._createTemplate(rawText)}>
+            onConfirm={() => this._createTemplate(template)}>
             It looks like you have no placeholders. Are you sure you want to create a template 
             widthout placeholders? - kinda defeats the purpose of a template... Just sayin'
           </ModalConfirm>
@@ -85,7 +68,7 @@ export default class TemplatesNew extends Component {
     }
 
     // If all validations pass, we create the template
-    this.context.dispatch(TemplateActionCreators.createTemplate(template.toJS()));
-  }
+    this._createTemplate(template);
+  };
 
 }

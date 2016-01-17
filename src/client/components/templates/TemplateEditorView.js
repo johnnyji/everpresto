@@ -7,7 +7,7 @@ import CustomPropTypes from '.././CustomPropTypes';
 import {minLength, noLowerCase} from '../.././utils/RegexHelper';
 import {removeCaretPositionMarker, removeZeroWidthSpace} from '../.././utils/TextEditorHelper';
 import {isTruthy, matchesAttr} from '../.././utils/immutable/IterableFunctions';
-import {unshift} from '../.././utils/immutable/IterableFunctions';
+import {unshift} from '../.././utils/immutable/ListFunctions';
 import {getAttr} from '../.././utils/immutable/MapFunctions';
 
 import Button from '.././ui/Button';
@@ -17,15 +17,11 @@ import Input from '.././ui/Input';
 import List from '.././ui/List';
 import ListItem from '.././ui/ListItem';
 import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
-import ModalConfirm from '.././modals/ModalConfirm';
 import DocumentEditor from '.././shared/DocumentEditor';
 import FileConverter from '.././shared/FileConverter';
 import FormSidebar from '.././shared/FormSidebar';
 import FormSidebarBody from '.././shared/FormSidebarBody';
 import FormSidebarSection from '.././shared/FormSidebarSection';
-
-import AppActionCreators from '../.././actions/AppActionCreators';
-import TemplateActionCreators from '../.././actions/TemplateActionCreators';
   
 const ENTER_KEY = 13;
 const matchesId = matchesAttr('id');
@@ -54,11 +50,9 @@ export default class TemplateEditorView extends Component {
   // unsavedPlaceholders: {
   //   id: '412o4u104u13401240912302013'
   //   values: {
-  //     label: '',
   //     value: ''
   //   },
   //   errors: {
-  //     label: null,
   //     value: null
   //   }
   // }
@@ -250,10 +244,7 @@ export default class TemplateEditorView extends Component {
     // If the placeholder is correct, we remove it from the list of unsaved placeholders and add it
     // as a placeholder on the template
     this.setState({
-      template: template.update('placeholders', unshift({
-        label: '',
-        value: placeholderValue
-      })),
+      template: template.update('placeholders', unshift({value: placeholderValue})),
       unsavedPlaceholders: unsavedPlaceholders.delete(indexInUnsavedPlaceholders)
     });
   };

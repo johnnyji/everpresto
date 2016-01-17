@@ -1,5 +1,8 @@
 import Immutable from 'immutable';
 import TemplateActionTypes from '.././action_types/TemplateActionTypes';
+import {matchesAttr} from '.././utils/immutable/IterableFunctions';
+
+const matchesId = matchesAttr('_id');
 
 const {
   ADD_PLACEHOLDER,
@@ -33,7 +36,7 @@ export default function templatesReducer(state = initialState, action) {
     case DELETE_TEMPLATE_SUCCESS:
       return state.update('templates', (templates) => {
         return templates.delete(
-          templates.findIndex((template) => template.get('_id') === action.data.deletedTemplateId)
+          templates.findIndex(matchesId(action.data.deletedTemplateId))
         );
       }); 
 
