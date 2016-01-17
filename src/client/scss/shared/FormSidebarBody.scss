@@ -2,5 +2,5 @@
   @include display(flex);
   @include flex-flow(column wrap);
   @include flex-grow(1);
-  overflow-y: scroll;
+  height: 100px;
 }

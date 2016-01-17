@@ -108,6 +108,7 @@ body {
   font-family: 'Roboto', sans-serif;
   font-weight: 400;
   min-height: 100vh;
+  // min-height: $app-content-min-height;
   min-width: $app-content-min-width;
   overflow-x: hidden;
 }

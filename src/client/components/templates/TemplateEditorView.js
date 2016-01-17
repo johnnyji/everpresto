@@ -6,6 +6,9 @@ import striptags from 'striptags';
 import CustomPropTypes from '.././CustomPropTypes';
 import {minLength, noLowerCase} from '../.././utils/RegexHelper';
 import {removeCaretPositionMarker, removeZeroWidthSpace} from '../.././utils/TextEditorHelper';
+import {isTruthy, matchesAttr} from '../.././utils/immutable/IterableFunctions';
+import {unshift} from '../.././utils/immutable/IterableFunctions';
+import {getAttr} from '../.././utils/immutable/MapFunctions';
 
 import Button from '.././ui/Button';
 import Clickable from '.././ui/Clickable';
@@ -25,6 +28,9 @@ import AppActionCreators from '../.././actions/AppActionCreators';
 import TemplateActionCreators from '../.././actions/TemplateActionCreators';
   
 const ENTER_KEY = 13;
+const matchesId = matchesAttr('id');
+const matchesValue = matchesAttr('value');
+
 const displayName = 'TemplateEditorView';
 
 export default class TemplateEditorView extends Component {
@@ -84,9 +90,8 @@ export default class TemplateEditorView extends Component {
   }
 
   render() {
-    const {template, unsavedPlaceholders} = this.state;
+    const {importingTemplate, template, unsavedPlaceholders} = this.state;
     const {mode} = this.props;
-    const placeholderValues = template.get('placeholders').map((placeholder) => placeholder.get('value'));
 
     return (
       <DashboardContentWrapper className={displayName}>
@@ -96,22 +101,22 @@ export default class TemplateEditorView extends Component {
           isTemplateEditor={true}
           onBodyChange={(value) => this._updateTemplateAttr('body', value)}
           onTitleChange={(value) => this._updateTemplateAttr('title', value)}
-          templatePlaceholders={placeholderValues}
+          templatePlaceholders={template.get('placeholders').map(getAttr('value'))}
           titlePlaceholder='Untitled Template'
           title={template.get('title')}/>
         <FormSidebar className={`${displayName}-sidebar`}>
           <FormSidebarBody>
             <FormSidebarSection>
               <FileConverter
-                label='Import Existing Template'
+                label={importingTemplate ? 'Importing...' : 'Import Existing Template'}
                 onEnd={this._handleTemplateUploadEnd}
                 onStart={this._handleTemplateUploadStart} />
             </FormSidebarSection>
-            <FormSidebarSection>
-              <List className={`${displayName}-sidebar-placeholders`}>
-                <div className={`${displayName}-sidebar-placeholders-new`}>
+            <FormSidebarSection className={`${displayName}-sidebar-placeholders`}>
+              <List className={`${displayName}-sidebar-placeholders-list`}>
+                <div className={`${displayName}-sidebar-placeholders-list-new`}>
                   <Clickable
-                    className={`${displayName}-sidebar-placeholders-new-button`}
+                    className={`${displayName}-sidebar-placeholders-list-new-button`}
                     onClick={this._handleNewPlaceholder}>
                     <Icon icon='add' /> Add Placeholder
                   </Clickable>
@@ -130,10 +135,6 @@ export default class TemplateEditorView extends Component {
       </DashboardContentWrapper>
     );
   }
-
-  _addPlaceholder = (newPlaceholder) => {
-    return this.state.template.get('placeholders').unshift(newPlaceholder);
-  };
 
   _handleNewPlaceholder = () => {
     // Adds a blank placeholder to the list
@@ -181,9 +182,11 @@ export default class TemplateEditorView extends Component {
 
   _removeUnsavedPlaceholder = (placeholder) => {
     const {unsavedPlaceholders} = this.state;
-    const indexInUnsavedPlaceholders = unsavedPlaceholders.findIndex((p) => p.get('id') === placeholder.get('id'));
+
     this.setState({
-      unsavedPlaceholders: unsavedPlaceholders.delete(indexInUnsavedPlaceholders)
+      unsavedPlaceholders: unsavedPlaceholders.delete(
+        unsavedPlaceholders.findIndex(matchesId(placeholder.get('id')))
+      )
     });
   };
 
@@ -228,15 +231,16 @@ export default class TemplateEditorView extends Component {
 
   _saveUnsavedPlaceholder = (placeholder) => {
     // If this unsaved placeholder has an error, we don't save it
-    const firstFoundError = placeholder.get('errors').find((v, k) => !this.refs[k].valid());
+    const firstFoundError = placeholder.get('errors').find(isTruthy);
     if (firstFoundError !== undefined) return;
 
     const {template, unsavedPlaceholders} = this.state;
-    const value = placeholder.getIn(['values', 'value']);
-    const indexInUnsavedPlaceholders = unsavedPlaceholders.findIndex((p) => p.get('id') === placeholder.get('id'));
-    const alreadyExistingPlaceholderValues = template.get('placeholders').find((p) => p.get('value') === value);
+
+    const placeholderValue = placeholder.getIn(['values', 'value']);
+    const indexInUnsavedPlaceholders = unsavedPlaceholders.findIndex(matchesId(placeholder.get('id')));
+
     // If the placeholder is already taken, set the error on this placeholder
-    if (alreadyExistingPlaceholderValues) {
+    if (template.get('placeholders').find(matchesValue(placeholderValue))) {
       return this.setState({
         unsavedPlaceholders: unsavedPlaceholders.splice(indexInUnsavedPlaceholders, 1,
           placeholder.setIn(['errors', 'value'], 'This placeholder is already being used!')
@@ -246,10 +250,10 @@ export default class TemplateEditorView extends Component {
     // If the placeholder is correct, we remove it from the list of unsaved placeholders and add it
     // as a placeholder on the template
     this.setState({
-      template: template.set('placeholders', this._addPlaceholder(Immutable.fromJS({
+      template: template.update('placeholders', unshift({
         label: '',
-        value
-      }))),
+        value: placeholderValue
+      })),
       unsavedPlaceholders: unsavedPlaceholders.delete(indexInUnsavedPlaceholders)
     });
   };
@@ -266,12 +270,15 @@ export default class TemplateEditorView extends Component {
     if (e.which === ENTER_KEY) return;
 
     const {unsavedPlaceholders} = this.state;
-    const indexInUnsavedPlaceholders = unsavedPlaceholders.findIndex((p) => p.get('id') === placeholder.get('id'));
     let newPlaceholder = placeholder.setIn(['values', 'value'], value);
     newPlaceholder = newPlaceholder.setIn(['errors', 'value'], error);
 
     this.setState({
-      unsavedPlaceholders: unsavedPlaceholders.splice(indexInUnsavedPlaceholders, 1, newPlaceholder)
+      unsavedPlaceholders: unsavedPlaceholders.splice(
+        unsavedPlaceholders.findIndex(matchesId(placeholder.get('id'))),
+        1,
+        newPlaceholder
+      )
     })
   };
 
