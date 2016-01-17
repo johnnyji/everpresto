@@ -1,4 +1,3 @@
-import createBrowserHistory from 'history/lib/createBrowserHistory';
 import {applyMiddleware, combineReducers, compose, createStore} from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import createLogger from 'redux-logger';

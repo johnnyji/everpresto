@@ -1,4 +1,4 @@
-import curry from 'lodash/function/curry';
+import curry from 'lodash/curry';
 import Immutable from 'immutable';
 
 /**

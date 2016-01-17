@@ -13,7 +13,6 @@ import Immutable from 'immutable';
 import {renderToString} from 'react-dom/server';
 import {match, RouterContext} from 'react-router';
 import clientRoutes from './../client/routes/routes';
-import createBrowserHistory from 'history/lib/createBrowserHistory';
 import NotFoundHandler from './../client/components/shared/NotFoundHandler';
 
 // REDUX

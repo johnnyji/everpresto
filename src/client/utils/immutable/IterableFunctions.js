@@ -1,4 +1,4 @@
-import curry from 'lodash/function/curry';
+import curry from 'lodash/curry';
 
 /**
  * A collection of util functions on `Immutable.js` iterables

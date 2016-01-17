@@ -3,10 +3,9 @@ import './scss/style.scss';
 
 import React from 'react';
 import {render} from 'react-dom';
-import Router from 'react-router';
+import Router, {browserHistory} from 'react-router';
 import {Provider} from 'react-redux';
 import {fromJS} from 'immutable';
-import createBrowserHistory from 'history/lib/createBrowserHistory';
 
 import routes from './routes/routes';
 
@@ -25,7 +24,7 @@ const store = configureStore(initialStoreState);
 // Renders the router client side
 render((
   <Provider store={store}>
-    <Router history={createBrowserHistory()}>
+    <Router history={browserHistory}>
       {routes}
     </Router>
   </Provider>

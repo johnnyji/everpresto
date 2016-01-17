@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import flow from 'lodash/function/flow';
+import flow from 'lodash/flow';
 import uuid from 'node-uuid';
 import Immutable from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
