@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
+import {sample} from 'lodash/sample';
 import classNames from 'classnames';
-import _ from 'lodash';
 
 const displayName = 'Quote';
 
@@ -40,7 +40,7 @@ export default class Quote extends Component {
 
     return (
       <span className={classes}>
-        {_.sample(quotes[category])}
+        {sample(quotes[category])}
       </span>
     );
   }

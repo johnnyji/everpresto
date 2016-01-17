@@ -1,5 +1,5 @@
-import _ from 'lodash';
 import mongoose from 'mongoose';
+import {set} from 'lodash/set';
 import {toObjects} from '.././routes/utils/ResponseHelper';
 // Models must be imported from their direct source file due to cross-model dependency issues. See README
 import Document from './Document';
@@ -51,7 +51,7 @@ CollectionSchema.statics.findWithDocuments = function(stringId) {
         if (err) return reject(err);
         // Sets the the collection's documents as an attribute on the collection
         // and returns the collection
-        resolve(_.set(collection.toObject(), 'documents', toObjects(documents)));
+        resolve(set(collection.toObject(), 'documents', toObjects(documents)));
       });
     });
   });

@@ -10,8 +10,7 @@ import CustomPropTypes from '.././CustomPropTypes';
 export default class LandingPageHandler extends Component {
 
   // React Router history
-  static contextTypes = { 
-    location: PropTypes.object.isRequired,
+  static contextTypes = {
     router: PropTypes.object.isRequired
   };
 
@@ -21,7 +20,7 @@ export default class LandingPageHandler extends Component {
 
   componentWillMount() {
     if (Boolean(this.props.currentUser)) {
-      // We replace state here so the user is authed, so the user can't navigate back to the landing page
+      // We replace state here when the user is authed, so the user can't navigate back to the landing page
       this.context.router.replace('/dashboard');
     }
   }

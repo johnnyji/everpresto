@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import {set} from 'lodash/set';
 import mongoose from 'mongoose';
 import xss from 'xss';
 
@@ -43,7 +43,7 @@ TemplateSchema.statics.createTemplate = function(data) {
   return new Promise((resolve, reject) => {
     // Sanitizes the HTML text to remove any malicious tags
     // TODO: Find way to keep classes and ids (only remove script tags)
-    const sanitizedData = _.set(data, 'body', xss(data.body));
+    const sanitizedData = set(data, 'body', xss(data.body));
 
     // Whitelist attributes
     this.create({
@@ -63,7 +63,7 @@ TemplateSchema.statics.createTemplate = function(data) {
 TemplateSchema.statics.updateTemplate = function(stringId, data) {
   return new Promise((resolve, reject) => {
     // Sanitizes the HTML text to remove any malicious tags
-    const sanitizedData = _.set(data, 'body', xss(data.body));
+    const sanitizedData = set(data, 'body', xss(data.body));
 
     this.findByIdAndUpdate(
       ObjectId(stringId),

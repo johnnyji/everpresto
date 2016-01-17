@@ -15,7 +15,6 @@ export default class AuthHandler extends Component {
 
   // Gets the location from the route component
   static contextTypes = {
-    location: PropTypes.object.isRequired,
     router: PropTypes.object.isRequired
   };
 
@@ -24,23 +23,22 @@ export default class AuthHandler extends Component {
   };
 
   componentWillMount() {
+    const {currentUser, location} = this.props;
     // Redirects the user to the dashboard if they're already authenticated.
-    if (Boolean(this.props.currentUser)) {
-      this.context.router.replace('/dashboard');
-    }
+    if (Boolean(currentUser)) location.replace('/dashboard');
   }
 
   componentWillUpdate(nextProps) {
     // If the user props are different, we redirect accordingly
     if (nextProps.currentUser) return this.context.router.replace('/dashboard');
-    this.context.histroy.replace('/');
+    this.context.router.replace('/');
   }
 
   render() {
-    const path = this.context.location.pathname;
+    debugger;
     // Returns the registration form if the route path is '/join', otherwise
     // returns the login form by default.
-    if (path === '/join') return <RegistrationForm />;
+    if (this.props.location.pathname === '/join') return <RegistrationForm />;
     return <LoginForm />;
   }
 }
