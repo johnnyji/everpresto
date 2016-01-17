@@ -37,8 +37,23 @@ const AuthActionCreators = {
     };
   },
 
-  login(data) {
+  login(user) {
+    return (dispatch) => {
+      sendAjaxRequest({
+        method: apiEndpoints.users.login.method,
+        url: apiEndpoints.users.login.path
+      })
+        .then((response) => dispatch(this.loginSuccess(response.data)))
+        .catch((response) => createFlashMessage('red', response.data.message));
+    };
+  },
 
+  loginSuccess(data) {
+    debugger;
+    return {
+      type: AuthActionTypes.LOGIN_SUCCESS,
+      data: {user: data}
+    };
   },
 
   logout(data) {

@@ -21,7 +21,7 @@ export default class LoginForm extends Component {
     this.state = {
       user: Immutable.fromJS({
         values: {
-          email: ''
+          email: '',
           password: ''
         },
         errors: {

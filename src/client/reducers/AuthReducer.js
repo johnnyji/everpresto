@@ -2,7 +2,8 @@ import Immutable from 'immutable';
 import AuthActionTypes from '.././action_types/AuthActionTypes';
 
 const {
-  CREATE_COMPANY_WITH_USER_SUCCESS} = AuthActionTypes;
+  CREATE_COMPANY_WITH_USER_SUCCESS,
+  LOGIN_SUCCESS} = AuthActionTypes;
 
 const initialState = Immutable.fromJS({
   company: null,
