@@ -4,6 +4,8 @@ import {Link} from 'react-router';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import CustomPropTypes from '.././CustomPropTypes';
 
+import Clickable from '.././ui/Clickable';
+
 @connect((state) => ({
   currentUser: state.auth.get('user')
 }))
@@ -28,10 +30,15 @@ export default class LandingPageHandler extends Component {
   render () {
     return (
       <div>
+        <Clickable onClick={this._handleLoginView}>Login</Clickable>
         <h1>Tickit</h1>
         <p>Track and manage time, the better way.</p>
         <Link to='/join'>Try for free!</Link>
       </div>
     );
+  }
+
+  _handleLoginView = () => {
+    this.context.router.push('/login');
   }
 }

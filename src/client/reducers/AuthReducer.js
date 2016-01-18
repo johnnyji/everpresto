@@ -16,8 +16,16 @@ export default function authReducer(state = initialState, action) {
   switch (action.type) {
     // When a company is successfully created with it's first user
     case CREATE_COMPANY_WITH_USER_SUCCESS:
-      const {company, user} = action.data;
-      return state.merge({company, user});
+      return state.merge({
+        company: action.data.company,
+        user: action.data.user
+      });
+
+    case LOGIN_SUCCESS:
+      return state.merge({
+        company: action.data.company,
+        user: action.data.user
+      });
 
     // Default
     default:

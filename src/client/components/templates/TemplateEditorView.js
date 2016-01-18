@@ -16,9 +16,7 @@ import FormSidebarBody from '.././shared/FormSidebarBody';
 import FormSidebarPlaceholderInput from '.././shared/FormSidebarPlaceholderInput';
 import FormSidebarSection from '.././shared/FormSidebarSection';
   
-const ENTER_KEY = 13;
 const cleanTemplateHTML = flow(removeZeroWidthSpace, removeCaretPositionMarker);
-
 const displayName = 'TemplateEditorView';
 
 export default class TemplateEditorView extends Component {

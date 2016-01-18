@@ -10,6 +10,7 @@ import Input from '.././ui/Input';
 import List from '.././ui/List';
 import ListItem from '.././ui/ListItem';
 
+const ENTER_KEY = 13;
 const matchesValue = matchesAttr('value');
 const displayName = 'FormSidebarPlaceholderInput';
 
@@ -38,13 +39,15 @@ export default class FormSidebarPlaceholderInput extends Component {
   }
 
   render() {
+    const {unsavedPlaceholder} = this.state;
+
     return (
       <List className={`${displayName}-sidebar-placeholders-list`}>
         <Input
           autoFocus={true}
           className={`${displayName}-sidebar-placeholders-list-input`}
-          defaultValue={placeholder.getIn(['values', 'value'])}
-          error={placeholder.getIn(['errors', 'value'])}
+          defaultValue={unsavedPlaceholder.getIn(['values', 'value'])}
+          error={unsavedPlaceholder.getIn(['errors', 'value'])}
           errorKeys='errors:value'
           label='ex. YOUR_PLACEHOLDER_HERE'
           onEnterKeyPress={this._saveUnsavedPlaceholder}

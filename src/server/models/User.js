@@ -64,6 +64,25 @@ UserSchema.set('toObject', {
 });
 
 
+UserSchema.statics.authenticate = function(conditions) {
+  return new Promise((resolve, reject) => {
+    this.findOne(conditions, (err, user) => {
+      if (err) return reject('Oops! Invalid email or password... or both.');
+      if (!user) return reject(`Sorry! No user found.`);
+      // Finds the company associated with the user we just found
+      Company.findById(user._company, (err, company) => {
+        if (err) return reject(err);
+        if (!company) return reject('We couldn\'t find a company associated to this user');
+        // Returns the found user and company
+        resolve({
+          company: company.toObject(),
+          user: user.toObject()
+        });
+      });
+    });
+  });
+};
+
 // Used in `server.js`, must use `bluebird` Promise to access `finally` method.
 UserSchema.statics.findWithCompany = function(stringId) {
   return new Promise((resolve, reject) => {
@@ -77,16 +96,19 @@ UserSchema.statics.findWithCompany = function(stringId) {
         if (err) return reject(err);
         if (!company) return reject(`No company found from id: ${user._company.toString()}`);
         // Returns the found user and company
-        resolve({company, user: user.toObject()});
+        resolve({
+          company: company.toObject(),
+          user: user.toObject()
+        });
       });
     });
   });
-}
+};
 
 // Finds a user WITHOUT the password and hash
 UserSchema.statics.findUser = function(conditions, notFoundMessage = 'No user found') {
   return new Promise((resolve, reject) => {
-    this.findOne(conditions, (err, user) => {
+    this.find(conditions, (err, user) => {
       if (err) return reject(err);
       if (!user) return reject(notFoundMessage);
       resolve(user.toObject());
@@ -97,13 +119,13 @@ UserSchema.statics.findUser = function(conditions, notFoundMessage = 'No user fo
 // Finds multiple users WITHOUT the password and hash
 UserSchema.statics.findUsers = function(conditions, notFoundMessage = 'No users found') {
   return new Promise((resolve, reject) => {
-    this.find(conditions, (err, users) => {
+    this.findOne(conditions, (err, users) => {
       if (err) return reject(err);
       if (!Boolean(users)) return reject(notFoundMessage);
       resolve(users.map((user) => user.toObject()));
     });
   });
-}
+};
 
 UserSchema.statics.register = function(companyObjectId, data, clearanceLevel) {
   return new Promise((resolve, reject) => {
@@ -123,6 +145,6 @@ UserSchema.statics.register = function(companyObjectId, data, clearanceLevel) {
       resolve(user.toObject());
     });
   });
-}
+};
 
 export default mongoose.model('User', UserSchema);

@@ -46,24 +46,24 @@ export default class LoginForm extends Component {
           <Input
             autoFocus={true}
             className={`${displayName}-input`}
-            error={user.getIn(['errors', 'username'])}
-            errorKeys='errors:username'
+            error={user.getIn(['errors', 'email'])}
+            errorKeys='errors:email'
             label='youremail@domain.com'
             onEnterKeyPress={this._handleLogin}
-            onUpdate={this._handleLogin}
+            onUpdate={this._handleInputUpdate}
             patternMatches={email('Hmmm, are you sure that\'s your email?')}
             ref='email'
-            successKeys='values:username'/>
+            successKeys='values:email'/>
           <Input
             className={`${displayName}-input`}
             error={user.getIn(['errors', 'password'])}
-            errorKeys='user:errors:password'
+            errorKeys='errors:password'
             label='*************'
             onEnterKeyPress={this._handleLogin}
             onUpdate={this._handleInputUpdate}
             patternMatches={minLength(1, 'Don\'t forget to enter a password!')}
             ref='password'
-            successKeys='user:values:password'
+            successKeys='values:password'
             type={showPassword ? 'text' : 'password'}/>
           <label>
             <input
