@@ -8,6 +8,7 @@ const router = express.Router();
 
 // Authenticates the user and stores the appropriate userId into the session
 router.post('/login', (req, res, next) => {
+  debugger;
   const {email, password} = req.body.user;
 
   User.findUser({email, password}, 'Oops! Wrong username or password...')

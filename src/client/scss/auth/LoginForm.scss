@@ -1,5 +1,15 @@
 .LoginForm {
+  @extend .center-absolute;
+  width: 400px;
+  height: 400px;
+  div > .ui-Card {
+    @include display(flex);
+    @include flex-flow(column wrap);
+  }
   &-input {
 
+  }
+  &-submit-button {
+    @include align-self(flex-end);
   }
 }
