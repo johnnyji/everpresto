@@ -99,6 +99,14 @@ export default class Input extends Component {
   }
 
   /**
+   * Sets the input field back to it's original state
+   */
+  clear = () => {
+    this.refs['input'].value = '';
+    this.setState({showLabel: true});
+  };
+
+  /**
    * Returns whether or not the input field value is valid
    * 
    * @return {Boolean} - The validity of the field
@@ -106,7 +114,7 @@ export default class Input extends Component {
   valid = () => {
     const value = this.props.value || this.refs['input'].value;
     return this.props.error === null && this._checkForError(value) === undefined;
-  }
+  };
 
 
   /**
@@ -116,7 +124,7 @@ export default class Input extends Component {
    */
   getError = () => {
     return this.props.error;
-  }
+  };
 
 
   /**
@@ -126,7 +134,7 @@ export default class Input extends Component {
    */
   getValue = () => {
     return this.props.value || this.refs.input.value;
-  }
+  };
 
 
   /**

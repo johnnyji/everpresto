@@ -94,7 +94,7 @@ export default class FormSidebarPlaceholderInput extends Component {
     }
 
     // If the placeholder is correct
-    this.refs['placeholder-input'].clear(); 
+    this.refs['placeholder-input'].clear();
     this.setState({
       unsavedPlaceholder: Immutable.fromJS({
         values: {value: ''},

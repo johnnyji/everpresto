@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import {set} from 'lodash/set';
+import set from 'lodash/set';
 import {toObjects} from '.././routes/utils/ResponseHelper';
 // Models must be imported from their direct source file due to cross-model dependency issues. See README
 import Document from './Document';

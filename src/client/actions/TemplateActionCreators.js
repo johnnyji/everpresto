@@ -118,7 +118,6 @@ const TemplateActionCreators = {
         method: endpoint.method
       })
         .then((response) => {
-          console.log('fetched');
           dispatch(success(response.data.template))
         })
         .catch((response) => {
