@@ -1,4 +1,4 @@
-import {set} from 'lodash/set';
+import set from 'lodash/set';
 import mongoose from 'mongoose';
 import xss from 'xss';
 
@@ -44,7 +44,6 @@ TemplateSchema.statics.createTemplate = function(data) {
     // Sanitizes the HTML text to remove any malicious tags
     // TODO: Find way to keep classes and ids (only remove script tags)
     const sanitizedData = set(data, 'body', xss(data.body));
-
     // Whitelist attributes
     this.create({
       _company: sanitizedData._company,

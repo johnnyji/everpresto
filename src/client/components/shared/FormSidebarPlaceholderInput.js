@@ -12,6 +12,7 @@ import ListItem from '.././ui/ListItem';
 
 const ENTER_KEY = 13;
 const matchesValue = matchesAttr('value');
+// const containsValue = containsAttr('value')
 const displayName = 'FormSidebarPlaceholderInput';
 
 export default class FormSidebarPlaceholderInput extends Component {
@@ -92,6 +93,16 @@ export default class FormSidebarPlaceholderInput extends Component {
         unsavedPlaceholder: unsavedPlaceholder.setIn(['errors', 'value'], 'This placeholder is already being used!')
       });
     }
+
+    // If the unsaved placeholder is conflicting with another existing placeholder such as
+    // `HELLO` and `HELL`. In this case, there's a conflict because `HELLO` would never
+    // get matched because `HELL` would always match first
+    // const firstFoundConflict = placeholders.find(containsValue(unsavedPlaceholderValue));
+    // if (firstFoundConflict) {
+    //   return this.setState({
+    //     unsavedPlaceholder: unsavedPlaceholder.setIn(['errors', 'value'], `Conflicting with ${firstFoundConflict}`)
+    //   }); 
+    // }
 
     // If the placeholder is correct
     this.refs['placeholder-input'].clear();

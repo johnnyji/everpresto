@@ -1,3 +1,5 @@
+import escapeRegExp from 'lodash/escapeRegExp';
+
 /**
  * Wraps an HTML tag (with class) around every instance of word in a body of text. Word should be some
  * unique identifier such as `CASED_LIKE_THIS`, so we don't accidentally replace real HTML tags with that word.
@@ -16,9 +18,9 @@ const replaceWordWithHtml = (text, word, tag = 'span', className, isContentEdita
   // const negativeLookbehind = `(?<!<${tag} class="${className}">)`;
 
   // Looks behind the word to make sure we don't match words already ending in the same HTML tag
-  const negativeLookahead = `(?!${_.escapeRegExp(closingTag)})`;
+  const negativeLookahead = `(?!${escapeRegExp(closingTag)})`;
 
-  const matcher = new RegExp(`${_.escapeRegExp(word)}${negativeLookahead}`, 'g');
+  const matcher = new RegExp(`${escapeRegExp(word)}${negativeLookahead}`, 'g');
   // If this function is being used to replace words that will be used in a content editale field, we need to
   // add a unicode zero-width character,
   // refer to: http://stackoverflow.com/questions/21574522/contenteditable-put-caret-outside-inserted-span
