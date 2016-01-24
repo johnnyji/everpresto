@@ -36,6 +36,7 @@ export default class Input extends Component {
         regex: PropTypes.instanceOf(RegExp).isRequired
       })
     ]).isRequired,
+    showError: PropTypes.bool.isRequired,
     successKeys: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.string),
       PropTypes.string
@@ -53,6 +54,7 @@ export default class Input extends Component {
       regex: /.*/,
       error: ''
     },
+    showError: true,
     type: 'text'
   };
 
@@ -92,7 +94,7 @@ export default class Input extends Component {
           onKeyPress={this._handleKeyPress}
           ref='input'
           type={this.props.type}/>
-          {this._renderError()}
+          {this.props.showError && this._renderError()}
       </div>
     );
 

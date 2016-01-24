@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import classNames from 'classnames';
 
-const displayName = 'List';
+const displayName = 'ui-List';
 
 const List = (props) => {
   const {className, children} = props;

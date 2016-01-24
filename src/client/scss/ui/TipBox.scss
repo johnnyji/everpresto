@@ -1,36 +1,25 @@
-.tip-box {
-  background-color: $tip-box-background;
-  color: $text-color-light;
-  margin: 2rem 0;
-  padding: 1rem;
+.ui-TipBox {
   position: relative;
-  
+  &-left {text-align: left;}
+  &-center {text-align: center;}
+  &-right {text-align: right;}
+  &-light {color: $placeholder-color;}
+  &-dark {color: $text-color-light;}
   &-header {
+    &-left {text-align: left;}
+    &-center {text-align: center;}
+    &-right {text-align: right;}
     position: relative;
-    color: $secondary-brand-color;
     margin-bottom: 0.75rem;
-    font-size: 22px;
-    font-weight: bolder;
     &-icon {
-      margin: -3px 0.3rem 0 0;
-      height: 30px;
-      width: 30px;
+      margin-top: -4px;
+      margin-right: 12px;
+    }
+    &-title {
+      font-weight: 500;
     }
   }
-
-  // This makes the pointed angle at the top left of the box
-  &:after {
-    content: '';
-    border: solid rgba(0, 0, 0, 0);
-    border-bottom-color: $tip-box-background;
-    height: 0;
-    width: 0;
-    left: 40px;
-    position: absolute;
-    pointer-events: none;
-    border-width: 20px;
-    margin-left: -20px;
-    top: -2.2em;
+  &-body {
+    position: relative;
   }
-
 }

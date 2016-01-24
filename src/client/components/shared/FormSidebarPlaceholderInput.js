@@ -2,17 +2,17 @@ import React, {Component, PropTypes} from 'react';
 import Immutable from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import {minLength, noLowerCase} from '../.././utils/RegexHelper';
-import {isTruthy, matchesAttr} from '../.././utils/immutable/IterableFunctions';
+import {containsAttr, isTruthy, matchesAttr} from '../.././utils/immutable/IterableFunctions';
 
 import Clickable from '.././ui/Clickable';
 import Icon from '.././ui/Icon';
 import Input from '.././ui/Input';
 import List from '.././ui/List';
 import ListItem from '.././ui/ListItem';
+import TipBox from '.././ui/TipBox';
 
 const ENTER_KEY = 13;
 const matchesValue = matchesAttr('value');
-// const containsValue = containsAttr('value')
 const displayName = 'FormSidebarPlaceholderInput';
 
 export default class FormSidebarPlaceholderInput extends Component {
@@ -43,35 +43,54 @@ export default class FormSidebarPlaceholderInput extends Component {
     const {unsavedPlaceholder} = this.state;
 
     return (
-      <List className={`${displayName}-sidebar-placeholders-list`}>
-        <Input
-          autoFocus={true}
-          className={`${displayName}-sidebar-placeholders-list-input`}
-          defaultValue={unsavedPlaceholder.getIn(['values', 'value'])}
-          error={unsavedPlaceholder.getIn(['errors', 'value'])}
-          errorKeys='errors:value'
-          label='ex. YOUR_PLACEHOLDER_HERE'
-          onEnterKeyPress={this._saveUnsavedPlaceholder}
-          onUpdate={(value, err, valObj, errObj, e) => this._updateUnsavedPlaceholder(value, err, e)}
-          patternMatches={[
-            minLength(1, 'Your placeholder can\'t be empty!'),
-            noLowerCase('Sorry, no lower case chars allowed!')
-          ]}
-          ref='placeholder-input'
-          successKeys='values:value'/>
+      <List className={`${displayName}`}>
+        <ListItem className={`${displayName}-item ${displayName}-item-input-wrapper`}>
+          <Input
+            className={`${displayName}-item-input`}
+            defaultValue={unsavedPlaceholder.getIn(['values', 'value'])}
+            error={unsavedPlaceholder.getIn(['errors', 'value'])}
+            errorKeys='errors:value'
+            label='ex. YOUR_PLACEHOLDER_HERE'
+            liveError={true}
+            onKeyPress={this._handleKeyPress}
+            onEnterKeyPress={this._saveUnsavedPlaceholder}
+            onUpdate={(value, err, valObj, errObj, e) => this._updateUnsavedPlaceholder(value, err, e)}
+            patternMatches={[
+              minLength(1, 'Your placeholder can\'t be empty!'),
+              noLowerCase('Sorry, no lower case chars allowed!')
+            ]}
+            ref='placeholder-input'
+            successKeys='values:value'/>
+        </ListItem>
         {this._renderPlaceholders()}
       </List>
     );
   }
 
   _renderPlaceholders = () => {
-    const {onRemovePlaceholder, placeholders} = this.props;
 
-    return placeholders.map((placeholder, i) => (
+    if (this.props.placeholders.size === 0) {
+      return (
+        <TipBox
+          className={`${displayName}-tip`}
+          title='What are placeholders?'>
+         <div>Placeholders are used to easily replace values in templates (this makes templates extremely useful and re-usable)!
+         </div>
+         <div>
+          <p>Examples: </p>
+          <p><mark>FIRST_NAME</mark></p>
+          <p><mark>LAST_NAME</mark></p>
+          <p><mark>EMAIL</mark></p>
+         </div>
+        </TipBox>
+      );
+    };
+
+    return this.props.placeholders.map((placeholder, i) => (
       <ListItem
-        className={`${displayName}-sidebar-placeholders-placeholder`}
+        className={`${displayName}-item-placeholder`}
         key={i}
-        onRemove={() => onRemovePlaceholder(placeholder)}
+        onRemove={() => this.props.onRemovePlaceholder(placeholder)}
         removable={true}>
         <mark>{placeholder.get('value')}</mark>
       </ListItem>
@@ -97,12 +116,18 @@ export default class FormSidebarPlaceholderInput extends Component {
     // If the unsaved placeholder is conflicting with another existing placeholder such as
     // `HELLO` and `HELL`. In this case, there's a conflict because `HELLO` would never
     // get matched because `HELL` would always match first
-    // const firstFoundConflict = placeholders.find(containsValue(unsavedPlaceholderValue));
-    // if (firstFoundConflict) {
-    //   return this.setState({
-    //     unsavedPlaceholder: unsavedPlaceholder.setIn(['errors', 'value'], `Conflicting with ${firstFoundConflict}`)
-    //   }); 
-    // }
+    // TODO: Refactor to be functional
+    const firstConflictingPlaceholder = placeholders.find((ph) => {
+      const placeholderValue = ph.get('value');
+      return placeholderValue.length > unsavedPlaceholderValue.length
+        ? placeholderValue.match(new RegExp(unsavedPlaceholderValue))
+        : unsavedPlaceholderValue.match(new RegExp(placeholderValue));
+    });
+    if (firstConflictingPlaceholder) {
+      return this.setState({
+        unsavedPlaceholder: unsavedPlaceholder.setIn(['errors', 'value'], `Conflicting with ${firstConflictingPlaceholder.get('value')}`)
+      }); 
+    }
 
     // If the placeholder is correct
     this.refs['placeholder-input'].clear();
@@ -119,12 +144,11 @@ export default class FormSidebarPlaceholderInput extends Component {
     // If the enter key is hit, we don't want to update, instead we want to ignore
     // because the placeholder will be sumitted instead in `this._saveUnsavedPlaceholder`
     if (e.which === ENTER_KEY) return;
-
     // Updates the unsavedPlaceholder state
     this.setState({
       unsavedPlaceholder: this.state.unsavedPlaceholder.merge({
         values: {value},
-        errors: {error}
+        errors: {value: error}
       })
     });
   };

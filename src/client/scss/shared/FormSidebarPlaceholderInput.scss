@@ -1,3 +1,29 @@
+.FormSidebarPlaceholderInput.ui-List {
+  margin: 0;
+}
+
 .FormSidebarPlaceholderInput {
-    
+  // Removes top padding to reduce space gap
+  &-item.List {
+    padding-top: 0;
+  }
+  &-item {
+    position: relative;
+    // Removes top padding and margin to reduce space gap
+    &-input-wrapper.ListItem {
+      margin-top: 0;
+      padding-top: 0;
+      margin-bottom: 20px;
+    }
+    &-input {
+      margin: 0 auto;
+    }
+    &-placeholder {
+
+    }
+  }
+  &-tip {
+    margin: 12px auto;
+    max-width: 300px;
+  }
 }
