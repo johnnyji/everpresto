@@ -1,0 +1,27 @@
+.ModalPlaceholderTipBox {
+  @include display(flex);
+  @include justify-content(center);
+  @include align-items(center);
+  &-content {
+    margin: 12px auto;
+    max-width: 350px;
+    &-example {
+      margin-top: 12px;
+      &-section {
+        &-icon {
+          &-success {color: $brand-color-green;}
+          &-error {color: $brand-color-red;}
+        }
+        &-placeholder {
+          margin-left: 8px;
+        }
+        &-note {
+          color: $placeholder-color;
+          // This aligns the little note to the right side of the content
+          margin-left: auto;
+          margin-right: 0;
+        }
+      }
+    }
+  }
+}

@@ -32,35 +32,4 @@
     }
   }
 
-  // REFACTOR THIS INTO ITS OWN MODAL
-  &-tip-modal {
-    @include display(flex);
-    @include justify-content(center);
-    @include align-items(center);
-  }
-  &-tip {
-    margin: 12px auto;
-    max-width: 350px;
-    &-example {
-      @include display(flex);
-      @include align-items(center);
-      &-icon {
-        &-success {
-          color: $brand-color-green;
-        }
-        &-error {
-          color: $brand-color-red;
-        }
-      }
-      // remove
-      mark {
-        margin-left: 8px;
-      }
-      &-note {
-        // This aligns the little note to the right side of the tip
-        margin-left: auto;
-        margin-right: 0;
-      }
-    }
-  }
 }

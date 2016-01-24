@@ -4,14 +4,13 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import {minLength, noLowerCase} from '../.././utils/RegexHelper';
 import {containsAttr, isTruthy, matchesAttr} from '../.././utils/immutable/IterableFunctions';
 
+import ModalPlaceholderTipBox from '.././modals/ModalPlaceholderTipBox';
 import Clickable from '.././ui/Clickable';
 import ClickableIcon from '.././ui/ClickableIcon';
-import ModalWrapper from '.././ui/ModalWrapper';
 import Icon from '.././ui/Icon';
 import Input from '.././ui/Input';
 import List from '.././ui/List';
 import ListItem from '.././ui/ListItem';
-import TipBox from '.././ui/TipBox';
 
 import AppActionCreators from '../.././actions/AppActionCreators';
 
@@ -147,37 +146,9 @@ export default class FormSidebarPlaceholderInput extends Component {
     onAddPlaceholder(unsavedPlaceholderValue);
   };
 
-  // TODO: REFACTOR THE FUCK OUT OF THIS
   _showPlaceholderInfoModal = () => {
     this.context.dispatch(
-      AppActionCreators.createModal(
-        <ModalWrapper className={`${displayName}-tip-modal`} width={450} height={400}>
-          <TipBox
-            className={`${displayName}-tip`}
-            title='What are placeholders?'>
-           <div>Placeholders are used to easily replace values in templates (this makes templates extremely useful and re-usable)!
-           </div>
-           <div>
-            <p>Examples: </p>
-            <p className={`${displayName}-tip-example`}>
-              <Icon icon='check' iconClass={`${displayName}-tip-example-icon-success`}/>
-              <mark>FIRST_NAME</mark>
-              <small className={`${displayName}-tip-example-note`}>All capitalized</small>
-            </p>
-            <p className={`${displayName}-tip-example`}>
-              <Icon icon='check' iconClass={`${displayName}-tip-example-icon-success`}/>
-              <mark>EMAIL_ADDRESS</mark>
-              <small className={`${displayName}-tip-example-note`}>Consistent format</small>
-            </p>
-            <p className={`${displayName}-tip-example`}>
-              <Icon icon='close' iconClass={`${displayName}-tip-example-icon-error`}/>
-              <mark>birthdate</mark>
-              <small className={`${displayName}-tip-example-note`}>No lowercase letters!</small>
-            </p>
-           </div>
-          </TipBox>
-        </ModalWrapper>
-      )
+      AppActionCreators.createModal(<ModalPlaceholderTipBox />)
     );
   }
 
