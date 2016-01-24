@@ -5,11 +5,15 @@ import {minLength, noLowerCase} from '../.././utils/RegexHelper';
 import {containsAttr, isTruthy, matchesAttr} from '../.././utils/immutable/IterableFunctions';
 
 import Clickable from '.././ui/Clickable';
+import ClickableIcon from '.././ui/ClickableIcon';
+import ModalWrapper from '.././ui/ModalWrapper';
 import Icon from '.././ui/Icon';
 import Input from '.././ui/Input';
 import List from '.././ui/List';
 import ListItem from '.././ui/ListItem';
 import TipBox from '.././ui/TipBox';
+
+import AppActionCreators from '../.././actions/AppActionCreators';
 
 const ENTER_KEY = 13;
 const matchesValue = matchesAttr('value');
@@ -18,6 +22,10 @@ const displayName = 'FormSidebarPlaceholderInput';
 export default class FormSidebarPlaceholderInput extends Component {
 
   static displayName = displayName;
+
+  static contextTypes = {
+    dispatch: PropTypes.func.isRequired
+  };
 
   static propTypes = {
     onAddPlaceholder: PropTypes.func.isRequired,
@@ -68,23 +76,22 @@ export default class FormSidebarPlaceholderInput extends Component {
   }
 
   _renderPlaceholders = () => {
-
+    // TODO: Refactor the fuck out of this
     if (this.props.placeholders.size === 0) {
       return (
-        <TipBox
-          className={`${displayName}-tip`}
-          title='What are placeholders?'>
-         <div>Placeholders are used to easily replace values in templates (this makes templates extremely useful and re-usable)!
-         </div>
-         <div>
-          <p>Examples: </p>
-          <p><mark>FIRST_NAME</mark></p>
-          <p><mark>LAST_NAME</mark></p>
-          <p><mark>EMAIL</mark></p>
-         </div>
-        </TipBox>
+        <div className={`${displayName}-placeholder-tip`}>
+          <ClickableIcon
+            className={`${displayName}-placeholder-tip-icon`}
+            icon='info'
+            onClick={this._showPlaceholderInfoModal}/>
+          <Clickable
+          className={`${displayName}-placeholder-tip-text`}
+            onClick={this._showPlaceholderInfoModal}>
+            What are placeholders?
+          </Clickable>
+        </div>
       );
-    };
+    }
 
     return this.props.placeholders.map((placeholder, i) => (
       <ListItem
@@ -139,6 +146,40 @@ export default class FormSidebarPlaceholderInput extends Component {
     });
     onAddPlaceholder(unsavedPlaceholderValue);
   };
+
+  // TODO: REFACTOR THE FUCK OUT OF THIS
+  _showPlaceholderInfoModal = () => {
+    this.context.dispatch(
+      AppActionCreators.createModal(
+        <ModalWrapper width={450} height={400}>
+          <TipBox
+            className={`${displayName}-tip`}
+            title='What are placeholders?'>
+           <div>Placeholders are used to easily replace values in templates (this makes templates extremely useful and re-usable)!
+           </div>
+           <div>
+            <p>Examples: </p>
+            <p className={`${displayName}-tip-example`}>
+              <Icon icon='check' iconClass={`${displayName}-tip-example-icon-success`}/>
+              <mark>FIRST_NAME</mark>
+              <small className={`${displayName}-tip-example-note`}>All capitalized</small>
+            </p>
+            <p className={`${displayName}-tip-example`}>
+              <Icon icon='check' iconClass={`${displayName}-tip-example-icon-success`}/>
+              <mark>EMAIL_ADDRESS</mark>
+              <small className={`${displayName}-tip-example-note`}>Clear naming methods</small>
+            </p>
+            <p className={`${displayName}-tip-example`}>
+              <Icon icon='close' iconClass={`${displayName}-tip-example-icon-error`}/>
+              <mark>birthdate</mark>
+              <small className={`${displayName}-tip-example-note`}>No lowercase letters!</small>
+            </p>
+           </div>
+          </TipBox>
+        </ModalWrapper>
+      )
+    );
+  }
 
   _updateUnsavedPlaceholder = (value, error, e) => {
     // If the enter key is hit, we don't want to update, instead we want to ignore

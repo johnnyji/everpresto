@@ -22,8 +22,40 @@
 
     }
   }
+  &-placeholder-tip {
+    color: $placeholder-color;
+    margin: 12px auto;
+    text-align: center;
+    &-icon {
+      margin-top: -5px;
+      margin-right: 8px;
+    }
+  }
+
+  // REFACTOR THIS INTO ITS OWN MODAL
   &-tip {
     margin: 12px auto;
-    max-width: 300px;
+    max-width: 350px;
+    &-example {
+      @include display(flex);
+      @include align-items(center);
+      &-icon {
+        &-success {
+          color: $brand-color-green;
+        }
+        &-error {
+          color: $brand-color-red;
+        }
+      }
+      // remove
+      mark {
+        margin-left: 8px;
+      }
+      &-note {
+        // why isnt align-self working
+        @include align-self(flex-end);
+        margin-left: 8px;
+      }
+    }
   }
 }
