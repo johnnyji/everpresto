@@ -9,6 +9,10 @@
 
   // This is so that certain AppHeader elements such as DropdownOptions are infront of the any Dashboard item
   z-index: 2;
+
+  button {
+    position: relative;
+  }
   
   &-navbar {
     @include display(flex);
@@ -21,7 +25,6 @@
       position: relative;
       display: inline-block;
     }
-
     &-nav {
       @include display(flex);
       @include align-items(center);
@@ -40,12 +43,8 @@
           cursor: pointer;
         }
       }
-
       &-profile-dropdown {
-        position: absolute;
-        width: 150px;
-        right: 0;
-        top: 0.7rem;
+        z-index: 3;
       }
     }
   }
