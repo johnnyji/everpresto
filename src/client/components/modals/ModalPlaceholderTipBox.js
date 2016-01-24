@@ -7,12 +7,13 @@ import TipBox from '.././ui/TipBox';
 const displayName = 'ModalPlaceholderTipBox';
 
 const ModalPlaceholderTipBox = ({className}) => (
-  <ModalWrapper className={classNames(className, displayName)} width={450} height={400}>
+  <ModalWrapper className={classNames(className, displayName)} width={500} height={450}>
     <TipBox
       color='dark'
       className={`${displayName}-content`}
-      title='What are placeholders?'>
-     <div>Placeholders are used to easily replace values in templates (this makes templates extremely useful and re-usable)!
+      title='What are placeholders?'
+      titleClass={`${displayName}-content-title`}>
+     <div className={`${displayName}-content-info`}>Placeholders are used to easily replace values in templates (this makes templates extremely useful and re-usable)!
      </div>
      <div className={`${displayName}-content-example`}>
       <p>Examples: </p>

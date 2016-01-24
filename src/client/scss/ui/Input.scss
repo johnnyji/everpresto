@@ -1,62 +1,15 @@
 $ui-input-font-size: 1rem;
 
-@include keyframes(error-fade-in) {
-  from {
-    color: darken($ui-input-error-color, 30%);
-    display: none;
-  }
-  to {
-    color: $ui-input-error-color;
-    display: block;
-  }
-};
-
-@include keyframes(input-focus) {
-  from { border-bottom-color: $ui-input-border-bottom-focus-start-color; }
-  to { border-bottom-color: $ui-input-border-bottom-focus-end-color; }
-}
-
 .ui-Input {
   position: relative;
-  display: block;
   font-size: $ui-input-font-size;
-  width: 275px;
-  height: 35px;
-  &-error {
-    @include animation(error-fade-in 700ms);
-    position: relative;
-    color: $ui-input-error-color;
-    font-weight: 500;
-  }
-  &-label {
-    position: absolute;
-    bottom: 0;
-    color: $ui-input-label-color;
-    font-size: inherit;
-    font-weight: 500;
-    left: 0;
-    pointer-events: none;
-    z-index: 1;
+  & svg {
+    margin: -5px 8px 0 0;
   }
   &-input-field {
     position: relative;
     background-color: inherit;
-    border: none;
-    border-bottom: 1px solid $ui-input-border-bottom-color;
-    font-size: inherit;
-    margin-bottom: $ui-input-font-size / 0.2rem;
     height: 100%;
     width: 100%;
-    &:focus {
-      @include animation(input-focus 700ms);
-      outline: none;
-      border-bottom-color: $ui-input-border-bottom-focus-end-color;
-    }
-  }
-}
-
-.ui-Input-password-field {
-  &-input-field {
-    letter-spacing: 5px;
   }
 }

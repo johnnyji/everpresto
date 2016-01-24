@@ -1,8 +1,10 @@
 import React, {Component, PropTypes} from 'react';
+import MUIListItem from 'material-ui/lib/lists/list-item';
+import MUIIconButton from 'material-ui/lib/icon-button';
 import classNames from 'classnames';
 import Icon from './Icon';
 
-const displayName = 'ListItem';
+const displayName = 'ui-ListItem';
 
 export default class ListItem extends Component {
 
@@ -22,19 +24,27 @@ export default class ListItem extends Component {
     const {className, children, onRemove, removable} = this.props;
     const classes = classNames(className, displayName);
 
+    if (removable && onRemove) {
+      return (
+        <MUIListItem className={classes} rightIconButton={this._renderRemoveButton()}>
+          {children}
+        </MUIListItem>
+      );
+    }
+
     return (
-      <li className={classes}>
-        <span className={`${displayName}-content`}>{children}</span>
-        {removable && onRemove &&
-          <button className={`${displayName}-remove-button`} onClick={onRemove}>
-            <Icon
-              icon='close'
-              iconClass={`${displayName}-remove-button-icon`}
-              size={12}/>
-          </button>
-        }
-      </li>
+      <MUIListItem className={classes}>
+        {children}
+      </MUIListItem>
     );
   }
+
+  _renderRemoveButton = () => {
+    return (
+      <MUIIconButton onClick={this.props.onRemove}>
+        <Icon icon='close' iconClass={`${displayName}-remove-icon`}/>
+      </MUIIconButton>
+    );
+  };
 
 }

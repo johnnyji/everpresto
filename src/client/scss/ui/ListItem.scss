@@ -1,24 +1,5 @@
-.ListItem {
-  @include display(flex);
-  @include align-items(center);
-  @include justify-content(space-between);
-  margin: 8px 0;
-  line-height: 100%;
-  padding: 8px;
-  width: 100%;
-  &-content {
-    @include display(flex);
-    @include align-items(center);
-  }
-  &-remove-button {
-    background-color: transparent;
-    border: none;
-    &-icon {
-      @include transition(all 300ms ease);
-      color: $text-color-light;
-      &:hover {
-        color: $brand-color-yellow-light;
-      }
-    }
+.ui-ListItem {
+  &-remove-icon {
+    color: $placeholder-color;
   }
 }

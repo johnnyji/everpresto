@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import Immutable from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import MUIList from 'material-ui/lib/lists/list';
 import {minLength, noLowerCase} from '../.././utils/RegexHelper';
 import {containsAttr, isTruthy, matchesAttr} from '../.././utils/immutable/IterableFunctions';
 
@@ -9,7 +10,6 @@ import Clickable from '.././ui/Clickable';
 import ClickableIcon from '.././ui/ClickableIcon';
 import Icon from '.././ui/Icon';
 import Input from '.././ui/Input';
-import List from '.././ui/List';
 import ListItem from '.././ui/ListItem';
 
 import AppActionCreators from '../.././actions/AppActionCreators';
@@ -50,14 +50,15 @@ export default class FormSidebarPlaceholderInput extends Component {
     const {unsavedPlaceholder} = this.state;
 
     return (
-      <List className={`${displayName}`}>
-        <ListItem className={`${displayName}-item ${displayName}-item-input-wrapper`}>
+      <div className={`${displayName}`}>
+        <div className={`${displayName}-item-input-wrapper`}>
           <Input
             className={`${displayName}-item-input`}
             defaultValue={unsavedPlaceholder.getIn(['values', 'value'])}
             error={unsavedPlaceholder.getIn(['errors', 'value'])}
             errorKeys='errors:value'
-            label='ex. YOUR_PLACEHOLDER_HERE'
+            icon='edit'
+            label={<span><Icon icon='edit' /> YOUR_PLACEHOLDER_HERE</span>}
             liveError={true}
             onKeyPress={this._handleKeyPress}
             onEnterKeyPress={this._saveUnsavedPlaceholder}
@@ -68,9 +69,11 @@ export default class FormSidebarPlaceholderInput extends Component {
             ]}
             ref='placeholder-input'
             successKeys='values:value'/>
-        </ListItem>
-        {this._renderPlaceholders()}
-      </List>
+        </div>
+        <MUIList>
+          {this._renderPlaceholders()}
+        </MUIList>
+      </div>
     );
   }
 

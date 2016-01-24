@@ -4,7 +4,7 @@ import Icon from './Icon';
 
 const displayName = 'ui-TipBox';
 
-const TipBox = ({align, color, className, children, headerAlign, iconSize, title}) => {
+const TipBox = ({align, color, className, children, headerAlign, iconSize, title, titleClass}) => {
   const classes = classNames(
     className,
     displayName,
@@ -13,12 +13,13 @@ const TipBox = ({align, color, className, children, headerAlign, iconSize, title
   const headerClasses = classNames(
     `${displayName}-header`,
     `${displayName}-header-${headerAlign}`);
+  const titleClasses = classNames(titleClass, `${displayName}-header-title`);
 
   return (
     <div className={classes}>
       <header className={headerClasses}>
         <Icon icon='info' iconClass={`${displayName}-header-icon`} size={iconSize}/>
-        {title && <span className={`${displayName}-header-title`}>{title}</span>}
+        {title && <span className={titleClasses}>{title}</span>}
       </header>
       <div className={`${displayName}-body`}>
         {children}

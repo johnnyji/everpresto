@@ -5,9 +5,17 @@
   &-content {
     margin: 12px auto;
     max-width: 350px;
+    &-title {
+      font-size: 18px;
+      margin-bottom: 16px;
+    }
+    &-info {
+      margin-bottom: 30px;
+    }
     &-example {
-      margin-top: 12px;
       &-section {
+        @include display(flex);
+        @include align-items(center);
         &-icon {
           &-success {color: $brand-color-green;}
           &-error {color: $brand-color-red;}
@@ -23,5 +31,6 @@
         }
       }
     }
+
   }
 }

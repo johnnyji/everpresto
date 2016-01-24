@@ -10,16 +10,16 @@
   &-item {
     position: relative;
     // Removes top padding and margin to reduce space gap
-    &-input-wrapper.ListItem {
+    &-input-wrapper {
+      @include display(flex);
+      @include align-items(center);
+      @include justify-content(center);
       margin-top: 0;
       padding-top: 0;
       margin-bottom: 20px;
     }
     &-input {
       margin: 0 auto;
-    }
-    &-placeholder {
-
     }
   }
   &-placeholder-tip {
@@ -31,5 +31,4 @@
       margin-right: 8px;
     }
   }
-
 }
