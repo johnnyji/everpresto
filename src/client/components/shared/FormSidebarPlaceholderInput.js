@@ -151,7 +151,7 @@ export default class FormSidebarPlaceholderInput extends Component {
   _showPlaceholderInfoModal = () => {
     this.context.dispatch(
       AppActionCreators.createModal(
-        <ModalWrapper width={450} height={400}>
+        <ModalWrapper className={`${displayName}-tip-modal`} width={450} height={400}>
           <TipBox
             className={`${displayName}-tip`}
             title='What are placeholders?'>
@@ -167,7 +167,7 @@ export default class FormSidebarPlaceholderInput extends Component {
             <p className={`${displayName}-tip-example`}>
               <Icon icon='check' iconClass={`${displayName}-tip-example-icon-success`}/>
               <mark>EMAIL_ADDRESS</mark>
-              <small className={`${displayName}-tip-example-note`}>Clear naming methods</small>
+              <small className={`${displayName}-tip-example-note`}>Consistent format</small>
             </p>
             <p className={`${displayName}-tip-example`}>
               <Icon icon='close' iconClass={`${displayName}-tip-example-icon-error`}/>
