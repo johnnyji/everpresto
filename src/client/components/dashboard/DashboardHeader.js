@@ -61,7 +61,6 @@ export default class DashboardHeader extends Component {
               {firstName} {lastName}
             </Clickable>
               <MUIPopover
-                anchorEl={this._getDropdownAnchorEl()}
                 anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
                 canAutoPosition={false}
                 open={this.state.showProfileOptions}
