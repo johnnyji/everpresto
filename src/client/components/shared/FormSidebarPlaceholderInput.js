@@ -134,7 +134,7 @@ export default class FormSidebarPlaceholderInput extends Component {
     });
     if (firstConflictingPlaceholder) {
       return this.setState({
-        unsavedPlaceholder: unsavedPlaceholder.setIn(['errors', 'value'], `Conflicting with ${firstConflictingPlaceholder.get('value')}`)
+        unsavedPlaceholder: unsavedPlaceholder.setIn(['errors', 'value'], `Conflicting with existing placeholder ${firstConflictingPlaceholder.get('value')}`)
       }); 
     }
 
