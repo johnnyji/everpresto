@@ -1,13 +1,9 @@
 import _ from 'lodash';
 import replaceWordWithHtml from './replaceWordWithHtml';
-import Config from '.././config/main';
-
-const {template, richTextEditor} = Config;
+import {richTextEditor, template} from '.././config/main';
 
 const HIGHLIGHT_TAG = template.placeholderTag;
-const HIGHLIGHT_CLASS = template.placeholderClass;
 const CARET_POSITION_MARKER_MATCHER = new RegExp(richTextEditor.caretMarkerNode);
-
 
 const TextEditorHelper = {
 
@@ -18,12 +14,11 @@ const TextEditorHelper = {
    *
    * @param  {String} text             - The string of text we'll be parsing
    * @param  {Immutable.List} keywords - A list of words to highlight
-   * @param  {String} className         - The class to apply to the highlighted text (default is `highlighted`)
    * @return {String}                  - The new string of text with every keyword highlighted
    */
-  highlightText(text, keywords, className = HIGHLIGHT_CLASS) {
+  highlightText(text, keywords) {
     return keywords.reduce((alteredText, placeholder) => {
-      return replaceWordWithHtml(alteredText, placeholder, HIGHLIGHT_TAG, className, true);
+      return replaceWordWithHtml(alteredText, placeholder, HIGHLIGHT_TAG, null, true);
     }, text);
   },
 
@@ -99,12 +94,11 @@ const TextEditorHelper = {
    *
    * @param  {String} text              - The string of text we'll be parsing
    * @param  {Immutable.List} keywords  - The list of keywords to unhighlight
-   * @param  {String} className         - The class to apply to the highlighted text (default is `highlighted`)
    * @return {String}                   [description]
    */
-  removeHighlights(text, keywords, className = HIGHLIGHT_CLASS) {
+  removeHighlights(text, keywords) {
     return keywords.reduce((alteredText, keyword) => {
-      const highlightedText = `<${HIGHLIGHT_TAG} class="${className}">${keyword}</${HIGHLIGHT_TAG}>`;
+      const highlightedText = `<${HIGHLIGHT_TAG}>${keyword}</${HIGHLIGHT_TAG}>`;
       return alteredText.replace(new RegExp(highlightedText, 'g'), keyword);
     }, text);
   },

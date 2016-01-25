@@ -5,8 +5,7 @@ export default {
     defaultTitle: 'Untitled',
   },
   template: {
-    placeholderTag: 'mark',
-    placeholderClass: 'template-placeholder'
+    placeholderTag: 'mark'
   },
   richTextEditor: {
     caretMarkerNodeId,
