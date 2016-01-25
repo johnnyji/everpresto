@@ -69,7 +69,7 @@ export default class DashboardHeader extends Component {
                 <MUIMenu>
                   <MUIMenuItem primaryText='Profile Settings'/>
                   <MUIDivider />
-                  <MUIMenuItem primaryText='Logout' onTouchTap={console.log('olo')}/>
+                  <MUIMenuItem primaryText='Logout' onTouchTap={this._handleLogout}/>
                 </MUIMenu>
               </MUIPopover>
           </div>
