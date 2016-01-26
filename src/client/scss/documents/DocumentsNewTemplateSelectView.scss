@@ -1,16 +1,23 @@
 .DocumentsNewTemplateSelectView {
-  @include display(flex);
-  @include flex-flow(column wrap);
+  margin-top: 12px;
   &-header {
     @include display(flex);
     @include justify-content(space-between);
     @include align-items(center);
     &-title {
-      font-size: 24px;
-      font-weight: 500;
+      color: $text-color-light;
+      font-size: 18px;
+      font-weight: 400;
+      &-main {
+        color: $text-color;
+        font-size: 24px;
+        margin-left: 8px;
+      }
     }
   }
   &-preview-card {
+    position: relative;
+    display: inline-block;
     &-options {
       @include display(flex);
       @include align-items(center);        

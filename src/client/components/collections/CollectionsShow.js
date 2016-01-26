@@ -71,15 +71,9 @@ export default class CollectionsShow extends Component {
             <Button
               className={`${displayName}-header-options-create-button`}
               color='green'
-              icon='add'
-              onClick={this._handleCreateContract}
-              text='Create Contract' />
-            <Button
-              className={`${displayName}-header-options-create-button`}
-              color='green'
               icon='group-add'
-              onClick={this._handleBatchCreateContract}
-              text='Batch Create Contract' />
+              onClick={this._handleCreateContract}
+              text='Create Documents' />
           </div>
           <SearchBar onUpdate={() => {}} />
         </DashboardContentHeader>
@@ -90,10 +84,7 @@ export default class CollectionsShow extends Component {
 
   _handleCreateContract = () => {
     this.context.router.push(`/dashboard/documents/${this.props.params.id}/new`);
-  }
-
-  _handleBatchCreateContract = () => {
-  }
+  };
 
   _renderDocuments = (collection) => {
     const documents = collection.get('documents');
@@ -116,6 +107,6 @@ export default class CollectionsShow extends Component {
         ))}
       </GridView>
     );
-  }
+  };
 
 }

@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import CustomPropTypes from '.././CustomPropTypes';
+import DashboardContentBody from '.././dashboard/DashboardContentBody';
 import DashboardContentHeader from '.././dashboard/DashboardContentHeader';
 import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
 
@@ -33,12 +34,17 @@ export default class DocumentsNewTemplateSelectView extends Component {
     return (
       <DashboardContentWrapper className={displayName}>
         <DashboardContentHeader className={`${displayName}-header`}>
-          <span className={`${displayName}-header-title`}>Choose A Template</span>
+          <header className={`${displayName}-header-title`}>
+            Step 1/2: <em className={`${displayName}-header-title-main`}>Choose A Template</em>
+          </header>
           <SearchBar
             className={`${displayName}-header-search-bar`}
+            labelText='Find it super fast here!'
             onUpdate={this.props.onTemplateFilter} />
         </DashboardContentHeader>
-        <GridView>{this._renderTemplatePreviewCards()}</GridView>
+        <DashboardContentBody>
+          <GridView>{this._renderTemplatePreviewCards()}</GridView>
+        </DashboardContentBody>
       </DashboardContentWrapper>
     );
   }

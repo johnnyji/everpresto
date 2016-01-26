@@ -3,10 +3,11 @@ import classNames from 'classnames';
 
 const displayName = 'DashboardContentHeader';
 
-const DashboardContentHeader = ({children, className}) => {
-  const classes = classNames(className, displayName);
-  return <header className={classes}>{children}</header>
-};
+const DashboardContentHeader = ({children, className}) => (
+  <header className={classNames(className, displayName)}>
+    {children}
+  </header>
+);
 
 DashboardContentHeader.displayName = displayName;
 DashboardContentHeader.propTypes = {

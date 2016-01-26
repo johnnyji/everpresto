@@ -1,17 +1,7 @@
 .ui-SearchBar {
-  position: relative;
-  display: inline-block;
-  svg {
-    position: relative;
-    margin-right: 0.5rem;
-    color: $text-color-light;
-  }
-  .search-focus {
-    color: $primary-brand-color;
-  }
-  input {
-    @include input-field-style;
-    height: 33px;
-    width: 170px;
+  max-width: $input-field-width;
+  &-search-icon {
+    margin-right: 8px;
+    margin-top: -4px;
   }
 }

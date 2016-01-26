@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import MUITextField from 'material-ui/lib/text-field';
 import classNames from 'classnames';
 import Icon from '.././ui/Icon';
 
@@ -9,36 +10,25 @@ export default class SearchBar extends Component {
   static displayName = displayName;
 
   static propTypes = {
+    labelText: PropTypes.string,
     onUpdate: PropTypes.func.isRequired
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      focused: false
-    };
-  }
-  
+  static defaultProps = {
+    labelText: ''
+  };
+
   render() {
-    const {className, onUpdate} = this.props;
-    const classes = classNames(className, displayName);
-    const searchIconClass = this.state.focused ? 'search-focus' : '';
+    const {className, labelText, onUpdate} = this.props;
 
     return (
-      <div className={classes}>
-        <Icon icon='search' iconClass={searchIconClass} />
-        <input
-          className={classes}
-          type='text'
-          onFocus={this._toggleFocusState}
-          onBlur={this._toggleFocusState}
-          onChange={(e) => onUpdate(e.target.value)}/>
+      <div className={classNames(className, displayName)}>
+        <MUITextField
+          hintText={<span><Icon icon='search' iconClass={`${displayName}-search-icon`}/>{labelText}</span>}
+          onChange={(e) => onUpdate(e.target.value)}
+          type='text'/>
       </div>
     );
-  }
-
-  _toggleFocusState = () => {
-    this.setState({focused: !this.state.focused});
   }
 
 }

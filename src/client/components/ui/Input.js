@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import TextField from 'material-ui/lib/text-field';
+import MUITextField from 'material-ui/lib/text-field';
 import Icon from './Icon';
 import classNames from 'classnames';
 import createNestedObject from './utils/createNestedObject';
@@ -20,7 +20,10 @@ export default class Input extends Component {
       PropTypes.arrayOf(PropTypes.string),
       PropTypes.string
     ]),
-    label: PropTypes.string.isRequired,
+    label: PropTypes.oneOfType([
+      PropTypes.element,
+      PropTypes.string
+    ]).isRequired,
     labelIcon: PropTypes.string,
     onEnterKeyPress: PropTypes.func,
     onUpdate: PropTypes.func.isRequired,
@@ -76,7 +79,7 @@ export default class Input extends Component {
 
     return (
       <div className={classNames(className, displayName)} style={styles}>
-        <TextField
+        <MUITextField
           autoFocus={autoFocus}
           className={`${displayName}-input-field`}
           defaultValue={defaultValue}

@@ -57,9 +57,7 @@ export default class FormSidebarPlaceholderInput extends Component {
             defaultValue={unsavedPlaceholder.getIn(['values', 'value'])}
             error={unsavedPlaceholder.getIn(['errors', 'value'])}
             errorKeys='errors:value'
-            icon='edit'
             label={<span><Icon icon='edit' /> YOUR_PLACEHOLDER_HERE</span>}
-            liveError={true}
             onKeyPress={this._handleKeyPress}
             onEnterKeyPress={this._saveUnsavedPlaceholder}
             onUpdate={(value, err, valObj, errObj, e) => this._updateUnsavedPlaceholder(value, err, e)}

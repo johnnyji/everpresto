@@ -1,9 +1,27 @@
 .DocumentsNewEditorView {
-  @include display(flex);
-  &-preview {
-    @include flex-grow(5);
+  &-header {
+    @include display(flex);
+    @include justify-content(space-between);
+    @include align-items(center);
+    &-title {
+      color: $text-color-light;
+      font-size: 18px;
+      font-weight: 400;
+      &-main {
+        color: $text-color;
+        font-size: 24px;
+        margin-left: 8px;
+      }
+    }
   }
-  &-sidebar {
-    @include flex-grow(3);
+  &-content {
+    @include display(flex);
+    @include flex-flow(row no-wrap);
+    &-preview {
+      @include flex-grow(4);
+    }
+    &-sidebar {
+      @include flex-grow(3);
+    }
   }
 }
