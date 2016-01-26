@@ -3,25 +3,28 @@
 }
 
 .FormSidebarPlaceholderInput {
-  // Removes top padding to reduce space gap
-  &-item.List {
+  // Removes top padding and margin to reduce space gap
+  &-input-wrapper {
+    @include display(flex);
+    @include align-items(center);
+    @include justify-content(center);
+    margin-top: 0;
     padding-top: 0;
+    margin-bottom: 20px;
   }
-  &-item {
-    position: relative;
-    // Removes top padding and margin to reduce space gap
-    &-input-wrapper {
-      @include display(flex);
-      @include align-items(center);
-      @include justify-content(center);
-      margin-top: 0;
-      padding-top: 0;
-      margin-bottom: 20px;
-    }
-    &-input {
-      margin: 0 auto;
+  &-input {
+    margin: 0 auto;
+  }
+  // List of placeholders
+  &-placeholders {
+    // TODO: Overflow not working
+    // overflow-y: auto;
+    // max-height: 400px;
+    &-placeholder {
     }
   }
+
+  // Tip box
   &-placeholder-tip {
     color: $placeholder-color;
     margin: 12px auto;

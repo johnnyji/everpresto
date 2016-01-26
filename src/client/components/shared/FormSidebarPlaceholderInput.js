@@ -51,9 +51,9 @@ export default class FormSidebarPlaceholderInput extends Component {
 
     return (
       <div className={`${displayName}`}>
-        <div className={`${displayName}-item-input-wrapper`}>
+        <div className={`${displayName}-input-wrapper`}>
           <Input
-            className={`${displayName}-item-input`}
+            className={`${displayName}-input`}
             defaultValue={unsavedPlaceholder.getIn(['values', 'value'])}
             error={unsavedPlaceholder.getIn(['errors', 'value'])}
             errorKeys='errors:value'
@@ -68,7 +68,7 @@ export default class FormSidebarPlaceholderInput extends Component {
             ref='placeholder-input'
             successKeys='values:value'/>
         </div>
-        <MUIList>
+        <MUIList className={`${displayName}-placeholders`}>
           {this._renderPlaceholders()}
         </MUIList>
       </div>
@@ -95,7 +95,7 @@ export default class FormSidebarPlaceholderInput extends Component {
 
     return this.props.placeholders.map((placeholder, i) => (
       <ListItem
-        className={`${displayName}-item-placeholder`}
+        className={`${displayName}-placeholders-placeholder`}
         key={i}
         onRemove={() => this.props.onRemovePlaceholder(placeholder)}
         removable={true}>
