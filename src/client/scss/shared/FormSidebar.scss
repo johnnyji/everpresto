@@ -1,9 +1,8 @@
 .FormSidebar {
   @include display(flex);
-  @include flex-flow(column);
+  @include flex-flow(column wrap);
   height: 100%;
   min-width: 300px;
-  margin-left: 40px;
-  overflow-y: scroll;
+  margin-left: 30px;
   padding: 12px;
 }
