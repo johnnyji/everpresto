@@ -3,4 +3,5 @@
   @include flex-flow(column wrap);
   @include flex-grow(1);
   height: 100px;
+  overflow-y: scroll;
 }
