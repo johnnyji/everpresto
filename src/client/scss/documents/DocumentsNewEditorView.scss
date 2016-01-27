@@ -17,17 +17,14 @@
     }
   }
   &-content {
-    background-color: red;
-    // TODO: What the fuck
     @include flex-grow(1);
     @include display(flex);
+    position: relative;
     &-preview {
-      background-color: red;
       @include flex-grow(5);
       overflow-y: auto;
     }
     &-sidebar {
-      background-color: green;
       @include flex-grow(4);
       overflow-y: auto;
     }

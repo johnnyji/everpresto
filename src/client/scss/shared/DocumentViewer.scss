@@ -1,17 +1,24 @@
-.DocumentViewer {
-  @include display(flex);
-  @include flex-flow(column wrap);
+// Using `div >` is to override the original `Card` padding.
+div > .DocumentViewer {
+  position: relative;
+  font-weight: 400;
+  height: 100%;
+  width: 400px;
   overflow-y: scroll;
+  &-title, &-body {
+    display: block;
+    cursor: default;
+    outline: none;
+    width: 100%;
+  }
   &-title {
     font-weight: 500;
     font-size: 24px;
-    margin-top: 0;
+    margin-top: 0 12px 0 0;
     padding: 0 8px;
   }
   &-body {
-    @include flex-grow(1);
-    cursor: default;
-    outline: none;
+    height: auto;
     padding: 0 12px;
   }
 }

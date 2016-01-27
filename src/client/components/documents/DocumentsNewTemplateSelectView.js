@@ -1,9 +1,10 @@
 import React, {Component, PropTypes} from 'react';
+import Immutable from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import CustomPropTypes from '.././CustomPropTypes';
-import DashboardContentBody from '.././dashboard/DashboardContentBody';
 import DashboardContentHeader from '.././dashboard/DashboardContentHeader';
 import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
+import DashboardQuote from '.././dashboard/DashboardQuote';
 
 import DocumentPreviewCard from '.././shared/DocumentPreviewCard';
 import ClickableIcon from '.././ui/ClickableIcon';
@@ -30,7 +31,13 @@ export default class DocumentsNewTemplateSelectView extends Component {
     templates: ImmutablePropTypes.listOf(CustomPropTypes.template).isRequired
   };
 
+  static defaultProps = {
+    templates: Immutable.List()
+  };
+
   render() {
+    const {onTemplateFilter, templates} = this.props;
+
     return (
       <DashboardContentWrapper className={displayName}>
         <DashboardContentHeader className={`${displayName}-header`}>
@@ -39,12 +46,21 @@ export default class DocumentsNewTemplateSelectView extends Component {
           </header>
           <SearchBar
             className={`${displayName}-header-search-bar`}
-            labelText='Find it super fast here!'
-            onUpdate={this.props.onTemplateFilter} />
+            focusLabel='I know.'
+            label='I love you...'
+            onUpdate={onTemplateFilter} />
         </DashboardContentHeader>
-        <DashboardContentBody>
-          <GridView>{this._renderTemplatePreviewCards()}</GridView>
-        </DashboardContentBody>
+          {templates.size > 0 &&
+            <GridView>
+              {this._renderTemplatePreviewCards()}
+            </GridView>
+          }
+          {!templates.size > 0 &&
+            <DashboardQuote
+              author="Ol' Ben Kenobi"
+              className={`${displayName}-not-found`}
+              quote="This is the not the template you're looking for..."/>
+          }
       </DashboardContentWrapper>
     );
   }

@@ -24,5 +24,8 @@
       @include justify-content(space-between);
       color: $text-color-light;
     }
-  }  
+  }
+  &-not-found {
+    @extend .center-absolute;
+  }
 }

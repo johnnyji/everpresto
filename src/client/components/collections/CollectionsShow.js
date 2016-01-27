@@ -75,7 +75,10 @@ export default class CollectionsShow extends Component {
               onClick={this._handleCreateContract}
               text='Create Documents' />
           </div>
-          <SearchBar onUpdate={() => {}} />
+          <SearchBar
+            label="I'm just a lonely search bar..."
+            focusLabel='Yay, a new friend!'
+            onUpdate={this._filterDocuments} />
         </DashboardContentHeader>
         {this._renderDocuments(collection)}
       </DashboardContentWrapper>
@@ -84,6 +87,10 @@ export default class CollectionsShow extends Component {
 
   _handleCreateContract = () => {
     this.context.router.push(`/dashboard/documents/${this.props.params.id}/new`);
+  };
+
+  _handleFilterDocuments = () => {
+
   };
 
   _renderDocuments = (collection) => {

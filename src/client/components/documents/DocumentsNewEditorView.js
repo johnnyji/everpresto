@@ -1,6 +1,5 @@
 import React, {Component, PropTypes} from 'react';
 import CustomPropTypes from '.././CustomPropTypes';
-import DashboardContentBody from '.././dashboard/DashboardContentBody';
 import DashboardContentHeader from '.././dashboard/DashboardContentHeader';
 import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
 
@@ -30,7 +29,7 @@ export default class DocumentsNewEditorView extends Component {
             Step 2/2: <em className={`${displayName}-header-title-main`}>Tweak It, Send It!</em>
           </header>
         </DashboardContentHeader>
-        <DashboardContentBody className={`${displayName}-content`}>
+        <div className={`${displayName}-content`}>
           <DocumentViewer
             body={template.get('body')}
             className={`${displayName}-content-preview`}/>
@@ -50,7 +49,7 @@ export default class DocumentsNewEditorView extends Component {
               onClick={this._handleSendDocuments}
               text='Send'/>
           </FormSidebar>
-        </DashboardContentBody>
+        </div>
       </DashboardContentWrapper>
     );
   }

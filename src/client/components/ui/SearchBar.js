@@ -10,24 +10,59 @@ export default class SearchBar extends Component {
   static displayName = displayName;
 
   static propTypes = {
-    labelText: PropTypes.string,
+    autoFocus: PropTypes.bool.isRequired,
+    focusedLabel: PropTypes.string,
+    funny: PropTypes.bool.isRequired,
+    label: PropTypes.string,
     onUpdate: PropTypes.func.isRequired
   };
 
   static defaultProps = {
-    labelText: ''
+    autoFocus: false,
+    funny: true,
+    label: 'I\'m just a lonely searchbar...',
+    focusLabel: 'Yay, I have a friend!'
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      focused: props.autoFocus
+    };
+  }
+
   render() {
-    const {className, labelText, onUpdate} = this.props;
+    const {autoFocus, className, labelText, onUpdate} = this.props;
 
     return (
       <div className={classNames(className, displayName)}>
         <MUITextField
-          hintText={<span><Icon icon='search' iconClass={`${displayName}-search-icon`}/>{labelText}</span>}
+          autoFocus={autoFocus}
+          hintText={this._renderLabel()}
+          onBlur={this._handleBlur}
           onChange={(e) => onUpdate(e.target.value)}
+          onFocus={this._handleFocus}
           type='text'/>
       </div>
+    );
+  }
+
+  _handleBlur = () => {
+    this.setState({focused: false});
+  };
+
+  _handleFocus = () => {
+    this.setState({focused: true});
+  };
+
+  _renderLabel = () => {
+    const {focusLabel, label} = this.props;
+    const {focused} = this.state;
+    return (
+      <span>
+        <Icon icon='search' iconClass={`${displayName}-search-icon`}/>
+        {focused ? focusLabel : label}
+      </span>
     );
   }
 
