@@ -6,6 +6,8 @@ import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
 
 import DocumentViewer from '.././shared/DocumentViewer';
 import FormSidebar from '.././shared/FormSidebar';
+import FormSidebarBody from '.././shared/FormSidebarBody';
+import FormSidebarSection from '.././shared/FormSidebarSection';
 import Button from '.././ui/Button';
 
 const displayName = 'DocumentsNewEditorView';
@@ -33,15 +35,32 @@ export default class DocumentsNewEditorView extends Component {
             body={template.get('body')}
             className={`${displayName}-content-preview`}/>
           <FormSidebar className={`${displayName}-content-sidebar`}>
+            <FormSidebarBody>
+              <FormSidebarSection>
+                <Button
+                  color='blue'
+                  icon='edit'
+                  onClick={this._showReplacePlaceholdersModal}
+                  text='Edit Document'/>
+              </FormSidebarSection>
+            </FormSidebarBody>
             <Button
               color='green'
               icon='send'
-              onClick={() => {}}
+              onClick={this._handleSendDocuments}
               text='Send'/>
           </FormSidebar>
         </DashboardContentBody>
       </DashboardContentWrapper>
     );
   }
+
+  _handleSendDocuments = () => {
+    debugger;
+  };
+
+  _showReplacePlaceholdersModal = () => {
+
+  };
 
 }

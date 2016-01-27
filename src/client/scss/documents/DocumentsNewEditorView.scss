@@ -17,14 +17,19 @@
     }
   }
   &-content {
+    background-color: red;
+    // TODO: What the fuck
     @include flex-grow(1);
     @include display(flex);
-    @include flex-flow(row no-wrap);
     &-preview {
-      // @include flex-grow(1);
+      background-color: red;
+      @include flex-grow(5);
+      overflow-y: auto;
     }
     &-sidebar {
-      @include flex-grow(1);
+      background-color: green;
+      @include flex-grow(4);
+      overflow-y: auto;
     }
   }
 }
