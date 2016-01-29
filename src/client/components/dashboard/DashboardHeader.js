@@ -3,7 +3,7 @@ import {findDOMNode} from 'react-dom';
 import {Link} from 'react-router';
 import MUIDivider from 'material-ui/lib/divider';
 import MUIMenu from 'material-ui/lib/menus/menu';
-import MUIMenuItem from 'material-ui/lib/menus/menu-item';
+// import MUIMenuItem from 'material-ui/lib/menus/menu-item';
 import MUIPopover from 'material-ui/lib/popover/popover';
 import CustomPropTypes from '.././CustomPropTypes';
 
@@ -11,6 +11,7 @@ import Logo from '.././shared/Logo';
 import DropdownOptions from '.././ui/DropdownOptions';
 import Clickable from '.././ui/Clickable';
 import Icon from '.././ui/Icon';
+import ListItem from '.././ui/ListItem';
 
 const displayName = 'DashboardHeader';
 
@@ -30,23 +31,20 @@ export default class DashboardHeader extends Component {
   constructor (props) {
     super(props);
     this.state = {
+      dropdownAnchorEl: null,
       showProfileOptions: false
     };
   }
 
   render() {
     const {currentUser} = this.props;
+    const {dropdownAnchorEl, showProfileOptions} = this.state;
     const firstName = currentUser.getIn(['account', 'firstName']);
     const lastName = currentUser.getIn(['account', 'lastName']);
-    const profilePictureUrl = currentUser.getIn(['account', 'profilePictureUrl']);
-    const profileNavOptions = [
-      {label: 'Profile Settings', callback: this._viewProfile},
-      {label: 'Logout', callback: this._logoutUser}
-    ];
 
     return (
       <header className={displayName}>
-        <nav className={`${displayName}-navbar`}>
+        <nav className={`${displayName}-navbar`} ref='navbar'>
           <Logo
             logoIconClassName={`${displayName}-navbar-logo`}
             logoIconSize='2.2rem'
@@ -55,21 +53,22 @@ export default class DashboardHeader extends Component {
             <Link to='profile'>
               <img
                 className={`${displayName}-navbar-nav-profile-pic`}
-                src={profilePictureUrl} />
+                src={currentUser.getIn(['account', 'profilePictureUrl'])} />
             </Link>
             <Clickable onClick={this._handleToggleDropdownMenu} ref='dropdown-anchor'>
               {firstName} {lastName}
             </Clickable>
               <MUIPopover
-                anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
+                anchorEl={dropdownAnchorEl}
+                anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
                 canAutoPosition={false}
-                open={this.state.showProfileOptions}
+                open={showProfileOptions}
                 onRequestClose={() => this.setState({showProfileOptions: false})}
-                targetOrigin={{horizontal: 'middle', vertical: 'top'}}>
+                targetOrigin={{horizontal: 'right', vertical: 'top'}}>
                 <MUIMenu>
-                  <MUIMenuItem primaryText='Profile Settings'/>
+                  <ListItem onClick={this._viewProfile}>Profile Settings</ListItem>
                   <MUIDivider />
-                  <MUIMenuItem primaryText='Logout' onTouchTap={this._handleLogout}/>
+                  <ListItem onClick={this._logoutUser}>Logout</ListItem>
                 </MUIMenu>
               </MUIPopover>
           </div>
@@ -86,16 +85,16 @@ export default class DashboardHeader extends Component {
 
   _handleToggleDropdownMenu = () => {
     this.setState({
+      dropdownAnchorEl: this.refs['navbar'],
       showProfileOptions: !this.state.showProfileOptions
     });
   };
 
   _handleLogout = () => {
-    this._hideProfileOptions();
+    console.log('logout');
   };
 
   _viewProfile = () => {
-    this._hideProfileOptions();
     this.context.router.push('/profile');
   };
 

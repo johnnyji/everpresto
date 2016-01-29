@@ -12,13 +12,14 @@ export default class ListItem extends Component {
 
   static propTypes = {
     className: PropTypes.string,
+    onClick: PropTypes.func,
     onRemove: PropTypes.func,
     removable: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
     removable: false
-  }
+  };
 
   render() {
     const {className, children, onRemove, removable} = this.props;
@@ -26,7 +27,10 @@ export default class ListItem extends Component {
 
     if (removable && onRemove) {
       return (
-        <MUIListItem className={classes} rightIconButton={this._renderRemoveButton()}>
+        <MUIListItem
+          className={classes}
+          rightIconButton={this._renderRemoveButton()}
+          onTouchTap={this._handleTouchTap}>
           {children}
         </MUIListItem>
       );
@@ -38,6 +42,12 @@ export default class ListItem extends Component {
       </MUIListItem>
     );
   }
+
+  _handleTouchTap = () => {
+    const {onClick} = this.props;
+    debugger;
+    if (onClick) onClick();
+  };
 
   _renderRemoveButton = () => {
     return (

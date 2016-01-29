@@ -7,13 +7,20 @@ import DocumentViewer from '.././shared/DocumentViewer';
 import FormSidebar from '.././shared/FormSidebar';
 import FormSidebarBody from '.././shared/FormSidebarBody';
 import FormSidebarSection from '.././shared/FormSidebarSection';
+import ModalFillPlaceholders from '.././modals/ModalFillPlaceholders';
 import Button from '.././ui/Button';
+
+import AppActionCreators from '../.././actions/AppActionCreators';
 
 const displayName = 'DocumentsNewEditorView';
 
 export default class DocumentsNewEditorView extends Component {
 
   static displayName = displayName;
+
+  static contextTypes = {
+    dispatch: PropTypes.func.isRequired
+  };
 
   static propTypes = {
     template: CustomPropTypes.template.isRequired
@@ -40,7 +47,7 @@ export default class DocumentsNewEditorView extends Component {
                   color='blue'
                   icon='edit'
                   onClick={this._showReplacePlaceholdersModal}
-                  text='Edit Document'/>
+                  text='Fill Placeholders'/>
               </FormSidebarSection>
             </FormSidebarBody>
             <Button
@@ -59,7 +66,11 @@ export default class DocumentsNewEditorView extends Component {
   };
 
   _showReplacePlaceholdersModal = () => {
-
+    this.context.dispatch(
+      AppActionCreators.createModal(
+        <ModalFillPlaceholders placeholders={this.props.template.get('placeholders')}/>
+      )
+    );
   };
 
 }
