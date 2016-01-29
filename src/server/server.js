@@ -138,9 +138,9 @@ app.use((req, res) => {
             <html>
               <head>
                 <meta charset="utf-8">
-                <meta author="Johnny Ji">
+                <meta author="Everpresto">
                 <meta name="viewport" content="width=device-width, initial-scale=1">
-                <title>Tickit</title>
+                <title>everpresto</title>
                 <link rel="stylesheet" type="text/css" href="${stylePath}" />
                 ${hydrateInitialClientState}
               </head>
@@ -158,9 +158,9 @@ app.use((req, res) => {
         <html>
           <head>
             <meta charset="utf-8">
-            <meta author="Johnny Ji">
+            <meta author="Everpresto">
             <meta name="viewport" content="width=device-width, initial-scale=1">
-            <title>Tickit</title>
+            <title>everpresto</title>
             <link rel="stylesheet" type="text/css" href="${stylePath}" />
           </head>
           <body>
