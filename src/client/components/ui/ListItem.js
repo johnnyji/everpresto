@@ -1,8 +1,10 @@
 import React, {Component, PropTypes} from 'react';
+// import injectTapEventPlugin from 'react-tap-event-plugin';
 import MUIListItem from 'material-ui/lib/lists/list-item';
 import MUIIconButton from 'material-ui/lib/icon-button';
 import classNames from 'classnames';
 import Icon from './Icon';
+// injectTapEventPlugin();
 
 const displayName = 'ui-ListItem';
 
@@ -29,8 +31,8 @@ export default class ListItem extends Component {
       return (
         <MUIListItem
           className={classes}
-          rightIconButton={this._renderRemoveButton()}
-          onTouchTap={this._handleTouchTap}>
+          onTouchTap={this._handleTouchTap}
+          rightIconButton={this._renderRemoveButton()}>
           {children}
         </MUIListItem>
       );
@@ -44,9 +46,8 @@ export default class ListItem extends Component {
   }
 
   _handleTouchTap = () => {
-    const {onClick} = this.props;
-    debugger;
-    if (onClick) onClick();
+    console.log('tapped');
+    if (this.props.onClick) this.props.onClick();
   };
 
   _renderRemoveButton = () => {

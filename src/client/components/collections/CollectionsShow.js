@@ -78,7 +78,7 @@ export default class CollectionsShow extends Component {
           <SearchBar
             label="I'm just a lonely search bar..."
             focusLabel='Yay, a new friend!'
-            onUpdate={this._filterDocuments} />
+            onUpdate={this._handleFilterDocuments} />
         </DashboardContentHeader>
         {this._renderDocuments(collection)}
       </DashboardContentWrapper>

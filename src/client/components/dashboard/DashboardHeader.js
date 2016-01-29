@@ -3,7 +3,6 @@ import {findDOMNode} from 'react-dom';
 import {Link} from 'react-router';
 import MUIDivider from 'material-ui/lib/divider';
 import MUIMenu from 'material-ui/lib/menus/menu';
-// import MUIMenuItem from 'material-ui/lib/menus/menu-item';
 import MUIPopover from 'material-ui/lib/popover/popover';
 import CustomPropTypes from '.././CustomPropTypes';
 
