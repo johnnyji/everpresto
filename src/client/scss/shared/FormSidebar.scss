@@ -1,7 +1,6 @@
 .FormSidebar {
   @include display(flex);
   @include flex-direction(column);
-  height: 100%;
   min-width: 300px;
   margin-left: 30px;
   overflow-y: auto;
