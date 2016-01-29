@@ -1,5 +1,5 @@
 // Using `div >` is to override the original `Card` padding.
-div > .DocumentViewer {
+.DocumentViewer {
   @include display(flex);
   @include flex-direction(column);
   width: 400px;

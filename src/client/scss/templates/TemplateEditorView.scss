@@ -5,11 +5,10 @@
   }
   &-sidebar {
     @include flex-grow(3);
-    overflow-y: auto;
     // The placeholders will take up the remainder of the sidebar space if needed
     &-placeholders {
       @include flex-grow(1);
-      overflow-y: auto;
+      @include flex-shrink(1);
     }
   }
 
