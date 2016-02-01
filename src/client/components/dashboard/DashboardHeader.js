@@ -44,10 +44,7 @@ export default class DashboardHeader extends Component {
     return (
       <header className={displayName}>
         <nav className={`${displayName}-navbar`} ref='navbar'>
-          <Logo
-            logoIconClassName={`${displayName}-navbar-logo`}
-            logoIconSize='2.2rem'
-            onLogoClick={this._handleLogoClick} />
+          <h2 className={`${displayName}-navbar-logo`}>everpresto!</h2>
           <div className={`${displayName}-navbar-nav`}>
             <Link to='profile'>
               <img

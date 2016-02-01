@@ -20,6 +20,12 @@
     height: 100%;
     position: relative;
     padding: 10px 20px;
+    &-logo {
+      @include display(flex);
+      @include justify-content(center);
+      margin: 0;
+      font-family: 'Indie Flower', 'Roboto', sans-serif;
+    }
     &-logo,
     &-nav {
       position: relative;

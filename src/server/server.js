@@ -138,9 +138,10 @@ app.use((req, res) => {
             <html>
               <head>
                 <meta charset="utf-8">
-                <meta author="Everpresto">
-                <meta name="viewport" content="width=device-width, initial-scale=1">
-                <title>everpresto</title>
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <meta name="description" content="Reducing document signing time">
+                <meta name="author" content="everpresto">
+                <title>everpresto!</title>
                 <link rel="stylesheet" type="text/css" href="${stylePath}" />
                 ${hydrateInitialClientState}
               </head>
@@ -158,9 +159,10 @@ app.use((req, res) => {
         <html>
           <head>
             <meta charset="utf-8">
-            <meta author="Everpresto">
-            <meta name="viewport" content="width=device-width, initial-scale=1">
-            <title>everpresto</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta name="description" content="Reducing document signing time">
+            <meta name="author" content="everpresto">
+            <title>everpresto!</title>
             <link rel="stylesheet" type="text/css" href="${stylePath}" />
           </head>
           <body>
