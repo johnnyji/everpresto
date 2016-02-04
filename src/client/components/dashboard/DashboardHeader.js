@@ -84,8 +84,8 @@ export default class DashboardHeader extends Component {
   }
 
   _handleLogoClick = () => {
-    const {location, history} = this.context;
-    if (location.pathname !== '/dashboard') history.push('/dashboard');
+    const {location, router} = this.context;
+    if (location.pathname !== '/dashboard') router.push('/dashboard');
   };
 
   _handleToggleDropdownMenu = () => {

@@ -17,12 +17,18 @@ export default class DashboardHandler extends Component {
 
   // Router history
   static contextTypes = {
+    router: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired
   };
 
   static propTypes = {
     currentUser: CustomPropTypes.user.isRequired
   };
+
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps.currentUser);
+    if (!nextProps.currentUser) this.context.router.replace('/');
+  }
 
   render() {
     const dashboardTabs = [
