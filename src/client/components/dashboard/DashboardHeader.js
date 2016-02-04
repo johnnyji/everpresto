@@ -64,11 +64,17 @@ export default class DashboardHeader extends Component {
                 open={showProfileOptions}
                 onRequestClose={() => this.setState({showProfileOptions: false})}
                 targetOrigin={{horizontal: 'right', vertical: 'top'}}>
-                <MUIMenu>
-                  <span onClick={this._viewProfile}><ListItem>Profile Settings</ListItem></span>
-                  <MUIDivider />
-                  <span onClick={this._logoutUser}><ListItem>Logout</ListItem></span>
-                </MUIMenu>
+              {/*
+                Wrapping the menu in div will prevent this error:
+                http://stackoverflow.com/questions/31998227/using-material-design-lite-with-react
+              */}
+                <div>
+                  <MUIMenu>
+                    <span onClick={this._viewProfile}><ListItem>Profile Settings</ListItem></span>
+                    <MUIDivider />
+                    <span onClick={this._handleLogout}><ListItem>Logout</ListItem></span>
+                  </MUIMenu>
+                </div>
               </MUIPopover>
           </div>
         </nav>
@@ -90,7 +96,7 @@ export default class DashboardHeader extends Component {
   };
 
   _handleLogout = () => {
-    this.context.dispatch(AuthActionCreators.logoutUser());
+    this.context.dispatch(AuthActionCreators.logout());
   };
 
   _viewProfile = () => {

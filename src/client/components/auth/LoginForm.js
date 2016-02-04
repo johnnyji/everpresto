@@ -43,6 +43,7 @@ export default class LoginForm extends Component {
     return (
       <div className={displayName}>
         <Card>
+          <h1 className={`${displayName}-title`}>Welcome Home!</h1>
           <Input
             autoFocus={true}
             className={`${displayName}-input`}
@@ -65,7 +66,7 @@ export default class LoginForm extends Component {
             ref='password'
             successKeys='values:password'
             type={showPassword ? 'text' : 'password'}/>
-          <label>
+          <label className={`${displayName}-show-password`}>
             <input
               checked={showPassword}
               onChange={this._toggleShowPassword}

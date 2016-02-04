@@ -2,14 +2,24 @@
   @extend .center-absolute;
   width: 400px;
   height: 400px;
-  div > .ui-Card {
-    @include display(flex);
-    @include flex-flow(column wrap);
+  &-title {
+    font-family: 'Indie Flower', 'Roboto', sans-serif;
+    text-align: center;
   }
-  &-input {
-
+  &-input,
+  &-show-password {
+    margin: 8px auto;
+  }
+  &-show-password {
+    color: $text-color-light;
+    display: block;
+    font-size: 14px;
+    text-align: center;
+    & input {
+      margin-right: 8px;
+    }
   }
   &-submit-button {
-    @include align-self(flex-end);
+    margin: 20px auto;
   }
 }

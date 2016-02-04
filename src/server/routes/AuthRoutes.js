@@ -27,6 +27,7 @@ router.post('/login', (req, res, next) => {
 
 // Deletes the userId session and logs out the user
 router.get('/logout', (req, res) => {
+  debugger;
   delete req.session.userId;
   delete req.session.companyId;
   res.status(204).end();
