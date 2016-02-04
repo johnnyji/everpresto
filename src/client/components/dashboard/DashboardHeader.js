@@ -12,6 +12,8 @@ import Clickable from '.././ui/Clickable';
 import Icon from '.././ui/Icon';
 import ListItem from '.././ui/ListItem';
 
+import AuthActionCreators from '../.././actions/AuthActionCreators';
+
 const displayName = 'DashboardHeader';
 
 export default class DashboardHeader extends Component {
@@ -19,6 +21,7 @@ export default class DashboardHeader extends Component {
   static displayName = displayName;
 
   static contextTypes = {
+    dispatch: PropTypes.func.isRequired,
     location: PropTypes.object.isRequired,
     router: PropTypes.object.isRequired
   };
@@ -62,9 +65,9 @@ export default class DashboardHeader extends Component {
                 onRequestClose={() => this.setState({showProfileOptions: false})}
                 targetOrigin={{horizontal: 'right', vertical: 'top'}}>
                 <MUIMenu>
-                  <ListItem onClick={this._viewProfile}>Profile Settings</ListItem>
+                  <span onClick={this._viewProfile}><ListItem>Profile Settings</ListItem></span>
                   <MUIDivider />
-                  <ListItem onClick={this._logoutUser}>Logout</ListItem>
+                  <span onClick={this._logoutUser}><ListItem>Logout</ListItem></span>
                 </MUIMenu>
               </MUIPopover>
           </div>
@@ -87,7 +90,7 @@ export default class DashboardHeader extends Component {
   };
 
   _handleLogout = () => {
-    console.log('logout');
+    this.context.dispatch(AuthActionCreators.logoutUser());
   };
 
   _viewProfile = () => {

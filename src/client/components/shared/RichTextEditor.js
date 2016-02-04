@@ -4,7 +4,8 @@ import classNames from 'classnames';
 import Immutable from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import MediumEditor from 'medium-editor';
-import TextEditorHelper from '../.././utils/TextEditorHelper';
+import onstop from 'onstop';
+import {markCurrentCaretPosition, placeCaretAfterNode} from '../.././utils/TextEditorHelper';
 import Config from '../.././config/main';
 
 const caretIndexFinder = document.createTextNode('\u0001');
@@ -19,7 +20,13 @@ export default class RichTextEditor extends Component {
   static propTypes = {
     className: PropTypes.string,
     text: PropTypes.string.isRequired,
+    onStopTyping: PropTypes.func,
+    onStopTypingTime: PropTypes.number.isRequired,
     onUpdate: PropTypes.func.isRequired
+  };
+
+  static defaultProps = {
+    onStopTypingTime: 400
   };
 
   constructor(props) {
@@ -34,6 +41,7 @@ export default class RichTextEditor extends Component {
   }
 
   componentDidMount() {
+    const {onStopTyping, onStopTypingTime} = this.props;
     const editor = findDOMNode(this);
     const toolbarButtons = ['bold', 'italic', 'underline', 'quote', 'unorderedlist', 'orderedlist'];
 
@@ -42,8 +50,10 @@ export default class RichTextEditor extends Component {
       toolbar: {buttons: toolbarButtons}
     });
 
-    // No need to manually detach, will do so when the editor is destroyed in `componentWillUnmount`
-    this.medium.on(editor, 'keydown', this._handleKeydown)
+    if (onStopTyping) {
+      // No need to manually detach, will do so when the editor is destroyed in `componentWillUnmount`
+      this.medium.on(editor, 'keypress', onstop(onStopTypingTime, onStopTyping));
+    }
 
     this.medium.subscribe('editableInput', (e, editable) => {
       this._updated = true;
@@ -58,14 +68,15 @@ export default class RichTextEditor extends Component {
     const {text} = nextProps;
 
     if (text !== this.state.text) this.setState({text});
-
     if (this._updated) this._updated = false;
   }
 
   componentDidUpdate(prevProps, prevState) {
+    // If there's a marker for where the caret should be, place the caret
+    // at the position of it's marker
     const caretMarker = document.getElementById(caretMarkerNodeId);
 
-    if (caretMarker) TextEditorHelper.placeCaretAfterNode(caretMarker);
+    if (caretMarker) placeCaretAfterNode(caretMarker);
   }
 
   componentWillUnmount() {
@@ -79,13 +90,14 @@ export default class RichTextEditor extends Component {
       <div
         className={classes}
         contentEditable
-        dangerouslySetInnerHTML={{__html: this.state.text}}></div>
+        dangerouslySetInnerHTML={{__html: this.state.text}}/>
     );
   }
 
   _handleUpdate = (text) => {
-    // Marks the current caret position in the HTML text
-    const textWithCaretPosMarked = TextEditorHelper.markCurrentCaretPosition(
+    // Marks the current caret position in the HTML text so we can
+    // later place the caret there if needed
+    const textWithCaretPosMarked = markCurrentCaretPosition(
       findDOMNode(this),
       text,
       caretIndexFinder,

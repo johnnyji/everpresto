@@ -6,11 +6,9 @@ import RichTextEditor from '.././shared/RichTextEditor';
 import {highlightText, removeHighlights} from '../.././utils/TextEditorHelper';
 import Config from '../.././config/main';
 
-const PLACEHOLDER_CLASS = Config.template.placeholderClass;
-
 /**
  * This component takes care of scanning and highlighting the text for placeholders every time the
- * `text` or `templatePlaceholders` prop updates
+ * user stops typing or `templatePlaceholders` prop updates
  */
 export default class TemplateEditor extends Component {
 
@@ -27,27 +25,15 @@ export default class TemplateEditor extends Component {
     templatePlaceholders: Immutable.List()
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      savedSelection: null
-    };
-  }
-
-  componentDidMount() {
-    const editor = findDOMNode(this);
-    this._handleUpdate(this.props.text);
-  }
-
   componentWillReceiveProps(nextProps) {
     const {templatePlaceholders, text} = nextProps;
 
     if (!templatePlaceholders.equals(this.props.templatePlaceholders)) {
       // If the placeholders have changed, we want to re-highlight our text
-      let parsedText = removeHighlights(text, this.props.templatePlaceholders, PLACEHOLDER_CLASS);
+      let parsedText = removeHighlights(text);
 
       if (templatePlaceholders.size > 0) {
-        parsedText = highlightText(parsedText, templatePlaceholders, PLACEHOLDER_CLASS);
+        parsedText = highlightText(parsedText, templatePlaceholders);
       }
       // Updates the parent with the rehighlighted text
       this.props.onUpdate(parsedText);
@@ -60,26 +46,25 @@ export default class TemplateEditor extends Component {
     return (
       <RichTextEditor
         className={className}
-        text={text}
-        onUpdate={this._handleUpdate}/>
+        onStopTyping={this._handleStopTyping}
+        onUpdate={this._handleUpdate}
+        text={text}/>
     );
   }
 
   /**
-   * Parses the text of the editor and highlights and new placeholders/partial placeholders
-   * @param  {String} htmlText - The HTML text we're scanning
+   * Rehighlights the placeholders when the user stops typing and triggers an update
    */
+  _handleStopTyping = () => {
+    const {text, templatePlaceholders} = this.props;
+    this._handleUpdate(
+      highlightText(removeHighlights(text), templatePlaceholders)
+    );
+  };
+
+
   _handleUpdate = (htmlText = findDOMNode(this).innerHTML) => {
-    const {templatePlaceholders, onUpdate} = this.props;
-
-    let parsedHtmlText = htmlText;
-    // If we enable the ability to highlight template placeholders, we want to
-    // check for new placeholders everytime the text changes
-    if (templatePlaceholders.size > 0) {
-      parsedHtmlText = highlightText(htmlText, templatePlaceholders, PLACEHOLDER_CLASS);
-    }
-
-    onUpdate(parsedHtmlText);
+    this.props.onUpdate(htmlText);
   };
 
 }

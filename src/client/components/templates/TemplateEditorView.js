@@ -37,15 +37,6 @@ export default class TemplateEditorView extends Component {
     mode: 'create'
   };
 
-  // unsavedPlaceholders: {
-  //   id: '412o4u104u13401240912302013'
-  //   values: {
-  //     value: ''
-  //   },
-  //   errors: {
-  //     value: null
-  //   }
-  // }
   constructor(props) {
     super(props);
     this.state = {
@@ -73,7 +64,7 @@ export default class TemplateEditorView extends Component {
   }
 
   render() {
-    const {importingTemplate, template, unsavedPlaceholders} = this.state;
+    const {importingTemplate, template} = this.state;
     const {mode} = this.props;
 
     return (

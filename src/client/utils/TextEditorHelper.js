@@ -3,6 +3,7 @@ import replaceWordWithHtml from './replaceWordWithHtml';
 import {richTextEditor, template} from '.././config/main';
 
 const HIGHLIGHT_TAG = template.placeholderTag;
+const HIGHLIGHT_TAG_MATCHER = new RegExp(`(<${HIGHLIGHT_TAG}>|<\/${HIGHLIGHT_TAG}>)`, 'g');
 const CARET_POSITION_MARKER_MATCHER = new RegExp(richTextEditor.caretMarkerNode);
 
 const TextEditorHelper = {
@@ -90,17 +91,13 @@ const TextEditorHelper = {
 
 
   /**
-   * Removes the highlighted tags from all instances of the words in the keyword list from the text
+   * Removes all traces of the highlight tag from the text
    *
    * @param  {String} text              - The string of text we'll be parsing
-   * @param  {Immutable.List} keywords  - The list of keywords to unhighlight
-   * @return {String}                   [description]
+   * @return {String}                   - The new text with highlight tags removed
    */
-  removeHighlights(text, keywords) {
-    return keywords.reduce((alteredText, keyword) => {
-      const highlightedText = `<${HIGHLIGHT_TAG}>${keyword}</${HIGHLIGHT_TAG}>`;
-      return alteredText.replace(new RegExp(highlightedText, 'g'), keyword);
-    }, text);
+  removeHighlights(text) {
+    return text.replace(HIGHLIGHT_TAG_MATCHER, '');
   },
 
 

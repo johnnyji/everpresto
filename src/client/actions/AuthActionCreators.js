@@ -57,7 +57,18 @@ const AuthActionCreators = {
   },
 
   logout(data) {
+    return (dispatch) => {
+      sendAjaxRequest({
+        method: apiEndpoints.user.logout.method,
+        url: apiEndpoints.user.logout.path
+      })
+        .then((response) => dispatch(this.logoutSuccess()))
+        .catch((response) => dispatch(createFlashMessage('red', response.data.message)));
+    };
+  },
 
+  logoutSuccess() {
+    return {type: AuthActionTypes.LOGOUT_SUCCESS};
   }
 
 }

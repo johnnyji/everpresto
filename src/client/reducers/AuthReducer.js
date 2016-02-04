@@ -3,7 +3,8 @@ import AuthActionTypes from '.././action_types/AuthActionTypes';
 
 const {
   CREATE_COMPANY_WITH_USER_SUCCESS,
-  LOGIN_SUCCESS} = AuthActionTypes;
+  LOGIN_SUCCESS,
+  LOGOUT_SUCCESS} = AuthActionTypes;
 
 const initialState = Immutable.fromJS({
   company: null,
@@ -25,6 +26,12 @@ export default function authReducer(state = initialState, action) {
       return state.merge({
         company: action.data.company,
         user: action.data.user
+      });
+
+    case LOGOUT_SUCCESS:
+      return state.merge({
+        company: null,
+        user: null
       });
 
     // Default
