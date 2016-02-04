@@ -26,7 +26,6 @@ export default class DashboardHandler extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps.currentUser);
     if (!nextProps.currentUser) this.context.router.replace('/');
   }
 

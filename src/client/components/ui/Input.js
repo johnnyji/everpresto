@@ -61,6 +61,7 @@ export default class Input extends Component {
 
   render() {
     const {
+      autoComplete,
       autoFocus,
       className,
       defaultValue,

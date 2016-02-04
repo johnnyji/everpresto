@@ -40,6 +40,8 @@ export default class DashboardHeader extends Component {
 
   render() {
     const {currentUser} = this.props;
+    if (!currentUser) return <div/>;
+    
     const {dropdownAnchorEl, showProfileOptions} = this.state;
 
     return (
