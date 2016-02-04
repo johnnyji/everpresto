@@ -41,8 +41,6 @@ export default class DashboardHeader extends Component {
   render() {
     const {currentUser} = this.props;
     const {dropdownAnchorEl, showProfileOptions} = this.state;
-    const firstName = currentUser.getIn(['account', 'firstName']);
-    const lastName = currentUser.getIn(['account', 'lastName']);
 
     return (
       <header className={displayName}>
@@ -55,7 +53,7 @@ export default class DashboardHeader extends Component {
                 src={currentUser.getIn(['account', 'profilePictureUrl'])} />
             </Link>
             <Clickable onClick={this._handleToggleDropdownMenu} ref='dropdown-anchor'>
-              {firstName} {lastName}
+              {currentUser.getIn(['account', 'firstName'])} {currentUser.getIn(['account', 'lastName'])}
             </Clickable>
               <MUIPopover
                 anchorEl={dropdownAnchorEl}
