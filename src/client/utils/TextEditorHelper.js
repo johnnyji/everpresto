@@ -2,6 +2,31 @@ import _ from 'lodash';
 import replaceWordWithHtml from './replaceWordWithHtml';
 import {richTextEditor, template} from '.././config/main';
 
+function getCaretIndex(element) {
+    var caretOffset = 0;
+    var doc = element.ownerDocument || element.document;
+    var win = doc.defaultView || doc.parentWindow;
+    var sel;
+    if (typeof win.getSelection != "undefined") {
+        sel = win.getSelection();
+        if (sel.rangeCount > 0) {
+            var range = win.getSelection().getRangeAt(0);
+            var preCaretRange = range.cloneRange();
+            preCaretRange.selectNodeContents(element);
+            preCaretRange.setEnd(range.endContainer, range.endOffset);
+            caretOffset = preCaretRange.toString().length;
+        }
+    } else if ( (sel = doc.selection) && sel.type != "Control") {
+        var textRange = sel.createRange();
+        var preCaretTextRange = doc.body.createTextRange();
+        preCaretTextRange.moveToElementText(element);
+        preCaretTextRange.setEndPoint("EndToEnd", textRange);
+        caretOffset = preCaretTextRange.text.length;
+    }
+    return caretOffset;
+}
+
+
 const {placeholderTag: HIGHLIGHT_TAG} = template;
 const {
   caretMarkerNode,
@@ -31,25 +56,28 @@ class TextEditorHelper {
    * @param  {DOM.Element} ele               - The content editable element we're marking the caret position of
    * @return {String}                        - The string with the caret marker injected so we know where the caret last was
    */
-  markCurrentCaretPosition = (ele, text) => {
+  markCurrentCaretPosition = (ele) => {
+    const text = ele.innerHTML;
     // First removes any caret markers in the text and remove them
     let unmarkedText = text.replace(CARET_POSITION_MARKER_MATCHER, '');
     //Insert the new caret marker into the current caret position in the HTML element
-
+    console.log(ele.innerHTML);
     // THE ERROR: When the caret marker node is pasted at the caret,
     // the ele.innerHTML will have 2 caretMarkerNodes, 1 from previous, and the newly pasted one.
     // We cannot remove the previous one prior to pasting because it will actually alter the
     // element on the page, causing the caret to go haywire
-    this.pasteHtmlAtCaret(caretMarkerNode);
-
+    this.pasteHtmlAtCaret('<span id="temp-marker"></span>');
     // Finds the index of the marker in the HTML element.
     
     // THE ERROR: Because we now have 2 caretMarkerNodes, it will always find the first one
-    const currentCaretIndex = ele.innerHTML.indexOf(caretMarkerNode);
+    // **This explains why we were always able to back, but never forward after that**
+
+    const currentCaretIndex = ele.innerHTML.indexOf('<span id="temp-marker"></span>');
+    // const currentCaretIndex = getCaretIndex(ele);
     console.log(currentCaretIndex);
 
     // Removes the marker as soon as the index is found.
-    const domCaretMarkerNode = document.getElementById(CARET_POSITION_MARKER_ID);
+    const domCaretMarkerNode = document.getElementById('temp-marker');
     domCaretMarkerNode.parentNode.removeChild(domCaretMarkerNode);
 
     // THE ERROR: Because the currentCaretIndex is falsely portrayed as the previous caret index, the caret will be

@@ -63,10 +63,11 @@ export default class RichTextEditor extends Component {
 
     this.medium.subscribe('editableInput', (event, editable) => {
       this._updated = true;
-      this._handleUpdate(editable.innerHTML);
+      this._handleUpdate(editable);
     });
 
     // Does the initial updating.
+    // TODO: Why do we need this?
     // this._handleUpdate(editor.innerHTML);
   }
 
@@ -82,7 +83,6 @@ export default class RichTextEditor extends Component {
       // If there's a marker for where the caret should be, place the caret
       // at the position of it's marker
       const caretMarker = document.getElementById(caretMarkerNodeId);
-
       if (caretMarker) placeCaretAfterNode(caretMarker);
     }
   }
@@ -102,11 +102,10 @@ export default class RichTextEditor extends Component {
     );
   }
 
-  _handleUpdate = (text) => {
+  _handleUpdate = (ele) => {
     // Marks the current caret position in the HTML text so we can
     // later place the caret there if needed
-    const textWithCaretPosMarked = markCurrentCaretPosition(findDOMNode(this), text);
-
+    const textWithCaretPosMarked = markCurrentCaretPosition(ele);
     this.props.onUpdate(textWithCaretPosMarked);
   }
 
