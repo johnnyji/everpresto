@@ -31,11 +31,11 @@ export default class AuthHandler extends Component {
   componentWillUpdate(nextProps) {
     const {currentUser} = this.props;
     const {currentUser: nextUser} = nextProps;
-    // If the user props are different, we redirect accordingly
-    if (Boolean(currentUser) && !currentUser.equals(nextUser)) {
-      if (nextUser) return this.context.router.replace('/dashboard');
-      this.context.router.replace('/');
-    }
+
+    // If there's currently no user, but there will be one coming up, redirect to dashboard
+    if (!currentUser && nextUser) return this.context.router.replace('/dashboard');
+    // If there's a current user and no next user, redirect to main page.
+    if (currentUser && !nextUser) return this.context.router.replace('/');
   }
 
   render() {
