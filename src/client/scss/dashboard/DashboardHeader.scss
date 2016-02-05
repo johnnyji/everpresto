@@ -25,6 +25,7 @@
       @include justify-content(center);
       margin: 0;
       font-family: 'Indie Flower', 'Roboto', sans-serif;
+      &:hover {cursor: pointer;}
     }
     &-logo,
     &-nav {

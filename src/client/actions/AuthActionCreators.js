@@ -70,10 +70,7 @@ const AuthActionCreators = {
         url: apiEndpoints.users.logout.path
       })
         .then((response) => dispatch(this.logoutSuccess()))
-        .catch((response) => {
-          debugger;
-          dispatch(createFlashMessage('red', 'Oops! Unable to logout at this time.'))
-        });
+        .catch((response) => dispatch(createFlashMessage('red', 'Oops! Unable to logout at this time.')));
     };
   },
 

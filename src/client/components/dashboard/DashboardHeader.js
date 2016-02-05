@@ -40,6 +40,8 @@ export default class DashboardHeader extends Component {
 
   render() {
     const {currentUser} = this.props;
+    // DO NOT REMOVE: This guard prevents the console from throwing a `getIn of undefined` error
+    // after the user logs out... Need to figure out why that's happening
     if (!currentUser) return <div/>;
     
     const {dropdownAnchorEl, showProfileOptions} = this.state;
@@ -47,7 +49,7 @@ export default class DashboardHeader extends Component {
     return (
       <header className={displayName}>
         <nav className={`${displayName}-navbar`} ref='navbar'>
-          <h2 className={`${displayName}-navbar-logo`}>everpresto!</h2>
+          <h2 className={`${displayName}-navbar-logo`} onClick={this._handleLogoClick}>everpresto!</h2>
           <div className={`${displayName}-navbar-nav`}>
             <Link to='profile'>
               <img
