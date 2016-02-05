@@ -1,12 +1,10 @@
 import React, {Component, PropTypes} from 'react';
 import classNames from 'classnames';
-import mammoth from 'mammoth';
-import striptags from 'striptags';
 import AppActionCreators from '../.././actions/AppActionCreators';
 
-const displayName = 'FileConverter';
+const displayName = 'FileUploader';
 
-export default class FileConverter extends Component {
+export default class FileUploader extends Component {
 
   static displayName = displayName;
 
@@ -17,14 +15,12 @@ export default class FileConverter extends Component {
   static propTypes = {
     className: PropTypes.string,
     label: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
-    onStart: PropTypes.func.isRequired,
-    onEnd: PropTypes.func.isRequired,
+    onUpload: PropTypes.func.isRequired,
     permittedExtensions: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired
   };
 
   static defaultProps = {
-    label: 'Choose a file',
-    permittedExtensions: ['.docx']
+    label: 'Choose a file'
   };
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -56,17 +52,11 @@ export default class FileConverter extends Component {
   }
 
   /**
-   * Handles an error, and either invokes a specified callback or alerts a flash message
-   *
+   * Alerts the error
    * @param  {String|React.Element} error - The error message
-   * @return {Function}                   - The callback or dispatch that handles the error
    */
   _handleError = (error) => {
-    const {onError} = this.props;
-    const {dispatch} = this.context;
-
-    if (onError) return onError(error);
-    if (dispatch) dispatch(AppActionCreators.createFlashMessage('red', error));
+    this.context.dispatch(AppActionCreators.createFlashMessage('red', error));
   };
 
   /**
@@ -76,11 +66,15 @@ export default class FileConverter extends Component {
   _handleInvalidExtension = () => {
     const error = (
       <span>
-        <p>Sorry, but only</p>
+        <p>Try one of the following extensions</p>
         {this.props.permittedExtensions.map((extension, i) => {
-          return <div key={i}><b><em>{extension}</em></b></div>;
+          return (
+            <div key={i}>
+              <b><em>{extension}</em></b>
+              <br/><br/>
+            </div>
+          );
         })}
-        <p>files are accepted at this time!</p>
       </span>
     );
 
@@ -100,26 +94,8 @@ export default class FileConverter extends Component {
     // If the file uploaded is not a permitted format, we alert an error
     if (!this._validateExtension(file.name)) return this._handleInvalidExtension();
 
-    this.props.onStart();
-
-    const _this = this;
-    const reader = new FileReader();
-
-    // When the upload is complete
-    reader.onloadend = () => {
-      // If the file reader has trouble reading a file, we alert the error
-      if (reader.error) return _this._handleError(reader.error);
-      // Converts the array buffer of to HTML
-      mammoth.convertToHtml({arrayBuffer: reader.result})
-        .then((result) => {
-          _this.props.onEnd(result.value);
-          _this.setState({filename: file.name});
-        })
-        .catch((err) => _this._handleError(err));
-    };
-
-    // Reads the user uploaded file as an array buffer
-    reader.readAsArrayBuffer(file, striptags(file));
+    this.setState({filename: file.name});
+    this.props.onUpload(file);
   };
 
   /**

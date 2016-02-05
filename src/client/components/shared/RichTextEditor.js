@@ -8,9 +8,7 @@ import onstop from 'onstop';
 import {markCurrentCaretPosition, placeCaretAfterNode} from '../.././utils/TextEditorHelper';
 import Config from '../.././config/main';
 
-const caretIndexFinder = document.createTextNode('\u0001');
-const {caretMarkerNode, caretMarkerNodeId} = Config.richTextEditor;
-const caretMarkerNodeMatcher = new RegExp(caretMarkerNode);
+const {caretMarkerNodeId} = Config.richTextEditor;
 const displayName = 'RichTextEditor';
 
 export default class RichTextEditor extends Component {
@@ -50,18 +48,26 @@ export default class RichTextEditor extends Component {
       toolbar: {buttons: toolbarButtons}
     });
 
+    // We call a handle update on all these events because they all potentially
+    // can cause the caret position to move
+    // TOO SLOW: CANNOT USE.
+    
+    // this.medium.on(editor, 'click', () => this._handleUpdate(editor.innerHTML));
+    // this.medium.on(editor, 'keydown', () => this._handleUpdate(editor.innerHTML));
+    // this.medium.on(editor, 'focus', () => this._handleUpdate(editor.innerHTML));
+
     if (onStopTyping) {
       // No need to manually detach, will do so when the editor is destroyed in `componentWillUnmount`
       this.medium.on(editor, 'keypress', onstop(onStopTypingTime, onStopTyping));
     }
 
-    this.medium.subscribe('editableInput', (e, editable) => {
+    this.medium.subscribe('editableInput', (event, editable) => {
       this._updated = true;
       this._handleUpdate(editable.innerHTML);
     });
 
     // Does the initial updating.
-    this._handleUpdate(editor.innerHTML);
+    // this._handleUpdate(editor.innerHTML);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -72,11 +78,13 @@ export default class RichTextEditor extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    // If there's a marker for where the caret should be, place the caret
-    // at the position of it's marker
-    const caretMarker = document.getElementById(caretMarkerNodeId);
+    if (prevProps.text.length !== this.props.text.length) {
+      // If there's a marker for where the caret should be, place the caret
+      // at the position of it's marker
+      const caretMarker = document.getElementById(caretMarkerNodeId);
 
-    if (caretMarker) placeCaretAfterNode(caretMarker);
+      if (caretMarker) placeCaretAfterNode(caretMarker);
+    }
   }
 
   componentWillUnmount() {
@@ -97,13 +105,7 @@ export default class RichTextEditor extends Component {
   _handleUpdate = (text) => {
     // Marks the current caret position in the HTML text so we can
     // later place the caret there if needed
-    const textWithCaretPosMarked = markCurrentCaretPosition(
-      findDOMNode(this),
-      text,
-      caretIndexFinder,
-      caretMarkerNode,
-      caretMarkerNodeMatcher
-    );
+    const textWithCaretPosMarked = markCurrentCaretPosition(findDOMNode(this), text);
 
     this.props.onUpdate(textWithCaretPosMarked);
   }

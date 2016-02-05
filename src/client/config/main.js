@@ -1,4 +1,4 @@
-const caretMarkerNodeId = 'tickit-caret-position';
+const caretMarkerNodeId = 'everpresto-caret-position-marker';
 
 export default {
   collection: {

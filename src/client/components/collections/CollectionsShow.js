@@ -100,7 +100,7 @@ export default class CollectionsShow extends Component {
       return (
         <DashboardQuote
           author='Jedi Master Yoda'
-          quote="If it's ease of workflow you seek, create contracts from templates you must!"/>
+          quote="If it's ease of workflow you seek, create from templates you must!"/>
       );
     }
 

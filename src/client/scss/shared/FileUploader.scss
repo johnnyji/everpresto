@@ -1,65 +1,28 @@
-.file-uploader {
+.FileUploader {
   position: relative;
-  
-  .dropzone {
-    position: relative;
-    display: inline-block;
-    vertical-align: top;
-    height: 100px;
-    width: 100px;
-    border: 2px dashed $text-color;
-    p {
-      @include position-center(absolute, 48%, 50%);
-      height: 80px;
-      width: 80px;
-      font-size: 0.8rem;
-      text-align: center;
-      &:hover {
-        cursor: pointer;
-      }
+  margin: 12px 0;
+  height: 40px;
+  width: 100%;
+
+  &-label {
+    @extend .transition;
+    border: 1px dashed $placeholder-color;
+    color: $placeholder-color;
+    text-align: center;
+    padding: 12px;
+  }
+
+  &-label,
+  &-input {
+    @extend .center-absolute;
+    width: 100%;
+    &:hover {
+      cursor: pointer;
     }
   }
 
-  &-preview {
-    position: relative;
-    display: inline-block;
-    margin-left: 1.5rem;
-    &-title {
-      margin: 0;
-    }
-    &-list {
-      position: relative;
-      list-style: none;
-      padding-left: 0;
-      &-item {
-        position: relative;
-        margin: 0.25rem 0;
-        &-icon {
-          position: relative;
-          display: inline-block;
-          vertical-align: top;
-          width: 20px;
-          height: 20px;
-          margin-right: 0.5rem;
-        }
-        &-name {
-          position: relative;
-          display: inline-block;
-          margin: 0 0.5rem 0 0;
-        }
-        &-remove-file-icon {
-          position: relative;
-          display: inline-block;
-          svg {
-            color: $text-color-light;
-            &:hover {
-              cursor: pointer;
-              color: $text-color;
-            }
-          }
-        }
-      }
-    }
-  }
-
+  &-input {
+    // Shifts the input field left so it is more centereds
+    opacity: 0;
+  }  
 }

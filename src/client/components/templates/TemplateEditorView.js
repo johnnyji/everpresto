@@ -10,7 +10,7 @@ import {getAttr} from '../.././utils/immutable/MapFunctions';
 import Button from '.././ui/Button';
 import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
 import DocumentEditor from '.././shared/DocumentEditor';
-import FileConverter from '.././shared/FileConverter';
+import FileToHtmlConverter from '.././shared/FileToHtmlConverter';
 import FormSidebar from '.././shared/FormSidebar';
 import FormSidebarBody from '.././shared/FormSidebarBody';
 import FormSidebarPlaceholderInput from '.././shared/FormSidebarPlaceholderInput';
@@ -81,7 +81,7 @@ export default class TemplateEditorView extends Component {
         <FormSidebar className={`${displayName}-sidebar`}>
           <FormSidebarBody>
             <FormSidebarSection>
-              <FileConverter
+              <FileToHtmlConverter
                 label={importingTemplate ? 'Importing...' : 'Import Existing Template'}
                 onEnd={this._handleTemplateUploadEnd}
                 onStart={this._handleTemplateUploadStart} />
