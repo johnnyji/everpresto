@@ -101,9 +101,7 @@ export default class LoginForm extends Component {
   };
 
   _toggleShowPassword = () => {
-    this.setState({
-      showPassword: !this.state.showPassword
-    })
+    this.setState({showPassword: !this.state.showPassword});
   };
   
 }

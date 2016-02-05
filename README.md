@@ -1,6 +1,6 @@
 # Everpresto
 
-You tell us who needs to sign, we take care of everything else.
+Automating the document signing process, cause you've got better things to do.
 
 ### Tech Stack
 

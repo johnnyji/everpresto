@@ -45,7 +45,7 @@ const AuthActionCreators = {
         data: {user}
       })
         .then((response) => dispatch(this.loginSuccess(response.data)))
-        .catch((response) => dispatch(createFlashMessage('red', response.data.message)));
+        .catch((response) => dispatch(createFlashMessage('red', 'Oops! Invalid Email/Password')));
     };
   },
 
@@ -55,6 +55,13 @@ const AuthActionCreators = {
       data
     };
   },
+
+  // loginError(message) {
+  //   return {
+  //     type: AuthActionTypes.LOGIN_ERROR,
+  //     data: {message}
+  //   }
+  // },
 
   logout(data) {
     return (dispatch) => {
