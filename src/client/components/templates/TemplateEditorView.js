@@ -121,7 +121,7 @@ export default class TemplateEditorView extends Component {
   _handleTemplateUploadEnd = (body) => {
     this.setState({
       importingTemplate: false,
-      template: this.state.template.merge({body})
+      template: this.state.template.set('body', body.concat('<span id="everpresto-caret-position-marker"></span>'))
     });
   };
 

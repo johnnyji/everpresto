@@ -1,14 +1,12 @@
 import React, {Component, PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
+import rangy from 'rangy/lib/rangy-selectionsaverestore';
 import classNames from 'classnames';
 import Immutable from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import MediumEditor from 'medium-editor';
 import onstop from 'onstop';
-import {markCurrentCaretPosition, placeCaretAfterNode} from '../.././utils/TextEditorHelper';
-import Config from '../.././config/main';
 
-const {caretMarkerNodeId} = Config.richTextEditor;
 const displayName = 'RichTextEditor';
 
 export default class RichTextEditor extends Component {
@@ -30,6 +28,7 @@ export default class RichTextEditor extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      savedSelection: null,
       text: this.props.text
     };
   };
@@ -41,24 +40,17 @@ export default class RichTextEditor extends Component {
   componentDidMount() {
     const {onStopTyping, onStopTypingTime} = this.props;
     const editor = findDOMNode(this);
-    const toolbarButtons = ['bold', 'italic', 'underline', 'quote', 'unorderedlist', 'orderedlist'];
 
     this.medium = new MediumEditor(editor, {
       placeholder: false,
-      toolbar: {buttons: toolbarButtons}
+      toolbar: {
+        buttons: ['bold', 'italic', 'underline', 'quote', 'unorderedlist', 'orderedlist']
+      }
     });
-
-    // We call a handle update on all these events because they all potentially
-    // can cause the caret position to move
-    // TOO SLOW: CANNOT USE.
-    
-    // this.medium.on(editor, 'click', () => this._handleUpdate(editor.innerHTML));
-    // this.medium.on(editor, 'keydown', () => this._handleUpdate(editor.innerHTML));
-    // this.medium.on(editor, 'focus', () => this._handleUpdate(editor.innerHTML));
 
     if (onStopTyping) {
       // No need to manually detach, will do so when the editor is destroyed in `componentWillUnmount`
-      this.medium.on(editor, 'keypress', onstop(onStopTypingTime, onStopTyping));
+      this.medium.on(editor, 'keypress', onstop(onStopTypingTime, this._handleStopTyping));
     }
 
     this.medium.subscribe('editableInput', (event, editable) => {
@@ -79,11 +71,13 @@ export default class RichTextEditor extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.text.length !== this.props.text.length) {
-      // If there's a marker for where the caret should be, place the caret
-      // at the position of it's marker
-      const caretMarker = document.getElementById(caretMarkerNodeId);
-      if (caretMarker) placeCaretAfterNode(caretMarker);
+    const textChanged = prevProps.text.length !== this.props.text.length;
+
+    // If the text has changed and we have a saved selection,
+    // we want to restore that selection
+    if (textChanged && this.state.savedSelection) {
+      console.log('hit');
+      rangy.restoreSelection(this.state.savedSelection);
     }
   }
 
@@ -102,11 +96,27 @@ export default class RichTextEditor extends Component {
     );
   }
 
+  /**
+   * Handles when the user stops typing (after a certain time span), marks the current selected range
+   * (in most cases caret index) in the HTML, and returns the marked HTML to the parent component
+   */
+  _handleStopTyping = () => {
+    // Once the user stops typing, we want to save their current selection (caret index in most cases)
+    const savedSelection = rangy.saveSelection();
+    const selectionMarkedHTML = findDOMNode(this).innerHTML;
+    // Make sure we keep our saved selection in state for when we need to restore it
+    this.setState({savedSelection});
+    // We pass back the specially rangy marked HTML so the
+    // saved selection can be later restored
+    this.props.onStopTyping(selectionMarkedHTML);
+  };
+
+  /**
+   * Returns the updated editor contents to the parent component
+   * @param  {React.Element} ele - The Medium Text Editor contentEditable element
+   */
   _handleUpdate = (ele) => {
-    // Marks the current caret position in the HTML text so we can
-    // later place the caret there if needed
-    const textWithCaretPosMarked = markCurrentCaretPosition(ele);
-    this.props.onUpdate(textWithCaretPosMarked);
-  }
+    this.props.onUpdate(ele.innerHTML);
+  };
 
 }

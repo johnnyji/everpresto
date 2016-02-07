@@ -2,7 +2,7 @@ import _ from 'lodash';
 import replaceWordWithHtml from './replaceWordWithHtml';
 import {richTextEditor, template} from '.././config/main';
 
-function getCaretIndex(element) {
+function getCaretOffsetWithinElement(element) {
     var caretOffset = 0;
     var doc = element.ownerDocument || element.document;
     var win = doc.defaultView || doc.parentWindow;
@@ -56,9 +56,8 @@ class TextEditorHelper {
    * @param  {DOM.Element} ele               - The content editable element we're marking the caret position of
    * @return {String}                        - The string with the caret marker injected so we know where the caret last was
    */
-  markCurrentCaretPosition = (ele) => {
-    const text = ele.innerHTML;
-    // First removes any caret markers in the text and remove them
+  markCurrentCaretPosition = (ele, text) => {
+    // First finds any caret markers in the text and remove them
     let unmarkedText = text.replace(CARET_POSITION_MARKER_MATCHER, '');
     //Insert the new caret marker into the current caret position in the HTML element
     console.log(ele.innerHTML);
@@ -71,9 +70,12 @@ class TextEditorHelper {
     
     // THE ERROR: Because we now have 2 caretMarkerNodes, it will always find the first one
     // **This explains why we were always able to back, but never forward after that**
-
-    const currentCaretIndex = ele.innerHTML.indexOf('<span id="temp-marker"></span>');
-    // const currentCaretIndex = getCaretIndex(ele);
+    
+    // const currentCaretIndex = ele.innerHTML.indexOf(caretMarkerNode);
+    // THIS IS WHY ITS BROKEN!!!!!! The current index I'm getting is the index of the PURE text, not including HTML tags,
+    // thats why it was jumping around all crazy when I imported a file, because the file had a bunch of HTML tags and
+    // I was inserting the caret marker node in the wrong place
+    const currentCaretIndex = getCaretOffsetWithinElement(ele);
     console.log(currentCaretIndex);
 
     // Removes the marker as soon as the index is found.
@@ -82,6 +84,9 @@ class TextEditorHelper {
 
     // THE ERROR: Because the currentCaretIndex is falsely portrayed as the previous caret index, the caret will be
     // infinitely stuck
+    // THIS IS WHY ITS BROKEN!!!!!! The current index I'm getting is the index of the PURE text, not including HTML tags,
+    // thats why it was jumping around all crazy when I imported a file, because the file had a bunch of HTML tags and
+    // I was inserting the caret marker node in the wrong place
     return unmarkedText.slice(0, currentCaretIndex) + caretMarkerNode + unmarkedText.slice(currentCaretIndex);
   };
 
