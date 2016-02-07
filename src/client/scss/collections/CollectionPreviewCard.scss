@@ -17,6 +17,7 @@
         border-bottom: 1px solid #FFF;
       }
     }
+    &-title {width: 80%;}
     &-options {
       @include display(flex);
       @include align-items(center);

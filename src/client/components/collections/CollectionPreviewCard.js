@@ -30,12 +30,14 @@ export default class CollectionPreviewCard extends Component {
     collection: CustomPropTypes.collection.isRequired,
     height: PropTypes.number.isRequired,
     isBeingEdited: PropTypes.bool.isRequired,
+    maxTitleLength: PropTypes.number.isRequired,
     width: PropTypes.number.isRequired
   };
 
   static defaultProps = {
     height: 150,
     isBeingEdited: false,
+    maxTitleLength: 60,
     width: 200
   };
 
@@ -108,7 +110,7 @@ export default class CollectionPreviewCard extends Component {
   }
 
   _renderTitle = () => {
-    const {collection, isBeingEdited} = this.props;
+    const {collection, isBeingEdited, maxTitleLength} = this.props;
     const title = collection.get('title');
 
     if (isBeingEdited) {
@@ -126,7 +128,7 @@ export default class CollectionPreviewCard extends Component {
       <button
         className={`${displayName}-main-title`}
         onClick={this._handleEnterCollection}>
-        {title}
+        {title.length > maxTitleLength ? `${title.slice(0, maxTitleLength)}...` : title}
       </button>
     );
   }
