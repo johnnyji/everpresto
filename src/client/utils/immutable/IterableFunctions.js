@@ -6,6 +6,13 @@ import curry from 'lodash/curry';
 const IterableFunctions = {
 
   /**
+   * Gets a key from an Immmutable.js iterable
+   */
+  get: curry((key, predicate) => {
+    return predicate.get(key);
+  }),
+
+  /**
    * Returns whether or not an attribute on an iterable is truthy
    * @param  {*} value            - The attribute being tested
    * @return {Boolean}            - Whether or not the value is true or false

@@ -93,7 +93,6 @@ export default class FileUploader extends Component {
 
     // If the file uploaded is not a permitted format, we alert an error
     if (!this._validateExtension(file.name)) return this._handleInvalidExtension();
-
     this.setState({filename: file.name});
     this.props.onUpload(file);
   };
