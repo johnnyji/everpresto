@@ -4,9 +4,11 @@ import moment from 'moment';
 import Immutable from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import CustomPropTypes from '.././CustomPropTypes';
+import {truncateString} from '../.././utils/TextHelper';
+import Config from '../.././config/main';
+
 import AppActionCreators from '../.././actions/AppActionCreators';
 import CollectionActionCreators from '../.././actions/CollectionActionCreators';
-import Config from '../.././config/main';
 
 import ClickableIcon from '.././ui/ClickableIcon';
 import FolderCard from '.././ui/FolderCard';
@@ -37,7 +39,7 @@ export default class CollectionPreviewCard extends Component {
   static defaultProps = {
     height: 150,
     isBeingEdited: false,
-    maxTitleLength: 60,
+    maxTitleLength: 65,
     width: 200
   };
 
@@ -128,7 +130,7 @@ export default class CollectionPreviewCard extends Component {
       <button
         className={`${displayName}-main-title`}
         onClick={this._handleEnterCollection}>
-        {title.length > maxTitleLength ? `${title.slice(0, maxTitleLength)}...` : title}
+        {truncateString(title, maxTitleLength)}
       </button>
     );
   }

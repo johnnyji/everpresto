@@ -3,7 +3,7 @@ import moment from 'moment';
 const TextHelper = {
 
   truncateString(string, length) {
-    if (string.length > length) return `${string.substring(0, length)}...`;
+    if (string.length > length) return `${string.slice(0, length)}...`;
     return string;
   },
 
