@@ -52,12 +52,12 @@ export default class AppHandler extends Component {
     return (
       <div className={displayName}>
 
-        {/* Displays a Flash Message */}
+        {/* Displays Flash Message */}
         {Boolean(flashMessage) &&
           <FlashMessage color={flash.get('color')} content={flashMessage} />
         }
 
-        {/* Displays a Modal */}
+        {/* Displays Modal */}
         {modalShouldDisplay &&
           <Overlay onExit={this._handleExitModal}>
             {modalElement}

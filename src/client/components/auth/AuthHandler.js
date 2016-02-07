@@ -19,7 +19,8 @@ export default class AuthHandler extends Component {
   };
 
   static propTypes = {
-    currentUser: CustomPropTypes.user
+    currentUser: CustomPropTypes.user,
+    location: PropTypes.object.isRequired
   };
 
   componentWillMount() {
