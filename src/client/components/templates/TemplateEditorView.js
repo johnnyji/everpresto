@@ -3,7 +3,7 @@ import flow from 'lodash/flow';
 import Immutable from 'immutable';
 import striptags from 'striptags';
 import CustomPropTypes from '.././CustomPropTypes';
-import {removeCaretPositionMarker, removeZeroWidthSpace} from '../.././utils/TextEditorHelper';
+import {removeZeroWidthSpace} from '../.././utils/TextEditorHelper';
 import {unshift} from '../.././utils/immutable/ListFunctions';
 import {getAttr} from '../.././utils/immutable/MapFunctions';
 
@@ -16,7 +16,9 @@ import FormSidebarBody from '.././shared/FormSidebarBody';
 import FormSidebarPlaceholderInput from '.././shared/FormSidebarPlaceholderInput';
 import FormSidebarSection from '.././shared/FormSidebarSection';
 
-const cleanTemplateHTML = flow(removeZeroWidthSpace, removeCaretPositionMarker);
+// This allows us to add any other HTML cleaners directly to the flow of data
+// ie. flow(removeZeroWidthSpace, removeSpans, removeHiddenMarkers) etc...
+const cleanTemplateHTML = flow(removeZeroWidthSpace);
 const displayName = 'TemplateEditorView';
 
 export default class TemplateEditorView extends Component {
@@ -110,7 +112,7 @@ export default class TemplateEditorView extends Component {
   }
 
   _handleSave = () => {
-    // Strips away the zero-width spaces and the caret markers in the text
+    // Strips away the zero-width spaces
     let template = this.state.template.set('body', cleanTemplateHTML(this.state.template.get('body')));
     // Strips the HTML from the text to give just the raw body
     template = template.set('rawText', striptags(template.get('body')));
@@ -121,7 +123,7 @@ export default class TemplateEditorView extends Component {
   _handleTemplateUploadEnd = (body) => {
     this.setState({
       importingTemplate: false,
-      template: this.state.template.set('body', body.concat('<span id="everpresto-caret-position-marker"></span>'))
+      template: this.state.template.set('body', body)
     });
   };
 

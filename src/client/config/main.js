@@ -1,4 +1,4 @@
-const caretMarkerNodeId = 'everpresto-caret-position-marker';
+// Global App Code Config for Everpresto
 
 export default {
   collection: {
@@ -6,9 +6,5 @@ export default {
   },
   template: {
     placeholderTag: 'mark'
-  },
-  richTextEditor: {
-    caretMarkerNodeId,
-    caretMarkerNode: `<span id="${caretMarkerNodeId}"></span>`
   }
 };
