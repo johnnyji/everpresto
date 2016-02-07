@@ -66,17 +66,11 @@ export default class DashboardHeader extends Component {
                 open={showProfileOptions}
                 onRequestClose={() => this.setState({showProfileOptions: false})}
                 targetOrigin={{horizontal: 'right', vertical: 'top'}}>
-              {/*
-                Wrapping the menu in div will prevent this error:
-                http://stackoverflow.com/questions/31998227/using-material-design-lite-with-react
-              */}
-                <div>
-                  <MUIMenu>
-                    <span onClick={this._viewProfile}><ListItem>Profile Settings</ListItem></span>
-                    <MUIDivider />
-                    <span onClick={this._handleLogout}><ListItem>Logout</ListItem></span>
-                  </MUIMenu>
-                </div>
+                <MUIMenu>
+                  <ListItem onClick={this._viewProfile}>Profile Settings</ListItem>
+                  <MUIDivider />
+                  <ListItem onClick={this._handleLogout}>Logout</ListItem>
+                </MUIMenu>
               </MUIPopover>
           </div>
         </nav>

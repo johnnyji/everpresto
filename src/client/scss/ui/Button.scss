@@ -1,13 +1,7 @@
 .ui-Button {
-  @extend .transition;
   position: relative;
+  // border-radius: 0 !important;
   color: $ui-button-color;
-  outline: none;
-  padding: 0.5rem 1rem;
-  text-align: center;
-  &:hover {
-    cursor: pointer;
-  }
   &-icon {
     margin-right: 4px;
     position: relative;
@@ -15,38 +9,17 @@
   }
 }
 
-.ui-Button-blue {
-  background-color: $brand-color-blue;
-  &:hover {
-    background-color: $brand-color-blue-light;
-  }
-}
-
-.ui-Button-disabled {
-  color: $ui-button-disabled-color;
-  background-color: $ui-button-disabled-background-color;
-  &:hover {
-    cursor: default;
-  }
-}
-
-.ui-Button-green {
-  background-color: $brand-color-green;
-  &:hover {
-    background-color: $brand-color-green-light;
-  }
-}
-
-.ui-Button-red {
-  background-color: $brand-color-red;
-  &:hover {
-    background-color: $brand-color-red-light;
-  }
-}
-
-.ui-Button-yellow {
-  background-color: $brand-color-yellow;
-  &:hover {
-    background-color: $brand-color-yellow-light;
-  }
-}
+// These all must have `!important` in order to override
+// the default inline-styles that `material-ui` provides
+// .ui-Button-blue {
+//   background-color: $brand-color-blue !important;
+// }
+// .ui-Button-green {
+//   background-color: $brand-color-green !important;
+// }
+// .ui-Button-red {
+//   background-color: $brand-color-red !important;
+// }
+// .ui-Button-yellow {
+//   background-color: $brand-color-yellow !important;
+// }

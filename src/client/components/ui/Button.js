@@ -1,10 +1,13 @@
 import React, {Component, PropTypes} from 'react';
+import MUIRaisedButton from 'material-ui/lib/raised-button';
 import classNames from 'classnames';
 import Icon from './Icon';
 
+const displayName = 'ui-Button';
+
 export default class Button extends Component {
 
-  static displayName = 'Button';
+  static displayName = displayName;
 
   static propTypes = {
     className: PropTypes.string,
@@ -22,26 +25,41 @@ export default class Button extends Component {
   };
 
   render() {
-    const {children, className, color, disabled, icon, iconClassName, text} = this.props;
-
-    const classes = classNames(
-      'ui-Button',
+    const {
+      children,
       className,
-      {[`ui-Button-${color}`]: Boolean(color) && !disabled},
-      {'ui-Button-disabled': disabled}
-    );
+      color,
+      disabled,
+      icon,
+      iconClassName,
+      text} = this.props;
+    const backgroundColors = {
+      blue: '#4E9CC2',
+      green: '#4DCF86',
+      red: '#FF805F',
+      yellow: '#FFB55F'
+    }
+    const classes = classNames(className, displayName);
     const iconClasses = classNames('ui-Button-icon', iconClassName);
 
     return (
-      <div
+      <MUIRaisedButton
+        backgroundColor={backgroundColors[color]}
         className={classes}
-        onClick={this._handleClick}>
-        {icon && <Icon icon={icon} iconClass={iconClasses}></Icon>}
-        {text && text}
-        {/* This is so the users have the option of also nexting components inside
-            the button, such as a `Spinner` */}
-        {children}
-      </div>
+        disabled={disabled}
+        onMouseUp={this._handleClick}
+        icon={icon ? <Icon icon={icon} iconClass={iconClasses}/> : <span />}
+        label={text}
+        labelStyle={{
+          color: '#FFF',
+          fontSize: '16px',
+          fontWeight: '400',
+          padding: '0.5rem 1rem',
+          textTransform: 'none'
+        }}
+        style={{
+          borderRadius: '0'
+        }}/>
     );
   }
 

@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import MUITab from 'material-ui/lib/tabs/tab';
 import CustomPropTypes from '.././CustomPropTypes';
 import DashboardContentHeader from '.././dashboard/DashboardContentHeader';
 import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
@@ -9,6 +10,7 @@ import FormSidebarBody from '.././shared/FormSidebarBody';
 import FormSidebarSection from '.././shared/FormSidebarSection';
 import ModalFillPlaceholders from '.././modals/ModalFillPlaceholders';
 import Button from '.././ui/Button';
+import Tabs from '.././ui/Tabs';
 
 import AppActionCreators from '../.././actions/AppActionCreators';
 
@@ -42,6 +44,14 @@ export default class DocumentsNewEditorView extends Component {
             className={`${displayName}-content-preview`}/>
           <FormSidebar className={`${displayName}-content-sidebar`}>
             <FormSidebarBody>
+              <Tabs>
+                <MUITab label='Fields'>
+                  Hello 2
+                </MUITab>
+                <MUITab label='Signatures'>
+                  Hello 1
+                </MUITab>
+              </Tabs>
               <FormSidebarSection>
                 <Button
                   color='blue'

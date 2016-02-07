@@ -22,13 +22,14 @@ export default class ListItem extends Component {
   };
 
   render() {
-    const {className, children, onRemove, removable} = this.props;
+    const {className, children, onClick, onRemove, removable} = this.props;
     const classes = classNames(className, displayName);
 
     if (removable && onRemove) {
       return (
         <MUIListItem
           className={classes}
+          onTouchTap={onClick}
           rightIconButton={this._renderRemoveButton()}>
           {children}
         </MUIListItem>
@@ -36,7 +37,7 @@ export default class ListItem extends Component {
     }
 
     return (
-      <MUIListItem className={classes}>
+      <MUIListItem className={classes} onTouchTap={onClick}>
         {children}
       </MUIListItem>
     );

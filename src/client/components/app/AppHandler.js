@@ -7,8 +7,13 @@ import Overlay from '.././ui/Overlay';
 
 import AppActionCreators from '../.././actions/AppActionCreators';
 
+import ThemeManager from 'material-ui/lib/styles/theme-manager';
+import ThemeDecorator from 'material-ui/lib/styles/theme-decorator';
+import EverprestoMUITheme from '../.././config/mui-theme';
+
 const displayName = 'AppHandler';
 
+@ThemeDecorator(ThemeManager.getMuiTheme(EverprestoMUITheme))
 @connect((state) => ({
   flash: state.app.get('flash'),
   modal: state.app.get('modal')

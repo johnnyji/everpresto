@@ -11,6 +11,10 @@ import routes from './routes/routes';
 
 import configureStore from './store/configureStore';
 
+// Needed until React 1.0.0, allows tap events to work for `material-ui`
+import injectTapEventPlugin from 'react-tap-event-plugin';
+injectTapEventPlugin();
+
 const initialStoreState = window.__INITIAL_STORE_STATE__;
 
 // Transforms into Immutable.js
