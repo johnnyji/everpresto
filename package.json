@@ -8,7 +8,7 @@
   "scripts": {
     "clean": "rm -rf lib",
     "transpile": "babel src --out-dir lib -w --stage 1",
-    "dev-server": "webpack-dev-server --devtool-eval --inline --hot --colors --progress --display-error-details --content-base build",
+    "dev-server": "webpack-dev-server --devtool-eval --hot --inline --colors --progress --display-error-details --content-base build",
     "server": "iron-node ./lib/server/server.js",
     "write-to-disk": "webpack --watch --progress --colors --display-error-details -d",
     "deploy": "NODE_ENV=production webpack -p --config webpack.production.config.js",

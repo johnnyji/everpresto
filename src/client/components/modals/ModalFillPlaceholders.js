@@ -10,6 +10,7 @@ import {minLength} from '../.././utils/RegexHelper';
 
 import DashboardQuote from '.././dashboard/DashboardQuote';
 import FileUploader from '.././shared/FileUploader';
+import Button from '.././ui/Button';
 import Icon from '.././ui/Icon';
 import Input from '.././ui/Input';
 import ListItem from '.././ui/ListItem';
@@ -60,7 +61,7 @@ export default class ModalFillPlaceholders extends Component {
   render() {
     const {stage} = this.state;
     return (
-      <ModalWrapper className={displayName} height={600} width={500}>
+      <ModalWrapper className={displayName} height={600} width={650}>
         <FileUploader
           label={<span><Icon icon='file-upload'/> Import CSV File</span>}
           onReset={this._handleFileInputReset}
@@ -73,6 +74,13 @@ export default class ModalFillPlaceholders extends Component {
             quote="Commander, tear this ship apart until you find that CSV file!"/>
         }
         {stage === 1 && this._renderMappingSection()}
+        {stage === 1 &&
+          <Button
+            color='green'
+            icon='check'
+            onClick={() => {}}
+            text='Save'/>
+        }
       </ModalWrapper>
     );
   }
@@ -91,7 +99,8 @@ export default class ModalFillPlaceholders extends Component {
             onUpdate={(val, err) => this._handleMappingUpdate(val, err, i)}
             patternMatches={minLength(1, `Please map a header to ${value.get('placeholder')}`)}
             successKeys={`values:${i}:header`}
-            value={value.get('header')}/>
+            value={value.get('header')}
+            width={200}/>
           <Icon icon='chevron-right' />
           <mark>{value.get('placeholder')}</mark>
         </div>
@@ -210,6 +219,10 @@ export default class ModalFillPlaceholders extends Component {
     updatedMappings = updatedMappings.setIn(['errors', i], errorMessage);
 
     this.setState({mappings: updatedMappings});
+  };
+
+  _handleSaveContacts = () => {
+
   };
 
 }

@@ -1,6 +1,8 @@
+
+
 .ModalFillPlaceholders {
   position: relative;
-
+  overflow-x: hidden;
   .DashboardMessage {
     @include transform(translate(-50%, -50%));
     position: absolute;
@@ -17,14 +19,16 @@
       list-style: none;
       padding: 12px;
       &-item {
-        background-color: $brand-color-blue-dark;
+        background-color: $brand-color-blue;
         border-radius: $border-radius;
         color: #FFF;
-        padding: 4px;
+        font-weight: 300;
+        padding: 4px 6px;
         margin: 0 4px 4px 0;
         &-strike {
           background-color: rgba(0, 0, 0, 0.1);
           color: $text-color;
+          font-weight: 400;
           text-decoration: line-through;
         }
       }
@@ -36,5 +40,6 @@
       @include align-items(center);
       margin: 8px;
     }
-  } 
+  }
+
 }

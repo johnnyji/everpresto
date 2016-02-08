@@ -45,6 +45,10 @@ export default class Input extends Component {
     ]),
     type: PropTypes.oneOf(['text', 'email', 'number', 'password']),
     value: PropTypes.string,
+    width: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number
+    ]).isRequired
   };
 
   static defaultProps = {
