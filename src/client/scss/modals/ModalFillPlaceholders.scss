@@ -1,18 +1,13 @@
 .ModalFillPlaceholders {
   position: relative;
-  &-upload-button {
-    & label {
-      border: none;
-      font-size: 20px;
-    }
-  }
 
   &-mapping-section {
     &-list-item {
       // TODO: Make sure list item content is spread out evenly
       @include display(flex);
-      @include justify-content(center);
-      @include align-items(space-between);
+      @include justify-content(space-between);
+      @include align-items(center);
+      margin: 8px;
     }
   } 
 }

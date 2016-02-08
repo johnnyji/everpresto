@@ -3,6 +3,7 @@ import Baby from 'babyparse';
 import Immutable from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import MUIList from 'material-ui/lib/lists/list';
+import MUITextField from 'material-ui/lib/text-field';
 import {get} from '../.././utils/immutable/IterableFunctions';
 import {createFlashMessage} from '../.././actions/AppActionCreators';
 
@@ -42,7 +43,6 @@ export default class ModalFillPlaceholders extends Component {
     return (
       <ModalWrapper className={displayName} height={600} width={500}>
         <FileUploader
-          className={`${displayName}-upload-button`}
           label={<span><Icon icon='file-upload'/> Import CSV File</span>}
           onReset={this._handleFileInputReset}
           onUpload={this._handleImportCsv}
@@ -58,10 +58,16 @@ export default class ModalFillPlaceholders extends Component {
     return (
       <div className={`${displayName}-mapping-section`}>
         <MUIList>
-          {this.state.mappingData.map((data) => (
-            <ListItem className={`${displayName}-mapping-section-list-item`}>
-              <span>{data.csvHeader}</span> <Icon icon='chevron-right' /> <mark>{data.placeholder}</mark>
-            </ListItem>
+          {this.state.mappingData.map((data, i) => (
+            <div
+              className={`${displayName}-mapping-section-list-item`}
+              key={i}>
+              <MUITextField
+                defaultValue={data.csvHeader}
+                hintText='Header Value'/>
+              <Icon icon='chevron-right' />
+              <mark>{data.placeholder}</mark>
+            </div>
           ))}
         </MUIList>
       </div>
