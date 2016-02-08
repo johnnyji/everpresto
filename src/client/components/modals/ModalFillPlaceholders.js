@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import Baby from 'babyparse';
+import classNames from 'classnames';
 import Immutable from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import MUIList from 'material-ui/lib/lists/list';
@@ -7,6 +8,7 @@ import {equals, get} from '../.././utils/immutable/IterableFunctions';
 import {createFlashMessage} from '../.././actions/AppActionCreators';
 import {minLength} from '../.././utils/RegexHelper';
 
+import DashboardQuote from '.././dashboard/DashboardQuote';
 import FileUploader from '.././shared/FileUploader';
 import Icon from '.././ui/Icon';
 import Input from '.././ui/Input';
@@ -65,7 +67,11 @@ export default class ModalFillPlaceholders extends Component {
           onUpload={this._handleImportCsv}
           permittedExtensions={['.csv']}
           ref='fileUploader'/>
-        {stage === 0 && <span>Insert star wars quote here</span>}
+        {stage === 0 && 
+          <DashboardQuote
+            author="Lord Vader"
+            quote="Commander, tear this ship apart until you find that CSV file!"/>
+        }
         {stage === 1 && this._renderMappingSection()}
       </ModalWrapper>
     );
@@ -92,15 +98,16 @@ export default class ModalFillPlaceholders extends Component {
       );
     });
     const headers = importedData.get('headers').map((header, i) => {
-      if (assignedHeaders.contains(header)) {
-        return <li key={i}><strike>{header}</strike></li>;
-      }
-      return <li key={i}><span>{header}</span></li>;
+      const classes = classNames({
+        [`${displayName}-mapping-section-assigned-headers-item`]: true,
+        [`${displayName}-mapping-section-assigned-headers-item-strike`]: assignedHeaders.contains(header)
+      });
+      return <li className={classes} key={i}>{header}</li>;
     });
 
     return (
       <div className={`${displayName}-mapping-section`}>
-        <ul>{headers}</ul>
+        <ul className={`${displayName}-mapping-section-assigned-headers`}>{headers}</ul>
         <MUIList>{mappingRows}</MUIList>
       </div>
     );
@@ -186,11 +193,18 @@ export default class ModalFillPlaceholders extends Component {
    * Updates a mapping item
    */
   _handleMappingUpdate = (val, err, i) => {
-    const {assignedHeaders, mappings} = this.state;
+    const {assignedHeaders, mappings, importedData} = this.state;
+    let errorMessage = err;
 
-    let errorMessage = assignedHeaders.filter(equals(val)).size > 1
-      ? `Duplicate mapping of ${assignedHeaders.find(equals(val))}`
-      : err;
+    // If a header that's already assigned if being assigned again, make the error
+    // a duplication error
+    if (assignedHeaders.filter(equals(val)).size > 1) {
+      errorMessage = `Duplicate mapping of ${assignedHeaders.find(equals(val))}`;
+    }
+    // If the entered value is not a header
+    if (!importedData.get('headers').contains(val) && val !== '') {
+      errorMessage = `${val} is not a header in your file`;
+    }
 
     let updatedMappings = mappings.setIn(['values', i, 'header'], val);
     updatedMappings = updatedMappings.setIn(['errors', i], errorMessage);
