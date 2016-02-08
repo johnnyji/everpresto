@@ -3,12 +3,13 @@ import Baby from 'babyparse';
 import Immutable from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import MUIList from 'material-ui/lib/lists/list';
-import MUITextField from 'material-ui/lib/text-field';
-import {get} from '../.././utils/immutable/IterableFunctions';
+import {equals, get} from '../.././utils/immutable/IterableFunctions';
 import {createFlashMessage} from '../.././actions/AppActionCreators';
+import {minLength} from '../.././utils/RegexHelper';
 
 import FileUploader from '.././shared/FileUploader';
 import Icon from '.././ui/Icon';
+import Input from '.././ui/Input';
 import ListItem from '.././ui/ListItem';
 import ModalWrapper from '.././ui/ModalWrapper';
 
@@ -32,10 +33,26 @@ export default class ModalFillPlaceholders extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      mappingData: null,
+      assignedHeaders: Immutable.List(),
+      mappings: Immutable.fromJS({
+        values: [],
+        errors: []
+      }),
       importedData: null,
       stage: 0
     };
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    const {mappings} = this.state;
+    const {mappings: nextMappings} = nextState;
+    // If the mappings are different, updates the state of the headers
+    // already assigned to placeholders
+    if (!nextMappings.equals(mappings)) {
+      this.setState({
+        assignedHeaders: nextMappings.get('values').map(get('header'))
+      })
+    }
   }
 
   render() {
@@ -55,46 +72,85 @@ export default class ModalFillPlaceholders extends Component {
   }
 
   _renderMappingSection = () => {
+    const {assignedHeaders, mappings, importedData} = this.state;
+
+    const mappingRows = mappings.get('values').map((value, i) => {
+      return (
+        <div className={`${displayName}-mapping-section-list-item`} key={i}>
+          <Input
+            defaultValue={value.get('header')}
+            error={mappings.getIn(['errors', i])}
+            errorKeys={`errors:${i}`}
+            label='Header Value'
+            onUpdate={(val, err) => this._handleMappingUpdate(val, err, i)}
+            patternMatches={minLength(1, `Please map a header to ${value.get('placeholder')}`)}
+            successKeys={`values:${i}:header`}
+            value={value.get('header')}/>
+          <Icon icon='chevron-right' />
+          <mark>{value.get('placeholder')}</mark>
+        </div>
+      );
+    });
+    const headers = importedData.get('headers').map((header, i) => {
+      if (assignedHeaders.contains(header)) {
+        return <li key={i}><strike>{header}</strike></li>;
+      }
+      return <li key={i}><span>{header}</span></li>;
+    });
+
     return (
       <div className={`${displayName}-mapping-section`}>
-        <MUIList>
-          {this.state.mappingData.map((data, i) => (
-            <div
-              className={`${displayName}-mapping-section-list-item`}
-              key={i}>
-              <MUITextField
-                defaultValue={data.csvHeader}
-                hintText='Header Value'/>
-              <Icon icon='chevron-right' />
-              <mark>{data.placeholder}</mark>
-            </div>
-          ))}
-        </MUIList>
+        <ul>{headers}</ul>
+        <MUIList>{mappingRows}</MUIList>
       </div>
     );
   };
 
-  _createMappingTableData = (sortedHeaders, sortedPlaceholders) => {
-    return sortedPlaceholders.map((placeholder, i) => {
+  /**
+   * Generates an array of header to placeholder mapping -> {header, placeholder}
+   * @param  {Array} sortedHeaders      - The sorted headers from the file import
+   * @param  {Array} sortedPlaceholders - The sorted placeholder values
+   * @return {Immutable.Map}            - The mappings between the headers and the placeholder
+   *                                      values
+   */
+  _generateMappings = (sortedHeaders, sortedPlaceholders) => {
+    return sortedPlaceholders.reduce((mappings, placeholder, i) => {
       const header = sortedHeaders[i];
 
-      if (header === undefined) return {csvHeader: null, placeholder};
-      return {csvHeader: header, placeholder};
-    });
+      let updatedMapping = (header === undefined)
+        ? mappings.update('values', (vals) => vals.push(Immutable.fromJS({header: null, placeholder})))
+        : mappings.update('values', (vals) => vals.push(Immutable.fromJS({header, placeholder})));
+
+      return updatedMapping.update('errors', (errs) => errs.push(null));
+    }, this.state.mappings);
   };
 
+  /**
+   * Fires a flash message error
+   * @param  {String|React.Element} error - The error being fired
+   */
   _handleError = (error) => {
     this.context.dispatch(createFlashMessage('red', error));
   };
 
+  /**
+   * Resets the form back to it's original state with no imported file
+   */
   _handleFileInputReset = () => {
     this.setState({
-      mappingData: null,
+      mappings: Immutable.fromJS({
+        values: [],
+        errors: []
+      }),
       importedData: null,
       stage: 0
     });
-  }
+  };
 
+  /**
+   * Imports a CSV file and generates the mappings based on it's headers
+   * @param  {Object} file - The file object
+   */
   _handleImportCsv = (file) => {
     const reader = new FileReader();
 
@@ -113,7 +169,7 @@ export default class ModalFillPlaceholders extends Component {
       }
       // Sets the imported data state and toggles the form to the next stage
       this.setState({
-        mappingData: this._createMappingTableData(
+        mappings: this._generateMappings(
           headers.sort(),
           placeholderValues.toJS().sort()
         ),
@@ -126,8 +182,20 @@ export default class ModalFillPlaceholders extends Component {
     reader.readAsText(file);
   };
 
-  _handleTableDataChange = () => {
+  /**
+   * Updates a mapping item
+   */
+  _handleMappingUpdate = (val, err, i) => {
+    const {assignedHeaders, mappings} = this.state;
 
+    let errorMessage = assignedHeaders.filter(equals(val)).size > 1
+      ? `Duplicate mapping of ${assignedHeaders.find(equals(val))}`
+      : err;
+
+    let updatedMappings = mappings.setIn(['values', i, 'header'], val);
+    updatedMappings = updatedMappings.setIn(['errors', i], errorMessage);
+
+    this.setState({mappings: updatedMappings});
   };
 
 }

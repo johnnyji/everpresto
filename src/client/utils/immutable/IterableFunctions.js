@@ -6,6 +6,13 @@ import curry from 'lodash/curry';
 const IterableFunctions = {
 
   /**
+   * Checks if the iterable is equal to a value
+   */
+  equals: curry((value, iterable) => {
+    return value === iterable;
+  }),
+
+  /**
    * Gets a key from an Immmutable.js iterable
    */
   get: curry((key, predicate) => {
