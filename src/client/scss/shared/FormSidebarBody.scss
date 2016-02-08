@@ -4,5 +4,5 @@
   @include flex-grow(1);
   @include flex-shrink(2);
   width: 100%;
-  overflow-y: scroll;
+  overflow-y: auto;
 }

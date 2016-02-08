@@ -43,23 +43,24 @@ export default class DocumentsNewEditorView extends Component {
             body={template.get('body')}
             className={`${displayName}-content-preview`}/>
           <FormSidebar className={`${displayName}-content-sidebar`}>
-            <FormSidebarBody>
-              <Tabs>
-                <MUITab label='Fields'>
-                  Hello 2
-                </MUITab>
-                <MUITab label='Signatures'>
+            <Tabs>
+              <MUITab label='Fields'>
+                <FormSidebarBody>
+                  <FormSidebarSection>
+                    <Button
+                      color='blue'
+                      icon='edit'
+                      onClick={this._showReplacePlaceholdersModal}
+                      text='Fill Placeholders'/>
+                  </FormSidebarSection>
+                </FormSidebarBody>
+              </MUITab>
+              <MUITab label='Signatures'>
+                <FormSidebarBody>
                   Hello 1
-                </MUITab>
-              </Tabs>
-              <FormSidebarSection>
-                <Button
-                  color='blue'
-                  icon='edit'
-                  onClick={this._showReplacePlaceholdersModal}
-                  text='Fill Placeholders'/>
-              </FormSidebarSection>
-            </FormSidebarBody>
+                </FormSidebarBody>
+              </MUITab>
+            </Tabs>
             <Button
               color='green'
               icon='send'

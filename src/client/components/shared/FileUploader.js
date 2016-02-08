@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import classNames from 'classnames';
+import ClickableIcon from '.././ui/ClickableIcon';
 import AppActionCreators from '../.././actions/AppActionCreators';
 
 const displayName = 'FileUploader';
@@ -15,6 +16,7 @@ export default class FileUploader extends Component {
   static propTypes = {
     className: PropTypes.string,
     label: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
+    onReset: PropTypes.func,
     onUpload: PropTypes.func.isRequired,
     permittedExtensions: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired
   };
@@ -37,16 +39,24 @@ export default class FileUploader extends Component {
 
   render() {
     const {className, label} = this.props;
+    const {filename} = this.state;
     const classes = classNames(className, displayName);
     return (
       <div className={classes}>
         <label className={`${displayName}-label`} htmlFor='file'>
-          {this.state.filename || label}
+          {filename || label}
         </label>
         <input
           className={`${displayName}-input`}
           onChange={this._handleUpload}
+          ref='input'
           type='file'/>
+        {filename &&
+          <ClickableIcon
+            className={`${displayName}-reset-icon`}
+            icon='close'
+            onClick={this._resetInput}/>
+        }
       </div>
     );
   }
@@ -96,6 +106,20 @@ export default class FileUploader extends Component {
     this.setState({filename: file.name});
     this.props.onUpload(file);
   };
+
+
+  /**
+   * Resets the file upload input field
+   */
+  _resetInput = () => {
+    const {onReset} = this.props;
+
+    this.refs['input'].value = '';
+    this.setState({filename: null});
+
+    if (onReset) onReset();
+  };
+
 
   /**
    * Validates if the extension of the filename to see if this certain file format is permitted

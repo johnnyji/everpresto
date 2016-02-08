@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import Immutable from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import MUIFlatButton from 'material-ui/lib/flat-button';
 import MUITextField from 'material-ui/lib/text-field';
 import MUIList from 'material-ui/lib/lists/list';
 import {get} from '../.././utils/immutable/IterableFunctions';
@@ -27,20 +28,44 @@ export default class ModalFillPlaceholders extends Component {
     }).isRequired
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      stage: 0
+    };
+  }
+
   render() {
+    const content = [this._renderImportStage, this._renderMappingStage];
+
     return (
       <ModalWrapper className={displayName} height={600} width={500}>
-          <FileUploader
-            className={`${displayName}-upload-button`}
-            label={<span><Icon icon='file-upload'/> CSV</span>}
-            onUpload={this._handleImportCsv}
-            permittedExtensions={['.csv']}/>
-        <MUIList>
-          {this._renderTemplateInputs()}
-        </MUIList>
+        {content[this.state.stage]()}
       </ModalWrapper>
     );
   }
+
+  _renderImportStage = () => {
+    return (
+      <FileUploader
+        className={`${displayName}-import-stage-upload-button`}
+        label={<span><Icon icon='file-upload'/> Import CSV File</span>}
+        onUpload={this._handleImportCsv}
+        permittedExtensions={['.csv']}
+        ref='fileUploader'/>
+    );
+  };
+
+  _renderMappingStage = () => {
+    return (
+      <div>
+        <h1>hello</h1>
+        <MUIList>
+          {this._renderTemplateInputs()}
+        </MUIList>
+      </div>
+    );
+  };
 
   _renderTemplateInputs = () => {
     return this.props.placeholders.map((placeholder, i) => {

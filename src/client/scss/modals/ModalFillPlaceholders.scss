@@ -1,3 +1,18 @@
 .ModalFillPlaceholders {
-  
+  @include display(flex);
+  @include flex-direction(column);
+  @include justify-content(center);
+
+  &-import-stage {
+    &-upload-button {
+      & label {
+        border: none;
+        font-size: 20px;
+      }
+    }
+  }
+
+  &-mapping-stage {
+
+  } 
 }

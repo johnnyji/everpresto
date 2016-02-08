@@ -1,0 +1,9 @@
+.FormSidebarFooter {
+  @include display(flex);
+  @include justify-content(center);
+  @include align-items(flex-end);
+  position: absolute;
+  bottom: 0;
+  height: $form-sidebar-footer-height;
+  width: 100%;
+}

@@ -24,5 +24,14 @@
   &-input {
     // Shifts the input field left so it is more centereds
     opacity: 0;
-  }  
+  }
+
+  &-reset-icon {
+    @include transform(translateY(-50%));
+    position: absolute;
+    top: 45%;
+    right: 12px;
+    // Moves this above the input field
+    z-index: 1;
+  }
 }

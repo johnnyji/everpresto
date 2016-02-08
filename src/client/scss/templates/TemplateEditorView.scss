@@ -4,6 +4,8 @@
     @include flex-grow(5);
   }
   &-sidebar {
+    @include display(flex);
+    @include flex-direction(column);
     @include flex-grow(3);
     // The placeholders will take up the remainder of the sidebar space if needed
     &-placeholders {
@@ -11,5 +13,4 @@
       @include flex-shrink(1);
     }
   }
-
 }

@@ -1,8 +1,10 @@
 .FormSidebar {
   @include display(flex);
   @include flex-direction(column);
+  position: relative;
   min-width: 300px;
   margin-left: 30px;
   overflow-y: auto;
-  padding: 0 12px 12px 12px;
+  overflow-x: hidden;
+  padding: 0 12px $form-sidebar-footer-height 12px;
 }
