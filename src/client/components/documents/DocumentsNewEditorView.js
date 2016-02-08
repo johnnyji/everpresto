@@ -7,6 +7,7 @@ import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
 import DocumentViewer from '.././shared/DocumentViewer';
 import FormSidebar from '.././shared/FormSidebar';
 import FormSidebarBody from '.././shared/FormSidebarBody';
+import FormSidebarFooter from '.././shared/FormSidebarFooter';
 import FormSidebarSection from '.././shared/FormSidebarSection';
 import ModalFillPlaceholders from '.././modals/ModalFillPlaceholders';
 import Button from '.././ui/Button';
@@ -43,9 +44,9 @@ export default class DocumentsNewEditorView extends Component {
             body={template.get('body')}
             className={`${displayName}-content-preview`}/>
           <FormSidebar className={`${displayName}-content-sidebar`}>
-            <Tabs>
-              <MUITab label='Fields'>
-                <FormSidebarBody>
+            <FormSidebarBody>
+              <Tabs>
+                <MUITab label='Fields'>
                   <FormSidebarSection>
                     <Button
                       color='blue'
@@ -53,19 +54,19 @@ export default class DocumentsNewEditorView extends Component {
                       onClick={this._showReplacePlaceholdersModal}
                       text='Fill Placeholders'/>
                   </FormSidebarSection>
-                </FormSidebarBody>
-              </MUITab>
-              <MUITab label='Signatures'>
-                <FormSidebarBody>
+                </MUITab>
+                <MUITab label='Signatures'>
                   Hello 1
-                </FormSidebarBody>
-              </MUITab>
-            </Tabs>
-            <Button
-              color='green'
-              icon='send'
-              onClick={this._handleSendDocuments}
-              text='Send'/>
+                </MUITab>
+              </Tabs>
+            </FormSidebarBody>
+            <FormSidebarFooter>
+              <Button
+                color='green'
+                icon='send'
+                onClick={this._handleSendDocuments}
+                text='Send'/>
+            </FormSidebarFooter>
           </FormSidebar>
         </div>
       </DashboardContentWrapper>
