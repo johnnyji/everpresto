@@ -54,7 +54,7 @@ export default (ComposedComponent) => (class FormComponent extends Component {
     }
     // Fires the callback that actually submits the form
     readyToSubmit();
-  }
+  };
 
   _handleInputUpdate = (value, error, nestedValueObj, nestedErrorObj) => {
     // We're merging a newly created object with all our nested values and errors into the form data state,
@@ -62,6 +62,6 @@ export default (ComposedComponent) => (class FormComponent extends Component {
     this.setState({
       [this.formData]: this.state[this.formDataState].mergeDeep(mergeDeep(nestedValueObj, nestedErrorObj))
     });
-  }
+  };
 
 });

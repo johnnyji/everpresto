@@ -59,6 +59,7 @@
 @import './modals/ModalDocumentPreview';
 @import './modals/ModalFillPlaceholders';
 @import './modals/ModalPlaceholderTipBox';
+@import './modals/ModalSection';
 
 // Templates
 @import './templates/TemplateEditorView';
@@ -85,7 +86,6 @@
 @import './shared/MultiselectField';
 @import './shared/Quote';
 @import './shared/RichTextEditor';
-@import './shared/TextField';
 
 // UI Components
 @import './ui/Button';
@@ -103,6 +103,7 @@
 @import './ui/ListItem';
 @import './ui/ModalWrapper';
 @import './ui/Overlay';
+@import './ui/Pill';
 @import './ui/SearchBar';
 @import './ui/Spinner';
 @import './ui/Tab';
@@ -136,6 +137,11 @@ body {
       text-decoration: none;
     }
   }
+}
+
+// Maybe all placeholder `mark` tags a bit lighter
+mark {
+  background-color: darken(#FFFFCC, 9%);
 }
   
 // Remove nasty autofill yellow on chrome

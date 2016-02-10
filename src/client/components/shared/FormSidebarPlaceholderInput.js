@@ -1,10 +1,12 @@
 import React, {Component, PropTypes} from 'react';
 import Immutable from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import MUIList from 'material-ui/lib/lists/list';
+import MUIListItem from 'material-ui/lib/lists/list-item';
 import {minLength, noLowerCase} from '../.././utils/RegexHelper';
 import {containsAttr, isTruthy, matchesAttr} from '../.././utils/immutable/IterableFunctions';
 
+import FormSidebarSection from './FormSidebarSection';
+import FormSidebarSectionTitle from './FormSidebarSectionTitle';
 import ModalPlaceholderTipBox from '.././modals/ModalPlaceholderTipBox';
 import Clickable from '.././ui/Clickable';
 import ClickableIcon from '.././ui/ClickableIcon';
@@ -33,7 +35,14 @@ export default class FormSidebarPlaceholderInput extends Component {
       ImmutablePropTypes.contains({
         value: PropTypes.string.isRequired
       })
-    )
+    ),
+    requiredPlaceholders: ImmutablePropTypes.listOf(
+      ImmutablePropTypes.contains({
+        value: PropTypes.string.isRequired,
+        tip: PropTypes.string
+      })
+    ),
+    title: PropTypes.string
   };
 
   constructor(props) {
@@ -47,17 +56,23 @@ export default class FormSidebarPlaceholderInput extends Component {
   }
 
   render() {
+    const {title} = this.props;
     const {unsavedPlaceholder} = this.state;
 
     return (
-      <div className={`${displayName}`}>
+      <FormSidebarSection className={`${displayName}`}>
+        {title &&
+          <FormSidebarSectionTitle className={`${displayName}-title`}>
+            {title}
+          </FormSidebarSectionTitle>
+        }
         <div className={`${displayName}-input-wrapper`}>
           <Input
             className={`${displayName}-input`}
             defaultValue={unsavedPlaceholder.getIn(['values', 'value'])}
             error={unsavedPlaceholder.getIn(['errors', 'value'])}
             errorKeys='errors:value'
-            label={<span><Icon icon='edit' /> YOUR_PLACEHOLDER_HERE</span>}
+            label={<span><Icon icon='edit' /> ADD_PLACEHOLDER_HERE</span>}
             onKeyPress={this._handleKeyPress}
             onEnterKeyPress={this._saveUnsavedPlaceholder}
             onUpdate={(value, err, valObj, errObj, e) => this._updateUnsavedPlaceholder(value, err, e)}
@@ -68,12 +83,32 @@ export default class FormSidebarPlaceholderInput extends Component {
             ref='placeholder-input'
             successKeys='values:value'/>
         </div>
-        <MUIList className={`${displayName}-placeholders`}>
+        <ul className={`${displayName}-placeholders`}>
+          {this._renderRequiredPlaceholders()}
           {this._renderPlaceholders()}
-        </MUIList>
-      </div>
+        </ul>
+      </FormSidebarSection>
     );
   }
+
+
+  /**
+   * Renders the required placeholders
+   * @return {Immutable.List} The list of required placeholder React elements
+   */
+  _renderRequiredPlaceholders = () => {
+    if (!this.props.requiredPlaceholders) return;
+
+    return this.props.requiredPlaceholders.map((placeholder) => (
+      <li className={`${displayName}-placeholders-required`}>
+        <mark>{placeholder.get('value')}</mark>
+        <span className={`${displayName}-placeholders-required-text`}>
+          <Icon icon='info' iconClass={`${displayName}-placeholders-required-text-icon`} size={16}/>
+          Required
+        </span>
+      </li>
+    ));
+  };
 
   _renderPlaceholders = () => {
     // TODO: Refactor the fuck out of this

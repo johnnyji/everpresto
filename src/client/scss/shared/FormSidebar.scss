@@ -3,8 +3,13 @@
   @include flex-direction(column);
   position: relative;
   min-width: 300px;
-  margin-left: 30px;
   overflow-y: auto;
   overflow-x: hidden;
   padding: 0 12px $form-sidebar-footer-height 12px;
+  &-left {
+    margin-right: 20px;
+  }
+  &-right {
+    margin-left: 20px; 
+  }
 }

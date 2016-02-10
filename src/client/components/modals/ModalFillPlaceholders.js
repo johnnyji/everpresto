@@ -4,11 +4,14 @@ import classNames from 'classnames';
 import Immutable from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import MUIList from 'material-ui/lib/lists/list';
-import {equals, get} from '../.././utils/immutable/IterableFunctions';
-import {createFlashMessage} from '../.././actions/AppActionCreators';
+import {equals, get, isTruthy} from '../.././utils/immutable/IterableFunctions';
 import {minLength} from '../.././utils/RegexHelper';
 
+import {createFlashMessage} from '../.././actions/AppActionCreators';
+import {updateMappings} from '../.././actions/DocumentDraftActionCreators';
+
 import DashboardQuote from '.././dashboard/DashboardQuote';
+import ModalSection from '.././modals/ModalSection';
 import FileUploader from '.././shared/FileUploader';
 import Button from '.././ui/Button';
 import Icon from '.././ui/Icon';
@@ -66,8 +69,7 @@ export default class ModalFillPlaceholders extends Component {
           label={<span><Icon icon='file-upload'/> Import CSV File</span>}
           onReset={this._handleFileInputReset}
           onUpload={this._handleImportCsv}
-          permittedExtensions={['.csv']}
-          ref='fileUploader'/>
+          permittedExtensions={['.csv']}/>
         {stage === 0 && 
           <DashboardQuote
             author="Lord Vader"
@@ -78,7 +80,7 @@ export default class ModalFillPlaceholders extends Component {
           <Button
             color='green'
             icon='check'
-            onClick={() => {}}
+            onClick={this._generateRecepients}
             text='Save'/>
         }
       </ModalWrapper>
@@ -90,20 +92,22 @@ export default class ModalFillPlaceholders extends Component {
 
     const mappingRows = mappings.get('values').map((value, i) => {
       return (
-        <div className={`${displayName}-mapping-section-list-item`} key={i}>
-          <Input
-            defaultValue={value.get('header')}
-            error={mappings.getIn(['errors', i])}
-            errorKeys={`errors:${i}`}
-            label='Header Value'
-            onUpdate={(val, err) => this._handleMappingUpdate(val, err, i)}
-            patternMatches={minLength(1, `Please map a header to ${value.get('placeholder')}`)}
-            successKeys={`values:${i}:header`}
-            value={value.get('header')}
-            width={200}/>
-          <Icon icon='chevron-right' />
-          <mark>{value.get('placeholder')}</mark>
-        </div>
+        <tr className={`${displayName}-mapping-section-list-item`} key={i}>
+          <td>
+            <Input
+              defaultValue={value.get('header')}
+              error={mappings.getIn(['errors', i])}
+              errorKeys={`errors:${i}`}
+              label='Header Value'
+              onUpdate={(val, err) => this._handleMappingUpdate(val, err, i)}
+              patternMatches={minLength(1, `Please map a header to ${value.get('placeholder')}`)}
+              successKeys={`values:${i}:header`}
+              value={value.get('header')}
+              width={250}/>
+          </td>
+          <td><Icon icon='chevron-right' /></td>
+          <td><mark>{value.get('placeholder')}</mark></td>
+        </tr>
       );
     });
     const headers = importedData.get('headers').map((header, i) => {
@@ -116,8 +120,15 @@ export default class ModalFillPlaceholders extends Component {
 
     return (
       <div className={`${displayName}-mapping-section`}>
-        <ul className={`${displayName}-mapping-section-assigned-headers`}>{headers}</ul>
-        <MUIList>{mappingRows}</MUIList>
+        <ModalSection title='Imported Headers'>
+          <ul className={`${displayName}-mapping-section-assigned-headers`}>{headers}</ul>
+        </ModalSection>
+        <ModalSection title='Recepient Mappings'>
+
+        </ModalSection>
+        <ModalSection title='Placeholder Mappings'>
+          <table>{mappingRows}</table>
+        </ModalSection>
       </div>
     );
   };
@@ -139,6 +150,18 @@ export default class ModalFillPlaceholders extends Component {
 
       return updatedMapping.update('errors', (errs) => errs.push(null));
     }, this.state.mappings);
+  };
+
+  _generateRecepients = () => {
+    const {mappings} = this.state;
+    const firstFoundError = mappings.get('errors').find(isTruthy); 
+
+    if (firstFoundError !== undefined) {
+      return this._handleError('Hmmm... There are some errors in your mappings');
+    }
+
+
+    // this.context.dispatch(updateMappings(this.state.mappings.toJS()));
   };
 
   /**

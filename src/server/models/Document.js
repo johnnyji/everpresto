@@ -21,9 +21,10 @@ const DocumentSchema = new Schema({
   expiresAt: {
     type: Date
   },
-  signed: {
-    type: Boolean,
-    default: false
+  status: {
+    type: String,
+    enum: ['draft', 'sent', 'signed'],
+    default: 'draft'
   },
   title: {
     type: String,

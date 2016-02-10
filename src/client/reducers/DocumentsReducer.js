@@ -6,6 +6,7 @@ const {
   RESET_SHOULD_FETCH_DOCUMENTS} = DocumentActionTypes;
 
 const initialState = Immutable.fromJS({
+  docBeingCreated: null,
   docs: [],
   shouldFetchDocs: true
 });

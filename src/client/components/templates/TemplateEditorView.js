@@ -1,15 +1,14 @@
 import React, {Component, PropTypes} from 'react';
-import MUITab from 'material-ui/lib/tabs/tab';
 import flow from 'lodash/flow';
 import Immutable from 'immutable';
 import striptags from 'striptags';
 import CustomPropTypes from '.././CustomPropTypes';
 import {removeZeroWidthSpace} from '../.././utils/TextEditorHelper';
 import {unshift} from '../.././utils/immutable/ListFunctions';
+import {matchesAttr} from '../.././utils/immutable/IterableFunctions';
 import {getAttr} from '../.././utils/immutable/MapFunctions';
 
 import Button from '.././ui/Button';
-import Tabs from '.././ui/Tabs';
 import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
 import DocumentEditor from '.././shared/DocumentEditor';
 import FileToHtmlConverter from '.././shared/FileToHtmlConverter';
@@ -23,6 +22,8 @@ import FormSidebarSectionTitle from '.././shared/FormSidebarSectionTitle';
 // This allows us to add any other HTML cleaners directly to the flow of data
 // ie. flow(removeZeroWidthSpace, removeSpans, removeHiddenMarkers) etc...
 const cleanTemplateHTML = flow(removeZeroWidthSpace);
+const isSpecific = matchesAttr('type', 'specific');
+const isGeneral = matchesAttr('type', 'general');
 const displayName = 'TemplateEditorView';
 
 export default class TemplateEditorView extends Component {
@@ -88,32 +89,30 @@ export default class TemplateEditorView extends Component {
 
         <FormSidebar className={`${displayName}-sidebar`}>
           <FormSidebarBody>
-            <Tabs>
-              {/* Placeholder Section */}
-              <MUITab label='Placeholders'>
-                <FormSidebarSection>
-                  <FileToHtmlConverter
-                    label={importingTemplate ? 'Importing...' : 'Import Existing Template'}
-                    onEnd={this._handleTemplateUploadEnd}
-                    onStart={this._handleTemplateUploadStart} />
-                </FormSidebarSection>
-                <FormSidebarSection className={`${displayName}-sidebar-placeholders`}>
-                  <FormSidebarPlaceholderInput
-                    onAddPlaceholder={this._addPlaceholder}
-                    onRemovePlaceholder={(p) => this._updateTemplateAttr('placeholders', this._removePlaceholder(p))}
-                    placeholders={template.get('placeholders')}/>
-                </FormSidebarSection>
-              </MUITab>
-              {/* Signature Section */}
-              <MUITab label='Signatures'>
-                <FormSidebarSection>
-                  <FormSidebarSectionTitle>From Them:</FormSidebarSectionTitle>
-                </FormSidebarSection>
-                <FormSidebarSection>
-                  <FormSidebarSectionTitle>From Us:</FormSidebarSectionTitle>
-                </FormSidebarSection>
-              </MUITab>
-            </Tabs>
+            {/* Placeholder Section */}
+            <FormSidebarSection>
+              <FileToHtmlConverter
+                label={importingTemplate ? 'Importing...' : 'Import Existing Template'}
+                onEnd={this._handleTemplateUploadEnd}
+                onStart={this._handleTemplateUploadStart} />
+            </FormSidebarSection>
+            <FormSidebarSection className={`${displayName}-sidebar-placeholders`}>
+              <FormSidebarPlaceholderInput
+                onAddPlaceholder={this._addPlaceholder}
+                onRemovePlaceholder={(p) => this._updateTemplateAttr('placeholders', this._removePlaceholder(p))}
+                placeholders={template.get('placeholders').filter(isSpecific)}
+                requiredPlaceholders={Immutable.fromJS([
+                  {value: 'EMAIL', tip: "Email is required and unique for each signer. You don't have to use this field in your template if you don't need to."},
+                  {value: 'FIRST_NAME', tip: "First names are unique to each signer and required. You don't have to use this in your template if you don't need to, but you probably should!"},
+                  {value: 'LAST_NAME', tip: "Last names are unique to each signer and required. You don't have to use this in your template if you don't need to, but you probably should!"}
+                ])}
+                title='Will Be Different For Each Signer'/>
+              <FormSidebarPlaceholderInput
+                onAddPlaceholder={this._addPlaceholder}
+                onRemovePlaceholder={(p) => this._updateTemplateAttr('placeholders', this._removePlaceholder(p))}
+                placeholders={template.get('placeholders').filter(isGeneral)}
+                title='Will Be Same For All Signers'/>
+            </FormSidebarSection>
           </FormSidebarBody>
           {/* Confirmation Buttons */}
           <FormSidebarFooter>

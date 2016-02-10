@@ -23,11 +23,11 @@
     position: relative;
     @include flex-grow(1);
     @include display(flex);
-    &-preview {
-      @include flex-grow(5);
-    }
     &-sidebar {
-      @include flex-grow(4);
+      @include flex-grow(6);
+    }
+    &-preview {
+      @include flex-grow(2);
     }
   }
 }

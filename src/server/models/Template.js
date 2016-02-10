@@ -25,6 +25,11 @@ const TemplateSchema = new Schema({
     value: {
       type: String,
       required: 'Please make sure all placeholders have values'
+    },
+    type: {
+      type: String,
+      enum: ['general', 'specific'],
+      default: 'general'
     }
   }],
   rawText: {

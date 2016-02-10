@@ -1,25 +1,43 @@
-.FormSidebarPlaceholderInput.ui-List {
-  margin: 0;
-}
-
 .FormSidebarPlaceholderInput {
+  &-title {
+    font-size: 16px;
+  }
   // Removes top padding and margin to reduce space gap
   &-input-wrapper {
     @include display(flex);
     @include align-items(center);
     @include justify-content(center);
-    margin-top: 0;
+    margin: 10px 0;
     padding-top: 0;
-    margin-bottom: 20px;
   }
   &-input {
     margin: 0 auto;
   }
   // List of placeholders
   &-placeholders {
-    // TODO: Overflow not working
-    // overflow-y: auto;
-    // max-height: 400px;
+    padding-left: 0;
+    overflow-y: scroll;
+    max-height: 200px;
+    &-required {
+      @include display(flex);
+      @include justify-content(space-between);
+      @include align-items(center);
+      padding: 16px;
+      &-text {
+        @extend .transition;
+        color: $text-color-light;
+        font-style: italic;
+        font-size: 12px;
+        &-icon {
+          margin-top: -2px;
+          margin-right: 3px;
+        }
+        &:hover {
+          color: $placeholder-color;
+          cursor: pointer;
+        }
+      }
+    }
     &-placeholder {
     }
   }

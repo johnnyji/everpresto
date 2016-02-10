@@ -5,12 +5,15 @@ import DashboardContentHeader from '.././dashboard/DashboardContentHeader';
 import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
 
 import DocumentViewer from '.././shared/DocumentViewer';
+import FileUploader from '.././shared/FileUploader';
 import FormSidebar from '.././shared/FormSidebar';
 import FormSidebarBody from '.././shared/FormSidebarBody';
 import FormSidebarFooter from '.././shared/FormSidebarFooter';
 import FormSidebarSection from '.././shared/FormSidebarSection';
+import FormSidebarSectionTitle from '.././shared/FormSidebarSectionTitle';
 import ModalFillPlaceholders from '.././modals/ModalFillPlaceholders';
 import Button from '.././ui/Button';
+import Icon from '.././ui/Icon';
 import Tabs from '.././ui/Tabs';
 
 import AppActionCreators from '../.././actions/AppActionCreators';
@@ -46,16 +49,14 @@ export default class DocumentsNewEditorView extends Component {
           <FormSidebar className={`${displayName}-content-sidebar`}>
             <FormSidebarBody>
               <Tabs>
-                <MUITab label='Fields'>
-                  <FormSidebarSection>
-                    <Button
-                      color='blue'
-                      icon='edit'
-                      onClick={this._showReplacePlaceholdersModal}
-                      text='Fill Placeholders'/>
-                  </FormSidebarSection>
+                <MUITab label='Import Contacts'>
+                  <button>Add a signer</button>
+                  <FileUploader
+                    label={<span><Icon icon='file-upload'/>Import CSV File</span>}
+                    onUpload={() => {}}
+                    permittedExtensions={['.csv']}/>
                 </MUITab>
-                <MUITab label='Signatures'>
+                <MUITab label='Manually Input Contacts'>
                   Hello 1
                 </MUITab>
               </Tabs>

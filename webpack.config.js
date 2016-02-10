@@ -22,12 +22,15 @@ module.exports = {
   //     path.join(__dirname, '/node_modules')
   //   ]  
   // },
+  resolve: {
+    extensions: ['', '.js', '.jsx', '.json', '.scss']
+  },
   module: {
     loaders: [
       { 
         test: /.js$/, 
         include: [srcPath], 
-        loaders: ['react-hot-loader', 'babel-loader?stage=0']
+        loaders: ['react-hot-loader', 'babel-loader?stage=1']
         // query: {
         //   cacheDirectory: true,
         //   presets: ['es2015', 'stage-1', 'react'],
