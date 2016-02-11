@@ -5,7 +5,7 @@ import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
 import DashboardSpinner from '.././shared/DashboardSpinner';
 import TemplateEditorView from './TemplateEditorView';
 
-import AppActionCreators from '../.././actions/AppActionCreators'
+import {createFlashMessage} from '../.././actions/AppActionCreators'
 import TemplateActionCreators from '../.././actions/TemplateActionCreators';
 
 @connect((state) => ({
@@ -38,15 +38,17 @@ export default class TemplatesEdit extends Component {
   }
 
   componentWillUpdate(nextProps, nextState) {
+    const {template} = this.props;
+    const {template: nextTemplate} = nextProps;
     // If template is successfully edited (meaning theres no more `templateBeingEdited`),
     // log a flash message and redirect user to the template index view
-    if (!Boolean(nextProps.template)) {
+    if (!Boolean(nextTemplate)) {
+      const title = template.get('title') ? <b>{template.get('title')}</b> : 'Template';
+
       this.context.dispatch(
-        AppActionCreators.createFlashMessage(
-          'green',
-          <span><b>{this.props.template.get('title')}</b> was successfully updated!</span>
-        )
+        createFlashMessage('green', <span>{title} was successfully updated!</span>)
       );
+      
       this.context.router.push('/dashboard/templates');
     }
   }
@@ -62,9 +64,13 @@ export default class TemplatesEdit extends Component {
     );
   }
 
+  _handleError = (err) => {
+    this.context.dispatch(createFlashMessage('red', err));
+  };
+
   _handleSave = (template) => {
-    if (template.get('title').length === 0) return this._createError('Please provide a title for your template!');
-    if (template.get('rawText').length === 0) return this._createError('Your template can\'t be blank, duh...');
+    if (template.get('title').length === 0) return this._handleError('Please provide a title for your template!');
+    if (template.get('rawText').length === 0) return this._handleError('Your template can\'t be blank, duh...');
     if (template.get('placeholders').size === 0) {
       return this.context.dispatch(
         AppActionCreators.createModal(

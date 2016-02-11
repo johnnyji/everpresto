@@ -151,11 +151,11 @@ export default class FormSidebarPlaceholderInput extends Component {
     const firstFoundError = unsavedPlaceholder.get('errors').find(isTruthy);
     if (firstFoundError !== undefined) return;
 
-    const {onAddPlaceholder, placeholders} = this.props;
+    const {onAddPlaceholder, allPlaceholders} = this.props;
     const unsavedPlaceholderValue = unsavedPlaceholder.getIn(['values', 'value']);
 
     // If the placeholder is already taken, set the error on this placeholder
-    if (placeholders.find(matchesValue(unsavedPlaceholderValue))) {
+    if (allPlaceholders.find(matchesValue(unsavedPlaceholderValue))) {
       return this.setState({
         unsavedPlaceholder: unsavedPlaceholder.setIn(['errors', 'value'], 'This placeholder is already being used!')
       });
@@ -165,7 +165,7 @@ export default class FormSidebarPlaceholderInput extends Component {
     // `HELLO` and `HELL`. In this case, there's a conflict because `HELLO` would never
     // get matched because `HELL` would always match first
     // TODO: Refactor to be functional
-    const firstConflictingPlaceholder = placeholders.find((ph) => {
+    const firstConflictingPlaceholder = allPlaceholders.find((ph) => {
       const placeholderValue = ph.get('value');
       return placeholderValue.length > unsavedPlaceholderValue.length
         ? placeholderValue.match(new RegExp(unsavedPlaceholderValue))
@@ -192,7 +192,7 @@ export default class FormSidebarPlaceholderInput extends Component {
     this.context.dispatch(
       AppActionCreators.createModal(<ModalPlaceholderTipBox />)
     );
-  }
+  };
 
   _updateUnsavedPlaceholder = (value, error, e) => {
     // If the enter key is hit, we don't want to update, instead we want to ignore

@@ -22,6 +22,7 @@ export default class DocumentPreviewCard extends Component {
   };
 
   static defaultProps = {
+    defaultTitle: 'Untitled',
     height: 300,
     isNewCard: false,
     isGridViewItem: true,
@@ -44,6 +45,7 @@ export default class DocumentPreviewCard extends Component {
     const {
       body,
       children,
+      defaultTitle,
       isNewCard,
       onBodyClick,
       onNewIconClick,
@@ -63,17 +65,15 @@ export default class DocumentPreviewCard extends Component {
 
     return (
       <div>
-        {title &&
-          <header className={`${displayName}-header`} onClick={onTitleClick}>
-            <h4 className={`${displayName}-header-title`}>{truncateString(title, titleDisplayLength)}</h4>
-          </header>
-        }
-        {body &&
-          <div
-            className={`${displayName}-body`}
-            dangerouslySetInnerHTML={{__html: body}}
-            onClick={onBodyClick}/>
-        }
+        <header className={`${displayName}-header`} onClick={onTitleClick}>
+          <h4 className={`${displayName}-header-title`}>
+            {title ? truncateString(title, titleDisplayLength) : defaultTitle}
+          </h4>
+        </header>
+        <div
+          className={`${displayName}-body`}
+          dangerouslySetInnerHTML={{__html: body || '<div></div>'}}
+          onClick={onBodyClick}/>
         {children &&
           <div className={`${displayName}-options`}>
             {children}

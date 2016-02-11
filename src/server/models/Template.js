@@ -51,6 +51,39 @@ const TemplateSchema = new Schema({
   timestamps: true
 });
 
+// Makes sure there's always the 3 default placeholders (FIRST_NAME, LAST_NAME, EMAIL)
+TemplateSchema.pre('save', function(next) {
+  console.log(this.placeholders);
+  const requiredPlaceholders = [
+    {
+      isRequired: true,
+      tip: "First names are unique to each signer and required. You don't have to use this in your template if you don't need to, but you probably should!",
+      type: 'specific',
+      value: 'FIRST_NAME'},
+    {
+      isRequired: true,
+      tip: "Last names are unique to each signer and required. You don't have to use this in your template if you don't need to, but you probably should!",
+      type: 'specific',
+      value: 'LAST_NAME'},
+    {
+      isRequired: true,
+      tip: "Email is required and unique for each signer. You don't have to use this field in your template if you don't need to.",
+      type: 'specific',
+      value: 'EMAIL'}
+  ];
+
+  // The users will never be able to input these placeholders because they're
+  // added directly at creation, meaning they can't input them on the client side,
+  // therefore everytime they save their template, they won't have these 3, allowing us to
+  // safely attach them on
+  if (!Array.isArray(this.placeholders)) {
+    this.placeholders = requiredPlaceholders;
+  } else {
+    this.placeholders = this.placeholders.concat(requiredPlaceholders);    
+  }
+  next();
+});
+
 TemplateSchema.statics.updateTemplate = function(stringId, data) {
   return new Promise((resolve, reject) => {
     // Sanitizes the HTML text to remove any malicious tags

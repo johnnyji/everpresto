@@ -98,12 +98,14 @@ export default class TemplateEditorView extends Component {
             </FormSidebarSection>
             <FormSidebarSection className={`${displayName}-sidebar-placeholders`}>
               <FormSidebarPlaceholderInput
+                allPlaceholders={template.get('placeholders')}
                 onAddPlaceholder={this._addPlaceholder}
                 onRemovePlaceholder={(p) => this._updateTemplateAttr('placeholders', this._removePlaceholder(p))}
                 placeholderInputLabel='ADD_SPECIFIC_PLACEHOLDER'
                 placeholders={template.get('placeholders').filter(isSpecific)}
                 title='Will Be Different For Each Signer'/>
               <FormSidebarPlaceholderInput
+                allPlaceholders={template.get('placeholders')}
                 onAddPlaceholder={this._addPlaceholder}
                 onRemovePlaceholder={(p) => this._updateTemplateAttr('placeholders', this._removePlaceholder(p))}
                 placeholderInputLabel='ADD_GENERAL_PLACEHOLDER'

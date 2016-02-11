@@ -47,6 +47,7 @@ export default class TemplatePreviewCard extends Component {
       <DocumentPreviewCard
         body={template.get('body')}
         className={classes}
+        defaultTitle='Untitled Template'
         onBodyClick={this._handleEditView}
         onTitleClick={this._handleEditView}
         title={template.get('title')}>
