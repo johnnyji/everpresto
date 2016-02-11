@@ -24,6 +24,7 @@ import FormSidebarSectionTitle from '.././shared/FormSidebarSectionTitle';
 const cleanTemplateHTML = flow(removeZeroWidthSpace);
 const isSpecific = matchesAttr('type', 'specific');
 const isGeneral = matchesAttr('type', 'general');
+const isNotRequired = matchesAttr('isRequired', false);
 const displayName = 'TemplateEditorView';
 
 export default class TemplateEditorView extends Component {
@@ -139,6 +140,9 @@ export default class TemplateEditorView extends Component {
     let template = this.state.template.set('body', cleanTemplateHTML(this.state.template.get('body')));
     // Strips the HTML from the text to give just the raw body
     template = template.set('rawText', striptags(template.get('body')));
+    // Removes the required placeholders from the template to avoid duplication, because we'll
+    // add them on the in `pre` save hook on the server side
+    template = template.update('placeholders', (placeholders) => placeholders.filter(isNotRequired));
 
     this.props.onSave(template);
   };

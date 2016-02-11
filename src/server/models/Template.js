@@ -72,9 +72,8 @@ TemplateSchema.pre('save', function(next) {
   ];
 
   // The users will never be able to input these placeholders because they're
-  // added directly at creation, meaning they can't input them on the client side,
-  // therefore everytime they save their template, they won't have these 3, allowing us to
-  // safely attach them on
+  // added directly at creation, meaning users can't input them on the client side,
+  // allowing us to safely attach them on without duplication here.
   if (!Array.isArray(this.placeholders)) {
     this.placeholders = requiredPlaceholders;
   } else {
