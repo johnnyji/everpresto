@@ -73,7 +73,6 @@ const TemplateSchema = new Schema({
 
 // Makes sure there's always the 3 default placeholders (FIRST_NAME, LAST_NAME, EMAIL)
 TemplateSchema.pre('save', function(next) {
-  debugger;
   // The users will never be able to input these placeholders because they're
   // added directly at creation, meaning users can't input them on the client side,
   // allowing us to safely attach them on without duplication here.
@@ -106,15 +105,6 @@ TemplateSchema.statics.updateTemplate = function(stringId, data) {
       });
     });
 
-    // this.findOneAndUpdate(
-    //   ObjectId(stringId),
-    //   {$set: sanitizedData},
-    //   {new: true, runValidators: true}
-    // ).exec((err, template) => {
-    //   if (err) return reject(err);
-    //   if (!template) return reject('Sorry but this template doesn\'t exist...');
-    //   resolve(template.toObject());
-    // });
   });
 }
 
