@@ -100,16 +100,13 @@ export default class TemplateEditorView extends Component {
               <FormSidebarPlaceholderInput
                 onAddPlaceholder={this._addPlaceholder}
                 onRemovePlaceholder={(p) => this._updateTemplateAttr('placeholders', this._removePlaceholder(p))}
+                placeholderInputLabel='ADD_SPECIFIC_PLACEHOLDER'
                 placeholders={template.get('placeholders').filter(isSpecific)}
-                requiredPlaceholders={Immutable.fromJS([
-                  {value: 'EMAIL', tip: "Email is required and unique for each signer. You don't have to use this field in your template if you don't need to."},
-                  {value: 'FIRST_NAME', tip: "First names are unique to each signer and required. You don't have to use this in your template if you don't need to, but you probably should!"},
-                  {value: 'LAST_NAME', tip: "Last names are unique to each signer and required. You don't have to use this in your template if you don't need to, but you probably should!"}
-                ])}
                 title='Will Be Different For Each Signer'/>
               <FormSidebarPlaceholderInput
                 onAddPlaceholder={this._addPlaceholder}
                 onRemovePlaceholder={(p) => this._updateTemplateAttr('placeholders', this._removePlaceholder(p))}
+                placeholderInputLabel='ADD_GENERAL_PLACEHOLDER'
                 placeholders={template.get('placeholders').filter(isGeneral)}
                 title='Will Be Same For All Signers'/>
             </FormSidebarSection>

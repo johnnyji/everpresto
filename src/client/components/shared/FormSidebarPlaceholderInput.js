@@ -18,6 +18,7 @@ import AppActionCreators from '../.././actions/AppActionCreators';
 
 const ENTER_KEY = 13;
 const matchesValue = matchesAttr('value');
+const isRequired = matchesAttr('isRequired');
 const displayName = 'FormSidebarPlaceholderInput';
 
 export default class FormSidebarPlaceholderInput extends Component {
@@ -31,18 +32,20 @@ export default class FormSidebarPlaceholderInput extends Component {
   static propTypes = {
     onAddPlaceholder: PropTypes.func.isRequired,
     onRemovePlaceholder: PropTypes.func.isRequired,
+    placeholderInputLabel: PropTypes.string.isRequired,
     placeholders: ImmutablePropTypes.listOf(
       ImmutablePropTypes.contains({
+        isRequired: PropTypes.bool.isRequired,
+        tip: PropTypes.string,
+        type: PropTypes.oneOf(['general', 'specific']).isRequired,
         value: PropTypes.string.isRequired
-      })
-    ),
-    requiredPlaceholders: ImmutablePropTypes.listOf(
-      ImmutablePropTypes.contains({
-        value: PropTypes.string.isRequired,
-        tip: PropTypes.string
-      })
+      }).isRequired
     ),
     title: PropTypes.string
+  };
+
+  static defaultProps = {
+    placeholderInputLabel: 'ADD_PLACEHOLDER_HERE'
   };
 
   constructor(props) {
@@ -56,7 +59,7 @@ export default class FormSidebarPlaceholderInput extends Component {
   }
 
   render() {
-    const {title} = this.props;
+    const {placeholderInputLabel, title} = this.props;
     const {unsavedPlaceholder} = this.state;
 
     return (
@@ -72,7 +75,7 @@ export default class FormSidebarPlaceholderInput extends Component {
             defaultValue={unsavedPlaceholder.getIn(['values', 'value'])}
             error={unsavedPlaceholder.getIn(['errors', 'value'])}
             errorKeys='errors:value'
-            label={<span><Icon icon='edit' /> ADD_PLACEHOLDER_HERE</span>}
+            label={<span><Icon icon='edit' /> {placeholderInputLabel}</span>}
             onKeyPress={this._handleKeyPress}
             onEnterKeyPress={this._saveUnsavedPlaceholder}
             onUpdate={(value, err, valObj, errObj, e) => this._updateUnsavedPlaceholder(value, err, e)}
@@ -97,10 +100,12 @@ export default class FormSidebarPlaceholderInput extends Component {
    * @return {Immutable.List} The list of required placeholder React elements
    */
   _renderRequiredPlaceholders = () => {
-    if (!this.props.requiredPlaceholders) return;
+    const requiredPlaceholders = this.props.placeholders.filter(isRequired(true));
+    
+    if (!requiredPlaceholders) return;
 
-    return this.props.requiredPlaceholders.map((placeholder) => (
-      <li className={`${displayName}-placeholders-required`}>
+    return requiredPlaceholders.map((placeholder, i) => (
+      <li className={`${displayName}-placeholders-required`} key={i}>
         <mark>{placeholder.get('value')}</mark>
         <span className={`${displayName}-placeholders-required-text`}>
           <Icon icon='info' iconClass={`${displayName}-placeholders-required-text-icon`} size={16}/>
@@ -111,8 +116,9 @@ export default class FormSidebarPlaceholderInput extends Component {
   };
 
   _renderPlaceholders = () => {
+    const generalPlaceholders = this.props.placeholders.filter(isRequired(false));
     // TODO: Refactor the fuck out of this
-    if (this.props.placeholders.size === 0) {
+    if (generalPlaceholders.size === 0) {
       return (
         <div className={`${displayName}-placeholder-tip`}>
           <ClickableIcon
@@ -128,7 +134,7 @@ export default class FormSidebarPlaceholderInput extends Component {
       );
     }
 
-    return this.props.placeholders.map((placeholder, i) => (
+    return generalPlaceholders.map((placeholder, i) => (
       <ListItem
         className={`${displayName}-placeholders-placeholder`}
         key={i}

@@ -13,7 +13,6 @@ import GridViewItem from '.././ui/GridViewItem';
 import CollectionPreviewCard from './CollectionPreviewCard';
 import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
 import DashboardMessage from '.././dashboard/DashboardMessage';
-import ModalCreateCollection from '.././modals/ModalCreateCollection';
 
 import AppActionCreators from '../.././actions/AppActionCreators';
 import CollectionActionCreators from '../.././actions/CollectionActionCreators';
@@ -91,23 +90,9 @@ export default class CollectionsIndex extends Component {
     );
   }
 
-  _createBlankCollection = () => {
-    this.context.dispatch(CollectionActionCreators.createCollection());
-  }
-
   _createCollection = () => {
-    this.context.dispatch(
-      AppActionCreators.createModal(
-        <ModalCreateCollection
-          onCreateBlank={this._createBlankCollection}
-          onCreatePopulated={this._createPopulatedCollection}/>
-      )
-    );
-  }
-
-  _createPopulatedCollection = () => {
-    console.log('populated!');
-  }
+    this.context.dispatch(CollectionActionCreators.createCollection());
+  };
 
   _renderCollections = () => {
     const {collectionBeingEdited, collections} = this.props;
@@ -126,7 +111,7 @@ export default class CollectionsIndex extends Component {
         </GridViewItem>
       );
     });
-  }
+  };
 
   _renderCreateTemplateMessage = () => {
     return (

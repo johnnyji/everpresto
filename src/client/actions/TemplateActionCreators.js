@@ -14,22 +14,16 @@ const TemplateActionCreators = {
   /**
    * Sends the AJAX request to create the template on the server
    *
-   * @param  {Immutable.Map} template - The map containing the template details
    * @return {Function}               - The thunk that makes the API call
    */
-  createTemplate(template) {
+  createTemplate() {
     return (dispatch) => {
       sendAjaxRequest({
         method: apiEndpoints.templates.create.method,
-        url: apiEndpoints.templates.create.path,
-        data: {template}
+        url: apiEndpoints.templates.create.path
       })
-        .then(() => {
-          dispatch(this.createTemplateSuccess());
-        })
-        .catch((response) => {
-          dispatch(createFlashMessage('red', response.data.message));
-        });
+        .then((response) => dispatch(this.createTemplateSuccess(response.data.template)))
+        .catch((response) => dispatch(createFlashMessage('red', response.data.message)));
     };
   },
 
@@ -39,8 +33,11 @@ const TemplateActionCreators = {
    *
    * @return {Object}          - The data passed to the Template Reducer
    */
-  createTemplateSuccess() {
-    return {type: TemplateActionTypes.CREATE_TEMPLATE_SUCCESS};
+  createTemplateSuccess(template) {
+    return {
+      type: TemplateActionTypes.CREATE_TEMPLATE_SUCCESS,
+      data: {template}
+    };
   },
 
 

@@ -27,10 +27,12 @@ export default function templatesReducer(state = initialState, action) {
   switch (action.type) {
 
     case CREATE_TEMPLATE_SUCCESS:
-      // Makes sure we refetch the templates to include our newly created one.
+      // Make sure we set our template being edited to our just created one,
+      // so we'll be able to edit and alter it right away
       return state.merge({
-        shouldFetchTemplates: true,
-        templateCreated: true
+        templateBeingEdited: action.data.template,
+        // Makes sure to refetch the templates to include the newly created one
+        shouldFetchTemplates: true
       });
 
     case DELETE_TEMPLATE_SUCCESS:

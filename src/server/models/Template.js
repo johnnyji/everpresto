@@ -19,7 +19,7 @@ const TemplateSchema = new Schema({
   },
   body: {
     type: String,
-    required: 'Your template can\'t be empty silly!'
+    default: ''
   },
   placeholders: [{
     value: {
@@ -30,39 +30,26 @@ const TemplateSchema = new Schema({
       type: String,
       enum: ['general', 'specific'],
       default: 'general'
+    },
+    isRequired: {
+      type: Boolean,
+      default: false
+    },
+    tip: {
+      type: String
     }
   }],
   rawText: {
     type: String,
-    required: 'Your template can\'t be empty silly!'
+    default: ''
   },
   title: {
     type: String,
-    required: 'Please give your template a title!'
+    default: ''
   }
 }, {
   timestamps: true
 });
-
-TemplateSchema.statics.createTemplate = function(data) {
-  return new Promise((resolve, reject) => {
-    // Sanitizes the HTML text to remove any malicious tags
-    // TODO: Find way to keep classes and ids (only remove script tags)
-    const sanitizedData = set(data, 'body', xss(data.body));
-    // Whitelist attributes
-    this.create({
-      _company: sanitizedData._company,
-      _creator: sanitizedData._creator,
-      body: sanitizedData.body,
-      placeholders: sanitizedData.placeholders,
-      rawText: sanitizedData.rawText,
-      title: sanitizedData.title
-    }, (err, template) => {
-      if (err) return reject(err);
-      resolve(template.toObject());
-    });
-  });
-}
 
 TemplateSchema.statics.updateTemplate = function(stringId, data) {
   return new Promise((resolve, reject) => {

@@ -17,7 +17,7 @@ import DashboardView from '.././components/dashboard/DashboardView';
   import DocumentsNew from '.././components/documents/DocumentsNew';
   // Templates
   import TemplatesIndex from '.././components/templates/TemplatesIndex';
-  import TemplatesNew from '.././components/templates/TemplatesNew';
+  // import TemplatesNew from '.././components/templates/TemplatesNew';
   import TemplatesEdit from '.././components/templates/TemplatesEdit';
 
 import ProfileHandler from '.././components/user/ProfileHandler';
@@ -51,7 +51,6 @@ const routes = (
 
       <Route path='templates' component={DashboardView}>
         <IndexRoute component={TemplatesIndex} />
-        <Route path='new' component={TemplatesNew} />
         <Route path='edit/:id' component={TemplatesEdit} />
       </Route>
     </Route>

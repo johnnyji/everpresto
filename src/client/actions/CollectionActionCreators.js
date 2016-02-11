@@ -15,8 +15,7 @@ const CollectionActionCreators = {
     return (dispatch) => {
       sendAjaxRequest({
         method: apiEndpoints.collections.create.method,
-        url: apiEndpoints.collections.create.path,
-        data: {collection}
+        url: apiEndpoints.collections.create.path
       })
         .then((response) => {
           dispatch(this.createCollectionSuccess(response.data.collection));

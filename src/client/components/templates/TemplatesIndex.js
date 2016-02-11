@@ -4,12 +4,13 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import CustomPropTypes from '.././CustomPropTypes';
 import DocumentPreviewCard from '.././shared/DocumentPreviewCard';
 import TemplatePreviewCard from './TemplatePreviewCard';
-import TemplateActionCreators from '../.././actions/TemplateActionCreators';
 import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
 import {truncateString} from '../.././utils/TextHelper';
 
 import DashboardSpinner from '.././shared/DashboardSpinner';
 import GridView from '.././ui/GridView';
+
+import TemplateActionCreators from '../.././actions/TemplateActionCreators';
 
 const displayName = 'TemplatesIndex';
 
@@ -44,6 +45,7 @@ export default class TemplatesIndex extends Component {
     if (templateBeingEdited) {
       return this.context.router.push(`/dashboard/templates/edit/${templateBeingEdited.get('_id')}`);
     }
+
     if (shouldFetchTemplates) return this.context.dispatch(TemplateActionCreators.fetchTemplates());
   }
 
@@ -56,21 +58,21 @@ export default class TemplatesIndex extends Component {
           <DocumentPreviewCard
             className={`${displayName}-templates-new`}
             isNewCard={true}
-            onNewIconClick={this._handleNewTemplate}/>
+            onNewIconClick={this._handleCreateTemplate}/>
           {this._renderTemplatePreviews()}
         </GridView>
       </DashboardContentWrapper>
     );
   }
 
-  _handleNewTemplate = () => {
-    this.context.router.push('/dashboard/templates/new');
-  }
+  _handleCreateTemplate = () => {
+    this.context.dispatch(TemplateActionCreators.createTemplate());
+  };
 
   _renderTemplatePreviews = () => {
     return this.props.templates.map((template, i) => {
       return <TemplatePreviewCard key={i} template={template}/>;
     });
-  }
+  };
 
 }

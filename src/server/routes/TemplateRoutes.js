@@ -27,20 +27,33 @@ router.get('/:id', (req, res) => {
 
 // Creates a new template
 router.post('/create', (req, res) => {
-  const {body, rawText, placeholders, title} = req.body.template;
-  Template.createTemplate({
-    _company: req.session.companyId,
-    _creator: req.session.userId,
-    body,
-    rawText,
-    placeholders,
-    title
+  // TODO: Find a better way to set the default required placeholders,
+  // is there possibly a way to set them as defaults on the schema itself, or maybe
+  // as a `pre` save
+  Template.create({
+    _company: ObjectId(req.session.companyId),
+    _creator: ObjectId(req.session.userId),
+    placeholders: [
+      {
+        isRequired: true,
+        tip: "First names are unique to each signer and required. You don't have to use this in your template if you don't need to, but you probably should!",
+        type: 'specific',
+        value: 'FIRST_NAME'},
+      {
+        isRequired: true,
+        tip: "Last names are unique to each signer and required. You don't have to use this in your template if you don't need to, but you probably should!",
+        type: 'specific',
+        value: 'LAST_NAME'},
+      {
+        isRequired: true,
+        tip: "Email is required and unique for each signer. You don't have to use this field in your template if you don't need to.",
+        type: 'specific',
+        value: 'EMAIL'}
+    ]
+  }, (err, template) => {
+    if (err) return res.status(422).json({message: extractErrorMessage(err)});
+    res.status(201).json({template: template.toObject()});
   })
-    .then((template) => {
-      // No need to send back the template because we will query for all of them.
-      res.status(204).end();
-    })
-    .catch((err) => res.status(422).json({message: extractErrorMessage(err)}));
 });
 
 // Deletes a template

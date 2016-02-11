@@ -29,9 +29,11 @@ const CustomPropTypes = {
     createdAt: PropTypes.string.isRequired,
     placeholders: ImmutablePropTypes.listOf(
       ImmutablePropTypes.contains({
+        isRequired: PropTypes.bool.isRequired,
+        tip: PropTypes.string,
         type: PropTypes.oneOf(['general', 'specific']).isRequired,
         value: PropTypes.string.isRequired
-      })
+      }).isRequired
     ).isRequired,
     rawText: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
