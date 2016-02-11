@@ -53,7 +53,6 @@ const TemplateSchema = new Schema({
 
 // Makes sure there's always the 3 default placeholders (FIRST_NAME, LAST_NAME, EMAIL)
 TemplateSchema.pre('save', function(next) {
-  console.log(this.placeholders);
   const requiredPlaceholders = [
     {
       isRequired: true,
