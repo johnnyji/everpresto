@@ -103,12 +103,14 @@ export default class TemplateEditorView extends Component {
                 onAddPlaceholder={this._addPlaceholder}
                 onRemovePlaceholder={(p) => this._updateTemplateAttr('placeholders', this._removePlaceholder(p))}
                 placeholderInputLabel='ADD_SPECIFIC_PLACEHOLDER'
+                placeholderType='specific'
                 placeholders={template.get('placeholders').filter(isSpecific)}
                 title='Will Be Different For Each Signer'/>
               <FormSidebarPlaceholderInput
                 allPlaceholders={template.get('placeholders')}
                 onAddPlaceholder={this._addPlaceholder}
                 onRemovePlaceholder={(p) => this._updateTemplateAttr('placeholders', this._removePlaceholder(p))}
+                placeholderType='general'
                 placeholderInputLabel='ADD_GENERAL_PLACEHOLDER'
                 placeholders={template.get('placeholders').filter(isGeneral)}
                 title='Will Be Same For All Signers'/>
@@ -129,9 +131,18 @@ export default class TemplateEditorView extends Component {
     );
   }
 
-  _addPlaceholder = (value) => {
+  /**
+   * Adds a new placeholder on the client side
+   * @param  {String} value - The placeholder's value
+   * @param  {String} type  - What type of a placeholder is is (specific | general)
+   */
+  _addPlaceholder = (value, type) => {
     this.setState({
-      template: this.state.template.update('placeholders', unshift({value}))
+      template: this.state.template.update('placeholders', unshift({
+        isRequired: false,
+        type,
+        value
+      }))
     });
   }
 

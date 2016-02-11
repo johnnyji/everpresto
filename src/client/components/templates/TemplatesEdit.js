@@ -71,18 +71,6 @@ export default class TemplatesEdit extends Component {
   _handleSave = (template) => {
     if (template.get('title').length === 0) return this._handleError('Please provide a title for your template!');
     if (template.get('rawText').length === 0) return this._handleError('Your template can\'t be blank, duh...');
-    if (template.get('placeholders').size === 0) {
-      return this.context.dispatch(
-        AppActionCreators.createModal(
-          <ModalConfirm
-            confirmText='Yes, go ahead!'
-            onConfirm={() => this._createTemplate(rawText)}>
-            It looks like you have no placeholders. Are you sure you want to save the template 
-            widthout placeholders? There would be nothing for you to - well... Replace.
-          </ModalConfirm>
-        )
-      );
-    }
 
     // If all validations pass, we create the template
     this.context.dispatch(

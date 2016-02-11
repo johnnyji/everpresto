@@ -30,9 +30,18 @@ export default class FormSidebarPlaceholderInput extends Component {
   };
 
   static propTypes = {
+    allPlaceholders: ImmutablePropTypes.listOf(
+      ImmutablePropTypes.contains({
+        isRequired: PropTypes.bool.isRequired,
+        tip: PropTypes.string,
+        type: PropTypes.oneOf(['general', 'specific']).isRequired,
+        value: PropTypes.string.isRequired
+      }).isRequired
+    ),
     onAddPlaceholder: PropTypes.func.isRequired,
     onRemovePlaceholder: PropTypes.func.isRequired,
     placeholderInputLabel: PropTypes.string.isRequired,
+    placeholderType: PropTypes.oneOf(['general', 'specific']).isRequired,
     placeholders: ImmutablePropTypes.listOf(
       ImmutablePropTypes.contains({
         isRequired: PropTypes.bool.isRequired,
@@ -151,7 +160,7 @@ export default class FormSidebarPlaceholderInput extends Component {
     const firstFoundError = unsavedPlaceholder.get('errors').find(isTruthy);
     if (firstFoundError !== undefined) return;
 
-    const {onAddPlaceholder, allPlaceholders} = this.props;
+    const {allPlaceholders, onAddPlaceholder, placeholderType} = this.props;
     const unsavedPlaceholderValue = unsavedPlaceholder.getIn(['values', 'value']);
 
     // If the placeholder is already taken, set the error on this placeholder
@@ -185,7 +194,10 @@ export default class FormSidebarPlaceholderInput extends Component {
         errors: {value: null}
       })
     });
-    onAddPlaceholder(unsavedPlaceholderValue);
+
+    // Adds the placeholder by providing the value and what type
+    // the placeholder was (specific | general)
+    onAddPlaceholder(unsavedPlaceholderValue, placeholderType);
   };
 
   _showPlaceholderInfoModal = () => {
