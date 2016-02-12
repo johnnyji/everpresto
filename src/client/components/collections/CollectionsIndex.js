@@ -1,6 +1,5 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import Immutable from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import CustomPropTypes from '.././CustomPropTypes';
 
@@ -14,7 +13,6 @@ import CollectionPreviewCard from './CollectionPreviewCard';
 import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
 import DashboardMessage from '.././dashboard/DashboardMessage';
 
-import AppActionCreators from '../.././actions/AppActionCreators';
 import CollectionActionCreators from '../.././actions/CollectionActionCreators';
 import TemplateActionCreators from '../.././actions/TemplateActionCreators';
 
