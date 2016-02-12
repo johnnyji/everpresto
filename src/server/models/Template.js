@@ -99,7 +99,6 @@ TemplateSchema.statics.updateTemplate = function(stringId, data) {
       template.rawText = sanitizedData.rawText;
       template.title = sanitizedData.title;
       template.save((err, template) => {
-        debugger;
         if (err) return reject(err);
         resolve(template.toObject());
       });

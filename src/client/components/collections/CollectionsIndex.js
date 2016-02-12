@@ -117,21 +117,20 @@ export default class CollectionsIndex extends Component {
     return (
       <DashboardContentWrapper className={displayName}>
         <DashboardMessage className={`${displayName}-create-template`}>
-          <span className={`${displayName}-create-template-message`}>
+          <div className={`${displayName}-create-template-message`}>
             Looks like you don't have any templates yet. Create one first so you can start sending documents for people to sign!
-          </span>
+          </div>
           <Button
-            className={`${displayName}-create-template-button`}
             color='green'
-            onClick={this._navigateNewTemplateView}
+            onClick={this._navigateTemplateView}
             text='Create a Template!'/>
         </DashboardMessage>
       </DashboardContentWrapper>
     );
   }
 
-  _navigateNewTemplateView = () => {
-    this.context.router.push('/dashboard/templates/new');
+  _navigateTemplateView = () => {
+    this.context.router.push('/dashboard/templates');
   }
 
 }

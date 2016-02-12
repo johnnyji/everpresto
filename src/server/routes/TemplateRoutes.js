@@ -1,6 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import {extractErrorMessage, toObjects} from './utils/ResponseHelper';
+import Config from '../.././client/config/main';
 
 const ObjectId = mongoose.Types.ObjectId;
 const Template = mongoose.model('Template');
@@ -29,7 +30,8 @@ router.get('/:id', (req, res) => {
 router.post('/create', (req, res) => {
   Template.create({
     _company: ObjectId(req.session.companyId),
-    _creator: ObjectId(req.session.userId)
+    _creator: ObjectId(req.session.userId),
+    body: Config.template.hintBody
   }, (err, template) => {
     if (err) return res.status(422).json({message: extractErrorMessage(err)});
     res.status(201).json({template: template.toObject()});
