@@ -93,7 +93,8 @@ export default class FormSidebarPlaceholderInput extends Component {
               noLowerCase('Sorry, no lower case chars allowed!')
             ]}
             ref='placeholder-input'
-            successKeys='values:value'/>
+            successKeys='values:value'
+            width={300}/>
         </div>
         <ul className={`${displayName}-placeholders`}>
           {this._renderRequiredPlaceholders()}

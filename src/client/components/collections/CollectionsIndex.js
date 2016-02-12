@@ -44,14 +44,22 @@ export default class CollectionsIndex extends Component {
 
   componentWillMount() {
     // Fetches the templates and collections if needed, otherwise if the templates are already fetched, render the view.
-    if (this.props.shouldFetchCollections) return this.context.dispatch(CollectionActionCreators.fetchCollections());
-    if (this.props.shouldFetchTemplates) return this.context.dispatch(TemplateActionCreators.fetchTemplates());
+    if (this.props.shouldFetchCollections) {
+      return this.context.dispatch(CollectionActionCreators.fetchCollections());
+    }
+    if (this.props.shouldFetchTemplates) {
+      return this.context.dispatch(TemplateActionCreators.fetchTemplates());
+    }
   }
 
   componentWillReceiveProps(nextProps) {
     // Fetches the templates and sets render view to true only if needed.
-    if (nextProps.shouldFetchCollections) return this.context.dispatch(CollectionActionCreators.fetchCollections());
-    if (nextProps.shouldFetchTemplates) return this.context.dispatch(TemplateActionCreators.fetchTemplates());
+    if (nextProps.shouldFetchCollections) {
+      return this.context.dispatch(CollectionActionCreators.fetchCollections());
+    }
+    if (nextProps.shouldFetchTemplates) {
+      return this.context.dispatch(TemplateActionCreators.fetchTemplates());
+    }
   }
 
   componentWillUnmount() {

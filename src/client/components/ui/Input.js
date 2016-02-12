@@ -45,10 +45,7 @@ export default class Input extends Component {
     ]),
     type: PropTypes.oneOf(['text', 'email', 'number', 'password']),
     value: PropTypes.string,
-    width: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number
-    ]).isRequired
+    width: PropTypes.number
   };
 
   static defaultProps = {
@@ -59,8 +56,7 @@ export default class Input extends Component {
       regex: /.*/,
       error: ''
     },
-    type: 'text',
-    width: 300
+    type: 'text'
   };
 
   render() {
@@ -76,7 +72,7 @@ export default class Input extends Component {
       type,
       width} = this.props;
     const styles = {
-      width: typeof width === 'number' ? `${width}px` : width
+      width: width != null ? `${width}px` : '100%'
     };
     const inputLabel = Boolean(labelIcon)
       ? <span><Icon icon={labelIcon}/>{label}</span>
