@@ -12,7 +12,6 @@ import GridView from '.././ui/GridView';
 import SearchBar from '.././ui/SearchBar';
 
 import CollectionActionCreators from '../.././actions/CollectionActionCreators';
-import {createNewDocument} from '../.././actions/DocumentNewActionCreators';
 
 const displayName = 'CollectionsShow';
 
@@ -87,11 +86,7 @@ export default class CollectionsShow extends Component {
   }
 
   _handleCreateDocument = () => {
-    const {dispatch, router} = this.context;
-    // Creates a new document in store and changes the route to the
-    // new document route
-    dispatch(createNewDocument(this.props.params.id));
-    router.push(`/dashboard/documents/${this.props.params.id}/new`);
+    this.context.router.push(`/dashboard/documents/${this.props.params.id}/new`);
   };
 
   _handleFilterDocuments = () => {

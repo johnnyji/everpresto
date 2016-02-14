@@ -36,6 +36,13 @@ export default class DocumentsNew extends Component {
     templates: ImmutablePropTypes.listOf(CustomPropTypes.template).isRequired
   };
 
+  componentDidMount() {
+    // Sets the new document's collection id
+    this.context.dispatch(
+      DocumentNewActionCreators.setCollection(this.props.params.collection_id)
+    );
+  }
+
   componentWillMount() {
     const {shouldFetchTemplates, template} = this.props;
 

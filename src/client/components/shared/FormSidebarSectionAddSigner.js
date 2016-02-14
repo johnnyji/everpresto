@@ -36,7 +36,7 @@ export default class FormSidebarSectionAddSigner extends Component {
       <div className={displayName}>
         <FileUploader
           label={<span><Icon icon='file-upload'/>Too many signers? Import CSV</span>}
-          onUpload={() => {}}
+          onUpload={this._handleImportSigners}
           permittedExtensions={['.csv']}/>
         <FormSidebarSection className={`${displayName}-form`}>
           <section className={`${displayName}-form-fields`}>
@@ -81,6 +81,10 @@ export default class FormSidebarSectionAddSigner extends Component {
    */
   _handleError = (error) => {
     this.context.dispatch(createFlashMessage('red', error));
+  };
+
+  _handleImportSigners = () => {
+
   };
 
   _updatePlaceholder = (val, err, valObj, errObj, e) => {

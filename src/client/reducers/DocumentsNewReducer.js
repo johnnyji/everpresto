@@ -2,7 +2,7 @@ import Immutable from 'immutable';
 import DocumentNewActionTypes from '.././action_types/DocumentNewActionTypes';
 
 const {
-  CREATE_NEW_DOCUMENT,
+  SET_COLLECTION,
   SET_TEMPLATE} = DocumentNewActionTypes;
 
 const initialState = Immutable.fromJS({
@@ -18,7 +18,7 @@ export default function documentsReducer(state = initialState, action) {
 
   switch (action.type) {
 
-    case CREATE_NEW_DOCUMENT:
+    case SET_COLLECTION:
       return state.setIn(['doc', 'collectionId'], action.data.collectionId);
 
     case SET_TEMPLATE:

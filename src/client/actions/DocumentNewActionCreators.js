@@ -2,9 +2,9 @@ import DocumentNewActionTypes from './../action_types/DocumentNewActionTypes';
 
 const DocumentNewActionCreators = {
 
-  createNewDocument(collectionId) {
+  setCollection(collectionId) {
     return {
-      type: DocumentNewActionTypes.CREATE_NEW_DOCUMENT,
+      type: DocumentNewActionTypes.SET_COLLECTION,
       data: {collectionId}
     }
   },
