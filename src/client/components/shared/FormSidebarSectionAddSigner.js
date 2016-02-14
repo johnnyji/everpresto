@@ -38,7 +38,8 @@ export default class FormSidebarSectionAddSigner extends Component {
       signerForm: Immutable.fromJS({
         values: [],
         errors: []
-      })
+      }),
+      signerFormSubmitting: false
     };
   }
 
@@ -63,6 +64,7 @@ export default class FormSidebarSectionAddSigner extends Component {
             <MUIRoundButton
               backgroundColor={BRAND_COLOR_BLUE}
               mini={true}
+              onMouseUp={this._addSigner}
               onTouchEnd={this._addSigner}>
               <Icon icon='add' />
             </MUIRoundButton>
@@ -73,12 +75,12 @@ export default class FormSidebarSectionAddSigner extends Component {
   }
 
   _rendersignerFormFields = () => {
-    const {signerForm} = this.state;
+    const {signerForm, signerFormSubmitting} = this.state;
 
     return signerForm.get('values').map((val, i) => (
       <Input
         className={`${displayName}-form-fields-field`}
-        error={signerForm.getIn(['errors', i])}
+        error={signerFormSubmitting ? signerForm.getIn(['errors', i]) : ''}
         errorKeys={`errors:${i}`}
         key={i}
         label={val.get('placeholder')}
@@ -91,7 +93,8 @@ export default class FormSidebarSectionAddSigner extends Component {
   };
 
   _addSigner = () => {
-
+    this.setState({signerFormSubmitting: true});
+    // TODO: Do validations and add signer
   };
 
   /**
