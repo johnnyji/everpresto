@@ -50,8 +50,8 @@
 
 // Documents
 @import './documents/DocumentsNew';
+@import './documents/DocumentsNewChooseTemplateView';
 @import './documents/DocumentsNewEditorView';
-@import './documents/DocumentsNewTemplateSelectView';
 
 // Modals
 @import './modals/ModalConfirm';
@@ -78,6 +78,8 @@
 @import './shared/FormSidebarFooter';
 @import './shared/FormSidebarPlaceholderInput';
 @import './shared/FormSidebarSection';
+@import './shared/FormSidebarSectionAddSigner';
+@import './shared/FormSidebarSectionMessage';
 @import './shared/FormSidebarSectionTitle';
 @import './shared/FormSidebarTitle';
 @import './shared/Logo';
@@ -111,12 +113,17 @@ body {
   box-sizing: border-box;
   color: $text-color;
   font-family: 'Roboto', sans-serif;
+  font-size: 16px;
   font-weight: 400;
   min-height: 100vh;
   // TODO: Implement min-height restriction
   // min-height: $app-content-min-height;
   min-width: $app-content-min-width;
   overflow-x: hidden;
+}
+
+@include medium-viewport {
+  font-size: 14px;
 }
 
 #app {

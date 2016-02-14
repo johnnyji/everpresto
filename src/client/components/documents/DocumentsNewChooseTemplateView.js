@@ -15,9 +15,9 @@ import {formatDateString} from '../.././utils/DateHelper';
 import AppActionCreators from '../.././actions/AppActionCreators';
 import ModalDocumentPreview from '.././modals/ModalDocumentPreview';
 
-const displayName = 'DocumentsNewTemplateSelectView';
+const displayName = 'DocumentsNewChooseTemplateView';
 
-export default class DocumentsNewTemplateSelectView extends Component {
+export default class DocumentsNewChooseTemplateView extends Component {
 
   static displayName = displayName;
 

@@ -12,6 +12,7 @@ import GridView from '.././ui/GridView';
 import SearchBar from '.././ui/SearchBar';
 
 import CollectionActionCreators from '../.././actions/CollectionActionCreators';
+import {createNewDocument} from '../.././actions/DocumentNewActionCreators';
 
 const displayName = 'CollectionsShow';
 
@@ -72,7 +73,7 @@ export default class CollectionsShow extends Component {
               className={`${displayName}-header-options-create-button`}
               color='green'
               icon='group-add'
-              onClick={this._handleCreateContract}
+              onClick={this._handleCreateDocument}
               text='Create Documents' />
           </div>
           <SearchBar
@@ -85,8 +86,12 @@ export default class CollectionsShow extends Component {
     );
   }
 
-  _handleCreateContract = () => {
-    this.context.router.push(`/dashboard/documents/${this.props.params.id}/new`);
+  _handleCreateDocument = () => {
+    const {dispatch, router} = this.context;
+    // Creates a new document in store and changes the route to the
+    // new document route
+    dispatch(createNewDocument(this.props.params.id));
+    router.push(`/dashboard/documents/${this.props.params.id}/new`);
   };
 
   _handleFilterDocuments = () => {

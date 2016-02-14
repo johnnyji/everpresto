@@ -25,28 +25,9 @@
     @include display(flex);
     &-sidebar {
       @include flex-grow(6);
+      // General placeholders
       &-placeholders-general {
         list-style: none;
-      }
-      &-signer {
-        // Add a new signer manually section
-        &-new {
-          @include display(flex);
-          @include justify-content(center);
-          // margin-top: 20px;
-          // margin-bottom: 20px;
-          &-fields {
-            &-field:first-child {
-              margin-top: 20px;
-            }
-          }
-          &-add-button {
-            margin-left: 20px;
-          }
-        }
-
-        // List of already added signers
-        
       }
     }
     &-preview {

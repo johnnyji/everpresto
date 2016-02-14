@@ -45,7 +45,6 @@ const routes = (
       <Route path='documents' component={DashboardView}>
         <IndexRoute component={DocumentsIndex} />
         <Route path=':collection_id/new' component={DocumentsNew} />
-        <Route path='new' component={DocumentsNew} />
       </Route>
 
       <Route path='templates' component={DashboardView}>

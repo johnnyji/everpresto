@@ -18,5 +18,11 @@
     cursor: default;
     outline: none;
     padding: 0 12px;
+    // Makes sure that no HTML elements created by the Rich Text editor will have a margin top or bottom
+    // when displayed, otherwise text looks weird disproportionate
+    & > * {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
   }
 }

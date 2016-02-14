@@ -6,14 +6,16 @@ import CustomPropTypes from '.././CustomPropTypes';
 
 import DashboardSpinner from '.././shared/DashboardSpinner';
 import DocumentsNewEditorView from './DocumentsNewEditorView';
-import DocumentsNewTemplateSelectView from './DocumentsNewTemplateSelectView';
+import DocumentsNewChooseTemplateView from './DocumentsNewChooseTemplateView';
 
 import AppActionCreators from '../.././actions/AppActionCreators';
+import DocumentNewActionCreators from '../.././actions/DocumentNewActionCreators';
 import TemplateActionCreators from '../.././actions/TemplateActionCreators';
 
 const displayName = 'DocumentsNew';
 
 @connect((state) => ({
+  docBeingCreated: state.documentNew.get('doc'),
   modalIsDisplayed: state.app.getIn(['modal', 'display']),
   shouldFetchTemplates: state.templates.get('shouldFetchTemplates'),
   templates: state.templates.get('templates')
@@ -27,6 +29,8 @@ export default class DocumentsNew extends Component {
   };
 
   static propTypes = {
+    // TODO: Create actual proptype for `docBeingCreated`
+    docBeingCreated: ImmutablePropTypes.map.isRequired,
     modalIsDisplayed: PropTypes.bool.isRequired,
     shouldFetchTemplates: PropTypes.bool.isRequired,
     templates: ImmutablePropTypes.listOf(CustomPropTypes.template).isRequired
@@ -70,28 +74,28 @@ export default class DocumentsNew extends Component {
   render() {
     if (this.props.shouldFetchTemplates) return <DashboardSpinner />;
 
-    const {filteredTemplates, templateBeingUsed} = this.state;
-
     // If a template has yet to be chosen, show the template selector view
-    if (!templateBeingUsed) {
+    if (!this.props.docBeingCreated.get('template')) {
       return (
-        <DocumentsNewTemplateSelectView
+        <DocumentsNewChooseTemplateView
           onTemplateChoose={this._handleTemplateChoose}
           onTemplateFilter={this._handleTemplateFilter}
-          templates={filteredTemplates} />
+          templates={this.state.filteredTemplates} />
       );
     }
 
     // Show the document editing view
-    return <DocumentsNewEditorView template={templateBeingUsed} />;
+    return (
+      <DocumentsNewEditorView doc={this.props.docBeingCreated} />
+    );
   }
 
   _handleTemplateChoose = (template) => {
-    this.setState({templateBeingUsed: template});
-  }
+    this.context.dispatch(DocumentNewActionCreators.setTemplate(template));
+  };
 
   _handleTemplateFilter = (templateFilterTerms) => {
     this.setState({templateFilterTerms});
-  }
+  };
 
 }
