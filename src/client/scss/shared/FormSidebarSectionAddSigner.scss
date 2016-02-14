@@ -1,12 +1,14 @@
 .FormSidebarSectionAddSigner {
-  @include display(flex);
-  @include justify-content(center);
-  &-fields {
-    &-field:first-child {
-      margin-top: 20px;
+  &-form {
+    @include display(flex);
+    @include justify-content(center);
+    &-fields {
+      &-field:first-child {
+        margin-top: 20px;
+      }
     }
-  }
-  &-add-button {
-    margin-left: 20px;
+    &-add-button {
+      margin-left: 20px;
+    }
   }
 }

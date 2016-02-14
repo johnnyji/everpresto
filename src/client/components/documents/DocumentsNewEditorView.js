@@ -7,14 +7,12 @@ import DashboardContentHeader from '.././dashboard/DashboardContentHeader';
 import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
 
 import DocumentViewer from '.././shared/DocumentViewer';
-import FileUploader from '.././shared/FileUploader';
 import FormSidebar from '.././shared/FormSidebar';
 import FormSidebarBody from '.././shared/FormSidebarBody';
 import FormSidebarFooter from '.././shared/FormSidebarFooter';
 import FormSidebarSection from '.././shared/FormSidebarSection';
 import FormSidebarSectionAddSigner from '.././shared/FormSidebarSectionAddSigner';
 import FormSidebarSectionMessage from '.././shared/FormSidebarSectionMessage';
-import ModalFillPlaceholders from '.././modals/ModalFillPlaceholders';
 import Button from '.././ui/Button';
 import Icon from '.././ui/Icon';
 import Input from '.././ui/Input';
@@ -22,7 +20,6 @@ import Tabs from '.././ui/Tabs';
 
 import {matchesAttr} from '../.././utils/immutable/IterableFunctions';
 import {minLength} from '../.././utils/RegexHelper';
-import AppActionCreators from '../.././actions/AppActionCreators';
 
 const displayName = 'DocumentsNewEditorView';
 const isGeneral = matchesAttr('type', 'general');
@@ -77,10 +74,6 @@ export default class DocumentsNewEditorView extends Component {
                 {/* Specific Placeholder Inputs */}
                 <MUITab label={`Add Signers (${doc.get('signers').size})`}>
                   <FormSidebarSection>
-                    <FileUploader
-                      label={<span><Icon icon='file-upload'/>Too many signers? Import CSV</span>}
-                      onUpload={() => {}}
-                      permittedExtensions={['.csv']}/>
                     <FormSidebarSectionAddSigner
                       onAddSigner={() => {}}
                       placeholders={specificPlaceholders}/>
@@ -163,14 +156,6 @@ export default class DocumentsNewEditorView extends Component {
   _handleSendDocuments = () => {
     debugger;
   };
-
-  // _showReplacePlaceholdersModal = () => {
-  //   this.context.dispatch(
-  //     AppActionCreators.createModal(
-  //       <ModalFillPlaceholders placeholders={this.props.template.get('placeholders')}/>
-  //     )
-  //   );
-  // };
 
   _updatePlaceholder = (val, err, i) => {
 
