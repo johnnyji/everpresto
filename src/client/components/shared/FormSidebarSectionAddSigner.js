@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import Immutable from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import MUIRoundButton from 'material-ui/lib/floating-action-button';
 import FileUploader from './FileUploader';
@@ -31,6 +32,22 @@ export default class FormSidebarSectionAddSigner extends Component {
     ).isRequired
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      signerForm: Immutable.fromJS({
+        values: [],
+        errors: []
+      })
+    };
+  }
+
+  componentWillMount() {
+    // Uses the placeholders prop to generate dynamic input fields
+    // based on which placholders the template contains
+    this._generatePlaceholderInputs();
+  }
+
   render() {
     return (
       <div className={displayName}>
@@ -40,7 +57,7 @@ export default class FormSidebarSectionAddSigner extends Component {
           permittedExtensions={['.csv']}/>
         <FormSidebarSection className={`${displayName}-form`}>
           <section className={`${displayName}-form-fields`}>
-            {this._renderNewSignerFields()}
+            {this._rendersignerFormFields()}
           </section>
           <aside className={`${displayName}-form-add-button`}>
             <MUIRoundButton
@@ -55,24 +72,46 @@ export default class FormSidebarSectionAddSigner extends Component {
     );
   }
 
-  _renderNewSignerFields = () => {
-    return this.props.placeholders.map((placeholder, i) => (
+  _rendersignerFormFields = () => {
+    const {signerForm} = this.state;
+
+    return signerForm.get('values').map((val, i) => (
       <Input
         className={`${displayName}-form-fields-field`}
-        error={''}
+        error={signerForm.getIn(['errors', i])}
         errorKeys={`errors:${i}`}
         key={i}
-        label={placeholder.get('value')}
-        onUpdate={(val, err) => this._updatePlaceholder(val, err, i)}
-        patternMatches={minLength(1, `Lets give ${placeholder.get('value')} a value`)}
-        successKeys={`values:${i}:header`}
-        value={'hello'}
+        label={val.get('placeholder')}
+        onUpdate={(val, err) => this._handlePlaceholderUpdate(val, err, i)}
+        patternMatches={minLength(1, `Lets give ${val.get('placeholder')} a value`)}
+        successKeys={`values:${i}:value`}
+        value={val.get('value')}
         width={300}/>
     ));
   };
 
   _addSigner = () => {
 
+  };
+
+  /**
+   * Iterates through the placeholders, and generates input field states for those placeholders,
+   * which will store which input values belong to which placeholders, and any input errors as well.
+   */
+  _generatePlaceholderInputs = () => {
+    const signerForm = this.props.placeholders.reduce((signerForm, placeholder) => {
+      // Pushes on a placeholder input object -> {placholder: 'HELLO', value: null}
+      let updatedState = signerForm.update('values', (vals) => (
+        vals.push(Immutable.fromJS({
+          placeholder: placeholder.get('value'),
+          value: null
+        }))
+      ));
+      // Also creates an error for that input
+      return updatedState.update('errors', (errs) => errs.push(null));
+    }, this.state.signerForm);
+
+    this.setState({signerForm});
   };
 
   /**
@@ -83,11 +122,14 @@ export default class FormSidebarSectionAddSigner extends Component {
     this.context.dispatch(createFlashMessage('red', error));
   };
 
-  _handleImportSigners = () => {
-
+  _handlePlaceholderUpdate = (val, err, i) => {
+    let signerForm = this.state.signerForm.setIn(['values', i, 'value'], val);
+    signerForm = signerForm.setIn(['errors', i], err);
+    console.log(signerForm.toJS());
+    this.setState({signerForm});
   };
 
-  _updatePlaceholder = (val, err, valObj, errObj, e) => {
+  _handleImportSigners = () => {
 
   };
 

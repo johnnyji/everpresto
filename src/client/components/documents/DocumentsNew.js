@@ -15,7 +15,7 @@ import TemplateActionCreators from '../.././actions/TemplateActionCreators';
 const displayName = 'DocumentsNew';
 
 @connect((state) => ({
-  docBeingCreated: state.documentNew.get('doc'),
+  docBeingCreated: state.documentsNew.get('doc'),
   modalIsDisplayed: state.app.getIn(['modal', 'display']),
   shouldFetchTemplates: state.templates.get('shouldFetchTemplates'),
   templates: state.templates.get('templates')
@@ -66,7 +66,12 @@ export default class DocumentsNew extends Component {
   }
 
   componentWillUnmount() {
-    if (this.props.modalIsDisplayed) this.context.dispatch(AppActionCreators.dismissModal());
+    const {dispatch} = this.context;
+
+    // Clears the new document state when the user decides to leave
+    dispatch(DocumentNewActionCreators.resetDocument());
+    // Removes any existing modals
+    if (this.props.modalIsDisplayed) dispatch(AppActionCreators.dismissModal());
   }
 
   constructor(props) {
