@@ -39,6 +39,7 @@ export default class Input extends Component {
         regex: PropTypes.instanceOf(RegExp).isRequired
       })
     ]).isRequired,
+    shouldDisplayError: PropTypes.bool.isRequired,
     successKeys: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.string),
       PropTypes.string
@@ -56,6 +57,7 @@ export default class Input extends Component {
       regex: /.*/,
       error: ''
     },
+    shouldDisplayError: true,
     type: 'text'
   };
 
@@ -69,6 +71,7 @@ export default class Input extends Component {
       error,
       label,
       labelIcon,
+      shouldDisplayError,
       type,
       width} = this.props;
     const styles = {
@@ -85,13 +88,13 @@ export default class Input extends Component {
           className={`${displayName}-input-field`}
           defaultValue={defaultValue}
           disabled={disabled}
-          errorText={error}
+          errorText={shouldDisplayError ? error : undefined}
           fullWidth={true}
           hintText={label}
-          onBlur={(e) => this._submitValue(e.target.value, e)}
-          onChange={(e) => this._submitValue(e.target.value, e)}
+          onBlur={this._submitValue}
+          onChange={this._submitValue}
           onEnterKeyDown={this._handleEnterKeyDown}
-          onFocus={(e) => this._submitValue(e.target.value, e)}
+          onFocus={this._submitValue}
           ref='input'
           type={type}/>
       </div>
@@ -111,8 +114,7 @@ export default class Input extends Component {
    * @return {Boolean} - The validity of the field
    */
   valid = () => {
-    const value = this.props.value || this.refs['input'].getValue();
-    return this.props.error === null && this._checkForError(value) === undefined;
+    return this.props.error === null && this._checkForError(this.getValue()) === undefined;
   };
 
 
@@ -174,10 +176,10 @@ export default class Input extends Component {
   /**
    * Checks the input value, and submits it to the parent component, along with errors if there
    * are any.
-   * @param  {String} value - The value of the input field
    * @param  {Object} e     - The event object that triggered the value submit
    */
-  _submitValue = (value, e) => {
+  _submitValue = (e) => {
+    const {value} = e.target;
     // If the input value doesn't match the regex we passed in, we're going to trigger an error callback
     const error = this._checkForError(value) || null;
     // Updates the parent component with both the value and the error

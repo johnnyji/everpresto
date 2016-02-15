@@ -2,6 +2,8 @@ import Immutable from 'immutable';
 import DocumentNewActionTypes from '.././action_types/DocumentNewActionTypes';
 
 const {
+  ADD_SIGNER,
+  REMOVE_SIGNER,
   RESET_DOCUMENT,
   SET_COLLECTION,
   SET_TEMPLATE} = DocumentNewActionTypes;
@@ -18,6 +20,20 @@ export default function documentsReducer(state = initialState, action) {
   // Always return a new state, never already the one passed in
 
   switch (action.type) {
+
+    case ADD_SIGNER:
+      // `signer` will already be Immutable
+      return state.updateIn(['doc', 'signers'], (signers) => (
+        signers.push(action.data.signer)
+      ));
+
+    case REMOVE_SIGNER:
+      // `signer` will already be Immutable
+      return state.updateIn(['doc', 'signers'], (signers) => (
+        signers.delete(
+          signers.findIndex((signer) => signer.equals(action.data.signer))
+        )
+      ));
 
     case RESET_DOCUMENT:
       return state.set('doc', Immutable.fromJS(initialDocState));

@@ -16,10 +16,13 @@ import FormSidebarSectionMessage from '.././shared/FormSidebarSectionMessage';
 import Button from '.././ui/Button';
 import Icon from '.././ui/Icon';
 import Input from '.././ui/Input';
+import ListItem from '.././ui/ListItem';
 import Tabs from '.././ui/Tabs';
 
 import {matchesAttr} from '../.././utils/immutable/IterableFunctions';
 import {minLength} from '../.././utils/RegexHelper';
+
+import DocumentNewActionCreators from '../.././actions/DocumentNewActionCreators';
 
 const displayName = 'DocumentsNewEditorView';
 const isGeneral = matchesAttr('type', 'general');
@@ -36,6 +39,14 @@ export default class DocumentsNewEditorView extends Component {
   static propTypes = {
     doc: ImmutablePropTypes.contains({
       collectionId: PropTypes.string,
+      signers: ImmutablePropTypes.listOf(
+        ImmutablePropTypes.listOf(
+          ImmutablePropTypes.contains({
+            placeholder: PropTypes.string.isRequired,
+            value: PropTypes.string.isRequired
+          }).isRequired
+        )
+      ).isRequired,
       template: CustomPropTypes.template.isRequired
     }).isRequired
   };
@@ -138,19 +149,23 @@ export default class DocumentsNewEditorView extends Component {
       );
     }
 
-    return [1,3,3].map(() => (
-      <div className={`${displayName}-content-sidebar-signer`}>
-        <span className={`${displayName}-content-sidebar-signer-field`}>
-          Johnny
-        </span>
-        <span className={`${displayName}-content-sidebar-signer-field`}>
-          Ji
-        </span>
-        <span className={`${displayName}-content-sidebar-signer-field`}>
-          johnny@johnnyji.com
-        </span>
-      </div>
+    return this.props.doc.get('signers').map((signer, i) => (
+      <ListItem
+        className={`${displayName}-content-sidebar-signer`}
+        onRemove={() => this._handleRemoveSigner(signer)}
+        key={i}
+        removable={true}>
+        {signer.map((field, i) => (
+          <span className={`${displayName}-content-sidebar-signer-field`} key={i}>
+            {field.get('value')}
+          </span>
+        ))}
+      </ListItem>
     ));
+  };
+
+  _handleRemoveSigner = (signer) => {
+    this.context.dispatch(DocumentNewActionCreators.removeSigner(signer));
   };
 
   _handleSendDocuments = () => {
