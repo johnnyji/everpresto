@@ -134,9 +134,11 @@ export default class FormSidebarSectionAddSigner extends Component {
    * Clears the input fields in the signer form
    */
   _clearSignerFormInputs = (inputFieldIndex) => {
+    if (inputFieldIndex < 0) return;
+
     this.refs[`signerForm-${inputFieldIndex}`].clear();
     // Keeps calling this function until we've recursively cleared all the fields
-    if (inputFieldIndex > -1) this._clearSignerFormInputs(inputFieldIndex - 1);
+    this._clearSignerFormInputs(inputFieldIndex - 1);
   };
 
   /**
