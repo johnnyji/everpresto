@@ -6,6 +6,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import MUIList from 'material-ui/lib/lists/list';
 import {equals, get, isTruthy} from '../.././utils/immutable/IterableFunctions';
 import {minLength} from '../.././utils/RegexHelper';
+import {pluralize} from '../.././utils/TextHelper';
 import {createFlashMessage} from '../.././actions/AppActionCreators';
 import FlashErrorHandler from '../.././decorators/FlashErrorHandler';
 
@@ -87,7 +88,7 @@ export default class ModalFillPlaceholders extends Component {
             color='green'
             icon='check'
             onClick={this._handleSaveSigners}
-            text='Save'/>
+            text={`Save ${pluralize(importedData.get('signers').size, 'Signer', 'Signers')}`}/>
         }
       </ModalWrapper>
     );
@@ -135,7 +136,7 @@ export default class ModalFillPlaceholders extends Component {
           <ul className={`${displayName}-mapping-section-assigned-headers`}>{headers}</ul>
         </ModalSection>
         <ModalSection title='Map To Fields'>
-          <table>{mappingRows}</table>
+          <table><tbody>{mappingRows}</tbody></table>
         </ModalSection>
       </div>
     );

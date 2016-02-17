@@ -22,7 +22,7 @@
       @include display(flex);
       @include justify-content(space-between);
       @include align-items(center);
-      margin: 8px;
+      margin: 8px auto;
     }
   }
 }

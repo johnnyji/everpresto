@@ -11,6 +11,11 @@ const TextHelper = {
     const filenamePreview = filename.substring(0, 7);
     const filenameExtension = filename.substring(filename.lastIndexOf('.') + 1);
     return `${filenamePreview} ... ${filenameExtension}`;
+  },
+
+  pluralize(count, singular, plural) {
+    if (count === 1) return `${count} ${singular}`;
+    return `${count} ${plural}`;
   }
 
 }

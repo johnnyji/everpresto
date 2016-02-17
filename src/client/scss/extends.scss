@@ -12,9 +12,11 @@
 .link {
   @extend .transition;
   color: $placeholder-color;
-  &:hover {
-    color: $brand-color-blue;
+  text-decoration: underline;
+  &:hover, &:active, &:focus {
+    color: $brand-color-blue-dark;
     cursor: pointer;
+    text-decoration: underline;
   }
 }
 
