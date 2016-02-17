@@ -30,11 +30,9 @@
         list-style: none;
       }
       &-signer {
-        &-field {
-          @include display(flex);
-          @include align-items(center);
-          @include justify-content(space-between);
-        }
+        @include display(flex);
+        @include align-items(center);
+        @include justify-content(space-between);
       }
     }
     &-preview {

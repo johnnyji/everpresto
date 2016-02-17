@@ -155,11 +155,7 @@ export default class DocumentsNewEditorView extends Component {
         onRemove={() => this._handleRemoveSigner(signer)}
         key={i}
         removable={true}>
-        {signer.map((field, i) => (
-          <span className={`${displayName}-content-sidebar-signer-field`} key={i}>
-            {field.get('value')}
-          </span>
-        ))}
+        {signer.map((field, i) => <span key={i}>{field.get('value')}</span>)}
       </ListItem>
     ));
   };

@@ -28,10 +28,12 @@ export default class ListItem extends Component {
     if (removable && onRemove) {
       return (
         <MUIListItem
-          className={classes}
           onTouchTap={onClick}
           rightIconButton={this._renderRemoveButton()}>
-          {children}
+          {/* Material-UI's ListItem doesn't support className */}
+          <div className={classes}>
+            {children}
+          </div>
         </MUIListItem>
       );
     }
