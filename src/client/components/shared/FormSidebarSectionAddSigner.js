@@ -9,6 +9,8 @@ import Input from '.././ui/Input';
 import {minLength} from '../.././utils/RegexHelper';
 import {createFlashMessage} from '../.././actions/AppActionCreators';
 
+import FlashErrorHandler from '../.././decorators/FlashErrorHandler';
+
 import DocumentNewActionCreators from '../.././actions/DocumentNewActionCreators';
 
 const BRAND_COLOR_BLUE = '#4E9CC2';
@@ -18,6 +20,7 @@ const INIT_SIGNER_FORM_STATE = Immutable.fromJS({
 });
 const displayName = 'FormSidebarSectionAddSigner';
 
+@FlashErrorHandler
 export default class FormSidebarSectionAddSigner extends Component {
 
   static displayName = displayName;
@@ -27,6 +30,7 @@ export default class FormSidebarSectionAddSigner extends Component {
   };
 
   static propTypes = {
+    handleFlashError: PropTypes.func.isRequired,
     onAddSigner: PropTypes.func.isRequired,
     placeholders: ImmutablePropTypes.listOf(
       ImmutablePropTypes.contains({
@@ -112,7 +116,7 @@ export default class FormSidebarSectionAddSigner extends Component {
       !this.refs[`signerForm-${i}`].valid()
     ));
     if (firstFoundError !== undefined) {
-      return this._handleError('Are you sure you filled out the form properly?');
+      return this.props.handleFlashError('Are you sure you filled out the form properly?');
     }
     
     // Adds the signer state as a signer to the new document
@@ -160,14 +164,6 @@ export default class FormSidebarSectionAddSigner extends Component {
       // Also creates an error for that input
       return updatedState.update('errors', (errs) => errs.push(null));
     }, initialSignerFormState);
-  };
-
-  /**
-   * Fires a flash message error
-   * @param  {String|React.Element} error - The error being fired
-   */
-  _handleError = (error) => {
-    this.context.dispatch(createFlashMessage('red', error));
   };
 
   /**

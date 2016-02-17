@@ -4,9 +4,11 @@ import mammoth from 'mammoth';
 import striptags from 'striptags';
 import FileUploader from './FileUploader';
 import {createFlashMessage} from '../.././actions/AppActionCreators';
+import FlashErrorHandler from '../.././decorators/FlashErrorHandler';
 
 const displayName = 'FileToHtmlConverter';
 
+@FlashErrorHandler
 export default class FileToHtmlConverter extends Component {
 
   static displayName = displayName;
@@ -40,14 +42,6 @@ export default class FileToHtmlConverter extends Component {
   }
 
   /**
-   * Alerts the error
-   * @param  {String|React.Element} error - The error message
-   */
-  _handleError = (error) => {
-    this.context.dispatch(createFlashMessage('red', error));
-  };
-
-  /**
    * Converts the uploaded file to an HTML string
    *
    * @param  {Object} e   - The event object
@@ -62,14 +56,14 @@ export default class FileToHtmlConverter extends Component {
     // When the upload is complete
     reader.onloadend = () => {
       // If the file reader has trouble reading a file, we alert the error
-      if (reader.error) return _this._handleError(reader.error);
+      if (reader.error) return _this.props.handleFlashError(reader.error);
       // Converts the array buffer of to HTML
       mammoth.convertToHtml({arrayBuffer: reader.result})
         .then((result) => {
           _this.props.onEnd(result.value);
           _this.setState({filename: file.name});
         })
-        .catch((err) => _this._handleError(err));
+        .catch((err) => _this.props.handleFlashError(err));
     };
 
     // Reads the user uploaded file as an array buffer
