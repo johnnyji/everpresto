@@ -9,6 +9,15 @@
   @include transition(all 200ms ease);
 }
 
+.link {
+  @extend .transition;
+  color: $placeholder-color;
+  &:hover {
+    color: $brand-color-blue;
+    cursor: pointer;
+  }
+}
+
 .button-shadow {
   box-shadow: -2px 3px 11px -3px rgba(0,0,0,0.75);
 }

@@ -6,9 +6,8 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import MUIList from 'material-ui/lib/lists/list';
 import {equals, get, isTruthy} from '../.././utils/immutable/IterableFunctions';
 import {minLength} from '../.././utils/RegexHelper';
-
 import {createFlashMessage} from '../.././actions/AppActionCreators';
-import {updateMappings} from '../.././actions/DocumentDraftActionCreators';
+import FlashErrorHandler from '../.././decorators/FlashErrorHandler';
 
 import DashboardQuote from '.././dashboard/DashboardQuote';
 import ModalSection from '.././modals/ModalSection';
@@ -17,11 +16,13 @@ import Button from '.././ui/Button';
 import Icon from '.././ui/Icon';
 import Input from '.././ui/Input';
 import ListItem from '.././ui/ListItem';
+import Pill from '.././ui/Pill';
 import ModalWrapper from '.././ui/ModalWrapper';
 
 
 const displayName = 'ModalFillPlaceholders';
 
+@FlashErrorHandler
 export default class ModalFillPlaceholders extends Component {
 
   static displayName = displayName;
@@ -31,9 +32,14 @@ export default class ModalFillPlaceholders extends Component {
   };
 
   static propTypes = {
-    placeholders: ImmutablePropTypes.contains({
-      value: PropTypes.string.isRequired
-    }).isRequired
+    placeholders: ImmutablePropTypes.listOf(
+      ImmutablePropTypes.contains({
+        isRequired: PropTypes.bool.isRequired,
+        tip: PropTypes.string,
+        type: PropTypes.oneOf(['specific']).isRequired,
+        value: PropTypes.string.isRequired
+      }).isRequired
+    ).isRequired
   };
 
   constructor(props) {
@@ -80,7 +86,7 @@ export default class ModalFillPlaceholders extends Component {
           <Button
             color='green'
             icon='check'
-            onClick={this._generateRecepients}
+            onClick={this._handleSaveSigners}
             text='Save'/>
         }
       </ModalWrapper>
@@ -111,22 +117,24 @@ export default class ModalFillPlaceholders extends Component {
       );
     });
     const headers = importedData.get('headers').map((header, i) => {
-      const classes = classNames({
-        [`${displayName}-mapping-section-assigned-headers-item`]: true,
-        [`${displayName}-mapping-section-assigned-headers-item-strike`]: assignedHeaders.contains(header)
-      });
-      return <li className={classes} key={i}>{header}</li>;
+      const isAssigned = assignedHeaders.contains(header);
+      return (
+        <Pill
+          color={isAssigned ? 'gray' : 'blue'}
+          key={i}
+          size={14}
+          strike={isAssigned}>
+          {header}
+        </Pill>
+      );
     });
 
     return (
       <div className={`${displayName}-mapping-section`}>
-        <ModalSection title='Imported Headers'>
+        <ModalSection title='Imported File Headers'>
           <ul className={`${displayName}-mapping-section-assigned-headers`}>{headers}</ul>
         </ModalSection>
-        <ModalSection title='Recepient Mappings'>
-
-        </ModalSection>
-        <ModalSection title='Placeholder Mappings'>
+        <ModalSection title='Map To Fields'>
           <table>{mappingRows}</table>
         </ModalSection>
       </div>
@@ -152,24 +160,15 @@ export default class ModalFillPlaceholders extends Component {
     }, this.state.mappings);
   };
 
-  _generateRecepients = () => {
+  _handleSaveSigners = () => {
     const {mappings} = this.state;
     const firstFoundError = mappings.get('errors').find(isTruthy); 
 
     if (firstFoundError !== undefined) {
-      return this._handleError('Hmmm... There are some errors in your mappings');
+      return this.props.handleFlashError('Hmmm... There are some errors in your mappings');
     }
 
-
     // this.context.dispatch(updateMappings(this.state.mappings.toJS()));
-  };
-
-  /**
-   * Fires a flash message error
-   * @param  {String|React.Element} error - The error being fired
-   */
-  _handleError = (error) => {
-    this.context.dispatch(createFlashMessage('red', error));
   };
 
   /**
@@ -196,13 +195,13 @@ export default class ModalFillPlaceholders extends Component {
     // When the upload is complete
     reader.onloadend = () => {
       // If the file reader has trouble reading a file, we alert the error
-      if (reader.error) return this._handleError(reader.error);
+      if (reader.error) return this.props.handleFlashError(reader.error);
       // `Baby` will parse the CSV data string into a 2D array
       const [headers, ...rows] = Baby.parse(reader.result).data;
       const placeholderValues = this.props.placeholders.map(get('value'));
       
       if (headers.length < placeholderValues.size) {
-        return this._handleError(
+        return this.props.handleFlashError(
           `There are ${placeholderValues.size - headers.length} headers missing in your CSV`
         );
       }
@@ -242,10 +241,6 @@ export default class ModalFillPlaceholders extends Component {
     updatedMappings = updatedMappings.setIn(['errors', i], errorMessage);
 
     this.setState({mappings: updatedMappings});
-  };
-
-  _handleSaveContacts = () => {
-
   };
 
 }

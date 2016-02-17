@@ -81,16 +81,11 @@ export default class DocumentsNewEditorView extends Component {
           <FormSidebar className={`${displayName}-content-sidebar`}>
             <FormSidebarBody>
               <Tabs>
-
                 {/* Specific Placeholder Inputs */}
                 <MUITab label={`Add Signers (${doc.get('signers').size})`}>
                   <FormSidebarSection>
-                    <FormSidebarSectionAddSigner
-                      onAddSigner={() => {}}
-                      placeholders={specificPlaceholders}/>
-                    <FormSidebarSection>
-                      {this._renderSigners()}
-                    </FormSidebarSection>
+                    <FormSidebarSectionAddSigner placeholders={specificPlaceholders}/>
+                    <FormSidebarSection>{this._renderSigners()}</FormSidebarSection>
                   </FormSidebarSection>
                 </MUITab>
 
@@ -104,7 +99,6 @@ export default class DocumentsNewEditorView extends Component {
                     </FormSidebarSection>
                   }
                 </MUITab>
-
               </Tabs>
             </FormSidebarBody>
             <FormSidebarFooter>

@@ -2,12 +2,12 @@ import React, {Component, PropTypes} from 'react';
 import Immutable from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import MUIRoundButton from 'material-ui/lib/floating-action-button';
-import FileUploader from './FileUploader';
 import FormSidebarSection from './FormSidebarSection';
+import ModalFillPlaceholders from '.././modals/ModalFillPlaceholders';
 import Icon from '.././ui/Icon';
 import Input from '.././ui/Input';
 import {minLength} from '../.././utils/RegexHelper';
-import {createFlashMessage} from '../.././actions/AppActionCreators';
+import {createFlashMessage, createModal} from '../.././actions/AppActionCreators';
 
 import FlashErrorHandler from '../.././decorators/FlashErrorHandler';
 
@@ -31,7 +31,6 @@ export default class FormSidebarSectionAddSigner extends Component {
 
   static propTypes = {
     handleFlashError: PropTypes.func.isRequired,
-    onAddSigner: PropTypes.func.isRequired,
     placeholders: ImmutablePropTypes.listOf(
       ImmutablePropTypes.contains({
         isRequired: PropTypes.bool.isRequired,
@@ -61,13 +60,14 @@ export default class FormSidebarSectionAddSigner extends Component {
   render() {
     return (
       <div className={displayName}>
-        <FileUploader
-          label={<span><Icon icon='file-upload'/>Too many signers? Import CSV</span>}
-          onUpload={this._handleImportSigners}
-          permittedExtensions={['.csv']}/>
+        <a
+          className={`${displayName}-csv-link`}
+          onClick={this._handleImportSigners}>
+          Too many signers? Import CSV
+        </a>
         <FormSidebarSection className={`${displayName}-form`}>
           <section className={`${displayName}-form-fields`}>
-            {this._rendersignerFormFields()}
+            {this._renderSignerFormFields()}
           </section>
           <aside className={`${displayName}-form-add-button`}>
             <MUIRoundButton
@@ -83,7 +83,7 @@ export default class FormSidebarSectionAddSigner extends Component {
     );
   }
 
-  _rendersignerFormFields = () => {
+  _renderSignerFormFields = () => {
     const {signerForm, signerFormSubmitting} = this.state;
 
     return signerForm.get('values').map((val, i) => (
@@ -180,7 +180,9 @@ export default class FormSidebarSectionAddSigner extends Component {
   };
 
   _handleImportSigners = () => {
-
+    this.context.dispatch(
+      createModal(<ModalFillPlaceholders placeholders={this.props.placeholders} />)
+    );
   };
 
 }

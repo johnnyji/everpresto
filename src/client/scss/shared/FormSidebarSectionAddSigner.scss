@@ -1,4 +1,10 @@
 .FormSidebarSectionAddSigner {
+  &-csv-link {
+    @extend .link;
+    display: block;
+    text-align: center;
+    margin: 12px 0;
+  }
   &-form {
     @include display(flex);
     @include justify-content(center);

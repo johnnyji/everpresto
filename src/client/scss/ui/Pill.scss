@@ -1,7 +1,6 @@
 .ui-Pill {
   border-radius: $border-radius;
   color: #FFF;
-  font-size: 10px;
   padding: 4px 6px;
   margin: 4px;
   &-blue {background-color: $brand-color-blue;}
@@ -11,5 +10,8 @@
   &-gray {
     background-color: rgba(0, 0, 0, 0.1);
     color: $text-color;
+  }
+  &-strike {
+    text-decoration: line-through;
   }
 }

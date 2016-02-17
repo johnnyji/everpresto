@@ -16,20 +16,6 @@
       @include align-content(flex-start);
       list-style: none;
       padding: 12px;
-      &-item {
-        background-color: $brand-color-blue;
-        border-radius: $border-radius;
-        color: #FFF;
-        font-weight: 300;
-        padding: 4px 6px;
-        margin: 0 4px 4px 0;
-        &-strike {
-          background-color: rgba(0, 0, 0, 0.1);
-          color: $text-color;
-          font-weight: 400;
-          text-decoration: line-through;
-        }
-      }
     }
     &-list-item {
       // TODO: Make sure list item content is spread out evenly
