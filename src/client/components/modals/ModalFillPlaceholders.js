@@ -1,12 +1,13 @@
 import React, {Component, PropTypes} from 'react';
 import Baby from 'babyparse';
 import classNames from 'classnames';
+import flow from 'lodash/flow';
 import Immutable from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import {equals, get} from '../.././utils/immutable/IterableFunctions';
 import {minLength} from '../.././utils/RegexHelper';
 import {pluralize} from '../.././utils/TextHelper';
-import {createFlashMessage} from '../.././actions/AppActionCreators';
+import {createFlashMessage, dismissModal} from '../.././actions/AppActionCreators';
 import {addMultipleSigners} from '../.././actions/DocumentNewActionCreators';
 import FlashErrorHandler from '../.././decorators/FlashErrorHandler';
 
@@ -159,8 +160,11 @@ export default class ModalFillPlaceholders extends Component {
     }, this.state.mappings);
   };
 
+  /**
+   * Checks for errors and dispatches an action that saves multiple signers
+   */
   _handleSaveSigners = () => {
-    const {mappings} = this.state;
+    const {importedData, mappings} = this.state;
     const firstFoundError = mappings.get('errors').find((_, i) => (
       !this.refs[`mappings-${i}`].valid()
     ));
@@ -169,7 +173,30 @@ export default class ModalFillPlaceholders extends Component {
       return this.props.handleFlashError('Hmmm... There are some errors in your mappings');
     }
 
-    this.context.dispatch(addMultipleSigners(this.state.mappings.toJS()));
+    // TODO: Refactor into another function
+    const importedHeaders = importedData.get('headers');
+    const placeholderMappings = mappings
+      .get('values')
+      .toJS()
+      .map((val) => ({
+        placeholder: val.placeholder,
+        headerIndex: importedHeaders.indexOf(val.header)
+      }));
+    const signers = importedData
+      .get('rows')
+      .toJS()
+      .map((row) => {
+        return placeholderMappings.map((mapping) => ({
+          placeholder: mapping.placeholder,
+          value: row[mapping.headerIndex]
+        }));
+      })
+      ;
+
+    const {dispatch} = this.context;
+    // Adds the imported signers: Flattens the signers, specifies the action, dispatches the action
+    flow(addMultipleSigners, dispatch)(signers);
+    flow(dismissModal, dispatch)();
   };
 
   /**

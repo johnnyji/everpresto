@@ -9,6 +9,13 @@ const DocumentNewActionCreators = {
     }
   },
 
+  addMultipleSigners(signers) {
+    return {
+      type: DocumentNewActionTypes.ADD_MULTIPLE_SIGNERS,
+      data: {signers}
+    }
+  },
+
   removeSigner(signer) {
     return {
       type: DocumentNewActionTypes.REMOVE_SIGNER,

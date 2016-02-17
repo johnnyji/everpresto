@@ -3,6 +3,7 @@ import DocumentNewActionTypes from '.././action_types/DocumentNewActionTypes';
 
 const {
   ADD_SIGNER,
+  ADD_MULTIPLE_SIGNERS,
   REMOVE_SIGNER,
   RESET_DOCUMENT,
   SET_COLLECTION,
@@ -25,6 +26,11 @@ export default function documentsReducer(state = initialState, action) {
       // `signer` will already be Immutable
       return state.updateIn(['doc', 'signers'], (signers) => (
         signers.push(action.data.signer)
+      ));
+
+    case ADD_MULTIPLE_SIGNERS:
+      return state.updateIn(['doc', 'signers'], (signers) => (
+        signers.concat(Immutable.fromJS(action.data.signers))
       ));
 
     case REMOVE_SIGNER:
