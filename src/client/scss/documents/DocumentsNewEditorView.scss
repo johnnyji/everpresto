@@ -29,6 +29,13 @@
       &-placeholders-general {
         list-style: none;
       }
+      &-signer {
+        &-field {
+          @include display(flex);
+          @include align-items(center);
+          @include justify-content(space-between);
+        }
+      }
     }
     &-preview {
       @include flex-grow(4);

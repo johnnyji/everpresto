@@ -169,7 +169,7 @@ export default class Input extends Component {
     const {onEnterKeyPress} = this.props;
 
     if (onEnterKeyPress) onEnterKeyPress();
-    this._submitValue(e.target.value, e);
+    this._submitValue(e);
   };
 
 
