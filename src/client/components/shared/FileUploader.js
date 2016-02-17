@@ -2,9 +2,11 @@ import React, {Component, PropTypes} from 'react';
 import classNames from 'classnames';
 import ClickableIcon from '.././ui/ClickableIcon';
 import AppActionCreators from '../.././actions/AppActionCreators';
+import FlashErrorHandler from '../.././decorators/FlashErrorHandler';
 
 const displayName = 'FileUploader';
 
+@FlashErrorHandler
 export default class FileUploader extends Component {
 
   static displayName = displayName;
@@ -15,6 +17,7 @@ export default class FileUploader extends Component {
 
   static propTypes = {
     className: PropTypes.string,
+    handleFlashError: PropTypes.func.isRequired,
     label: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
     onReset: PropTypes.func,
     onUpload: PropTypes.func.isRequired,
@@ -62,14 +65,6 @@ export default class FileUploader extends Component {
   }
 
   /**
-   * Alerts the error
-   * @param  {String|React.Element} error - The error message
-   */
-  _handleError = (error) => {
-    this.context.dispatch(AppActionCreators.createFlashMessage('red', error));
-  };
-
-  /**
    * Formats the error message for an invalid file extension, and passes the
    * message off to be handled as an error.
    */
@@ -88,7 +83,7 @@ export default class FileUploader extends Component {
       </span>
     );
 
-    this._handleError(error);
+    this.props.handleFlashError(error);
   };
 
   /**

@@ -19,6 +19,7 @@ export default class FileToHtmlConverter extends Component {
 
   static propTypes = {
     className: PropTypes.string,
+    handleFlashError: PropTypes.func.isRequired,
     label: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
     onStart: PropTypes.func.isRequired,
     onEnd: PropTypes.func.isRequired,

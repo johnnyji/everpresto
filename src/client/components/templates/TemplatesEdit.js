@@ -7,10 +7,12 @@ import TemplateEditorView from './TemplateEditorView';
 
 import {createFlashMessage} from '../.././actions/AppActionCreators'
 import TemplateActionCreators from '../.././actions/TemplateActionCreators';
+import FlashErrorHandler from '../.././decorators/FlashErrorHandler';
 
 @connect((state) => ({
   template: state.templates.get('templateBeingEdited')
 }))
+@FlashErrorHandler
 export default class TemplatesEdit extends Component {
 
   static contextTypes = {
@@ -19,6 +21,7 @@ export default class TemplatesEdit extends Component {
   };
 
   static propTypes = {
+    handleFlashError: PropTypes.func.isRequired,
     template: CustomPropTypes.template
   };
 
@@ -64,13 +67,13 @@ export default class TemplatesEdit extends Component {
     );
   }
 
-  _handleError = (err) => {
-    this.context.dispatch(createFlashMessage('red', err));
-  };
-
   _handleSave = (template) => {
-    if (template.get('title').length === 0) return this._handleError('Please provide a title for your template!');
-    if (template.get('rawText').length === 0) return this._handleError('Your template can\'t be blank, duh...');
+    if (template.get('title').length === 0) {
+      return this.props.handleFlashError('Please provide a title for your template!');
+    }
+    if (template.get('rawText').length === 0) {
+      return this.props.handleFlashError('Your template can\'t be blank, duh...');
+    }
 
     // If all validations pass, we create the template
     this.context.dispatch(
