@@ -6,7 +6,7 @@ const ModalSection = ({children, title}) => {
   return (
     <section className={displayName}>
       {title && <header className={`${displayName}-title`}>{title}</header>}
-      <div>{children}</div>
+      <div className={`${displayName}-body`}>{children}</div>
     </section>
   );
 };

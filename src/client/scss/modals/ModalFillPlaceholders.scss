@@ -10,19 +10,22 @@
   }
 
   &-mapping-section {
-    &-assigned-headers {
-      @include display(flex);
-      @include flex-wrap(wrap);
-      @include align-content(flex-start);
+    &-assigned-headers, &-mappings {
       list-style: none;
-      padding: 12px;
+      // Removes the list bullet padding
+      padding-left: 0;
     }
-    &-list-item {
-      // TODO: Make sure list item content is spread out evenly
-      @include display(flex);
-      @include justify-content(space-between);
-      @include align-items(center);
-      margin: 8px auto;
+    &-assigned-headers {
+        @include display(flex);
+        @include flex-wrap(wrap);
+    }
+    &-mappings {
+      &-item {
+        width: 100%;
+        @include display(flex);
+        @include justify-content(space-between);
+        @include align-items(center);
+      }
     }
   }
 }

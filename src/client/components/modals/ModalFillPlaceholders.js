@@ -3,11 +3,11 @@ import Baby from 'babyparse';
 import classNames from 'classnames';
 import Immutable from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import MUIList from 'material-ui/lib/lists/list';
-import {equals, get, isTruthy} from '../.././utils/immutable/IterableFunctions';
+import {equals, get} from '../.././utils/immutable/IterableFunctions';
 import {minLength} from '../.././utils/RegexHelper';
 import {pluralize} from '../.././utils/TextHelper';
 import {createFlashMessage} from '../.././actions/AppActionCreators';
+import {addMultipleSigners} from '../.././actions/DocumentNewActionCreators';
 import FlashErrorHandler from '../.././decorators/FlashErrorHandler';
 
 import DashboardQuote from '.././dashboard/DashboardQuote';
@@ -16,7 +16,6 @@ import FileUploader from '.././shared/FileUploader';
 import Button from '.././ui/Button';
 import Icon from '.././ui/Icon';
 import Input from '.././ui/Input';
-import ListItem from '.././ui/ListItem';
 import Pill from '.././ui/Pill';
 import ModalWrapper from '.././ui/ModalWrapper';
 
@@ -69,7 +68,8 @@ export default class ModalFillPlaceholders extends Component {
   }
 
   render() {
-    const {stage} = this.state;
+    const {importedData, stage} = this.state;
+
     return (
       <ModalWrapper className={displayName} height={600} width={650}>
         <FileUploader
@@ -88,7 +88,7 @@ export default class ModalFillPlaceholders extends Component {
             color='green'
             icon='check'
             onClick={this._handleSaveSigners}
-            text={`Save ${pluralize(importedData.get('signers').size, 'Signer', 'Signers')}`}/>
+            text={`Save ${pluralize(importedData.get('rows').size, 'signer', 'signers')}`}/>
         }
       </ModalWrapper>
     );
@@ -99,22 +99,20 @@ export default class ModalFillPlaceholders extends Component {
 
     const mappingRows = mappings.get('values').map((value, i) => {
       return (
-        <tr className={`${displayName}-mapping-section-list-item`} key={i}>
-          <td>
-            <Input
-              defaultValue={value.get('header')}
-              error={mappings.getIn(['errors', i])}
-              errorKeys={`errors:${i}`}
-              label='Header Value'
-              onUpdate={(val, err) => this._handleMappingUpdate(val, err, i)}
-              patternMatches={minLength(1, `Please map a header to ${value.get('placeholder')}`)}
-              successKeys={`values:${i}:header`}
-              value={value.get('header')}
-              width={250}/>
-          </td>
-          <td><Icon icon='chevron-right' /></td>
-          <td><mark>{value.get('placeholder')}</mark></td>
-        </tr>
+        <li className={`${displayName}-mapping-section-mappings-item`} key={i}>
+          <Input
+            defaultValue={value.get('header')}
+            error={mappings.getIn(['errors', i])}
+            errorKeys={`errors:${i}`}
+            label='Header Value'
+            onUpdate={(val, err) => this._handleMappingUpdate(val, err, i)}
+            patternMatches={minLength(1, `Please map a header to ${value.get('placeholder')}`)}
+            ref={`mappings-${i}`}
+            successKeys={`values:${i}:header`}
+            value={value.get('header')}
+            width={300}/>
+          <mark>{value.get('placeholder')}</mark>
+        </li>
       );
     });
     const headers = importedData.get('headers').map((header, i) => {
@@ -136,7 +134,7 @@ export default class ModalFillPlaceholders extends Component {
           <ul className={`${displayName}-mapping-section-assigned-headers`}>{headers}</ul>
         </ModalSection>
         <ModalSection title='Map To Fields'>
-          <table><tbody>{mappingRows}</tbody></table>
+          <ul className={`${displayName}-mapping-section-mappings`}>{mappingRows}</ul>
         </ModalSection>
       </div>
     );
@@ -163,13 +161,15 @@ export default class ModalFillPlaceholders extends Component {
 
   _handleSaveSigners = () => {
     const {mappings} = this.state;
-    const firstFoundError = mappings.get('errors').find(isTruthy); 
+    const firstFoundError = mappings.get('errors').find((_, i) => (
+      !this.refs[`mappings-${i}`].valid()
+    ));
 
     if (firstFoundError !== undefined) {
       return this.props.handleFlashError('Hmmm... There are some errors in your mappings');
     }
 
-    // this.context.dispatch(updateMappings(this.state.mappings.toJS()));
+    this.context.dispatch(addMultipleSigners(this.state.mappings.toJS()));
   };
 
   /**
