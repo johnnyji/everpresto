@@ -85,7 +85,9 @@ export default class DocumentsNewEditorView extends Component {
                 <MUITab label={`Add Signers (${doc.get('signers').size})`}>
                   <FormSidebarSection>
                     <FormSidebarSectionAddSigner placeholders={specificPlaceholders}/>
-                    <FormSidebarSection>{this._renderSigners()}</FormSidebarSection>
+                    <FormSidebarSection className={`${displayName}-content-sidebar-signers-list`}>
+                      {this._renderSigners()}
+                    </FormSidebarSection>
                   </FormSidebarSection>
                 </MUITab>
 

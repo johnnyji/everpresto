@@ -173,7 +173,7 @@ export default class ModalFillPlaceholders extends Component {
       return this.props.handleFlashError('Hmmm... There are some errors in your mappings');
     }
 
-    // TODO: Refactor into another function
+    // TODO: Refactor into another function, too much logic here, and comment as well
     const importedHeaders = importedData.get('headers');
     const placeholderMappings = mappings
       .get('values')

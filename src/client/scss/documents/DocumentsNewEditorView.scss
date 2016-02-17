@@ -34,6 +34,9 @@
         @include align-items(center);
         @include justify-content(space-between);
       }
+      &-signers-list {
+        // TODO: Make sure this scrolls and not the actual form
+      }
     }
     &-preview {
       @include flex-grow(4);
