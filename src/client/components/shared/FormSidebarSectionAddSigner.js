@@ -7,7 +7,7 @@ import ModalFillPlaceholders from '.././modals/ModalFillPlaceholders';
 import Icon from '.././ui/Icon';
 import Input from '.././ui/Input';
 import {minLength} from '../.././utils/RegexHelper';
-import {createFlashMessage, createModal} from '../.././actions/AppActionCreators';
+import {createModal} from '../.././actions/AppActionCreators';
 
 import FlashErrorHandler from '../.././decorators/FlashErrorHandler';
 

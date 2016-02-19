@@ -79,6 +79,7 @@
 @import './shared/FormSidebarPlaceholderInput';
 @import './shared/FormSidebarSection';
 @import './shared/FormSidebarSectionAddSigner';
+@import './shared/FormSidebarSectionFillGeneralPlaceholders';
 @import './shared/FormSidebarSectionMessage';
 @import './shared/FormSidebarSectionTitle';
 @import './shared/FormSidebarTitle';
@@ -143,10 +144,15 @@ body {
   }
 }
 
-// Maybe all placeholder `mark` tags a bit lighter
+// Make all placeholder `mark` tags a bit lighter
 mark {
-  background-color: darken(#FFFFCC, 9%);
+  background-color: $highlight-yellow-color;
 }
+// Make all successfully replaced placeholders a light green
+.everpresto-replaced-placeholder {
+  background-color: $highlight-blue-color;
+}
+
   
 // Remove nasty autofill yellow on chrome
 input:-webkit-autofill {

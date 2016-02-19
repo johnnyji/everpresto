@@ -85,11 +85,13 @@ export default class ModalFillPlaceholders extends Component {
         }
         {stage === 1 && this._renderMappingSection()}
         {stage === 1 &&
-          <Button
-            color='green'
-            icon='check'
-            onClick={this._handleSaveSigners}
-            text={`Save ${pluralize(importedData.get('rows').size, 'signer', 'signers')}`}/>
+          <ModalSection className={`${displayName}-save-button`}>
+            <Button
+              color='green'
+              icon='check'
+              onClick={this._handleSaveSigners}
+              text={`Save ${pluralize(importedData.get('rows').size, 'signer', 'signers')}`}/>
+          </ModalSection>
         }
       </ModalWrapper>
     );

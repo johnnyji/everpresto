@@ -12,10 +12,11 @@ import FormSidebarBody from '.././shared/FormSidebarBody';
 import FormSidebarFooter from '.././shared/FormSidebarFooter';
 import FormSidebarSection from '.././shared/FormSidebarSection';
 import FormSidebarSectionAddSigner from '.././shared/FormSidebarSectionAddSigner';
+import FormSidebarSectionFillGeneralPlaceholders from '.././shared/FormSidebarSectionFillGeneralPlaceholders';
 import FormSidebarSectionMessage from '.././shared/FormSidebarSectionMessage';
 import Button from '.././ui/Button';
 import Icon from '.././ui/Icon';
-import Input from '.././ui/Input';
+// import Input from '.././ui/Input';
 import ListItem from '.././ui/ListItem';
 import Tabs from '.././ui/Tabs';
 
@@ -23,10 +24,20 @@ import {matchesAttr} from '../.././utils/immutable/IterableFunctions';
 import {minLength} from '../.././utils/RegexHelper';
 
 import DocumentNewActionCreators from '../.././actions/DocumentNewActionCreators';
+import {template} from '../.././config/main';
 
 const displayName = 'DocumentsNewEditorView';
 const isGeneral = matchesAttr('type', 'general');
 const isSpecific = matchesAttr('type', 'specific');
+
+const replacePlaceholders = (body, signerFields) => {
+  return signerFields.reduce((alteredBody, field) => {
+    return alteredBody.replace(
+      new RegExp(field.get('placeholder'), 'g'),
+      `<span class="${template.replacedPlaceholderClass}">${field.get('value')}</span>`
+    );
+  }, body);
+};
 
 export default class DocumentsNewEditorView extends Component {
 
@@ -58,6 +69,23 @@ export default class DocumentsNewEditorView extends Component {
     this.state = {
       templateBody: props.doc.getIn(['template', 'body'])
     };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // If all the signers are removed, set the preview document to original placeholders
+    const nextSigners = nextProps.doc.get('signers');
+    const nextTemplateBody = nextProps.doc.getIn(['template', 'body']);
+
+    if (nextSigners.size === 0) return this.setState({templateBody: nextTemplateBody});
+
+    // If the signers have changed, make sure the example placeholder fillers are still of the
+    // very top signer in the list of signers
+    const currentSigners = this.props.doc.get('signers');
+    if (!currentSigners.equals(nextSigners) && nextSigners.has(0)) {
+      this.setState({
+        templateBody: replacePlaceholders(nextTemplateBody, nextSigners.get(0))
+      });
+    }
   }
 
   render() {
@@ -93,13 +121,13 @@ export default class DocumentsNewEditorView extends Component {
 
                 {/* General Placeholder Inputs */}
                 <MUITab label='Fill Placeholders'>
-                  {generalPlaceholders.size > 0 &&
-                    <FormSidebarSection>
-                      <ul className={`${displayName}-content-sidebar-placeholders-general`}>
-                        {this._renderGeneralPlaceholders(generalPlaceholders)}
-                      </ul>
-                    </FormSidebarSection>
-                  }
+                  <FormSidebarSectionFillGeneralPlaceholders
+                    placeholders={generalPlaceholders}/>
+                  {/*<FormSidebarSection>
+                    <ul className={`${displayName}-content-sidebar-placeholders-general`}>
+                      {this._renderGeneralPlaceholders(generalPlaceholders)}
+                    </ul>
+                  </FormSidebarSection>*/}
                 </MUITab>
               </Tabs>
             </FormSidebarBody>
@@ -116,25 +144,21 @@ export default class DocumentsNewEditorView extends Component {
     );
   }
 
-  _addNewContact = () => {
-
-  };
-
-  _renderGeneralPlaceholders = (placeholders) => {
-    return placeholders.map((placeholder, i) => (
-      <li key={i}>
-        <Input
-          error={''}
-          errorKeys={`errors:${i}`}
-          label={placeholder.get('value')}
-          onUpdate={(val, err) => this._updatePlaceholder(val, err, i)}
-          patternMatches={minLength(1, `Lets give ${placeholder.get('value')} a value`)}
-          successKeys={`values:${i}:header`}
-          value={'hello'}
-          width={250}/>
-      </li>
-    ));
-  };
+  // _renderGeneralPlaceholders = (placeholders) => {
+  //   return placeholders.map((placeholder, i) => (
+  //     <li key={i}>
+  //       <Input
+  //         error={''}
+  //         errorKeys={`errors:${i}`}
+  //         label={placeholder.get('value')}
+  //         onUpdate={(val, err) => this._updatePlaceholder(val, err, i)}
+  //         patternMatches={minLength(1, `Lets give ${placeholder.get('value')} a value`)}
+  //         successKeys={`values:${i}:header`}
+  //         value={'hello'}
+  //         width={250}/>
+  //     </li>
+  //   ));
+  // };
 
   _renderSigners = () => {
     if (this.props.doc.get('signers').size === 0) {
