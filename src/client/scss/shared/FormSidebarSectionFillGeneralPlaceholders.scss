@@ -1,5 +1,23 @@
 .FormSidebarSectionFillGeneralPlaceholders {
+  @include display(flex);
+  @include flex-direction(column);
+  @include align-items(center);
   &-fields {
     position: relative;
-  } 
+    list-style: none;
+    padding-left: 0;
+    &-field {
+
+    }
+  }
+
+  &-no-placeholder-message {
+    margin: 100px 0;
+    text-align: center;
+    color: $placeholder-color;
+    &-title {
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+  }
 }

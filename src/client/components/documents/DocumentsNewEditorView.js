@@ -123,11 +123,6 @@ export default class DocumentsNewEditorView extends Component {
                 <MUITab label='Fill Placeholders'>
                   <FormSidebarSectionFillGeneralPlaceholders
                     placeholders={generalPlaceholders}/>
-                  {/*<FormSidebarSection>
-                    <ul className={`${displayName}-content-sidebar-placeholders-general`}>
-                      {this._renderGeneralPlaceholders(generalPlaceholders)}
-                    </ul>
-                  </FormSidebarSection>*/}
                 </MUITab>
               </Tabs>
             </FormSidebarBody>
@@ -143,22 +138,6 @@ export default class DocumentsNewEditorView extends Component {
       </DashboardContentWrapper>
     );
   }
-
-  // _renderGeneralPlaceholders = (placeholders) => {
-  //   return placeholders.map((placeholder, i) => (
-  //     <li key={i}>
-  //       <Input
-  //         error={''}
-  //         errorKeys={`errors:${i}`}
-  //         label={placeholder.get('value')}
-  //         onUpdate={(val, err) => this._updatePlaceholder(val, err, i)}
-  //         patternMatches={minLength(1, `Lets give ${placeholder.get('value')} a value`)}
-  //         successKeys={`values:${i}:header`}
-  //         value={'hello'}
-  //         width={250}/>
-  //     </li>
-  //   ));
-  // };
 
   _renderSigners = () => {
     if (this.props.doc.get('signers').size === 0) {

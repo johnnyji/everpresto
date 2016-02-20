@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import FlashErrorHandler from '../.././decorators/FlashErrorHandler';
+import {minLength} from '../.././utils/RegexHelper';
 import DocumentNewActionCreators from '../.././actions/DocumentNewActionCreators';
 
 import Input from '.././ui/Input';
@@ -24,7 +25,7 @@ export default class FormSidebarSectionFillGeneralPlaceholders extends Component
       ImmutablePropTypes.contains({
         isRequired: PropTypes.bool.isRequired,
         tip: PropTypes.string,
-        type: PropTypes.oneOf(['specific']).isRequired,
+        type: PropTypes.oneOf(['general']).isRequired,
         value: PropTypes.string.isRequired
       }).isRequired
     ).isRequired
@@ -44,7 +45,7 @@ export default class FormSidebarSectionFillGeneralPlaceholders extends Component
 
   _renderGeneralPlaceholders = () => {
     return this.props.placeholders.map((placeholder, i) => (
-      <li key={i}>
+      <li className={`${displayName}-fields-field`} key={i}>
         <Input
           error={''}
           errorKeys={`errors:${i}`}
@@ -60,11 +61,12 @@ export default class FormSidebarSectionFillGeneralPlaceholders extends Component
 
   _renderNoPlaceholdersMessage = () => {
     return (
-      <DashboardMessage>
-        <p>No General Fields</p>
-        <div>If you're seeing this message, it just means you don't</div>
-        <div>have any general fields to replace, so kick back and relax!</div>
-      </DashboardMessage>
+      <div className={`${displayName}-no-placeholder-message`}>
+        <header className={`${displayName}-no-placeholder-message-title`}>
+          No General Fields
+        </header>
+        <div>If you're seeing this message, it just means you don't have any general fields to replace, so kick back and relax!</div>
+      </div>
     );
   };
 
