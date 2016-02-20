@@ -86,6 +86,7 @@ export default function documentsReducer(state = initialState, action) {
       let generalPlaceholderForm = state.get('generalPlaceholderForm');
       generalPlaceholderForm = generalPlaceholderForm.setIn(['values', formFieldIndex, 'value'], value);
       generalPlaceholderForm = generalPlaceholderForm.setIn(['errors', formFieldIndex], error);
+      
       return state.set('generalPlaceholderForm', generalPlaceholderForm);
 
     default:
