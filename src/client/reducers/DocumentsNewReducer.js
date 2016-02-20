@@ -25,12 +25,12 @@ export default function documentsReducer(state = initialState, action) {
     case ADD_SIGNER:
       // `signer` will already be Immutable
       return state.updateIn(['doc', 'signers'], (signers) => (
-        signers.push(action.data.signer)
+        signers.unshift(action.data.signer)
       ));
 
     case ADD_MULTIPLE_SIGNERS:
       return state.updateIn(['doc', 'signers'], (signers) => (
-        signers.concat(Immutable.fromJS(action.data.signers))
+        Immutable.fromJS(action.data.signers).concat(signers)
       ));
 
     case REMOVE_SIGNER:
