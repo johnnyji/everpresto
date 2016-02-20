@@ -29,6 +29,7 @@ const displayName = 'DocumentsNewEditorView';
 const isGeneral = matchesAttr('type', 'general');
 const isSpecific = matchesAttr('type', 'specific');
 
+// TODO: Move this elsewhere more appropriate
 const replacePlaceholders = (body, signerFields) => {
   return signerFields.reduce((alteredBody, field) => {
     return alteredBody.replace(
@@ -71,6 +72,9 @@ export default class DocumentsNewEditorView extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    // TODO: Find a way to inexpensively compare `generalPlaceholderForm` props to see if they've changed,
+    // so that we can also update the document viewer to reflect the newly inputted placeholders
+
     // If all the signers are removed, set the preview document to original placeholders
     const nextSigners = nextProps.doc.get('signers');
     const nextTemplateBody = nextProps.doc.getIn(['template', 'body']);
