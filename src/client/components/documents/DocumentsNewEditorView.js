@@ -16,7 +16,6 @@ import FormSidebarSectionFillGeneralPlaceholders from '.././shared/FormSidebarSe
 import FormSidebarSectionMessage from '.././shared/FormSidebarSectionMessage';
 import Button from '.././ui/Button';
 import Icon from '.././ui/Icon';
-// import Input from '.././ui/Input';
 import ListItem from '.././ui/ListItem';
 import Tabs from '.././ui/Tabs';
 
@@ -165,10 +164,6 @@ export default class DocumentsNewEditorView extends Component {
 
   _handleSendDocuments = () => {
     debugger;
-  };
-
-  _updatePlaceholder = (val, err, i) => {
-
   };
 
 }

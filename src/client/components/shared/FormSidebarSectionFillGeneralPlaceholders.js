@@ -1,8 +1,12 @@
 import React, {Component, PropTypes} from 'react';
+import {connect} from 'react-redux';
+import Immutable from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import FlashErrorHandler from '../.././decorators/FlashErrorHandler';
 import {minLength} from '../.././utils/RegexHelper';
-import DocumentNewActionCreators from '../.././actions/DocumentNewActionCreators';
+import {
+  generateGeneralPlaceholderFormFields,
+  updateGeneralPlaceholderFormField} from '../.././actions/DocumentNewActionCreators';
 
 import Input from '.././ui/Input';
 import DashboardMessage from '.././dashboard/DashboardMessage';
@@ -11,6 +15,9 @@ import FormSidebarSection from './FormSidebarSection';
 const displayName = 'FormSidebarSectionFillGeneralPlaceholders';
 
 @FlashErrorHandler
+@connect((state) => ({
+  placeholderForm: state.documentsNew.get('generalPlaceholderForm')
+}))
 export default class FormSidebarSectionFillGeneralPlaceholders extends Component {
 
   static displayName = displayName;
@@ -28,8 +35,33 @@ export default class FormSidebarSectionFillGeneralPlaceholders extends Component
         type: PropTypes.oneOf(['general']).isRequired,
         value: PropTypes.string.isRequired
       }).isRequired
-    ).isRequired
+    ).isRequired,
+    placeholderForm: ImmutablePropTypes.contains({
+      value: ImmutablePropTypes.listOf(
+        ImmutablePropTypes.contains({
+          placeholder: PropTypes.string.isRequired,
+          value: PropTypes.string
+        })
+      ).isRequired,
+      errors: ImmutablePropTypes.listOf(PropTypes.string).isRequired
+    }).isRequired
   };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      placeholderForm: Immutable.fromJS({
+        values: [],
+        errors: []
+      })
+    };
+  }
+
+  componentWillMount() {
+    // Uses the placeholders prop to generate dynamic input fields
+    // based on which placholders the template contains
+    this.context.dispatch(generateGeneralPlaceholderFormFields());
+  }
 
   render() {
     const content = this.props.placeholders.size
@@ -44,19 +76,23 @@ export default class FormSidebarSectionFillGeneralPlaceholders extends Component
   }
 
   _renderGeneralPlaceholders = () => {
-    return this.props.placeholders.map((placeholder, i) => (
-      <li className={`${displayName}-fields-field`} key={i}>
-        <Input
-          error={''}
-          errorKeys={`errors:${i}`}
-          label={placeholder.get('value')}
-          onUpdate={(val, err) => this._updatePlaceholder(val, err, i)}
-          patternMatches={minLength(1, `Lets give ${placeholder.get('value')} a value`)}
-          successKeys={`values:${i}:header`}
-          value={'hello'}
-          width={250}/>
-      </li>
-    ));
+    const {placeholderForm} = this.props;
+
+    return placeholderForm.get('values').map((formField, i) => {
+      return (
+        <li className={`${displayName}-fields-field`} key={i}>
+          <Input
+            error={placeholderForm.getIn(['errors', i])}
+            errorKeys={`errors:${i}`}
+            label={formField.get('placeholder')}
+            onUpdate={(val, err) => this._handleUpdatePlaceholder(val, err, i)}
+            patternMatches={minLength(1, `Lets give ${formField.get('placeholder')} a value`)}
+            successKeys={`values:${i}:value`}
+            value={formField.get('value')}
+            width={250}/>
+        </li>
+      );
+    });
   };
 
   _renderNoPlaceholdersMessage = () => {
@@ -71,7 +107,11 @@ export default class FormSidebarSectionFillGeneralPlaceholders extends Component
   };
 
   _handleUpdatePlaceholder = (val, err, i) => {
-
+    this.context.dispatch(updateGeneralPlaceholderFormField({
+      value: val,
+      error: err,
+      formFieldIndex: i
+    }));
   };
 
 }

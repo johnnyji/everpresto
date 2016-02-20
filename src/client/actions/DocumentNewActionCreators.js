@@ -16,6 +16,12 @@ const DocumentNewActionCreators = {
     }
   },
 
+  generateGeneralPlaceholderFormFields() {
+    return {
+      type: DocumentNewActionTypes.GENERATE_GENERAL_PLACEHOLDER_FORM_FIELDS
+    };
+  },
+
   removeSigner(signer) {
     return {
       type: DocumentNewActionTypes.REMOVE_SIGNER,
@@ -41,6 +47,13 @@ const DocumentNewActionCreators = {
       type: DocumentNewActionTypes.SET_TEMPLATE,
       data: {template}
     };
+  },
+
+  updateGeneralPlaceholderFormField(input) {
+    return {
+      type: DocumentNewActionTypes.UPDATE_GENERAL_PLACEHOLDER_FORM_FIELD,
+      data: {input}
+    }
   }
 
 }

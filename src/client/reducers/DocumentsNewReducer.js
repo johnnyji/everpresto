@@ -1,13 +1,16 @@
 import Immutable from 'immutable';
 import DocumentNewActionTypes from '.././action_types/DocumentNewActionTypes';
+import {matchesAttr} from '.././utils/immutable/IterableFunctions';
 
 const {
   ADD_SIGNER,
   ADD_MULTIPLE_SIGNERS,
+  GENERATE_GENERAL_PLACEHOLDER_FORM_FIELDS,
   REMOVE_SIGNER,
   RESET_DOCUMENT,
   SET_COLLECTION,
-  SET_TEMPLATE} = DocumentNewActionTypes;
+  SET_TEMPLATE,
+  UPDATE_GENERAL_PLACEHOLDER_FORM_FIELD} = DocumentNewActionTypes;
 
 const initialDocState = {
   collectionId: null,
@@ -15,7 +18,15 @@ const initialDocState = {
   template: null
 };
 
-const initialState = Immutable.fromJS({doc: initialDocState});
+const initialState = Immutable.fromJS({
+  doc: initialDocState,
+  generalPlaceholderForm: {
+    values: [],
+    errors: []
+  }
+});
+
+const isGeneral = matchesAttr('type', 'general');
 
 export default function documentsReducer(state = initialState, action) {
   // Always return a new state, never already the one passed in
@@ -32,6 +43,25 @@ export default function documentsReducer(state = initialState, action) {
       return state.updateIn(['doc', 'signers'], (signers) => (
         Immutable.fromJS(action.data.signers).concat(signers)
       ));
+
+    case GENERATE_GENERAL_PLACEHOLDER_FORM_FIELDS:
+      // Dynamically sets the generalPlaceholderForm state dependant on
+      // the placeholders in the current template we're using
+      return state.update('generalPlaceholderForm', (form) => {
+        return state.getIn(['doc', 'template', 'placeholders'])
+          .filter(isGeneral)
+          .reduce((placeholderForm, placeholder) => {
+            // Pushes on a placeholder input object -> {placholder: 'HELLO', value: null}
+            let updatedForm = placeholderForm.update('values', (vals) => (
+              vals.push(Immutable.fromJS({
+                placeholder: placeholder.get('value'),
+                value: null
+              }))
+            ));
+            // Also creates an error for that input
+            return updatedForm.update('errors', (errs) => errs.push(null));
+          }, form);
+      });
 
     case REMOVE_SIGNER:
       // `signer` will already be Immutable
@@ -50,6 +80,13 @@ export default function documentsReducer(state = initialState, action) {
     case SET_TEMPLATE:
       // `template` will already be an Immutable.Map
       return state.setIn(['doc', 'template'], action.data.template);
+
+    case UPDATE_GENERAL_PLACEHOLDER_FORM_FIELD:
+      const {formFieldIndex, value, error} = action.data.input;
+      let generalPlaceholderForm = state.get('generalPlaceholderForm');
+      generalPlaceholderForm = generalPlaceholderForm.setIn(['values', formFieldIndex, 'value'], value);
+      generalPlaceholderForm = generalPlaceholderForm.setIn(['errors', formFieldIndex], error);
+      return state.set('generalPlaceholderForm', generalPlaceholderForm);
 
     default:
       return state;
