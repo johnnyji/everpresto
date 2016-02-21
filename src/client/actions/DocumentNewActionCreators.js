@@ -29,9 +29,9 @@ const DocumentNewActionCreators = {
     }
   },
 
-  resetDocument() {
+  resetState() {
     return {
-      type: DocumentNewActionTypes.RESET_DOCUMENT
+      type: DocumentNewActionTypes.RESET_STATE
     };
   },
 

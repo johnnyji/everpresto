@@ -7,28 +7,26 @@ const {
   ADD_MULTIPLE_SIGNERS,
   GENERATE_GENERAL_PLACEHOLDER_FORM_FIELDS,
   REMOVE_SIGNER,
-  RESET_DOCUMENT,
+  RESET_STATE,
   SET_COLLECTION,
   SET_TEMPLATE,
   UPDATE_GENERAL_PLACEHOLDER_FORM_FIELD} = DocumentNewActionTypes;
 
-const initialDocState = {
-  collectionId: null,
-  signers: [],
-  template: null
-};
-
-const initialState = Immutable.fromJS({
-  doc: initialDocState,
+const initialStateTemplate = {
+  doc: {
+    collectionId: null,
+    signers: [],
+    template: null
+  },
   generalPlaceholderForm: {
     values: [],
     errors: []
   }
-});
+};
 
 const isGeneral = matchesAttr('type', 'general');
 
-export default function documentsReducer(state = initialState, action) {
+export default function documentsReducer(state = Immutable.fromJS(initialStateTemplate), action) {
   // Always return a new state, never already the one passed in
 
   switch (action.type) {
@@ -71,8 +69,8 @@ export default function documentsReducer(state = initialState, action) {
         )
       ));
 
-    case RESET_DOCUMENT:
-      return state.set('doc', Immutable.fromJS(initialDocState));
+    case RESET_STATE:
+      return Immutable.fromJS(initialStateTemplate);
 
     case SET_COLLECTION:
       return state.setIn(['doc', 'collectionId'], action.data.collectionId);

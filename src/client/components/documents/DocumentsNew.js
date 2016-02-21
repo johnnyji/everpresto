@@ -69,7 +69,7 @@ export default class DocumentsNew extends Component {
     const {dispatch} = this.context;
 
     // Clears the new document state when the user decides to leave
-    dispatch(DocumentNewActionCreators.resetDocument());
+    dispatch(DocumentNewActionCreators.resetState());
     // Removes any existing modals
     if (this.props.modalIsDisplayed) dispatch(AppActionCreators.dismissModal());
   }
