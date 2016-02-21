@@ -66,8 +66,6 @@
 @import './templates/TemplatePreviewCard';
 
 // Shared
-@import './shared/BlendedInputField';
-@import './shared/ContentEditable';
 @import './shared/DashboardSpinner';
 @import './shared/DocumentEditor';
 @import './shared/DocumentPreviewCard';
@@ -148,9 +146,14 @@ body {
 mark {
   background-color: $highlight-yellow-color;
 }
-// Make all successfully replaced placeholders a light green
-.everpresto-replaced-placeholder {
+
+// Make all successfully replaced specific placeholders a light blue
+.everpresto-specific-placeholder {
   background-color: $highlight-blue-color;
+}
+// Make all successfully replaced specific placeholders a light green
+.everpresto-general-placeholder {
+  background-color: $highlight-green-color;
 }
 
   

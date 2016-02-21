@@ -1,6 +1,5 @@
 .ui-Button {
   position: relative;
-  // border-radius: 0 !important;
   color: $ui-button-color;
   &-icon {
     margin-right: 4px;
@@ -8,18 +7,3 @@
     top: -2px;
   }
 }
-
-// These all must have `!important` in order to override
-// the default inline-styles that `material-ui` provides
-// .ui-Button-blue {
-//   background-color: $brand-color-blue !important;
-// }
-// .ui-Button-green {
-//   background-color: $brand-color-green !important;
-// }
-// .ui-Button-red {
-//   background-color: $brand-color-red !important;
-// }
-// .ui-Button-yellow {
-//   background-color: $brand-color-yellow !important;
-// }

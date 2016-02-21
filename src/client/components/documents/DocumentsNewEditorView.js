@@ -15,29 +15,30 @@ import FormSidebarSectionAddSigner from '.././shared/FormSidebarSectionAddSigner
 import FormSidebarSectionFillGeneralPlaceholders from '.././shared/FormSidebarSectionFillGeneralPlaceholders';
 import FormSidebarSectionMessage from '.././shared/FormSidebarSectionMessage';
 import Button from '.././ui/Button';
-import Icon from '.././ui/Icon';
 import ListItem from '.././ui/ListItem';
 import Tabs from '.././ui/Tabs';
 
 import {matchesAttr} from '../.././utils/immutable/IterableFunctions';
-import {minLength} from '../.././utils/RegexHelper';
+import Config from '../.././config/main';
 
 import DocumentNewActionCreators from '../.././actions/DocumentNewActionCreators';
-import {template} from '../.././config/main';
 
 const displayName = 'DocumentsNewEditorView';
 const isGeneral = matchesAttr('type', 'general');
 const isSpecific = matchesAttr('type', 'specific');
 
 // TODO: Move this elsewhere more appropriate
-const replacePlaceholders = (body, signerFields) => {
+const replacePlacholders = (type) => (body, signerFields) => {
   return signerFields.reduce((alteredBody, field) => {
     return alteredBody.replace(
       new RegExp(field.get('placeholder'), 'g'),
-      `<span class="${template.replacedPlaceholderClass}">${field.get('value')}</span>`
+      `<span class="${Config.doc.placeholderClasses[type]}">${field.get('value')}</span>`
     );
   }, body);
 };
+
+const replaceSpecificFields = replacePlacholders('specific');
+const replaceGeneralFields = replacePlacholders('general');
 
 export default class DocumentsNewEditorView extends Component {
 
@@ -75,18 +76,17 @@ export default class DocumentsNewEditorView extends Component {
     // TODO: Find a way to inexpensively compare `generalPlaceholderForm` props to see if they've changed,
     // so that we can also update the document viewer to reflect the newly inputted placeholders
 
-    // If all the signers are removed, set the preview document to original placeholders
     const nextSigners = nextProps.doc.get('signers');
     const nextTemplateBody = nextProps.doc.getIn(['template', 'body']);
 
-    if (nextSigners.size === 0) return this.setState({templateBody: nextTemplateBody});
+    // If all the signers are removed, set the preview document to original placeholders
+    if (!nextSigners.size) return this.setState({templateBody: nextTemplateBody});
 
     // If the signers have changed, make sure the example placeholder fillers are still of the
     // very top signer in the list of signers
-    const currentSigners = this.props.doc.get('signers');
-    if (!currentSigners.equals(nextSigners) && nextSigners.has(0)) {
+    if (!this.props.doc.get('signers').equals(nextSigners) && nextSigners.has(0)) {
       this.setState({
-        templateBody: replacePlaceholders(nextTemplateBody, nextSigners.get(0))
+        templateBody: replaceSpecificFields(nextTemplateBody, nextSigners.get(0))
       });
     }
   }
@@ -121,11 +121,9 @@ export default class DocumentsNewEditorView extends Component {
                     </FormSidebarSection>
                   </FormSidebarSection>
                 </MUITab>
-
                 {/* General Placeholder Inputs */}
                 <MUITab label='Fill Placeholders'>
-                  <FormSidebarSectionFillGeneralPlaceholders
-                    placeholders={generalPlaceholders}/>
+                  <FormSidebarSectionFillGeneralPlaceholders placeholders={generalPlaceholders}/>
                 </MUITab>
               </Tabs>
             </FormSidebarBody>
@@ -143,7 +141,7 @@ export default class DocumentsNewEditorView extends Component {
   }
 
   _renderSigners = () => {
-    if (this.props.doc.get('signers').size === 0) {
+    if (!this.props.doc.get('signers').size) {
       return (
         <FormSidebarSectionMessage>
           Add/Import some signers to get started!

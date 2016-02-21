@@ -43,6 +43,7 @@ $placeholder-color: lighten(#666666, 25%);
 
 $highlight-yellow-color: darken(#FFFFCC, 9%);
 $highlight-blue-color: lighten($brand-color-blue-lighter, 9%);
+$highlight-green-color: lighten($brand-color-green-lighter, 9%);
 
 $box-shadow-color: lighten(#282828, 20%);
 
@@ -54,12 +55,6 @@ $navbar-active-text-color: #888;
 
 $form-background-color: whitesmoke;
 $card-background-color: whitesmoke;
-
-
-$input-focus-border-color: #66afe9;
-
-// Tip Box
-$tip-box-background: whitesmoke;
 
 
 // BUTTON
@@ -74,11 +69,3 @@ $ui-card-background-color: #FFF;
 
 // OVERLAY
 $overlay-background-color: rgba(0, 0, 0, 0.6);
-
-
-// INPUT
-$ui-input-label-color: rgba(0, 0, 0, 0.26);
-$ui-input-error-color: $error-color;
-$ui-input-border-bottom-color: rgba(0, 0, 0, 0.26);
-$ui-input-border-bottom-focus-start-color: $brand-color-blue-darker;
-$ui-input-border-bottom-focus-end-color: $brand-color-blue-light;

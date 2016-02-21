@@ -2,7 +2,6 @@
   @include display(flex);
   @include flex-direction(column);
   @include flex-grow(1);
-  @include flex-shrink(2);
   width: 100%;
   overflow-y: auto;
   position: relative;

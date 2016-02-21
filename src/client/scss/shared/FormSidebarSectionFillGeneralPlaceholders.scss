@@ -15,6 +15,9 @@
     margin: 100px 0;
     text-align: center;
     color: $placeholder-color;
+    // We have to assign a defined width, otherwise this message will cause
+    // the FormSidebar to grow and overtake the DocumentViewer
+    width: 400px;
     &-title {
       font-size: 18px;
       margin-bottom: 20px;
