@@ -76,7 +76,6 @@ export default class RichTextEditor extends Component {
     // If the text has changed and we have a saved selection,
     // we want to restore that selection
     if (textChanged && this.state.savedSelection) {
-      console.log('hit');
       rangy.restoreSelection(this.state.savedSelection);
     }
   }

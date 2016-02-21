@@ -16,6 +16,7 @@ const displayName = 'DocumentsNew';
 
 @connect((state) => ({
   docBeingCreated: state.documentsNew.get('doc'),
+  generalPlaceholderForm: state.documentsNew.get('generalPlaceholderForm'),
   modalIsDisplayed: state.app.getIn(['modal', 'display']),
   shouldFetchTemplates: state.templates.get('shouldFetchTemplates'),
   templates: state.templates.get('templates')
@@ -98,7 +99,9 @@ export default class DocumentsNew extends Component {
 
     // Show the document editing view
     return (
-      <DocumentsNewEditorView doc={this.props.docBeingCreated} />
+      <DocumentsNewEditorView
+        doc={this.props.docBeingCreated}
+        generalPlaceholderForm={this.props.generalPlaceholderForm} />
     );
   }
 

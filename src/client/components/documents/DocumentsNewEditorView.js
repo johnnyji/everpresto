@@ -28,8 +28,10 @@ const isGeneral = matchesAttr('type', 'general');
 const isSpecific = matchesAttr('type', 'specific');
 
 // TODO: Move this elsewhere more appropriate
-const replacePlacholders = (type) => (body, signerFields) => {
-  return signerFields.reduce((alteredBody, field) => {
+const replacePlacholders = (type) => (body, placeholderFields) => {
+  return placeholderFields.reduce((alteredBody, field) => {
+    if (!field.get('value')) return alteredBody;
+
     return alteredBody.replace(
       new RegExp(field.get('placeholder'), 'g'),
       `<span class="${Config.doc.placeholderClasses[type]}">${field.get('value')}</span>`
@@ -59,6 +61,16 @@ export default class DocumentsNewEditorView extends Component {
           }).isRequired
         )
       ).isRequired,
+      // This is the general placeholders form the users fill out
+      generalPlaceholderForm: ImmutablePropTypes.contains({
+        values: ImmutablePropTypes.listOf(
+          ImmutablePropTypes.contains({
+            placeholder: PropTypes.string,
+            value: PropTypes.string
+          })
+        ).isRequired,
+        errors: ImmutablePropTypes.listOf(PropTypes.string).isRequired
+      }).isRequired,
       template: CustomPropTypes.template.isRequired
     }).isRequired
   };
@@ -73,21 +85,28 @@ export default class DocumentsNewEditorView extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    // TODO: Find a way to inexpensively compare `generalPlaceholderForm` props to see if they've changed,
-    // so that we can also update the document viewer to reflect the newly inputted placeholders
 
+    // const nextGeneralPlaceholders = nextProps.generalPlaceholders.get('values');
     const nextSigners = nextProps.doc.get('signers');
     const nextTemplateBody = nextProps.doc.getIn(['template', 'body']);
+    let alteredNextTemplateBody = nextTemplateBody;
 
-    // If all the signers are removed, set the preview document to original placeholders
-    if (!nextSigners.size) return this.setState({templateBody: nextTemplateBody});
+    // If the signers have changed, replace fields
+    if (nextSigners.has(0) && !this.props.doc.get('signers').equals(nextSigners)) {
+      console.log('signers change')
+      alteredNextTemplateBody = replaceSpecificFields(nextTemplateBody, nextSigners.get(0));
+    }
 
-    // If the signers have changed, make sure the example placeholder fillers are still of the
-    // very top signer in the list of signers
-    if (!this.props.doc.get('signers').equals(nextSigners) && nextSigners.has(0)) {
-      this.setState({
-        templateBody: replaceSpecificFields(nextTemplateBody, nextSigners.get(0))
-      });
+    // If the general fields have changed, replace fields
+    // if (!this.props.generalPlaceholders.equals(nextGeneralPlaceholders)) {
+    //   console.log('generalPlaceholders change')
+    //   alteredNextTemplateBody = replaceGeneralFields(nextTemplateBody, nextGeneralPlaceholders);
+    // }
+
+    // If we've replace fields in the template body, we want to set the altered one
+    // as the state
+    if (alteredNextTemplateBody !== nextTemplateBody) {
+      this.setState({templateBody: alteredNextTemplateBody});
     }
   }
 

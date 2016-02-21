@@ -24,12 +24,18 @@ export default class ListItem extends Component {
   render() {
     const {className, children, onClick, onRemove, removable} = this.props;
     const classes = classNames(className, displayName);
+    // Makes sure that list items that are about to overflow will break works onto the
+    // next line instead of overflowing
+    const styles = {
+      wordBreak: 'break-all'
+    };
 
     if (removable && onRemove) {
       return (
         <MUIListItem
           onTouchTap={onClick}
-          rightIconButton={this._renderRemoveButton()}>
+          rightIconButton={this._renderRemoveButton()}
+          style={styles}>
           {/* Material-UI's ListItem doesn't support className */}
           <div className={classes}>
             {children}
@@ -39,7 +45,7 @@ export default class ListItem extends Component {
     }
 
     return (
-      <MUIListItem className={classes} onTouchTap={onClick}>
+      <MUIListItem className={classes} onTouchTap={onClick} style={styles}>
         {children}
       </MUIListItem>
     );
