@@ -18,12 +18,14 @@ import Button from '.././ui/Button';
 import ListItem from '.././ui/ListItem';
 import Tabs from '.././ui/Tabs';
 
-import {matchesAttr} from '../.././utils/immutable/IterableFunctions';
+import FlashErrorHandler from '../.././decorators/FlashErrorHandler';
+import {get, isNull, isTruthy, matchesAttr} from '../.././utils/immutable/IterableFunctions';
 import Config from '../.././config/main';
 
 import DocumentNewActionCreators from '../.././actions/DocumentNewActionCreators';
 
 const displayName = 'DocumentsNewEditorView';
+const getValue = get('value');
 const isGeneral = matchesAttr('type', 'general');
 const isSpecific = matchesAttr('type', 'specific');
 
@@ -42,6 +44,7 @@ const replacePlacholders = (type) => (body, placeholderFields) => {
 const replaceSpecificFields = replacePlacholders('specific');
 const replaceGeneralFields = replacePlacholders('general');
 
+@FlashErrorHandler
 export default class DocumentsNewEditorView extends Component {
 
   static displayName = displayName;
@@ -61,18 +64,19 @@ export default class DocumentsNewEditorView extends Component {
           }).isRequired
         )
       ).isRequired,
-      // This is the general placeholders form the users fill out
-      generalPlaceholderForm: ImmutablePropTypes.contains({
-        values: ImmutablePropTypes.listOf(
-          ImmutablePropTypes.contains({
-            placeholder: PropTypes.string,
-            value: PropTypes.string
-          })
-        ).isRequired,
-        errors: ImmutablePropTypes.listOf(PropTypes.string).isRequired
-      }).isRequired,
       template: CustomPropTypes.template.isRequired
-    }).isRequired
+    }).isRequired,
+    // This is the general placeholders form the users fill out
+    generalPlaceholderForm: ImmutablePropTypes.contains({
+      values: ImmutablePropTypes.listOf(
+        ImmutablePropTypes.contains({
+          placeholder: PropTypes.string,
+          value: PropTypes.string
+        })
+      ).isRequired,
+      errors: ImmutablePropTypes.listOf(PropTypes.string).isRequired
+    }).isRequired,
+    handleFlashError: PropTypes.func.isRequired
   };
 
   constructor(props) {
@@ -110,7 +114,7 @@ export default class DocumentsNewEditorView extends Component {
   }
 
   render() {
-    const {doc} = this.props;
+    const {doc, generalPlaceholderForm} = this.props;
     const {templateBody} = this.state;
 
     const generalPlaceholders = doc.getIn(['template', 'placeholders']).filter(isGeneral);
@@ -141,7 +145,9 @@ export default class DocumentsNewEditorView extends Component {
                 </MUITab>
                 {/* General Placeholder Inputs */}
                 <MUITab label='Fill Placeholders'>
-                  <FormSidebarSectionFillGeneralPlaceholders placeholders={generalPlaceholders}/>
+                  <FormSidebarSectionFillGeneralPlaceholders
+                    placeholders={generalPlaceholders}
+                    placeholderForm={generalPlaceholderForm}/>
                 </MUITab>
               </Tabs>
             </FormSidebarBody>
@@ -183,7 +189,19 @@ export default class DocumentsNewEditorView extends Component {
   };
 
   _handleSendDocuments = () => {
-    debugger;
+    if (!this.props.doc.get('signers').size) {
+      return this.props.handleFlashError('Oops, did you forget to add some signers?');
+    }
+
+    const placeholdersAreFilled =
+      this.props.generalPlaceholderForm.get('values').map(getValue).every(isTruthy) &&
+      this.props.generalPlaceholderForm.get('errors').every(isNull);
+
+    if (!placeholdersAreFilled) {
+      return this.props.handleFlashError('Did you fill every placeholder field properly?');
+    }
+
+    alert('created!');
   };
 
 }

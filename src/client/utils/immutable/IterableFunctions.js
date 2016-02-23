@@ -19,6 +19,10 @@ const IterableFunctions = {
     return predicate.get(key);
   }),
 
+  isNull(value) {
+    return value === null;
+  },
+
   /**
    * Returns whether or not an attribute on an iterable is truthy
    * @param  {*} value            - The attribute being tested

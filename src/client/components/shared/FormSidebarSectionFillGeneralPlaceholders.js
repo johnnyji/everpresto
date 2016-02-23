@@ -1,5 +1,4 @@
 import React, {Component, PropTypes} from 'react';
-import {connect} from 'react-redux';
 import Immutable from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import FlashErrorHandler from '../.././decorators/FlashErrorHandler';
@@ -15,9 +14,6 @@ import FormSidebarSection from './FormSidebarSection';
 const displayName = 'FormSidebarSectionFillGeneralPlaceholders';
 
 @FlashErrorHandler
-@connect((state) => ({
-  placeholderForm: state.documentsNew.get('generalPlaceholderForm')
-}))
 export default class FormSidebarSectionFillGeneralPlaceholders extends Component {
 
   static displayName = displayName;
@@ -33,11 +29,11 @@ export default class FormSidebarSectionFillGeneralPlaceholders extends Component
         isRequired: PropTypes.bool.isRequired,
         tip: PropTypes.string,
         type: PropTypes.oneOf(['general']).isRequired,
-        value: PropTypes.string.isRequired
+        value: PropTypes.string
       }).isRequired
     ).isRequired,
     placeholderForm: ImmutablePropTypes.contains({
-      value: ImmutablePropTypes.listOf(
+      values: ImmutablePropTypes.listOf(
         ImmutablePropTypes.contains({
           placeholder: PropTypes.string.isRequired,
           value: PropTypes.string
