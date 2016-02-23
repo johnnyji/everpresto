@@ -33,6 +33,8 @@ export default class DocumentsNew extends Component {
     // TODO: Create actual proptype for `docBeingCreated`
     docBeingCreated: ImmutablePropTypes.map.isRequired,
     modalIsDisplayed: PropTypes.bool.isRequired,
+    // TODO: Create proptypes for both generalFields and generalPlaceholderForm
+    generalPlaceholderForm: ImmutablePropTypes.map.isRequired,
     shouldFetchTemplates: PropTypes.bool.isRequired,
     templates: ImmutablePropTypes.listOf(CustomPropTypes.template).isRequired
   };

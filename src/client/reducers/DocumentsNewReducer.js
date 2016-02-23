@@ -83,6 +83,7 @@ export default function documentsReducer(state = Immutable.fromJS(initialStateTe
       // Finds a field in the general placeholders form by index and updates its values and errors
       // to what the new user input is
       const {formFieldIndex, value, error} = action.data.input;
+      let newState;
       let generalPlaceholderForm = state.get('generalPlaceholderForm');
       generalPlaceholderForm = generalPlaceholderForm.setIn(['values', formFieldIndex, 'value'], value);
       generalPlaceholderForm = generalPlaceholderForm.setIn(['errors', formFieldIndex], error);

@@ -84,30 +84,29 @@ export default class DocumentsNewEditorView extends Component {
     };
   }
 
+  // TODO: This is too slow and is computing way too much, find way to speed this up
   componentWillReceiveProps(nextProps) {
-
-    // const nextGeneralPlaceholders = nextProps.generalPlaceholders.get('values');
+    const nextGeneralFields = nextProps.generalPlaceholderForm.get('values');
     const nextSigners = nextProps.doc.get('signers');
-    const nextTemplateBody = nextProps.doc.getIn(['template', 'body']);
-    let alteredNextTemplateBody = nextTemplateBody;
 
-    // If the signers have changed, replace fields
-    if (nextSigners.has(0) && !this.props.doc.get('signers').equals(nextSigners)) {
-      console.log('signers change')
-      alteredNextTemplateBody = replaceSpecificFields(nextTemplateBody, nextSigners.get(0));
-    }
+    const placeholdersHaveChanged =
+      !this.props.doc.get('signers').equals(nextSigners) || !nextGeneralFields.equals(this.props.generalFields);
 
-    // If the general fields have changed, replace fields
-    // if (!this.props.generalPlaceholders.equals(nextGeneralPlaceholders)) {
-    //   console.log('generalPlaceholders change')
-    //   alteredNextTemplateBody = replaceGeneralFields(nextTemplateBody, nextGeneralPlaceholders);
-    // }
-
-    // If we've replace fields in the template body, we want to set the altered one
-    // as the state
-    if (alteredNextTemplateBody !== nextTemplateBody) {
+    // If the placeholders have changed, replace fields
+    if (placeholdersHaveChanged) {
+      // Replace all the general placeholders
+      let alteredNextTemplateBody = replaceGeneralFields(
+          nextProps.doc.getIn(['template', 'body']),
+          nextGeneralFields
+      );
+      // If there are any signers, use the first signer as example
+      if (nextSigners.has(0)) {
+        alteredNextTemplateBody = replaceSpecificFields(alteredNextTemplateBody, nextSigners.get(0));
+      }
+      // Reset the example body state
       this.setState({templateBody: alteredNextTemplateBody});
     }
+
   }
 
   render() {
