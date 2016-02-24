@@ -8,7 +8,7 @@
   "scripts": {
     "clean": "rm -rf lib",
     "transpile": "babel src --watch --presets es2015,stage-0,react --plugins transform-decorators-legacy --out-dir lib",
-    "server-dev": "webpack-dev-server --devtool-eval --hot --inline --colors --progress --display-error-details --content-base build config/webpack.dev.config.js",
+    "server-dev": "webpack-dev-server --devtool-eval --hot --inline --colors --progress --display-error-details --content-base build --config config/webpack.dev.config.js",
     "server": "iron-node ./lib/server/server.js",
     "write-to-disk": "webpack --watch --progress --colors --display-error-details -d",
     "deploy": "NODE_ENV=production webpack -p --config config/webpack.prod.config.js",
@@ -67,6 +67,7 @@
     "babel-core": "^6.5.2",
     "babel-loader": "^6.2.3",
     "babel-plugin-external-helpers-2": "^6.3.13",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "babel-plugin-transform-runtime": "^6.5.2",
     "babel-plugin-undeclared-variables-check": "^6.5.0",
     "babel-preset-es2015": "^6.5.0",

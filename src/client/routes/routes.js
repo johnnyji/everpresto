@@ -2,22 +2,22 @@ import React from 'react';
 import {Route, IndexRoute, Redirect} from 'react-router';
 import requireAuth from './utils/requireAuth';
 
-import AppHandler from '.././components/app/AppHandler';
-import AuthHandler from '.././components/auth/AuthHandler';
-import LandingPageHandler from '.././components/app/LandingPageHandler';
-import NotFoundHandler from '.././components/shared/NotFoundHandler';
+import AppHandler from 'client/components/app/AppHandler';
+import AuthHandler from 'client/components/auth/AuthHandler';
+import LandingPageHandler from 'client/components/app/LandingPageHandler';
+import NotFoundHandler from 'client/components/shared/NotFoundHandler';
 
-import DashboardHandler from '.././components/dashboard/DashboardHandler';
-import DashboardView from '.././components/dashboard/DashboardView';
+import DashboardHandler from 'client/components/dashboard/DashboardHandler';
+import DashboardView from 'client/components/dashboard/DashboardView';
   // Collections
-  import CollectionsIndex from '.././components/collections/CollectionsIndex';
-  import CollectionsShow from '.././components/collections/CollectionsShow';
+  import CollectionsIndex from 'client/components/collections/CollectionsIndex';
+  import CollectionsShow from 'client/components/collections/CollectionsShow';
   // Documents
-  import DocumentsIndex from '.././components/documents/DocumentsIndex';
-  import DocumentsNew from '.././components/documents/DocumentsNew';
+  import DocumentsIndex from 'client/components/documents/DocumentsIndex';
+  import DocumentsNew from 'client/components/documents/DocumentsNew';
   // Templates
-  import TemplatesIndex from '.././components/templates/TemplatesIndex';
-  import TemplatesEdit from '.././components/templates/TemplatesEdit';
+  import TemplatesIndex from 'client/components/templates/TemplatesIndex';
+  import TemplatesEdit from 'client/components/templates/TemplatesEdit';
   // Profile Settings
   // import ProfileSettings from '.././components/user/ProfileSettings';
 

@@ -1,18 +1,20 @@
-// var autoprefixer = require('autoprefixer');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var config = require('./config');
-var path = require('path');
+const autoprefixer = require('autoprefixer');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const config = require('./config');
+const path = require('path');
 
-var SRC_PATH = path.resolve(__dirname, './src/client');
-var PRESETS = ['es2015', 'stage-0', 'react'];
-var PLUGINS = ['undeclared-variables-check', 'external-helpers-2', 'transform-runtime'];
+const ROOT_PATH = path.join(__dirname, '.././');
+const SRC_PATH = path.join(ROOT_PATH, 'src/client');
+const PRESETS = ['es2015', 'stage-0', 'react'];
+// TODO: 'undeclared-variables-check' plugin not being used because it will not allow globals like `window`
+const PLUGINS = ['transform-decorators-legacy', 'external-helpers-2', 'transform-runtime'];
 
 module.exports = {
-  entry: path.resolve(__dirname, './src/client/index.js'),
+  entry: path.join(ROOT_PATH, 'src/client/index.js'),
   output: {
-    publicPath: 'http://localhost:' + config.development.webpackPort + '/build/',
-    path: path.resolve(__dirname, './build'),
     // makes the public path for HTML/JavaScript http://localhost:8080/build/somefile.ext, needed for isomorphic hot module replacement
+    publicPath: `http://localhost:${config.development.webpackPort}/build/`,
+    path: path.join(ROOT_PATH, 'build'),
     filename: 'bundle.js'
   },
   plugins: [
@@ -27,9 +29,9 @@ module.exports = {
       'web_modules'
     ],
     fallback: [
-      path.resolve(__dirname, './src/client'),
-      path.resolve(__dirname, './src/server'),
-      path.resolve(__dirname, './node_modules')
+      path.join(ROOT_PATH, 'src/client'),
+      path.join(ROOT_PATH, 'src/server'),
+      path.join(ROOT_PATH, 'node_modules')
     ]
   },
   module: {
@@ -45,14 +47,15 @@ module.exports = {
         }
       }, {
         test: /\.json$/,
+        include: [SRC_PATH],
         loader: 'json-loader'
       }, { 
         test: /.scss$/,
         include: [SRC_PATH],
-        loader: ExtractTextPlugin.extract('style', 'css!sass')
+        loader: ExtractTextPlugin.extract('style', 'css!postcss!sass')
       }, { 
         test: /\.css$/,  
-        loader: 'style!css'
+        loader: 'style!css!postcss'
       }, { 
         test: /\.(gif)$/, 
         loader: 'url-loader?mimetype=image/png'
@@ -65,20 +68,22 @@ module.exports = {
       }
     ],
     noParse: /\.min\.js/,
-    // postLoaders: [
-    //   {
-    //     test: /\.js$/,
-    //     include: [SRC_PATH],
-    //     loader: 'babel',
-    //     query: {
-    //       cacheDirectory: true,
-    //       presets: PRESETS.concat(['react-hmre'])
-    //     }
-    //   }
-    // ]
+    // autoprefixes CSS with vendor prefixes
+    postcss: [autoprefixer()],
+    postLoaders: [
+      {
+        test: /\.js$/,
+        include: [SRC_PATH],
+        loader: 'babel',
+        query: {
+          cacheDirectory: true,
+          presets: PRESETS.concat(['react-hmre'])
+        }
+      }
+    ]
   },
+  // Fixes the empty `fs` module error
   node: {
-    __dirname: true,
     fs: 'empty'
   }
 };
