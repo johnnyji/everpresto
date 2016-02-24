@@ -1,3 +1,6 @@
+// Import polyfill at the start of application
+import 'babel-polyfill';
+
 // SERVER
 import express from 'express';
 import session from 'express-session';
@@ -38,7 +41,7 @@ import UserRoutes from './routes/UserRoutes';
 import requireUser from './middlewares/requireUser';
 
 // CONFIG
-import config from '../.././config';
+import config from '../.././config/config';
 import secrets from '../.././secrets.json';
 
 
@@ -48,8 +51,8 @@ const port = process.env.PORT || config.development.serverPort;
 const apiRouter = express.Router();
 
 // Connecting to the DB
-mongoose.connection.on('open', (ref) => console.log('Connected to Mongo server...'));
-mongoose.connection.on('error', (err) => console.log('Mongo server connection error: ', err));
+mongoose.connection.on('open', (ref) => console.info('Connected to Mongo server...'));
+mongoose.connection.on('error', (err) => console.info('Mongo server connection error: ', err));
 mongoose.connect(config.development.dbConnectUrl, (err) => {
   if (err) { throw err; }
 });
@@ -179,5 +182,5 @@ app.use((req, res) => {
 
 // Runs our app server instance.
 const server = app.listen(port, () => {
-  console.log('App is live and running at http://localhost:', port);
+  console.info('Live and running at http://localhost:', port);
 });

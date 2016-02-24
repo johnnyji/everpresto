@@ -1,3 +1,5 @@
+// Uses babel polyfill
+import 'babel-polyfill'
 //imports the styles
 import './scss/style.scss';
 

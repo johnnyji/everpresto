@@ -1,4 +1,4 @@
-import React, {PropTypes, Component} from 'react';
+import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux'
 import {Link} from 'react-router';
 import ImmutablePropTypes from 'react-immutable-proptypes';

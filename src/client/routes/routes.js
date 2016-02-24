@@ -18,12 +18,13 @@ import DashboardView from '.././components/dashboard/DashboardView';
   // Templates
   import TemplatesIndex from '.././components/templates/TemplatesIndex';
   import TemplatesEdit from '.././components/templates/TemplatesEdit';
-
-import ProfileHandler from '.././components/user/ProfileHandler';
+  // Profile Settings
+  // import ProfileSettings from '.././components/user/ProfileSettings';
 
 const routes = (
   <Route component={AppHandler} path='/'>
     <Redirect from='dashboard' to='dashboard/collections' />
+    <Redirect from='profile' to='dashboard/profile_settings' />
     <IndexRoute component={LandingPageHandler} />
 
     {/*********** Auth Routes ************/}
@@ -32,8 +33,6 @@ const routes = (
     {/*********** Auth Routes ************/}
 
     {/*********** Protected Routes ************/}
-    <Route path='profile' component={requireAuth(ProfileHandler)}/>
-
     <Route path='dashboard' component={requireAuth(DashboardHandler)}>
       <IndexRoute component={DashboardView} />
 
@@ -51,6 +50,10 @@ const routes = (
         <IndexRoute component={TemplatesIndex} />
         <Route path='edit/:id' component={TemplatesEdit} />
       </Route>
+
+      {/*<Route path='profile_settings' component={DashboardView}>
+        <IndexRoute component={ProfileSettings} />
+      </Route>*/}
     </Route>
     {/*********** Protected Routes ************/}
 

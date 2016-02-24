@@ -1,7 +1,7 @@
 import Promise from 'bluebird';
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt-nodejs';
-import config from '../../.././config';
+import config from '../../.././config/config';
 import UserValidator from '.././validators/UserValidator';
 // Models must be imported from their direct source file due to cross-model dependency issues. See README
 import Company from './Company';

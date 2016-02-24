@@ -4,6 +4,7 @@ var config = {
   apiUrlPrefix: '/api',
   s3BucketPath: 'https://s3-us-west-2.amazonaws.com/tickit-app',
   development: {
+    hostname: 'localhost',
     webpackPort: 8080,
     serverPort: 3000,
     dbPort: 27017,

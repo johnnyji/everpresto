@@ -13,20 +13,18 @@ export default class AuthHandler extends Component {
 
   static displayName = 'AuthHandler';
 
-  // Gets the location from the route component
   static contextTypes = {
     router: PropTypes.object.isRequired
   };
 
   static propTypes = {
-    currentUser: CustomPropTypes.user,
-    location: PropTypes.object.isRequired
+    location: PropTypes.object.isRequired,
+    currentUser: CustomPropTypes.user
   };
 
   componentWillMount() {
-    const {currentUser, location} = this.props;
     // Redirects the user to the dashboard if they're already authenticated.
-    if (Boolean(currentUser)) location.replace('/dashboard');
+    if (Boolean(this.props.currentUser)) this.context.router.replace('/dashboard');
   }
 
   componentWillUpdate(nextProps) {
