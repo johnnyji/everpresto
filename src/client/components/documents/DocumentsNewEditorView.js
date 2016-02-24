@@ -19,11 +19,12 @@ import ListItem from '.././ui/ListItem';
 import Tabs from '.././ui/Tabs';
 
 import FlashErrorHandler from '../.././decorators/FlashErrorHandler';
-import {get, isNull, isTruthy, matchesAttr} from '../.././utils/immutable/IterableFunctions';
+import IterableFunctions from '../.././utils/immutable/IterableFunctions';
 import Config from '../.././config/main';
 
 import DocumentNewActionCreators from '../.././actions/DocumentNewActionCreators';
 
+const {get, isNull, isTruthy, matchesAttr} = IterableFunctions;
 const displayName = 'DocumentsNewEditorView';
 const getValue = get('value');
 const isGeneral = matchesAttr('type', 'general');

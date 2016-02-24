@@ -21,18 +21,17 @@ module.exports = {
     new ExtractTextPlugin('style.css', {allChunks: true})
   ],
   resolve: {
+    // TODO: Unfortunately this won't work for us because we're rendering on the server first,
+    // which won't be parsed by this webpack file...
+    // 
+    // Allows import relative to the `src` folder instead of having to do '../.././'
+    // modulesDirectories: ['src', 'node_modules', 'web_modules'],
+    // fallback: [
+    //   path.join(ROOT_PATH, 'src/client'),
+    //   path.join(ROOT_PATH, 'src/server'),
+    //   path.join(ROOT_PATH, 'node_modules')
+    // ],
     extensions: ['', '.js', '.jsx', '.json', '.scss'],
-    modulesDirectories: [
-      // So we can import WITHOUT FS navigation (ie. '../.././')
-      'src',
-      'node_modules',
-      'web_modules'
-    ],
-    fallback: [
-      path.join(ROOT_PATH, 'src/client'),
-      path.join(ROOT_PATH, 'src/server'),
-      path.join(ROOT_PATH, 'node_modules')
-    ]
   },
   module: {
     loaders: [

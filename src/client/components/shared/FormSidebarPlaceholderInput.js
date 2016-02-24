@@ -3,7 +3,7 @@ import Immutable from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import MUIListItem from 'material-ui/lib/lists/list-item';
 import {minLength, noLowerCase} from '../.././utils/RegexHelper';
-import {containsAttr, isTruthy, matchesAttr} from '../.././utils/immutable/IterableFunctions';
+import IterableFunctions from '../.././utils/immutable/IterableFunctions';
 
 import FormSidebarSection from './FormSidebarSection';
 import FormSidebarSectionTitle from './FormSidebarSectionTitle';
@@ -16,6 +16,7 @@ import ListItem from '.././ui/ListItem';
 
 import AppActionCreators from '../.././actions/AppActionCreators';
 
+const {containsAttr, isTruthy, matchesAttr} = IterableFunctions;
 const ENTER_KEY = 13;
 const matchesValue = matchesAttr('value');
 const isRequired = matchesAttr('isRequired');
