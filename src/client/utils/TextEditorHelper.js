@@ -1,8 +1,8 @@
 import _ from 'lodash';
 import replaceWordWithHtml from './replaceWordWithHtml';
-import config from '.././config/main';
+import {template} from '.././config/main';
 
-const {placeholderTag: HIGHLIGHT_TAG} = config.template;
+const {placeholderTag: HIGHLIGHT_TAG} = template;
 const HIGHLIGHT_TAG_MATCHER = new RegExp(`(<${HIGHLIGHT_TAG}>|<\/${HIGHLIGHT_TAG}>)`, 'g');
 
 class TextEditorHelper {

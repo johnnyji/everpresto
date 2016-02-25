@@ -4,8 +4,8 @@ import 'babel-polyfill'
 import './scss/style.scss';
 
 import React from 'react';
-import {render} from 'react-dom';
-import Router, {browserHistory} from 'react-router';
+import ReactDOM from 'react-dom';
+import {Router, browserHistory} from 'react-router';
 import {Provider} from 'react-redux';
 import {fromJS} from 'immutable';
 
@@ -28,7 +28,7 @@ Object.keys(initialStoreState).forEach(key => {
 const store = configureStore(initialStoreState);
 
 // Renders the router client side
-render((
+ReactDOM.render((
   <Provider store={store}>
     <Router history={browserHistory}>
       {routes}
