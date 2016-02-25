@@ -21,6 +21,7 @@ import FormSidebarSectionTitle from '.././shared/FormSidebarSectionTitle';
 
 // This allows us to add any other HTML cleaners directly to the flow of data
 // ie. flow(removeZeroWidthSpace, removeSpans, removeHiddenMarkers) etc...
+// TODO: `flow` import breaking in Babel 6
 const cleanTemplateHTML = flow(removeZeroWidthSpace);
 const isSpecific = matchesAttr('type', 'specific');
 const isGeneral = matchesAttr('type', 'general');

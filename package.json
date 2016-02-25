@@ -7,7 +7,7 @@
   "license": "ISC",
   "scripts": {
     "clean": "rm -rf lib",
-    "transpile": "babel src --watch --presets es2015,stage-0,react --plugins transform-decorators-legacy --out-dir lib",
+    "transpile": "babel src --watch --presets es2015,stage-0,react --plugins add-module-exports,transform-decorators-legacy --out-dir lib",
     "server-dev": "webpack-dev-server --devtool-eval --hot --inline --colors --progress --display-error-details --content-base build --config config/webpack.dev.config.js",
     "server": "iron-node ./lib/server/server.js",
     "write-to-disk": "webpack --watch --progress --colors --display-error-details -d",
@@ -15,6 +15,7 @@
     "start": "npm run transpile & npm run server-dev & npm run server"
   },
   "dependencies": {
+    "babel-plugin-add-module-exports": "^0.1.2",
     "babel-polyfill": "^6.5.0",
     "babyparse": "^0.4.3",
     "bcrypt-nodejs": "0.0.3",
