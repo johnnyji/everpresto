@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
+import {EditorState} from 'draft-js';
 import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
-// import DraftEditor from '.././ui/DraftEditor';
+import DraftEditor from '.././ui/DraftEditor';
 
 const displayName = 'ProfileSettings';
 
@@ -11,7 +12,7 @@ export default class ProfileSettings extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      editorState: null,
+      editorState: EditorState.createEmpty(),
       saveCount: 0
     };
   }
@@ -23,10 +24,10 @@ export default class ProfileSettings extends Component {
       <div>
         <h3>Save Count: {saveCount}</h3>
         <div>
-          {/*<DraftEditor
+          <DraftEditor
             editorState={editorState}
             onEditorStateChange={this._handleEditorStateChange}
-            onSave={this._handleSave} />*/}
+            onSave={this._handleSave} />
         </div>
       </div>
     );
@@ -37,7 +38,7 @@ export default class ProfileSettings extends Component {
   };
 
   _handleSave = () => {
-    this.setState({saveCount: saveCount + 1});
+    this.setState({saveCount: this.state.saveCount + 1});
   };
 
 }
