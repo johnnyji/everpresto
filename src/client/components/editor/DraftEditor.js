@@ -9,7 +9,7 @@ import {
   RichUtils} from 'draft-js';
 
 const {hasCommandModifier} = KeyBindingUtil;
-const displayName = 'ui-DraftEditor';
+const displayName = 'DraftEditor';
 const KEYS = {
   S: 83
 };
@@ -22,20 +22,23 @@ export default class DraftEditor extends Component {
     editorState: PropTypes.object.isRequired,
     onEditorStateChange: PropTypes.func.isRequired,
     onSave: PropTypes.func.isRequired,
-    placeholder: PropTypes.string.isRequired
+    placeholder: PropTypes.string.isRequired,
+    spellcheck: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
     editorState: EditorState.createEmpty(),
     onSave: () => {},
-    placeholder: 'You don\'t know the power of the dark side...'
+    placeholder: 'You don\'t know the power of the dark side...',
+    spellcheck: true
   };
 
   render() {
     const {
       editorState,
       onEditorStateChange,
-      placeholder} = this.props;
+      placeholder,
+      spellcheck} = this.props;
 
     return (
       <div onClick={this._handleFocusEditor}>
@@ -45,6 +48,7 @@ export default class DraftEditor extends Component {
           keyBindingFn={this._getCustomKeyBindings}
           onChange={onEditorStateChange}
           placeholder={placeholder}
+          spellcheck={spellcheck}
           ref='editor' />
       </div>
     );
