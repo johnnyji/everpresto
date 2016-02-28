@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import io from 'socket.io-client';
 import {connect} from 'react-redux';
 import Immutable from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
@@ -12,6 +13,7 @@ import AppActionCreators from '../.././actions/AppActionCreators';
 import DocumentNewActionCreators from '../.././actions/DocumentNewActionCreators';
 import TemplateActionCreators from '../.././actions/TemplateActionCreators';
 
+const socket = io();
 const displayName = 'DocumentsNew';
 
 @connect((state) => ({
@@ -26,7 +28,8 @@ export default class DocumentsNew extends Component {
   static displayName = displayName;
 
   static contextTypes = {
-    dispatch: PropTypes.func.isRequired
+    dispatch: PropTypes.func.isRequired,
+    socket: PropTypes.object.isRequired
   };
 
   static propTypes = {
@@ -39,18 +42,18 @@ export default class DocumentsNew extends Component {
     templates: ImmutablePropTypes.listOf(CustomPropTypes.template).isRequired
   };
 
-  componentDidMount() {
-    // Sets the new document's collection id
-    this.context.dispatch(
-      DocumentNewActionCreators.setCollection(this.props.params.collection_id)
-    );
-  }
-
   componentWillMount() {
     const {shouldFetchTemplates, template} = this.props;
 
     if (shouldFetchTemplates) return this.context.dispatch(TemplateActionCreators.fetchTemplates());
     this.setState({filteredTemplates: this.props.templates});
+  }
+
+  componentDidMount() {
+    // Sets the new document's collection id
+    this.context.dispatch(
+      DocumentNewActionCreators.setCollection(this.props.params.collection_id)
+    );
   }
 
   componentWillUpdate(nextProps, nextState) {
@@ -112,6 +115,7 @@ export default class DocumentsNew extends Component {
   };
 
   _handleTemplateFilter = (templateFilterTerms) => {
+    this.context.socket.emit('client', templateFilterTerms);
     this.setState({templateFilterTerms});
   };
 

@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import classNames from 'classnames';
+import io from 'socket.io-client';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import FlashMessage from '.././ui/FlashMessage';
 import Overlay from '.././ui/Overlay';
@@ -38,13 +39,20 @@ export default class AppHandler extends Component {
   };
 
   static childContextTypes = {
-    dispatch: PropTypes.func.isRequired
+    dispatch: PropTypes.func.isRequired,
+    socket: PropTypes.object.isRequired
   };
+
+  componentWillMount() {
+    // TODO: Change this dependant on prod/dev environments
+    this.socket = io('http://localhost:3000');
+  }
 
   // Sets the store's `dispatch` method as context accesible on any child component
   getChildContext() {
     return {
-      dispatch: this.props.dispatch
+      dispatch: this.props.dispatch,
+      socket: this.socket
     };
   }
 

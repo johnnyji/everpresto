@@ -150,6 +150,7 @@ app.use((req, res) => {
               </head>
               <body>
                 <div id="app">${componentToRender}</div>
+                <script src="/socket.io/socket.io.js"></script>
                 <script type="application/javascript" src="${scriptPath}"></script>
               </body>
             </html>
@@ -170,6 +171,7 @@ app.use((req, res) => {
           </head>
           <body>
             <div id="app">${renderToString(<NotFoundHandler />)}</div>
+            <script src="/socket.io/socket.io.js"></script>
             <script type="application/javascript" src="${scriptPath}"></script>
           </body>
         </html>
@@ -183,4 +185,12 @@ app.use((req, res) => {
 // Runs our app server instance.
 const server = app.listen(port, () => {
   console.info('Live and running at http://localhost:', port);
+});
+// Connects socket.io on existing server port
+const io = require('socket.io').listen(server);
+
+// socket.io
+io.sockets.on('connection', (socket) => {
+  console.info('Connected: ', socket.id);
+  socket.on('client', (message) => { console.log(message); });
 });

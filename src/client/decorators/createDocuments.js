@@ -79,7 +79,7 @@ const createDocuments = (ComposedComponent) => (class extends Component {
         if (!field.get('value')) return alteredBody;
 
         return alteredBody.replace(
-          new RegExp(field.get('placeholder'), 'g'),
+          new RegExp(`<mark>${field.get('placeholder')}</mark>`, 'g'),
           field.get('value')
         );
       }, body);

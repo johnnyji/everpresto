@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import UserValidator from '.././validators';
+import UserValidator from '.././validators/UserValidator';
 
 const Schema = mongoose.Schema;
 const SchemaObjectId = Schema.Types.ObjectId;
@@ -36,7 +36,7 @@ const DocumentSchema = new Schema({
       type: String,
       required: 'Please provide a last name for the signer'
     }
-  }
+  },
   status: {
     type: String,
     enum: ['draft', 'sent', 'signed'],
