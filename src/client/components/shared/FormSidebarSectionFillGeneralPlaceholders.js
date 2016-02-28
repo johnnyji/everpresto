@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import Immutable from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import FlashErrorHandler from '../.././decorators/FlashErrorHandler';
+import handleFlashError from '../.././decorators/handleFlashError';
 import {minLength} from '../.././utils/RegexHelper';
 import {
   generateGeneralPlaceholderFormFields,
@@ -10,10 +10,11 @@ import {
 import Input from '.././ui/Input';
 import DashboardMessage from '.././dashboard/DashboardMessage';
 import FormSidebarSection from './FormSidebarSection';
+import FormSidebarSectionTitle from './FormSidebarSectionTitle';
 
 const displayName = 'FormSidebarSectionFillGeneralPlaceholders';
 
-@FlashErrorHandler
+@handleFlashError
 export default class FormSidebarSectionFillGeneralPlaceholders extends Component {
 
   static displayName = displayName;
@@ -60,12 +61,16 @@ export default class FormSidebarSectionFillGeneralPlaceholders extends Component
   }
 
   render() {
-    const content = this.props.placeholders.size
+    const {placeholders} = this.props;
+    const content = placeholders.size
       ? this._renderGeneralPlaceholders()
       : this._renderNoPlaceholdersMessage();
 
     return (
       <FormSidebarSection className={displayName}>
+        {placeholders.size &&
+          <FormSidebarSectionTitle className={`${displayName}-title`}>General Fields</FormSidebarSectionTitle>
+        }
         <ul className={`${displayName}-fields`}>{content}</ul>
       </FormSidebarSection>
     );
@@ -76,7 +81,7 @@ export default class FormSidebarSectionFillGeneralPlaceholders extends Component
 
     return placeholderForm.get('values').map((formField, i) => {
       return (
-        <li className={`${displayName}-fields-field`} key={i}>
+        <li key={i}>
           <Input
             error={placeholderForm.getIn(['errors', i])}
             errorKeys={`errors:${i}`}

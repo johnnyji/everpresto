@@ -1,7 +1,7 @@
 import React, {PropTypes, Component} from 'react';
 import {createFlashMessage} from '.././actions/AppActionCreators';
 
-const FlashErrorHandler = (ComposedComponent) => (class extends Component {
+const handleFlashError = (ComposedComponent) => (class extends Component {
 
   static contextTypes = {
     dispatch: PropTypes.func.isRequired,
@@ -17,4 +17,4 @@ const FlashErrorHandler = (ComposedComponent) => (class extends Component {
 
 });
 
-export default FlashErrorHandler;
+export default handleFlashError;

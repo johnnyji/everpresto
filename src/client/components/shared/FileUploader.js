@@ -2,11 +2,11 @@ import React, {Component, PropTypes} from 'react';
 import classNames from 'classnames';
 import ClickableIcon from '.././ui/ClickableIcon';
 import AppActionCreators from '../.././actions/AppActionCreators';
-import FlashErrorHandler from '../.././decorators/FlashErrorHandler';
+import handleFlashError from '../.././decorators/handleFlashError';
 
 const displayName = 'FileUploader';
 
-@FlashErrorHandler
+@handleFlashError
 export default class FileUploader extends Component {
 
   static displayName = displayName;

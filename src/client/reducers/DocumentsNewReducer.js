@@ -5,6 +5,7 @@ import {matchesAttr} from '.././utils/immutable/IterableFunctions';
 const {
   ADD_SIGNER,
   ADD_MULTIPLE_SIGNERS,
+  CREATE_DOCUMENTS,
   GENERATE_GENERAL_PLACEHOLDER_FORM_FIELDS,
   REMOVE_SIGNER,
   RESET_STATE,

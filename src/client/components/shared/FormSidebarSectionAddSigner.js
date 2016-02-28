@@ -9,7 +9,7 @@ import Input from '.././ui/Input';
 import {minLength} from '../.././utils/RegexHelper';
 import {createModal} from '../.././actions/AppActionCreators';
 
-import FlashErrorHandler from '../.././decorators/FlashErrorHandler';
+import handleFlashError from '../.././decorators/handleFlashError';
 
 import DocumentNewActionCreators from '../.././actions/DocumentNewActionCreators';
 
@@ -20,7 +20,7 @@ const INIT_SIGNER_FORM_STATE = Immutable.fromJS({
 });
 const displayName = 'FormSidebarSectionAddSigner';
 
-@FlashErrorHandler
+@handleFlashError
 export default class FormSidebarSectionAddSigner extends Component {
 
   static displayName = displayName;

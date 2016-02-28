@@ -4,9 +4,9 @@ import classNames from 'classnames';
 const displayName = 'FormSidebarSectionTitle';
 
 const FormSidebarSectionTitle = ({children, className}) => (
-  <header className={classNames(className, displayName)}>
-    {children}
-  </header>
+    <header className={classNames(className, displayName)}>
+      {children}
+    </header>
 );
 
 FormSidebarSectionTitle.displayName = displayName;

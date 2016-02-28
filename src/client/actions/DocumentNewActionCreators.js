@@ -6,14 +6,20 @@ const DocumentNewActionCreators = {
     return {
       type: DocumentNewActionTypes.ADD_SIGNER,
       data: {signer}
-    }
+    };
   },
 
   addMultipleSigners(signers) {
     return {
       type: DocumentNewActionTypes.ADD_MULTIPLE_SIGNERS,
       data: {signers}
-    }
+    };
+  },
+
+  createDocuments() {
+    return {
+      type: DocumentNewActionCreators.CREATE_DOCUMENTS
+    };
   },
 
   generateGeneralPlaceholderFormFields() {
@@ -26,7 +32,7 @@ const DocumentNewActionCreators = {
     return {
       type: DocumentNewActionTypes.REMOVE_SIGNER,
       data: {signer}
-    }
+    };
   },
 
   resetState() {
@@ -53,7 +59,7 @@ const DocumentNewActionCreators = {
     return {
       type: DocumentNewActionTypes.UPDATE_GENERAL_PLACEHOLDER_FORM_FIELD,
       data: {input}
-    }
+    };
   }
 
 }

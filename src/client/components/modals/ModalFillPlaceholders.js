@@ -9,7 +9,7 @@ import {minLength} from '../.././utils/RegexHelper';
 import {pluralize} from '../.././utils/TextHelper';
 import {createFlashMessage, dismissModal} from '../.././actions/AppActionCreators';
 import {addMultipleSigners} from '../.././actions/DocumentNewActionCreators';
-import FlashErrorHandler from '../.././decorators/FlashErrorHandler';
+import handleFlashError from '../.././decorators/handleFlashError';
 
 import DashboardQuote from '.././dashboard/DashboardQuote';
 import ModalSection from '.././modals/ModalSection';
@@ -23,7 +23,7 @@ import ModalWrapper from '.././ui/ModalWrapper';
 
 const displayName = 'ModalFillPlaceholders';
 
-@FlashErrorHandler
+@handleFlashError
 export default class ModalFillPlaceholders extends Component {
 
   static displayName = displayName;

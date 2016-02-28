@@ -4,11 +4,11 @@ import mammoth from 'mammoth';
 import striptags from 'striptags';
 import FileUploader from './FileUploader';
 import {createFlashMessage} from '../.././actions/AppActionCreators';
-import FlashErrorHandler from '../.././decorators/FlashErrorHandler';
+import handleFlashError from '../.././decorators/handleFlashError';
 
 const displayName = 'FileToHtmlConverter';
 
-@FlashErrorHandler
+@handleFlashError
 export default class FileToHtmlConverter extends Component {
 
   static displayName = displayName;

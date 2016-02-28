@@ -7,12 +7,12 @@ import TemplateEditorView from './TemplateEditorView';
 
 import {createFlashMessage} from '../.././actions/AppActionCreators'
 import TemplateActionCreators from '../.././actions/TemplateActionCreators';
-import FlashErrorHandler from '../.././decorators/FlashErrorHandler';
+import handleFlashError from '../.././decorators/handleFlashError';
 
 @connect((state) => ({
   template: state.templates.get('templateBeingEdited')
 }))
-@FlashErrorHandler
+@handleFlashError
 export default class TemplatesEdit extends Component {
 
   static contextTypes = {

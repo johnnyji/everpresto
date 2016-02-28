@@ -18,7 +18,8 @@ import Button from '.././ui/Button';
 import ListItem from '.././ui/ListItem';
 import Tabs from '.././ui/Tabs';
 
-import FlashErrorHandler from '../.././decorators/FlashErrorHandler';
+import createDocuments from '../.././decorators/createDocuments';
+import handleFlashError from '../.././decorators/handleFlashError';
 import IterableFunctions from '../.././utils/immutable/IterableFunctions';
 import Config from '../.././config/main';
 
@@ -45,7 +46,8 @@ const replacePlacholders = (type) => (body, placeholderFields) => {
 const replaceSpecificFields = replacePlacholders('specific');
 const replaceGeneralFields = replacePlacholders('general');
 
-@FlashErrorHandler
+@handleFlashError
+@createDocuments
 export default class DocumentsNewEditorView extends Component {
 
   static displayName = displayName;
@@ -55,6 +57,7 @@ export default class DocumentsNewEditorView extends Component {
   };
 
   static propTypes = {
+    createDocuments: PropTypes.func.isRequired,
     doc: ImmutablePropTypes.contains({
       collectionId: PropTypes.string,
       signers: ImmutablePropTypes.listOf(
@@ -156,7 +159,7 @@ export default class DocumentsNewEditorView extends Component {
               <Button
                 color='green'
                 icon='send'
-                onClick={this._handleSendDocuments}
+                onClick={this._handleCreateDocuments}
                 text='Send'/>
             </FormSidebarFooter>
           </FormSidebar>
@@ -189,7 +192,7 @@ export default class DocumentsNewEditorView extends Component {
     this.context.dispatch(DocumentNewActionCreators.removeSigner(signer));
   };
 
-  _handleSendDocuments = () => {
+  _handleCreateDocuments = () => {
     if (!this.props.doc.get('signers').size) {
       return this.props.handleFlashError('Oops, did you forget to add some signers?');
     }
@@ -202,7 +205,7 @@ export default class DocumentsNewEditorView extends Component {
       return this.props.handleFlashError('Did you fill every placeholder field properly?');
     }
 
-    alert('created!');
+    this.props.createDocuments();
   };
 
 }
