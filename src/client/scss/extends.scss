@@ -9,6 +9,7 @@
   @include display(flex);
   @include flex-wrap(wrap);
   @include justify-content(center);
+  @include align-content(flex-start);
 }
 
 .transition {
