@@ -68,7 +68,7 @@ export default class FormSidebarSectionFillGeneralPlaceholders extends Component
 
     return (
       <FormSidebarSection className={displayName}>
-        {placeholders.size &&
+        {placeholders.size > 0 &&
           <FormSidebarSectionTitle className={`${displayName}-title`}>General Fields</FormSidebarSectionTitle>
         }
         <ul className={`${displayName}-fields`}>{content}</ul>
