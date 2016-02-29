@@ -8,7 +8,6 @@ import DashboardQuote from '.././dashboard/DashboardQuote';
 
 import DocumentPreviewCard from '.././shared/DocumentPreviewCard';
 import ClickableIcon from '.././ui/ClickableIcon';
-import GridView from '.././ui/GridView';
 import SearchBar from '.././ui/SearchBar';
 
 import {formatDateString} from '../.././utils/DateHelper';
@@ -51,9 +50,9 @@ export default class DocumentsNewChooseTemplateView extends Component {
             onUpdate={onTemplateFilter} />
         </DashboardContentHeader>
           {templates.size > 0 &&
-            <GridView>
+            <div className={`${displayName}-templates`}>
               {this._renderTemplatePreviewCards()}
-            </GridView>
+            </div>
           }
           {!templates.size > 0 &&
             <DashboardQuote
@@ -81,12 +80,12 @@ export default class DocumentsNewChooseTemplateView extends Component {
     return templates.map((template, i) => (
       <DocumentPreviewCard
         body={template.get('body')}
-        className={`${displayName}-preview-card`}
+        className={`${displayName}-templates-template`}
         key={i}
         onBodyClick={() => onTemplateChoose(template)}
         onTitleClick={() => onTemplateChoose(template)}
         title={template.get('title')}>
-        <div className={`${displayName}-preview-card-options`}>
+        <div className={`${displayName}-templates-template-options`}>
           <ClickableIcon icon='preview' onClick={() => this._handlePreviewTemplate(template)}/>
           <small>{formatDateString(template.get('createdAt'))}</small>
         </div>

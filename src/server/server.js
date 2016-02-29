@@ -46,6 +46,8 @@ import secrets from '../.././secrets.json';
 
 
 const app = express();
+const server = require('http').Server(app);
+const socket = require('socket.io')(server);
 const MongoStore = connectMongo(session); // mongo store for session
 const port = process.env.PORT || config.development.serverPort;
 const apiRouter = express.Router();
@@ -85,6 +87,12 @@ apiRouter.use('/collections', requireUser, CollectionRoutes);
 apiRouter.use('/documents', requireUser, DocumentRoutes);
 apiRouter.use('/templates', requireUser, TemplateRoutes);
 apiRouter.use('/users', requireUser, UserRoutes);
+
+
+// socket.io
+socket.on('connection', (client) => {
+  require('./sockets/index')(client);
+});
 
 
 // Server-side rendering
@@ -183,14 +191,6 @@ app.use((req, res) => {
 
 
 // Runs our app server instance.
-const server = app.listen(port, () => {
+server.listen(port, () => {
   console.info('Live and running at http://localhost:', port);
-});
-// Connects socket.io on existing server port
-const io = require('socket.io').listen(server);
-
-// socket.io
-io.sockets.on('connection', (socket) => {
-  console.info('Connected: ', socket.id);
-  socket.on('client', (message) => { console.log(message); });
 });

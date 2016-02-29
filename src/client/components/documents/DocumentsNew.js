@@ -1,5 +1,4 @@
 import React, {Component, PropTypes} from 'react';
-import io from 'socket.io-client';
 import {connect} from 'react-redux';
 import Immutable from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
@@ -13,7 +12,6 @@ import AppActionCreators from '../.././actions/AppActionCreators';
 import DocumentNewActionCreators from '../.././actions/DocumentNewActionCreators';
 import TemplateActionCreators from '../.././actions/TemplateActionCreators';
 
-const socket = io();
 const displayName = 'DocumentsNew';
 
 @connect((state) => ({
@@ -115,7 +113,6 @@ export default class DocumentsNew extends Component {
   };
 
   _handleTemplateFilter = (templateFilterTerms) => {
-    this.context.socket.emit('client', templateFilterTerms);
     this.setState({templateFilterTerms});
   };
 

@@ -1,4 +1,6 @@
 .TemplatesIndex {
+  @extend .grid-view;
+
   &-templates {
     padding: 20px;
     &-new {
@@ -17,4 +19,5 @@
       }
     }
   }
+
 }

@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import classNames from 'classnames';
+import Card from '.././ui/Card';
 import ClickableIcon from '.././ui/ClickableIcon';
-import GridViewItem from '.././ui/GridViewItem';
 import {truncateString} from '../.././utils/TextHelper';
 
 const displayName = 'DocumentPreviewCard';
@@ -15,7 +15,6 @@ export default class DocumentPreviewCard extends Component {
     className: PropTypes.string,
     height: PropTypes.number,
     isNewCard: PropTypes.bool.isRequired,
-    isGridViewItem: PropTypes.bool.isRequired,
     onNewIconClick: PropTypes.func,
     title: PropTypes.string,
     titleDisplayLength: PropTypes.number.isRequired
@@ -25,20 +24,15 @@ export default class DocumentPreviewCard extends Component {
     defaultTitle: 'Untitled',
     height: 300,
     isNewCard: false,
-    isGridViewItem: true,
     titleDisplayLength: 25
   };
 
   render() {
-    const {className, height, isGridViewItem} = this.props;
+    const {className, height} = this.props;
     const classes = classNames(className, displayName);
     const style = {height: `${height}px`};
 
-    if (isGridViewItem) {
-      return <GridViewItem className={classes} style={style}>{this._renderContent()}</GridViewItem>
-    }
-
-    return <div className={classes} style={style}>{this._renderContent()}</div>;
+    return <Card className={classes} style={style}>{this._renderContent()}</Card>;
   }
 
   _renderContent = () => {

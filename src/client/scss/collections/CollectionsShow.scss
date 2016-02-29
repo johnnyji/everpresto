@@ -11,4 +11,7 @@
       }
     }
   }
+  &-documents {
+    @extend .grid-view;
+  }
 }

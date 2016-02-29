@@ -1,4 +1,5 @@
 .CollectionsIndex {
+  @extend .grid-view;
 
   &-create-template {
     font-size: 18px;
@@ -9,19 +10,17 @@
     }
   }
 
-  &-folders {
-    &-folder {
-      margin: 20px;
+  &-folder {
+    margin: 20px;
+    position: relative;
+    &-main {
       position: relative;
-      &-main {
-        position: relative;
-        &-create-icon {
-          @extend .center-absolute;
-          color: #FFF;
-        }
-        &-options {
-          background-color: red;
-        }
+      &-create-icon {
+        @extend .center-absolute;
+        color: #FFF;
+      }
+      &-options {
+        background-color: red;
       }
     }
   }

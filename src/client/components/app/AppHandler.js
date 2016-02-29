@@ -45,7 +45,10 @@ export default class AppHandler extends Component {
 
   componentWillMount() {
     // TODO: Change this dependant on prod/dev environments
-    this.socket = io('http://localhost:3000');
+    this.socket = io.connect('http://localhost:3000');
+    this.socket.on('server', ({data}) => {
+      console.info('Client Side Connected: ', data);
+    });
   }
 
   // Sets the store's `dispatch` method as context accesible on any child component

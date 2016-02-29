@@ -5,6 +5,12 @@
   top: 45%;
 }
 
+.grid-view {
+  @include display(flex);
+  @include flex-wrap(wrap);
+  @include justify-content(center);
+}
+
 .transition {
   @include transition(all 200ms ease);
 }

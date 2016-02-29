@@ -15,7 +15,8 @@ const apiEndpoints = {
     show: formApiPath('/users/current_user', 'POST'),
   },
   documents: {
-    index: formApiPath('/documents/index', 'GET')
+    index: formApiPath('/documents/index', 'GET'),
+    create: formApiPath('/documents/create', 'POST')
   },
   templates: {
     create: formApiPath('/templates/create', 'POST'),

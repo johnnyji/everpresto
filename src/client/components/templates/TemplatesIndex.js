@@ -8,7 +8,6 @@ import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
 import {truncateString} from '../.././utils/TextHelper';
 
 import DashboardSpinner from '.././shared/DashboardSpinner';
-import GridView from '.././ui/GridView';
 
 import TemplateActionCreators from '../.././actions/TemplateActionCreators';
 
@@ -54,13 +53,11 @@ export default class TemplatesIndex extends Component {
 
     return (
       <DashboardContentWrapper className={displayName}>
-        <GridView className={`${displayName}-templates`}>
-          <DocumentPreviewCard
-            className={`${displayName}-templates-new`}
-            isNewCard={true}
-            onNewIconClick={this._handleCreateTemplate}/>
-          {this._renderTemplatePreviews()}
-        </GridView>
+        <DocumentPreviewCard
+          className={`${displayName}-templates-new`}
+          isNewCard={true}
+          onNewIconClick={this._handleCreateTemplate}/>
+        {this._renderTemplatePreviews()}
       </DashboardContentWrapper>
     );
   }

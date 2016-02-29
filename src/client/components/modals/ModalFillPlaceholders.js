@@ -237,10 +237,7 @@ export default class ModalFillPlaceholders extends Component {
       }
       // Sets the imported data state and toggles the form to the next stage
       this.setState({
-        mappings: this._generateMappings(
-          headers.sort(),
-          placeholderValues.toJS().sort()
-        ),
+        mappings: this._generateMappings(headers, placeholderValues.toJS()),
         importedData: Immutable.fromJS({headers, rows}),
         stage: 1
       });

@@ -7,8 +7,6 @@ import DashboardSpinner from '.././shared/DashboardSpinner';
 import Button from '.././ui/Button';
 import ClickableIcon from '.././ui/ClickableIcon';
 import FolderCard from '.././ui/FolderCard';
-import GridView from '.././ui/GridView';
-import GridViewItem from '.././ui/GridViewItem';
 import CollectionPreviewCard from './CollectionPreviewCard';
 import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
 import DashboardMessage from '.././dashboard/DashboardMessage';
@@ -75,23 +73,19 @@ export default class CollectionsIndex extends Component {
 
     return (
       <DashboardContentWrapper className={displayName}>
-        <GridView className={`${displayName}-folders`}>
-          <GridViewItem isCard={false}>
-            <FolderCard
-              className={`${displayName}-folders-folder`}
-              contentClassName={`${displayName}-folders-folder-main`}
-              height={150}
-              width={200}>
-              <ClickableIcon
-                className={`${displayName}-folders-folder-main-create-icon`}
-                icon='add'
-                isWhite={true}
-                onClick={this._createCollection}
-                size={48}/>
-            </FolderCard>
-          </GridViewItem>
-          {this._renderCollections()}
-        </GridView>
+        <FolderCard
+          className={`${displayName}-folder`}
+          contentClassName={`${displayName}-folder-main`}
+          height={150}
+          width={200}>
+          <ClickableIcon
+            className={`${displayName}-folder-main-create-icon`}
+            icon='add'
+            isWhite={true}
+            onClick={this._createCollection}
+            size={48}/>
+        </FolderCard>
+        {this._renderCollections()}
       </DashboardContentWrapper>
     );
   }
@@ -108,13 +102,12 @@ export default class CollectionsIndex extends Component {
         ? collectionBeingEdited.get('_id') === collection.get('_id')
         : false;
       return (
-        <GridViewItem key={i} isCard={false}>
-          <CollectionPreviewCard
-            collection={collection}
-            className={`${displayName}-folders-folder`}
-            contentClassName={`${displayName}-folders-folder-main`}
-            isBeingEdited={isBeingEdited}/>
-        </GridViewItem>
+        <CollectionPreviewCard
+          collection={collection}
+          className={`${displayName}-folder`}
+          contentClassName={`${displayName}-folder-main`}
+          isBeingEdited={isBeingEdited}
+          key={i} />
       );
     });
   };

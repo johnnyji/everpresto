@@ -68,7 +68,7 @@ const createDocuments = (ComposedComponent) => (class extends Component {
       }
     });
 
-    this.context.dispatch(DocumentActionCreators.createDocuments(documents));
+    this.context.dispatch(DocumentNewActionCreators.createDocuments(documents));
   };
 
 

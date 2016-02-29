@@ -8,7 +8,6 @@ import DashboardQuote from '.././dashboard/DashboardQuote';
 import DashboardSpinner from '.././shared/DashboardSpinner';
 import DocumentPreviewCard from '.././shared/DocumentPreviewCard';
 import Button from '.././ui/Button';
-import GridView from '.././ui/GridView';
 import SearchBar from '.././ui/SearchBar';
 
 import CollectionActionCreators from '../.././actions/CollectionActionCreators';
@@ -105,14 +104,14 @@ export default class CollectionsShow extends Component {
     }
 
     return (
-      <GridView>
+      <div className={`${displayName}-documents`}>
         {documents.map((doc, i) => (
           <DocumentPreviewCard
             body={doc.get('body')}
             key={i}
             title={doc.get('title')}/>
         ))}
-      </GridView>
+      </div>
     );
   };
 

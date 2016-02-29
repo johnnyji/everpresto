@@ -13,4 +13,9 @@ router.get('/index', (req, res) => {
   });
 });
 
+router.post('/create', (req, res) => {
+  const {docs} = req.body;
+  debugger;
+});
+
 export default router;

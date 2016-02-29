@@ -1,4 +1,6 @@
 import DocumentNewActionTypes from './../action_types/DocumentNewActionTypes';
+import apiEndpoints from '.././apiEndpoints';
+import {sendAjaxRequest} from '.././utils/ApiCaller';
 
 const DocumentNewActionCreators = {
 
@@ -16,9 +18,19 @@ const DocumentNewActionCreators = {
     };
   },
 
-  createDocuments() {
-    return {
-      type: DocumentNewActionCreators.CREATE_DOCUMENTS
+  createDocuments(docs) {
+    return (dispatch) => {
+      sendAjaxRequest({
+        url: apiEndpoints.documents.create.path,
+        method: apiEndpoints.documents.create.method,
+        data: {docs}
+      })
+        .then((response) => {
+          debugger;
+        })
+        .catch((response) => {
+          debugger;
+        });
     };
   },
 
