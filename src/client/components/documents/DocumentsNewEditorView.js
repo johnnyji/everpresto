@@ -30,6 +30,7 @@ const displayName = 'DocumentsNewEditorView';
 const getValue = get('value');
 const isGeneral = matchesAttr('type', 'general');
 const isSpecific = matchesAttr('type', 'specific');
+const ORANGE = 'rgb(245, 138, 15)';
 
 // TODO: Move this elsewhere more appropriate
 const replacePlacholders = (type) => (body, placeholderFields) => {
@@ -126,44 +127,47 @@ export default class DocumentsNewEditorView extends Component {
 
     return (
       <DashboardContentWrapper className={displayName}>
-        <DashboardContentHeader className={`${displayName}-header`}>
-          <header className={`${displayName}-header-title`}>
-            Step 2/2: <em className={`${displayName}-header-title-main`}>Tweak It, Send It!</em>
+        <div className={`${displayName}-document`}>
+          <header className={`${displayName}-document-title`}>
+            Step 2/2: <em className={`${displayName}-document-title-main`}>Tweak It, Send It!</em>
           </header>
-        </DashboardContentHeader>
-        <div className={`${displayName}-content`}>
           <DocumentViewer
             body={templateBody}
-            className={`${displayName}-content-preview`}/>
-          <FormSidebar className={`${displayName}-content-sidebar`}>
-            <FormSidebarBody>
-              <Tabs>
-                {/* Specific Placeholder Inputs */}
-                <MUITab label={`Add Signers (${doc.get('signers').size})`}>
-                  <FormSidebarSection>
-                    <FormSidebarSectionAddSigner placeholders={specificPlaceholders}/>
-                    <FormSidebarSection className={`${displayName}-content-sidebar-signers-list`}>
-                      {this._renderSigners()}
-                    </FormSidebarSection>
-                  </FormSidebarSection>
-                </MUITab>
-                {/* General Placeholder Inputs */}
-                <MUITab label='Fill Placeholders'>
-                  <FormSidebarSectionFillGeneralPlaceholders
-                    placeholders={generalPlaceholders}
-                    placeholderForm={generalPlaceholderForm}/>
-                </MUITab>
-              </Tabs>
-            </FormSidebarBody>
-            <FormSidebarFooter>
-              <Button
-                color='green'
-                icon='send'
-                onClick={this._handleCreateDocuments}
-                text='Send'/>
-            </FormSidebarFooter>
-          </FormSidebar>
+            className={`${displayName}-document-preview`}/>
         </div>
+
+        <FormSidebar className={`${displayName}-sidebar`}>
+          <FormSidebarBody>
+            <Tabs>
+              {/* Specific Placeholder Inputs */}
+              <MUITab
+                label={`Add Signers (${doc.get('signers').size})`}
+                style={{color: ORANGE}}>
+                <FormSidebarSection>
+                  <FormSidebarSectionAddSigner placeholders={specificPlaceholders}/>
+                  <FormSidebarSection className={`${displayName}-sidebar-signers-list`}>
+                    {this._renderSigners()}
+                  </FormSidebarSection>
+                </FormSidebarSection>
+              </MUITab>
+              {/* General Placeholder Inputs */}
+              <MUITab
+                label='Fill Placeholders'
+                style={{color: ORANGE}}>
+                <FormSidebarSectionFillGeneralPlaceholders
+                  placeholders={generalPlaceholders}
+                  placeholderForm={generalPlaceholderForm}/>
+              </MUITab>
+            </Tabs>
+          </FormSidebarBody>
+          <FormSidebarFooter>
+            <Button
+              color='green'
+              icon='send'
+              onClick={this._handleCreateDocuments}
+              text='Send'/>
+          </FormSidebarFooter>
+        </FormSidebar>
       </DashboardContentWrapper>
     );
   }
@@ -179,7 +183,7 @@ export default class DocumentsNewEditorView extends Component {
 
     return this.props.doc.get('signers').map((signer, i) => (
       <ListItem
-        className={`${displayName}-content-sidebar-signer`}
+        className={`${displayName}-sidebar-signer`}
         onRemove={() => this._handleRemoveSigner(signer)}
         key={i}
         removable={true}>

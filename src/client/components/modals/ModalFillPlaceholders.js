@@ -74,10 +74,10 @@ export default class ModalFillPlaceholders extends Component {
     return (
       <ModalWrapper className={displayName} height={600} width={650}>
         <FileUploader
-          label={<span><Icon icon='file-upload'/> Import CSV File</span>}
+          label={<span><Icon icon='file-upload' /> Import CSV File</span>}
           onReset={this._handleFileInputReset}
           onUpload={this._handleImportCsv}
-          permittedExtensions={['.csv']}/>
+          permittedExtensions={['.csv']} />
         {stage === 0 && 
           <DashboardQuote
             author="Lord Vader"
@@ -90,7 +90,7 @@ export default class ModalFillPlaceholders extends Component {
               color='green'
               icon='check'
               onClick={this._handleSaveSigners}
-              text={`Save ${pluralize(importedData.get('rows').size, 'signer', 'signers')}`}/>
+              text={`Save ${pluralize(importedData.get('rows').size, 'signer', 'signers')}`} />
           </ModalSection>
         }
       </ModalWrapper>

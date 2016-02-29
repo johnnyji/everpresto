@@ -1,46 +1,46 @@
 .DocumentsNewEditorView {
   @include display(flex);
-  @include flex-flow(column);
-  &-header {
-    @include display(flex);
-    @include justify-content(space-between);
-    @include align-items(center);
-    // Makes sure the header doesn't shrink, not 0 by default for some reason
+
+  &-document {
+    @include flex-grow(4);
     @include flex-shrink(0);
+    @include display(flex);
+    @include flex-direction(column);
+    position: relative;
     &-title {
+      @include display(flex);
+      @include align-items(center);
       color: $text-color-light;
       font-size: 18px;
       font-weight: 400;
+      height: 48px;
+      margin-bottom: 20px;
       &-main {
         color: $text-color;
         font-size: 24px;
         margin-left: 8px;
       }
     }
-  }
-  &-content {
-    min-height: 100px;
-    position: relative;
-    @include flex-grow(1);
-    @include display(flex);
-    &-sidebar {
-      @include flex-grow(5);
-      // General placeholders
-      &-placeholders-general {
-        list-style: none;
-      }
-      &-signer {
-        @include display(flex);
-        @include align-items(center);
-        @include justify-content(space-between);
-      }
-      &-signers-list {
-        // TODO: Make sure this scrolls and not the actual form
-      }
-    }
     &-preview {
-      @include flex-grow(4);
-      @include flex-shrink(0);
+      @include flex-grow(1);
+      min-width: 100%;
     }
   }
+
+  &-sidebar {
+    @include flex-grow(5);
+    // General placeholders
+    &-placeholders-general {
+      list-style: none;
+    }
+    &-signer {
+      @include display(flex);
+      @include align-items(center);
+      @include justify-content(space-between);
+    }
+    &-signers-list {
+      // TODO: Make sure this scrolls and not the actual form
+    }
+  }
+
 }

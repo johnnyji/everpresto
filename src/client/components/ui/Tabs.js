@@ -5,7 +5,9 @@ const displayName = 'ui-Tabs';
 
 const Tabs = ({children}) => {
   return (
-    <MUITabs>{children}</MUITabs>
+    <MUITabs tabItemContainerStyle={{backgroundColor: 'transparent'}}>
+      {children}
+    </MUITabs>
   );
 }
 
