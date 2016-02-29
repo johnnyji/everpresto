@@ -1,16 +1,9 @@
 .DashboardMessage {
-  position: relative;
+  @extend .center-absolute;
   color: $text-color-light;
   max-width: 600px;
-  height: 100%;
-  width: 100%;
   margin: 0 auto;
-  &-content {
-    @include translate-pos(40%, 50%);
-    position: absolute;
-    width: 100%;
-    &-center {
-      text-align: center;
-    }
+  &-center {
+    text-align: center;
   }
 }

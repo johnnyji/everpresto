@@ -7,14 +7,12 @@ const DashboardMessage = ({center, children, className, message}) => {
   const classes = classNames(
     className,
     displayName,
-    {[`${displayName}-content-center`]: center}
+    {[`${displayName}-center`]: center}
   );  
   return (
     <div className={classes}>
-      <div className={`${displayName}-content`}>
-        {message && message}
-        {children}
-      </div>
+      {message && message}
+      {children}
     </div>
   );
 };
