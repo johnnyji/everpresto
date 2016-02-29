@@ -29,7 +29,6 @@
 
   &-sidebar {
     @include flex-grow(5);
-    // General placeholders
     &-placeholders-general {
       list-style: none;
     }
