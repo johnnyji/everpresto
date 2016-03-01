@@ -90,7 +90,7 @@ export default class FormSidebarSectionFillGeneralPlaceholders extends Component
             patternMatches={minLength(1, `Lets give ${formField.get('placeholder')} a value`)}
             successKeys={`values:${i}:value`}
             value={formField.get('value')}
-            width={250}/>
+            width={275}/>
         </li>
       );
     });

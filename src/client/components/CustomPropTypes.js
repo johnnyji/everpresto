@@ -19,7 +19,21 @@ const CustomPropTypes = {
     updatedAt: PropTypes.string.isRequired
   }),
 
-  document: ImmutablePropTypes.map,
+  document: ImmutablePropTypes.contains({
+    _collection: PropTypes.string.isRequired,
+    _company: PropTypes.string.isRequired,
+    _creator: PropTypes.string.isRequired,
+    _id: PropTypes.string.isRequired,
+    body: PropTypes.string.isRequired,
+    createdAt: PropTypes.string.isRequired,
+    signers: {
+      email: PropTypes.string.isRequired,
+      firstName: PropTypes.string,
+      lastName: PropTypes.string,
+    },
+    status: PropTypes.oneOf(['created', 'sent', 'signed']).isRequired,
+    updatedAt: PropTypes.string.isRequired,
+  }),
 
   template: ImmutablePropTypes.contains({
     _company: PropTypes.string.isRequired,

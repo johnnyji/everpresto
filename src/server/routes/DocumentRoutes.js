@@ -1,6 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import {extractErrorMessage} from './utils/ResponseHelper';
+import {extractErrorMessage, toObjects} from './utils/ResponseHelper';
 
 const Document = mongoose.model('Document');
 const router = express.Router();
@@ -9,13 +9,19 @@ const router = express.Router();
 router.get('/index', (req, res) => {
   Document.find({_company: req.session.companyId}, (err, docs) => {
     if (err) return res.status(422).json({message: extractErrorMessage(err)});
-    res.status(200).json({docs});
+    res.status(200).json({docs: toObjects(docs)});
   });
 });
 
 router.post('/create', (req, res) => {
   const {docs} = req.body;
-  debugger;
+  const {companyId, userId} = req.session;
+
+  Document.batchCreate(docs, companyId, userId)
+    // We return the entire collection containing the newly created documents, no need to convert `toObject`,
+    // already done
+    .then((collection) => res.status(201).json({collection}))
+    .catch((err) => res.status(422).json({message: extractErrorMessage(err)}));
 });
 
 export default router;

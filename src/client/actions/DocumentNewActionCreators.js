@@ -1,6 +1,8 @@
 import DocumentNewActionTypes from './../action_types/DocumentNewActionTypes';
 import apiEndpoints from '.././apiEndpoints';
 import {sendAjaxRequest} from '.././utils/ApiCaller';
+import {createFlashMessage} from './AppActionCreators';
+import {setCollectionBeingViewed} from './CollectionActionCreators';
 
 const DocumentNewActionCreators = {
 
@@ -26,11 +28,21 @@ const DocumentNewActionCreators = {
         data: {docs}
       })
         .then((response) => {
-          debugger;
+          // We need to refetch the collectionBeingViewed so it will contain all the documents
+          // we've just created
+          dispatch(setCollectionBeingViewed(response.data.collection));
+          dispatch(this.createDocumentsSuccess());
         })
         .catch((response) => {
-          debugger;
+          dispatch(createFlashMessage('red', response.data.message))
         });
+    };
+  },
+
+  createDocumentsSuccess(docs) {
+    return {
+      type: DocumentNewActionTypes.CREATE_DOCUMENTS_SUCCESS,
+      data: {docs}
     };
   },
 

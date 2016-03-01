@@ -1,9 +1,7 @@
 import {sendAjaxRequest} from '.././utils/ApiCaller';
 import apiEndpoints from '.././apiEndpoints';
-import AppActionCreators from './AppActionCreators';
 import TemplateActionTypes from './../action_types/TemplateActionTypes';
-
-const {createFlashMessage} = AppActionCreators;
+import {createFlashMessage} from './AppActionCreators';
 
 const TemplateActionCreators = {
 

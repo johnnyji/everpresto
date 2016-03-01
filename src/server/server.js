@@ -47,7 +47,7 @@ import secrets from '../.././secrets.json';
 
 const app = express();
 const server = require('http').Server(app);
-const socket = require('socket.io')(server);
+const io = require('socket.io')(server);
 const MongoStore = connectMongo(session); // mongo store for session
 const port = process.env.PORT || config.development.serverPort;
 const apiRouter = express.Router();
@@ -90,8 +90,8 @@ apiRouter.use('/users', requireUser, UserRoutes);
 
 
 // socket.io
-socket.on('connection', (client) => {
-  require('./sockets/index')(client);
+io.on('connection', (socket) => {
+  require('./sockets/index')(socket);
 });
 
 

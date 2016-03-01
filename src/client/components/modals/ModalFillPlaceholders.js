@@ -167,9 +167,9 @@ export default class ModalFillPlaceholders extends Component {
    */
   _handleSaveSigners = () => {
     const {importedData, mappings} = this.state;
-    const firstFoundError = mappings.get('errors').find((_, i) => (
-      !this.refs[`mappings-${i}`].valid()
-    ));
+    const firstFoundError = mappings
+      .get('errors')
+      .find((_, i) => !this.refs[`mappings-${i}`].valid());
 
     if (firstFoundError !== undefined) {
       return this.props.handleFlashError('Hmmm... There are some errors in your mappings');
@@ -251,14 +251,15 @@ export default class ModalFillPlaceholders extends Component {
    * Updates a mapping item
    */
   _handleMappingUpdate = (val, err, i) => {
-    const {assignedHeaders, mappings, importedData} = this.state;
+    const {mappings, importedData} = this.state;
     let errorMessage = err;
 
-    // If a header that's already assigned if being assigned again, make the error
-    // a duplication error
-    if (assignedHeaders.filter(equals(val)).size > 1) {
-      errorMessage = `Duplicate mapping of ${assignedHeaders.find(equals(val))}`;
-    }
+    // // If a header that's already assigned if being assigned again, make the error
+    // // a duplication error
+    // if (assignedHeaders.filter(equals(val)).size > 1) {
+    //   errorMessage = `Duplicate mapping of ${assignedHeaders.find(equals(val))}`;
+    // }
+
     // If the entered value is not a header
     if (!importedData.get('headers').contains(val) && val !== '') {
       errorMessage = `${val} is not a header in your file`;

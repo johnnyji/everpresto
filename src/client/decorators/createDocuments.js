@@ -55,6 +55,7 @@ const createDocuments = (ComposedComponent) => (class extends Component {
 
     const documents = doc.get('signers').map((signer) => {
       return {
+        _collection: doc.get('collectionId'),
         body: this._constructDocumentBody(
           doc.getIn(['template', 'body']),
           signer,

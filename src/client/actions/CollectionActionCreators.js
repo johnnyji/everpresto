@@ -217,6 +217,18 @@ const CollectionActionCreators = {
 
 
   /**
+   * Manually sets the collection that's being viewed without calling the API
+   * @param {Object} collection - The data passed to the Collection Reducer
+   */
+  setCollectionBeingViewed(collection) {
+    return {
+      type: CollectionActionTypes.SET_COLLECTION_BEING_VIEWED,
+      data: {collection}
+    };
+  },
+
+
+  /**
    * Handles the success return of the collection update
    *
    * @param  {Object} collection - The collection that was just updated

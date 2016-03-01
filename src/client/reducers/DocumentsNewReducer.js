@@ -5,7 +5,7 @@ import {matchesAttr} from '.././utils/immutable/IterableFunctions';
 const {
   ADD_SIGNER,
   ADD_MULTIPLE_SIGNERS,
-  CREATE_DOCUMENTS,
+  CREATE_DOCUMENTS_SUCCESS,
   GENERATE_GENERAL_PLACEHOLDER_FORM_FIELDS,
   REMOVE_SIGNER,
   RESET_STATE,
@@ -19,10 +19,11 @@ const initialStateTemplate = {
     signers: [],
     template: null
   },
+  docsJustCreated: false,
   generalPlaceholderForm: {
     values: [],
     errors: []
-  }
+  },
 };
 
 const isGeneral = matchesAttr('type', 'general');
@@ -42,6 +43,9 @@ export default function documentsReducer(state = Immutable.fromJS(initialStateTe
       return state.updateIn(['doc', 'signers'], (signers) => (
         Immutable.fromJS(action.data.signers).concat(signers)
       ));
+
+    case CREATE_DOCUMENTS_SUCCESS:
+      return state.set('docsJustCreated', true);
 
     case GENERATE_GENERAL_PLACEHOLDER_FORM_FIELDS:
       // Dynamically sets the generalPlaceholderForm state dependant on

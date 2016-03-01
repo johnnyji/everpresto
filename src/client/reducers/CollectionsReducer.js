@@ -10,6 +10,7 @@ const {
   RESET_COLLECTION_BEING_VIEWED,
   RESET_SHOULD_FETCH_COLLECTIONS,
   SET_COLLECTION_BEING_EDITED,
+  SET_COLLECTION_BEING_VIEWED,
   UPDATE_COLLECTION_SUCCESS} = CollectionActionTypes;
 
 const initialState = Immutable.fromJS({
@@ -50,6 +51,9 @@ export default function collectionsReducer(state = initialState, action) {
     case SET_COLLECTION_BEING_EDITED:
       // No need to convert to Immutable.Map, because it already is.
       return state.set('collectionBeingEdited', action.data.collection);
+
+    case SET_COLLECTION_BEING_VIEWED:
+      return state.set('collectionBeingViewed', Immutable.fromJS(action.data.collection));
 
     case RESET_SHOULD_FETCH_COLLECTIONS:
       return state.set('shouldFetchCollections', true);
