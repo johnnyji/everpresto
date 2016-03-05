@@ -1,9 +1,11 @@
 import React, {Component, PropTypes} from 'react';
+import pureRender from 'pure-render-decorator';
 import classNames from 'classnames';
 import Icon from '.././ui/Icon';
 
 const displayName = 'Logo';
 
+@pureRender
 export default class Logo extends Component {
 
   static displayName = displayName;
