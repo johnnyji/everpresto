@@ -64,7 +64,9 @@ export default class CollectionsShow extends Component {
   }
 
   componentWillUnmount() {
-    CollectionActionCreators.resetCollectionBeingViewed();
+    this.context.dispatch(
+      CollectionActionCreators.resetCollectionBeingViewed()
+    );
   }
 
   render() {

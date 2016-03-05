@@ -22,7 +22,6 @@ const initialState = Immutable.fromJS({
 
 export default function collectionsReducer(state = initialState, action) {
   // Always return a new state, never already the one passed in
-
   switch (action.type) {
     case CREATE_COLLECTION_SUCCESS:
       const collection = Immutable.fromJS(action.data.collection);
