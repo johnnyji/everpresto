@@ -28,8 +28,7 @@ export default class DocumentsNew extends Component {
 
   static contextTypes = {
     dispatch: PropTypes.func.isRequired,
-    router: PropTypes.object.isRequired,
-    socket: PropTypes.object.isRequired
+    router: PropTypes.object.isRequired
   };
 
   static propTypes = {
@@ -73,7 +72,7 @@ export default class DocumentsNew extends Component {
 
     // If new docs were just created, we want to navigate to the correct collection view with those docs
     if (nextProps.docsJustCreated) {
-      this.context.router.push(`/dashboard/collections/${this.props.docBeingCreated.collectionId}`);
+      this.context.router.push(`/dashboard/collections/${this.props.params.collection_id}`);
     }
 
   }

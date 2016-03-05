@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
+import io from 'socket.io-client';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import CustomPropTypes from '.././CustomPropTypes';
 import DashboardContentHeader from '.././dashboard/DashboardContentHeader';
@@ -9,10 +10,12 @@ import DashboardSpinner from '.././shared/DashboardSpinner';
 import DocumentPreviewCard from '.././shared/DocumentPreviewCard';
 import Button from '.././ui/Button';
 import SearchBar from '.././ui/SearchBar';
+import {matchesAttr} from '../.././utils/immutable/IterableFunctions'
 
 import CollectionActionCreators from '../.././actions/CollectionActionCreators';
 
 const displayName = 'CollectionsShow';
+const isSent = matchesAttr('status', /(^sent$|^signed$)/);
 
 @connect((state) => ({
   collection: state.collections.get('collectionBeingViewed')
@@ -41,7 +44,8 @@ export default class CollectionsShow extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      filter: null
+      filter: null,
+      sentStatus: 'Checking...'
     };
   }
 
@@ -52,6 +56,11 @@ export default class CollectionsShow extends Component {
         CollectionActionCreators.fetchCollectionBeingViewed(this.props.params.id)
       );
     }
+  }
+
+  componentDidMount() {
+    this.socket = io.connect('http://localhost:3000/collections');
+    this.socket.on('connected', this._handleSocketConnection);
   }
 
   componentWillUnmount() {
@@ -75,7 +84,7 @@ export default class CollectionsShow extends Component {
               text='Create Documents' />
           </div>
           <SearchBar
-            label="I'm just a lonely search bar..."
+            label={this.state.count}
             focusLabel='Yay, a new friend!'
             onUpdate={this._handleFilterDocuments} />
         </DashboardContentHeader>
@@ -90,6 +99,16 @@ export default class CollectionsShow extends Component {
 
   _handleFilterDocuments = () => {
 
+  };
+
+  _handleSocketConnection = () => {
+    const {collection} = this.props;
+
+    if (collection && collection.get('documents').every(isSent)) {
+      return this.setState({sentStatus: 'All Sent'});
+    }
+
+    this.socket.emit()
   };
 
   _renderDocuments = (collection) => {

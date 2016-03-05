@@ -21,7 +21,7 @@ router.get('/index', (req, res) => {
 router.get('/:id', (req, res) => {
   Collection.findWithDocuments(req.params.id)
     .then((collection) => res.status(200).json({collection}))
-    .catch((err) => res.status(422).json({message: extractErrorMessage(err)});
+    .catch((err) => res.status(422).json({message: extractErrorMessage(err)}));
 });
 
 // Creates a new collection

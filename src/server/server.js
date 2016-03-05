@@ -59,6 +59,10 @@ mongoose.connect(config.development.dbConnectUrl, (err) => {
   if (err) { throw err; }
 });
 
+// Sets application level variables that can either be retrieved by `app.get('name')` or
+// through `req.app.get('name')`
+app.set('io', io);
+
 // Logs requests to the console.
 app.use(morgan('dev'));
 
@@ -90,9 +94,7 @@ apiRouter.use('/users', requireUser, UserRoutes);
 
 
 // socket.io
-io.on('connection', (socket) => {
-  require('./sockets/index')(socket);
-});
+require('./sockets/collections')(io);
 
 
 // Server-side rendering

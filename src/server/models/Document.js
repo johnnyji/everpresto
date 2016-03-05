@@ -51,6 +51,7 @@ const DocumentSchema = new Schema({
   timestamps: true
 });
 
+
 DocumentSchema.statics.batchCreate = function(docs, companyId, userId) {
   return new Promise((resolve, reject) => {
     const whitelistedDocs = docs.map((doc) => {

@@ -34,13 +34,15 @@ const IterableFunctions = {
 
   /**
    * Returns if an attribute on the predicate matches a given value or not
-   * @param  {String} attr                   - The name of the attribute on the predicate
-   * @param  {String|Boolean|Number} matcher - The value we're trying to match
-   * @param  {Immutable.Map} predicate       - The predicate we're trying to match
-   * @return {Boolean}                       - Whether or not the attribute on the predicate matches the matcher
+   * @param  {String} attr                          - The name of the attribute on the predicate
+   * @param  {String|Boolean|Number|RegExp} matcher - The value we're trying to match
+   * @param  {Immutable.Map} predicate              - The predicate we're trying to match
+   * @return {Boolean}                              - Whether or not the attribute on the predicate matches the matcher
    */
   matchesAttr: curry((attr, matcher, predicate) => {
     if (!predicate.has(attr)) return false;
+
+    if (matcher.constructor === RegExp) return matcher.test(predicate.get(attr));
     return predicate.get(attr) === matcher;
   }),
   

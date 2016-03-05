@@ -3,6 +3,7 @@ import apiEndpoints from '.././apiEndpoints';
 import {sendAjaxRequest} from '.././utils/ApiCaller';
 import {createFlashMessage} from './AppActionCreators';
 import {setCollectionBeingViewed} from './CollectionActionCreators';
+import {pluralize} from '.././utils/TextHelper';
 
 const DocumentNewActionCreators = {
 
@@ -28,8 +29,10 @@ const DocumentNewActionCreators = {
         data: {docs}
       })
         .then((response) => {
+          const successMsg = `${pluralize(docs.length, 'document', 'documents')} successfully created!`
           // We need to refetch the collectionBeingViewed so it will contain all the documents
           // we've just created
+          dispatch(createFlashMessage('green', successMsg));
           dispatch(setCollectionBeingViewed(response.data.collection));
           dispatch(this.createDocumentsSuccess());
         })
