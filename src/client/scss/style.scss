@@ -49,6 +49,7 @@
 @import './dashboard/DashboardQuote';
 
 // Documents
+@import './documents/DocumentCard';
 @import './documents/DocumentsNew';
 @import './documents/DocumentsNewChooseTemplateView';
 @import './documents/DocumentsNewEditorView';
@@ -63,12 +64,13 @@
 // Templates
 @import './templates/TemplateEditorView';
 @import './templates/TemplatesIndex';
-@import './templates/TemplatePreviewCard';
+@import './templates/TemplateCard';
+@import './templates/TemplateCardPreviewEdit';
+@import './templates/TemplateCardPreviewSelect';
 
 // Shared
 @import './shared/DashboardSpinner';
 @import './shared/DocumentEditor';
-@import './shared/DocumentPreviewCard';
 @import './shared/DocumentViewer';
 @import './shared/FileUploader';
 @import './shared/FormSidebar';
@@ -93,6 +95,7 @@
 @import './ui/DropdownOptions';
 @import './ui/FlashMessage';
 @import './ui/FolderCard';
+@import './ui/GridViewCard';
 @import './ui/HorizontalNavbar';
 @import './ui/Input';
 @import './ui/List';

@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import pureRender from 'pure-render-decorator';
 import classNames from 'classnames';
 import CustomPropTypes from '.././CustomPropTypes';
 
@@ -6,14 +7,15 @@ import ClickableIcon from '.././ui/ClickableIcon';
 import DropdownOptions from '.././ui/DropdownOptions';
 import Icon from '.././ui/Icon';
 import ModalDocumentPreview from '.././modals/ModalDocumentPreview';
-import DocumentPreviewCard from '.././shared/DocumentPreviewCard';
+import TemplateCard from './TemplateCard';
 
 import AppActionCreators from '../.././actions/AppActionCreators';
 import TemplateActionCreators from '../.././actions/TemplateActionCreators';
 
-const displayName = 'TemplatePreviewCard';
+const displayName = 'TemplateCardPreviewEdit';
 
-export default class TemplatePreviewCard extends Component {
+@pureRender
+export default class TemplateCardPreviewEdit extends Component {
 
   static displayName = displayName;
 
@@ -44,7 +46,7 @@ export default class TemplatePreviewCard extends Component {
     ];
 
     return (
-      <DocumentPreviewCard
+      <TemplateCard
         body={template.get('body')}
         className={classes}
         defaultTitle='Untitled Template'
@@ -60,7 +62,7 @@ export default class TemplatePreviewCard extends Component {
           className={`${displayName}-more-options`}
           icon={showDropdownOptions ? 'close' : 'ellipsis'}
           onClick={this._toggleOptions}/>
-      </DocumentPreviewCard>
+      </TemplateCard>
     );
   }
 

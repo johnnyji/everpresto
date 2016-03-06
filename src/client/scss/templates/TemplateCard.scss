@@ -1,8 +1,4 @@
-.DocumentPreviewCard {
-  @include flex(0 0 250px);
-  @include display(flex);
-  @include flex-flow(column);
-  margin: 20px;
+.TemplateCard {
   &-header {
     @include display(flex);
     @include justify-content(space-between);

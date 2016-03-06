@@ -2,13 +2,12 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import CustomPropTypes from '.././CustomPropTypes';
-import DocumentPreviewCard from '.././shared/DocumentPreviewCard';
-import TemplatePreviewCard from './TemplatePreviewCard';
+
+import TemplateCard from './TemplateCard';
+import TemplateCardPreviewEdit from './TemplateCardPreviewEdit';
 import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
-import {truncateString} from '../.././utils/TextHelper';
-
 import DashboardSpinner from '.././shared/DashboardSpinner';
-
+import {truncateString} from '../.././utils/TextHelper';
 import TemplateActionCreators from '../.././actions/TemplateActionCreators';
 
 const displayName = 'TemplatesIndex';
@@ -53,10 +52,10 @@ export default class TemplatesIndex extends Component {
 
     return (
       <DashboardContentWrapper className={displayName}>
-        <DocumentPreviewCard
+        <TemplateCard
           className={`${displayName}-templates-new`}
           isNewCard={true}
-          onNewIconClick={this._handleCreateTemplate}/>
+          onNewIconClick={this._handleCreateTemplate} />
         {this._renderTemplatePreviews()}
       </DashboardContentWrapper>
     );
@@ -68,7 +67,7 @@ export default class TemplatesIndex extends Component {
 
   _renderTemplatePreviews = () => {
     return this.props.templates.map((template, i) => {
-      return <TemplatePreviewCard key={i} template={template}/>;
+      return <TemplateCardPreviewEdit key={i} template={template}/>;
     });
   };
 

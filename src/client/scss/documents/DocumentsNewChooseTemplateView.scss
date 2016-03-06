@@ -16,16 +16,6 @@
   }
   &-templates {
     @extend .grid-view;
-    &-template {
-      position: relative;
-      display: inline-block;
-      &-options {
-        @include display(flex);
-        @include align-items(center);        
-        @include justify-content(space-between);
-        color: $text-color-light;
-      }
-    }
   }
   &-not-found {
     @extend .center-absolute;

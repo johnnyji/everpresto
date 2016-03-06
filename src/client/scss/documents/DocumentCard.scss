@@ -1,0 +1,21 @@
+.DocumentCard {
+  &-header {
+    @include display(flex);
+    @include align-items(center);
+    @include justify-content(space-between);
+    &-signer {
+
+    }
+    &-status {
+      &-icon {
+        color: $placeholder-color;
+        &-sent {
+          color: $brand-color-green;
+        }
+      }
+      &-text {
+
+      }
+    }
+  }
+}

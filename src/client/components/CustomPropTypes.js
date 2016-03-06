@@ -26,7 +26,7 @@ const CustomPropTypes = {
     _id: PropTypes.string.isRequired,
     body: PropTypes.string.isRequired,
     createdAt: PropTypes.string.isRequired,
-    signers: {
+    signer: {
       email: PropTypes.string.isRequired,
       firstName: PropTypes.string,
       lastName: PropTypes.string,

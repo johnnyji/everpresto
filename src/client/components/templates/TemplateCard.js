@@ -1,19 +1,21 @@
 import React, {Component, PropTypes} from 'react';
+import pureRender from 'pure-render-decorator';
 import classNames from 'classnames';
 import Card from '.././ui/Card';
 import ClickableIcon from '.././ui/ClickableIcon';
+import GridViewCard from '.././ui/GridViewCard';
 import {truncateString} from '../.././utils/TextHelper';
 
-const displayName = 'DocumentPreviewCard';
+const displayName = 'TemplateCard';
 
-export default class DocumentPreviewCard extends Component {
+@pureRender
+export default class TemplateCard extends Component {
 
   static displayName = displayName;
 
   static propTypes = {
     body: PropTypes.string,
     className: PropTypes.string,
-    height: PropTypes.number,
     isNewCard: PropTypes.bool.isRequired,
     onNewIconClick: PropTypes.func,
     title: PropTypes.string,
@@ -22,43 +24,27 @@ export default class DocumentPreviewCard extends Component {
 
   static defaultProps = {
     defaultTitle: 'Untitled',
-    height: 300,
     isNewCard: false,
     titleDisplayLength: 25
   };
 
   render() {
-    const {className, height} = this.props;
-    const classes = classNames(className, displayName);
-    const style = {height: `${height}px`};
-
-    return <Card className={classes} style={style}>{this._renderContent()}</Card>;
+    if (this.props.isNewCard) return this._renderNewCard();
+    return this._renderCard();
   }
 
-  _renderContent = () => {
+  _renderCard = () => {
     const {
       body,
       children,
       defaultTitle,
-      isNewCard,
       onBodyClick,
-      onNewIconClick,
       onTitleClick,
       title,
       titleDisplayLength} = this.props;
 
-    if (isNewCard) {
-      return (
-        <ClickableIcon
-          className={`${displayName}-new-button`}
-          icon='add'
-          onClick={onNewIconClick}
-          size={70}/>
-      );
-    }
-
     return (
-      <div>
+      <GridViewCard className={classNames(this.props.className, displayName)}>
         <header className={`${displayName}-header`} onClick={onTitleClick}>
           <h4 className={`${displayName}-header-title`}>
             {title ? truncateString(title, titleDisplayLength) : defaultTitle}
@@ -73,8 +59,20 @@ export default class DocumentPreviewCard extends Component {
             {children}
           </div>
         }
-      </div>
+      </GridViewCard>
     );
-  }
+  };
+
+  _renderNewCard = () => {
+    return (
+      <GridViewCard className={classNames(this.props.className, displayName)}>
+        <ClickableIcon
+          className={`${displayName}-new-button`}
+          icon='add'
+          onClick={this.props.onNewIconClick}
+          size={70}/>
+      </GridViewCard>
+    );
+  };
 
 }

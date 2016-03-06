@@ -12,7 +12,7 @@ $template-preview-card-dropdown-height: 110px;
   100% { height: $template-preview-card-dropdown-height; }
 }
 
-.TemplatePreviewCard {
+.TemplateCardPreviewEdit {
   div > &-dropdown {
     @include animation(pop-in-up 300ms ease-in-out);
     position: absolute;

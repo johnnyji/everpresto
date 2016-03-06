@@ -1,12 +1,12 @@
 import React, {Component, PropTypes} from 'react';
 import classNames from 'classnames';
 import pureRender from 'pure-render-decorator';
-import Card from '.././ui/Card';
+import Card from './Card';
 
-const displayName = 'PreviewCard'
+const displayName = 'ui-GridViewCard'
 
 @pureRender
-export default class PreviewCard extends Component {
+export default class GridViewCard extends Component {
   static displayName = displayName;
 
   static propTypes = {

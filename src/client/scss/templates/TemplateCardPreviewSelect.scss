@@ -1,0 +1,11 @@
+.TemplatePreviewCardSelect {
+  position: relative;
+  display: inline-block;
+  &-options {
+    @include display(flex);
+    @include align-items(center); 
+    @include justify-content(space-between);
+    color: $text-color-light;
+    width: 100%;
+  }
+}

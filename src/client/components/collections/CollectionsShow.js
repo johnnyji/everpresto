@@ -7,7 +7,7 @@ import DashboardContentHeader from '.././dashboard/DashboardContentHeader';
 import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
 import DashboardQuote from '.././dashboard/DashboardQuote';
 import DashboardSpinner from '.././shared/DashboardSpinner';
-import DocumentPreviewCard from '.././shared/DocumentPreviewCard';
+import DocumentCard from '.././documents/DocumentCard';
 import Button from '.././ui/Button';
 import SearchBar from '.././ui/SearchBar';
 import {matchesAttr} from '../.././utils/immutable/IterableFunctions'
@@ -116,7 +116,7 @@ export default class CollectionsShow extends Component {
   _renderDocuments = (collection) => {
     const documents = collection.get('documents');
 
-    if (documents.size === 0) {
+    if (!documents.size) {
       return (
         <DashboardQuote
           author='Jedi Master Yoda'
@@ -127,10 +127,9 @@ export default class CollectionsShow extends Component {
     return (
       <div className={`${displayName}-documents`}>
         {documents.map((doc, i) => (
-          <DocumentPreviewCard
-            body={doc.get('body')}
-            key={i}
-            title={doc.get('title')}/>
+          <DocumentCard
+            doc={doc}
+            key={i}/>
         ))}
       </div>
     );

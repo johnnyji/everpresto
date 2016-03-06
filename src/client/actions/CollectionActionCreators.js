@@ -88,6 +88,7 @@ const CollectionActionCreators = {
       })
         .then((response) => dispatch(this.fetchCollectionBeingViewedSuccess(response.data.collection)))
         .catch((response) => {
+          debugger;
           if (response.status === 500) {
             dispatch(createFlashMessage('red', 'Sorry, we\'re having a connection error... Maybe try again?'));
           }

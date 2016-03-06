@@ -6,11 +6,9 @@ import DashboardContentHeader from '.././dashboard/DashboardContentHeader';
 import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
 import DashboardQuote from '.././dashboard/DashboardQuote';
 
-import DocumentPreviewCard from '.././shared/DocumentPreviewCard';
-import ClickableIcon from '.././ui/ClickableIcon';
+import TemplateCardPreviewSelect from '.././templates/TemplateCardPreviewSelect';
 import SearchBar from '.././ui/SearchBar';
 
-import {formatDateString} from '../.././utils/DateHelper';
 import AppActionCreators from '../.././actions/AppActionCreators';
 import ModalDocumentPreview from '.././modals/ModalDocumentPreview';
 
@@ -78,18 +76,11 @@ export default class DocumentsNewChooseTemplateView extends Component {
     const {onTemplateChoose, templates} = this.props;
 
     return templates.map((template, i) => (
-      <DocumentPreviewCard
-        body={template.get('body')}
-        className={`${displayName}-templates-template`}
+      <TemplateCardPreviewSelect
         key={i}
-        onBodyClick={() => onTemplateChoose(template)}
-        onTitleClick={() => onTemplateChoose(template)}
-        title={template.get('title')}>
-        <div className={`${displayName}-templates-template-options`}>
-          <ClickableIcon icon='preview' onClick={() => this._handlePreviewTemplate(template)}/>
-          <small>{formatDateString(template.get('createdAt'))}</small>
-        </div>
-      </DocumentPreviewCard>
+        onSelect={() => onTemplateChoose(template)}
+        onPreview={() => this._handlePreviewTemplate(template)}
+        template={template} />
     ));
   }
 
