@@ -119,9 +119,9 @@ export default class FormSidebarSectionAddSigner extends Component {
       return this.props.handleFlashError('Are you sure you filled out the form properly?');
     }
     
-    // Adds the signer state as a signer to the new document
+    // Adds the one new signer to the new document
     this.context.dispatch(
-      DocumentNewActionCreators.addSigner(signerForm.get('values'))
+      DocumentNewActionCreators.addSigners([signerForm.get('values')])
     );
 
     // Clears all the input values

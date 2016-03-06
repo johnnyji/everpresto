@@ -17,9 +17,9 @@ import TemplateActionCreators from '../.././actions/TemplateActionCreators';
 const displayName = 'CollectionsIndex';
 
 @connect((state) => ({
-  collectionBeingEdited: state.collections.get('collectionBeingEdited'),
-  collections: state.collections.get('collections'),
-  shouldFetchCollections: state.collections.get('shouldFetchCollections'),
+  collectionBeingEdited: state.collectionsEdit.get('collection'),
+  collections: state.collectionsIndex.get('collections'),
+  shouldFetchCollections: state.collectionsIndex.get('shouldFetchCollections'),
   shouldFetchTemplates: state.templates.get('shouldFetchTemplates'),
   templates: state.templates.get('templates')
 }))

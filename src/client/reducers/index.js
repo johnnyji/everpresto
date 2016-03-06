@@ -1,7 +1,11 @@
 import {combineReducers} from 'redux';
 import app from './AppReducer';
 import auth from './AuthReducer';
-import collections from './CollectionsReducer';
+
+import collectionsEdit from './collections/CollectionsEditReducer';
+import collectionsIndex from './collections/CollectionsIndexReducer';
+import collectionsShow from './collections/CollectionsShowReducer';
+
 import documents from './DocumentsReducer';
 import documentsNew from './DocumentsNewReducer';
 import templates from './TemplatesReducer';
@@ -11,7 +15,11 @@ import templates from './TemplatesReducer';
 export default combineReducers({
   app,
   auth,
-  collections,
+
+  collectionsEdit,
+  collectionsIndex,
+  collectionsShow,
+
   documents,
   documentsNew,
   templates

@@ -8,7 +8,7 @@ import {equals, get} from '../.././utils/immutable/IterableFunctions';
 import {minLength} from '../.././utils/RegexHelper';
 import {pluralize} from '../.././utils/TextHelper';
 import {createFlashMessage, dismissModal} from '../.././actions/AppActionCreators';
-import {addMultipleSigners} from '../.././actions/DocumentNewActionCreators';
+import {addSigners} from '../.././actions/DocumentNewActionCreators';
 import handleFlashError from '../.././decorators/handleFlashError';
 
 import DashboardQuote from '.././dashboard/DashboardQuote';
@@ -196,9 +196,12 @@ export default class ModalFillPlaceholders extends Component {
       ;
 
     const {dispatch} = this.context;
-    // Adds the imported signers: Flattens the signers, specifies the action, dispatches the action
-    flow(addMultipleSigners, dispatch)(signers);
-    flow(dismissModal, dispatch)();
+    // Adds the signers and dismisses the modal
+    dispatch(addSigners(signers));
+    // Slight delay for visual effect
+    setTimeout(() => {
+      dispatch(dismissModal());
+    }, 100);
   };
 
   /**

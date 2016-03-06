@@ -7,16 +7,10 @@ import {pluralize} from '.././utils/TextHelper';
 
 const DocumentNewActionCreators = {
 
-  addSigner(signer) {
+  addSigners(signers) {
+    debugger;
     return {
-      type: DocumentNewActionTypes.ADD_SIGNER,
-      data: {signer}
-    };
-  },
-
-  addMultipleSigners(signers) {
-    return {
-      type: DocumentNewActionTypes.ADD_MULTIPLE_SIGNERS,
+      type: DocumentNewActionTypes.ADD_SIGNERS,
       data: {signers}
     };
   },

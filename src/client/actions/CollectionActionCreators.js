@@ -208,6 +208,7 @@ const CollectionActionCreators = {
         data: {collectionId, collectionData}
       })
         .then((response) => {
+          // Reset the `collection` being edited after we've updated it
           dispatch(this.updateCollectionSuccess(response.data.collection));
         })
         .catch((response) => {

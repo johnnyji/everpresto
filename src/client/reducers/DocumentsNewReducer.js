@@ -3,8 +3,7 @@ import DocumentNewActionTypes from '.././action_types/DocumentNewActionTypes';
 import {matchesAttr} from '.././utils/immutable/IterableFunctions';
 
 const {
-  ADD_SIGNER,
-  ADD_MULTIPLE_SIGNERS,
+  ADD_SIGNERS,
   CREATE_DOCUMENTS_SUCCESS,
   GENERATE_GENERAL_PLACEHOLDER_FORM_FIELDS,
   REMOVE_SIGNER,
@@ -33,13 +32,7 @@ export default function documentsReducer(state = Immutable.fromJS(initialStateTe
 
   switch (action.type) {
 
-    case ADD_SIGNER:
-      // `signer` will already be Immutable
-      return state.updateIn(['doc', 'signers'], (signers) => (
-        signers.unshift(action.data.signer)
-      ));
-
-    case ADD_MULTIPLE_SIGNERS:
+    case ADD_SIGNERS:
       return state.updateIn(['doc', 'signers'], (signers) => (
         Immutable.fromJS(action.data.signers).concat(signers)
       ));

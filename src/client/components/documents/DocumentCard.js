@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import classNames from 'classnames';
 import CustomPropTypes from '.././CustomPropTypes';
+import Clickable from '.././ui/Clickable';
 import GridViewCard from '.././ui/GridViewCard';
 import Icon from '.././ui/Icon';
 import {formatDateString} from '../.././utils/DateHelper';
@@ -46,8 +47,21 @@ export default class DocumentCard extends Component {
             </small>
           </div>
         </header>
-        <small>{formatDateString(doc.get('createdAt'))}</small>
+
+        <section className={`${displayName}-body`}>
+          
+        </section>
+
+        <footer className={`${displayName}-footer`}>
+          {formatDateString(doc.get('createdAt'))}
+          <Clickable onClick={this._handleSendReminderEmail}>Send Reminder Email</Clickable>
+        </footer>
       </GridViewCard>
     );
   }
+
+  _handleSendReminderEmail = () => {
+
+  }
+
 }

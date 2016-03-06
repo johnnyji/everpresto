@@ -18,7 +18,7 @@ const displayName = 'CollectionsShow';
 const isSent = matchesAttr('status', /(^sent$|^signed$)/);
 
 @connect((state) => ({
-  collection: state.collections.get('collectionBeingViewed')
+  collection: state.collectionsShow.get('collection')
 }))
 export default class CollectionsShow extends Component {
 
