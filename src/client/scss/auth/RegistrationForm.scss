@@ -18,12 +18,12 @@
       margin: 2.5rem auto;
       width: 400px;
     }
-    &-button {
-      position: relative;
-      margin: 4rem auto 5rem auto;
-      padding: 1rem 2rem;
-      width: 400px;
-    }
   }
 
+  &-footer {
+    @include display(flex);
+    @include align-items(center);
+    @include justify-content(center);
+    margin-top: 30px auto 20px auto;
+  }
 }

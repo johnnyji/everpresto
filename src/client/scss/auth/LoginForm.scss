@@ -2,14 +2,17 @@
   @extend .center-absolute;
   width: 400px;
   height: 400px;
+
   &-title {
     font-family: 'Indie Flower', 'Roboto', sans-serif;
     text-align: center;
   }
+
   &-input,
   &-show-password {
     margin: 8px auto;
   }
+
   &-show-password {
     color: $text-color-light;
     display: block;
@@ -19,7 +22,11 @@
       margin-right: 8px;
     }
   }
-  &-submit-button {
-    margin: 20px auto;
+
+  &-footer {
+    @include display(flex);
+    @include align-items(center);
+    @include justify-content(center);
+    margin-top: 30px;
   }
 }

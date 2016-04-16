@@ -1,8 +1,8 @@
-import React, {Component, PropTypes} from 'react';
 import Immutable from 'immutable';
+import React, {Component, PropTypes} from 'react';
+import mergeDeep from '../.././utils/mergeDeep';
 import {email, minLength} from '../.././utils/RegexHelper';
 import {isTruthy} from '../.././utils/immutable/IterableFunctions';
-import mergeDeep from '../.././utils/mergeDeep';
 
 import Button from '.././ui/Button';
 import Card from '.././ui/Card';
@@ -73,11 +73,12 @@ export default class LoginForm extends Component {
               type='checkbox'/>
             Show password?
           </label>
-          <Button
-            className={`${displayName}-submit-button`}
-            color='green'
-            onClick={this._handleLogin}
-            text='Login' />
+          <footer className={`${displayName}-footer`}>
+            <Button
+              color='green'
+              onClick={this._handleLogin}
+              text='Login' />
+          </footer>
         </Card>
       </div>
     );

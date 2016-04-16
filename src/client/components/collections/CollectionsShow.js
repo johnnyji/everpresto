@@ -86,7 +86,7 @@ export default class CollectionsShow extends Component {
               text='Create Documents' />
           </div>
           <SearchBar
-            label={this.state.count}
+            label={this.state.sentStatus}
             focusLabel='Yay, a new friend!'
             onUpdate={this._handleFilterDocuments} />
         </DashboardContentHeader>

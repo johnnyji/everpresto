@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import Collection from './Collection';
-import UserValidator from '.././validators/UserValidator';
+import DocumentEmailer from '../services/DocumentEmailer';
+import UserValidator from '../validators/UserValidator';
 
 const ObjectId = mongoose.Types.ObjectId;
 const Schema = mongoose.Schema;
@@ -51,6 +52,9 @@ const DocumentSchema = new Schema({
   timestamps: true
 });
 
+// DocumentSchema.pre('save', sendEmail);
+// DocumentSchema.post('save', emitSocketEmailCount);
+
 
 DocumentSchema.statics.batchCreate = function(docs, companyId, userId) {
   return new Promise((resolve, reject) => {
@@ -69,6 +73,9 @@ DocumentSchema.statics.batchCreate = function(docs, companyId, userId) {
     });
 
     this.create(whitelistedDocs, (err, docs) => {
+      // Sends the initial documents to be signed emails to the signers
+      DocumentEmailer.sendInitialEmail(docs);
+
       if (err) return reject(err);
 
       Collection.findWithDocuments(docs[0]._collection.toString())

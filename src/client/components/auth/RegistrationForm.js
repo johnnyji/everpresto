@@ -127,11 +127,12 @@ export default class RegistrationForm extends Component {
             ref='user-passwordConfirmation'
             successKeys='user:values:passwordConfirmation'
             type='password'/>
-          <Button
-            className={`${displayName}-card-button`}
-            color='yellow'
-            onClick={this._handleFormSubmission}
-            text="I'm done!"/>
+          <footer className={`${displayName}-footer`}>
+            <Button
+              color='yellow'
+              onClick={this._handleFormSubmission}
+              text="I'm done!"/>
+          </footer>
         </Card>
       </div>
     );

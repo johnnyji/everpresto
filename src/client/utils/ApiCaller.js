@@ -5,6 +5,7 @@ const ApiCaller = {
   sendAjaxRequest(options) {
     return new Promise((resolve, reject) => {
       const request = new XMLHttpRequest();
+
       request.open(options.method, options.url);
       request.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
 

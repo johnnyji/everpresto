@@ -39,8 +39,14 @@ export default class Button extends Component {
       red: '#FF805F',
       yellow: '#FFB55F'
     }
-    const classes = classNames(className, displayName);
-    const iconClasses = classNames('ui-Button-icon', iconClassName);
+    const classes = classNames({
+      [className]: className,
+      [displayName]: true
+    });
+    const iconClasses = classNames({
+      ['ui-Button-icon']: true,
+      [iconClassName]: iconClassName
+    });
 
     return (
       <MUIRaisedButton
@@ -53,13 +59,12 @@ export default class Button extends Component {
         labelStyle={{
           color: '#FFF',
           fontSize: '16px',
-          fontWeight: '400',
-          padding: '0.5rem 1rem',
+          fontWeight: 400,
           textTransform: 'none'
         }}
         style={{
-          borderRadius: '0'
-        }}/>
+          borderRadius: 0
+        }} />
     );
   }
 
