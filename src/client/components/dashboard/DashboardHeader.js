@@ -1,10 +1,11 @@
-import React, {Component, PropTypes} from 'react';
-import {findDOMNode} from 'react-dom';
-import {Link} from 'react-router';
+import CustomPropTypes from '.././CustomPropTypes';
 import MUIDivider from 'material-ui/lib/divider';
 import MUIMenu from 'material-ui/lib/menus/menu';
 import MUIPopover from 'material-ui/lib/popover/popover';
-import CustomPropTypes from '.././CustomPropTypes';
+import React, {Component, PropTypes} from 'react';
+import pureRender from 'pure-render-decorator';
+import {Link} from 'react-router';
+import {findDOMNode} from 'react-dom';
 
 import Logo from '.././shared/Logo';
 import DropdownOptions from '.././ui/DropdownOptions';
@@ -16,6 +17,7 @@ import AuthActionCreators from '../.././actions/AuthActionCreators';
 
 const displayName = 'DashboardHeader';
 
+@pureRender
 export default class DashboardHeader extends Component {
 
   static displayName = displayName;
@@ -56,22 +58,25 @@ export default class DashboardHeader extends Component {
                 className={`${displayName}-navbar-nav-profile-pic`}
                 src={currentUser.getIn(['account', 'profilePictureUrl'])} />
             </Link>
-            <Clickable onClick={this._handleToggleDropdownMenu} ref='dropdown-anchor'>
+            <Clickable
+              className={`${displayName}-navbar-nav-profile-name`}
+              onClick={this._handleToggleDropdownMenu}
+              ref='dropdown-anchor'>
               {currentUser.getIn(['account', 'firstName'])} {currentUser.getIn(['account', 'lastName'])}
             </Clickable>
-              <MUIPopover
-                anchorEl={dropdownAnchorEl}
-                anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
-                canAutoPosition={false}
-                open={showProfileOptions}
-                onRequestClose={() => this.setState({showProfileOptions: false})}
-                targetOrigin={{horizontal: 'right', vertical: 'top'}}>
-                <MUIMenu>
-                  <ListItem onClick={this._viewProfile}>Profile Settings</ListItem>
-                  <MUIDivider />
-                  <ListItem onClick={this._handleLogout}>Logout</ListItem>
-                </MUIMenu>
-              </MUIPopover>
+            <MUIPopover
+              anchorEl={dropdownAnchorEl}
+              anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
+              canAutoPosition={false}
+              open={showProfileOptions}
+              onRequestClose={() => this.setState({showProfileOptions: false})}
+              targetOrigin={{horizontal: 'right', vertical: 'top'}}>
+              <MUIMenu>
+                <ListItem onClick={this._viewProfile}>Profile Settings</ListItem>
+                <MUIDivider />
+                <ListItem onClick={this._handleLogout}>Logout</ListItem>
+              </MUIMenu>
+            </MUIPopover>
           </div>
         </nav>
       </header>

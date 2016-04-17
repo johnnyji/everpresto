@@ -47,7 +47,10 @@ export default class DocumentEditor extends Component {
       templatePlaceholders,
       title,
       titlePlaceholder} = this.props;
-    const classes = classNames(className, displayName);
+    const classes = classNames({
+      [className]: className,
+      [displayName]: true
+    });
 
     return (
       <Card className={classes}>

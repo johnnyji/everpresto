@@ -45,6 +45,7 @@
       }
       &-profile-name {
         @extend .text-shadow;
+        color: #FFF;
         margin-right: 1rem;
         &:hover {
           cursor: pointer;

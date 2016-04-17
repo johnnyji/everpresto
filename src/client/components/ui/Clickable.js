@@ -1,8 +1,10 @@
 import React, {Component, PropTypes} from 'react';
 import classNames from 'classnames';
+import pureRender from 'pure-render-decorator';
 
 const displayName = 'ui-Clickable';
 
+@pureRender
 export default class Clickable extends Component {
 
   static displayName = displayName;
@@ -14,7 +16,10 @@ export default class Clickable extends Component {
 
   render() {
     const {className, children, onClick} = this.props;
-    const classes = classNames(className, displayName);
+    const classes = classNames({
+      [className]: className,
+      [displayName]: true
+    });
 
     return <button className={classes} onClick={onClick}>{children}</button>;
   }
