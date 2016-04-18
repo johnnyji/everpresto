@@ -1,7 +1,9 @@
 import mongoose from 'mongoose';
 import Collection from './Collection';
-import DocumentEmailer from '../services/DocumentEmailer';
+import DocumentMailer from '../services/mailers/DocumentMailer';
 import UserValidator from '../validators/UserValidator';
+// Models must be imported from their direct source file due to cross-model dependency issues. See README
+import User from './User';
 
 const ObjectId = mongoose.Types.ObjectId;
 const Schema = mongoose.Schema;
@@ -73,10 +75,17 @@ DocumentSchema.statics.batchCreate = function(docs, companyId, userId) {
     });
 
     this.create(whitelistedDocs, (err, docs) => {
-      // Sends the initial documents to be signed emails to the signers
-      DocumentEmailer.sendInitialEmail(docs);
-
       if (err) return reject(err);
+
+      // Finds the creator of the documents (aka. current user)
+      const creator = User.findById(docs[0]._creator, (err, creator) => {
+        if (err) return reject(err);
+        // Sends emails out to signers
+        DocumentMailer.sendInitialEmails(
+          docs.map((doc) => doc.toObject()),
+          creator.toObject()
+        );
+      });
 
       Collection.findWithDocuments(docs[0]._collection.toString())
         .then(resolve)

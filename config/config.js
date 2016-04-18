@@ -10,6 +10,11 @@ var config = {
     dbPort: 27017,
     dbName: developmentDbName,
     dbConnectUrl: 'mongodb://localhost/' + developmentDbName
+  },
+  mailer: {
+    document: {
+      fromEmail: 'johnny@everpresto.com'
+    }
   }
 };
 
