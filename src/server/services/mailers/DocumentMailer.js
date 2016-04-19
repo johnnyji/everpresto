@@ -7,8 +7,18 @@ const mailer = sendgrid(secrets.sendgrid.apiKey);
 
 const DocumentMailer = {
 
+  /**
+   * Sends emails to signers alerting them that they have a document to sign 
+   * @params {array} docs - Documents that each need to be emailed to a signer
+   * @params {object} docs - The user that created the documents to be sent
+   * @returns {array} - A list of any documents that were unsuccessfully send, each with
+   *                    an error explaining why: {doc: {...}, error: {...}}
+   */
   sendInitialEmails(docs, creator) {
-    // Iterates through each signer
+    // This amount of errors in sending emails
+    const errors = [];
+
+    // Attempts to send an email for each signer
     docs.forEach((doc) => {
       const emailHtml = initialEmailTemplate({
         sender: {
@@ -20,7 +30,6 @@ const DocumentMailer = {
           lastName: doc.signer.lastName
         }
       });
-      debugger;
       // Sends doc to the the signer to sign 
       mailer.send({
         to: doc.signer.email,
@@ -28,9 +37,12 @@ const DocumentMailer = {
         subject: `${creator.account.firstName} ${creator.account.lastName} needs you to sign something!`,
         html: emailHtml
       }, (err, json) => {
-        debugger;
+        // Whenever an email is not send properly, we record it in an array we return
+        if (err) errors.push({doc, error: err});
       });
     });
+
+    return errors;
   }
 };
 

@@ -81,10 +81,11 @@ DocumentSchema.statics.batchCreate = function(docs, companyId, userId) {
       const creator = User.findById(docs[0]._creator, (err, creator) => {
         if (err) return reject(err);
         // Sends emails out to signers
-        DocumentMailer.sendInitialEmails(
+        const errors = DocumentMailer.sendInitialEmails(
           docs.map((doc) => doc.toObject()),
           creator.toObject()
         );
+        // TODO: Handle the case in which there were errors sending out emails
       });
 
       Collection.findWithDocuments(docs[0]._collection.toString())
