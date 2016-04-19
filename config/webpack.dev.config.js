@@ -7,7 +7,13 @@ const ROOT_PATH = path.join(__dirname, '.././');
 const SRC_PATH = path.join(ROOT_PATH, 'src/client');
 const PRESETS = ['es2015', 'stage-0', 'react'];
 // TODO: 'undeclared-variables-check' plugin not being used because it will not allow globals like `window`
-const PLUGINS = ['add-module-exports', 'transform-decorators-legacy', 'external-helpers-2', 'transform-runtime'];
+const PLUGINS = [
+  'add-module-exports',
+  'handlebars-inline-precompile',
+  'transform-decorators-legacy',
+  'external-helpers-2',
+  'transform-runtime'
+];
 
 module.exports = {
   entry: path.join(ROOT_PATH, 'src/client/index.js'),
@@ -55,7 +61,7 @@ module.exports = {
       }, { 
         test: /\.css$/,  
         loader: 'style!css!postcss'
-      }, { 
+      }, {
         test: /\.(gif)$/, 
         loader: 'url-loader?mimetype=image/png'
       }, { 

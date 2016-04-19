@@ -1,25 +1,19 @@
 import config from '../../../../config/config';
-import fs from 'fs';
-import Handlebars from 'handlebars';
 import sendgrid from 'sendgrid';
 import secrets from '../../../../secrets.json';
+import initialEmailTemplate from './templates/initialEmail.js';
 
 const mailer = sendgrid(secrets.sendgrid.apiKey);
 
 const DocumentMailer = {
 
   sendInitialEmails(docs, creator) {
-    // TODO: Why can't this file be read properly?
-    const emailTemplate = fs.readFileSync('templates/initial_email.hbs', 'utf-8');
-    debugger;
-    const compiledTemplate = Handlebars.compile(emailTemplate);
-
     // Iterates through each signer
     docs.forEach((doc) => {
-      const emailHtml = compiledTemplate({
+      const emailHtml = initialEmailTemplate({
         sender: {
           firstName: creator.account.firstName,
-          lastName: creator.account.lastName
+          lastName: creator.account.lastName,
         },
         signer: {
           firstName: doc.signer.firstName,
