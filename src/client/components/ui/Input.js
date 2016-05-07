@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import MUITextField from 'material-ui/lib/text-field';
+import MUITextField from 'material-ui/TextField';
 import Icon from './Icon';
 import classNames from 'classnames';
 import createNestedObject from './utils/createNestedObject';

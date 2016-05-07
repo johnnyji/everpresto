@@ -11,13 +11,13 @@ const DocumentMailer = {
    * Sends emails to signers alerting them that they have a document to sign 
    * @params {array} docs - Documents that each need to be emailed to a signer
    * @params {object} docs - The user that created the documents to be sent
-   * @returns {array} - A list of any documents that were unsuccessfully send, each with
-   *                    an error explaining why: {doc: {...}, error: {...}}
+   * @params {function} handleUnsentDocs - Callback to update all the unsent docs
+   * @params {function} handleSentDocs - Callback to update all the sent docs
+   * an error explaining why: {doc: {...}, error: {...}}
    */
-  sendInitialEmails(docs, creator) {
-    // This amount of errors in sending emails
-    const errors = [];
-
+  sendInitialEmails(docs, creator, handleUnsentDocs, handleSentDocs) {
+    const unsentDocs = [];
+    const sentDocs = [];
     // Attempts to send an email for each signer
     docs.forEach((doc) => {
       const emailHtml = initialEmailTemplate({
@@ -37,12 +37,14 @@ const DocumentMailer = {
         subject: `${creator.account.firstName} ${creator.account.lastName} needs you to sign something!`,
         html: emailHtml
       }, (err, json) => {
-        // Whenever an email is not send properly, we record it in an array we return
-        if (err) errors.push({doc, error: err});
+        // Whenever an email is not send properly
+        if (err) unsentDocs.push(doc);
+        // Whenever an email is sent successfully
+        if (json) sentDocs.push(doc);
       });
     });
-
-    return errors;
+    handleUnsentDocs(unsentDocs);
+    handleSentDocs(sentDocs);
   }
 };
 

@@ -1,10 +1,9 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import Immutable from 'immutable';
 import CustomPropTypes from '.././CustomPropTypes';
-
 import DashboardHeader from './DashboardHeader';
 import HorizontalNavbar from '.././ui/HorizontalNavbar';
+import Immutable from 'immutable';
 
 const displayName = 'DashboardHandler';
 

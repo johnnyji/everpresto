@@ -1,7 +1,9 @@
 import React, {Component, PropTypes} from 'react';
+import pureRender from 'pure-render-decorator';
 
 const className = 'ui-Overlay';
 
+@pureRender
 export default class Overlay extends Component {
 
   static displayName = 'Overlay';

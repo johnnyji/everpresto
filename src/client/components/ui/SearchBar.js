@@ -1,10 +1,12 @@
 import React, {Component, PropTypes} from 'react';
-import MUITextField from 'material-ui/lib/text-field';
 import classNames from 'classnames';
 import Icon from '.././ui/Icon';
+import MUITextField from 'material-ui/TextField';
+import pureRender from 'pure-render-decorator';
 
 const displayName = 'ui-SearchBar';
 
+@pureRender
 export default class SearchBar extends Component {
 
   static displayName = displayName;

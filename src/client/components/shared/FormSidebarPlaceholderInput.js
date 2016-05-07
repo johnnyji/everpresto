@@ -1,20 +1,17 @@
 import React, {Component, PropTypes} from 'react';
-import Immutable from 'immutable';
-import ImmutablePropTypes from 'react-immutable-proptypes';
-import MUIListItem from 'material-ui/lib/lists/list-item';
 import {minLength, noLowerCase} from '../.././utils/RegexHelper';
-import IterableFunctions from '../.././utils/immutable/IterableFunctions';
-
-import FormSidebarSection from './FormSidebarSection';
-import FormSidebarSectionTitle from './FormSidebarSectionTitle';
-import ModalPlaceholderTipBox from '.././modals/ModalPlaceholderTipBox';
+import AppActionCreators from '../.././actions/AppActionCreators';
 import Clickable from '.././ui/Clickable';
 import ClickableIcon from '.././ui/ClickableIcon';
-import Icon from '.././ui/Icon';
-import Input from '.././ui/Input';
 import ListItem from '.././ui/ListItem';
-
-import AppActionCreators from '../.././actions/AppActionCreators';
+import FormSidebarSection from './FormSidebarSection';
+import FormSidebarSectionTitle from './FormSidebarSectionTitle';
+import Icon from '.././ui/Icon';
+import Immutable from 'immutable';
+import ImmutablePropTypes from 'react-immutable-proptypes';
+import Input from '.././ui/Input';
+import IterableFunctions from '../.././utils/immutable/IterableFunctions';
+import ModalPlaceholderTipBox from '.././modals/ModalPlaceholderTipBox';
 
 const {containsAttr, isTruthy, matchesAttr} = IterableFunctions;
 const ENTER_KEY = 13;

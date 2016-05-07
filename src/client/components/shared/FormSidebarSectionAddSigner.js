@@ -1,17 +1,15 @@
 import React, {Component, PropTypes} from 'react';
+import {createModal} from '../.././actions/AppActionCreators';
+import DocumentNewActionCreators from '../.././actions/DocumentNewActionCreators';
+import FormSidebarSection from './FormSidebarSection';
+import handleFlashError from '../.././decorators/handleFlashError';
+import Icon from '.././ui/Icon';
 import Immutable from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import MUIRoundButton from 'material-ui/lib/floating-action-button';
-import FormSidebarSection from './FormSidebarSection';
-import ModalFillPlaceholders from '.././modals/ModalFillPlaceholders';
-import Icon from '.././ui/Icon';
 import Input from '.././ui/Input';
 import {minLength} from '../.././utils/RegexHelper';
-import {createModal} from '../.././actions/AppActionCreators';
-
-import handleFlashError from '../.././decorators/handleFlashError';
-
-import DocumentNewActionCreators from '../.././actions/DocumentNewActionCreators';
+import ModalFillPlaceholders from '.././modals/ModalFillPlaceholders';
+import MUIRoundButton from 'material-ui/FloatingActionButton';
 
 const BRAND_COLOR_BLUE = '#4E9CC2';
 const INIT_SIGNER_FORM_STATE = Immutable.fromJS({

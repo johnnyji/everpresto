@@ -1,10 +1,12 @@
 import React, {Component, PropTypes} from 'react';
-import MUIRaisedButton from 'material-ui/lib/raised-button';
+import MUIRaisedButton from 'material-ui/RaisedButton';
 import classNames from 'classnames';
 import Icon from './Icon';
+import pureRender from 'pure-render-decorator';
 
 const displayName = 'ui-Button';
 
+@pureRender
 export default class Button extends Component {
 
   static displayName = displayName;
@@ -40,12 +42,12 @@ export default class Button extends Component {
       yellow: '#FFB55F'
     }
     const classes = classNames({
-      [className]: className,
+      className,
       [displayName]: true
     });
     const iconClasses = classNames({
       ['ui-Button-icon']: true,
-      [iconClassName]: iconClassName
+      iconClassName
     });
 
     return (

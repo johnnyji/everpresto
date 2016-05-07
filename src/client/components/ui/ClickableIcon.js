@@ -1,9 +1,11 @@
 import React, {Component, PropTypes} from 'react';
 import classNames from 'classnames';
 import Icon from './Icon';
+import pureRender from 'pure-render-decorator';
 
 const displayName = 'ui-ClickableIcon';
 
+@pureRender
 export default class ClickableIcon extends Component {
 
   static displayName = displayName;

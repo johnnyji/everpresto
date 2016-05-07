@@ -30,6 +30,9 @@ const DocumentSchema = new Schema({
     default: 'Untitled Folder',
     required: true
   },
+  error: {
+    type: String
+  },
   signer: {
     email: {
       type: String,
@@ -57,9 +60,17 @@ const DocumentSchema = new Schema({
 // DocumentSchema.pre('save', sendEmail);
 // DocumentSchema.post('save', emitSocketEmailCount);
 
-
-DocumentSchema.statics.batchCreate = function(docs, companyId, userId) {
+/**
+ * Batch creates a an array of documents at once
+ * @param {array} docs - The list of documents being created
+ * @param {string} companyId - The id of the company these documents belong to
+ * @param {string} userId - The id of the user that created these documents
+ * @return {object} - A promise object that contains the result of creating all the documents
+ */
+DocumentSchema.statics.handleCreateBatch = function(docs, companyId, userId) {
   return new Promise((resolve, reject) => {
+    // Whitelists the documents to remove any harmful data from being
+    // written to the DB
     const whitelistedDocs = docs.map((doc) => {
       return {
         _company: ObjectId(companyId),
@@ -76,22 +87,20 @@ DocumentSchema.statics.batchCreate = function(docs, companyId, userId) {
 
     this.create(whitelistedDocs, (err, docs) => {
       if (err) return reject(err);
-
-      // Finds the creator of the documents (aka. current user)
-      const creator = User.findById(docs[0]._creator, (err, creator) => {
-        if (err) return reject(err);
-        // Sends emails out to signers
-        const errors = DocumentMailer.sendInitialEmails(
-          docs.map((doc) => doc.toObject()),
-          creator.toObject()
-        );
-        // TODO: Handle the case in which there were errors sending out emails
-      });
-
       Collection.findWithDocuments(docs[0]._collection.toString())
         .then(resolve)
         .catch(reject);
     });
+  });
+};
+
+/**
+ * Adds an error message to each unsent doc and ensure their `status` is `created`
+ * @param {array} unsentDocs - Documents that weren't properly emailed to their signers
+ */
+DocumentSchema.statics.handleUnsentDocs = function(unsentDocs) {
+  unsentDocs.forEach((doc) => {
+    // TODO: Is `this` referring to the DocumentSchema in those scope?
   });
 };
 

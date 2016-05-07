@@ -1,19 +1,16 @@
 import React, {Component, PropTypes} from 'react';
-import {connect} from 'react-redux';
-import classNames from 'classnames';
-import ImmutablePropTypes from 'react-immutable-proptypes';
-import FlashMessage from '.././ui/FlashMessage';
-import Overlay from '.././ui/Overlay';
-
 import AppActionCreators from '../.././actions/AppActionCreators';
-
-import ThemeManager from 'material-ui/lib/styles/theme-manager';
-import ThemeDecorator from 'material-ui/lib/styles/theme-decorator';
+import classNames from 'classnames';
+import {connect} from 'react-redux';
 import EverprestoMUITheme from '../.././config/mui-theme';
+import FlashMessage from '.././ui/FlashMessage';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import ImmutablePropTypes from 'react-immutable-proptypes';
+import Overlay from '.././ui/Overlay';
+import MUIThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 const displayName = 'AppHandler';
 
-@ThemeDecorator(ThemeManager.getMuiTheme(EverprestoMUITheme))
 @connect((state) => ({
   flash: state.app.get('flash'),
   modal: state.app.get('modal')
@@ -55,25 +52,24 @@ export default class AppHandler extends Component {
     const modalElement = modal.get('element');
 
     return (
-      <div className={displayName}>
-
-        {/* Displays Flash Message */}
-        {Boolean(flashMessage) &&
-          <FlashMessage color={flash.get('color')} content={flashMessage} />
-        }
-
-        {/* Displays Modal */}
-        {modalShouldDisplay &&
-          <Overlay onExit={this._handleExitModal}>
-            {modalElement}
-          </Overlay>
-        }
-
-        <div className={`${displayName}-content-container`}>
-          {/*Allows the React Router to run the correct child route, replaced RouteHandler in v1.0.0*/}
-          {this.props.children}
+      <MUIThemeProvider muiTheme={getMuiTheme(EverprestoMUITheme)}>
+        <div className={displayName}>
+          {/* Displays Flash Message */}
+          {Boolean(flashMessage) &&
+            <FlashMessage color={flash.get('color')} content={flashMessage} />
+          }
+          {/* Displays Modal */}
+          {modalShouldDisplay &&
+            <Overlay onExit={this._handleExitModal}>
+              {modalElement}
+            </Overlay>
+          }
+          <div className={`${displayName}-content-container`}>
+            {/*Allows the React Router to run the correct child route, replaced RouteHandler in v1.0.0*/}
+            {this.props.children}
+          </div>
         </div>
-      </div>
+      </MUIThemeProvider>
     );
 
   }

@@ -1,11 +1,16 @@
 import React, {Component, PropTypes} from 'react';
-import MUITab from 'material-ui/lib/tabs/tab';
+import {Tab} from 'material-ui/Tabs';
+import Button from '.././ui/Button';
+import Config from '../.././config/main';
+import createDocuments from '../.././decorators/createDocuments';
+import CustomPropTypes from '.././CustomPropTypes';
+import handleFlashError from '../.././decorators/handleFlashError';
 import Immutable from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import CustomPropTypes from '.././CustomPropTypes';
+import IterableFunctions from '../.././utils/immutable/IterableFunctions';
 import DashboardContentHeader from '.././dashboard/DashboardContentHeader';
 import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
-
+import DocumentNewActionCreators from '../.././actions/DocumentNewActionCreators';
 import DocumentViewer from '.././shared/DocumentViewer';
 import FormSidebar from '.././shared/FormSidebar';
 import FormSidebarBody from '.././shared/FormSidebarBody';
@@ -14,16 +19,8 @@ import FormSidebarSection from '.././shared/FormSidebarSection';
 import FormSidebarSectionAddSigner from '.././shared/FormSidebarSectionAddSigner';
 import FormSidebarSectionFillGeneralPlaceholders from '.././shared/FormSidebarSectionFillGeneralPlaceholders';
 import FormSidebarSectionMessage from '.././shared/FormSidebarSectionMessage';
-import Button from '.././ui/Button';
 import ListItem from '.././ui/ListItem';
 import Tabs from '.././ui/Tabs';
-
-import createDocuments from '../.././decorators/createDocuments';
-import handleFlashError from '../.././decorators/handleFlashError';
-import IterableFunctions from '../.././utils/immutable/IterableFunctions';
-import Config from '../.././config/main';
-
-import DocumentNewActionCreators from '../.././actions/DocumentNewActionCreators';
 
 const {get, isNull, isTruthy, matchesAttr} = IterableFunctions;
 const displayName = 'DocumentsNewEditorView';
@@ -140,7 +137,7 @@ export default class DocumentsNewEditorView extends Component {
           <FormSidebarBody>
             <Tabs>
               {/* Specific Placeholder Inputs */}
-              <MUITab
+              <Tab
                 label={`Add Signers (${doc.get('signers').size})`}
                 style={{color: ORANGE}}>
                 <FormSidebarSection>
@@ -149,15 +146,15 @@ export default class DocumentsNewEditorView extends Component {
                     {this._renderSigners()}
                   </FormSidebarSection>
                 </FormSidebarSection>
-              </MUITab>
+              </Tab>
               {/* General Placeholder Inputs */}
-              <MUITab
+              <Tab
                 label='Fill Placeholders'
                 style={{color: ORANGE}}>
                 <FormSidebarSectionFillGeneralPlaceholders
                   placeholders={generalPlaceholders}
                   placeholderForm={generalPlaceholderForm}/>
-              </MUITab>
+              </Tab>
             </Tabs>
           </FormSidebarBody>
           <FormSidebarFooter>

@@ -44,7 +44,6 @@ import requireUser from './middlewares/requireUser';
 import config from '../.././config/config';
 import secrets from '../.././secrets.json';
 
-
 const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);

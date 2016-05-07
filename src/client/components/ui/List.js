@@ -1,18 +1,21 @@
-import React, {PropTypes} from 'react';
+import React, {Component, PropTypes} from 'react';
 import classNames from 'classnames';
+import pureRender from 'pure-render-decorator';
 
 const displayName = 'ui-List';
 
-const List = (props) => {
-  const {className, children} = props;
-  const classes = classNames(className, displayName);
+@pureRender
+export default class List extends Component {
 
-  return <ul className={classes}>{children}</ul>;
+  static displayName = displayName;
+
+  static propTypes = {
+   className: PropTypes.string
+  };
+
+  render() {
+    const {className, children} = props;
+
+    return <ul className={classNames(className, displayName)}>{children}</ul>;
+  }
 }
-
-List.displayName = displayName;
-List.propTypes = {
- className: PropTypes.string
-};
-
-export default List;

@@ -1,12 +1,14 @@
 import React, {Component, PropTypes} from 'react';
-import MUIListItem from 'material-ui/lib/lists/list-item';
-import MUIIconButton from 'material-ui/lib/icon-button';
+import {ListItem} from 'material-ui/List';
+import MUIIconButton from 'material-ui/IconButton';
 import classNames from 'classnames';
 import Icon from './Icon';
+import pureRender from 'pure-render-decorator';
 
 const displayName = 'ui-ListItem';
 
-export default class ListItem extends Component {
+@pureRender
+export default class EverprestoListItem extends Component {
 
   static displayName = displayName;
 
@@ -24,7 +26,7 @@ export default class ListItem extends Component {
   render() {
     const {className, children, onClick, onRemove, removable} = this.props;
     const classes = classNames({
-      [className]: className,
+      className,
       [displayName]: true
     });
 
@@ -42,7 +44,7 @@ export default class ListItem extends Component {
 
     if (removable && onRemove) {
       return (
-        <MUIListItem
+        <ListItem
           onTouchTap={onClick}
           innerDivStyle={innerDivStyles}
           rightIconButton={this._renderRemoveButton()}
@@ -51,18 +53,18 @@ export default class ListItem extends Component {
           <div className={classes}>
             {children}
           </div>
-        </MUIListItem>
+        </ListItem>
       );
     }
 
     return (
-      <MUIListItem
+      <ListItem
         className={classes}
         innerDivStyle={innerDivStyles}
         onTouchTap={onClick}
         style={styles}>
         {children}
-      </MUIListItem>
+      </ListItem>
     );
   }
 

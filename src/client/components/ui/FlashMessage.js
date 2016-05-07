@@ -1,8 +1,10 @@
 import React, {Component, PropTypes} from 'react';
 import AppActionCreators from '../.././actions/AppActionCreators';
+import pureRender from 'pure-render-decorator';
 
 const displayName = 'FlashMessage';
 
+@pureRender
 export default class FlashMessage extends Component {
 
   static displayName = displayName;

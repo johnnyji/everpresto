@@ -1,19 +1,17 @@
-import CustomPropTypes from '.././CustomPropTypes';
-import MUIDivider from 'material-ui/lib/divider';
-import MUIMenu from 'material-ui/lib/menus/menu';
-import MUIPopover from 'material-ui/lib/popover/popover';
 import React, {Component, PropTypes} from 'react';
-import pureRender from 'pure-render-decorator';
-import {Link} from 'react-router';
-import {findDOMNode} from 'react-dom';
-
-import Logo from '.././shared/Logo';
-import DropdownOptions from '.././ui/DropdownOptions';
-import Clickable from '.././ui/Clickable';
-import Icon from '.././ui/Icon';
-import ListItem from '.././ui/ListItem';
-
 import AuthActionCreators from '../.././actions/AuthActionCreators';
+import Clickable from '.././ui/Clickable';
+import CustomPropTypes from '.././CustomPropTypes';
+import DropdownOptions from '.././ui/DropdownOptions';
+import {findDOMNode} from 'react-dom';
+import Icon from '.././ui/Icon';
+import {Link} from 'react-router';
+import ListItem from '.././ui/ListItem';
+import Logo from '.././shared/Logo';
+import MUIDivider from 'material-ui/Divider';
+import MUIMenu from 'material-ui/Menu';
+import MUIPopover from 'material-ui/Popover';
+import pureRender from 'pure-render-decorator';
 
 const displayName = 'DashboardHeader';
 

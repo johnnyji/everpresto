@@ -1,16 +1,25 @@
-import React, {PropTypes} from 'react';
+import React, {Component, PropTypes} from 'react';
 import classNames from 'classnames';
+import pureRender from 'pure-render-decorator';
 
-const Card = ({children, className, style}) => {
-  const classes = classNames(className, 'ui-Card');
+const displayName = 'Card';
 
-  if (style) return <div className={classes} style={style}>{children}</div>;
-  return <div className={classes}>{children}</div>;
+@pureRender
+export default class Card extends Component {
+
+  static displayName = displayName;
+  
+  static propTypes = {
+    className: PropTypes.string,
+    style: PropTypes.object
+  };
+
+  render() {
+    const {children, className, style} = this.props;
+    const classes = classNames(className, 'ui-Card');
+
+    if (style) return <div className={classes} style={style}>{children}</div>;
+    return <div className={classes}>{children}</div>;
+  }
+
 }
-
-Card.propTypes = {
-  className: PropTypes.string,
-  style: PropTypes.object
-};
-
-export default Card;
