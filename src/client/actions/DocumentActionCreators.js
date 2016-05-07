@@ -18,7 +18,7 @@ const DocumentActionCreators = {
         url: apiEndpoints.documents.index.path
       })
         .then((response) => {
-          dispatch(this.fetchDocsSuccess(response.data.docs))
+          dispatch(this.fetchDocsSuccess(response.data.docs));
         })
         .catch((response) => {
           // TODO: Move this out into utility for all API responses
@@ -30,7 +30,7 @@ const DocumentActionCreators = {
           }
           dispatch(createFlashMessage('red', response.data.message));
         });
-    }
+    };
   },
 
   /**
@@ -56,6 +56,6 @@ const DocumentActionCreators = {
     return {type: DocumentActionTypes.RESET_SHOULD_FETCH_DOCUMENTS};
   }
 
-}
+};
 
 export default DocumentActionCreators;

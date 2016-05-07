@@ -213,7 +213,7 @@ const CollectionActionCreators = {
         .catch((response) => {
           dispatch(createFlashMessage('red', response.data.message));
         });
-    }
+    };
   },
 
 
@@ -242,6 +242,6 @@ const CollectionActionCreators = {
     };
   }
 
-}
+};
 
 export default CollectionActionCreators;

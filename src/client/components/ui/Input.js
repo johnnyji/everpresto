@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import createNestedObject from './utils/createNestedObject';
 
 const displayName = 'ui-Input';
+const ENTER = 13;
 
 export default class Input extends Component {
 
@@ -93,7 +94,7 @@ export default class Input extends Component {
           hintText={label}
           onBlur={this._submitValue}
           onChange={this._submitValue}
-          onEnterKeyDown={this._handleEnterKeyDown}
+          onKeyDown={this._handleKeyDown}
           onFocus={this._submitValue}
           ref='input'
           type={type}/>
@@ -165,11 +166,13 @@ export default class Input extends Component {
    * Handles when the enter key is pressed
    * @param  {Object} e - The enter key press event
    */
-  _handleEnterKeyDown = (e) => {
-    const {onEnterKeyPress} = this.props;
+  _handleKeyDown = (e) => {
+    if (e.which === ENTER) {
+      const {onEnterKeyPress} = this.props;
 
-    if (onEnterKeyPress) onEnterKeyPress();
-    this._submitValue(e);
+      if (onEnterKeyPress) onEnterKeyPress();
+      this._submitValue(e);
+    }
   };
 
 

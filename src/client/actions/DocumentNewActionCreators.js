@@ -22,7 +22,7 @@ const DocumentNewActionCreators = {
         data: {docs}
       })
         .then((response) => {
-          const successMsg = `${pluralize(docs.length, 'document', 'documents')} successfully created!`
+          const successMsg = `${pluralize(docs.length, 'document', 'documents')} successfully created!`;
           // We need to refetch the collectionBeingViewed so it will contain all the documents
           // we've just created
           dispatch(createFlashMessage('green', successMsg));
@@ -30,7 +30,7 @@ const DocumentNewActionCreators = {
           dispatch(this.createDocumentsSuccess());
         })
         .catch((response) => {
-          dispatch(createFlashMessage('red', response.data.message))
+          dispatch(createFlashMessage('red', response.data.message));
         });
     };
   },
@@ -82,6 +82,6 @@ const DocumentNewActionCreators = {
     };
   }
 
-}
+};
 
 export default DocumentNewActionCreators;

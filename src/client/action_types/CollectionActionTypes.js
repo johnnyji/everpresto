@@ -15,6 +15,6 @@ const CollectionActionTypes = {
   RESET_COLLECTION_BEING_EDITED: 'RESET_COLLECTION_BEING_EDITED',
 
   UPDATE_COLLECTION_SUCCESS: 'UPDATE_COLLECTION_SUCCESS'
-}
+};
 
 export default CollectionActionTypes;

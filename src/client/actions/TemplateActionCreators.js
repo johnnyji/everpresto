@@ -6,7 +6,7 @@ import {createFlashMessage} from './AppActionCreators';
 const TemplateActionCreators = {
 
   addPlaceholder() {
-    return {type: TemplateActionTypes.ADD_PLACEHOLDER}
+    return {type: TemplateActionTypes.ADD_PLACEHOLDER};
   },
 
   /**
@@ -113,11 +113,11 @@ const TemplateActionCreators = {
         method: endpoint.method
       })
         .then((response) => {
-          dispatch(success(response.data.template))
+          dispatch(success(response.data.template));
         })
         .catch((response) => {
           console.log('err');
-          dispatch(createFlashMessage('red', 'Oops! We couldn\'t find the template you were looking for!'))
+          dispatch(createFlashMessage('red', 'Oops! We couldn\'t find the template you were looking for!'));
         });
     };
   },
@@ -190,7 +190,7 @@ const TemplateActionCreators = {
         .catch((response) => {
           dispatch(createFlashMessage('red', response.data.message));
         });
-    }
+    };
   },
 
 
@@ -203,6 +203,6 @@ const TemplateActionCreators = {
     return {type: TemplateActionTypes.UPDATE_TEMPLATE_SUCCESS};
   }
 
-}
+};
 
 export default TemplateActionCreators;

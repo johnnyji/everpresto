@@ -10,6 +10,6 @@ const TemplateActionTypes = {
   RESET_TEMPLATE_BEING_EDITED: 'RESET_TEMPLATE_BEING_EDITED',
 
   UPDATE_TEMPLATE_SUCCESS: 'UPDATE_TEMPLATE_SUCCESS'
-}
+};
 
 export default TemplateActionTypes;

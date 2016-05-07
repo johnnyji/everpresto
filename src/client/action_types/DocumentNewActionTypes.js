@@ -15,6 +15,6 @@ const DocumentNewActionTypes = {
 
   UPDATE_GENERAL_PLACEHOLDER_FORM_FIELD: 'UPDATE_GENERAL_PLACEHOLDER_FORM_FIELD'
 
-}
+};
 
 export default DocumentNewActionTypes;

@@ -78,6 +78,6 @@ const AuthActionCreators = {
     return {type: AuthActionTypes.LOGOUT_SUCCESS};
   }
 
-}
+};
 
 export default AuthActionCreators;
