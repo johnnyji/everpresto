@@ -12,7 +12,7 @@ export default class EverprestoTabs extends Component {
   render() {
     return (
       <Tabs tabItemContainerStyle={{backgroundColor: 'transparent'}}>
-        {children}
+        {this.props.children}
       </Tabs>
     );
   }

@@ -7,11 +7,11 @@ export default (io) => {
   const documents = io.of('/documents');
 
   documents.on('connection', (socket) => {
-    socket.emit('YO! Documents IO is connected');
+    socket.emit('connected', 'YO! Documents IO is connected');
   });
 
   documents.on('disconnect', (socket) => {
-    console.log('YO! Documents IO is gone!');
+    socket.emit('YO! Documents IO is gone!');
   });
 
   return documents;

@@ -1,15 +1,9 @@
 import DocumentNewActionTypes from './../action_types/DocumentNewActionTypes';
 import apiEndpoints from '.././apiEndpoints';
-import config from '../../config/config';
 import {sendAjaxRequest} from '.././utils/ApiCaller';
 import {createFlashMessage} from './AppActionCreators';
 import {setCollectionBeingViewed} from './CollectionActionCreators';
 import {pluralize} from '.././utils/TextHelper';
-import Rx from 'rxjs/Rx';
-import secrets from '../../secrets.json';
-import SparkPost from 'sparkpost';
-
-const mailer = new SparkPost(secrets.sparkpost.apiKey);
 
 const DocumentNewActionCreators = {
 

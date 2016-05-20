@@ -93,8 +93,9 @@ export default class DocumentsNewEditorView extends Component {
   componentDidMount() {
     // Connects to the `documents` socket namespace, this is so that when we create documents, we
     // can live update as they're being emailed and written to the DB
+    console.log(config.socket.documents);
     this.socket = io.connect(config.socket.documents);
-    this.socket.on('connection', this._handleConnection);
+    this.socket.on('emailed', this._handleEmailSent);
   }
 
   // TODO: This is too slow and is computing way too much, find way to speed this up
@@ -214,10 +215,6 @@ export default class DocumentsNewEditorView extends Component {
     }
 
     this.props.createDocuments();
-  };
-
-  _handleConnection = (socket) => {
-    debugger;
   };
 
 }

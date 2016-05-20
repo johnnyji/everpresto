@@ -8,7 +8,7 @@ export default class DashboardContentHeader extends Component {
   static displayName = displayName;
 
   static propTypes = {
-    children: PropTypes.object,
+    children: PropTypes.any,
     className: PropTypes.string
   };
 
