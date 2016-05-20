@@ -3,12 +3,14 @@ import {createFlashMessage} from '.././actions/AppActionCreators';
 
 const handleFlashError = (ComposedComponent) => (class extends Component {
 
+  static displayName = 'handleFlashError';
+
   static contextTypes = {
-    dispatch: PropTypes.func.isRequired,
+    dispatch: PropTypes.func.isRequired
   };
 
   render() {
-    return <ComposedComponent {...this.props} handleFlashError={this._handleError}/>;
+    return <ComposedComponent {...this.props} handleFlashError={this._handleError} />;
   }
 
   _handleError = (err) => {

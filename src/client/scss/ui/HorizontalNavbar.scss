@@ -1,12 +1,11 @@
 .ui-HorizontalNavbar {
-  position: relative;
   background-color: $navbar-background-color;
   border-bottom: 1px solid $border-color;
-  line-height: $horizontal-navbar-height;
   height: $horizontal-navbar-height;
+  line-height: $horizontal-navbar-height;
   margin: 0 auto;
+  position: relative;
   width: 100%;
-
   z-index: 2;
 
   &-content {
@@ -15,11 +14,12 @@
     margin: 0 auto;
     padding: 0 20px;
     &-link {
-      color: $navbar-text-color;
-      position: relative;
-      margin-right: 1.6rem;
-      display: inline-block;
       @extend .transition;
+      color: $navbar-text-color;
+      display: inline-block;
+      margin-right: 1.6rem;
+      position: relative;
+      text-decoration: none;
     }
     &-link-active {
       color: $navbar-active-text-color;

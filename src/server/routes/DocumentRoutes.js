@@ -1,8 +1,11 @@
 import express from 'express';
 import mongoose from 'mongoose';
+import Rx from 'rxjs/Rx';
 import {extractErrorMessage, toObjects} from './utils/ResponseHelper';
+import {sendInitialEmail$$} from '../services/mailers/DocumentMailer';
 
 const ObjectId = mongoose.Types.ObjectId;
+const Observable = Rx.Observable;
 const Document = mongoose.model('Document');
 const User = mongoose.model('User');
 const router = express.Router();
@@ -18,27 +21,47 @@ router.get('/index', (req, res) => {
 router.post('/create', (req, res) => {
   const {docs} = req.body;
   const {companyId, userId} = req.session;
+
   
   User.findById(ObjectId(userId), (err, user) => {
-    // TODO: Handle user not found error (would this even be possible, as we're querying
-    // the session user...
+    const io = req.app.get('io');
+
+    // Creates an observable of the created docs
+    const createdDocuments$ = Observable.from(docs)
+      .map((doc) => Document.handleCreate(doc, companyId, userId));
     
-    // We return the entire collection containing the newly created documents, no need to convert `toObject`,
-    // already done
-    Document.handleCreateBatch(docs, companyId, userId)
-      .then((collection) => {
-        // TODO: Is it possible to do this using socket.io?
-        DocumentMailer.sendInitialEmails(
-          collection.documents,
-          user,
-          Document.handleUnsentDocs,
-          Document.handleSentDocs
-        );
-        res.status(201).json({collection});
-      })
-      .catch((err) => {
-        res.status(422).json({message: extractErrorMessage(err)});
-      });
+    // Emails the recently created docs and response using web sockets
+    createdDocuments$
+      .switchMap((doc) => sendInitialEmail$$(doc, user))
+      .subscribe(
+        (doc) => {
+          // Fire document emailed socket.io event
+          io.of('/documents').emit('emailed', {doc});
+        },
+        () => {},
+        () => {
+          // Should I still respond to this AJAX call if we're sending messages through socket?
+          res.status(201).json({});
+          // Fire complete socket.io event
+        }
+      );
+
+    // // We return the entire collection containing the newly created documents, no need to convert `toObject`,
+    // // already done
+    // Document.handleCreateBatch(docs, companyId, userId)
+    //   .then((collection) => {
+    //     // TODO: Is it possible to do this using socket.io?
+    //     DocumentMailer.sendInitialEmails(
+    //       collection.documents,
+    //       user,
+    //       Document.handleUnsentDocs,
+    //       Document.handleSentDocs
+    //     );
+    //     res.status(201).json({collection});
+    //   })
+    //   .catch((err) => {
+    //     res.status(422).json({message: extractErrorMessage(err)});
+    //   });
   });
 });
 

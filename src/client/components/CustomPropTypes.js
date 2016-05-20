@@ -29,10 +29,10 @@ const CustomPropTypes = {
     signer: {
       email: PropTypes.string.isRequired,
       firstName: PropTypes.string,
-      lastName: PropTypes.string,
+      lastName: PropTypes.string
     },
     status: PropTypes.oneOf(['created', 'sent', 'signed']).isRequired,
-    updatedAt: PropTypes.string.isRequired,
+    updatedAt: PropTypes.string.isRequired
   }),
 
   template: ImmutablePropTypes.contains({

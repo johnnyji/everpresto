@@ -38,15 +38,18 @@ export default class DocumentsNew extends Component {
     modalIsDisplayed: PropTypes.bool.isRequired,
     // TODO: Create proptypes for both generalFields and generalPlaceholderForm
     generalPlaceholderForm: ImmutablePropTypes.map.isRequired,
+    params: PropTypes.shape({
+      collection_id: PropTypes.string
+    }).isRequired,
     shouldFetchTemplates: PropTypes.bool.isRequired,
     templates: ImmutablePropTypes.listOf(CustomPropTypes.template).isRequired
   };
 
   componentWillMount() {
-    const {shouldFetchTemplates, template} = this.props;
+    const {shouldFetchTemplates, templates} = this.props;
 
     if (shouldFetchTemplates) return this.context.dispatch(TemplateActionCreators.fetchTemplates());
-    this.setState({filteredTemplates: this.props.templates});
+    this.setState({filteredTemplates: templates});
   }
 
   componentDidMount() {

@@ -64,7 +64,6 @@ export default class Input extends Component {
 
   render() {
     const {
-      autoComplete,
       autoFocus,
       className,
       defaultValue,
@@ -78,8 +77,8 @@ export default class Input extends Component {
     const styles = {
       width: width != null ? `${width}px` : '100%'
     };
-    const inputLabel = Boolean(labelIcon)
-      ? <span><Icon icon={labelIcon}/>{label}</span>
+    const inputLabel = labelIcon
+      ? <span><Icon icon={labelIcon} />{label}</span>
       : label;
 
     return (
@@ -91,13 +90,13 @@ export default class Input extends Component {
           disabled={disabled}
           errorText={shouldDisplayError ? error : undefined}
           fullWidth={true}
-          hintText={label}
+          hintText={inputLabel}
           onBlur={this._submitValue}
           onChange={this._submitValue}
           onKeyDown={this._handleKeyDown}
           onFocus={this._submitValue}
           ref='input'
-          type={type}/>
+          type={type} />
       </div>
     );
   }
@@ -111,7 +110,7 @@ export default class Input extends Component {
 
   /**
    * Returns whether or not the input field value is valid
-   * 
+   *
    * @return {Boolean} - The validity of the field
    */
   valid = () => {

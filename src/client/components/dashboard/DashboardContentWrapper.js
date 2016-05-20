@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
-import classNames from 'classnames';
 import AppContentWrapper from '.././app/AppContentWrapper';
+import classNames from 'classnames';
 
 const displayName = 'DashboardContentWrapper';
 

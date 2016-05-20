@@ -54,7 +54,7 @@ export default class LoginForm extends Component {
             onUpdate={this._handleInputUpdate}
             patternMatches={email('Hmmm, are you sure that\'s your email?')}
             ref='email'
-            successKeys='values:email'/>
+            successKeys='values:email' />
           <Input
             className={`${displayName}-input`}
             error={user.getIn(['errors', 'password'])}
@@ -65,12 +65,12 @@ export default class LoginForm extends Component {
             patternMatches={minLength(1, 'Don\'t forget to enter a password!')}
             ref='password'
             successKeys='values:password'
-            type={showPassword ? 'text' : 'password'}/>
+            type={showPassword ? 'text' : 'password'} />
           <label className={`${displayName}-show-password`}>
             <input
               checked={showPassword}
               onChange={this._toggleShowPassword}
-              type='checkbox'/>
+              type='checkbox' />
             Show password?
           </label>
           <footer className={`${displayName}-footer`}>

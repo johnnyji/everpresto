@@ -1,18 +1,17 @@
 import React, {Component, PropTypes} from 'react';
-import {connect} from 'react-redux';
-import io from 'socket.io-client';
-import ImmutablePropTypes from 'react-immutable-proptypes';
+import Button from '.././ui/Button';
+import CollectionActionCreators from '../.././actions/CollectionActionCreators';
 import CustomPropTypes from '.././CustomPropTypes';
 import DashboardContentHeader from '.././dashboard/DashboardContentHeader';
 import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
 import DashboardQuote from '.././dashboard/DashboardQuote';
 import DashboardSpinner from '.././shared/DashboardSpinner';
 import DocumentCard from '.././documents/DocumentCard';
-import Button from '.././ui/Button';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 import SearchBar from '.././ui/SearchBar';
-import {matchesAttr} from '../.././utils/immutable/IterableFunctions'
-
-import CollectionActionCreators from '../.././actions/CollectionActionCreators';
+import io from 'socket.io-client';
+import {connect} from 'react-redux';
+import {matchesAttr} from '../.././utils/immutable/IterableFunctions';
 
 const displayName = 'CollectionsShow';
 const isSent = matchesAttr('status', /(^sent$|^signed$)/);
@@ -38,7 +37,10 @@ export default class CollectionsShow extends Component {
       documents: ImmutablePropTypes.listOf(CustomPropTypes.document).isRequired,
       title: PropTypes.string.isRequired,
       updatedAt: PropTypes.string.isRequired
-    })
+    }),
+    params: PropTypes.shape({
+      id: PropTypes.string.isRequired
+    }).isRequired
   };
 
   constructor(props) {
@@ -50,7 +52,7 @@ export default class CollectionsShow extends Component {
   }
 
   componentWillMount() {
-    // If the collection being viewed do not exist, fetch them
+    // If the collection being viewed do not exist, fetch it
     if (!this.props.collection) {
       this.context.dispatch(
         CollectionActionCreators.fetchCollectionBeingViewed(this.props.params.id)
@@ -59,11 +61,13 @@ export default class CollectionsShow extends Component {
   }
 
   componentDidMount() {
+    // Remove?
     this.socket = io.connect('http://localhost:3000/collections');
     this.socket.on('connected', this._handleSocketConnection);
   }
 
   componentWillUnmount() {
+    this.socket.emit('disconnect');
     this.context.dispatch(
       CollectionActionCreators.resetCollectionBeingViewed()
     );
@@ -110,7 +114,7 @@ export default class CollectionsShow extends Component {
       return this.setState({sentStatus: 'All Sent'});
     }
 
-    this.socket.emit()
+    this.socket.emit();
   };
 
   _renderDocuments = (collection) => {
@@ -120,17 +124,13 @@ export default class CollectionsShow extends Component {
       return (
         <DashboardQuote
           author='Jedi Master Yoda'
-          quote="If it's ease of workflow you seek, create from templates you must!"/>
+          quote="If it's ease of workflow you seek, create from templates you must!" />
       );
     }
 
     return (
       <div className={`${displayName}-documents`}>
-        {documents.map((doc, i) => (
-          <DocumentCard
-            doc={doc}
-            key={i}/>
-        ))}
+        {documents.map((doc, i) => <DocumentCard doc={doc} key={i} />)}
       </div>
     );
   };

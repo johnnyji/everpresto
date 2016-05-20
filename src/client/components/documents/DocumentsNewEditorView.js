@@ -1,14 +1,14 @@
 import React, {Component, PropTypes} from 'react';
 import {Tab} from 'material-ui/Tabs';
 import Button from '.././ui/Button';
-import Config from '../.././config/main';
+import config from '../../../../config/config';
+import clientConfig from '../.././config/main';
 import createDocuments from '../.././decorators/createDocuments';
 import CustomPropTypes from '.././CustomPropTypes';
 import handleFlashError from '../.././decorators/handleFlashError';
-import Immutable from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import io from 'socket.io-client';
 import IterableFunctions from '../.././utils/immutable/IterableFunctions';
-import DashboardContentHeader from '.././dashboard/DashboardContentHeader';
 import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
 import DocumentNewActionCreators from '../.././actions/DocumentNewActionCreators';
 import DocumentViewer from '.././shared/DocumentViewer';
@@ -36,7 +36,7 @@ const replacePlacholders = (type) => (body, placeholderFields) => {
 
     return alteredBody.replace(
       new RegExp(field.get('placeholder'), 'g'),
-      `<span class="${Config.doc.placeholderClasses[type]}">${field.get('value')}</span>`
+      `<span class="${clientConfig.doc.placeholderClasses[type]}">${field.get('value')}</span>`
     );
   }, body);
 };
@@ -90,6 +90,13 @@ export default class DocumentsNewEditorView extends Component {
     };
   }
 
+  componentDidMount() {
+    // Connects to the `documents` socket namespace, this is so that when we create documents, we
+    // can live update as they're being emailed and written to the DB
+    this.socket = io.connect(config.socket.documents);
+    this.socket.on('connection', this._handleConnection);
+  }
+
   // TODO: This is too slow and is computing way too much, find way to speed this up
   componentWillReceiveProps(nextProps) {
     const nextGeneralFields = nextProps.generalPlaceholderForm.get('values');
@@ -130,7 +137,7 @@ export default class DocumentsNewEditorView extends Component {
           </header>
           <DocumentViewer
             body={templateBody}
-            className={`${displayName}-document-preview`}/>
+            className={`${displayName}-document-preview`} />
         </div>
 
         <FormSidebar className={`${displayName}-sidebar`}>
@@ -141,7 +148,7 @@ export default class DocumentsNewEditorView extends Component {
                 label={`Add Signers (${doc.get('signers').size})`}
                 style={{color: ORANGE}}>
                 <FormSidebarSection>
-                  <FormSidebarSectionAddSigner placeholders={specificPlaceholders}/>
+                  <FormSidebarSectionAddSigner placeholders={specificPlaceholders} />
                   <FormSidebarSection className={`${displayName}-sidebar-signers-list`}>
                     {this._renderSigners()}
                   </FormSidebarSection>
@@ -153,7 +160,7 @@ export default class DocumentsNewEditorView extends Component {
                 style={{color: ORANGE}}>
                 <FormSidebarSectionFillGeneralPlaceholders
                   placeholders={generalPlaceholders}
-                  placeholderForm={generalPlaceholderForm}/>
+                  placeholderForm={generalPlaceholderForm} />
               </Tab>
             </Tabs>
           </FormSidebarBody>
@@ -162,7 +169,7 @@ export default class DocumentsNewEditorView extends Component {
               color='green'
               icon='send'
               onClick={this._handleCreateDocuments}
-              text='Send'/>
+              text='Send' />
           </FormSidebarFooter>
         </FormSidebar>
       </DashboardContentWrapper>
@@ -207,6 +214,10 @@ export default class DocumentsNewEditorView extends Component {
     }
 
     this.props.createDocuments();
+  };
+
+  _handleConnection = (socket) => {
+    debugger;
   };
 
 }

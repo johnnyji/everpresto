@@ -3,7 +3,6 @@ import Collection from './Collection';
 import DocumentMailer from '../services/mailers/DocumentMailer';
 import UserValidator from '../validators/UserValidator';
 // Models must be imported from their direct source file due to cross-model dependency issues. See README
-import User from './User';
 
 const ObjectId = mongoose.Types.ObjectId;
 const Schema = mongoose.Schema;

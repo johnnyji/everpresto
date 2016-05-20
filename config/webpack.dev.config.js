@@ -37,12 +37,13 @@ module.exports = {
     //   path.join(ROOT_PATH, 'src/server'),
     //   path.join(ROOT_PATH, 'node_modules')
     // ],
-    extensions: ['', '.js', '.jsx', '.json', '.scss'],
+    extensions: ['', '.js', '.jsx', '.json', '.scss']
   },
   module: {
     loaders: [
-      { 
-        test: /.js$/, 
+      {
+        test: /.js$/,
+        // Need to parse rxjs
         include: [SRC_PATH],
         loader: 'babel',
         query: {
@@ -54,22 +55,22 @@ module.exports = {
         test: /\.json$/,
         include: [SRC_PATH],
         loader: 'json-loader'
-      }, { 
+      }, {
         test: /.scss$/,
         include: [SRC_PATH],
         loader: ExtractTextPlugin.extract('style', 'css!postcss!sass')
-      }, { 
-        test: /\.css$/,  
+      }, {
+        test: /\.css$/,
         loader: 'style!css!postcss'
       }, {
-        test: /\.(gif)$/, 
+        test: /\.(gif)$/,
         loader: 'url-loader?mimetype=image/png'
-      }, { 
-        test: /\.woff(2)?(\?v=[0-9].[0-9].[0-9])?$/, 
+      }, {
+        test: /\.woff(2)?(\?v=[0-9].[0-9].[0-9])?$/,
         loader: 'url-loader?mimetype=application/font-woff'
-      }, { 
-        test: /\.(ttf|eot|svg)(\?v=[0-9].[0-9].[0-9])?$/, 
-        loader: 'file-loader?name=[name].[ext]' 
+      }, {
+        test: /\.(ttf|eot|svg)(\?v=[0-9].[0-9].[0-9])?$/,
+        loader: 'file-loader?name=[name].[ext]'
       }
     ],
     noParse: /\.min\.js/,

@@ -11,9 +11,11 @@ const signerAttrs = {
 };
 
 const createDocuments = (ComposedComponent) => (class extends Component {
+  
+  static displayName = 'createDocuments';
 
   static contextTypes = {
-    dispatch: PropTypes.func.isRequired,
+    dispatch: PropTypes.func.isRequired
   };
 
   static propTypes = {
@@ -43,7 +45,7 @@ const createDocuments = (ComposedComponent) => (class extends Component {
   };
 
   render() {
-    return <ComposedComponent {...this.props} createDocuments={this._createDocuments}/>;
+    return <ComposedComponent {...this.props} createDocuments={this._createDocuments} />;
   }
 
   /**
@@ -66,7 +68,7 @@ const createDocuments = (ComposedComponent) => (class extends Component {
           firstName: signer.find(signerAttrs.firstName).get('value'),
           lastName: signer.find(signerAttrs.lastName).get('value')
         }
-      }
+      };
     });
 
     this.context.dispatch(DocumentNewActionCreators.createDocuments(documents));

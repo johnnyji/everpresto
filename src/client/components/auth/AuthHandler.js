@@ -1,10 +1,8 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import CustomPropTypes from '.././CustomPropTypes';
-
 import LoginForm from './LoginForm';
 import RegistrationForm from './RegistrationForm';
-
 
 @connect((state) => ({
   currentUser: state.auth.get('user')
@@ -24,7 +22,7 @@ export default class AuthHandler extends Component {
 
   componentWillMount() {
     // Redirects the user to the dashboard if they're already authenticated.
-    if (Boolean(this.props.currentUser)) this.context.router.replace('/dashboard');
+    if (this.props.currentUser) this.context.router.replace('/dashboard');
   }
 
   componentWillUpdate(nextProps) {
@@ -40,7 +38,7 @@ export default class AuthHandler extends Component {
   render() {
     // Returns the registration form if the route path is '/join', otherwise
     // returns the login form by default.
-    if (this.props.location.pathname === '/join') return <RegistrationForm />;
+    if ('./join' === this.props.location.pathname) return <RegistrationForm />;
     return <LoginForm />;
   }
 }

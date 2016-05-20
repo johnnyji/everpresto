@@ -1,14 +1,52 @@
 import config from '../../../../config/config';
-import sendgrid from 'sendgrid';
-import secrets from '../../../../secrets.json';
 import initialEmailTemplate from './templates/initialEmail.js';
+import Rx from 'rxjs/Rx';
+import secrets from '../../../../secrets.json';
+import SparkPost from 'sparkpost';
 
-const mailer = sendgrid(secrets.sendgrid.apiKey);
+const mailer = new SparkPost(secrets.sparkpost.apiKey);
 
 const DocumentMailer = {
 
+  sendInitialEmail$$ (doc, fromUser) {
+    // Creates the HTML email from the email template,
+    // and replaces placeholder fields with the users information
+    return Rx.Observable.create((observer) => {
+      const emailHtml = initialEmailTemplate({
+        sender: {
+          firstName: fromUser.account.firstName,
+          lastName: fromUser.account.lastName
+        },
+        signer: {
+          firstName: doc.signer.firstName,
+          lastName: doc.signer.lastName
+        }
+      });
+
+      // Sends the document email to the user
+      mailer.transmissions.send({
+        transmissionBody: {
+          content: {
+            from: config.mailer.document.fromEmail,
+            subject: `${fromUser.account.firstName} ${fromUser.account.lastName} needs you to sign something!`,
+            html: emailHtml
+          },
+          recipients: [{address: doc.signer.email}]
+        }
+      }, (err, _) => {
+        if (err) {
+          observer.next(err);
+        } else {
+          observer.next(doc);
+        }
+      });
+      // When all the emails have finished sending
+      observer.complete();
+    });
+  },
+
   /**
-   * Sends emails to signers alerting them that they have a document to sign 
+   * Sends emails to signers alerting them that they have a document to sign
    * @params {array} docs - Documents that each need to be emailed to a signer
    * @params {object} docs - The user that created the documents to be sent
    * @params {function} handleUnsentDocs - Callback to update all the unsent docs
@@ -18,19 +56,20 @@ const DocumentMailer = {
   sendInitialEmails(docs, creator, handleUnsentDocs, handleSentDocs) {
     const unsentDocs = [];
     const sentDocs = [];
+
     // Attempts to send an email for each signer
     docs.forEach((doc) => {
       const emailHtml = initialEmailTemplate({
         sender: {
           firstName: creator.account.firstName,
-          lastName: creator.account.lastName,
+          lastName: creator.account.lastName
         },
         signer: {
           firstName: doc.signer.firstName,
           lastName: doc.signer.lastName
         }
       });
-      // Sends doc to the the signer to sign 
+      // Sends doc to the the signer to sign
       mailer.send({
         to: doc.signer.email,
         from: config.mailer.document.fromEmail,

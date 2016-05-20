@@ -9,12 +9,16 @@ var config = {
     serverPort: 3000,
     dbPort: 27017,
     dbName: developmentDbName,
-    dbConnectUrl: 'mongodb://localhost/' + developmentDbName
+    dbConnectUrl: `mongodb://localhost/${developmentDbName}`
   },
   mailer: {
     document: {
       fromEmail: 'johnny@everpresto.com'
     }
+  },
+  socket: {
+    collections: 'http://localhost:3000/collections',
+    documents: 'http://localhost:3000/documents'
   }
 };
 

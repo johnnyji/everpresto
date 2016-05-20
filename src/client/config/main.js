@@ -2,7 +2,7 @@
 
 export default {
   collection: {
-    defaultTitle: 'Untitled',
+    defaultTitle: 'Untitled'
   },
   doc: {
     placeholderClasses: {

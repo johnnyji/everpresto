@@ -1,17 +1,24 @@
-import React, {PropTypes} from 'react';
+import React, {Component, PropTypes} from 'react';
 import classNames from 'classnames';
 
 const displayName = 'DashboardContentHeader';
 
-const DashboardContentHeader = ({children, className}) => (
-  <header className={classNames(className, displayName)}>
-    {children}
-  </header>
-);
+export default class DashboardContentHeader extends Component {
 
-DashboardContentHeader.displayName = displayName;
-DashboardContentHeader.propTypes = {
-  className: PropTypes.string
-};
+  static displayName = displayName;
 
-export default DashboardContentHeader;
+  static propTypes = {
+    children: PropTypes.object,
+    className: PropTypes.string
+  };
+
+  render() {
+    const {children, className} = this.props;
+
+    return (
+      <header className={classNames(className, displayName)}>
+        {children}
+      </header>
+    );
+  }
+}

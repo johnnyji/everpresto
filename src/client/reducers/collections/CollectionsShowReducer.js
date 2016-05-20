@@ -24,4 +24,4 @@ export default function CollectionsShowReducer(state = initialState, action) {
       return state;
 
   }
-};
+}

@@ -1,5 +1,7 @@
 import React, {Component, PropTypes} from 'react';
+import Rx from 'rxjs/Rx';
 import AppActionCreators from '../.././actions/AppActionCreators';
+import {findDOMNode} from 'react-dom';
 import pureRender from 'pure-render-decorator';
 
 const displayName = 'FlashMessage';
@@ -25,12 +27,31 @@ export default class FlashMessage extends Component {
     color: 'blue'
   };
 
+  componentDidMount() {
+    const removeButton = findDOMNode(this.refs['removeButton']);
+
+    // When the flash times out naturally
+    const timer$ = Rx.Observable.interval(3000);
+    // When the flash message is clicked
+    const removeButtonClick$ = Rx.Observable.fromEvent(removeButton, 'click');
+    
+    // Will unmount this component if the timer times out or the component is clicked
+    Rx.Observable
+      .merge(timer$, removeButtonClick$)
+      .take(1)
+      .subscribe(() => {}, () => {}, () => {
+        this.context.dispatch(AppActionCreators.dismissFlashMessage());
+      });
+  }
+
   render() {
-    const {children, color, content} = this.props;
+    const {color, content} = this.props;
     const className = `ui-${displayName}`;
 
     return (
-      <div className={className} onClick={this._handleDismiss}>
+      <div
+        className={className}
+        ref='removeButton'>
         <div className={`${className}-content ${className}-${color}`}>
           <span className={`${className}-content-message`}>
             {content}
@@ -38,10 +59,6 @@ export default class FlashMessage extends Component {
         </div>
       </div>
     );
-  }
-
-  _handleDismiss = () => {
-    this.context.dispatch(AppActionCreators.dismissFlashMessage());
   }
 
 }

@@ -19,7 +19,6 @@ import clientRoutes from './../client/routes/routes';
 import NotFoundHandler from './../client/components/shared/NotFoundHandler';
 
 // REDUX
-import {createStore} from 'redux';
 import {Provider} from 'react-redux';
 import configureStore from './../client/store/configureStore';
 
@@ -52,10 +51,10 @@ const port = process.env.PORT || config.development.serverPort;
 const apiRouter = express.Router();
 
 // Connecting to the DB
-mongoose.connection.on('open', (ref) => console.info('Connected to Mongo server...'));
+mongoose.connection.on('open', () => console.info('Connected to Mongo server...'));
 mongoose.connection.on('error', (err) => console.info('Mongo server connection error: ', err));
 mongoose.connect(config.development.dbConnectUrl, (err) => {
-  if (err) { throw err; }
+  if (err) throw err;
 });
 
 // Sets application level variables that can either be retrieved by `app.get('name')` or
@@ -73,7 +72,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 // Uses MongoDB as a store for sessions so they can persist
-app.use(session({ 
+app.use(session({
   secret: secrets.sessionSecret,
   store: new MongoStore({mongooseConnection: mongoose.connection}),
   resave: false,
@@ -92,8 +91,17 @@ apiRouter.use('/templates', requireUser, TemplateRoutes);
 apiRouter.use('/users', requireUser, UserRoutes);
 
 
-// socket.io
+// We seperate each socket.io namespace into a different file, and pass it the `io` object so the files
+// can handle their own connections and messages.
+// This is the equivilant of writing `io.of('/namespace').on('connection', ...)` for every namespace all in
+// this `server.js` file, only we're breaking it down into different files.
+//
+// This makes sure our app is listening to all possible socket.io connections on load. The actual
+// connections (ie: `io.connect('http://localhost:3000/namespace)`) are made on the front end
+// by the React view components when they mount. See `componentDidMount` in `CollectionShow.js`
+// for reference.
 require('./sockets/collections')(io);
+require('./sockets/documents')(io);
 
 
 // Server-side rendering
