@@ -68,6 +68,7 @@ export default class DocumentsNewEditorView extends Component {
       ).isRequired,
       template: CustomPropTypes.template.isRequired
     }).isRequired,
+    emailsSentCount: PropTypes.number.isRequired,
     // This is the general placeholders form the users fill out
     generalPlaceholderForm: ImmutablePropTypes.contains({
       values: ImmutablePropTypes.listOf(
@@ -93,8 +94,8 @@ export default class DocumentsNewEditorView extends Component {
   componentDidMount() {
     // Connects to the `documents` socket namespace, this is so that when we create documents, we
     // can live update as they're being emailed and written to the DB
-    console.log(config.socket.documents);
     this.socket = io.connect(config.socket.documents);
+    // Listens for whenever an email from this current document being created is sent
     this.socket.on('emailed', this._handleEmailSent);
   }
 
@@ -215,6 +216,15 @@ export default class DocumentsNewEditorView extends Component {
     }
 
     this.props.createDocuments();
+  };
+
+  /**
+   * Increments the `emailsSentCount` by one. This function is called
+   * whenever the server responds after an email is sent successfully to a
+   * signer during the creation of this document
+   */
+  _incrementEmailSent = () => {
+    DocumentNewActionCreators.setEmailsSentCount(this.props.emailsSentCount + 1);
   };
 
 }

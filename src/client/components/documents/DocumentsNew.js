@@ -17,6 +17,7 @@ const displayName = 'DocumentsNew';
 @connect((state) => ({
   docBeingCreated: state.documentsNew.get('doc'),
   docsJustCreated: state.documentsNew.get('docsJustCreated'),
+  emailsSentCount: state.documentsNew.get('emailsSentCount'),
   generalPlaceholderForm: state.documentsNew.get('generalPlaceholderForm'),
   modalIsDisplayed: state.app.getIn(['modal', 'display']),
   shouldFetchTemplates: state.templates.get('shouldFetchTemplates'),
@@ -35,6 +36,7 @@ export default class DocumentsNew extends Component {
     // TODO: Create actual proptype for `docBeingCreated`
     docBeingCreated: ImmutablePropTypes.map.isRequired,
     docsJustCreated: PropTypes.bool.isRequired,
+    emailsSentCount: PropTypes.number.isRequired,
     modalIsDisplayed: PropTypes.bool.isRequired,
     // TODO: Create proptypes for both generalFields and generalPlaceholderForm
     generalPlaceholderForm: ImmutablePropTypes.map.isRequired,
@@ -115,6 +117,7 @@ export default class DocumentsNew extends Component {
     return (
       <DocumentsNewEditorView
         doc={this.props.docBeingCreated}
+        emailsSentCount={this.props.emailsSentCount}
         generalPlaceholderForm={this.props.generalPlaceholderForm} />
     );
   }

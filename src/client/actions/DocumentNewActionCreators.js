@@ -68,6 +68,13 @@ const DocumentNewActionCreators = {
     };
   },
 
+  setEmailsSentCount(count) {
+    return {
+      type: DocumentNewActionTypes.SET_EMAILS_SENT_COUNT,
+      data: {count}
+    };
+  },
+
   setTemplate(template) {
     return {
       type: DocumentNewActionTypes.SET_TEMPLATE,

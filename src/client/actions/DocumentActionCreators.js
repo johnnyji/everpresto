@@ -5,7 +5,6 @@ import DocumentActionTypes from './../action_types/DocumentActionTypes';
 
 const DocumentActionCreators = {
 
-
   /**
    * Fetches the current company's documents from the API
    *

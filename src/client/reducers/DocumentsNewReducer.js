@@ -9,6 +9,7 @@ const {
   REMOVE_SIGNER,
   RESET_STATE,
   SET_COLLECTION,
+  SET_EMAILS_SENT_COUNT,
   SET_TEMPLATE,
   UPDATE_GENERAL_PLACEHOLDER_FORM_FIELD} = DocumentNewActionTypes;
 
@@ -19,6 +20,9 @@ const initialStateTemplate = {
     template: null
   },
   docsJustCreated: false,
+  // The amount of emails sent to signers
+  // out of the total that needs to be sent
+  emailsSentCount: 0,
   generalPlaceholderForm: {
     values: [],
     errors: []
@@ -72,6 +76,9 @@ export default function documentsReducer(state = Immutable.fromJS(initialStateTe
 
     case SET_COLLECTION:
       return state.setIn(['doc', 'collectionId'], action.data.collectionId);
+
+    case SET_EMAILS_SENT_COUNT:
+      return state.set('emailsSentCount', action.data.count);
 
     case SET_TEMPLATE:
       // `template` will already be an Immutable.Map
