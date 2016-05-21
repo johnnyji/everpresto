@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {Tab} from 'material-ui/Tabs';
+import AppActionCreators from '../../actions/AppActionCreators';
 import Button from '.././ui/Button';
 import config from '../../../../config/config';
 import clientConfig from '../.././config/main';
@@ -20,6 +21,7 @@ import FormSidebarSectionAddSigner from '.././shared/FormSidebarSectionAddSigner
 import FormSidebarSectionFillGeneralPlaceholders from '.././shared/FormSidebarSectionFillGeneralPlaceholders';
 import FormSidebarSectionMessage from '.././shared/FormSidebarSectionMessage';
 import ListItem from '.././ui/ListItem';
+import ModalDocumentsCreate from '../modals/ModalDocumentsCreate';
 import Tabs from '.././ui/Tabs';
 
 const {get, isNull, isTruthy, matchesAttr} = IterableFunctions;
@@ -79,7 +81,9 @@ export default class DocumentsNewEditorView extends Component {
       ).isRequired,
       errors: ImmutablePropTypes.listOf(PropTypes.string).isRequired
     }).isRequired,
-    handleFlashError: PropTypes.func.isRequired
+    handleFlashError: PropTypes.func.isRequired,
+    saved: PropTypes.bool.isRequired,
+    saving: PropTypes.bool.isRequired
   };
 
   constructor(props) {
@@ -122,6 +126,14 @@ export default class DocumentsNewEditorView extends Component {
       this.setState({templateBody: alteredNextTemplateBody});
     }
 
+  }
+
+  componentWillUpdate(nextProps) {
+    // If the document is in the process of saving/emailing, we want to display a modal
+    // with a loading bar showing the progress of the save
+    if (!this.props.saving && nextProps.saving) {
+      AppActionCreators.createModal(<ModalDocumentsCreate />);
+    }
   }
 
   render() {

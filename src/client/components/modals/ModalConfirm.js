@@ -1,4 +1,4 @@
-import React, {Component, PropTypes}  from 'react';
+import React, {Component, PropTypes} from 'react';
 import classNames from 'classnames';
 import Button from '.././ui/Button';
 import ModalWrapper from '.././ui/ModalWrapper';

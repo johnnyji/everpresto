@@ -10,7 +10,7 @@ const signerAttrs = {
   lastName: matchesAttr('placeholder', 'LAST_NAME')
 };
 
-const createDocuments = (ComposedComponent) => (class extends Component {
+export default (ComposedComponent) => (class createDocuments extends Component {
   
   static displayName = 'createDocuments';
 
@@ -89,5 +89,3 @@ const createDocuments = (ComposedComponent) => (class extends Component {
   };
 
 });
-
-export default createDocuments;

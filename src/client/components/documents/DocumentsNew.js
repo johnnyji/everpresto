@@ -16,10 +16,11 @@ const displayName = 'DocumentsNew';
 
 @connect((state) => ({
   docBeingCreated: state.documentsNew.get('doc'),
-  docsJustCreated: state.documentsNew.get('docsJustCreated'),
   emailsSentCount: state.documentsNew.get('emailsSentCount'),
   generalPlaceholderForm: state.documentsNew.get('generalPlaceholderForm'),
   modalIsDisplayed: state.app.getIn(['modal', 'display']),
+  saved: state.documentsNew.get('saved'),
+  saving: state.documentsNew.get('saving'),
   shouldFetchTemplates: state.templates.get('shouldFetchTemplates'),
   templates: state.templates.get('templates')
 }))
@@ -35,7 +36,6 @@ export default class DocumentsNew extends Component {
   static propTypes = {
     // TODO: Create actual proptype for `docBeingCreated`
     docBeingCreated: ImmutablePropTypes.map.isRequired,
-    docsJustCreated: PropTypes.bool.isRequired,
     emailsSentCount: PropTypes.number.isRequired,
     modalIsDisplayed: PropTypes.bool.isRequired,
     // TODO: Create proptypes for both generalFields and generalPlaceholderForm
@@ -43,6 +43,8 @@ export default class DocumentsNew extends Component {
     params: PropTypes.shape({
       collection_id: PropTypes.string
     }).isRequired,
+    saved: PropTypes.bool.isRequired,
+    saving: PropTypes.bool.isRequired,
     shouldFetchTemplates: PropTypes.bool.isRequired,
     templates: ImmutablePropTypes.listOf(CustomPropTypes.template).isRequired
   };
@@ -76,7 +78,7 @@ export default class DocumentsNew extends Component {
     }
 
     // If new docs were just created, we want to navigate to the correct collection view with those docs
-    if (nextProps.docsJustCreated) {
+    if (this.props.saving && nextProps.saved) {
       this.context.router.push(`/dashboard/collections/${this.props.params.collection_id}`);
     }
 
@@ -118,7 +120,9 @@ export default class DocumentsNew extends Component {
       <DocumentsNewEditorView
         doc={this.props.docBeingCreated}
         emailsSentCount={this.props.emailsSentCount}
-        generalPlaceholderForm={this.props.generalPlaceholderForm} />
+        generalPlaceholderForm={this.props.generalPlaceholderForm}
+        saved={this.props.saved}
+        saving={this.props.saving} />
     );
   }
 

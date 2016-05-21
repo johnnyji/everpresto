@@ -26,12 +26,9 @@ router.post('/create', (req, res) => {
   User.findById(ObjectId(userId), (err, user) => {
     const io = req.app.get('io');
 
-    // Creates an observable of the created docs
-    const createdDocuments$ = Observable.from(docs)
-      .map((doc) => Document.handleCreate(doc, companyId, userId));
-    
-    // Emails the recently created docs and response using web sockets
-    createdDocuments$
+    // Creates each doc and emails them to their signers
+    Observable.from(docs)
+      .map((doc) => Document.handleCreate(doc, companyId, userId))
       .switchMap((doc) => sendInitialEmail$$(doc, user))
       .subscribe(
         (doc) => {

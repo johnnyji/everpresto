@@ -1,0 +1,10 @@
+.ui-ProgressBar {
+  position: relative;
+  
+  &-progress-section {
+    &-red {background-color: $brand-color-red}
+    &-yellow {background-color: $brand-color-yellow}
+    &-blue {background-color: $brand-color-blue}
+    &-green {background-color: $brand-color-green}
+  }
+}

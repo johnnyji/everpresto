@@ -1,13 +1,12 @@
 import React, {Component, PropTypes} from 'react';
 import AppActionCreators from '../.././actions/AppActionCreators';
-import classNames from 'classnames';
 import {connect} from 'react-redux';
 import EverprestoMUITheme from '../.././config/mui-theme';
 import FlashMessage from '.././ui/FlashMessage';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import Overlay from '.././ui/Overlay';
 import MUIThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import Overlay from '.././ui/Overlay';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 const displayName = 'AppHandler';
 
@@ -26,12 +25,12 @@ export default class AppHandler extends Component {
       message: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.element
-      ]),
+      ]).isRequired
     }).isRequired,
     modal: ImmutablePropTypes.contains({
       display: PropTypes.bool.isRequired,
       element: PropTypes.element
-    }).isRequired,
+    }).isRequired
   };
 
   static childContextTypes = {
