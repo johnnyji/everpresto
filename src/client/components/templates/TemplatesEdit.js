@@ -1,11 +1,10 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import CustomPropTypes from '.././CustomPropTypes';
-import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
 import DashboardSpinner from '.././shared/DashboardSpinner';
 import TemplateEditorView from './TemplateEditorView';
 
-import {createFlashMessage} from '../.././actions/AppActionCreators'
+import {createFlashMessage} from '../.././actions/AppActionCreators';
 import TemplateActionCreators from '../.././actions/TemplateActionCreators';
 import handleFlashError from '../.././decorators/handleFlashError';
 
@@ -22,6 +21,9 @@ export default class TemplatesEdit extends Component {
 
   static propTypes = {
     handleFlashError: PropTypes.func.isRequired,
+    params: PropTypes.shape({
+      id: PropTypes.string.isRequired
+    }).isRequired,
     template: CustomPropTypes.template
   };
 
@@ -40,12 +42,12 @@ export default class TemplatesEdit extends Component {
     this.context.dispatch(TemplateActionCreators.resetTemplateBeingEdited());
   }
 
-  componentWillUpdate(nextProps, nextState) {
+  componentWillUpdate(nextProps) {
     const {template} = this.props;
     const {template: nextTemplate} = nextProps;
     // If template is successfully edited (meaning theres no more `templateBeingEdited`),
     // log a flash message and redirect user to the template index view
-    if (!Boolean(nextTemplate)) {
+    if (!nextTemplate) {
       const title = template.get('title') ? <b>{template.get('title')}</b> : 'Template';
 
       this.context.dispatch(
@@ -63,7 +65,7 @@ export default class TemplatesEdit extends Component {
       <TemplateEditorView
         mode='edit'
         template={this.props.template}
-        onSave={this._handleSave}/>
+        onSave={this._handleSave} />
     );
   }
 

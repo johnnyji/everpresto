@@ -21,16 +21,19 @@ import DashboardView from '.././components/dashboard/DashboardView';
   // Profile Settings
   import ProfileSettings from '.././components/user/ProfileSettings';
 
+// This view is for testing out new components, REMOVE IN PROD
+import TestView from '../components/test/TestView';
+
 const routes = (
   <Route component={AppHandler} path='/'>
     <Redirect from='dashboard' to='dashboard/collections' />
-    <Redirect from='settings' to='dashboard/profile_settings' />    
+    <Redirect from='settings' to='dashboard/profile_settings' />
     <Redirect from='profile' to='dashboard/profile_settings' />
     <IndexRoute component={LandingPageHandler} />
 
     {/*********** Auth Routes ************/}
-    <Route component={AuthHandler} path='login'/>
-    <Route component={AuthHandler} path='join'/>
+    <Route component={AuthHandler} path='login' />
+    <Route component={AuthHandler} path='join' />
     {/*********** Auth Routes ************/}
 
     {/*********** Protected Routes ************/}
@@ -54,6 +57,10 @@ const routes = (
 
       <Route path='profile_settings' component={DashboardView}>
         <IndexRoute component={ProfileSettings} />
+      </Route>
+
+      <Route path='test' component={DashboardView}>
+        <IndexRoute component={TestView} />
       </Route>
     </Route>
     {/*********** Protected Routes ************/}

@@ -17,7 +17,6 @@ import FormSidebarBody from '.././shared/FormSidebarBody';
 import FormSidebarFooter from '.././shared/FormSidebarFooter';
 import FormSidebarPlaceholderInput from '.././shared/FormSidebarPlaceholderInput';
 import FormSidebarSection from '.././shared/FormSidebarSection';
-import FormSidebarSectionTitle from '.././shared/FormSidebarSectionTitle';
 
 // This allows us to add any other HTML cleaners directly to the flow of data
 const cleanTemplateHTML = flow(removeZeroWidthSpace);

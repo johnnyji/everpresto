@@ -2,6 +2,9 @@
   position: relative;
   
   &-progress-section {
+    height: 100%;
+    transition: all 1s ease-out;
+
     &-red {background-color: $brand-color-red}
     &-yellow {background-color: $brand-color-yellow}
     &-blue {background-color: $brand-color-blue}
