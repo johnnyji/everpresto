@@ -105,6 +105,7 @@ export default class Input extends Component {
    * Sets the input field back to it's original state
    */
   clear = () => {
+    debugger;
     this.refs['input'].clearValue();
   };
 

@@ -26,7 +26,15 @@ export default class ProgressBar extends Component {
   };
   
   render() {
-    const {className, color, height, progressCount, totalCount, width} = this.props;
+    const {
+      backgroundColor,
+      className,
+      color,
+      height,
+      progressCount,
+      totalCount,
+      width
+    } = this.props;
     const progressBarClasses = classNames(
       `${displayName}-progress-section`,
       `${displayName}-progress-section-${color}`

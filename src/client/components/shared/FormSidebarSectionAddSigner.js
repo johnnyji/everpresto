@@ -18,6 +18,11 @@ const INIT_SIGNER_FORM_STATE = Immutable.fromJS({
 });
 const displayName = 'FormSidebarSectionAddSigner';
 
+/*
+ * The section of the DocumentsNew sidebar that adds an individual signer
+ * to the document by using a form to fill out their SPECIFIC placeholders
+ * and clicking the add button
+ */
 @handleFlashError
 export default class FormSidebarSectionAddSigner extends Component {
 
@@ -97,7 +102,7 @@ export default class FormSidebarSectionAddSigner extends Component {
         shouldDisplayError={signerFormSubmitting}
         successKeys={`values:${i}:value`}
         value={val.get('value')}
-        width={300}/>
+        width={300} />
     ));
   };
 
@@ -110,9 +115,9 @@ export default class FormSidebarSectionAddSigner extends Component {
 
     this.setState({signerFormSubmitting: true});
     // If there are errors, do not proceed
-    const firstFoundError = signerForm.get('errors').find((_, i) => (
-      !this.refs[`signerForm-${i}`].valid()
-    ));
+    const firstFoundError = signerForm
+      .get('errors')
+      .find((_, i) => !this.refs[`signerForm-${i}`].valid());
     if (firstFoundError !== undefined) {
       return this.props.handleFlashError('Are you sure you filled out the form properly?');
     }
@@ -153,7 +158,7 @@ export default class FormSidebarSectionAddSigner extends Component {
   _generateSignerFormFromPlaceholders = (initialSignerFormState) => {
     return this.props.placeholders.reduce((signerForm, placeholder) => {
       // Pushes on a placeholder input object -> {placholder: 'HELLO', value: null}
-      let updatedState = signerForm.update('values', (vals) => (
+      const updatedState = signerForm.update('values', (vals) => (
         vals.push(Immutable.fromJS({
           placeholder: placeholder.get('value'),
           value: null

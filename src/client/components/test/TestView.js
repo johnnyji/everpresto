@@ -23,7 +23,7 @@ export default class TestView extends Component {
     const startClick$ = Rx.Observable.fromEvent(findDOMNode(this.refs.startButton), 'click');
 
     startClick$
-      .switchMapTo(Rx.Observable.interval(200))
+      .switchMapTo(Rx.Observable.interval(50))
       .map(() => 1)
       .scan((accum, curr) => accum + curr)
       .startWith(0)
