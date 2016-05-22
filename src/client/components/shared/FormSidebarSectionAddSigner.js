@@ -1,10 +1,10 @@
 import React, {Component, PropTypes} from 'react';
 import {createModal} from '../.././actions/AppActionCreators';
+import CustomPropTypes from '../CustomPropTypes';
 import DocumentNewActionCreators from '../.././actions/DocumentNewActionCreators';
 import FormSidebarSection from './FormSidebarSection';
 import handleFlashError from '../.././decorators/handleFlashError';
 import Icon from '.././ui/Icon';
-// import Immutable from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import Input from '.././ui/Input';
 import {minLength} from '../.././utils/RegexHelper';
@@ -12,10 +12,6 @@ import ModalFillPlaceholders from '.././modals/ModalFillPlaceholders';
 import MUIRoundButton from 'material-ui/FloatingActionButton';
 
 const BRAND_COLOR_BLUE = '#4E9CC2';
-// const INIT_SIGNER_FORM_STATE = Immutable.fromJS({
-//   values: [],
-//   errors: []
-// });
 const displayName = 'FormSidebarSectionAddSigner';
 
 /*
@@ -44,33 +40,10 @@ export default class FormSidebarSectionAddSigner extends Component {
     ).isRequired,
     savedSigner: PropTypes.bool.isRequired,
     savingSigner: PropTypes.bool.isRequired,
-    specificPlaceholderForm: ImmutablePropTypes.mapContains({
-      errors: ImmutablePropTypes.listOf(
-        PropTypes.string
-      ).isRequired,
-      values: ImmutablePropTypes.listOf(
-        ImmutablePropTypes.mapContains({
-          placeholder: PropTypes.string.isRequired,
-          value: PropTypes.string
-        })
-      ).isRequired
-    }).isRequired
+    specificPlaceholderForm: CustomPropTypes.placeholderForm.isRequired
   };
 
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     signerForm: INIT_SIGNER_FORM_STATE,
-  //     signerFormSubmitting: false
-  //   };
-  // }
-
   componentWillMount() {
-
-    // this.setState({
-    //   signerForm: this._generateSignerFormFromPlaceholders(INIT_SIGNER_FORM_STATE)
-    // });
-
     // Uses the placeholders prop to generate dynamic input fields
     // based on which placholders the template contains
     this.context.dispatch(
@@ -81,7 +54,7 @@ export default class FormSidebarSectionAddSigner extends Component {
   componentWillUpdate (nextProps) {
     // Once we've just saved an individual signer, we want to clear the specific
     // placeholder form so we can add another signer
-    if (this.props.savingSigner && nextProps.savedSigner) {
+    if (this.props.savingSigner && !nextProps.savingSigner) {
       this.context.dispatch(
         DocumentNewActionCreators.clearSpecificPlaceholderForm()
       );
@@ -98,7 +71,6 @@ export default class FormSidebarSectionAddSigner extends Component {
         </a>
         <FormSidebarSection className={`${displayName}-form`}>
           <section className={`${displayName}-form-fields`}>
-            {/* this._renderSignerFormFields() */}
             {this._renderSpecificPlaceholderForm()}
           </section>
           <aside className={`${displayName}-form-add-button`}>
@@ -115,7 +87,7 @@ export default class FormSidebarSectionAddSigner extends Component {
     );
   }
 
-  _renderSignerFormFields = () => {
+  _renderSpecificPlaceholderForm = () => {
     const {specificPlaceholderForm, savingSigner} = this.props;
 
     return specificPlaceholderForm
@@ -137,57 +109,10 @@ export default class FormSidebarSectionAddSigner extends Component {
       ));
   }
 
-  // _renderSignerFormFields = () => {
-  //   const {signerForm, signerFormSubmitting} = this.state;
-
-  //   return signerForm.get('values').map((val, i) => (
-  //     <Input
-  //       className={`${displayName}-form-fields-field`}
-  //       error={signerForm.getIn(['errors', i])}
-  //       errorKeys={`errors:${i}`}
-  //       key={i}
-  //       label={val.get('placeholder')}
-  //       onUpdate={(val, err, e) => this._handlePlaceholderUpdate(val, err, i, e)}
-  //       patternMatches={minLength(1, `Give ${val.get('placeholder')} a value`)}
-  //       ref={`signerForm-${i}`}
-  //       shouldDisplayError={signerFormSubmitting}
-  //       successKeys={`values:${i}:value`}
-  //       value={val.get('value')}
-  //       width={300} />
-  //   ));
-  // };
-
   /**
    * Checks for the validity of the add signer form and then proceeds to
    * add the signer to the new document
    */
-  // _addSigner = () => {
-  //   const {signerForm} = this.state;
-
-  //   this.setState({signerFormSubmitting: true});
-  //   // If there are errors, do not proceed
-  //   const firstFoundError = signerForm
-  //     .get('errors')
-  //     .find((_, i) => !this.refs[`signerForm-${i}`].valid());
-  //   if (firstFoundError !== undefined) {
-  //     return this.props.handleFlashError('Are you sure you filled out the form properly?');
-  //   }
-    
-  //   // Adds the one new signer to the new document
-  //   this.context.dispatch(
-  //     DocumentNewActionCreators.addSigners([signerForm.get('values')])
-  //   );
-
-  //   // Clears all the input values
-  //   this._clearSignerFormInputs(signerForm.get('values').size - 1);
-
-  //   // Reset the states so we can add another signer
-  //   this.setState({
-  //     signerForm: this._generateSignerFormFromPlaceholders(INIT_SIGNER_FORM_STATE),
-  //     signerFormSubmitting: false
-  //   });
-  // };
-
   _addSigner = () => {
     const {dispatch} = this.context;
     const {handleFlashError, specificPlaceholderForm} = this.props;
@@ -198,7 +123,7 @@ export default class FormSidebarSectionAddSigner extends Component {
     // If there are errors, do not proceed
     const firstFoundError = specificPlaceholderForm
       .get('errors')
-      .find((_, i) => !this.refs[`signerForm-${i}`].valid());
+      .find((_, i) => !this.refs[`specificPlaceholderForm-${i}`].valid());
     if (firstFoundError !== undefined) {
       return handleFlashError('Are you sure you filled out the form properly?');
     }
@@ -208,38 +133,6 @@ export default class FormSidebarSectionAddSigner extends Component {
       DocumentNewActionCreators.addSigners([specificPlaceholderForm.get('values')])
     );
   };
-
-  /**
-   * Clears the input fields in the signer form
-   */
-  // _clearSignerFormInputs = (inputFieldIndex) => {
-  //   if (inputFieldIndex < 0) return;
-
-  //   this.refs[`signerForm-${inputFieldIndex}`].clear();
-  //   // Keeps calling this function until we've recursively cleared all the fields
-  //   this._clearSignerFormInputs(inputFieldIndex - 1);
-  // };
-
-  /**
-   * Iterates through the placeholders, and generates input field states for those placeholders,
-   * which will store which input values belong to which placeholders, and any input errors as well.
-   * @param {Immutable.Map} initSignerFormState - The blank `signerForm` that we're using to construct
-   *                                              the dynamic `signerForm` state with the `placeholders` prop
-   * @return - The constructed `signerForm` state using the placeholder props
-   */
-  // _generateSignerFormFromPlaceholders = (initialSignerFormState) => {
-  //   return this.props.placeholders.reduce((signerForm, placeholder) => {
-  //     // Pushes on a placeholder input object -> {placholder: 'HELLO', value: null}
-  //     let updatedState = signerForm.update('values', (vals) => (
-  //       vals.push(Immutable.fromJS({
-  //         placeholder: placeholder.get('value'),
-  //         value: null
-  //       }))
-  //     ));
-  //     // Also creates an error for that input
-  //     return updatedState.update('errors', (errs) => errs.push(null));
-  //   }, initialSignerFormState);
-  // };
 
   /**
    * Updates the values and errors of a field in `specificPlaceholderForm` store state
@@ -256,19 +149,6 @@ export default class FormSidebarSectionAddSigner extends Component {
       })
     );
   };
-
-  /**
-   * Updates the values and errors of a field in the signerForm state
-   * @param  {String} val       - The value of a field in the signerForm state
-   * @param  {String|Null} err  - The error of a field in the signerForm state
-   * @param  {Integer} i        - The index of the item we're updating in the signerForm state
-   */
-  // _handlePlaceholderUpdate = (val, err, i) => {
-  //   let signerForm = this.state.signerForm.setIn(['values', i, 'value'], val);
-  //   signerForm = signerForm.setIn(['errors', i], err);
-
-  //   this.setState({signerForm});
-  // };
 
   _handleImportSigners = () => {
     this.context.dispatch(

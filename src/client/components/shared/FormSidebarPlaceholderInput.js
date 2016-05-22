@@ -13,7 +13,7 @@ import Input from '.././ui/Input';
 import IterableFunctions from '../.././utils/immutable/IterableFunctions';
 import ModalPlaceholderTipBox from '.././modals/ModalPlaceholderTipBox';
 
-const {containsAttr, isTruthy, matchesAttr} = IterableFunctions;
+const {isTruthy, matchesAttr} = IterableFunctions;
 const ENTER_KEY = 13;
 const matchesValue = matchesAttr('value');
 const isRequired = matchesAttr('isRequired');

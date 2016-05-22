@@ -11,6 +11,7 @@ const {
   GENERATE_SPECIFIC_PLACEHOLDER_FORM_FIELDS,
   REMOVE_SIGNER,
   RESET_STATE,
+  SAVING_SIGNER,
   SET_COLLECTION,
   SET_EMAILS_SENT_COUNT,
   SET_TEMPLATE,
@@ -47,6 +48,10 @@ const INITIAL_STATE = Immutable.fromJS({
     values: [],
     errors: []
   },
+  saved: false,
+  savedSigner: false,
+  saving: false,
+  savingSigner: false,
   // The form to fill placeholder values that are specific to each signer, filling this form out and submitting it
   // will add a new signer to the document, required fields include FIRST_NAME, LAST_NAME, EMAIL
   //
@@ -54,11 +59,7 @@ const INITIAL_STATE = Immutable.fromJS({
   specificPlaceholderForm: {
     values: [],
     errors: []
-  },
-  saved: false,
-  savedSigner: false,
-  saving: false,
-  savingSigner: false
+  }
 });
 
 const isGeneral = matchesAttr('type', 'general');
@@ -69,17 +70,24 @@ export default function documentsReducer(state = INITIAL_STATE, action) {
 
   switch (action.type) {
 
+    // When a signer is added to the document we're creating. We want to set saving signer to false, saved signer to true,
+    // and make sure that signer we just added is at the top of the list of signers that will be receiving
+    // this document
     case ADD_SIGNERS: {
-      return state.updateIn(['doc', 'signers'], (signers) => (
-        Immutable.fromJS(action.data.signers).concat(signers)
-      ));
+      return state.merge({
+        doc: state.get('doc').update('signers', (signers) => Immutable.fromJS(action.data.signers).concat(signers)),
+        savedSigner: true,
+        savingSigner: false
+      });
     }
-
     
     // Sets every user input value of specific placeholder form to nothing, thus clearing the form
     case CLEAR_SPECIFIC_PLACEHOLDER_FORM: {
-      return state.updateIn(['specificPlaceholderForm', 'values'], (val) => {
-        return val.set('value', '');
+      // TODO: Why is this not working?
+      debugger;
+      return state.updateIn(['specificPlaceholderForm', 'values'], (vals) => {
+        debugger;
+        return vals.map((val) => val.set('value', ''));
       });
     }
 
@@ -185,11 +193,11 @@ export default function documentsReducer(state = INITIAL_STATE, action) {
     // to what the new user input is
     case UPDATE_SPECIFIC_PLACEHOLDER_FORM_FIELD: {
       const {formFieldIndex, value, error} = action.data.input;
-      let generalPlaceholderForm = state.get('generalPlaceholderForm');
-      generalPlaceholderForm = generalPlaceholderForm.setIn(['values', formFieldIndex, 'value'], value);
-      generalPlaceholderForm = generalPlaceholderForm.setIn(['errors', formFieldIndex], error);
+      let specificPlaceholderForm = state.get('specificPlaceholderForm');
+      specificPlaceholderForm = specificPlaceholderForm.setIn(['values', formFieldIndex, 'value'], value);
+      specificPlaceholderForm = specificPlaceholderForm.setIn(['errors', formFieldIndex], error);
 
-      return state.set('generalPlaceholderForm', generalPlaceholderForm);
+      return state.set('specificPlaceholderForm', specificPlaceholderForm);
     }
 
     default: {

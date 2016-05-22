@@ -73,11 +73,11 @@ const DocumentNewActionCreators = {
     };
   },
 
-  saveSigner() {
+  savingSigner() {
     return {
       type: DocumentNewActionTypes.SAVING_SIGNER
     };
-  }
+  },
 
   setCollection(collectionId) {
     return {

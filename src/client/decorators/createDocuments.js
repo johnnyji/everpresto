@@ -31,16 +31,10 @@ export default (ComposedComponent) => (class createDocuments extends Component {
       ).isRequired,
       template: CustomPropTypes.template.isRequired
     }).isRequired,
-    // This is the general placeholders form the users fill out
-    generalPlaceholderForm: ImmutablePropTypes.contains({
-      values: ImmutablePropTypes.listOf(
-        ImmutablePropTypes.contains({
-          placeholder: PropTypes.string,
-          value: PropTypes.string
-        })
-      ).isRequired,
-      errors: ImmutablePropTypes.listOf(PropTypes.string).isRequired
-    }).isRequired,
+    generalPlaceholderForm: CustomPropTypes.placeholderForm.isRequired,
+    savedSigner: PropTypes.bool.isRequired,
+    savingSigner: PropTypes.bool.isRequired,
+    specificPlaceholderForm: CustomPropTypes.placeholderForm.isRequired,
     handleFlashError: PropTypes.func.isRequired
   };
 

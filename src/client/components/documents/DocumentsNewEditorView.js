@@ -71,19 +71,13 @@ export default class DocumentsNewEditorView extends Component {
       template: CustomPropTypes.template.isRequired
     }).isRequired,
     emailsSentCount: PropTypes.number.isRequired,
-    // This is the general placeholders form the users fill out
-    generalPlaceholderForm: ImmutablePropTypes.contains({
-      values: ImmutablePropTypes.listOf(
-        ImmutablePropTypes.contains({
-          placeholder: PropTypes.string,
-          value: PropTypes.string
-        })
-      ).isRequired,
-      errors: ImmutablePropTypes.listOf(PropTypes.string).isRequired
-    }).isRequired,
+    generalPlaceholderForm: CustomPropTypes.placeholderForm.isRequired,
     handleFlashError: PropTypes.func.isRequired,
     saved: PropTypes.bool.isRequired,
-    saving: PropTypes.bool.isRequired
+    savedSigner: PropTypes.bool.isRequired,
+    saving: PropTypes.bool.isRequired,
+    savingSigner: PropTypes.bool.isRequired,
+    specificPlaceholderForm: CustomPropTypes.placeholderForm.isRequired
   };
 
   constructor(props) {
@@ -105,11 +99,12 @@ export default class DocumentsNewEditorView extends Component {
 
   // TODO: This is too slow and is computing way too much, find way to speed this up
   componentWillReceiveProps(nextProps) {
+    const signers = this.props.doc.get('signers');
+    const generalFields = this.props.generalPlaceholderForm.get('values');
     const nextGeneralFields = nextProps.generalPlaceholderForm.get('values');
     const nextSigners = nextProps.doc.get('signers');
 
-    const placeholdersHaveChanged =
-      !this.props.doc.get('signers').equals(nextSigners) || !nextGeneralFields.equals(this.props.generalFields);
+    const placeholdersHaveChanged = !signers.equals(nextSigners) || !nextGeneralFields.equals(generalFields);
 
     // If the placeholders have changed, replace fields
     if (placeholdersHaveChanged) {
@@ -137,9 +132,14 @@ export default class DocumentsNewEditorView extends Component {
   }
 
   render() {
-    const {doc, generalPlaceholderForm} = this.props;
+    const {
+      doc,
+      generalPlaceholderForm,
+      savedSigner,
+      savingSigner,
+      specificPlaceholderForm
+    } = this.props;
     const {templateBody} = this.state;
-
     const generalPlaceholders = doc.getIn(['template', 'placeholders']).filter(isGeneral);
     const specificPlaceholders = doc.getIn(['template', 'placeholders']).filter(isSpecific);
 
@@ -162,7 +162,11 @@ export default class DocumentsNewEditorView extends Component {
                 label={`Add Signers (${doc.get('signers').size})`}
                 style={{color: ORANGE}}>
                 <FormSidebarSection>
-                  <FormSidebarSectionAddSigner placeholders={specificPlaceholders} />
+                  <FormSidebarSectionAddSigner
+                    placeholders={specificPlaceholders}
+                    savedSigner={savedSigner}
+                    savingSigner={savingSigner}
+                    specificPlaceholderForm={specificPlaceholderForm} />
                   <FormSidebarSection className={`${displayName}-sidebar-signers-list`}>
                     {this._renderSigners()}
                   </FormSidebarSection>

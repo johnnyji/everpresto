@@ -35,6 +35,20 @@ const CustomPropTypes = {
     updatedAt: PropTypes.string.isRequired
   }),
 
+  // This is the form used by users to replace placeholders with actual values
+  // when they create a document and are adding signers in `DocumentsNew`
+  placeholderForm: ImmutablePropTypes.contains({
+    values: ImmutablePropTypes.listOf(
+      ImmutablePropTypes.contains({
+        placeholder: PropTypes.string,
+        value: PropTypes.string
+      })
+    ).isRequired,
+    errors: ImmutablePropTypes.listOf(
+      PropTypes.string
+    ).isRequired
+  }),
+
   template: ImmutablePropTypes.contains({
     _company: PropTypes.string.isRequired,
     _creator: PropTypes.string.isRequired,
@@ -65,7 +79,7 @@ const CustomPropTypes = {
     }).isRequired,
     clearanceLevel: PropTypes.oneOf(['admin', 'user']).isRequired,
     createdAt: PropTypes.string.isRequired,
-    updatedAt: PropTypes.string.isRequired,
+    updatedAt: PropTypes.string.isRequired
   })
 
 };

@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import createNestedObject from './utils/createNestedObject';
 
 const displayName = 'ui-Input';
+// Key code for the Enter key
 const ENTER = 13;
 
 export default class Input extends Component {
@@ -46,7 +47,7 @@ export default class Input extends Component {
       PropTypes.string
     ]),
     type: PropTypes.oneOf(['text', 'email', 'number', 'password']),
-    value: PropTypes.string,
+    value: PropTypes.string.isRequired,
     width: PropTypes.number
   };
 
@@ -73,7 +74,9 @@ export default class Input extends Component {
       labelIcon,
       shouldDisplayError,
       type,
-      width} = this.props;
+      value,
+      width
+    } = this.props;
     const styles = {
       width: width != null ? `${width}px` : '100%'
     };
@@ -96,22 +99,14 @@ export default class Input extends Component {
           onKeyDown={this._handleKeyDown}
           onFocus={this._submitValue}
           ref='input'
-          type={type} />
+          type={type}
+          value={value} />
       </div>
     );
   }
 
   /**
-   * Sets the input field back to it's original state
-   */
-  clear = () => {
-    debugger;
-    this.refs['input'].clearValue();
-  };
-
-  /**
    * Returns whether or not the input field value is valid
-   *
    * @return {Boolean} - The validity of the field
    */
   valid = () => {
@@ -141,7 +136,6 @@ export default class Input extends Component {
   /**
    * Checks it's provided value against the input field's `patternMatches` prop
    * and returns either an error or undefined
-   * 
    * @param  {String} value - The value that we're validating
    * @return {String|Undefined} - The error string in `patternMatches` or undefined
    */
@@ -155,10 +149,10 @@ export default class Input extends Component {
         if (!pattern.regex.test(value)) return pattern.error;
       });
       return errorMatch === undefined ? undefined : errorMatch.error;
-    } else {
-      // Checks the validity of the value against the pattern, and returns an error if no match
-      return patternMatches.regex.test(value) ? undefined : patternMatches.error;
     }
+
+    // Checks the validity of the value against the pattern, and returns an error if no match
+    return patternMatches.regex.test(value) ? undefined : patternMatches.error;
   };
 
     
