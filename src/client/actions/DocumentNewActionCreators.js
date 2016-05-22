@@ -48,6 +48,12 @@ const DocumentNewActionCreators = {
     };
   },
 
+  generateSpecificPlaceholderFormFields() {
+    return {
+      type: DocumentNewActionTypes.GENERATE_SPECIFIC_PLACEHOLDER_FORM_FIELDS
+    };
+  },
+
   removeSigner(signer) {
     return {
       type: DocumentNewActionTypes.REMOVE_SIGNER,
@@ -85,6 +91,13 @@ const DocumentNewActionCreators = {
   updateGeneralPlaceholderFormField(input) {
     return {
       type: DocumentNewActionTypes.UPDATE_GENERAL_PLACEHOLDER_FORM_FIELD,
+      data: {input}
+    };
+  },
+
+  updateSpecificPlaceholderFormField(input) {
+    return {
+      type: DocumentNewActionTypes.UPDATE_SPECIFIC_PLACEHOLDER_FORM_FIELD,
       data: {input}
     };
   }

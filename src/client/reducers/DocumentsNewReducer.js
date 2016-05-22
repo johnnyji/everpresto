@@ -13,7 +13,8 @@ const {
   SET_COLLECTION,
   SET_EMAILS_SENT_COUNT,
   SET_TEMPLATE,
-  UPDATE_GENERAL_PLACEHOLDER_FORM_FIELD
+  UPDATE_GENERAL_PLACEHOLDER_FORM_FIELD,
+  UPDATE_SPECIFIC_PLACEHOLDER_FORM_FIELD
 } = DocumentNewActionTypes;
 
 const INITIAL_STATE = Immutable.fromJS({
@@ -54,7 +55,9 @@ const INITIAL_STATE = Immutable.fromJS({
     errors: []
   },
   saved: false,
-  saving: false
+  savedSigner: false,
+  saving: false,
+  savingSigner: false
 });
 
 const isGeneral = matchesAttr('type', 'general');
@@ -151,9 +154,20 @@ export default function documentsReducer(state = INITIAL_STATE, action) {
       return state.setIn(['doc', 'template'], action.data.template);
     }
 
+    // Finds a field in the general placeholders form by index and updates its values and errors
+    // to what the new user input is
     case UPDATE_GENERAL_PLACEHOLDER_FORM_FIELD: {
-      // Finds a field in the general placeholders form by index and updates its values and errors
-      // to what the new user input is
+      const {formFieldIndex, value, error} = action.data.input;
+      let generalPlaceholderForm = state.get('generalPlaceholderForm');
+      generalPlaceholderForm = generalPlaceholderForm.setIn(['values', formFieldIndex, 'value'], value);
+      generalPlaceholderForm = generalPlaceholderForm.setIn(['errors', formFieldIndex], error);
+
+      return state.set('generalPlaceholderForm', generalPlaceholderForm);
+    }
+
+    // Finds a field in the specific placeholders form by index and updates its values and errors
+    // to what the new user input is
+    case UPDATE_SPECIFIC_PLACEHOLDER_FORM_FIELD: {
       const {formFieldIndex, value, error} = action.data.input;
       let generalPlaceholderForm = state.get('generalPlaceholderForm');
       generalPlaceholderForm = generalPlaceholderForm.setIn(['values', formFieldIndex, 'value'], value);
