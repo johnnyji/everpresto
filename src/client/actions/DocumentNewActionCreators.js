@@ -14,6 +14,12 @@ const DocumentNewActionCreators = {
     };
   },
 
+  clearSpecificPlaceholderForm() {
+    return {
+      type: DocumentNewActionTypes.CLEAR_SPECIFIC_PLACEHOLDER_FORM
+    };
+  },
+
   createDocuments(docs) {
     return (dispatch) => {
       sendAjaxRequest({
@@ -66,6 +72,12 @@ const DocumentNewActionCreators = {
       type: DocumentNewActionTypes.RESET_STATE
     };
   },
+
+  saveSigner() {
+    return {
+      type: DocumentNewActionTypes.SAVING_SIGNER
+    };
+  }
 
   setCollection(collectionId) {
     return {

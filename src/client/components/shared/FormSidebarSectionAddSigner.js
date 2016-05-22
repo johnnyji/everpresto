@@ -78,6 +78,16 @@ export default class FormSidebarSectionAddSigner extends Component {
     );
   }
 
+  componentWillUpdate (nextProps) {
+    // Once we've just saved an individual signer, we want to clear the specific
+    // placeholder form so we can add another signer
+    if (this.props.savingSigner && nextProps.savedSigner) {
+      this.context.dispatch(
+        DocumentNewActionCreators.clearSpecificPlaceholderForm()
+      );
+    }
+  }
+
   render() {
     return (
       <div className={displayName}>
@@ -151,44 +161,64 @@ export default class FormSidebarSectionAddSigner extends Component {
    * Checks for the validity of the add signer form and then proceeds to
    * add the signer to the new document
    */
-   // TODO: Refactor this method to the store refactoring done earlier
-  _addSigner = () => {
-    const {signerForm} = this.state;
+  // _addSigner = () => {
+  //   const {signerForm} = this.state;
 
-    this.setState({signerFormSubmitting: true});
+  //   this.setState({signerFormSubmitting: true});
+  //   // If there are errors, do not proceed
+  //   const firstFoundError = signerForm
+  //     .get('errors')
+  //     .find((_, i) => !this.refs[`signerForm-${i}`].valid());
+  //   if (firstFoundError !== undefined) {
+  //     return this.props.handleFlashError('Are you sure you filled out the form properly?');
+  //   }
+    
+  //   // Adds the one new signer to the new document
+  //   this.context.dispatch(
+  //     DocumentNewActionCreators.addSigners([signerForm.get('values')])
+  //   );
+
+  //   // Clears all the input values
+  //   this._clearSignerFormInputs(signerForm.get('values').size - 1);
+
+  //   // Reset the states so we can add another signer
+  //   this.setState({
+  //     signerForm: this._generateSignerFormFromPlaceholders(INIT_SIGNER_FORM_STATE),
+  //     signerFormSubmitting: false
+  //   });
+  // };
+
+  _addSigner = () => {
+    const {dispatch} = this.context;
+    const {handleFlashError, specificPlaceholderForm} = this.props;
+
+    // Begin the saving process
+    dispatch(DocumentNewActionCreators.savingSigner());
+
     // If there are errors, do not proceed
-    const firstFoundError = signerForm
+    const firstFoundError = specificPlaceholderForm
       .get('errors')
       .find((_, i) => !this.refs[`signerForm-${i}`].valid());
     if (firstFoundError !== undefined) {
-      return this.props.handleFlashError('Are you sure you filled out the form properly?');
+      return handleFlashError('Are you sure you filled out the form properly?');
     }
     
     // Adds the one new signer to the new document
-    this.context.dispatch(
-      DocumentNewActionCreators.addSigners([signerForm.get('values')])
+    dispatch(
+      DocumentNewActionCreators.addSigners([specificPlaceholderForm.get('values')])
     );
-
-    // Clears all the input values
-    this._clearSignerFormInputs(signerForm.get('values').size - 1);
-
-    // Reset the states so we can add another signer
-    this.setState({
-      signerForm: this._generateSignerFormFromPlaceholders(INIT_SIGNER_FORM_STATE),
-      signerFormSubmitting: false
-    });
   };
 
   /**
    * Clears the input fields in the signer form
    */
-  _clearSignerFormInputs = (inputFieldIndex) => {
-    if (inputFieldIndex < 0) return;
+  // _clearSignerFormInputs = (inputFieldIndex) => {
+  //   if (inputFieldIndex < 0) return;
 
-    this.refs[`signerForm-${inputFieldIndex}`].clear();
-    // Keeps calling this function until we've recursively cleared all the fields
-    this._clearSignerFormInputs(inputFieldIndex - 1);
-  };
+  //   this.refs[`signerForm-${inputFieldIndex}`].clear();
+  //   // Keeps calling this function until we've recursively cleared all the fields
+  //   this._clearSignerFormInputs(inputFieldIndex - 1);
+  // };
 
   /**
    * Iterates through the placeholders, and generates input field states for those placeholders,

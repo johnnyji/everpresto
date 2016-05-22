@@ -4,6 +4,7 @@ import {matchesAttr} from '.././utils/immutable/IterableFunctions';
 
 const {
   ADD_SIGNERS,
+  CLEAR_SPECIFIC_PLACEHOLDER_FORM,
   CREATE_DOCUMENTS,
   CREATE_DOCUMENTS_SUCCESS,
   GENERATE_GENERAL_PLACEHOLDER_FORM_FIELDS,
@@ -74,6 +75,14 @@ export default function documentsReducer(state = INITIAL_STATE, action) {
       ));
     }
 
+    
+    // Sets every user input value of specific placeholder form to nothing, thus clearing the form
+    case CLEAR_SPECIFIC_PLACEHOLDER_FORM: {
+      return state.updateIn(['specificPlaceholderForm', 'values'], (val) => {
+        return val.set('value', '');
+      });
+    }
+
     case CREATE_DOCUMENTS: {
       return state.merge({
         saved: false,
@@ -139,6 +148,13 @@ export default function documentsReducer(state = INITIAL_STATE, action) {
 
     case RESET_STATE: {
       return INITIAL_STATE;
+    }
+
+    case SAVING_SIGNER: {
+      return state.merge({
+        savingSigner: true,
+        savedSigner: false
+      });
     }
 
     case SET_COLLECTION: {
