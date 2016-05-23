@@ -116,28 +116,19 @@ export default class Input extends Component {
   }
 
   /**
+   * Forces the `onUpdate` prop to be triggered. This is useful for when you need the latest and
+   * most accurate error/value
+   */
+  forceUpdate = () => {
+    this._submitValue({target: this.props.value});
+  }
+
+  /**
    * Returns whether or not the input field value is valid
    * @return {Boolean} - The validity of the field
    */
   valid = () => {
-    return this.props.error === null && this._checkForError(this.getValue()) === undefined;
-  };
-
-  /**
-   * Returns the error value of the input
-   * @return {String|Null} - The error if one exists
-   */
-  getError = () => {
-    return this.props.error;
-  };
-
-  /**
-   * Called by parent component, retrieves the current value of the input field
-   *
-   * @return {String} - The value of the input field
-   */
-  getValue = () => {
-    return this.props.value || this.refs['input'].getValue();
+    return this.props.error === null && this._checkForError(this.props.value) === undefined;
   };
 
   _renderErrorText = () => {

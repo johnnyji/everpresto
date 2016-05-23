@@ -70,6 +70,7 @@ export default class FormSidebarSectionAddSigner extends Component {
   }
 
   render() {
+    console.log(this.props.specificPlaceholderForm.get('errors').toJS())
     return (
       <div className={displayName}>
         <a
@@ -112,6 +113,7 @@ export default class FormSidebarSectionAddSigner extends Component {
             label={val.get('placeholder')}
             onUpdate={(val, err) => this._handlePlaceholderUpdate(val, err, i)}
             patternMatches={minLength(1, `Give ${val.get('placeholder')} a value`)}
+            ref={`specificPlaceholderForm-${i}`}
             value={val.get('value') || ''}
             width={300} />
         );
@@ -119,10 +121,22 @@ export default class FormSidebarSectionAddSigner extends Component {
   }
 
   _addSigner = () => {
-    const errorsExist = !this.props.specificPlaceholderForm.get('errors').every(isNull);
+    // The reason why we call the `valid` method on the input field instead of simply check if
+    // every `error` value is null is because we're not sure if the user has focused on had any activity on these
+    // input fields since the last `clearSpecificPlaceholderForm`.
+    const firstFoundError = this.props.specificPlaceholderForm
+      .get('errors')
+      .find((_, i) => !this.refs[`specificPlaceholderForm-${i}`].valid());
 
     // If there are invalid fields, show all the errors in the form
-    if (errorsExist) return this.setState({showAddSignerErrors: true});
+    if (firstFoundError) {
+      // Forces every input field to update so their errors are updated
+      this.props.specificPlaceholderForm.get('errors').forEach((_, i) => {
+        this.refs[`specificPlaceholderForm-${i}`].forceUpdate();
+      });
+      // Display all existing errors to the user
+      return this.setState({showAddSignerErrors: true});
+    }
 
     // If all fields are valid, we add the signer
     this.context.dispatch(
