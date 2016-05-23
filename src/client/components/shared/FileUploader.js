@@ -1,12 +1,13 @@
 import React, {Component, PropTypes} from 'react';
 import classNames from 'classnames';
 import ClickableIcon from '.././ui/ClickableIcon';
-import AppActionCreators from '../.././actions/AppActionCreators';
 import handleFlashError from '../.././decorators/handleFlashError';
+import pureRender from 'pure-render-decorator';
 
 const displayName = 'FileUploader';
 
 @handleFlashError
+@pureRender
 export default class FileUploader extends Component {
 
   static displayName = displayName;
@@ -28,10 +29,10 @@ export default class FileUploader extends Component {
     label: 'Choose a file'
   };
 
-  shouldComponentUpdate(nextProps, nextState) {
-    // Only update the component when the selected file's name will be different
-    return nextState.filename !== this.state.filename;
-  }
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   // Only update the component when the selected file's name will be different
+  //   return nextState.filename !== this.state.filename;
+  // }
 
   constructor() {
     super();
@@ -53,12 +54,12 @@ export default class FileUploader extends Component {
           className={`${displayName}-input`}
           onChange={this._handleUpload}
           ref='input'
-          type='file'/>
+          type='file' />
         {filename &&
           <ClickableIcon
             className={`${displayName}-reset-icon`}
             icon='close'
-            onClick={this._resetInput}/>
+            onClick={this._resetInput} />
         }
       </div>
     );
@@ -76,7 +77,7 @@ export default class FileUploader extends Component {
           return (
             <div key={i}>
               <b><em>{extension}</em></b>
-              <br/><br/>
+              <br /><br />
             </div>
           );
         })}

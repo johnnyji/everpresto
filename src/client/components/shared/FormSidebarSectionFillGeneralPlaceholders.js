@@ -5,10 +5,9 @@ import handleFlashError from '../.././decorators/handleFlashError';
 import {minLength} from '../.././utils/RegexHelper';
 import {
   generateGeneralPlaceholderFormFields,
-  updateGeneralPlaceholderFormField} from '../.././actions/DocumentNewActionCreators';
-
+  updateGeneralPlaceholderFormField
+} from '../.././actions/DocumentNewActionCreators';
 import Input from '.././ui/Input';
-import DashboardMessage from '.././dashboard/DashboardMessage';
 import FormSidebarSection from './FormSidebarSection';
 import FormSidebarSectionTitle from './FormSidebarSectionTitle';
 
@@ -69,7 +68,9 @@ export default class FormSidebarSectionFillGeneralPlaceholders extends Component
     return (
       <FormSidebarSection className={displayName}>
         {placeholders.size > 0 &&
-          <FormSidebarSectionTitle className={`${displayName}-title`}>General Fields</FormSidebarSectionTitle>
+          <FormSidebarSectionTitle className={`${displayName}-title`}>
+            General Fields
+          </FormSidebarSectionTitle>
         }
         <ul className={`${displayName}-fields`}>{content}</ul>
       </FormSidebarSection>
@@ -89,8 +90,8 @@ export default class FormSidebarSectionFillGeneralPlaceholders extends Component
             onUpdate={(val, err) => this._handleUpdatePlaceholder(val, err, i)}
             patternMatches={minLength(1, `Lets give ${formField.get('placeholder')} a value`)}
             successKeys={`values:${i}:value`}
-            value={formField.get('value')}
-            width={275}/>
+            value={formField.get('value') || ''}
+            width={275} />
         </li>
       );
     });

@@ -74,9 +74,8 @@ export default class DocumentsNewEditorView extends Component {
     generalPlaceholderForm: CustomPropTypes.placeholderForm.isRequired,
     handleFlashError: PropTypes.func.isRequired,
     saved: PropTypes.bool.isRequired,
-    savedSigner: PropTypes.bool.isRequired,
     saving: PropTypes.bool.isRequired,
-    savingSigner: PropTypes.bool.isRequired,
+    shouldClearSpecificPlaceholderForm: PropTypes.bool.isRequired,
     specificPlaceholderForm: CustomPropTypes.placeholderForm.isRequired
   };
 
@@ -135,8 +134,7 @@ export default class DocumentsNewEditorView extends Component {
     const {
       doc,
       generalPlaceholderForm,
-      savedSigner,
-      savingSigner,
+      shouldClearSpecificPlaceholderForm,
       specificPlaceholderForm
     } = this.props;
     const {templateBody} = this.state;
@@ -164,8 +162,7 @@ export default class DocumentsNewEditorView extends Component {
                 <FormSidebarSection>
                   <FormSidebarSectionAddSigner
                     placeholders={specificPlaceholders}
-                    savedSigner={savedSigner}
-                    savingSigner={savingSigner}
+                    shouldClearSpecificPlaceholderForm={shouldClearSpecificPlaceholderForm}
                     specificPlaceholderForm={specificPlaceholderForm} />
                   <FormSidebarSection className={`${displayName}-sidebar-signers-list`}>
                     {this._renderSigners()}

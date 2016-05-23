@@ -47,7 +47,7 @@ export default class RegistrationForm extends Component {
           }
         }
       })
-    }
+    };
   }
 
   render () {
@@ -67,7 +67,8 @@ export default class RegistrationForm extends Component {
             onUpdate={this._handleInputUpdate}
             patternMatches={minLength(1, 'Please provide your company\'s name')}
             ref='company-name'
-            successKeys='company:values:name'/>
+            successKeys='company:values:name'
+            value={formData.getIn(['company', 'values', 'name'])} />
           <Input
             className={`${displayName}-card-input`}
             error={formData.getIn(['user', 'errors', 'firstName'])}
@@ -77,7 +78,8 @@ export default class RegistrationForm extends Component {
             onUpdate={this._handleInputUpdate}
             patternMatches={minLength(1, 'You\'re first name please!')}
             ref='user-firstName'
-            successKeys='user:values:firstName'/>
+            successKeys='user:values:firstName'
+            value={formData.getIn(['user', 'values', 'firstName'])} />
           <Input
             className={`${displayName}-card-input`}
             error={formData.getIn(['user', 'errors', 'lastName'])}
@@ -87,7 +89,8 @@ export default class RegistrationForm extends Component {
             onUpdate={this._handleInputUpdate}
             patternMatches={minLength(1, 'You\'re last name please!')}
             ref='user-lastName'
-            successKeys='user:values:lastName'/>
+            successKeys='user:values:lastName'
+            value={formData.getIn(['user', 'values', 'lastName'])} />
           <Input
             className={`${displayName}-card-input`}
             error={formData.getIn(['user', 'errors', 'email'])}
@@ -98,7 +101,8 @@ export default class RegistrationForm extends Component {
             patternMatches={email()}
             ref='user-email'
             successKeys='user:values:email'
-            type='email'/>
+            type='email'
+            value={formData.getIn(['user', 'values', 'email'])} />
           <Input
             className={`${displayName}-card-input`}
             error={formData.getIn(['user', 'errors', 'password'])}
@@ -112,7 +116,8 @@ export default class RegistrationForm extends Component {
             ]}
             ref='user-password'
             successKeys='user:values:password'
-            type='password'/>
+            type='password'
+            value={formData.getIn(['user', 'values', 'password'])} />
           <Input
             className={`${displayName}-card-input`}
             error={formData.getIn(['user', 'errors', 'passwordConfirmation'])}
@@ -126,12 +131,13 @@ export default class RegistrationForm extends Component {
             ]}
             ref='user-passwordConfirmation'
             successKeys='user:values:passwordConfirmation'
-            type='password'/>
+            type='password'
+            value={formData.getIn(['user', 'values', 'passwordConfirmation'])} />
           <footer className={`${displayName}-footer`}>
             <Button
               color='yellow'
               onClick={this._handleFormSubmission}
-              text="I'm done!"/>
+              text="I'm done!" />
           </footer>
         </Card>
       </div>
@@ -196,7 +202,7 @@ export default class RegistrationForm extends Component {
       formData = formData.setIn(['user', 'errors', 'password'], null);
     }
 
-    this.setState({formData})
+    this.setState({formData});
   }
 
 }

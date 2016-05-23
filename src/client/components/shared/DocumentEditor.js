@@ -2,14 +2,15 @@ import React, {Component, PropTypes} from 'react';
 import Immutable from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import classNames from 'classnames';
-
 import TemplateEditor from '.././templates/TemplateEditor';
 import RichTextEditor from './RichTextEditor';
-import Button from '.././ui/Button';
 import Card from '.././ui/Card';
+import pureRender from 'pure-render-decorator';
+
 
 const displayName = 'DocumentEditor';
 
+@pureRender
 export default class DocumentEditor extends Component {
 
   static displayName = displayName;
@@ -30,12 +31,8 @@ export default class DocumentEditor extends Component {
     isTemplateEditor: false,
     templatePlaceholders: Immutable.List(),
     title: '',
-    titlePlaceholder: 'Untitled Document',
+    titlePlaceholder: 'Untitled Document'
   };
-
-  constructor(props) {
-    super(props);
-  }
 
   render() {
     const {
@@ -43,40 +40,40 @@ export default class DocumentEditor extends Component {
       className,
       isTemplateEditor,
       onBodyChange,
-      onTitleChange,
       templatePlaceholders,
       title,
-      titlePlaceholder} = this.props;
-    const classes = classNames({
-      [className]: className,
-      [displayName]: true
-    });
+      titlePlaceholder
+    } = this.props;
 
     return (
-      <Card className={classes}>
+      <Card className={classNames(className, displayName)}>
         <input
           autoFocus
           className={`${displayName}-title-input`}
           defaultValue={title}
-          onChange={(e) => onTitleChange(e.target.value)}
+          onChange={this._handleTitleChange}
           ref='title'
           placeholder={titlePlaceholder}
-          type='text'/>
+          type='text' />
         {isTemplateEditor &&
           <TemplateEditor
             className={`${displayName}-content-input`}
             onUpdate={onBodyChange}
             templatePlaceholders={templatePlaceholders}
-            text={body}/>
+            text={body} />
         }
         {!isTemplateEditor &&
           <RichTextEditor
             className={`${displayName}-content-input`}
             onUpdate={onBodyChange}
-            text={body}/>
+            text={body} />
         }
       </Card>
     );
   }
+
+  _handleTitleChange = (e) => {
+    this.props.onTitleChange(e.target.value);
+  };
 
 }

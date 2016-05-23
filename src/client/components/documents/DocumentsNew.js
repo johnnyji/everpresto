@@ -20,9 +20,8 @@ const displayName = 'DocumentsNew';
   generalPlaceholderForm: state.documentsNew.get('generalPlaceholderForm'),
   modalIsDisplayed: state.app.getIn(['modal', 'display']),
   saved: state.documentsNew.get('saved'),
-  savedSigner: state.documentsNew.get('savedSigner'),
   saving: state.documentsNew.get('saving'),
-  savingSigner: state.documentsNew.get('savingSigner'),
+  shouldClearSpecificPlaceholderForm: state.documentsNew.get('shouldClearSpecificPlaceholderForm'),
   shouldFetchTemplates: state.templates.get('shouldFetchTemplates'),
   specificPlaceholderForm: state.documentsNew.get('specificPlaceholderForm'),
   templates: state.templates.get('templates')
@@ -46,9 +45,8 @@ export default class DocumentsNew extends Component {
       collection_id: PropTypes.string
     }).isRequired,
     saved: PropTypes.bool.isRequired,
-    savedSigner: PropTypes.bool.isRequired,
     saving: PropTypes.bool.isRequired,
-    savingSigner: PropTypes.bool.isRequired,
+    shouldClearSpecificPlaceholderForm: PropTypes.bool.isRequired,
     shouldFetchTemplates: PropTypes.bool.isRequired,
     specificPlaceholderForm: CustomPropTypes.placeholderForm.isRequired,
     templates: ImmutablePropTypes.listOf(CustomPropTypes.template).isRequired
@@ -127,9 +125,8 @@ export default class DocumentsNew extends Component {
         emailsSentCount={this.props.emailsSentCount}
         generalPlaceholderForm={this.props.generalPlaceholderForm}
         saved={this.props.saved}
-        savedSigner={this.props.savedSigner}
         saving={this.props.saving}
-        savingSigner={this.props.savingSigner}
+        shouldClearSpecificPlaceholderForm={this.props.shouldClearSpecificPlaceholderForm}
         specificPlaceholderForm={this.props.specificPlaceholderForm} />
     );
   }

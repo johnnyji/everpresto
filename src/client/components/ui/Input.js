@@ -15,13 +15,14 @@ export default class Input extends Component {
   static propTypes = {
     autoFocus: PropTypes.bool.isRequired,
     className: PropTypes.string,
-    defaultValue: PropTypes.string.isRequired,
     disabled: PropTypes.bool.isRequired,
+    displayErrorOn: PropTypes.oneOf(['change', 'blur']).isRequired,
     error: PropTypes.string,
     errorKeys: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.string),
       PropTypes.string
     ]),
+    forceDisplayError: PropTypes.bool.isRequired,
     label: PropTypes.oneOfType([
       PropTypes.element,
       PropTypes.string
@@ -41,7 +42,6 @@ export default class Input extends Component {
         regex: PropTypes.instanceOf(RegExp).isRequired
       })
     ]).isRequired,
-    shouldDisplayError: PropTypes.bool.isRequired,
     successKeys: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.string),
       PropTypes.string
@@ -53,26 +53,37 @@ export default class Input extends Component {
 
   static defaultProps = {
     autoFocus: false,
-    defaultValue: '',
     disabled: false,
+    displayErrorOn: 'blur',
+    forceDisplayError: false,
     patternMatches: {
       regex: /.*/,
       error: ''
     },
-    shouldDisplayError: true,
     type: 'text'
   };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      shouldDisplayError: false
+    };
+  }
+
+  // Right when the component mounts, we submit the value and errors back to the parent so that
+  // any possible errors are tracked from the get go, just in case the user tries to hit a submit
+  // button before even typing into the input field.
+  componentDidMount() {
+    this._submitValue({target: this.props.value});
+  }
 
   render() {
     const {
       autoFocus,
       className,
-      defaultValue,
       disabled,
-      error,
       label,
       labelIcon,
-      shouldDisplayError,
       type,
       value,
       width
@@ -89,15 +100,14 @@ export default class Input extends Component {
         <MUITextField
           autoFocus={autoFocus}
           className={`${displayName}-input-field`}
-          defaultValue={defaultValue}
           disabled={disabled}
-          errorText={shouldDisplayError ? error : undefined}
+          errorText={this._renderErrorText()}
           fullWidth={true}
           hintText={inputLabel}
-          onBlur={this._submitValue}
-          onChange={this._submitValue}
+          onBlur={this._handleBlur}
+          onChange={this._handleChange}
           onKeyDown={this._handleKeyDown}
-          onFocus={this._submitValue}
+          onFocus={this._handleFocus}
           ref='input'
           type={type}
           value={value} />
@@ -113,7 +123,6 @@ export default class Input extends Component {
     return this.props.error === null && this._checkForError(this.getValue()) === undefined;
   };
 
-
   /**
    * Returns the error value of the input
    * @return {String|Null} - The error if one exists
@@ -121,7 +130,6 @@ export default class Input extends Component {
   getError = () => {
     return this.props.error;
   };
-
 
   /**
    * Called by parent component, retrieves the current value of the input field
@@ -132,6 +140,17 @@ export default class Input extends Component {
     return this.props.value || this.refs['input'].getValue();
   };
 
+  _renderErrorText = () => {
+    const {error, forceDisplayError} = this.props;
+    const {shouldDislayError} = this.state;
+
+    // No error
+    if (!error) return undefined;
+    // Error and we need to display it
+    if (forceDisplayError || shouldDislayError) return error;
+    // Error but no need to display it
+    return undefined;
+  };
 
   /**
    * Checks it's provided value against the input field's `patternMatches` prop
@@ -155,6 +174,32 @@ export default class Input extends Component {
     return patternMatches.regex.test(value) ? undefined : patternMatches.error;
   };
 
+  /**
+   * Checks to see if potential errors should be displayed and submits the input value every time the input blurs
+   * @param  {Object} e - The blur event object
+   */
+  _handleBlur = (e) => {
+    if (this.props.displayErrorOn === 'blur') this.setState({shouldDislayError: true});
+    this._submitValue(e);
+  };
+
+  /**
+   * Checks to see if potential errors should be displayed and submits the input value every time the value changes
+   * @param  {Object} e - The change event object
+   */
+  _handleChange = (e) => {
+    if (this.props.displayErrorOn === 'change') this.setState({shouldDislayError: true});
+    this._submitValue(e);
+  };
+
+  /**
+   * Forbids the input field from showing any errors and updates the parent component with it's value
+   * @param  {Object} e - The focus event object
+   */
+  _handleFocus = (e) => {
+    this.setState({shouldDislayError: false});
+    this._submitValue(e);
+  };
     
   /**
    * Handles when the enter key is pressed
@@ -169,7 +214,6 @@ export default class Input extends Component {
     }
   };
 
-
   /**
    * Checks the input value, and submits it to the parent component, along with errors if there
    * are any.
@@ -179,10 +223,13 @@ export default class Input extends Component {
     const {value} = e.target;
     // If the input value doesn't match the regex we passed in, we're going to trigger an error callback
     const error = this._checkForError(value) || null;
-    // Updates the parent component with both the value and the error
+
+    // Only if `successKeys` and `errorKeys` are provided will the input field go through the trouble of
+    // building up the nested object based on those keys, otherwise it just passes back null
     const nestedErrorObj = this.props.errorKeys ? createNestedObject(this.props.errorKeys, error) : null;
     const nestedValueObj = this.props.successKeys ? createNestedObject(this.props.successKeys, value) : null;
 
+    // Updates the parent component with both the value and the error
     this.props.onUpdate(value, error, nestedValueObj, nestedErrorObj, e);
   };
 

@@ -32,8 +32,6 @@ export default (ComposedComponent) => (class createDocuments extends Component {
       template: CustomPropTypes.template.isRequired
     }).isRequired,
     generalPlaceholderForm: CustomPropTypes.placeholderForm.isRequired,
-    savedSigner: PropTypes.bool.isRequired,
-    savingSigner: PropTypes.bool.isRequired,
     specificPlaceholderForm: CustomPropTypes.placeholderForm.isRequired,
     handleFlashError: PropTypes.func.isRequired
   };

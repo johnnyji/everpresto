@@ -7,6 +7,13 @@ import {pluralize} from '.././utils/TextHelper';
 
 const DocumentNewActionCreators = {
 
+  addSigner(signer) {
+    return {
+      type: DocumentNewActionTypes.ADD_SIGNER,
+      data: {signer}
+    };
+  },
+
   addSigners(signers) {
     return {
       type: DocumentNewActionTypes.ADD_SIGNERS,
@@ -70,12 +77,6 @@ const DocumentNewActionCreators = {
   resetState() {
     return {
       type: DocumentNewActionTypes.RESET_STATE
-    };
-  },
-
-  savingSigner() {
-    return {
-      type: DocumentNewActionTypes.SAVING_SIGNER
     };
   },
 

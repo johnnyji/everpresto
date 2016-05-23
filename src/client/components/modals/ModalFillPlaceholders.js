@@ -1,13 +1,11 @@
 import React, {Component, PropTypes} from 'react';
 import Baby from 'babyparse';
-import classNames from 'classnames';
-import flow from 'lodash/flow';
 import Immutable from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import {equals, get} from '../.././utils/immutable/IterableFunctions';
+import {get} from '../.././utils/immutable/IterableFunctions';
 import {minLength} from '../.././utils/RegexHelper';
 import {pluralize} from '../.././utils/TextHelper';
-import {createFlashMessage, dismissModal} from '../.././actions/AppActionCreators';
+import {dismissModal} from '../.././actions/AppActionCreators';
 import {addSigners} from '../.././actions/DocumentNewActionCreators';
 import handleFlashError from '../.././decorators/handleFlashError';
 
@@ -33,6 +31,7 @@ export default class ModalFillPlaceholders extends Component {
   };
 
   static propTypes = {
+    handleFlashError: PropTypes.func.isRequired,
     placeholders: ImmutablePropTypes.listOf(
       ImmutablePropTypes.contains({
         isRequired: PropTypes.bool.isRequired,
@@ -64,7 +63,7 @@ export default class ModalFillPlaceholders extends Component {
     if (!nextMappings.equals(mappings)) {
       this.setState({
         assignedHeaders: nextMappings.get('values').map(get('header'))
-      })
+      });
     }
   }
 
@@ -104,7 +103,6 @@ export default class ModalFillPlaceholders extends Component {
       return (
         <li className={`${displayName}-mapping-section-mappings-item`} key={i}>
           <Input
-            defaultValue={value.get('header')}
             error={mappings.getIn(['errors', i])}
             errorKeys={`errors:${i}`}
             label='Header Value'
@@ -113,7 +111,7 @@ export default class ModalFillPlaceholders extends Component {
             ref={`mappings-${i}`}
             successKeys={`values:${i}:header`}
             value={value.get('header')}
-            width={300}/>
+            width={300} />
           <mark>{value.get('placeholder')}</mark>
         </li>
       );
@@ -153,8 +151,7 @@ export default class ModalFillPlaceholders extends Component {
   _generateMappings = (sortedHeaders, sortedPlaceholders) => {
     return sortedPlaceholders.reduce((mappings, placeholder, i) => {
       const header = sortedHeaders[i];
-
-      let updatedMapping = (header === undefined)
+      const updatedMapping = (header === undefined)
         ? mappings.update('values', (vals) => vals.push(Immutable.fromJS({header: null, placeholder})))
         : mappings.update('values', (vals) => vals.push(Immutable.fromJS({header, placeholder})));
 

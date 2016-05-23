@@ -3,6 +3,7 @@ import DocumentNewActionTypes from '.././action_types/DocumentNewActionTypes';
 import {matchesAttr} from '.././utils/immutable/IterableFunctions';
 
 const {
+  ADD_SIGNER,
   ADD_SIGNERS,
   CLEAR_SPECIFIC_PLACEHOLDER_FORM,
   CREATE_DOCUMENTS,
@@ -11,7 +12,6 @@ const {
   GENERATE_SPECIFIC_PLACEHOLDER_FORM_FIELDS,
   REMOVE_SIGNER,
   RESET_STATE,
-  SAVING_SIGNER,
   SET_COLLECTION,
   SET_EMAILS_SENT_COUNT,
   SET_TEMPLATE,
@@ -49,9 +49,8 @@ const INITIAL_STATE = Immutable.fromJS({
     errors: []
   },
   saved: false,
-  savedSigner: false,
   saving: false,
-  savingSigner: false,
+  shouldClearSpecificPlaceholderForm: false,
   // The form to fill placeholder values that are specific to each signer, filling this form out and submitting it
   // will add a new signer to the document, required fields include FIRST_NAME, LAST_NAME, EMAIL
   //
@@ -70,25 +69,27 @@ export default function documentsReducer(state = INITIAL_STATE, action) {
 
   switch (action.type) {
 
-    // When a signer is added to the document we're creating. We want to set saving signer to false, saved signer to true,
-    // and make sure that signer we just added is at the top of the list of signers that will be receiving
-    // this document
-    case ADD_SIGNERS: {
+    // We want to make sure we add our new signer onto the list of signers, and clear the input form
+    case ADD_SIGNER: {
       return state.merge({
-        doc: state.get('doc').update('signers', (signers) => Immutable.fromJS(action.data.signers).concat(signers)),
-        savedSigner: true,
-        savingSigner: false
+        doc: state.get('doc').update('signers', (signers) => signers.unshift(action.data.signer)),
+        shouldClearSpecificPlaceholderForm: true
+      });
+    }
+
+    // Adds the newly created signers ontop of the already existing signers
+    case ADD_SIGNERS: {
+      return state.updateIn(['doc', 'signers'], (signers) => {
+        return Immutable.fromJS(action.data.signers).concat(signers);
       });
     }
     
     // Sets every user input value of specific placeholder form to nothing, thus clearing the form
     case CLEAR_SPECIFIC_PLACEHOLDER_FORM: {
-      // TODO: Why is this not working?
-      debugger;
-      return state.updateIn(['specificPlaceholderForm', 'values'], (vals) => {
-        debugger;
+      const updatedState = state.updateIn(['specificPlaceholderForm', 'values'], (vals) => {
         return vals.map((val) => val.set('value', ''));
       });
+      return updatedState.set('shouldClearSpecificPlaceholderForm', false);
     }
 
     case CREATE_DOCUMENTS: {
@@ -112,11 +113,11 @@ export default function documentsReducer(state = INITIAL_STATE, action) {
         return state.getIn(['doc', 'template', 'placeholders'])
           .filter(isGeneral)
           .reduce((placeholderForm, placeholder) => {
-            // Pushes on a placeholder input object -> {placeholder: 'HELLO', value: null}
+            // Pushes on a placeholder input object -> {placeholder: 'HELLO', value: ''}
             const updatedForm = placeholderForm.update('values', (vals) => (
               vals.push(Immutable.fromJS({
                 placeholder: placeholder.get('value'),
-                value: null
+                value: ''
               }))
             ));
             // Also creates an error for that input
@@ -132,11 +133,11 @@ export default function documentsReducer(state = INITIAL_STATE, action) {
         return state.getIn(['doc', 'template', 'placeholders'])
           .filter(isSpecific)
           .reduce((placeholderForm, placeholder) => {
-            // Pushes on a placeholder input object -> {placeholder: 'HELLO', value: null}
+            // Pushes on a placeholder input object -> {placeholder: 'HELLO', value: ''}
             const updatedForm = placeholderForm.update('values', (vals) => (
               vals.push(Immutable.fromJS({
                 placeholder: placeholder.get('value'),
-                value: null
+                value: ''
               }))
             ));
             // Also creates an error for that input
@@ -156,13 +157,6 @@ export default function documentsReducer(state = INITIAL_STATE, action) {
 
     case RESET_STATE: {
       return INITIAL_STATE;
-    }
-
-    case SAVING_SIGNER: {
-      return state.merge({
-        savingSigner: true,
-        savedSigner: false
-      });
     }
 
     case SET_COLLECTION: {

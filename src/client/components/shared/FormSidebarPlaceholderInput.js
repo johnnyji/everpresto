@@ -62,7 +62,7 @@ export default class FormSidebarPlaceholderInput extends Component {
         values: {value: ''},
         errors: {value: null}
       })
-    }
+    };
   }
 
   render() {
@@ -79,7 +79,6 @@ export default class FormSidebarPlaceholderInput extends Component {
         <div className={`${displayName}-input-wrapper`}>
           <Input
             className={`${displayName}-input`}
-            defaultValue={unsavedPlaceholder.getIn(['values', 'value'])}
             error={unsavedPlaceholder.getIn(['errors', 'value'])}
             errorKeys='errors:value'
             label={<span><Icon icon='edit' /> {placeholderInputLabel}</span>}
@@ -92,7 +91,8 @@ export default class FormSidebarPlaceholderInput extends Component {
             ]}
             ref='placeholder-input'
             successKeys='values:value'
-            width={300}/>
+            value={unsavedPlaceholder.getIn(['values', 'value'])}
+            width={300} />
         </div>
         <ul className={`${displayName}-placeholders`}>
           {this._renderRequiredPlaceholders()}
@@ -116,7 +116,7 @@ export default class FormSidebarPlaceholderInput extends Component {
       <li className={`${displayName}-placeholders-required`} key={i}>
         <mark>{placeholder.get('value')}</mark>
         <span className={`${displayName}-placeholders-required-text`}>
-          <Icon icon='info' iconClass={`${displayName}-placeholders-required-text-icon`} size={16}/>
+          <Icon icon='info' iconClass={`${displayName}-placeholders-required-text-icon`} size={16} />
           Required
         </span>
       </li>
@@ -132,9 +132,9 @@ export default class FormSidebarPlaceholderInput extends Component {
           <ClickableIcon
             className={`${displayName}-placeholder-tip-icon`}
             icon='info'
-            onClick={this._showPlaceholderInfoModal}/>
+            onClick={this._showPlaceholderInfoModal} />
           <Clickable
-          className={`${displayName}-placeholder-tip-text`}
+            className={`${displayName}-placeholder-tip-text`}
             onClick={this._showPlaceholderInfoModal}>
             What are placeholders?
           </Clickable>
@@ -179,9 +179,13 @@ export default class FormSidebarPlaceholderInput extends Component {
         ? placeholderValue.match(new RegExp(unsavedPlaceholderValue))
         : unsavedPlaceholderValue.match(new RegExp(placeholderValue));
     });
+
     if (firstConflictingPlaceholder) {
       return this.setState({
-        unsavedPlaceholder: unsavedPlaceholder.setIn(['errors', 'value'], `Conflicting with existing placeholder ${firstConflictingPlaceholder.get('value')}`)
+        unsavedPlaceholder: unsavedPlaceholder.setIn(
+          ['errors', 'value'],
+          `Conflicting with existing placeholder ${firstConflictingPlaceholder.get('value')}`
+        )
       }); 
     }
 

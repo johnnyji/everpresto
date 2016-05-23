@@ -7,6 +7,7 @@ import handleFlashError from '../.././decorators/handleFlashError';
 import Icon from '.././ui/Icon';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import Input from '.././ui/Input';
+import {isNull} from '../../utils/immutable/IterableFunctions';
 import {minLength} from '../.././utils/RegexHelper';
 import ModalFillPlaceholders from '.././modals/ModalFillPlaceholders';
 import MUIRoundButton from 'material-ui/FloatingActionButton';
@@ -38,10 +39,18 @@ export default class FormSidebarSectionAddSigner extends Component {
         value: PropTypes.string.isRequired
       }).isRequired
     ).isRequired,
-    savedSigner: PropTypes.bool.isRequired,
-    savingSigner: PropTypes.bool.isRequired,
+    shouldClearSpecificPlaceholderForm: PropTypes.bool.isRequired,
     specificPlaceholderForm: CustomPropTypes.placeholderForm.isRequired
   };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      // This forces all the form's input fields to show their current error state. This becomes true
+      // when we attempt to add a signer but their specific placeholder form was filled incorrectly
+      showAddSignerErrors: false
+    };
+  }
 
   componentWillMount() {
     // Uses the placeholders prop to generate dynamic input fields
@@ -51,10 +60,9 @@ export default class FormSidebarSectionAddSigner extends Component {
     );
   }
 
-  componentWillUpdate (nextProps) {
-    // Once we've just saved an individual signer, we want to clear the specific
-    // placeholder form so we can add another signer
-    if (this.props.savingSigner && !nextProps.savingSigner) {
+  componentWillUpdate(nextProps) {
+    // Clears out the form so we can add another signer
+    if (nextProps.shouldClearSpecificPlaceholderForm) {
       this.context.dispatch(
         DocumentNewActionCreators.clearSpecificPlaceholderForm()
       );
@@ -88,49 +96,37 @@ export default class FormSidebarSectionAddSigner extends Component {
   }
 
   _renderSpecificPlaceholderForm = () => {
-    const {specificPlaceholderForm, savingSigner} = this.props;
+    const {specificPlaceholderForm} = this.props;
+    const {showAddSignerErrors} = this.state;
 
     return specificPlaceholderForm
       .get('values')
-      .map((val, i) => (
-        <Input
-          className={`${displayName}-form-fields-field`}
-          error={specificPlaceholderForm.getIn(['errors', i])}
-          errorKeys={`errors:${i}`}
-          key={i}
-          label={val.get('placeholder')}
-          onUpdate={(val, err) => this._handlePlaceholderUpdate(val, err, i)}
-          patternMatches={minLength(1, `Give ${val.get('placeholder')} a value`)}
-          ref={`specificPlaceholderForm-${i}`}
-          shouldDisplayError={savingSigner}
-          successKeys={`values:${i}:value`}
-          value={val.get('value')}
-          width={300} />
-      ));
+      .map((val, i) => {
+        return (
+          <Input
+            className={`${displayName}-form-fields-field`}
+            error={specificPlaceholderForm.getIn(['errors', i])}
+            displayErrorOn={showAddSignerErrors ? 'change' : 'blur'}
+            forceDisplayError={showAddSignerErrors}
+            key={i}
+            label={val.get('placeholder')}
+            onUpdate={(val, err) => this._handlePlaceholderUpdate(val, err, i)}
+            patternMatches={minLength(1, `Give ${val.get('placeholder')} a value`)}
+            value={val.get('value') || ''}
+            width={300} />
+        );
+      });
   }
 
-  /**
-   * Checks for the validity of the add signer form and then proceeds to
-   * add the signer to the new document
-   */
   _addSigner = () => {
-    const {dispatch} = this.context;
-    const {handleFlashError, specificPlaceholderForm} = this.props;
+    const errorsExist = !this.props.specificPlaceholderForm.get('errors').every(isNull);
 
-    // Begin the saving process
-    dispatch(DocumentNewActionCreators.savingSigner());
+    // If there are invalid fields, show all the errors in the form
+    if (errorsExist) return this.setState({showAddSignerErrors: true});
 
-    // If there are errors, do not proceed
-    const firstFoundError = specificPlaceholderForm
-      .get('errors')
-      .find((_, i) => !this.refs[`specificPlaceholderForm-${i}`].valid());
-    if (firstFoundError !== undefined) {
-      return handleFlashError('Are you sure you filled out the form properly?');
-    }
-    
-    // Adds the one new signer to the new document
-    dispatch(
-      DocumentNewActionCreators.addSigners([specificPlaceholderForm.get('values')])
+    // If all fields are valid, we add the signer
+    this.context.dispatch(
+      DocumentNewActionCreators.addSigner(this.props.specificPlaceholderForm.get('values'))
     );
   };
 
