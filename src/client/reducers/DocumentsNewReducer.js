@@ -191,6 +191,7 @@ export default function documentsReducer(state = INITIAL_STATE, action) {
       specificPlaceholderForm = specificPlaceholderForm.setIn(['values', formFieldIndex, 'value'], value);
       specificPlaceholderForm = specificPlaceholderForm.setIn(['errors', formFieldIndex], error);
 
+      console.log(specificPlaceholderForm.toJS().errors);
       return state.set('specificPlaceholderForm', specificPlaceholderForm);
     }
 

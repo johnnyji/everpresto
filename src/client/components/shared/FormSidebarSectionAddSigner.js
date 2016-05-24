@@ -7,7 +7,6 @@ import handleFlashError from '../.././decorators/handleFlashError';
 import Icon from '.././ui/Icon';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import Input from '.././ui/Input';
-import {isNull} from '../../utils/immutable/IterableFunctions';
 import {minLength} from '../.././utils/RegexHelper';
 import ModalFillPlaceholders from '.././modals/ModalFillPlaceholders';
 import MUIRoundButton from 'material-ui/FloatingActionButton';
@@ -70,7 +69,6 @@ export default class FormSidebarSectionAddSigner extends Component {
   }
 
   render() {
-    console.log(this.props.specificPlaceholderForm.get('errors').toJS())
     return (
       <div className={displayName}>
         <a
@@ -129,7 +127,8 @@ export default class FormSidebarSectionAddSigner extends Component {
       .find((_, i) => !this.refs[`specificPlaceholderForm-${i}`].valid());
 
     // If there are invalid fields, show all the errors in the form
-    if (firstFoundError) {
+    // We must check for `undefined` here because that's what `List.find` returns when it can't find anything
+    if (firstFoundError !== undefined) {
       // Forces every input field to update so their errors are updated
       this.props.specificPlaceholderForm.get('errors').forEach((_, i) => {
         this.refs[`specificPlaceholderForm-${i}`].forceUpdate();

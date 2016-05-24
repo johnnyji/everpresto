@@ -70,13 +70,6 @@ export default class Input extends Component {
     };
   }
 
-  // Right when the component mounts, we submit the value and errors back to the parent so that
-  // any possible errors are tracked from the get go, just in case the user tries to hit a submit
-  // button before even typing into the input field.
-  componentDidMount() {
-    this._submitValue({target: this.props.value});
-  }
-
   render() {
     const {
       autoFocus,
@@ -120,7 +113,7 @@ export default class Input extends Component {
    * most accurate error/value
    */
   forceUpdate = () => {
-    this._submitValue({target: this.props.value});
+    this._submitValue({target: {value: this.props.value}});
   }
 
   /**
