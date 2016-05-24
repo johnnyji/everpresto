@@ -1,24 +1,25 @@
 import React, {Component, PropTypes} from 'react';
+import {isTruthy, matchesAttr} from '../.././utils/immutable/IterableFunctions';
 import {minLength, noLowerCase} from '../.././utils/RegexHelper';
 import AppActionCreators from '../.././actions/AppActionCreators';
 import Clickable from '.././ui/Clickable';
 import ClickableIcon from '.././ui/ClickableIcon';
-import ListItem from '.././ui/ListItem';
 import FormSidebarSection from './FormSidebarSection';
 import FormSidebarSectionTitle from './FormSidebarSectionTitle';
 import Icon from '.././ui/Icon';
 import Immutable from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import Input from '.././ui/Input';
-import IterableFunctions from '../.././utils/immutable/IterableFunctions';
+import ListItem from '.././ui/ListItem';
 import ModalPlaceholderTipBox from '.././modals/ModalPlaceholderTipBox';
+import pureRender from 'pure-render-decorator';
 
-const {isTruthy, matchesAttr} = IterableFunctions;
 const ENTER_KEY = 13;
 const matchesValue = matchesAttr('value');
 const isRequired = matchesAttr('isRequired');
 const displayName = 'FormSidebarPlaceholderInput';
 
+@pureRender
 export default class FormSidebarPlaceholderInput extends Component {
 
   static displayName = displayName;
@@ -79,18 +80,15 @@ export default class FormSidebarPlaceholderInput extends Component {
         <div className={`${displayName}-input-wrapper`}>
           <Input
             className={`${displayName}-input`}
+            displayErrorOn={'change'}
             error={unsavedPlaceholder.getIn(['errors', 'value'])}
-            errorKeys='errors:value'
             label={<span><Icon icon='edit' /> {placeholderInputLabel}</span>}
-            onKeyPress={this._handleKeyPress}
             onEnterKeyPress={this._saveUnsavedPlaceholder}
-            onUpdate={(value, err, valObj, errObj, e) => this._updateUnsavedPlaceholder(value, err, e)}
+            onUpdate={this._updateUnsavedPlaceholder}
             patternMatches={[
               minLength(1, 'Your placeholder can\'t be empty!'),
               noLowerCase('Sorry, no lower case chars allowed!')
             ]}
-            ref='placeholder-input'
-            successKeys='values:value'
             value={unsavedPlaceholder.getIn(['values', 'value'])}
             width={300} />
         </div>
@@ -104,7 +102,7 @@ export default class FormSidebarPlaceholderInput extends Component {
 
 
   /**
-   * Renders the required placeholders
+   * Renders placeholders that are required for each signer
    * @return {Immutable.List} The list of required placeholder React elements
    */
   _renderRequiredPlaceholders = () => {
@@ -165,7 +163,10 @@ export default class FormSidebarPlaceholderInput extends Component {
     // If the placeholder is already taken, set the error on this placeholder
     if (allPlaceholders.find(matchesValue(unsavedPlaceholderValue))) {
       return this.setState({
-        unsavedPlaceholder: unsavedPlaceholder.setIn(['errors', 'value'], 'This placeholder is already being used!')
+        unsavedPlaceholder: unsavedPlaceholder.setIn(
+          ['errors', 'value'],
+          'This placeholder is already being used!'
+        )
       });
     }
 
@@ -186,11 +187,10 @@ export default class FormSidebarPlaceholderInput extends Component {
           ['errors', 'value'],
           `Conflicting with existing placeholder ${firstConflictingPlaceholder.get('value')}`
         )
-      }); 
+      });
     }
 
     // If the placeholder is correct
-    this.refs['placeholder-input'].clear();
     this.setState({
       unsavedPlaceholder: Immutable.fromJS({
         values: {value: ''},
@@ -209,10 +209,11 @@ export default class FormSidebarPlaceholderInput extends Component {
     );
   };
 
-  _updateUnsavedPlaceholder = (value, error, e) => {
+  _updateUnsavedPlaceholder = (value, error, _valObj, _errObj, e) => {
     // If the enter key is hit, we don't want to update, instead we want to ignore
     // because the placeholder will be sumitted instead in `this._saveUnsavedPlaceholder`
     if (e.which === ENTER_KEY) return;
+
     // Updates the unsavedPlaceholder state
     this.setState({
       unsavedPlaceholder: this.state.unsavedPlaceholder.merge({

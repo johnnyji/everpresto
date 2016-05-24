@@ -84,7 +84,7 @@ export default class TemplateEditorView extends Component {
           onTitleChange={(value) => this._updateTemplateAttr('title', value)}
           templatePlaceholders={template.get('placeholders').map(getAttr('value'))}
           titlePlaceholder='Untitled Template'
-          title={template.get('title')}/>
+          title={template.get('title')} />
 
         <FormSidebar className={`${displayName}-sidebar`}>
           <FormSidebarBody>
@@ -103,7 +103,7 @@ export default class TemplateEditorView extends Component {
                 placeholderInputLabel='ADD_SPECIFIC_PLACEHOLDER'
                 placeholderType='specific'
                 placeholders={template.get('placeholders').filter(isSpecific)}
-                title='Will Be Different For Each Signer'/>
+                title='Will Be Different For Each Signer' />
               <FormSidebarPlaceholderInput
                 allPlaceholders={template.get('placeholders')}
                 onAddPlaceholder={this._addPlaceholder}
@@ -111,7 +111,7 @@ export default class TemplateEditorView extends Component {
                 placeholderType='general'
                 placeholderInputLabel='ADD_GENERAL_PLACEHOLDER'
                 placeholders={template.get('placeholders').filter(isGeneral)}
-                title='Will Be Same For All Signers'/>
+                title='Will Be Same For All Signers' />
             </FormSidebarSection>
           </FormSidebarBody>
           {/* Confirmation Buttons */}
@@ -121,7 +121,7 @@ export default class TemplateEditorView extends Component {
               className={`${displayName}-sidebar-confirm`}
               icon='done'
               onClick={this._handleSave}
-              text={mode === 'create' ? 'Create Template!' : 'Save Template'}/>
+              text={mode === 'create' ? 'Create Template!' : 'Save Template'} />
           </FormSidebarFooter>
         </FormSidebar>
 
