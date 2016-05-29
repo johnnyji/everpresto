@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import Collection from './Collection';
-import DocumentMailer from '../services/mailers/DocumentMailer';
+import Rx from 'rxjs/Rx';
 import UserValidator from '../validators/UserValidator';
 // Models must be imported from their direct source file due to cross-model dependency issues. See README
 
@@ -94,12 +94,32 @@ DocumentSchema.statics.handleCreateBatch = function(docs, companyId, userId) {
 };
 
 /**
- * Adds an error message to each unsent doc and ensure their `status` is `created`
- * @param {array} unsentDocs - Documents that weren't properly emailed to their signers
+ * handleCreate writes a document to the database
+ *
+ * @param {Object} doc - The document object we're creating
+ * @param {String} companyId - The id of the company this document belongs to
+ * @param {String} userId - The id of the user that created this document
+ * @returns {Promise} - The observable stream of whether or not the save was successful
  */
-DocumentSchema.statics.handleUnsentDocs = function(unsentDocs) {
-  unsentDocs.forEach((doc) => {
-    // TODO: Is `this` referring to the DocumentSchema in those scope?
+DocumentSchema.statics.handleCreate = function(doc, companyId, userId) {
+  return new Promise((resolve, reject) => {
+    // Whitelists the document object
+    const whitelistedDoc = {
+      _company: ObjectId(companyId),
+      _collection: ObjectId(doc._collection),
+      _creator: ObjectId(userId),
+      body: doc.body,
+      signer: {
+        email: doc.signer.email,
+        firstName: doc.signer.firstName,
+        lastName: doc.signer.lastName
+      }
+    };
+
+    this.create(whitelistedDoc, (err, doc) => {
+      if (err) return reject(err);
+      resolve(doc);
+    });
   });
 };
 

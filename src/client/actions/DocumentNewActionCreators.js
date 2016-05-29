@@ -3,7 +3,7 @@ import apiEndpoints from '.././apiEndpoints';
 import {sendAjaxRequest} from '.././utils/ApiCaller';
 import {createFlashMessage} from './AppActionCreators';
 import {setCollectionBeingViewed} from './CollectionActionCreators';
-import {pluralize} from '.././utils/TextHelper';
+// import {pluralize} from '.././utils/TextHelper';
 
 const DocumentNewActionCreators = {
 
@@ -29,16 +29,19 @@ const DocumentNewActionCreators = {
 
   createDocuments(docs) {
     return (dispatch) => {
+      dispatch(this.createDocumentsPending);
+
       sendAjaxRequest({
         url: apiEndpoints.documents.create.path,
         method: apiEndpoints.documents.create.method,
         data: {docs}
       })
         .then((response) => {
-          const successMsg = `${pluralize(docs.length, 'document', 'documents')} successfully created!`;
+          // const successMsg = `${pluralize(docs.length, 'document', 'documents')} successfully created!`;
+          // dispatch(createFlashMessage('green', successMsg));
+
           // We need to refetch the collectionBeingViewed so it will contain all the documents
           // we've just created
-          dispatch(createFlashMessage('green', successMsg));
           dispatch(setCollectionBeingViewed(response.data.collection));
           dispatch(this.createDocumentsSuccess());
         })
@@ -52,6 +55,12 @@ const DocumentNewActionCreators = {
     return {
       type: DocumentNewActionTypes.CREATE_DOCUMENTS_SUCCESS,
       data: {docs}
+    };
+  },
+
+  createDocumentsPending() {
+    return {
+      type: DocumentNewActionTypes.CREATE_DOCUMENTS_PENDING
     };
   },
 

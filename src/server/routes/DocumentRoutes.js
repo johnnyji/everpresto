@@ -22,44 +22,37 @@ router.post('/create', (req, res) => {
   const {docs} = req.body;
   const {companyId, userId} = req.session;
 
-  
-  User.findById(ObjectId(userId), (err, user) => {
-    const io = req.app.get('io');
 
-    // Creates each doc and emails them to their signers
-    Observable.from(docs)
-      .map((doc) => Document.handleCreate(doc, companyId, userId))
-      .switchMap((doc) => sendInitialEmail$$(doc, user))
+  User.findById(ObjectId(userId), (err, user) => {
+    const io = req.app.get('io').of('/documents');
+
+    const docs$ = Observable.from(docs);
+    const saveDocs$ = docs$
+      .switchMap((doc) => Observable.fromPromise(Document.handleCreate(doc, companyId, userId)));
+    const emailDocs$ = docs$.switchMap((doc) => sendInitialEmail$$(doc, user));
+    const saveThenEmailDocs$ = saveDocs$.concat(emailDocs$);
+
+    // First saves all the docs, and then begins to email them all.
+    // The reason we want to save them all first is because, if an email fails,
+    // we can still ensure that the document is saved
+    saveThenEmailDocs$
       .subscribe(
         (doc) => {
-          // Fire document emailed socket.io event
-          io.of('/documents').emit('emailed', {doc});
+          io.emit('sendEmailSuccess', {doc});
         },
-        () => {},
+        (err) => {
+          io.emit('sendEmailError', err);
+        },
         () => {
-          // Should I still respond to this AJAX call if we're sending messages through socket?
-          res.status(201).json({});
           // Fire complete socket.io event
+          io.emit('sendEmailComplete');
+          // Should I still respond to this AJAX call if we're sending messages through socket?
+          res.status(201).json({collectionId});
         }
       );
 
-    // // We return the entire collection containing the newly created documents, no need to convert `toObject`,
-    // // already done
-    // Document.handleCreateBatch(docs, companyId, userId)
-    //   .then((collection) => {
-    //     // TODO: Is it possible to do this using socket.io?
-    //     DocumentMailer.sendInitialEmails(
-    //       collection.documents,
-    //       user,
-    //       Document.handleUnsentDocs,
-    //       Document.handleSentDocs
-    //     );
-    //     res.status(201).json({collection});
-    //   })
-    //   .catch((err) => {
-    //     res.status(422).json({message: extractErrorMessage(err)});
-    //   });
   });
+
 });
 
 export default router;

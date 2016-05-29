@@ -93,7 +93,9 @@ export default class DocumentsNewEditorView extends Component {
     // can live update as they're being emailed and written to the DB
     this.socket = io.connect(config.socket.documents);
     // Listens for whenever an email from this current document being created is sent
-    this.socket.on('emailed', this._handleEmailSent);
+    this.socket.on('sendEmailError', this._handleEmailError);
+    this.socket.on('sendEmailSuccess', this._handleEmailSent);
+    this.socket.on('sendEmailComplete', this._handleAllEmailSent);
   }
 
   // TODO: This is too slow and is computing way too much, find way to speed this up
@@ -231,13 +233,21 @@ export default class DocumentsNewEditorView extends Component {
     this.props.createDocuments();
   };
 
+  _handleEmailError = () => {
+    console.log('EMAIL SEND ERROR');
+  };
+
   /**
    * Increments the `emailsSentCount` by one. This function is called
    * whenever the server responds after an email is sent successfully to a
    * signer during the creation of this document
    */
-  _incrementEmailSent = () => {
+  _handleEmailSent = () => {
     DocumentNewActionCreators.setEmailsSentCount(this.props.emailsSentCount + 1);
+  };
+
+  _handleAllEmailsSent = () => {
+    console.log('ALL SENT');
   };
 
 }

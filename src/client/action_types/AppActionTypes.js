@@ -1,11 +1,10 @@
-const AppActionTypes = {
+import createConstants from './utils/createConstants';
 
-  CREATE_MODAL: 'CREATE_MODAL',
-  DISMISS_MODAL: 'DISMISS_MODAL',
-
-  CREATE_FLASH_MESSAGE: 'CREATE_FLASH_MESSAGE',
-  DISMISS_FLASH_MESSAGE: 'DISMISS_FLASH_MESSAGE'
-
-};
+const AppActionTypes = createConstants([
+  'CREATE_FLASH_MESSAGE',
+  'CREATE_MODAL',
+  'DISMISS_FLASH_MESSAGE',
+  'DISMISS_MODAL'
+]);
 
 export default AppActionTypes;

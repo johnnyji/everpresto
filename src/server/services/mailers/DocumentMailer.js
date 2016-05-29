@@ -2,9 +2,9 @@ import config from '../../../../config/config';
 import initialEmailTemplate from './templates/initialEmail.js';
 import Rx from 'rxjs/Rx';
 import secrets from '../../../../secrets.json';
-import SparkPost from 'sparkpost';
+import sendgrid from 'sendgrid';
 
-const mailer = new SparkPost(secrets.sparkpost.apiKey);
+const mailer = sendgrid(secrets.sendgrid.apiKey);
 
 const DocumentMailer = {
 
@@ -24,25 +24,21 @@ const DocumentMailer = {
       });
 
       // Sends the document email to the user
-      mailer.transmissions.send({
-        transmissionBody: {
-          content: {
-            from: config.mailer.document.fromEmail,
-            subject: `${fromUser.account.firstName} ${fromUser.account.lastName} needs you to sign something!`,
-            html: emailHtml
-          },
-          recipients: [{address: doc.signer.email}]
-        }
-      }, (err, _) => {
+      mailer.send({
+        to: doc.signer.email,
+        from: config.mailer.document.fromEmail,
+        subject: `${fromUser.account.firstName} ${fromUser.account.lastName} needs you to sign something!`,
+        html: emailHtml
+      }, (err) => {
         if (err) {
-          observer.next(err);
+          observer.error(err);
         } else {
           observer.next(doc);
         }
       });
-      // When all the emails have finished sending
       observer.complete();
     });
+
   },
 
   /**
@@ -85,6 +81,7 @@ const DocumentMailer = {
     handleUnsentDocs(unsentDocs);
     handleSentDocs(sentDocs);
   }
+
 };
 
 export default DocumentMailer;

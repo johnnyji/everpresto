@@ -1,8 +1,9 @@
-const DocumentActionTypes = {
-  FETCH_DOCUMENTS_SUCCESS: 'FETCH_DOCUMENTS_SUCCESS',
-  FETCH_DOCUMENTS_ERROR: 'FETCH_DOCUMENTS_ERROR',
+import createConstants from './utils/createConstants';
 
-  RESET_SHOULD_FETCH_DOCUMENTS: 'RESET_SHOULD_FETCH_DOCUMENTS'
-};
+const DocumentActionTypes = createConstants([
+  'FETCH_DOCUMENTS_ERROR',
+  'FETCH_DOCUMENTS_SUCCESS',
+  'RESET_SHOULD_FETCH_DOCUMENTS'
+]);
 
 export default DocumentActionTypes;

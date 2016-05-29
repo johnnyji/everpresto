@@ -6,7 +6,7 @@ const {
   ADD_SIGNER,
   ADD_SIGNERS,
   CLEAR_SPECIFIC_PLACEHOLDER_FORM,
-  CREATE_DOCUMENTS,
+  CREATE_DOCUMENTS_PENDING,
   CREATE_DOCUMENTS_SUCCESS,
   GENERATE_GENERAL_PLACEHOLDER_FORM_FIELDS,
   GENERATE_SPECIFIC_PLACEHOLDER_FORM_FIELDS,
@@ -92,7 +92,7 @@ export default function documentsReducer(state = INITIAL_STATE, action) {
       return updatedState.set('shouldClearSpecificPlaceholderForm', false);
     }
 
-    case CREATE_DOCUMENTS: {
+    case CREATE_DOCUMENTS_PENDING: {
       return state.merge({
         saved: false,
         saving: true
@@ -191,7 +191,6 @@ export default function documentsReducer(state = INITIAL_STATE, action) {
       specificPlaceholderForm = specificPlaceholderForm.setIn(['values', formFieldIndex, 'value'], value);
       specificPlaceholderForm = specificPlaceholderForm.setIn(['errors', formFieldIndex], error);
 
-      console.log(specificPlaceholderForm.toJS().errors);
       return state.set('specificPlaceholderForm', specificPlaceholderForm);
     }
 

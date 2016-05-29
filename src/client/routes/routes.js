@@ -1,3 +1,4 @@
+/* eslint-disable spaced-comment */
 import React from 'react';
 import {Route, IndexRoute, Redirect} from 'react-router';
 import requireAuth from './utils/requireAuth';
@@ -72,3 +73,4 @@ const routes = (
 );
 
 export default routes;
+/* eslint-enable spaced-comment */

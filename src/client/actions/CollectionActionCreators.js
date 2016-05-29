@@ -216,7 +216,6 @@ const CollectionActionCreators = {
     };
   },
 
-
   /**
    * Manually sets the collection that's being viewed without calling the API
    * @param {Object} collection - The data passed to the Collection Reducer

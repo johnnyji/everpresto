@@ -6,7 +6,7 @@ import {
 import Immutable from 'immutable';
 
 const initialState = Immutable.fromJS({
-  collection: null,
+  collection: null
 });
 
 export default function CollectionsEditReducer(state = initialState, action) {
@@ -33,4 +33,4 @@ export default function CollectionsEditReducer(state = initialState, action) {
       return state;
 
   }
-};
+}

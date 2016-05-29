@@ -1,5 +1,10 @@
 .ui-ListItem {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+
   &-remove-icon {
     color: $placeholder-color;
   }
+
 }
