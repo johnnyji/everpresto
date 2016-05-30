@@ -1,6 +1,4 @@
 import mongoose from 'mongoose';
-import Collection from './Collection';
-import Rx from 'rxjs/Rx';
 import UserValidator from '../validators/UserValidator';
 // Models must be imported from their direct source file due to cross-model dependency issues. See README
 
@@ -86,9 +84,7 @@ DocumentSchema.statics.handleCreateBatch = function(docs, companyId, userId) {
 
     this.create(whitelistedDocs, (err, docs) => {
       if (err) return reject(err);
-      Collection.findWithDocuments(docs[0]._collection.toString())
-        .then(resolve)
-        .catch(reject);
+      resolve(docs);
     });
   });
 };

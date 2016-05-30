@@ -241,12 +241,14 @@ export default class DocumentsNewEditorView extends Component {
    * Increments the `emailsSentCount` by one. This function is called
    * whenever the server responds after an email is sent successfully to a
    * signer during the creation of this document
+   * @param {Object} doc - The recently created document
    */
-  _handleEmailSent = () => {
+  _handleEmailSent = (doc) => {
     DocumentNewActionCreators.setEmailsSentCount(this.props.emailsSentCount + 1);
   };
 
   _handleAllEmailsSent = () => {
+    debugger;
     console.log('ALL SENT');
   };
 

@@ -2,7 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import Rx from 'rxjs/Rx';
 import {extractErrorMessage, toObjects} from './utils/ResponseHelper';
-import {sendInitialEmail$$} from '../services/mailers/DocumentMailer';
+import {sendInitialEmail} from '../services/mailers/DocumentMailer';
 
 const ObjectId = mongoose.Types.ObjectId;
 const Observable = Rx.Observable;
@@ -21,37 +21,47 @@ router.get('/index', (req, res) => {
 router.post('/create', (req, res) => {
   const {docs} = req.body;
   const {companyId, userId} = req.session;
+  const io = req.app.get('io');
 
+  // Converts `User.findById` from a node callback to a stream
+  const findUser$ = Observable.bindNodeCallback(User.findById.bind(User))(ObjectId(userId));
 
-  User.findById(ObjectId(userId), (err, user) => {
-    const io = req.app.get('io').of('/documents');
+  // Finds the user that's creating these documents
+  const saveAndEmailDocs$ = findUser$.switchMap((user) => {
+    // Saves each of the documents and creates a stream
+    // of the created documents
+    const savedDocs$ = Observable
+      .fromPromise(Document.handleCreateBatch(docs, companyId, userId))
+      .switchMap((docs) => Observable.from(docs));
 
-    const docs$ = Observable.from(docs);
-    const saveDocs$ = docs$
-      .switchMap((doc) => Observable.fromPromise(Document.handleCreate(doc, companyId, userId)));
-    const emailDocs$ = docs$.switchMap((doc) => sendInitialEmail$$(doc, user));
-    const saveThenEmailDocs$ = saveDocs$.concat(emailDocs$);
+    // Onces the documents have all been saved to the database,
+    // We can start to send them to their signers
+    return savedDocs$
+      .concatMap((doc) => {
+        // Creates a stream from the `sendInitialEmail` node callback
+        const sendInitialEmail$$ = Observable.bindNodeCallback(sendInitialEmail);
+        // Sends each document to their respective signers
+        return sendInitialEmail$$({
+          doc: doc.toObject(),
+          fromUser: user
+        });
 
-    // First saves all the docs, and then begins to email them all.
-    // The reason we want to save them all first is because, if an email fails,
-    // we can still ensure that the document is saved
-    saveThenEmailDocs$
-      .subscribe(
-        (doc) => {
-          io.emit('sendEmailSuccess', {doc});
-        },
-        (err) => {
-          io.emit('sendEmailError', err);
-        },
-        () => {
-          // Fire complete socket.io event
-          io.emit('sendEmailComplete');
-          // Should I still respond to this AJAX call if we're sending messages through socket?
-          res.status(201).json({collectionId});
-        }
-      );
+      });
 
   });
+
+  saveAndEmailDocs$
+    .subscribe((doc) => {
+      console.info('Next: %s', doc);
+      io.of('/documents').emit('sendEmailSuccess', doc);
+    }, (err) => {
+      console.info('Error: %s', err);
+      io.of('/documents').emit('sendEmailError', err);
+    }, () => {
+      console.info('Completed');
+      io.of('/documents').emit('sendEmailComplete');
+      res.status(201).json({});
+    });
 
 });
 

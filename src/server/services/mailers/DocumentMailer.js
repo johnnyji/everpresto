@@ -1,6 +1,5 @@
 import config from '../../../../config/config';
 import initialEmailTemplate from './templates/initialEmail.js';
-import Rx from 'rxjs/Rx';
 import secrets from '../../../../secrets.json';
 import sendgrid from 'sendgrid';
 
@@ -8,35 +7,30 @@ const mailer = sendgrid(secrets.sendgrid.apiKey);
 
 const DocumentMailer = {
 
-  sendInitialEmail$$ (doc, fromUser) {
-    // Creates the HTML email from the email template,
-    // and replaces placeholder fields with the users information
-    return Rx.Observable.create((observer) => {
-      const emailHtml = initialEmailTemplate({
-        sender: {
-          firstName: fromUser.account.firstName,
-          lastName: fromUser.account.lastName
-        },
-        signer: {
-          firstName: doc.signer.firstName,
-          lastName: doc.signer.lastName
-        }
-      });
+  sendInitialEmail ({doc, fromUser}, cb) {
+    const emailHtml = initialEmailTemplate({
+      sender: {
+        firstName: fromUser.account.firstName,
+        lastName: fromUser.account.lastName
+      },
+      signer: {
+        firstName: doc.signer.firstName,
+        lastName: doc.signer.lastName
+      }
+    });
 
-      // Sends the document email to the user
-      mailer.send({
-        to: doc.signer.email,
-        from: config.mailer.document.fromEmail,
-        subject: `${fromUser.account.firstName} ${fromUser.account.lastName} needs you to sign something!`,
-        html: emailHtml
-      }, (err) => {
-        if (err) {
-          observer.error(err);
-        } else {
-          observer.next(doc);
-        }
-      });
-      observer.complete();
+    // Sends the document email to the user
+    mailer.send({
+      to: doc.signer.email,
+      from: config.mailer.document.fromEmail,
+      subject: `${fromUser.account.firstName} ${fromUser.account.lastName} needs you to sign something!`,
+      html: emailHtml
+    }, (err) => {
+      if (err) {
+        cb(err);
+      } else {
+        cb(null, doc);
+      }
     });
 
   },
