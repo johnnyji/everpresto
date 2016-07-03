@@ -1,5 +1,6 @@
+import isEmail from 'validator/lib/isEmail';
 import mongoose from 'mongoose';
-import UserValidator from '../validators/UserValidator';
+import uuid from 'node-uuid';
 // Models must be imported from their direct source file due to cross-model dependency issues. See README
 
 const ObjectId = mongoose.Types.ObjectId;
@@ -9,23 +10,23 @@ const SchemaObjectId = Schema.Types.ObjectId;
 const DocumentSchema = new Schema({
   _company: {
     type: SchemaObjectId,
-    required: true,
+    required: [true, 'This document must container a `_company` ID'],
     index: true
   },
   _collection: {
     type: SchemaObjectId,
-    required: true,
+    required: [true, 'This document must container a `_collection` ID'],
     index: true
   },
   _creator: {
     type: SchemaObjectId,
-    required: true,
+    required: [true, 'This document must container a `_creator` user ID'],
     index: true
   },
   body: {
     type: String,
     default: 'Untitled Folder',
-    required: true
+    required: [true, 'This document must contain a body']
   },
   error: {
     type: String
@@ -34,28 +35,33 @@ const DocumentSchema = new Schema({
     email: {
       type: String,
       required: 'What was your email again?',
-      validate: [UserValidator.email, '{VALUE} doesn\'t seem like a valid email...']
+      validate: [isEmail, '{VALUE} doesn\'t seem like a valid email...']
     },
     firstName: {
       type: String,
-      required: 'Please provide a first name for the signer'
+      required: [true, 'Please provide a first name for the signer']
     },
     lastName: {
       type: String,
-      required: 'Please provide a last name for the signer'
+      required: [true, 'Please provide a last name for the signer']
     }
   },
   status: {
     type: String,
     enum: ['created', 'sent', 'signed'],
     default: 'created'
+  },
+  signatureLinkToken: {
+    type: String,
+    required: [true, 'Unable to generate a signature link token']
+  },
+  // TODO: Give an option for the user to set an expiry date on the front-end
+  signatureLinkTokenExpiresAt: {
+    type: Date
   }
 }, {
   timestamps: true
 });
-
-// DocumentSchema.pre('save', sendEmail);
-// DocumentSchema.post('save', emitSocketEmailCount);
 
 /**
  * Batch creates a an array of documents at once
@@ -78,7 +84,9 @@ DocumentSchema.statics.handleCreateBatch = function(docs, companyId, userId) {
           email: doc.signer.email,
           firstName: doc.signer.firstName,
           lastName: doc.signer.lastName
-        }
+        },
+        // TODO: Implement stronger token generation
+        signatureLinkToken: uuid.v4()
       };
     });
 

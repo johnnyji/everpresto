@@ -1,4 +1,5 @@
 import config from '../../../../config/config';
+import generateSignatureLink from './utils/generateSignatureLink';
 import initialEmailTemplate from './templates/initialEmail.js';
 import secrets from '../../../../secrets.json';
 import sendgrid from 'sendgrid';
@@ -7,6 +8,14 @@ const mailer = sendgrid(secrets.sendgrid.apiKey);
 
 const DocumentMailer = {
 
+  /**
+   * Sends an initial email to a signer once a document has been
+   * created to inform them that they need to sign the document
+   * @param {Object} options - The argument options
+   * @param {Object} options.doc - The document we need to email and get the signer to sign
+   * @param {Object} options.fromUser - The user that created the document
+   * @param {Function} - The callback function that's executed once an email attempt has occured
+   */
   sendInitialEmail ({doc, fromUser}, cb) {
     const emailHtml = initialEmailTemplate({
       sender: {
@@ -16,8 +25,10 @@ const DocumentMailer = {
       signer: {
         firstName: doc.signer.firstName,
         lastName: doc.signer.lastName
-      }
+      },
+      signatureLink: generateSignatureLink(doc, doc.signer)
     });
+    debugger;
 
     // Sends the document email to the user
     mailer.send({
@@ -32,48 +43,6 @@ const DocumentMailer = {
         cb(null, doc);
       }
     });
-
-  },
-
-  /**
-   * Sends emails to signers alerting them that they have a document to sign
-   * @params {array} docs - Documents that each need to be emailed to a signer
-   * @params {object} docs - The user that created the documents to be sent
-   * @params {function} handleUnsentDocs - Callback to update all the unsent docs
-   * @params {function} handleSentDocs - Callback to update all the sent docs
-   * an error explaining why: {doc: {...}, error: {...}}
-   */
-  sendInitialEmails(docs, creator, handleUnsentDocs, handleSentDocs) {
-    const unsentDocs = [];
-    const sentDocs = [];
-
-    // Attempts to send an email for each signer
-    docs.forEach((doc) => {
-      const emailHtml = initialEmailTemplate({
-        sender: {
-          firstName: creator.account.firstName,
-          lastName: creator.account.lastName
-        },
-        signer: {
-          firstName: doc.signer.firstName,
-          lastName: doc.signer.lastName
-        }
-      });
-      // Sends doc to the the signer to sign
-      mailer.send({
-        to: doc.signer.email,
-        from: config.mailer.document.fromEmail,
-        subject: `${creator.account.firstName} ${creator.account.lastName} needs you to sign something!`,
-        html: emailHtml
-      }, (err, json) => {
-        // Whenever an email is not send properly
-        if (err) unsentDocs.push(doc);
-        // Whenever an email is sent successfully
-        if (json) sentDocs.push(doc);
-      });
-    });
-    handleUnsentDocs(unsentDocs);
-    handleSentDocs(sentDocs);
   }
 
 };

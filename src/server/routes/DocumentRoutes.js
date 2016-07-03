@@ -65,4 +65,9 @@ router.post('/create', (req, res) => {
 
 });
 
+// TODO: Handle when a user opens the sign document link
+router.get('/:id/sign/:signature_token', (req, res) => {
+  debugger;
+});
+
 export default router;

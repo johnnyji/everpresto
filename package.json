@@ -29,7 +29,7 @@
     "express": "^4.13.4",
     "express-session": "^1.13.0",
     "handlebars": "^4.0.5",
-    "history": "^2.0.0",
+    "history": "^3.0.0",
     "immutable": "^3.7.6",
     "iron-node": "^2.1.14",
     "lodash": "^4.2.1",
@@ -38,6 +38,7 @@
     "medium-editor": "^5.14.0",
     "moment": "^2.11.2",
     "mongoose": "^4.4.1",
+    "mongoose-beautiful-unique-validation": "^3.0.0",
     "morgan": "^1.6.1",
     "node-bourbon": "^4.2.3",
     "node-sass": "^3.4.2",
@@ -65,6 +66,7 @@
     "socket.io": "^1.4.5",
     "striptags": "^2.1.1",
     "un": "0.0.0",
+    "validator": "^5.4.0",
     "xss": "^0.2.10"
   },
   "devDependencies": {
