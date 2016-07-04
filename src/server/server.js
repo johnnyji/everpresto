@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 // Import polyfill at the start of application
 import 'babel-polyfill';
 
@@ -148,7 +149,7 @@ app.use((req, res) => {
           `;
           const componentToRender = renderToString(
             <Provider store={store}>
-              <RouterContext {...renderProps}/>
+              <RouterContext {...renderProps} />
             </Provider>
           );
 
@@ -203,3 +204,4 @@ app.use((req, res) => {
 server.listen(port, () => {
   console.info('Live and running at http://localhost:', port);
 });
+/* eslint-enable no-console */
