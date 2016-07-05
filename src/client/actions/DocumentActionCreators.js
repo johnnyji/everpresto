@@ -1,5 +1,6 @@
-import apiEndpoints from '.././apiEndpoints';
-import {sendAjaxRequest} from '.././utils/ApiCaller';
+/* eslint-disable no-console */
+import endpoints from '../utils/http/endpoints';
+import {sendAjaxRequest} from '../utils/ApiCaller';
 import {createFlashMessage} from './AppActionCreators';
 import DocumentActionTypes from './../action_types/DocumentActionTypes';
 
@@ -13,8 +14,8 @@ const DocumentActionCreators = {
   fetchDocs() {
     return (dispatch) => {
       sendAjaxRequest({
-        method: apiEndpoints.documents.index.method,
-        url: apiEndpoints.documents.index.path
+        method: endpoints.documents.index.method,
+        url: endpoints.documents.index.path
       })
         .then((response) => {
           dispatch(this.fetchDocsSuccess(response.data.docs));
@@ -25,7 +26,7 @@ const DocumentActionCreators = {
           if (!response.hasOwnProperty('data')) {
             // If the response is not triggered by the API, alert and log it.
             console.error(response);
-            dispatch(createFlashMessage('red', response));  
+            dispatch(createFlashMessage('red', response));
           }
           dispatch(createFlashMessage('red', response.data.message));
         });
@@ -58,3 +59,4 @@ const DocumentActionCreators = {
 };
 
 export default DocumentActionCreators;
+/* eslint-disable no-console */

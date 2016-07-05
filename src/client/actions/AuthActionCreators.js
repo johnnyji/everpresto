@@ -1,4 +1,4 @@
-import apiEndpoints from '.././apiEndpoints';
+import endpoints from '../utils/http/endpoints';
 import {sendAjaxRequest} from '.././utils/ApiCaller';
 import {createFlashMessage} from '.././actions/AppActionCreators';
 import AuthActionTypes from '.././action_types/AuthActionTypes';
@@ -14,8 +14,8 @@ const AuthActionCreators = {
   createCompanyWithUser(data) {
     return (dispatch) => {
       sendAjaxRequest({
-        method: apiEndpoints.users.createWithCompany.method,
-        url: apiEndpoints.users.createWithCompany.path,
+        method: endpoints.users.createWithCompany.method,
+        url: endpoints.users.createWithCompany.path,
         data
       })
         .then((response) => dispatch(this.createCompanyWithUserSuccess(response.data)))
@@ -40,12 +40,12 @@ const AuthActionCreators = {
   login(user) {
     return (dispatch) => {
       sendAjaxRequest({
-        method: apiEndpoints.users.login.method,
-        url: apiEndpoints.users.login.path,
+        method: endpoints.users.login.method,
+        url: endpoints.users.login.path,
         data: {user}
       })
         .then((response) => dispatch(this.loginSuccess(response.data)))
-        .catch((response) => dispatch(createFlashMessage('red', 'Oops! Invalid Email/Password')));
+        .catch(() => dispatch(createFlashMessage('red', 'Oops! Invalid Email/Password')));
     };
   },
 
@@ -63,14 +63,14 @@ const AuthActionCreators = {
   //   }
   // },
 
-  logout(data) {
+  logout() {
     return (dispatch) => {
       sendAjaxRequest({
-        method: apiEndpoints.users.logout.method,
-        url: apiEndpoints.users.logout.path
+        method: endpoints.users.logout.method,
+        url: endpoints.users.logout.path
       })
-        .then((response) => dispatch(this.logoutSuccess()))
-        .catch((response) => dispatch(createFlashMessage('red', 'Oops! Unable to logout at this time.')));
+        .then(() => dispatch(this.logoutSuccess()))
+        .catch(() => dispatch(createFlashMessage('red', 'Oops! Unable to logout at this time.')));
     };
   },
 

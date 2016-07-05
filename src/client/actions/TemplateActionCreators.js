@@ -1,6 +1,7 @@
-import {sendAjaxRequest} from '.././utils/ApiCaller';
-import apiEndpoints from '.././apiEndpoints';
-import TemplateActionTypes from './../action_types/TemplateActionTypes';
+/* eslint-disable no-console */
+import {sendAjaxRequest} from '../utils/ApiCaller';
+import endpoints from '../utils/http/endpoints';
+import TemplateActionTypes from '../action_types/TemplateActionTypes';
 import {createFlashMessage} from './AppActionCreators';
 
 const TemplateActionCreators = {
@@ -17,8 +18,8 @@ const TemplateActionCreators = {
   createTemplate() {
     return (dispatch) => {
       sendAjaxRequest({
-        method: apiEndpoints.templates.create.method,
-        url: apiEndpoints.templates.create.path
+        method: endpoints.templates.create.method,
+        url: endpoints.templates.create.path
       })
         .then((response) => dispatch(this.createTemplateSuccess(response.data.template)))
         .catch((response) => dispatch(createFlashMessage('red', response.data.message)));
@@ -48,8 +49,8 @@ const TemplateActionCreators = {
   deleteTemplate(templateId) {
     return (dispatch) => {
       sendAjaxRequest({
-        method: apiEndpoints.templates.delete.method,
-        url: apiEndpoints.templates.delete.path,
+        method: endpoints.templates.delete.method,
+        url: endpoints.templates.delete.path,
         data: {templateId}
       })
         .then(() => {
@@ -72,7 +73,7 @@ const TemplateActionCreators = {
       type: TemplateActionTypes.DELETE_TEMPLATE_SUCCESS,
       data: {deletedTemplateId}
     };
-  },  
+  },
 
 
   /**
@@ -83,8 +84,8 @@ const TemplateActionCreators = {
   fetchTemplates() {
     return (dispatch) => {
       sendAjaxRequest({
-        method: apiEndpoints.templates.index.method,
-        url: apiEndpoints.templates.index.path
+        method: endpoints.templates.index.method,
+        url: endpoints.templates.index.path
       })
         .then((response) => {
           dispatch(this.fetchTemplatesSuccess(response.data.templates));
@@ -107,7 +108,7 @@ const TemplateActionCreators = {
    */
   fetchTemplateById(id, success) {
     return (dispatch) => {
-      const endpoint = apiEndpoints.templates.show(id);
+      const endpoint = endpoints.templates.show(id);
       sendAjaxRequest({
         url: endpoint.path,
         method: endpoint.method
@@ -115,7 +116,7 @@ const TemplateActionCreators = {
         .then((response) => {
           dispatch(success(response.data.template));
         })
-        .catch((response) => {
+        .catch(() => {
           console.log('err');
           dispatch(createFlashMessage('red', 'Oops! We couldn\'t find the template you were looking for!'));
         });
@@ -180,8 +181,8 @@ const TemplateActionCreators = {
   updateTemplate(templateId, templateData) {
     return (dispatch) => {
       sendAjaxRequest({
-        method: apiEndpoints.templates.update.method,
-        url: apiEndpoints.templates.update.path,
+        method: endpoints.templates.update.method,
+        url: endpoints.templates.update.path,
         data: {templateId, templateData}
       })
         .then(() => {
@@ -196,7 +197,7 @@ const TemplateActionCreators = {
 
   /**
    * Handles the success return of the template update
-   * 
+   *
    * @return {Object} - The data passed to the Template Reducer
    */
   updateTemplateSuccess() {
@@ -206,3 +207,4 @@ const TemplateActionCreators = {
 };
 
 export default TemplateActionCreators;
+/* eslint-disable no-console */

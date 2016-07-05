@@ -25,6 +25,8 @@ import DashboardView from '.././components/dashboard/DashboardView';
 // This view is for testing out new components, REMOVE IN PROD
 import TestView from '../components/test/TestView';
 
+import SignatureView from '../components/signature';
+
 const routes = (
   <Route component={AppHandler} path='/'>
     <Redirect from='dashboard' to='dashboard/collections' />
@@ -32,10 +34,12 @@ const routes = (
     <Redirect from='profile' to='dashboard/profile_settings' />
     <IndexRoute component={LandingPageHandler} />
 
+    {/*********** Email Signature Route ************/}
+    <Route component={SignatureView} path='documents/:id/sign/:signature_token' />
+
     {/*********** Auth Routes ************/}
     <Route component={AuthHandler} path='login' />
     <Route component={AuthHandler} path='join' />
-    {/*********** Auth Routes ************/}
 
     {/*********** Protected Routes ************/}
     <Route path='dashboard' component={requireAuth(DashboardHandler)}>
@@ -64,11 +68,9 @@ const routes = (
         <IndexRoute component={TestView} />
       </Route>
     </Route>
-    {/*********** Protected Routes ************/}
 
     {/*********** 404 Route ************/}
     <Route component={NotFoundHandler} path='*' />
-    {/*********** 404 Route ************/}
   </Route>
 );
 

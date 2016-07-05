@@ -8,7 +8,8 @@ const DashboardMessage = ({center, children, className, message}) => {
     className,
     displayName,
     {[`${displayName}-center`]: center}
-  );  
+  );
+
   return (
     <div className={classes}>
       {message && message}

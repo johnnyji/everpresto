@@ -1,4 +1,4 @@
-import apiEndpoints from '.././apiEndpoints';
+import endpoints from '../utils/http/endpoints';
 import {sendAjaxRequest} from '.././utils/ApiCaller';
 import {createFlashMessage} from './AppActionCreators';
 import CollectionActionTypes from './../action_types/CollectionActionTypes';
@@ -6,16 +6,19 @@ import CollectionActionTypes from './../action_types/CollectionActionTypes';
 const CollectionActionCreators = {
 
   /**
-   * Sends the AJAX request to create a collection on the server
+   * Sends the AJAX request to create a collection on the server,
+   * the reason why we don't send any data is because when a collection
+   * is first created, it defaults to the title `Untitled` and the session
+   * data is already stored on the server for `user_id`, so there's really
+   * nothing for us to send
    *
-   * @param  {Immutable.Map} collection - The map containing the collection details
    * @return {Function}                 - The thunk that makes the API call
    */
-  createCollection(collection) {
+  createCollection() {
     return (dispatch) => {
       sendAjaxRequest({
-        method: apiEndpoints.collections.create.method,
-        url: apiEndpoints.collections.create.path
+        method: endpoints.collections.create.method,
+        url: endpoints.collections.create.path
       })
         .then((response) => {
           dispatch(this.createCollectionSuccess(response.data.collection));
@@ -50,8 +53,8 @@ const CollectionActionCreators = {
   deleteCollection(collectionId) {
     return (dispatch) => {
       sendAjaxRequest({
-        method: apiEndpoints.collections.delete.method,
-        url: apiEndpoints.collections.delete.path,
+        method: endpoints.collections.delete.method,
+        url: endpoints.collections.delete.path,
         data: {collectionId}
       })
         .then(() => dispatch(this.deleteCollectionSuccess(collectionId)))
@@ -81,7 +84,7 @@ const CollectionActionCreators = {
    */
   fetchCollectionBeingViewed(id) {
     return (dispatch) => {
-      const endpoint = apiEndpoints.collections.show(id);
+      const endpoint = endpoints.collections.show(id);
       sendAjaxRequest({
         method: endpoint.method,
         url: endpoint.path
@@ -119,8 +122,8 @@ const CollectionActionCreators = {
   fetchCollections() {
     return (dispatch) => {
       sendAjaxRequest({
-        method: apiEndpoints.collections.index.method,
-        url: apiEndpoints.collections.index.path
+        method: endpoints.collections.index.method,
+        url: endpoints.collections.index.path
       })
         .then((response) => {
           dispatch(this.fetchCollectionsSuccess(response.data.collections));
@@ -202,8 +205,8 @@ const CollectionActionCreators = {
   updateCollection(collectionId, collectionData) {
     return (dispatch) => {
       sendAjaxRequest({
-        method: apiEndpoints.collections.update.method,
-        url: apiEndpoints.collections.update.path,
+        method: endpoints.collections.update.method,
+        url: endpoints.collections.update.path,
         data: {collectionId, collectionData}
       })
         .then((response) => {

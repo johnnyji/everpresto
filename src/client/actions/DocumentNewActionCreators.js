@@ -1,9 +1,8 @@
 import DocumentNewActionTypes from './../action_types/DocumentNewActionTypes';
-import apiEndpoints from '.././apiEndpoints';
+import endpoints from '../utils/http/endpoints';
 import {sendAjaxRequest} from '.././utils/ApiCaller';
 import {createFlashMessage} from './AppActionCreators';
 import {setCollectionBeingViewed} from './CollectionActionCreators';
-// import {pluralize} from '.././utils/TextHelper';
 
 const DocumentNewActionCreators = {
 
@@ -32,8 +31,8 @@ const DocumentNewActionCreators = {
       dispatch(this.createDocumentsPending);
 
       sendAjaxRequest({
-        url: apiEndpoints.documents.create.path,
-        method: apiEndpoints.documents.create.method,
+        url: endpoints.documents.create.path,
+        method: endpoints.documents.create.method,
         data: {docs}
       })
         .then((response) => {

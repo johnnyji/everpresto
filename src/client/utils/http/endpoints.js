@@ -3,7 +3,7 @@ const formApiPath = (path, method) => ({
   method
 });
 
-const apiEndpoints = {
+export default {
   collections: {
     create: formApiPath('/collections/create', 'POST'),
     delete: formApiPath('/collections/delete', 'POST'),
@@ -12,11 +12,12 @@ const apiEndpoints = {
     update: formApiPath('/collections/update', 'POST')
   },
   currentUser: {
-    show: formApiPath('/users/current_user', 'POST'),
+    show: formApiPath('/users/current_user', 'POST')
   },
   documents: {
     index: formApiPath('/documents/index', 'GET'),
-    create: formApiPath('/documents/create', 'POST')
+    create: formApiPath('/documents/create', 'POST'),
+    signatureLink: (id, signatureToken) => formApiPath(`/documents/${id}/sign/${signatureToken}`, 'GET')
   },
   templates: {
     create: formApiPath('/templates/create', 'POST'),
@@ -32,5 +33,3 @@ const apiEndpoints = {
     logout: formApiPath('/auth/logout', 'GET')
   }
 };
-
-export default apiEndpoints;
