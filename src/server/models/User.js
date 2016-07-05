@@ -5,6 +5,7 @@ import bcrypt from 'bcrypt-nodejs';
 import config from '../../.././config/config';
 // Models must be imported from their direct source file due to cross-model dependency issues. See README
 import Company from './Company';
+import Promise from 'bluebird';
 
 const ObjectId = mongoose.Types.ObjectId;
 const defaultAvatarPath = `${config.s3BucketPath}/public/avatar.jpg`;

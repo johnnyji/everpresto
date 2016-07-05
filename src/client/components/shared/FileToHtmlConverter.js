@@ -3,7 +3,6 @@ import classNames from 'classnames';
 import mammoth from 'mammoth';
 import striptags from 'striptags';
 import FileUploader from './FileUploader';
-import {createFlashMessage} from '../.././actions/AppActionCreators';
 import handleFlashError from '../.././decorators/handleFlashError';
 
 const displayName = 'FileToHtmlConverter';
@@ -38,7 +37,7 @@ export default class FileToHtmlConverter extends Component {
         className={classes}
         label={label}
         onUpload={this._handleUpload}
-        permittedExtensions={permittedExtensions}/>
+        permittedExtensions={permittedExtensions} />
     );
   }
 

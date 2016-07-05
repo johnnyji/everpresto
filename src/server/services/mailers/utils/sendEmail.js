@@ -1,8 +1,8 @@
-import {SendGrid, mail} from 'sendgrid';
+import sendgrid from 'sendgrid';
 import secrets from '../../../../../secrets.json';
 
-const mailer = SendGrid(secrets.sendgrid.apiKey);
-const mailerHelper = mail;
+const mailer = sendgrid.SendGrid(secrets.sendgrid.apiKey);
+const mailerHelper = sendgrid.mail;
 
 export default {
 
