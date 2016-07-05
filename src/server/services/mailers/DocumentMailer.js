@@ -1,10 +1,7 @@
 import config from '../../../../config/config';
 import generateSignatureLink from './utils/generateSignatureLink';
 import initialEmailTemplate from './templates/initialEmail.js';
-import secrets from '../../../../secrets.json';
-import sendgrid from 'sendgrid';
-
-const mailer = sendgrid(secrets.sendgrid.apiKey);
+import sendEmail from './utils/sendEmail';
 
 const DocumentMailer = {
 
@@ -28,21 +25,20 @@ const DocumentMailer = {
       },
       signatureLink: generateSignatureLink(doc, doc.signer)
     });
-    debugger;
 
     // Sends the document email to the user
-    mailer.send({
-      to: doc.signer.email,
-      from: config.mailer.document.fromEmail,
-      subject: `${fromUser.account.firstName} ${fromUser.account.lastName} needs you to sign something!`,
-      html: emailHtml
-    }, (err) => {
-      if (err) {
-        cb(err);
-      } else {
+    sendEmail.html(
+      config.mailer.document.fromEmail,
+      doc.signer.email,
+      `${fromUser.account.firstName} needs you to sign something!`,
+      emailHtml
+    )
+      .then(() => {
         cb(null, doc);
-      }
-    });
+      })
+      .catch((err) => {
+        cb(err);
+      });
   }
 
 };
