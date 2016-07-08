@@ -1,8 +1,4 @@
-import Immutable from 'immutable';
-import DocumentNewActionTypes from '.././action_types/DocumentNewActionTypes';
-import {matchesAttr} from '.././utils/immutable/IterableFunctions';
-
-const {
+import {
   ADD_SIGNER,
   ADD_SIGNERS,
   CLEAR_SPECIFIC_PLACEHOLDER_FORM,
@@ -17,7 +13,10 @@ const {
   SET_TEMPLATE,
   UPDATE_GENERAL_PLACEHOLDER_FORM_FIELD,
   UPDATE_SPECIFIC_PLACEHOLDER_FORM_FIELD
-} = DocumentNewActionTypes;
+} from '.././action_types/DocumentNewActionTypes';
+import createReducer from 'create-reducer-redux';
+import Immutable from 'immutable';
+import {matchesAttr} from '.././utils/immutable/IterableFunctions';
 
 const INITIAL_STATE = Immutable.fromJS({
   doc: {
@@ -64,140 +63,156 @@ const INITIAL_STATE = Immutable.fromJS({
 const isGeneral = matchesAttr('type', 'general');
 const isSpecific = matchesAttr('type', 'specific');
 
-export default function documentsReducer(state = INITIAL_STATE, action) {
-  // Always return a new state, never already the one passed in
+export default createReducer(INITIAL_STATE, {
 
-  switch (action.type) {
+  name: 'DocumentNewReducer',
 
-    // We want to make sure we add our new signer onto the list of signers, and clear the input form
-    case ADD_SIGNER: {
-      return state.merge({
-        doc: state.get('doc').update('signers', (signers) => signers.unshift(action.data.signer)),
-        shouldClearSpecificPlaceholderForm: true
-      });
-    }
+  handlers: {
+    onAddSigner: [ADD_SIGNER],
+    onAddSigners: [ADD_SIGNERS],
+    onClearSpecificPlaceholderForm: [CLEAR_SPECIFIC_PLACEHOLDER_FORM],
+    onSaved: [CREATE_DOCUMENTS_SUCCESS],
+    onSaving: [CREATE_DOCUMENTS_PENDING],
+    generateGeneralPlaceholderFields: [GENERATE_GENERAL_PLACEHOLDER_FORM_FIELDS],
+    generateSpecificPlaceholderFields: [GENERATE_SPECIFIC_PLACEHOLDER_FORM_FIELDS],
+    onRemoveSigner: [REMOVE_SIGNER],
+    onReset: [RESET_STATE],
+    onSetCollection: [SET_COLLECTION],
+    onSetEmailsSentCount: [SET_EMAILS_SENT_COUNT],
+    onSetTemplate: [SET_TEMPLATE],
+    updateGeneralPlaceholderFormField: [UPDATE_GENERAL_PLACEHOLDER_FORM_FIELD],
+    updateSpecificPlaceholderFormField: [UPDATE_SPECIFIC_PLACEHOLDER_FORM_FIELD]
+  },
 
-    // Adds the newly created signers ontop of the already existing signers
-    case ADD_SIGNERS: {
-      return state.updateIn(['doc', 'signers'], (signers) => {
-        return Immutable.fromJS(action.data.signers).concat(signers);
-      });
-    }
-    
-    // Sets every user input value of specific placeholder form to nothing, thus clearing the form
-    case CLEAR_SPECIFIC_PLACEHOLDER_FORM: {
-      const updatedState = state.updateIn(['specificPlaceholderForm', 'values'], (vals) => {
-        return vals.map((val) => val.set('value', ''));
-      });
-      return updatedState.set('shouldClearSpecificPlaceholderForm', false);
-    }
+  // We want to make sure we add our new signer onto the list of signers, and clear the input form
+  onAddSigner(state, {signer}) {
+    return state.merge({
+      doc: state.get('doc').update('signers', (signers) => signers.unshift(signer)),
+      shouldClearSpecificPlaceholderForm: true
+    });
+  },
 
-    case CREATE_DOCUMENTS_PENDING: {
-      return state.merge({
-        saved: false,
-        saving: true
-      });
-    }
+  // Adds the newly created signers ontop of the already existing signers
+  onAddSigners(state, {signers}) {
+    return state.updateIn(['doc', 'signers'], (existingSigners) => {
+      // We always want to add the new signers to the top of the array
+      return Immutable.fromJS(signers).concat(existingSigners);
+    });
+  },
 
-    case CREATE_DOCUMENTS_SUCCESS: {
-      return state.merge({
-        saved: true,
-        saving: false
-      });
-    }
+  // Sets every user input value of specific placeholder form to nothing, thus clearing the form
+  onClearSpecificPlaceholderForm(state) {
+    const updatedState = state.updateIn(['specificPlaceholderForm', 'values'], (vals) => {
+      return vals.map((val) => val.set('value', ''));
+    });
+    return updatedState.set('shouldClearSpecificPlaceholderForm', false);
+  },
 
-    // Dynamically sets the generalPlaceholderForm state dependant on
-    // the placeholders in the current template we're using
-    case GENERATE_GENERAL_PLACEHOLDER_FORM_FIELDS: {
-      return state.update('generalPlaceholderForm', (form) => {
-        return state.getIn(['doc', 'template', 'placeholders'])
-          .filter(isGeneral)
-          .reduce((placeholderForm, placeholder) => {
-            // Pushes on a placeholder input object -> {placeholder: 'HELLO', value: ''}
-            const updatedForm = placeholderForm.update('values', (vals) => (
-              vals.push(Immutable.fromJS({
-                placeholder: placeholder.get('value'),
-                value: ''
-              }))
-            ));
-            // Also creates an error for that input
-            return updatedForm.update('errors', (errs) => errs.push(null));
-          }, form);
-      });
-    }
+  onSaving(state) {
+    return state.merge({
+      saved: false,
+      saving: true
+    });
+  },
 
-    // Iterates through the placeholders, and generates form input field states for those placeholders,
-    // storing input values as well as errors
-    case GENERATE_SPECIFIC_PLACEHOLDER_FORM_FIELDS: {
-      return state.update('specificPlaceholderForm', (form) => {
-        return state.getIn(['doc', 'template', 'placeholders'])
-          .filter(isSpecific)
-          .reduce((placeholderForm, placeholder) => {
-            // Pushes on a placeholder input object -> {placeholder: 'HELLO', value: ''}
-            const updatedForm = placeholderForm.update('values', (vals) => (
-              vals.push(Immutable.fromJS({
-                placeholder: placeholder.get('value'),
-                value: ''
-              }))
-            ));
-            // Also creates an error for that input
-            return updatedForm.update('errors', (errs) => errs.push(null));
-          }, form);
-      });
-    }
+  onSaved(state) {
+    return state.merge({
+      saved: true,
+      saving: false
+    });
+  },
 
-    case REMOVE_SIGNER: {
-      // `signer` will already be Immutable
-      return state.updateIn(['doc', 'signers'], (signers) => (
-        signers.delete(
-          signers.findIndex((signer) => signer.equals(action.data.signer))
-        )
-      ));
-    }
+  // Dynamically sets the generalPlaceholderForm state dependant on
+  // the placeholders in the current template we're using
+  generateGeneralPlaceholderFields(state) {
+    return state.update('generalPlaceholderForm', (form) => {
+      return state.getIn(['doc', 'template', 'placeholders'])
+        .filter(isGeneral)
+        .reduce((placeholderForm, placeholder) => {
+          // Pushes on a placeholder input object -> {placeholder: 'HELLO', value: ''}
+          const updatedForm = placeholderForm.update('values', (vals) => (
+            vals.push(Immutable.fromJS({
+              placeholder: placeholder.get('value'),
+              value: ''
+            }))
+          ));
+          // Also creates an error for that input
+          return updatedForm.update('errors', (errs) => errs.push(null));
+        }, form);
+    });
+  },
 
-    case RESET_STATE: {
-      return INITIAL_STATE;
-    }
+  // Iterates through the placeholders, and generates form input field states for those placeholders,
+  // storing input values as well as errors
+  generateSpecificPlaceholderFields(state) {
+    return state.update('specificPlaceholderForm', (form) => {
+      return state.getIn(['doc', 'template', 'placeholders'])
+        .filter(isSpecific)
+        .reduce((placeholderForm, placeholder) => {
+          // Pushes on a placeholder input object -> {placeholder: 'HELLO', value: ''}
+          const updatedForm = placeholderForm.update('values', (vals) => (
+            vals.push(Immutable.fromJS({
+              placeholder: placeholder.get('value'),
+              value: ''
+            }))
+          ));
+          // Also creates an error for that input
+          return updatedForm.update('errors', (errs) => errs.push(null));
+        }, form);
+    });
+  },
 
-    case SET_COLLECTION: {
-      return state.setIn(['doc', 'collectionId'], action.data.collectionId);
-    }
+  onRemoveSigner(state, {signer}) {
+    // `signer` will already be Immutable
+    return state.updateIn(['doc', 'signers'], (signers) => (
+      signers.delete(signers.findIndex((signer) => signer.equals(signer)))
+    ));
+  },
 
-    case SET_EMAILS_SENT_COUNT: {
-      return state.set('emailsSentCount', action.data.count);
-    }
+  onResetState() {
+    return INITIAL_STATE;
+  },
 
-    case SET_TEMPLATE: {
-      // `template` will already be an Immutable.Map
-      return state.setIn(['doc', 'template'], action.data.template);
-    }
+  // Sets the collection ID of the collection
+  // that this document we're creating belongs to
+  onSetCollection(state, {collectionId}) {
+    return state.setIn(['doc', 'collectionId'], collectionId);
+  },
 
-    // Finds a field in the general placeholders form by index and updates its values and errors
-    // to what the new user input is
-    case UPDATE_GENERAL_PLACEHOLDER_FORM_FIELD: {
-      const {formFieldIndex, value, error} = action.data.input;
-      let generalPlaceholderForm = state.get('generalPlaceholderForm');
-      generalPlaceholderForm = generalPlaceholderForm.setIn(['values', formFieldIndex, 'value'], value);
-      generalPlaceholderForm = generalPlaceholderForm.setIn(['errors', formFieldIndex], error);
+  // Increments the emails sent count whenever we succesfully
+  // send an email after a document is created. This is
+  // the number we're using to track the progress bar that loads
+  // when we've begun to create/email docs
+  onSetEmailsSentCount(state, {count}) {
+    return state.set('emailsSentCount', count);
+  },
 
-      return state.set('generalPlaceholderForm', generalPlaceholderForm);
-    }
+  // Sets the template we're going to be using to create this document
+  onSetTemplate(state, {template}) {
+    // `template` will already be an Immutable.Map
+    return state.setIn(['doc', 'template'], template);
+  },
 
-    // Finds a field in the specific placeholders form by index and updates its values and errors
-    // to what the new user input is
-    case UPDATE_SPECIFIC_PLACEHOLDER_FORM_FIELD: {
-      const {formFieldIndex, value, error} = action.data.input;
-      let specificPlaceholderForm = state.get('specificPlaceholderForm');
-      specificPlaceholderForm = specificPlaceholderForm.setIn(['values', formFieldIndex, 'value'], value);
-      specificPlaceholderForm = specificPlaceholderForm.setIn(['errors', formFieldIndex], error);
+  // Finds a field in the general placeholders form by index and updates its values and errors
+  // to what the new user input is
+  updateGeneralPlaceholderFormField(state, {input}) {
+    const {formFieldIndex, value, error} = input;
+    let generalPlaceholderForm = state.get('generalPlaceholderForm');
+    generalPlaceholderForm = generalPlaceholderForm.setIn(['values', formFieldIndex, 'value'], value);
+    generalPlaceholderForm = generalPlaceholderForm.setIn(['errors', formFieldIndex], error);
 
-      return state.set('specificPlaceholderForm', specificPlaceholderForm);
-    }
+    return state.set('generalPlaceholderForm', generalPlaceholderForm);
+  },
 
-    default: {
-      return state;
-    }
+  // Finds a field in the specific placeholders form by index and updates its values and errors
+  // to what the new user input is
+  updateSpecificPlaceholderFormField(state, {input}) {
+    const {formFieldIndex, value, error} = input;
+    let specificPlaceholderForm = state.get('specificPlaceholderForm');
+    specificPlaceholderForm = specificPlaceholderForm.setIn(['values', formFieldIndex, 'value'], value);
+    specificPlaceholderForm = specificPlaceholderForm.setIn(['errors', formFieldIndex], error);
 
+    return state.set('specificPlaceholderForm', specificPlaceholderForm);
   }
 
-}
+});

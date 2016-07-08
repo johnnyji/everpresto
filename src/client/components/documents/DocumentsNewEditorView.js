@@ -1,6 +1,5 @@
 import React, {Component, PropTypes} from 'react';
 import {Tab} from 'material-ui/Tabs';
-import AppActionCreators from '../../actions/AppActionCreators';
 import Button from '.././ui/Button';
 import config from '../../../../config/config';
 import clientConfig from '../.././config/main';
@@ -11,6 +10,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import io from 'socket.io-client';
 import IterableFunctions from '../.././utils/immutable/IterableFunctions';
 import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
+import DashboardProgressBar from '.././dashboard/DashboardProgressBar';
 import DocumentNewActionCreators from '../.././actions/DocumentNewActionCreators';
 import DocumentViewer from '.././shared/DocumentViewer';
 import FormSidebar from '.././shared/FormSidebar';
@@ -21,7 +21,6 @@ import FormSidebarSectionAddSigner from '.././shared/FormSidebarSectionAddSigner
 import FormSidebarSectionFillGeneralPlaceholders from '.././shared/FormSidebarSectionFillGeneralPlaceholders';
 import FormSidebarSectionMessage from '.././shared/FormSidebarSectionMessage';
 import ListItem from '.././ui/ListItem';
-import ModalDocumentsCreate from '../modals/ModalDocumentsCreate';
 import Tabs from '.././ui/Tabs';
 
 const {get, isNull, isTruthy, matchesAttr} = IterableFunctions;
@@ -124,18 +123,12 @@ export default class DocumentsNewEditorView extends Component {
 
   }
 
-  componentWillUpdate(nextProps) {
-    // If the document is in the process of saving/emailing, we want to display a modal
-    // with a loading bar showing the progress of the save
-    if (!this.props.saving && nextProps.saving) {
-      AppActionCreators.createModal(<ModalDocumentsCreate />);
-    }
-  }
-
   render() {
     const {
       doc,
+      emailsSentCount,
       generalPlaceholderForm,
+      saving,
       shouldClearSpecificPlaceholderForm,
       specificPlaceholderForm
     } = this.props;
@@ -145,6 +138,13 @@ export default class DocumentsNewEditorView extends Component {
 
     return (
       <DashboardContentWrapper className={displayName}>
+
+        {saving &&
+          <DashboardProgressBar
+            progressCount={emailsSentCount}
+            totalCount={doc.get('signers').size} />
+        }
+
         <div className={`${displayName}-document`}>
           <header className={`${displayName}-document-title`}>
             Step 2/2: <em className={`${displayName}-document-title-main`}>Tweak It, Send It!</em>
@@ -189,6 +189,7 @@ export default class DocumentsNewEditorView extends Component {
               text='Send' />
           </FormSidebarFooter>
         </FormSidebar>
+
       </DashboardContentWrapper>
     );
   }

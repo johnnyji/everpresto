@@ -90,7 +90,8 @@ export default class DocumentsNew extends Component {
   componentWillUnmount() {
     const {dispatch} = this.context;
 
-    // Clears the new document state when the user decides to leave
+    // Clears the new document state when the user decides to leave,
+    // or when the new document(s) are created and the view dismounts
     dispatch(DocumentNewActionCreators.resetState());
     // Removes any existing modals
     if (this.props.modalIsDisplayed) dispatch(AppActionCreators.dismissModal());

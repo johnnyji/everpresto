@@ -27,7 +27,6 @@ export default {
       request.body = mail.toJSON();
 
       mailer.API(request, ({body, statusCode}) => {
-        debugger;
         if (statusCode > 199 && statusCode < 299) {
           resolve();
           return;

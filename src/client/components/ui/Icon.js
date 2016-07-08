@@ -123,9 +123,8 @@ export default React.createClass({
     return (
       <svg
         className={this.props.iconClass}
-        viewBox="0 0 24 24" 
-        preserveAspectRatio="xMidYMid meet" 
-        fit
+        viewBox="0 0 24 24"
+        preserveAspectRatio="xMidYMid meet"
         style={this._mergeStyles(
           styles,
           this.props.style // This lets the parent pass custom styles

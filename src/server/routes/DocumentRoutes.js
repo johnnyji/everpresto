@@ -50,15 +50,14 @@ router.post('/create', (req, res) => {
 
   });
 
+  // Emit socket message every time an email sends,
+  // Also notifies errors and finishing
   saveAndEmailDocs$
     .subscribe((doc) => {
-      console.info('Next: %s', doc);
       io.of('/documents').emit('sendEmailSuccess', doc);
     }, (err) => {
-      console.info('Error: %s', err);
       io.of('/documents').emit('sendEmailError', err);
     }, () => {
-      console.info('Completed');
       io.of('/documents').emit('sendEmailComplete');
       res.status(201).json({});
     });
