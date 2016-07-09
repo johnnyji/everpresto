@@ -1,16 +1,19 @@
 .TemplateEditorView {
-  @include display(flex);
+
   &-editor {
-    @include flex-grow(5);
+    flex-grow: 5;
   }
+
   &-sidebar {
-    @include display(flex);
-    @include flex-direction(column);
-    @include flex-grow(3);
+    display: flex;
+    flex-direction: column;
+    flex-grow: 3;
+
     // The placeholders will take up the remainder of the sidebar space if needed
     &-placeholders {
-      @include flex-grow(1);
-      @include flex-shrink(1);
+      flex: 1 1 auto;
     }
+
   }
+
 }
