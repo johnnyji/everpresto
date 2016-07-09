@@ -17,7 +17,7 @@ export default class DashboardContentWrapper extends Component {
   };
 
   static defaultProps = {
-    progressBarProgressCount: 12,
+    progressBarProgressCount: 0,
     progressBarTotalCount: 100,
     showProgressBar: false
   };
@@ -36,18 +36,24 @@ export default class DashboardContentWrapper extends Component {
 
 
     return (
-      <AppContentWrapper className={displayName}>
+      <div className={displayName}>
         {showProgressBar &&
           <ProgressBar
             className={`${displayName}-progress-bar`}
-            height={6}
             progressCount={progressBarProgressCount}
-            totalCount={progressBarTotalCount}
-            width='100%' />
+            style={{
+              height: 6,
+              width: '100%'
+            }}
+            totalCount={progressBarTotalCount} />
         }
-        {!showProgressBar && <div className={`${displayName}-progess-bar-fillter`} />}
-        <div className={contentClasses}>{this.props.children}</div>
-      </AppContentWrapper>
+        {!showProgressBar &&
+          <div className={`${displayName}-progess-bar-fillter`} />
+        }
+        <AppContentWrapper className={contentClasses}>
+          {this.props.children}
+        </AppContentWrapper>
+      </div>
     );
   }
 

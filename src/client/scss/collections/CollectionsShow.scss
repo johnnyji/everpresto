@@ -1,8 +1,9 @@
 .CollectionsShow {
+
   &-header {
-    @include display(flex);
-    @include justify-content(space-between);
-    @include align-items(center);
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
     &-options {
       &-create-button {
         position: relative;
@@ -11,7 +12,9 @@
       }
     }
   }
+
   &-documents {
     @extend .grid-view;
   }
+
 }

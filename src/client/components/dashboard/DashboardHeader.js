@@ -2,12 +2,8 @@ import React, {Component, PropTypes} from 'react';
 import AuthActionCreators from '../.././actions/AuthActionCreators';
 import Clickable from '.././ui/Clickable';
 import CustomPropTypes from '.././CustomPropTypes';
-import DropdownOptions from '.././ui/DropdownOptions';
-import {findDOMNode} from 'react-dom';
-import Icon from '.././ui/Icon';
 import {Link} from 'react-router';
 import ListItem from '.././ui/ListItem';
-import Logo from '.././shared/Logo';
 import MUIDivider from 'material-ui/Divider';
 import MUIMenu from 'material-ui/Menu';
 import MUIPopover from 'material-ui/Popover';
@@ -42,7 +38,7 @@ export default class DashboardHeader extends Component {
     const {currentUser} = this.props;
     // DO NOT REMOVE: This guard prevents the console from throwing a `getIn of undefined` error
     // after the user logs out... Need to figure out why that's happening
-    if (!currentUser) return <div/>;
+    if (!currentUser) return <div />;
     
     const {dropdownAnchorEl, showProfileOptions} = this.state;
 

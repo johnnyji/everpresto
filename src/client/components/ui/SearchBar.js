@@ -13,7 +13,8 @@ export default class SearchBar extends Component {
 
   static propTypes = {
     autoFocus: PropTypes.bool.isRequired,
-    focusedLabel: PropTypes.string,
+    className: PropTypes.string,
+    focusLabel: PropTypes.string,
     funny: PropTypes.bool.isRequired,
     label: PropTypes.string,
     onUpdate: PropTypes.func.isRequired
@@ -34,7 +35,7 @@ export default class SearchBar extends Component {
   }
 
   render() {
-    const {autoFocus, className, labelText, onUpdate} = this.props;
+    const {autoFocus, className, onUpdate} = this.props;
 
     return (
       <div className={classNames(className, displayName)}>
@@ -44,7 +45,7 @@ export default class SearchBar extends Component {
           onBlur={this._handleBlur}
           onChange={(e) => onUpdate(e.target.value)}
           onFocus={this._handleFocus}
-          type='text'/>
+          type='text' />
       </div>
     );
   }
@@ -62,7 +63,7 @@ export default class SearchBar extends Component {
     const {focused} = this.state;
     return (
       <span>
-        <Icon icon='search' iconClass={`${displayName}-search-icon`}/>
+        <Icon icon='search' iconClass={`${displayName}-search-icon`} />
         {focused ? focusLabel : label}
       </span>
     );

@@ -1,8 +1,11 @@
 import React, {Component, PropTypes} from 'react';
+import AppContentWrapper from '../app/AppContentWrapper';
 import classNames from 'classnames';
+import pureRender from 'pure-render-decorator';
 
 const displayName = 'DashboardContentHeader';
 
+@pureRender
 export default class DashboardContentHeader extends Component {
 
   static displayName = displayName;
@@ -16,9 +19,9 @@ export default class DashboardContentHeader extends Component {
     const {children, className} = this.props;
 
     return (
-      <header className={classNames(className, displayName)}>
+      <AppContentWrapper className={classNames(className, displayName)}>
         {children}
-      </header>
+      </AppContentWrapper>
     );
   }
 }

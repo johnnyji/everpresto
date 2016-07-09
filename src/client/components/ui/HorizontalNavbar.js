@@ -32,9 +32,11 @@ export default class HorizontalNavbar extends Component {
     });
 
     return (
-      <AppContentWrapper className={CLS}>
-        <div className={`${CLS}-content`}>{navLinks}</div>
-      </AppContentWrapper>
+      <div className={CLS}>
+        <AppContentWrapper>
+          <div className={`${CLS}-content`}>{navLinks}</div>
+        </AppContentWrapper>
+      </div>
     );
 
   }

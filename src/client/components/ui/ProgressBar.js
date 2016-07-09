@@ -16,6 +16,7 @@ export default class ProgressBar extends Component {
     color: PropTypes.oneOf(['blue', 'green', 'red', 'yellow']).isRequired,
     height: PropTypes.number.isRequired,
     progressCount: PropTypes.number.isRequired,
+    style: PropTypes.object.isRequired,
     totalCount: PropTypes.number.isRequired,
     width: PropTypes.number.isRequired
   };
@@ -30,10 +31,9 @@ export default class ProgressBar extends Component {
       backgroundColor,
       className,
       color,
-      height,
       progressCount,
-      totalCount,
-      width
+      style,
+      totalCount
     } = this.props;
     const progressBarClasses = classNames(
       `${displayName}-progress-section`,
@@ -42,7 +42,7 @@ export default class ProgressBar extends Component {
     const progressBarPercentage = (progressCount / totalCount) * 100;
 
     return (
-      <div className={classNames(displayName, className)} style={{backgroundColor, height, width}}>
+      <div className={classNames(displayName, className)} style={{...style, backgroundColor}}>
         <div className={progressBarClasses} style={{width: `${progressBarPercentage}%`}} />
       </div>
     );

@@ -134,14 +134,13 @@ export default class DocumentsNewEditorView extends Component {
     const {templateBody} = this.state;
     const generalPlaceholders = doc.getIn(['template', 'placeholders']).filter(isGeneral);
     const specificPlaceholders = doc.getIn(['template', 'placeholders']).filter(isSpecific);
-    const total = doc.get('signers').size;
 
     return (
       <DashboardContentWrapper
         className={displayName}
-        showProgressBar={true}
-        progressBarProgressCount={12}
-        progressBarTotalCount={100}>
+        showProgressBar={saving}
+        progressBarProgressCount={emailsSentCount}
+        progressBarTotalCount={doc.get('signers').size}>
 
         <div className={`${displayName}-document`}>
           <header className={`${displayName}-document-title`}>
