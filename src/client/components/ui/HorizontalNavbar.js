@@ -1,8 +1,8 @@
 import React, {Component, PropTypes} from 'react';
-import {Link} from 'react-router';
 import AppContentWrapper from '.././app/AppContentWrapper';
+import {Link} from 'react-router';
 
-const className = 'ui-HorizontalNavbar';
+const CLS = 'ui-HorizontalNavbar';
 
 export default class HorizontalNavbar extends Component {
 
@@ -18,11 +18,12 @@ export default class HorizontalNavbar extends Component {
   };
 
   render() {
-    const links = this.props.links.map((link, i) => {
+    const {links} = this.props;
+    const navLinks = links.map((link, i) => {
       return (
         <Link
-          activeClassName={`${className}-content-link-active`}
-          className={`${className}-content-link`}
+          activeClassName={`${CLS}-content-link-active`}
+          className={`${CLS}-content-link`}
           key={i}
           to={link.path}>
           {link.label}
@@ -31,11 +32,9 @@ export default class HorizontalNavbar extends Component {
     });
 
     return (
-      <div className={className}>
-        <AppContentWrapper>
-          <div className={`${className}-content`}>{links}</div>
-        </AppContentWrapper>
-      </div>
+      <AppContentWrapper className={CLS}>
+        <div className={`${CLS}-content`}>{navLinks}</div>
+      </AppContentWrapper>
     );
 
   }

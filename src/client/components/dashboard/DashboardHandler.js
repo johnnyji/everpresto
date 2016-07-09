@@ -3,7 +3,6 @@ import {connect} from 'react-redux';
 import CustomPropTypes from '.././CustomPropTypes';
 import DashboardHeader from './DashboardHeader';
 import HorizontalNavbar from '.././ui/HorizontalNavbar';
-import Immutable from 'immutable';
 
 const displayName = 'DashboardHandler';
 

@@ -10,7 +10,6 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import io from 'socket.io-client';
 import IterableFunctions from '../.././utils/immutable/IterableFunctions';
 import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
-import DashboardProgressBar from '.././dashboard/DashboardProgressBar';
 import DocumentNewActionCreators from '../.././actions/DocumentNewActionCreators';
 import DocumentViewer from '.././shared/DocumentViewer';
 import FormSidebar from '.././shared/FormSidebar';
@@ -135,15 +134,14 @@ export default class DocumentsNewEditorView extends Component {
     const {templateBody} = this.state;
     const generalPlaceholders = doc.getIn(['template', 'placeholders']).filter(isGeneral);
     const specificPlaceholders = doc.getIn(['template', 'placeholders']).filter(isSpecific);
+    const total = doc.get('signers').size;
 
     return (
-      <DashboardContentWrapper className={displayName}>
-
-        {saving &&
-          <DashboardProgressBar
-            progressCount={emailsSentCount}
-            totalCount={doc.get('signers').size} />
-        }
+      <DashboardContentWrapper
+        className={displayName}
+        showProgressBar={true}
+        progressBarProgressCount={12}
+        progressBarTotalCount={100}>
 
         <div className={`${displayName}-document`}>
           <header className={`${displayName}-document-title`}>

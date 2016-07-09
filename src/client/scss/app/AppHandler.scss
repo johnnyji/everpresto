@@ -1,12 +1,8 @@
 // This allows our .AppHandler and .AppHandler-content-container to be the
 // same dimensions as it's parent: #app
-.AppHandler {
+.AppHandler,
+.AppHandler-content-container {
   position: relative;
   height: 100%;
   width: 100%;
-  &-content-container {
-    position: relative;
-    height: 100%;
-    width: 100%;
-  }
 }

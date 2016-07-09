@@ -83,7 +83,7 @@ export default class CollectionsIndex extends Component {
             icon='add'
             isWhite={true}
             onClick={this._createCollection}
-            size={48}/>
+            size={48} />
         </FolderCard>
         {this._renderCollections()}
       </DashboardContentWrapper>

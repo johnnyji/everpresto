@@ -1,15 +1,14 @@
 .center-absolute {
-  @include transform(translate(-50%, -50%));
-  position: absolute;
   left: 50%;
+  position: absolute;
   top: 45%;
+  transform: translate(-50%, -50%);
 }
 
 .grid-view {
-  @include display(flex);
-  @include flex-wrap(wrap);
-  @include justify-content(center);
-  @include align-content(flex-start);
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
 }
 
 .transition {

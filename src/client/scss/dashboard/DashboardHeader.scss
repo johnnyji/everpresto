@@ -1,11 +1,11 @@
 .DashboardHeader {
-  position: relative;
-  padding: 0;
-  margin: 0;
   background-color: $brand-color-yellow;
-  height: $app-header-height;
-  width: 100%;
   color: #FFF;
+  height: $app-header-height;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  width: 100%;
 
   // This is so that certain AppHeader elements such as DropdownOptions are infront of the any Dashboard item
   z-index: 2;
@@ -15,17 +15,19 @@
   }
   
   &-navbar {
-    @include display(flex);
-    @include justify-content(space-between);
+    display: flex;
+    justify-content: space-between;
     height: 100%;
     position: relative;
     padding: 10px 20px;
     &-logo {
-      @include display(flex);
-      @include justify-content(center);
-      margin: 0;
+      display: flex;
       font-family: 'Indie Flower', 'Roboto', sans-serif;
-      &:hover {cursor: pointer;}
+      justify-content: center;
+      margin: 0;
+      &:hover {
+        cursor: pointer;
+      }
     }
     &-logo,
     &-nav {
@@ -33,9 +35,8 @@
       display: inline-block;
     }
     &-nav {
-      @include display(flex);
-      @include align-items(center);
       align-items: center;
+      display: flex;
       &-profile-pic {
         width: 30px;
         height: 30px;

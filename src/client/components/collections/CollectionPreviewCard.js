@@ -1,13 +1,10 @@
 import React, {Component, PropTypes} from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
-import Immutable from 'immutable';
-import ImmutablePropTypes from 'react-immutable-proptypes';
 import CustomPropTypes from '.././CustomPropTypes';
 import {truncateString} from '../.././utils/TextHelper';
 import Config from '../.././config/main';
 
-import AppActionCreators from '../.././actions/AppActionCreators';
 import CollectionActionCreators from '../.././actions/CollectionActionCreators';
 
 import ClickableIcon from '.././ui/ClickableIcon';
