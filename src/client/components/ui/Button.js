@@ -5,6 +5,13 @@ import Icon from './Icon';
 import pureRender from 'pure-render-decorator';
 
 const displayName = 'ui-Button';
+const backgroundColors = {
+  blue: '#4E9CC2',
+  green: '#4DCF86',
+  red: '#FF805F',
+  yellow: '#FFB55F'
+};
+
 
 @pureRender
 export default class Button extends Component {
@@ -18,7 +25,7 @@ export default class Button extends Component {
     iconClassName: PropTypes.string,
     icon: PropTypes.string,
     onClick: PropTypes.func.isRequired,
-    textClass: PropTypes.string,
+    text: PropTypes.string
   };
 
   static defaultProps = {
@@ -34,21 +41,10 @@ export default class Button extends Component {
       disabled,
       icon,
       iconClassName,
-      text} = this.props;
-    const backgroundColors = {
-      blue: '#4E9CC2',
-      green: '#4DCF86',
-      red: '#FF805F',
-      yellow: '#FFB55F'
-    }
-    const classes = classNames({
-      className,
-      [displayName]: true
-    });
-    const iconClasses = classNames({
-      ['ui-Button-icon']: true,
-      iconClassName
-    });
+      text
+    } = this.props;
+    const classes = classNames(className, displayName);
+    const iconClasses = classNames('ui-Button-icon', iconClassName);
 
     return (
       <MUIRaisedButton
@@ -56,7 +52,7 @@ export default class Button extends Component {
         className={classes}
         disabled={disabled}
         onMouseUp={this._handleClick}
-        icon={icon ? <Icon icon={icon} iconClass={iconClasses}/> : <span />}
+        icon={icon ? <Icon icon={icon} iconClass={iconClasses} /> : null}
         label={text}
         labelStyle={{
           color: '#FFF',

@@ -165,11 +165,11 @@ export default createReducer(INITIAL_STATE, {
   onRemoveSigner(state, {signer}) {
     // `signer` will already be Immutable
     return state.updateIn(['doc', 'signers'], (signers) => (
-      signers.delete(signers.findIndex((signer) => signer.equals(signer)))
+      signers.delete(signers.findIndex((s) => s.equals(signer)))
     ));
   },
 
-  onResetState() {
+  onReset() {
     return INITIAL_STATE;
   },
 

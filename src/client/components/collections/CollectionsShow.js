@@ -29,15 +29,7 @@ export default class CollectionsShow extends Component {
   };
 
   static propTypes = {
-    collection: ImmutablePropTypes.contains({
-      _company: PropTypes.string.isRequired,
-      _creator: PropTypes.string.isRequired,
-      _id: PropTypes.string.isRequired,
-      createdAt: PropTypes.string.isRequired,
-      documents: ImmutablePropTypes.listOf(CustomPropTypes.document).isRequired,
-      title: PropTypes.string.isRequired,
-      updatedAt: PropTypes.string.isRequired
-    }),
+    collection: CustomPropTypes.collection,
     params: PropTypes.shape({
       id: PropTypes.string.isRequired
     }).isRequired

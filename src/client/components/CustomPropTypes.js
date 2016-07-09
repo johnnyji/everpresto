@@ -1,9 +1,28 @@
 import {PropTypes} from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
+const document = ImmutablePropTypes.mapContains({
+  _collection: PropTypes.string.isRequired,
+  _company: PropTypes.string.isRequired,
+  _creator: PropTypes.string.isRequired,
+  _id: PropTypes.string.isRequired,
+  body: PropTypes.string.isRequired,
+  createdAt: PropTypes.string.isRequired,
+  signer: ImmutablePropTypes.mapContains({
+    email: PropTypes.string.isRequired,
+    firstName: PropTypes.string,
+    lastName: PropTypes.string
+  }).isRequired,
+  status: PropTypes.oneOf(['created', 'sent', 'signed']).isRequired,
+  updatedAt: PropTypes.string.isRequired
+});
+
 const CustomPropTypes = {
 
-  collection: ImmutablePropTypes.contains({
+  // This is the propType for collections that
+  // do not contain `documents`, the light version
+  // of a collection
+  collectionLite: ImmutablePropTypes.mapContains({
     _company: PropTypes.string.isRequired,
     _creator: PropTypes.string.isRequired,
     _id: PropTypes.string.isRequired,
@@ -12,34 +31,30 @@ const CustomPropTypes = {
     updatedAt: PropTypes.string.isRequired
   }),
 
-  company: ImmutablePropTypes.contains({
+  collection: ImmutablePropTypes.mapContains({
+    _company: PropTypes.string.isRequired,
+    _creator: PropTypes.string.isRequired,
+    _id: PropTypes.string.isRequired,
+    createdAt: PropTypes.string.isRequired,
+    documents: ImmutablePropTypes.listOf(document).isRequired,
+    title: PropTypes.string.isRequired,
+    updatedAt: PropTypes.string.isRequired
+  }),
+
+  company: ImmutablePropTypes.mapContains({
     _id: PropTypes.string.isRequired,
     createdAt: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     updatedAt: PropTypes.string.isRequired
   }),
 
-  document: ImmutablePropTypes.contains({
-    _collection: PropTypes.string.isRequired,
-    _company: PropTypes.string.isRequired,
-    _creator: PropTypes.string.isRequired,
-    _id: PropTypes.string.isRequired,
-    body: PropTypes.string.isRequired,
-    createdAt: PropTypes.string.isRequired,
-    signer: {
-      email: PropTypes.string.isRequired,
-      firstName: PropTypes.string,
-      lastName: PropTypes.string
-    },
-    status: PropTypes.oneOf(['created', 'sent', 'signed']).isRequired,
-    updatedAt: PropTypes.string.isRequired
-  }),
+  document,
 
   // This is the form used by users to replace placeholders with actual values
   // when they create a document and are adding signers in `DocumentsNew`
-  placeholderForm: ImmutablePropTypes.contains({
+  placeholderForm: ImmutablePropTypes.mapContains({
     values: ImmutablePropTypes.listOf(
-      ImmutablePropTypes.contains({
+      ImmutablePropTypes.mapContains({
         placeholder: PropTypes.string,
         value: PropTypes.string
       })
@@ -49,14 +64,14 @@ const CustomPropTypes = {
     ).isRequired
   }),
 
-  template: ImmutablePropTypes.contains({
+  template: ImmutablePropTypes.mapContains({
     _company: PropTypes.string.isRequired,
     _creator: PropTypes.string.isRequired,
     _id: PropTypes.string.isRequired,
     body: PropTypes.string.isRequired,
     createdAt: PropTypes.string.isRequired,
     placeholders: ImmutablePropTypes.listOf(
-      ImmutablePropTypes.contains({
+      ImmutablePropTypes.mapContains({
         isRequired: PropTypes.bool.isRequired,
         tip: PropTypes.string,
         type: PropTypes.oneOf(['general', 'specific']).isRequired,
@@ -68,10 +83,10 @@ const CustomPropTypes = {
     updatedAt: PropTypes.string.isRequired
   }),
 
-  user: ImmutablePropTypes.contains({
+  user: ImmutablePropTypes.mapContains({
     _company: PropTypes.string.isRequired,
     _id: PropTypes.string.isRequired,
-    account: ImmutablePropTypes.contains({
+    account: ImmutablePropTypes.mapContains({
       email: PropTypes.string.isRequired,
       firstName: PropTypes.string.isRequired,
       lastName: PropTypes.string.isRequired,

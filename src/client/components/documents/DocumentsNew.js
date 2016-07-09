@@ -97,14 +97,11 @@ export default class DocumentsNew extends Component {
     if (this.props.modalIsDisplayed) dispatch(AppActionCreators.dismissModal());
   }
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      filteredTemplates: Immutable.List(),
-      templateBeingUsed: null,
-      templateFilterTerms: ''
-    };
-  }
+  state = {
+    filteredTemplates: Immutable.List(),
+    templateBeingUsed: null,
+    templateFilterTerms: ''
+  };
 
   render() {
     if (this.props.shouldFetchTemplates) return <DashboardSpinner />;

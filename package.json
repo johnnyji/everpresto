@@ -5,6 +5,9 @@
   "main": "index.js",
   "author": "Johnny Ji",
   "license": "ISC",
+  "repository": {
+    "git": "https://github.com/johnnyji/everpresto"
+  },
   "scripts": {
     "clean": "rm -rf lib",
     "eslint": "eslint ./src",

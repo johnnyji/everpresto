@@ -26,7 +26,7 @@ export default class CollectionPreviewCard extends Component {
   static propTypes = {
     className: PropTypes.string,
     contentClassName: PropTypes.string,
-    collection: CustomPropTypes.collection.isRequired,
+    collection: CustomPropTypes.collectionLite.isRequired,
     height: PropTypes.number.isRequired,
     isBeingEdited: PropTypes.bool.isRequired,
     maxTitleLength: PropTypes.number.isRequired,
