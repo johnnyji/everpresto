@@ -29,7 +29,7 @@ module.exports = {
   resolve: {
     // TODO: Unfortunately this won't work for us because we're rendering on the server first,
     // which won't be parsed by this webpack file...
-    // 
+    //
     // Allows import relative to the `src` folder instead of having to do '../.././'
     // modulesDirectories: ['src', 'node_modules', 'web_modules'],
     // fallback: [
@@ -75,7 +75,7 @@ module.exports = {
     ],
     noParse: /\.min\.js/,
     // autoprefixes CSS with vendor prefixes
-    postcss: [autoprefixer()],
+    postcss: [autoprefixer({browsers: ['last 2 versions']})],
     postLoaders: [
       {
         test: /\.js$/,
