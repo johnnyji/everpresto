@@ -9,7 +9,7 @@ const ApiCaller = {
       request.open(options.method, options.url);
       request.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
 
-      console.log(`Sending ${options.method} Request to ${options.url}`);
+      console.info(`Sending ${options.method} Request to ${options.url}`);
       options.data ? request.send(JSON.stringify(options.data)) : request.send();
       
       request.onload = () => {
@@ -26,13 +26,13 @@ const ApiCaller = {
         result.status >= 200 && result.status <= 299
           ? resolve(result)
           : reject(result);
-        console.log('Response: ', result.data);
+        console.info('Response: ', result.data);
       };
 
       request.onerror = () => reject({status: 500, data: 'Connection error'});
     });
   }
 
-}
+};
 
 export default ApiCaller;

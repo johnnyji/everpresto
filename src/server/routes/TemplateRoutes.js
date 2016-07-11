@@ -23,7 +23,7 @@ router.get('/:id', (req, res) => {
   Template.findById(ObjectId(req.params.id), (err, template) => {
     if (err) return res.status(422).json({message: extractErrorMessage(err)});
     res.status(200).json({template: template.toObject()});
-  })
+  });
 });
 
 // Creates a new template

@@ -14,10 +14,12 @@ export default {
   currentUser: {
     show: formApiPath('/users/current_user', 'POST')
   },
+  documentSigning: {
+    signatureLink: (id, signatureToken) => formApiPath(`/sign_document/${id}/token/${signatureToken}`, 'GET')
+  },
   documents: {
     index: formApiPath('/documents/index', 'GET'),
-    create: formApiPath('/documents/create', 'POST'),
-    signatureLink: (id, signatureToken) => formApiPath(`/documents/${id}/sign/${signatureToken}`, 'GET')
+    create: formApiPath('/documents/create', 'POST')
   },
   templates: {
     create: formApiPath('/templates/create', 'POST'),

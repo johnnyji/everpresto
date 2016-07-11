@@ -6,6 +6,7 @@ import collectionsEdit from './collections/CollectionsEditReducer';
 import collectionsIndex from './collections/CollectionsIndexReducer';
 import collectionsShow from './collections/CollectionsShowReducer';
 
+import documentSigning from './DocumentSigningReducer';
 import documents from './DocumentsReducer';
 import documentsNew from './DocumentsNewReducer';
 import templates from './TemplatesReducer';
@@ -20,7 +21,9 @@ export default combineReducers({
   collectionsIndex,
   collectionsShow,
 
+  documentSigning,
   documents,
   documentsNew,
+
   templates
 });

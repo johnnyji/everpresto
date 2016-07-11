@@ -15,34 +15,45 @@
 }
 
 // full screen spinner
-.full-screen-spinner {
-  @include position-center(fixed, 46%, 50%);
-  #full-screen-spinner {
-    position: relative;
-    margin: 0 auto;
-    margin-bottom: 4rem;
-    .full-screen-spinner-rect {
-      width: 10px;
-      height: 80px;
+.Spinner {
+
+  &-center { margin: 0 auto }
+
+  &-full-page {
+    height: 100vh;
+    width: 100vw;
+
+    &-content {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      top: 40%;
+      left: 50%;
+      &-quote {
+        position: relative;
+        display: block;
+        text-align: center;
+        font-weight: 400;
+        color: $text-color-light;
+      }
     }
-  }
-  &-quote {
-    position: relative;
-    text-align: center;
-    font-weight: 400;
-    color: $text-color-light;
-  }
-}
 
+    #full-screen-spinner {
+      position: relative;
+      margin: 0 auto;
+      margin-bottom: 4rem;
+      .full-screen-spinner-rect {
+        width: 10px;
+        height: 80px;
+      }
+    }
 
-// reg spinner
-.center-spinner {
-  text-align: center;
+  }
 }
 
 .wave {
   width: 100px;
   height: 55px;
+  display: block;
 }
 
 .wave > div {

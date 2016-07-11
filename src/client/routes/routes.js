@@ -35,7 +35,7 @@ const routes = (
     <IndexRoute component={LandingPageHandler} />
 
     {/*********** Email Signature Route ************/}
-    <Route component={SignatureView} path='documents/:id/sign/:signature_token' />
+    <Route component={SignatureView} path='sign_document/:id/token/:signature_token' />
 
     {/*********** Auth Routes ************/}
     <Route component={AuthHandler} path='login' />

@@ -4,19 +4,25 @@ import {get} from '../utils/http';
 // The action creator responsible for the document signature link
 const DocumentSigningActionCreators = {
 
-  fetchDocument(id, signatureLink) {
-    const {path} = endpoints.documents.signatureLink(id, signatureLink);
+  fetchDocument(id, signatureToken) {
+    const {path} = endpoints.documentSigning.signatureLink(id, signatureToken);
 
     return (dispatch) => {
+      dispatch(DocumentSigningActionCreators.fetchDocumentPending());
+      
       get(path)
-        .then((response) => {
-          debugger;
-          dispatch(DocumentSigningActionCreators.fetchDocumentSuccess(response.data.document));
+        .then(({doc}) => {
+          dispatch(DocumentSigningActionCreators.fetchDocumentSuccess(doc));
         })
-        .catch((response) => {
-          debugger;
-          dispatch(DocumentSigningActionCreators.fetchDocumentError(response.data.error));
+        .catch(({message}) => {
+          dispatch(DocumentSigningActionCreators.fetchDocumentError(message));
         });
+    };
+  },
+
+  fetchDocumentPending() {
+    return {
+      type: DocumentSigningActionTypes.FETCH_DOCUMENT
     };
   },
 

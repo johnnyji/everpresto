@@ -2,6 +2,7 @@ const autoprefixer = require('autoprefixer');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const config = require('./config');
 const path = require('path');
+const webpack = require('webpack');
 
 const ROOT_PATH = path.join(__dirname, '.././');
 const SRC_PATH = path.join(ROOT_PATH, 'src/client');
@@ -24,7 +25,12 @@ module.exports = {
     filename: 'bundle.js'
   },
   plugins: [
-    new ExtractTextPlugin('style.css', {allChunks: true})
+    // Extracts styles
+    new ExtractTextPlugin('style.css', {allChunks: true}),
+    // Polyfills `fetch`
+    new webpack.ProvidePlugin({
+      'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch'
+    })
   ],
   resolve: {
     // TODO: Unfortunately this won't work for us because we're rendering on the server first,
@@ -75,18 +81,18 @@ module.exports = {
     ],
     noParse: /\.min\.js/,
     // autoprefixes CSS with vendor prefixes
-    postcss: [autoprefixer({browsers: ['last 2 versions']})],
-    postLoaders: [
-      {
-        test: /\.js$/,
-        include: [SRC_PATH],
-        loader: 'babel',
-        query: {
-          cacheDirectory: true,
-          presets: PRESETS.concat(['react-hmre'])
-        }
-      }
-    ]
+    postcss: [autoprefixer({browsers: ['last 2 versions']})]
+    // postLoaders: [
+    //   {
+    //     test: /\.js$/,
+    //     include: [SRC_PATH],
+    //     loader: 'babel',
+    //     query: {
+    //       cacheDirectory: true,
+    //       presets: PRESETS.concat(['react-hmre'])
+    //     }
+    //   }
+    // ]
   },
   // Fixes the empty `fs` module error
   node: {

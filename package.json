@@ -66,6 +66,7 @@
     "socket.io": "^1.4.5",
     "striptags": "^2.1.1",
     "validator": "^5.4.0",
+    "whatwg-fetch": "^1.0.0",
     "xss": "^0.2.10"
   },
   "devDependencies": {
@@ -90,8 +91,10 @@
     "eslint-config-johnnyji": "0.1.6",
     "eslint-plugin-babel": "^3.2.0",
     "eslint-plugin-react": "^5.0.1",
+    "exports-loader": "^0.6.3",
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.9.0",
+    "imports-loader": "^0.6.5",
     "iron-node": "^3.0.4",
     "json-loader": "^0.5.4",
     "node-sass": "^3.3.2",

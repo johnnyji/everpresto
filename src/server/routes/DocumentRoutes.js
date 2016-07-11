@@ -12,10 +12,13 @@ const router = express.Router();
 
 // Fetches all the documents for a given company
 router.get('/index', (req, res) => {
-  Document.find({_company: req.session.companyId}, (err, docs) => {
-    if (err) return res.status(422).json({message: extractErrorMessage(err)});
-    res.status(200).json({docs: toObjects(docs)});
-  });
+  Document
+    .find({_company: req.session.companyId})
+    .sort({createdAt: -1})
+    .exec((err, docs) => {
+      if (err) return res.status(422).json({message: extractErrorMessage(err)});
+      res.status(200).json({docs: toObjects(docs)});
+    });
 });
 
 router.post('/create', (req, res) => {
@@ -62,11 +65,6 @@ router.post('/create', (req, res) => {
       res.status(201).json({});
     });
 
-});
-
-// TODO: Handle when a user opens the sign document link
-router.get('/:id/sign/:signature_token', (req, res) => {
-  debugger;
 });
 
 export default router;

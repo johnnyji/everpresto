@@ -1,4 +1,5 @@
 import camelCaseObject from 'camelcase-object';
+import config from '../../../../config/config';
 
 const buildHeaders = () => {
   return {
@@ -7,11 +8,18 @@ const buildHeaders = () => {
   };
 };
 
+const buildFullPath = (path) => {
+  if (process.env.NODE_ENV === 'production') {
+    return `${config.production.baseUrl}${path}`;
+  }
+  return `${config.development.baseUrl}${path}`;
+};
+
 const http = {
 
   delete(path) {
     return new Promise((resolve, reject) => {
-      return fetch(path, {
+      return fetch(buildFullPath(path), {
         method: 'delete',
         headers: buildHeaders()
       })
@@ -34,7 +42,7 @@ const http = {
 
   get(path) {
     return new Promise((resolve, reject) => {
-      return fetch(path, {
+      return fetch(buildFullPath(path), {
         headers: buildHeaders()
       })
         .then((response) => {
@@ -56,7 +64,7 @@ const http = {
 
   post(path, data) {
     return new Promise((resolve, reject) => {
-      return fetch(path, {
+      return fetch(buildFullPath(path), {
         method: 'post',
         headers: buildHeaders(),
         body: JSON.stringify(data)

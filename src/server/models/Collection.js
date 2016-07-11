@@ -47,12 +47,15 @@ CollectionSchema.statics.findWithDocuments = function(stringId) {
     this.findById(ObjectId(stringId), (err, collection) => {
       if (err) return reject(err);
       if (!collection) return reject('Hmmm... This collection doesn\'t exist for some reason');
-      Document.find({_collection: collection._id}, (err, documents) => {
-        if (err) return reject(err);
-        // Sets the the collection's documents as an attribute on the collection
-        // and returns the collection
-        resolve(set(collection.toObject(), 'documents', toObjects(documents)));
-      });
+      Document
+        .find({_collection: collection._id})
+        .sort({createdAt: -1})
+        .exec((err, documents) => {
+          if (err) return reject(err);
+          // Sets the the collection's documents as an attribute on the collection
+          // and returns the collection
+          resolve(set(collection.toObject(), 'documents', toObjects(documents)));
+        });
     });
   });
 };

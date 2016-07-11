@@ -16,6 +16,7 @@ export default class SignatureView extends Component {
   render() {
     return (
       <div className={CLS}>
+        {document.get('title')}
       </div>
     );
   }

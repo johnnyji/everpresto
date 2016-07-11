@@ -3,7 +3,7 @@ import {
   FETCH_DOCUMENT_ERROR,
   FETCH_DOCUMENT_SUCCESS
 } from '../action_types/DocumentSigningActionTypes';
-import createReducer from 'create-redux-reducer';
+import createReducer from 'create-reducer-redux';
 import Immutable from 'immutable';
 
 const INITIAL_STATE = Immutable.fromJS({
