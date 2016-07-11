@@ -28,6 +28,7 @@ export default class CollectionPreviewCard extends Component {
     contentClassName: PropTypes.string,
     collection: CustomPropTypes.collectionLite.isRequired,
     height: PropTypes.number.isRequired,
+    isBeingEdited: PropTypes.bool.isRequired,
     maxTitleLength: PropTypes.number.isRequired,
     width: PropTypes.number.isRequired
   };
@@ -81,14 +82,13 @@ export default class CollectionPreviewCard extends Component {
 
     this.context.dispatch(
       CollectionActionCreators.updateCollection(
-        this.props.collection.get('_id'),
+        this.props.collection.get('id'),
         {title}
       )
     );
   }
 
   _handleEnterCollection = () => {
-    debugger;
     this.context.router.push(`/dashboard/collections/${this.props.collection.get('id')}`);
   }
 
@@ -98,7 +98,7 @@ export default class CollectionPreviewCard extends Component {
 
     if (confirm(confirmMessage)) {
       return this.context.dispatch(
-        CollectionActionCreators.deleteCollection(this.props.collection.get('_id'))
+        CollectionActionCreators.deleteCollection(this.props.collection.get('id'))
       );
     }
   }
@@ -122,6 +122,7 @@ export default class CollectionPreviewCard extends Component {
           ref='titleInput' />
       );
     }
+    
     return (
       <button
         className={`${displayName}-main-title`}

@@ -7,7 +7,7 @@ const User = mongoose.model('User');
 const router = express.Router();
 
 // Authenticates the user and stores the appropriate userId into the session
-router.post('/login', (req, res, next) => {
+router.post('/login', (req, res) => {
   const {email, password} = req.body.user;
 
   User.authenticate({
@@ -20,8 +20,8 @@ router.post('/login', (req, res, next) => {
       req.session.companyId = user._company;
       res.status(201).json({company, user});
     })
-    .catch((response) =>  {
-      res.status(422).json({message: extractErrorMessage(response)})
+    .catch((response) => {
+      res.status(422).json({message: extractErrorMessage(response)});
     });
 });
 
@@ -29,7 +29,7 @@ router.post('/login', (req, res, next) => {
 router.get('/logout', (req, res) => {
   delete req.session.userId;
   delete req.session.companyId;
-  res.status(204).json({});
+  res.status(200).json({});
 });
 
 // Creates a new user

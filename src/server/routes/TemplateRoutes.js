@@ -35,14 +35,14 @@ router.post('/create', (req, res) => {
   }, (err, template) => {
     if (err) return res.status(422).json({message: extractErrorMessage(err)});
     res.status(201).json({template: template.toObject()});
-  })
+  });
 });
 
 // Deletes a template
 router.post('/delete', (req, res) => {
   Template.remove({_id: ObjectId(req.body.templateId)}, (err) => {
     if (err) return res.status(422).json({message: extractErrorMessage(err)});
-    res.status(204).end();
+    res.status(200).json({});
   });
 });
 
@@ -51,8 +51,12 @@ router.post('/update', (req, res) => {
   const {templateData, templateId} = req.body;
 
   Template.updateTemplate(templateId, templateData)
-    .then(() => res.status(204).end())
-    .catch((err) => res.status(422).json({message: extractErrorMessage(err)}));
+    .then(() => {
+      res.status(200).json({});
+    })
+    .catch((err) => {
+      res.status(422).json({message: extractErrorMessage(err)});
+    });
 });
 
 export default router;

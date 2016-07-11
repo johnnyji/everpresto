@@ -17,11 +17,13 @@ const buildFullPath = (path) => {
 
 const http = {
 
-  delete(path) {
+  delete(path, data = {}) {
     return new Promise((resolve, reject) => {
       return fetch(buildFullPath(path), {
+        credentials: 'include',
         method: 'delete',
-        headers: buildHeaders()
+        headers: buildHeaders(),
+        data: JSON.stringify(data)
       })
         .then((response) => {
           // We must retrieve the status first, it will be lost after we call `response.json`
@@ -43,6 +45,7 @@ const http = {
   get(path) {
     return new Promise((resolve, reject) => {
       return fetch(buildFullPath(path), {
+        credentials: 'include',
         headers: buildHeaders()
       })
         .then((response) => {
@@ -65,6 +68,8 @@ const http = {
   post(path, data = {}) {
     return new Promise((resolve, reject) => {
       return fetch(buildFullPath(path), {
+        // This is important to persist session data (userId)
+        credentials: 'include',
         method: 'post',
         headers: buildHeaders(),
         body: JSON.stringify(data)

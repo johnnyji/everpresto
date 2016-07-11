@@ -23,18 +23,18 @@ const CustomPropTypes = {
   // do not contain `documents`, the light version
   // of a collection
   collectionLite: ImmutablePropTypes.mapContains({
-    _company: PropTypes.string.isRequired,
-    _creator: PropTypes.string.isRequired,
-    _id: PropTypes.string.isRequired,
+    company: PropTypes.string.isRequired,
+    creator: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
     createdAt: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     updatedAt: PropTypes.string.isRequired
   }),
 
   collection: ImmutablePropTypes.mapContains({
-    _company: PropTypes.string.isRequired,
-    _creator: PropTypes.string.isRequired,
-    _id: PropTypes.string.isRequired,
+    company: PropTypes.string.isRequired,
+    creator: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
     createdAt: PropTypes.string.isRequired,
     documents: ImmutablePropTypes.listOf(document).isRequired,
     title: PropTypes.string.isRequired,

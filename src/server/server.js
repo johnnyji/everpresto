@@ -39,6 +39,7 @@ import TemplateRoutes from './routes/TemplateRoutes';
 import UserRoutes from './routes/UserRoutes';
 
 // MIDDLEWARE
+import allowCredentials from './middlewares/allowCredentials';
 import requireUser from './middlewares/requireUser';
 
 // CONFIG
@@ -75,6 +76,10 @@ app.use(cookieParser());
 
 // Uses MongoDB as a store for sessions so they can persist
 app.use(session({
+  cookie: {
+    httpOnly: false,
+    maxAge: null
+  },
   secret: secrets.sessionSecret,
   store: new MongoStore({mongooseConnection: mongoose.connection}),
   resave: false,
@@ -86,12 +91,12 @@ app.use(session({
 app.use('/api', apiRouter);
 
 // Declare API routes with middleware
-apiRouter.use('/auth', AuthRoutes);
-apiRouter.use('/collections', requireUser, CollectionRoutes);
-apiRouter.use('/sign_document', DocumentSigningRoutes);
-apiRouter.use('/documents', requireUser, DocumentRoutes);
-apiRouter.use('/templates', requireUser, TemplateRoutes);
-apiRouter.use('/users', requireUser, UserRoutes);
+apiRouter.use('/auth', allowCredentials, AuthRoutes);
+apiRouter.use('/collections', allowCredentials, requireUser, CollectionRoutes);
+apiRouter.use('/sign_document', allowCredentials, DocumentSigningRoutes);
+apiRouter.use('/documents', allowCredentials, requireUser, DocumentRoutes);
+apiRouter.use('/templates', allowCredentials, requireUser, TemplateRoutes);
+apiRouter.use('/users', allowCredentials, requireUser, UserRoutes);
 
 
 // We seperate each socket.io namespace into a different file, and pass it the `io` object so the files

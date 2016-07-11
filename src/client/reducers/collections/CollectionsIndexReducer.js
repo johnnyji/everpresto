@@ -28,7 +28,7 @@ export default function CollectionsIndexReducer(state = initialState, action) {
     case DELETE_COLLECTION_SUCCESS:
       return state.update('collections', (collections) => {
         return collections.delete(
-          collections.findIndex((collection) => collection.get('_id') === action.data.deletedCollectionId)
+          collections.findIndex((collection) => collection.get('id') === action.data.deletedCollectionId)
         );
       });
 
@@ -39,9 +39,7 @@ export default function CollectionsIndexReducer(state = initialState, action) {
       const updatedCollection = Immutable.fromJS(action.data.collection);
       const updatedCollectionIndex = state
         .get('collections')
-        .findIndex((collection) => {
-          return collection.get('_id') === updatedCollection.get('_id');
-        });
+        .findIndex((collection) => collection.get('id') === updatedCollection.get('id'));
       // Sets the appropriate collection in the list to the newly updated collection
       return state.update('collections', (collections) => {
         return collections.splice(updatedCollectionIndex, 1, updatedCollection);

@@ -37,10 +37,10 @@ router.post('/create', (req, res) => {
 });
 
 // Deletes a collection
-router.post('/delete', (req, res) => {
-  Collection.remove({_id: ObjectId(req.body.collectionId)}, (err) => {
+router.delete('/:id', (req, res) => {
+  Collection.remove({_id: ObjectId(req.params.id)}, (err) => {
     if (err) return res.status(422).json({message: extractErrorMessage(err)});
-    res.status(204).end();
+    res.status(200).json({});
   });
 });
 
@@ -52,9 +52,10 @@ router.post('/update', (req, res) => {
     ObjectId(collectionId),
     {$set: {title: collectionData.title}},
     {new: true, runValidators: true}, (err, collection) => {
-    if (err) return res.status(422).json({message: extractErrorMessage(err)});
-    res.status(200).json({collection});
-  });
+      if (err) return res.status(422).json({message: extractErrorMessage(err)});
+      res.status(200).json({collection});
+    }
+  );
 });
 
 export default router;

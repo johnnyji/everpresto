@@ -33,7 +33,7 @@ export default class CollectionsIndex extends Component {
   };
 
   static propTypes = {
-    collectionBeingEdited: CustomPropTypes.collection,
+    collectionBeingEdited: CustomPropTypes.collectionLite,
     collections: ImmutablePropTypes.listOf(CustomPropTypes.collectionLite).isRequired,
     shouldFetchCollections: PropTypes.bool.isRequired,
     shouldFetchTemplates: PropTypes.bool.isRequired,
@@ -98,8 +98,8 @@ export default class CollectionsIndex extends Component {
     const {collectionBeingEdited, collections} = this.props;
 
     return collections.map((collection, i) => {
-      const isBeingEdited = Boolean(collectionBeingEdited)
-        ? collectionBeingEdited.get('_id') === collection.get('_id')
+      const isBeingEdited = collectionBeingEdited
+        ? collectionBeingEdited.get('id') === collection.get('id')
         : false;
       return (
         <CollectionPreviewCard
@@ -122,7 +122,7 @@ export default class CollectionsIndex extends Component {
           <Button
             color='green'
             onClick={this._navigateTemplateView}
-            text='Create a Template!'/>
+            text='Create a Template!' />
         </DashboardMessage>
       </DashboardContentWrapper>
     );

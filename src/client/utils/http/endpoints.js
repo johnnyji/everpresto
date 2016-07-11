@@ -6,7 +6,7 @@ const formApiPath = (path, method) => ({
 export default {
   collections: {
     create: formApiPath('/collections/create', 'POST'),
-    delete: formApiPath('/collections/delete', 'POST'),
+    delete: (id) => formApiPath(`/collections/${id}`, 'DELETE'),
     index: formApiPath('/collections/index', 'GET'),
     show: (id) => formApiPath(`/collections/${id}`, 'GET'),
     update: formApiPath('/collections/update', 'POST')

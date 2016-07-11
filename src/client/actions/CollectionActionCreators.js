@@ -1,7 +1,7 @@
 import endpoints from '../utils/http/endpoints';
-import {sendAjaxRequest} from '.././utils/ApiCaller';
 import {createFlashMessage} from './AppActionCreators';
 import CollectionActionTypes from './../action_types/CollectionActionTypes';
+import http from '../utils/http';
 
 const CollectionActionCreators = {
 
@@ -16,15 +16,12 @@ const CollectionActionCreators = {
    */
   createCollection() {
     return (dispatch) => {
-      sendAjaxRequest({
-        method: endpoints.collections.create.method,
-        url: endpoints.collections.create.path
-      })
-        .then((response) => {
-          dispatch(this.createCollectionSuccess(response.data.collection));
+      http.post(endpoints.collections.create.path)
+        .then(({collection}) => {
+          dispatch(this.createCollectionSuccess(collection));
         })
-        .catch((response) => {
-          dispatch(createFlashMessage('red', response.data.message));
+        .catch(({message}) => {
+          dispatch(createFlashMessage('red', message));
         });
     };
   },
@@ -47,18 +44,20 @@ const CollectionActionCreators = {
   /**
    * Executes the API call to delete a collection
    *
-   * @param  {String} templateId - The `_id` of the template to delete
+   * @param  {String} collectionId  The `id` of the collection to delete
    * @return {Function}  - The thunk that makes the API call
    */
   deleteCollection(collectionId) {
+    const {path} = endpoints.collections.delete(collectionId);
+
     return (dispatch) => {
-      sendAjaxRequest({
-        method: endpoints.collections.delete.method,
-        url: endpoints.collections.delete.path,
-        data: {collectionId}
-      })
-        .then(() => dispatch(this.deleteCollectionSuccess(collectionId)))
-        .catch((response) => dispatch(createFlashMessage('red', response.data.message)));
+      http.delete(path)
+        .then(() => {
+          dispatch(this.deleteCollectionSuccess(collectionId));
+        })
+        .catch(({message}) => {
+          dispatch(createFlashMessage('red', message));
+        });
     };
   },
 
@@ -84,17 +83,14 @@ const CollectionActionCreators = {
    */
   fetchCollectionBeingViewed(id) {
     return (dispatch) => {
-      const endpoint = endpoints.collections.show(id);
-      sendAjaxRequest({
-        method: endpoint.method,
-        url: endpoint.path
-      })
-        .then((response) => dispatch(this.fetchCollectionBeingViewedSuccess(response.data.collection)))
-        .catch((response) => {
-          if (response.status === 500) {
-            dispatch(createFlashMessage('red', 'Sorry, we\'re having a connection error... Maybe try again?'));
-          }
-          dispatch(createFlashMessage('red', response.data.message));
+      const {path} = endpoints.collections.show(id);
+
+      http.get(path)
+        .then(({collection}) => {
+          dispatch(this.fetchCollectionBeingViewedSuccess(collection));
+        })
+        .catch(({message}) => {
+          dispatch(createFlashMessage('red', message));
         });
     };
   },
@@ -121,18 +117,12 @@ const CollectionActionCreators = {
    */
   fetchCollections() {
     return (dispatch) => {
-      sendAjaxRequest({
-        method: endpoints.collections.index.method,
-        url: endpoints.collections.index.path
-      })
-        .then((response) => {
-          dispatch(this.fetchCollectionsSuccess(response.data.collections));
+      http.get(endpoints.collections.index.path)
+        .then(({collections}) => {
+          dispatch(this.fetchCollectionsSuccess(collections));
         })
-        .catch((response) => {
-          if (response.status === 500) {
-            dispatch(createFlashMessage('red', 'Sorry, we\'re having a connection error... Maybe try again?'));
-          }
-          dispatch(createFlashMessage('red', response.data.message));
+        .catch(({message}) => {
+          dispatch(createFlashMessage('red', message));
         });
     };
   },
@@ -204,14 +194,10 @@ const CollectionActionCreators = {
    */
   updateCollection(collectionId, collectionData) {
     return (dispatch) => {
-      sendAjaxRequest({
-        method: endpoints.collections.update.method,
-        url: endpoints.collections.update.path,
-        data: {collectionId, collectionData}
-      })
-        .then((response) => {
+      http.post(endpoints.collections.update.path, {collectionId, collectionData})
+        .then(({collection}) => {
           // Reset the `collection` being edited after we've updated it
-          dispatch(this.updateCollectionSuccess(response.data.collection));
+          dispatch(this.updateCollectionSuccess(collection));
         })
         .catch((response) => {
           dispatch(createFlashMessage('red', response.data.message));

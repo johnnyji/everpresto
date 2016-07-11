@@ -23,3 +23,6 @@ Automating the document signing process, cause you've got better things to do.
 
 **Why are we using `Model.find` + `Model.save` in order to update vs. `Model.findOneAndUpdate` in some places?**
 - Because `Model.save` is a Mongoose method, which means Mongoose Document `pre/post` hooks will be run every time `save` is called (this comes in especially handy in `Template.js`). `Model.findOneAndUpdate` and `Model.update` are actually MongoDB methods, so calling these will not invoke Mongoose Document hooks such as `pre('save')`. See https://github.com/Automattic/mongoose/issues/2672
+
+**Why are we using `res.status(200).json({})` instead of `res.status(204).end()` when successfully closing a `delete` response?
+- This is because we're using the `fetch`. In fetch, data must be converted to JSON using `response.json()`. However, if the response is empty, `response.json()` throws an error. Therefore it's better to close the response with an empty object instead. `response.json()` also fails when the status code is `204`, this may be because `fetch` interperates `204` as an empty response. Therefore, we have to make due by using `200` instead. This is a necessary step to normalize data because there are some instances where we want to send back data after a succesful delete.
