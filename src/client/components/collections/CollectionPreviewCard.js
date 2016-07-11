@@ -28,27 +28,25 @@ export default class CollectionPreviewCard extends Component {
     contentClassName: PropTypes.string,
     collection: CustomPropTypes.collectionLite.isRequired,
     height: PropTypes.number.isRequired,
-    isBeingEdited: PropTypes.bool.isRequired,
     maxTitleLength: PropTypes.number.isRequired,
     width: PropTypes.number.isRequired
   };
 
   static defaultProps = {
     height: 150,
-    isBeingEdited: false,
     maxTitleLength: 65,
     width: 200
   };
 
   render() {
-    const {className, collection, contentClassName, height, isBeingEdited, width} = this.props;
+    const {className, collection, contentClassName, height, width} = this.props;
     const classes = classNames(className, displayName);
     const contentClasses = classNames(contentClassName, `${displayName}-main`);
     const createdAt = moment(collection.get('createdAt')).format('MMM DD, YYYY');
 
     return (
       <FolderCard
-        className={className}
+        className={classes}
         contentClassName={contentClasses}
         height={height}
         width={width}>
@@ -60,12 +58,12 @@ export default class CollectionPreviewCard extends Component {
               className={`${displayName}-main-options-icon`}
               icon='create'
               onClick={this._handleEditCollection}
-              size={20}/>
+              size={20} />
             <ClickableIcon
               className={`${displayName}-main-options-icon`}
               icon='delete'
               onClick={this._handleDeleteCollection}
-              size={20}/>
+              size={20} />
           </div>
         </div>
       </FolderCard>
@@ -78,8 +76,8 @@ export default class CollectionPreviewCard extends Component {
     );
   }
 
-  _handleUpdateCollection = (title) => {
-    title = title || DEFAULT_TITLE;
+  _handleUpdateCollection = (event) => {
+    const title = event.target.value || DEFAULT_TITLE;
 
     this.context.dispatch(
       CollectionActionCreators.updateCollection(
@@ -90,7 +88,8 @@ export default class CollectionPreviewCard extends Component {
   }
 
   _handleEnterCollection = () => {
-    this.context.router.push(`/dashboard/collections/${this.props.collection.get('_id')}`);
+    debugger;
+    this.context.router.push(`/dashboard/collections/${this.props.collection.get('id')}`);
   }
 
   _handleDeleteCollection = () => {
@@ -119,8 +118,8 @@ export default class CollectionPreviewCard extends Component {
           className={`${displayName}-main-title-input`}
           defaultValue={title === DEFAULT_TITLE ? '' : title}
           onKeyPress={this._handleKeyPress}
-          onBlur={(e) => this._handleUpdateCollection(e.target.value)}
-          ref='titleInput'/>
+          onBlur={this._handleUpdateCollection}
+          ref='titleInput' />
       );
     }
     return (

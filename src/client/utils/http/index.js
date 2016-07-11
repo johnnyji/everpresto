@@ -62,7 +62,7 @@ const http = {
     });
   },
 
-  post(path, data) {
+  post(path, data = {}) {
     return new Promise((resolve, reject) => {
       return fetch(buildFullPath(path), {
         method: 'post',

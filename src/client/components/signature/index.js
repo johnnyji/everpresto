@@ -14,9 +14,11 @@ export default class SignatureView extends Component {
   };
   
   render() {
+    const {document} = this.props;
+
     return (
       <div className={CLS}>
-        {document.get('title')}
+        <h2>{document.getIn(['signer', 'firstName'])} {document.getIn(['signer', 'firstName'])} needs you to sign something!</h2>
       </div>
     );
   }
