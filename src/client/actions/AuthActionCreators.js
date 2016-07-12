@@ -1,7 +1,7 @@
-import endpoints from '../utils/http/endpoints';
-import {sendAjaxRequest} from '.././utils/ApiCaller';
-import {createFlashMessage} from '.././actions/AppActionCreators';
 import AuthActionTypes from '.././action_types/AuthActionTypes';
+import {createFlashMessage} from '.././actions/AppActionCreators';
+import endpoints from '../utils/http/endpoints';
+import http from '../utils/http';
 
 const AuthActionCreators = {
 
@@ -13,13 +13,13 @@ const AuthActionCreators = {
    */
   createCompanyWithUser(data) {
     return (dispatch) => {
-      sendAjaxRequest({
-        method: endpoints.users.createWithCompany.method,
-        url: endpoints.users.createWithCompany.path,
-        data
-      })
-        .then((response) => dispatch(this.createCompanyWithUserSuccess(response.data)))
-        .catch((response) => dispatch(createFlashMessage('red', response.data.message)));
+      http.post(endpoints.users.createWithCompany.path, data)
+        .then((response) => {
+          dispatch(this.createCompanyWithUserSuccess(response));
+        })
+        .catch(({message}) => {
+          dispatch(createFlashMessage('red', message));
+        });
     };
   },
 
@@ -39,13 +39,13 @@ const AuthActionCreators = {
 
   login(user) {
     return (dispatch) => {
-      sendAjaxRequest({
-        method: endpoints.users.login.method,
-        url: endpoints.users.login.path,
-        data: {user}
-      })
-        .then((response) => dispatch(this.loginSuccess(response.data)))
-        .catch(() => dispatch(createFlashMessage('red', 'Oops! Invalid Email/Password')));
+      http.post(endpoints.users.login.path, {user})
+        .then((response) => {
+          dispatch(this.loginSuccess(response));
+        })
+        .catch(() => {
+          dispatch(createFlashMessage('red', 'Oops! Invalid Email/Password'));
+        });
     };
   },
 
@@ -65,12 +65,13 @@ const AuthActionCreators = {
 
   logout() {
     return (dispatch) => {
-      sendAjaxRequest({
-        method: endpoints.users.logout.method,
-        url: endpoints.users.logout.path
-      })
-        .then(() => dispatch(this.logoutSuccess()))
-        .catch(() => dispatch(createFlashMessage('red', 'Oops! Unable to logout at this time.')));
+      http.get(endpoints.users.logout.path)
+        .then(() => {
+          dispatch(this.logoutSuccess());
+        })
+        .catch(() => {
+          dispatch(createFlashMessage('red', 'Oops! Unable to logout at this time.'));
+        });
     };
   },
 

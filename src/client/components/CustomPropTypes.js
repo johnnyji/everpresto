@@ -42,7 +42,7 @@ const CustomPropTypes = {
   }),
 
   company: ImmutablePropTypes.mapContains({
-    _id: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
     createdAt: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     updatedAt: PropTypes.string.isRequired
@@ -84,8 +84,8 @@ const CustomPropTypes = {
   }),
 
   user: ImmutablePropTypes.mapContains({
-    _company: PropTypes.string.isRequired,
-    _id: PropTypes.string.isRequired,
+    company: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
     account: ImmutablePropTypes.mapContains({
       email: PropTypes.string.isRequired,
       firstName: PropTypes.string.isRequired,
