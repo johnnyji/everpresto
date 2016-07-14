@@ -24,13 +24,13 @@ export default class DocumentCard extends Component {
     });
     const status = {
       created: {icon: 'schedule', text: 'Sending...'},
-      sent: {icon: 'done',text: 'Email sent'},
+      sent: {icon: 'done', text: 'Email sent'},
       signed: {icon: 'done-all', text: 'Signed'}
     };
-    const iconClasses = classNames({
-      [`${displayName}-header-status-icon`]: true,
-      [`${displayName}-header-status-icon-sent`]: doc.get('status') === 'sent'
-    })
+    const iconClasses = classNames(
+      `${displayName}-header-status-icon`,
+      {[`${displayName}-header-status-icon-sent`]: doc.get('status') === 'sent'}
+    );
 
     return (
       <GridViewCard className={classes}>
@@ -41,7 +41,7 @@ export default class DocumentCard extends Component {
           <div className={`${displayName}-header-status`}>
             <Icon
               icon={status[doc.get('status')].icon}
-              iconClass={iconClasses}/>
+              iconClass={iconClasses} />
             <small className={`${displayName}-header-status-text`}>
               {status[doc.get('status')].text}
             </small>

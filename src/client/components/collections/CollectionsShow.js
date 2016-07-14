@@ -7,7 +7,6 @@ import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
 import DashboardQuote from '.././dashboard/DashboardQuote';
 import DashboardSpinner from '.././shared/DashboardSpinner';
 import DocumentCard from '.././documents/DocumentCard';
-import ImmutablePropTypes from 'react-immutable-proptypes';
 import SearchBar from '.././ui/SearchBar';
 import io from 'socket.io-client';
 import {connect} from 'react-redux';
@@ -105,8 +104,6 @@ export default class CollectionsShow extends Component {
     if (collection && collection.get('documents').every(isSent)) {
       return this.setState({sentStatus: 'All Sent'});
     }
-
-    this.socket.emit();
   };
 
   _renderDocuments = (collection) => {

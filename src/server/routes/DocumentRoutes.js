@@ -1,8 +1,14 @@
+import {
+  DOCUMENT_SEND_EMAIL_ERROR,
+  DOCUMENT_SEND_EMAIL_SUCCESS,
+  DOCUMENT_SEND_EMAILS_COMPLETE
+} from '../sockets/action_types/documentSocketActionTypes';
+import {extractErrorMessage, toObjects} from './utils/ResponseHelper';
 import express from 'express';
 import mongoose from 'mongoose';
 import Rx from 'rxjs/Rx';
-import {extractErrorMessage, toObjects} from './utils/ResponseHelper';
 import {sendInitialEmail} from '../services/mailers/DocumentMailer';
+import socketConfig from '../sockets/utils/config';
 
 const ObjectId = mongoose.Types.ObjectId;
 const Observable = Rx.Observable;
@@ -24,7 +30,7 @@ router.get('/index', (req, res) => {
 router.post('/create', (req, res) => {
   const {docs} = req.body;
   const {companyId, userId} = req.session;
-  const io = req.app.get('io');
+  const documentsSocket = req.app.get('io').of(socketConfig.paths.server.documents);
 
   // Converts `User.findById` from a node callback to a stream
   const findUser$ = Observable.bindNodeCallback(User.findById.bind(User))(ObjectId(userId));
@@ -57,11 +63,11 @@ router.post('/create', (req, res) => {
   // Also notifies errors and finishing
   saveAndEmailDocs$
     .subscribe((doc) => {
-      io.of('/documents').emit('sendEmailSuccess', doc);
+      documentsSocket.emit(DOCUMENT_SEND_EMAIL_SUCCESS, doc);
     }, (err) => {
-      io.of('/documents').emit('sendEmailError', err);
+      documentsSocket.emit(DOCUMENT_SEND_EMAIL_ERROR, err);
     }, () => {
-      io.of('/documents').emit('sendEmailComplete');
+      documentsSocket.emit(DOCUMENT_SEND_EMAILS_COMPLETE);
       res.status(201).json({});
     });
 

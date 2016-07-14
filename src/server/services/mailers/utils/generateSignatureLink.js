@@ -8,8 +8,5 @@ export default (doc) => {
   const id = typeof doc._id === 'string' ?
     doc._id : doc._id.toString();
 
-  const baseUrl = process.env.NODE_ENV === 'production' ?
-      config.production.baseUrl :
-      config.development.baseUrl;
-  return `${baseUrl}/sign_document/${id}/token/${doc.signatureLinkToken}`;
+  return `${config.baseUrl}/sign_document/${id}/token/${doc.signatureLinkToken}`;
 };

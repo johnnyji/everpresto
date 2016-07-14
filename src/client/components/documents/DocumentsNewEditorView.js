@@ -1,7 +1,11 @@
+import {
+  DOCUMENT_SEND_EMAIL_ERROR,
+  DOCUMENT_SEND_EMAIL_SUCCESS,
+  DOCUMENT_SEND_EMAILS_COMPLETE
+} from '../../../server/sockets/action_types/documentSocketActionTypes';
 import React, {Component, PropTypes} from 'react';
 import {Tab} from 'material-ui/Tabs';
 import Button from '.././ui/Button';
-import config from '../../../../config/config';
 import clientConfig from '../.././config/main';
 import createDocuments from '../.././decorators/createDocuments';
 import CustomPropTypes from '.././CustomPropTypes';
@@ -20,6 +24,8 @@ import FormSidebarSectionAddSigner from '.././shared/FormSidebarSectionAddSigner
 import FormSidebarSectionFillGeneralPlaceholders from '.././shared/FormSidebarSectionFillGeneralPlaceholders';
 import FormSidebarSectionMessage from '.././shared/FormSidebarSectionMessage';
 import ListItem from '.././ui/ListItem';
+import pureRender from 'pure-render-decorator';
+import socketConfig from '../../../server/sockets/utils/config';
 import Tabs from '.././ui/Tabs';
 
 const {get, isNull, isTruthy, matchesAttr} = IterableFunctions;
@@ -44,8 +50,10 @@ const replacePlacholders = (type) => (body, placeholderFields) => {
 const replaceSpecificFields = replacePlacholders('specific');
 const replaceGeneralFields = replacePlacholders('general');
 
+// TODO: Component has arrow functions in render breaking pure render
 @handleFlashError
 @createDocuments
+@pureRender
 export default class DocumentsNewEditorView extends Component {
 
   static displayName = displayName;
@@ -89,11 +97,11 @@ export default class DocumentsNewEditorView extends Component {
   componentDidMount() {
     // Connects to the `documents` socket namespace, this is so that when we create documents, we
     // can live update as they're being emailed and written to the DB
-    this.socket = io.connect(config.socket.documents);
+    this.socket = io.connect(socketConfig.paths.client.documents);
     // Listens for whenever an email from this current document being created is sent
-    this.socket.on('sendEmailError', this._handleEmailError);
-    this.socket.on('sendEmailSuccess', this._handleEmailSent);
-    this.socket.on('sendEmailComplete', this._handleAllEmailSent);
+    this.socket.on(DOCUMENT_SEND_EMAIL_ERROR, this._handleEmailError);
+    this.socket.on(DOCUMENT_SEND_EMAIL_SUCCESS, this._handleEmailSent);
+    this.socket.on(DOCUMENT_SEND_EMAILS_COMPLETE, this._handleAllEmailsSent);
   }
 
   // TODO: This is too slow and is computing way too much, find way to speed this up
@@ -134,6 +142,7 @@ export default class DocumentsNewEditorView extends Component {
     const {templateBody} = this.state;
     const generalPlaceholders = doc.getIn(['template', 'placeholders']).filter(isGeneral);
     const specificPlaceholders = doc.getIn(['template', 'placeholders']).filter(isSpecific);
+    console.log('Emails Sent: ', emailsSentCount);
 
     return (
       <DashboardContentWrapper
@@ -241,12 +250,11 @@ export default class DocumentsNewEditorView extends Component {
    * signer during the creation of this document
    * @param {Object} doc - The recently created document
    */
-  _handleEmailSent = (doc) => {
+  _handleEmailSent = (doc, callback) => {
     DocumentNewActionCreators.setEmailsSentCount(this.props.emailsSentCount + 1);
   };
 
   _handleAllEmailsSent = () => {
-    debugger;
     console.log('ALL SENT');
   };
 

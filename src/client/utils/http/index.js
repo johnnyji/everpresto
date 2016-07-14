@@ -9,10 +9,7 @@ const buildHeaders = () => {
 };
 
 const buildFullPath = (path) => {
-  if (process.env.NODE_ENV === 'production') {
-    return `${config.production.baseUrl}${path}`;
-  }
-  return `${config.development.baseUrl}${path}`;
+  return `${config.baseUrl}${path}`;
 };
 
 const http = {

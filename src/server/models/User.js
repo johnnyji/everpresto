@@ -64,7 +64,6 @@ UserSchema.set('toObject', {
   transform(doc, returnObj) {
     delete returnObj.account.password;
     delete returnObj.account.hash;
-    return returnObj;
   }
 });
 

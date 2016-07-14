@@ -1,10 +1,12 @@
 var developmentDbName = 'tickit_development';
+var baseUrl = process.env.NODE_ENV === 'production' ?
+  'http://everpresto.com' : 'http://localhost:3000';
 
 var config = {
   apiUrlPrefix: '/api',
+  baseUrl,
   s3BucketPath: 'https://s3-us-west-2.amazonaws.com/tickit-app',
   development: {
-    baseUrl: 'http://localhost:3000',
     hostname: 'localhost',
     webpackPort: 8080,
     serverPort: 3000,
@@ -13,16 +15,11 @@ var config = {
     dbConnectUrl: `mongodb://localhost/${developmentDbName}`
   },
   production: {
-    baseUrl: 'http://everpresto.com'
   },
   mailer: {
     document: {
       fromEmail: 'johnny@everpresto.com'
     }
-  },
-  socket: {
-    collections: 'http://localhost:3000/collections',
-    documents: 'http://localhost:3000/documents'
   }
 };
 

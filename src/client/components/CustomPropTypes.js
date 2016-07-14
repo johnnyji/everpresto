@@ -2,10 +2,10 @@ import {PropTypes} from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
 const document = ImmutablePropTypes.mapContains({
-  _collection: PropTypes.string.isRequired,
-  _company: PropTypes.string.isRequired,
-  _creator: PropTypes.string.isRequired,
-  _id: PropTypes.string.isRequired,
+  collection: PropTypes.string.isRequired,
+  company: PropTypes.string.isRequired,
+  creator: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
   body: PropTypes.string.isRequired,
   createdAt: PropTypes.string.isRequired,
   signer: ImmutablePropTypes.mapContains({

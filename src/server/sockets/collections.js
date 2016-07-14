@@ -5,12 +5,8 @@ export default (io) => {
     socket.emit('connected');
   });
 
-  collections.on('', (socket) => {
-    
-  });
-
   collections.on('disconnect', (socket) => {
-    
+    socket.emit('disconnected');
   });
 
   return collections;

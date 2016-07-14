@@ -4,6 +4,7 @@ import 'babel-polyfill';
 
 // SERVER
 import express from 'express';
+import http from 'http';
 import session from 'express-session';
 import mongoose from 'mongoose';
 import connectMongo from 'connect-mongo';
@@ -47,7 +48,7 @@ import config from '../.././config/config';
 import secrets from '../.././secrets.json';
 
 const app = express();
-const server = require('http').Server(app);
+const server = http.createServer(app);
 const io = require('socket.io')(server);
 const MongoStore = connectMongo(session); // mongo store for session
 const port = process.env.PORT || config.development.serverPort;
@@ -59,10 +60,6 @@ mongoose.connection.on('error', (err) => console.info('Mongo server connection e
 mongoose.connect(config.development.dbConnectUrl, (err) => {
   if (err) throw err;
 });
-
-// Sets application level variables that can either be retrieved by `app.get('name')` or
-// through `req.app.get('name')`
-app.set('io', io);
 
 // Logs requests to the console.
 app.use(morgan('dev'));
@@ -87,6 +84,15 @@ app.use(session({
 }));
 
 
+// Moves `io` action declarations into seperate files.
+let configuredSocket = io;
+configuredSocket = require('./sockets/collections')(configuredSocket);
+configuredSocket = require('./sockets/documents')(configuredSocket);
+
+// Set `io` in the app instance
+app.set('io', configuredSocket);
+
+
 // Prefixes API routes with `/api`
 app.use('/api', apiRouter);
 
@@ -97,19 +103,6 @@ apiRouter.use('/sign_document', allowCredentials, DocumentSigningRoutes);
 apiRouter.use('/documents', allowCredentials, requireUser, DocumentRoutes);
 apiRouter.use('/templates', allowCredentials, requireUser, TemplateRoutes);
 apiRouter.use('/users', allowCredentials, requireUser, UserRoutes);
-
-
-// We seperate each socket.io namespace into a different file, and pass it the `io` object so the files
-// can handle their own connections and messages.
-// This is the equivilant of writing `io.of('/namespace').on('connection', ...)` for every namespace all in
-// this `server.js` file, only we're breaking it down into different files.
-//
-// This makes sure our app is listening to all possible socket.io connections on load. The actual
-// connections (ie: `io.connect('http://localhost:3000/namespace)`) are made on the front end
-// by the React view components when they mount. See `componentDidMount` in `CollectionShow.js`
-// for reference.
-require('./sockets/collections')(io);
-require('./sockets/documents')(io);
 
 
 // Server-side rendering
@@ -134,8 +127,24 @@ app.use((req, res) => {
       User.findWithCompany(req.session.userId)
         .then((response) => {
           const {company, user} = response;
+          const {_id: userObjId, _company: companyObjId} = user;
+
+          // When the client side `fetch`es for the current user, the internal
+          // `_id` and `_company` fields are automatically convrted to `id` and
+          // `company` ID strings respectively. However when we first hydrate the
+          // client side store, we don't have the automatic conversion, which is why
+          // we must do it ourselves here.
+          delete user._id;
+          delete user._company;
+          
           initialState = {
-            auth: Immutable.fromJS({company, user})
+            auth: Immutable.fromJS({
+              company,
+              user: Object.assign({}, user, {
+                id: userObjId.toString(),
+                company: companyObjId.toString()
+              })
+            })
           };
         })
         .catch((err) => {
