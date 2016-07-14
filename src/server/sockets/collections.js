@@ -9,5 +9,5 @@ export default (io) => {
     socket.emit('disconnected');
   });
 
-  return collections;
+  return io;
 };

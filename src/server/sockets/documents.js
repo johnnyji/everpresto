@@ -14,5 +14,5 @@ export default (io) => {
     socket.emit('YO! Documents IO is gone!');
   });
 
-  return documents;
+  return io;
 };
