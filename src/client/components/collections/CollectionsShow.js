@@ -77,7 +77,7 @@ export default class CollectionsShow extends Component {
               className={`${displayName}-header-options-create-button`}
               color='green'
               icon='group-add'
-              onClick={this._handleCreateDocument}
+              onClick={this._handleCreateDocuments}
               text='Create Documents' />
           </div>
           <SearchBar
@@ -90,8 +90,8 @@ export default class CollectionsShow extends Component {
     );
   }
 
-  _handleCreateDocument = () => {
-    this.context.router.push(`/dashboard/documents/${this.props.params.id}/new`);
+  _handleCreateDocuments = () => {
+    this.context.router.push(`/dashboard/collections/${this.props.params.id}/documents/new`);
   };
 
   _handleFilterDocuments = () => {

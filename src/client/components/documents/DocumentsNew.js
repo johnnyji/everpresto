@@ -66,6 +66,14 @@ export default class DocumentsNew extends Component {
     );
   }
 
+  componentWillReceiveProps(nextProps) {
+    // Navigate the user to the collections view once their documents have been
+    // created
+    if (!this.props.saved && nextProps.saved) {
+      this.context.router.push(`/dashboard/collections/${this.props.params.collection_id}`);
+    }
+  }
+
   componentWillUpdate(nextProps, nextState) {
     // If the filter terms are different, we want to reset the filtered templates
     // by the filter terms
@@ -79,12 +87,6 @@ export default class DocumentsNew extends Component {
         ))
       });
     }
-
-    // If new docs were just created, we want to navigate to the correct collection view with those docs
-    if (this.props.saving && nextProps.saved) {
-      this.context.router.push(`/dashboard/collections/${this.props.params.collection_id}`);
-    }
-
   }
 
   componentWillUnmount() {
@@ -122,7 +124,6 @@ export default class DocumentsNew extends Component {
         doc={this.props.docBeingCreated}
         emailsSentCount={this.props.emailsSentCount}
         generalPlaceholderForm={this.props.generalPlaceholderForm}
-        saved={this.props.saved}
         saving={this.props.saving}
         shouldClearSpecificPlaceholderForm={this.props.shouldClearSpecificPlaceholderForm}
         specificPlaceholderForm={this.props.specificPlaceholderForm} />

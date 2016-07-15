@@ -79,7 +79,6 @@ export default class DocumentsNewEditorView extends Component {
     emailsSentCount: PropTypes.number.isRequired,
     generalPlaceholderForm: CustomPropTypes.placeholderForm.isRequired,
     handleFlashError: PropTypes.func.isRequired,
-    saved: PropTypes.bool.isRequired,
     saving: PropTypes.bool.isRequired,
     shouldClearSpecificPlaceholderForm: PropTypes.bool.isRequired,
     specificPlaceholderForm: CustomPropTypes.placeholderForm.isRequired
@@ -142,7 +141,6 @@ export default class DocumentsNewEditorView extends Component {
     const {templateBody} = this.state;
     const generalPlaceholders = doc.getIn(['template', 'placeholders']).filter(isGeneral);
     const specificPlaceholders = doc.getIn(['template', 'placeholders']).filter(isSpecific);
-    console.log('Emails Sent: ', emailsSentCount);
 
     return (
       <DashboardContentWrapper
@@ -169,6 +167,7 @@ export default class DocumentsNewEditorView extends Component {
                 style={{color: ORANGE}}>
                 <FormSidebarSection>
                   <FormSidebarSectionAddSigner
+                    disabled={saving}
                     placeholders={specificPlaceholders}
                     shouldClearSpecificPlaceholderForm={shouldClearSpecificPlaceholderForm}
                     specificPlaceholderForm={specificPlaceholderForm} />
@@ -190,9 +189,9 @@ export default class DocumentsNewEditorView extends Component {
           <FormSidebarFooter>
             <Button
               color='green'
-              icon='send'
+              disabled={saving}
               onClick={this._handleCreateDocuments}
-              text='Send' />
+              text={saving ? 'Sending...' : 'Send'} />
           </FormSidebarFooter>
         </FormSidebar>
 
@@ -248,14 +247,20 @@ export default class DocumentsNewEditorView extends Component {
    * Increments the `emailsSentCount` by one. This function is called
    * whenever the server responds after an email is sent successfully to a
    * signer during the creation of this document
-   * @param {Object} doc - The recently created document
    */
-  _handleEmailSent = (doc, callback) => {
-    DocumentNewActionCreators.setEmailsSentCount(this.props.emailsSentCount + 1);
+  _handleEmailSent = () => {
+    this.context.dispatch(
+      DocumentNewActionCreators.setEmailsSentCount(this.props.emailsSentCount + 1)
+    );
   };
 
   _handleAllEmailsSent = () => {
-    console.log('ALL SENT');
+    // Sleep for a bit for visual effect of the progress bar
+    setTimeout(() => {
+      this.context.dispatch(
+        DocumentNewActionCreators.createDocumentsSuccess()
+      );
+    }, 500);
   };
 
 }

@@ -3,7 +3,7 @@
   
   &-progress-section {
     height: 100%;
-    transition: all 1s ease-out;
+    transition: all 550ms ease;
 
     &-red {background-color: $brand-color-red}
     &-yellow {background-color: $brand-color-yellow}

@@ -35,7 +35,6 @@ export default class Button extends Component {
 
   render() {
     const {
-      children,
       className,
       color,
       disabled,

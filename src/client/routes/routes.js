@@ -48,11 +48,11 @@ const routes = (
       <Route path='collections' component={DashboardView}>
         <IndexRoute component={CollectionsIndex} />
         <Route path=':id' component={CollectionsShow} />
+        <Route path=':collection_id/documents/new' component={DocumentsNew} />
       </Route>
 
       <Route path='documents' component={DashboardView}>
         <IndexRoute component={DocumentsIndex} />
-        <Route path=':collection_id/new' component={DocumentsNew} />
       </Route>
 
       <Route path='templates' component={DashboardView}>

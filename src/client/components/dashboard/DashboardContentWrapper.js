@@ -48,7 +48,7 @@ export default class DashboardContentWrapper extends Component {
             totalCount={progressBarTotalCount} />
         }
         {!showProgressBar &&
-          <div className={`${displayName}-progess-bar-fillter`} />
+          <div className={`${displayName}-progress-bar-filler`} />
         }
         <AppContentWrapper className={contentClasses}>
           {this.props.children}

@@ -10,6 +10,7 @@ import Input from '.././ui/Input';
 import {minLength} from '../.././utils/RegexHelper';
 import ModalFillPlaceholders from '.././modals/ModalFillPlaceholders';
 import MUIRoundButton from 'material-ui/FloatingActionButton';
+import pureRender from 'pure-render-decorator';
 
 const BRAND_COLOR_BLUE = '#4E9CC2';
 const displayName = 'FormSidebarSectionAddSigner';
@@ -20,6 +21,7 @@ const displayName = 'FormSidebarSectionAddSigner';
  * and clicking the add button
  */
 @handleFlashError
+@pureRender
 export default class FormSidebarSectionAddSigner extends Component {
 
   static displayName = displayName;
@@ -29,6 +31,7 @@ export default class FormSidebarSectionAddSigner extends Component {
   };
 
   static propTypes = {
+    disabled: PropTypes.bool.isRequired,
     handleFlashError: PropTypes.func.isRequired,
     placeholders: ImmutablePropTypes.listOf(
       ImmutablePropTypes.contains({
@@ -83,6 +86,7 @@ export default class FormSidebarSectionAddSigner extends Component {
           <aside className={`${displayName}-form-add-button`}>
             <MUIRoundButton
               backgroundColor={BRAND_COLOR_BLUE}
+              disabled={this.props.disabled}
               mini={true}
               onMouseUp={this._addSigner}
               onTouchEnd={this._addSigner}>
@@ -104,6 +108,7 @@ export default class FormSidebarSectionAddSigner extends Component {
         return (
           <Input
             className={`${displayName}-form-fields-field`}
+            disabled={this.props.disabled}
             error={specificPlaceholderForm.getIn(['errors', i])}
             displayErrorOn={showAddSignerErrors ? 'change' : 'blur'}
             forceDisplayError={showAddSignerErrors}
@@ -160,6 +165,8 @@ export default class FormSidebarSectionAddSigner extends Component {
   };
 
   _handleImportSigners = () => {
+    if (this.props.disabled) return;
+
     this.context.dispatch(
       createModal(<ModalFillPlaceholders placeholders={this.props.placeholders} />)
     );

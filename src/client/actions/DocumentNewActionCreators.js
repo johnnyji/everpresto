@@ -28,7 +28,7 @@ const DocumentNewActionCreators = {
 
   createDocuments(docs) {
     return (dispatch) => {
-      dispatch(this.createDocumentsPending);
+      dispatch(this.createDocumentsPending());
 
       sendAjaxRequest({
         url: endpoints.documents.create.path,
@@ -42,7 +42,6 @@ const DocumentNewActionCreators = {
           // We need to refetch the collectionBeingViewed so it will contain all the documents
           // we've just created
           dispatch(setCollectionBeingViewed(response.data.collection));
-          dispatch(this.createDocumentsSuccess());
         })
         .catch((response) => {
           dispatch(createFlashMessage('red', response.data.message));
@@ -59,7 +58,7 @@ const DocumentNewActionCreators = {
 
   createDocumentsPending() {
     return {
-      type: DocumentNewActionTypes.CREATE_DOCUMENTS_PENDING
+      type: DocumentNewActionTypes.CREATE_DOCUMENTS
     };
   },
 
