@@ -1,3 +1,4 @@
+import createReducer from 'create-reducer-redux';
 import Immutable from 'immutable';
 import TemplateActionTypes from '.././action_types/TemplateActionTypes';
 import {matchesAttr} from '.././utils/immutable/IterableFunctions';
@@ -5,7 +6,6 @@ import {matchesAttr} from '.././utils/immutable/IterableFunctions';
 const matchesId = matchesAttr('_id');
 
 const {
-  ADD_PLACEHOLDER,
   CREATE_TEMPLATE_SUCCESS,
   DELETE_TEMPLATE_SUCCESS,
   FETCH_TEMPLATES_SUCCESS,
@@ -21,55 +21,67 @@ const initialState = Immutable.fromJS({
   templates: []
 });
 
-export default function templatesReducer(state = initialState, action) {
-  // Always return a new state, never already the one passed in
+export default createReducer(initialState, {
 
-  switch (action.type) {
+  name: 'TemplatesReducer',
 
-    case CREATE_TEMPLATE_SUCCESS:
-      // Make sure we set our template being edited to our just created one,
-      // so we'll be able to edit and alter it right away
-      return state.merge({
-        templateBeingEdited: action.data.template,
-        // Makes sure to refetch the templates to include the newly created one
-        shouldFetchTemplates: true
-      });
+  handlers: {
+    onCreateTemplate: [CREATE_TEMPLATE_SUCCESS],
+    onDeleteTemplate: [DELETE_TEMPLATE_SUCCESS],
+    onFetchTemplates: [FETCH_TEMPLATES_SUCCESS],
+    onUpdateTemplate: [UPDATE_TEMPLATE_SUCCESS],
+    resetTemplateCreated: [RESET_TEMPLATE_CREATED],
+    resetTemplateBeingEdited: [RESET_TEMPLATE_BEING_EDITED],
+    setTemplateBeingEdited: [SET_TEMPLATE_BEING_EDITED]
+  },
 
-    case DELETE_TEMPLATE_SUCCESS:
-      return state.update('templates', (templates) => {
-        return templates.delete(
-          templates.findIndex(matchesId(action.data.deletedTemplateId))
-        );
-      }); 
+  onCreateTemplate(state, {template}) {
+    // Make sure we set our template being edited to our just created one,
+    // so we'll be able to edit and alter it right away
+    return state.merge({
+      templateBeingEdited: template,
+      // Makes sure to refetch the templates to include the newly created one
+      shouldFetchTemplates: true
+    });
+  },
 
-    case FETCH_TEMPLATES_SUCCESS:
-      return state.merge({
-        shouldFetchTemplates: false,
-        templates: action.data.templates
-      });
+  onDeleteTemplate(state, {deletedTemplateId}) {
+    return state.update('templates', (templates) => {
+      return templates.delete(
+        templates.findIndex(matchesId(deletedTemplateId))
+      );
+    });
+  },
 
-    case RESET_TEMPLATE_CREATED:
-      return state.set('templateCreated', false);
+  onFetchTemplates(state, {templates}) {
+    return state.merge({
+      shouldFetchTemplates: false,
+      templates
+    });
+  },
 
-    case RESET_TEMPLATE_BEING_EDITED:
-      return state.set('templateBeingEdited', null);
+  // TODO: Instead of refetching all the templates, get the returned template from the server
+  // and just add it onto the list on the front-end
+  onUpdateTemplate(state) {
+    return state.merge({
+      shouldFetchTemplates: true,
+      templateBeingEdited: null
+    });
+  },
 
-    case SET_TEMPLATE_BEING_EDITED:
-      // No need to convert to Immutable.js, the template being passed in is already
-      // and Immutable.Map
-      const template = Immutable.is(action.data.template)
-        ? action.data.template
-        : Immutable.fromJS(action.data.template);
-      return state.set('templateBeingEdited', template);
+  resetTemplateCreated(state) {
+    return state.set('templateCreated', false);
+  },
 
-    case UPDATE_TEMPLATE_SUCCESS:
-      return state.merge({
-        shouldFetchTemplates: true,
-        templateBeingEdited: null
-      });
+  resetTemplateBeingEdited(state) {
+    return state.set('templateBeingEdited', null);
+  },
 
-    default:
-      return state;
+  setTemplateBeingEdited(state, {template}) {
+    // No need to convert to Immutable.js, the template being passed in is already
+    // and Immutable.Map
+    const templateBeingEdited = Immutable.is(template) ? template : Immutable.fromJS(template);
+    return state.set('templateBeingEdited', templateBeingEdited);
   }
 
-}
+});

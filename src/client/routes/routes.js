@@ -48,7 +48,8 @@ const routes = (
       <Route path='collections' component={DashboardView}>
         <IndexRoute component={CollectionsIndex} />
         <Route path=':id' component={CollectionsShow} />
-        <Route path=':collection_id/documents/new' component={DocumentsNew} />
+        <Route path=':collection_id/documents/new' component={DocumentsNewChooseTemplateView} />
+        <Route path=':collection_id/documents/new/template/:template_id' component={DocumentsNewEditorView} />
       </Route>
 
       <Route path='documents' component={DashboardView}>

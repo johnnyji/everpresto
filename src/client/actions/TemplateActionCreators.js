@@ -83,6 +83,10 @@ const TemplateActionCreators = {
    */
   fetchTemplates() {
     return (dispatch) => {
+      
+      // Begin fetch
+      dispatch(this.fetchTemplatesPending());
+
       sendAjaxRequest({
         method: endpoints.templates.index.method,
         url: endpoints.templates.index.path
@@ -91,14 +95,16 @@ const TemplateActionCreators = {
           dispatch(this.fetchTemplatesSuccess(response.data.templates));
         })
         .catch((response) => {
-          if (response.status === 500) {
-            dispatch(createFlashMessage('red', 'Sorry, we\'re having a connection error... Maybe try again?'));
-          }
           dispatch(createFlashMessage('red', response.data.message));
         });
     };
   },
 
+  fetchTemplatesPending() {
+    return {
+      type: TemplateActionTypes.FETCH_TEMPLATES
+    };
+  },
 
   /**
    * Fetches a template from the API using the `_id` attribute

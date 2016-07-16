@@ -5,7 +5,7 @@ import CustomPropTypes from '.././CustomPropTypes';
 import DashboardContentHeader from '.././dashboard/DashboardContentHeader';
 import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
 import DashboardQuote from '.././dashboard/DashboardQuote';
-
+import RequiresTemplates from '../../containers/RequiresTemplates';
 import TemplateCardPreviewSelect from '.././templates/TemplateCardPreviewSelect';
 import SearchBar from '.././ui/SearchBar';
 
@@ -14,6 +14,7 @@ import ModalDocumentPreview from '.././modals/ModalDocumentPreview';
 
 const displayName = 'DocumentsNewChooseTemplateView';
 
+@RequiresTemplates
 export default class DocumentsNewChooseTemplateView extends Component {
 
   static displayName = displayName;
@@ -43,8 +44,8 @@ export default class DocumentsNewChooseTemplateView extends Component {
           </header>
           <SearchBar
             className={`${displayName}-header-search-bar`}
-            focusLabel='I know.'
-            label='I love you...'
+            focusLabel='Alright Here We Go!'
+            label='Search Templates...'
             onUpdate={onTemplateFilter} />
         </DashboardContentHeader>
           {templates.size > 0 &&
@@ -52,23 +53,13 @@ export default class DocumentsNewChooseTemplateView extends Component {
               {this._renderTemplatePreviewCards()}
             </div>
           }
-          {!templates.size > 0 &&
+          {templates.size === 0 &&
             <DashboardQuote
               author="Ol' Ben Kenobi"
               className={`${displayName}-not-found`}
-              quote="This is the not the template you're looking for..."/>
+              quote="This is the not the template you're looking for..." />
           }
       </DashboardContentWrapper>
-    );
-  }
-
-  _handlePreviewTemplate = (template) => {
-    this.context.dispatch(
-      AppActionCreators.createModal(
-        <ModalDocumentPreview
-          body={template.get('body')}
-          title={template.get('title')}/>
-      )
     );
   }
 
@@ -82,6 +73,16 @@ export default class DocumentsNewChooseTemplateView extends Component {
         onPreview={() => this._handlePreviewTemplate(template)}
         template={template} />
     ));
-  }
+  };
+
+  _handlePreviewTemplate = (template) => {
+    this.context.dispatch(
+      AppActionCreators.createModal(
+        <ModalDocumentPreview
+          body={template.get('body')}
+          title={template.get('title')}/>
+      )
+    );
+  };
 
 }
