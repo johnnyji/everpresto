@@ -102,12 +102,14 @@ export default class DocumentsNew extends Component {
   }
 
   render() {
-    const {children, location, params, templateFilterTerms} = this.props;
+    const {children, docBeingCreated, location, params, templateFilterTerms} = this.props;
     const basePathname = `/dashboard/collections/${params.collection_id}/documents/new`;
 
     // This is the stage where users choose a template
     if (location.pathname === `${basePathname}/choose_template`) {
       return React.cloneElement(Children.only(children), {
+        basePathname,
+        templateBeingUsed: docBeingCreated.get('template'),
         templateFilterTerms,
         templates: this.state.filteredTemplates
       });
