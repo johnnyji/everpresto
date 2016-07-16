@@ -33,7 +33,7 @@ export default class ClickableIcon extends Component {
 
     return (
       <button className={classes} onClick={onClick}>
-        <Icon icon={icon} size={size}/>
+        <Icon icon={icon} size={size} />
       </button>
     );
   }

@@ -79,7 +79,9 @@ export default class TemplatesEdit extends Component {
 
     // If all validations pass, we create the template
     this.context.dispatch(
-      TemplateActionCreators.updateTemplate(this.props.template.get('_id'), template.toJS())
+      TemplateActionCreators.updateTemplate(
+        this.props.template.get('id'), template.toJS()
+      )
     );
   }
 }

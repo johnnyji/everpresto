@@ -1,6 +1,7 @@
 import createConstants from './utils/createConstants';
 
 const TemplateActionTypes = createConstants([
+  'CREATE_TEMPLATE_SUCCESS',
   'DELETE_TEMPLATE_SUCCESS',
   'FETCH_TEMPLATES',
   'FETCH_TEMPLATES_ERROR',

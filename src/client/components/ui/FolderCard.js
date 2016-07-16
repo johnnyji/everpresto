@@ -30,8 +30,8 @@ export default class FolderCard extends Component {
     return (
       <div className={classes} style={styles}>
         <div className={`${displayName}-tab`}>
-          <div className={`${displayName}-tab-left`}/>
-          <div className={`${displayName}-tab-right`}/>
+          <div className={`${displayName}-tab-left`} />
+          <div className={`${displayName}-tab-right`} />
         </div>
         <div className={contentClasses}>
           {children}

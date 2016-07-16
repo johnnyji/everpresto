@@ -23,7 +23,7 @@ export default {
   },
   templates: {
     create: formApiPath('/templates/create', 'POST'),
-    delete: formApiPath('/templates/delete', 'POST'),
+    delete: (id) => formApiPath(`/templates/${id}`, 'DELETE'),
     index: formApiPath('/templates/index', 'GET'),
     show: (id) => formApiPath(`/templates/${id}`, 'GET'),
     update: formApiPath('/templates/update', 'POST')

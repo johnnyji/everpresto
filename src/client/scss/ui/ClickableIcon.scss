@@ -5,13 +5,17 @@
   border: none;
   outline: none;
   padding: 0;
+
   &:hover {
     color: $primary-brand-color;
+    cursor: pointer;
   }
+
   &-white {
     color: #FFF;
     &:hover {
       color: #FFF;
     }
   }
+  
 }

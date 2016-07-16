@@ -1,8 +1,8 @@
 /* eslint-disable no-console */
-import {sendAjaxRequest} from '../utils/ApiCaller';
-import endpoints from '../utils/http/endpoints';
-import TemplateActionTypes from '../action_types/TemplateActionTypes';
 import {createFlashMessage} from './AppActionCreators';
+import endpoints from '../utils/http/endpoints';
+import http from '../utils/http';
+import TemplateActionTypes from '../action_types/TemplateActionTypes';
 
 const TemplateActionCreators = {
 
@@ -12,25 +12,23 @@ const TemplateActionCreators = {
 
   /**
    * Sends the AJAX request to create the template on the server
-   *
-   * @return {Function}               - The thunk that makes the API call
+   * @return {Function} - The thunk that makes the API call
    */
   createTemplate() {
     return (dispatch) => {
-      sendAjaxRequest({
-        method: endpoints.templates.create.method,
-        url: endpoints.templates.create.path
-      })
-        .then((response) => dispatch(this.createTemplateSuccess(response.data.template)))
-        .catch((response) => dispatch(createFlashMessage('red', response.data.message)));
+      http.post(endpoints.templates.create.path)
+        .then(({template}) => {
+          dispatch(this.createTemplateSuccess(template));
+        })
+        .catch(({message}) => {
+          dispatch(createFlashMessage('red', message));
+        });
     };
   },
 
-
   /**
    * Handles the successful return of a new template write
-   *
-   * @return {Object}          - The data passed to the Template Reducer
+   * @return {Object} - The data passed to the Template Reducer
    */
   createTemplateSuccess(template) {
     return {
@@ -39,34 +37,29 @@ const TemplateActionCreators = {
     };
   },
 
-
   /**
    * Executes the API call to delete a template
-   *
    * @param  {String} templateId - The `_id` of the template to delete
    * @return {Function}  - The thunk that makes the API call
    */
   deleteTemplate(templateId) {
+    const {path} = endpoints.templates.delete.path(templateId);
+
     return (dispatch) => {
-      sendAjaxRequest({
-        method: endpoints.templates.delete.method,
-        url: endpoints.templates.delete.path,
-        data: {templateId}
-      })
-        .then(() => {
-          dispatch(this.deleteTemplateSuccess(templateId));
+      http.delete(path)
+        .then(({id}) => {
+          dispatch(this.deleteTemplateSuccess(id));
         })
-        .catch((response) => {
-          dispatch(createFlashMessage('red', response.data.message));
+        .catch(({message}) => {
+          dispatch(createFlashMessage('red', message));
         });
     };
   },
 
-
   /**
    * Handles the success of the delete template
    * @param  {String} deletedTemplateId - The `_id` of the recently deleted template
-   * @return {Object}                   - The data passed to the Template Reducer
+   * @return {Object} - The data passed to the Template Reducer
    */
   deleteTemplateSuccess(deletedTemplateId) {
     return {
@@ -75,27 +68,21 @@ const TemplateActionCreators = {
     };
   },
 
-
   /**
    * Fetches the templates for the current user
-   *
    * @return {Function} - The thunk that makes the API call
    */
   fetchTemplates() {
     return (dispatch) => {
-      
       // Begin fetch
       dispatch(this.fetchTemplatesPending());
 
-      sendAjaxRequest({
-        method: endpoints.templates.index.method,
-        url: endpoints.templates.index.path
-      })
-        .then((response) => {
-          dispatch(this.fetchTemplatesSuccess(response.data.templates));
+      http.get(endpoints.templates.index.path)
+        .then(({templates}) => {
+          dispatch(this.fetchTemplatesSuccess(templates));
         })
-        .catch((response) => {
-          dispatch(createFlashMessage('red', response.data.message));
+        .catch(({message}) => {
+          dispatch(createFlashMessage('red', message));
         });
     };
   },
@@ -106,35 +93,26 @@ const TemplateActionCreators = {
     };
   },
 
-  /**
-   * Fetches a template from the API using the `_id` attribute
-   *
-   * @param {String} id - The id of the template we're fetching
-   * @param {Function} id - The action creator to invoke on success of the fetch
-   */
+  // TODO: Refactor into `TemplateEditing` into its own reducer
+  // and action creator
   fetchTemplateById(id, success) {
     return (dispatch) => {
-      const endpoint = endpoints.templates.show(id);
-      sendAjaxRequest({
-        url: endpoint.path,
-        method: endpoint.method
-      })
-        .then((response) => {
-          dispatch(success(response.data.template));
+      const {path} = endpoints.templates.show(id);
+
+      http.get(path)
+        .then(({template}) => {
+          dispatch(success(template));
         })
         .catch(() => {
-          console.log('err');
           dispatch(createFlashMessage('red', 'Oops! We couldn\'t find the template you were looking for!'));
         });
     };
   },
 
-
   /**
    * Handles the templates returned from the templates fetch
-   *
    * @param  {Array} templates - The current user's templates
-   * @return {Object}          - The data passed to the Template Reducer
+   * @return {Object} - The data passed to the Template Reducer
    */
   fetchTemplatesSuccess(templates) {
     return {
@@ -143,30 +121,24 @@ const TemplateActionCreators = {
     };
   },
 
-
   /**
    * Resets the flag for a template being just created to false.
-   *
    * @return {Object} - The data passed to the Template Reducer
    */
   resetTemplateCreated() {
     return {type: TemplateActionTypes.RESET_TEMPLATE_CREATED};
   },
 
-
   /**
    * Resets the template being edited to no template.
-   *
    * @return {Object} - The data passed to the Template Reducer
    */
   resetTemplateBeingEdited() {
     return {type: TemplateActionTypes.RESET_TEMPLATE_BEING_EDITED};
   },
 
-
   /**
    * Sets the current template being edited in the state
-   *
    * @param {Immutable.Map} template - The template being edited
    */
   setTemplateBeingEdited(template) {
@@ -176,34 +148,26 @@ const TemplateActionCreators = {
     };
   },
 
-
   /**
    * Sends an API call to update the template passed in
-   *
    * @param  {String} templateId   - The `_id` of the template we're updating
    * @param  {Object} templateData - The new template data
    * @return {Function}            - The thunk that makes the API call
    */
   updateTemplate(templateId, templateData) {
     return (dispatch) => {
-      sendAjaxRequest({
-        method: endpoints.templates.update.method,
-        url: endpoints.templates.update.path,
-        data: {templateId, templateData}
-      })
+      http.post(endpoints.templates.update.path, {templateId, templateData})
         .then(() => {
           dispatch(this.updateTemplateSuccess());
         })
-        .catch((response) => {
-          dispatch(createFlashMessage('red', response.data.message));
+        .catch(({message}) => {
+          dispatch(createFlashMessage('red', message));
         });
     };
   },
 
-
   /**
    * Handles the success return of the template update
-   *
    * @return {Object} - The data passed to the Template Reducer
    */
   updateTemplateSuccess() {

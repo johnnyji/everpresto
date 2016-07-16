@@ -65,11 +65,11 @@ const CustomPropTypes = {
   }),
 
   template: ImmutablePropTypes.mapContains({
-    _company: PropTypes.string.isRequired,
-    _creator: PropTypes.string.isRequired,
-    _id: PropTypes.string.isRequired,
     body: PropTypes.string.isRequired,
+    company: PropTypes.string.isRequired,
     createdAt: PropTypes.string.isRequired,
+    creator: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
     placeholders: ImmutablePropTypes.listOf(
       ImmutablePropTypes.mapContains({
         isRequired: PropTypes.bool.isRequired,

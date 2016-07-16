@@ -3,7 +3,7 @@ import Immutable from 'immutable';
 import TemplateActionTypes from '.././action_types/TemplateActionTypes';
 import {matchesAttr} from '.././utils/immutable/IterableFunctions';
 
-const matchesId = matchesAttr('_id');
+const matchesId = matchesAttr('id');
 
 const {
   CREATE_TEMPLATE_SUCCESS,

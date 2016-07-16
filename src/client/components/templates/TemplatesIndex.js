@@ -1,13 +1,11 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import ImmutablePropTypes from 'react-immutable-proptypes';
 import CustomPropTypes from '.././CustomPropTypes';
-
-import TemplateCard from './TemplateCard';
-import TemplateCardPreviewEdit from './TemplateCardPreviewEdit';
 import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
 import DashboardSpinner from '.././shared/DashboardSpinner';
-import {truncateString} from '../.././utils/TextHelper';
+import ImmutablePropTypes from 'react-immutable-proptypes';
+import TemplateCard from './TemplateCard';
+import TemplateCardPreviewEdit from './TemplateCardPreviewEdit';
 import TemplateActionCreators from '../.././actions/TemplateActionCreators';
 
 const displayName = 'TemplatesIndex';
@@ -38,10 +36,10 @@ export default class TemplatesIndex extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const {shouldFetchTemplates, templateBeingEdited, templates} = nextProps;
+    const {shouldFetchTemplates, templateBeingEdited} = nextProps;
 
     if (templateBeingEdited) {
-      return this.context.router.push(`/dashboard/templates/edit/${templateBeingEdited.get('_id')}`);
+      return this.context.router.push(`/dashboard/templates/edit/${templateBeingEdited.get('id')}`);
     }
 
     if (shouldFetchTemplates) return this.context.dispatch(TemplateActionCreators.fetchTemplates());
@@ -67,7 +65,7 @@ export default class TemplatesIndex extends Component {
 
   _renderTemplatePreviews = () => {
     return this.props.templates.map((template, i) => {
-      return <TemplateCardPreviewEdit key={i} template={template}/>;
+      return <TemplateCardPreviewEdit key={i} template={template} />;
     });
   };
 

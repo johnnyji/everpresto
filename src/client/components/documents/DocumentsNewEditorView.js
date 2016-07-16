@@ -109,8 +109,7 @@ export default class DocumentsNewEditorView extends Component {
     }
 
     if (doc.get('template') === null) {
-      // TODO: Change to 'id' when template fetch is refactored
-      const template = templates.find((t) => t.get('_id') === params.template_id);
+      const template = templates.find((t) => t.get('id') === params.template_id);
       dispatch(DocumentNewActionCreators.setTemplate(template));
     }
   }

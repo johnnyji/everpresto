@@ -79,7 +79,7 @@ TemplateSchema.pre('save', function(next) {
   if (!Array.isArray(this.placeholders)) {
     this.placeholders = REQUIRED_PLACEHOLDERS;
   } else {
-    this.placeholders = this.placeholders.concat(REQUIRED_PLACEHOLDERS);    
+    this.placeholders = this.placeholders.concat(REQUIRED_PLACEHOLDERS);
   }
   next();
 });
@@ -93,6 +93,7 @@ TemplateSchema.statics.updateTemplate = function(stringId, data) {
     this.findOne(ObjectId(stringId), (err, template) => {
       if (err) return reject(err);
       if (!template) return reject('Sorry but this template doesn\'t exist...');
+      
       // Whitelisting what attributes are set... Just in case ;)
       template.body = sanitizedData.body;
       template.placeholders = sanitizedData.placeholders;
@@ -105,7 +106,7 @@ TemplateSchema.statics.updateTemplate = function(stringId, data) {
     });
 
   });
-}
+};
 
 // Must export prior to declaring and using other models due to dependency and loading issues.
 export default mongoose.model('Template', TemplateSchema);

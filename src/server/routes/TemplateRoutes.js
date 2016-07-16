@@ -39,10 +39,10 @@ router.post('/create', (req, res) => {
 });
 
 // Deletes a template
-router.post('/delete', (req, res) => {
-  Template.remove({_id: ObjectId(req.body.templateId)}, (err) => {
+router.delete('/:id', (req, res) => {
+  Template.remove({_id: ObjectId(req.params.id)}, (err) => {
     if (err) return res.status(422).json({message: extractErrorMessage(err)});
-    res.status(200).json({});
+    res.status(200).json({id: req.params.id});
   });
 });
 

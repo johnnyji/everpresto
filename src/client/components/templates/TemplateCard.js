@@ -1,7 +1,7 @@
+/* eslint-disable react/no-danger */
 import React, {Component, PropTypes} from 'react';
 import pureRender from 'pure-render-decorator';
 import classNames from 'classnames';
-import Card from '.././ui/Card';
 import ClickableIcon from '.././ui/ClickableIcon';
 import GridViewCard from '.././ui/GridViewCard';
 import {truncateString} from '../.././utils/TextHelper';
@@ -16,8 +16,11 @@ export default class TemplateCard extends Component {
   static propTypes = {
     body: PropTypes.string,
     className: PropTypes.string,
+    defaultTitle: PropTypes.string.isRequired,
     isNewCard: PropTypes.bool.isRequired,
+    onBodyClick: PropTypes.func,
     onNewIconClick: PropTypes.func,
+    onTitleClick: PropTypes.func,
     title: PropTypes.string,
     titleDisplayLength: PropTypes.number.isRequired
   };
@@ -41,7 +44,8 @@ export default class TemplateCard extends Component {
       onBodyClick,
       onTitleClick,
       title,
-      titleDisplayLength} = this.props;
+      titleDisplayLength
+    } = this.props;
 
     return (
       <GridViewCard className={classNames(this.props.className, displayName)}>
@@ -53,7 +57,7 @@ export default class TemplateCard extends Component {
         <div
           className={`${displayName}-body`}
           dangerouslySetInnerHTML={{__html: body || '<div></div>'}}
-          onClick={onBodyClick}/>
+          onClick={onBodyClick} />
         {children &&
           <div className={`${displayName}-options`}>
             {children}
@@ -70,9 +74,10 @@ export default class TemplateCard extends Component {
           className={`${displayName}-new-button`}
           icon='add'
           onClick={this.props.onNewIconClick}
-          size={70}/>
+          size={70} />
       </GridViewCard>
     );
   };
 
 }
+/* eslint-disable react/no-danger */

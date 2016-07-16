@@ -1,16 +1,13 @@
 import React, {Component, PropTypes} from 'react';
-import pureRender from 'pure-render-decorator';
-import classNames from 'classnames';
-import CustomPropTypes from '.././CustomPropTypes';
-
-import ClickableIcon from '.././ui/ClickableIcon';
-import DropdownOptions from '.././ui/DropdownOptions';
-import Icon from '.././ui/Icon';
-import ModalDocumentPreview from '.././modals/ModalDocumentPreview';
-import TemplateCard from './TemplateCard';
-
 import AppActionCreators from '../.././actions/AppActionCreators';
+import classNames from 'classnames';
+import ClickableIcon from '.././ui/ClickableIcon';
+import CustomPropTypes from '.././CustomPropTypes';
+import DropdownOptions from '.././ui/DropdownOptions';
+import ModalDocumentPreview from '.././modals/ModalDocumentPreview';
 import TemplateActionCreators from '../.././actions/TemplateActionCreators';
+import TemplateCard from './TemplateCard';
+import pureRender from 'pure-render-decorator';
 
 const displayName = 'TemplateCardPreviewEdit';
 
@@ -74,7 +71,7 @@ export default class TemplateCardPreviewEdit extends Component {
 
   _handleDelete = () => {
     if (confirm('Are you sure you want to delete this template?')) {
-      this.context.dispatch(TemplateActionCreators.deleteTemplate(this.props.template.get('_id')));
+      this.context.dispatch(TemplateActionCreators.deleteTemplate(this.props.template.get('id')));
     }
   }
 

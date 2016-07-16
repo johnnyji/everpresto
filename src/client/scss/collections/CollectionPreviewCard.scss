@@ -1,6 +1,8 @@
 .CollectionPreviewCard {
+
   &-main {
     position: relative;
+
     &-title, &-title-input {
       @include transform(translate(-50%, -50%));
       position: absolute;
@@ -17,7 +19,14 @@
         border-bottom: 1px solid #FFF;
       }
     }
-    &-title {width: 80%;}
+
+    &-title {
+      width: 80%;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
     &-options {
       @include display(flex);
       @include align-items(center);

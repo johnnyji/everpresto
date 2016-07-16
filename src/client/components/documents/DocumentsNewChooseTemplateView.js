@@ -47,8 +47,7 @@ export default class DocumentsNewChooseTemplateView extends Component {
     // Once the user has picked a template, we want to move them onto the editor view
     if (!this.props.templateBeingUsed && nextProps.templateBeingUsed) {
       this.context.router.push(
-        // TODO: Change _id to `id` after template fetch refactor
-        `${nextProps.basePathname}/${nextProps.templateBeingUsed.get('_id')}/add_signers`
+        `${nextProps.basePathname}/${nextProps.templateBeingUsed.get('id')}/add_signers`
       );
     }
   }
