@@ -17,13 +17,14 @@ export default class SearchBar extends Component {
     focusLabel: PropTypes.string,
     funny: PropTypes.bool.isRequired,
     label: PropTypes.string,
-    onUpdate: PropTypes.func.isRequired
+    onUpdate: PropTypes.func.isRequired,
+    value: PropTypes.string.isRequired
   };
 
   static defaultProps = {
     autoFocus: false,
     funny: true,
-    label: 'I\'m just a lonely searchbar...',
+    label: 'I\'m just a lonely search bar...',
     focusLabel: 'Yay, I have a friend!'
   };
 
@@ -35,7 +36,7 @@ export default class SearchBar extends Component {
   }
 
   render() {
-    const {autoFocus, className, onUpdate} = this.props;
+    const {autoFocus, className, onUpdate, value} = this.props;
 
     return (
       <div className={classNames(className, displayName)}>
@@ -45,7 +46,8 @@ export default class SearchBar extends Component {
           onBlur={this._handleBlur}
           onChange={(e) => onUpdate(e.target.value)}
           onFocus={this._handleFocus}
-          type='text' />
+          type='text'
+          value={value} />
       </div>
     );
   }

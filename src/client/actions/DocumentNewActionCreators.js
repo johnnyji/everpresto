@@ -108,6 +108,13 @@ const DocumentNewActionCreators = {
     };
   },
 
+  setTemplateFilterTerms(terms) {
+    return {
+      type: DocumentNewActionTypes.SET_TEMPLATE_FILTER_TERMS,
+      data: {terms}
+    };
+  },
+
   updateGeneralPlaceholderFormField(input) {
     return {
       type: DocumentNewActionTypes.UPDATE_GENERAL_PLACEHOLDER_FORM_FIELD,

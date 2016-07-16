@@ -39,6 +39,7 @@
 @import './dashboard/DashboardContentBody';
 @import './dashboard/DashboardContentHeader';
 @import './dashboard/DashboardContentWrapper';
+@import './dashboard/DashboardErrorMessage';
 @import './dashboard/DashboardHandler';
 @import './dashboard/DashboardHeader';
 @import './dashboard/DashboardMessage';
@@ -49,6 +50,7 @@
 @import './documents/DocumentsNew';
 @import './documents/DocumentsNewChooseTemplateView';
 @import './documents/DocumentsNewEditorView';
+@import './documents/DocumentsNewTemplatePreviewCard';
 
 // Modals
 @import './modals/ModalConfirm';
@@ -62,7 +64,6 @@
 @import './templates/TemplatesIndex';
 @import './templates/TemplateCard';
 @import './templates/TemplateCardPreviewEdit';
-@import './templates/TemplateCardPreviewSelect';
 
 // Shared
 @import './shared/DashboardSpinner';

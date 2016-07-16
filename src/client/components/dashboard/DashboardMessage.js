@@ -1,31 +1,37 @@
-import React, {PropTypes} from 'react';
+import React, {Component, PropTypes} from 'react';
 import classNames from 'classnames';
+import pureRender from 'pure-render-decorator';
 
-const displayName = 'DashboardMessage';
+const CLS = 'DashboardMessage';
 
-const DashboardMessage = ({center, children, className, message}) => {
-  const classes = classNames(
-    className,
-    displayName,
-    {[`${displayName}-center`]: center}
-  );
+@pureRender
+export default class DashboardMessage extends Component {
+  static displayName = CLS;
 
-  return (
-    <div className={classes}>
-      {message && message}
-      {children}
-    </div>
-  );
-};
+  static propTypes = {
+    center: PropTypes.bool.isRequired,
+    className: PropTypes.string,
+    message: PropTypes.string
+  };
 
-DashboardMessage.displayName = displayName;
-DashboardMessage.propTypes = {
-  center: PropTypes.bool.isRequired,
-  className: PropTypes.string,
-  message: PropTypes.string
-};
-DashboardMessage.defaultProps = {
-  center: true
-};
+  static defaultProps = {
+    center: true
+  };
 
-export default DashboardMessage;
+  render() {
+    const {center, children, className, message} = this.props;
+
+    const classes = classNames(
+      className,
+      CLS,
+      {[`${CLS}-center`]: center}
+    );
+
+    return (
+      <div className={classes}>
+        {message && message}
+        {children}
+      </div>
+    );
+  }
+}

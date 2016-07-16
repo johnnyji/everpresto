@@ -1,20 +1,17 @@
 import React, {Component, PropTypes} from 'react';
-import Immutable from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import CustomPropTypes from '.././CustomPropTypes';
 import DashboardContentHeader from '.././dashboard/DashboardContentHeader';
 import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
 import DashboardQuote from '.././dashboard/DashboardQuote';
-import RequiresTemplates from '../../containers/RequiresTemplates';
-import TemplateCardPreviewSelect from '.././templates/TemplateCardPreviewSelect';
+import DocumentNewActionCreators from '../../actions/DocumentNewActionCreators';
+import DocumentsNewTemplatePreviewCard from './DocumentsNewTemplatePreviewCard';
+import pureRender from 'pure-render-decorator';
 import SearchBar from '.././ui/SearchBar';
-
-import AppActionCreators from '../.././actions/AppActionCreators';
-import ModalDocumentPreview from '.././modals/ModalDocumentPreview';
 
 const displayName = 'DocumentsNewChooseTemplateView';
 
-@RequiresTemplates
+@pureRender
 export default class DocumentsNewChooseTemplateView extends Component {
 
   static displayName = displayName;
@@ -24,17 +21,17 @@ export default class DocumentsNewChooseTemplateView extends Component {
   };
 
   static propTypes = {
-    onTemplateChoose: PropTypes.func.isRequired,
-    onTemplateFilter: PropTypes.func.isRequired,
-    templates: ImmutablePropTypes.listOf(CustomPropTypes.template).isRequired
-  };
-
-  static defaultProps = {
-    templates: Immutable.List()
+    // Because this component is its own route, it will be first rendered by
+    // React Router, and then rendered by DocumentsNew,
+    // it won't have props on the initial render iteration, therefore none of
+    // these props can be `isRequired`
+    templateFilterTerms: PropTypes.string,
+    templates: ImmutablePropTypes.listOf(CustomPropTypes.template)
   };
 
   render() {
-    const {onTemplateFilter, templates} = this.props;
+    const {templateFilterTerms, templates} = this.props;
+    console.log(templateFilterTerms);
 
     return (
       <DashboardContentWrapper className={displayName}>
@@ -46,11 +43,12 @@ export default class DocumentsNewChooseTemplateView extends Component {
             className={`${displayName}-header-search-bar`}
             focusLabel='Alright Here We Go!'
             label='Search Templates...'
-            onUpdate={onTemplateFilter} />
+            onUpdate={this._handleTemplateFilter}
+            value={templateFilterTerms} />
         </DashboardContentHeader>
           {templates.size > 0 &&
             <div className={`${displayName}-templates`}>
-              {this._renderTemplatePreviewCards()}
+              {this._renderTemplatePreviewCards(templates)}
             </div>
           }
           {templates.size === 0 &&
@@ -63,25 +61,17 @@ export default class DocumentsNewChooseTemplateView extends Component {
     );
   }
 
-  _renderTemplatePreviewCards = () => {
-    const {onTemplateChoose, templates} = this.props;
-
+  _renderTemplatePreviewCards = (templates) => {
     return templates.map((template, i) => (
-      <TemplateCardPreviewSelect
+      <DocumentsNewTemplatePreviewCard
         key={i}
-        onSelect={() => onTemplateChoose(template)}
-        onPreview={() => this._handlePreviewTemplate(template)}
         template={template} />
     ));
   };
 
-  _handlePreviewTemplate = (template) => {
+  _handleTemplateFilter = (value) => {
     this.context.dispatch(
-      AppActionCreators.createModal(
-        <ModalDocumentPreview
-          body={template.get('body')}
-          title={template.get('title')}/>
-      )
+      DocumentNewActionCreators.setTemplateFilterTerms(value)
     );
   };
 

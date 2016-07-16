@@ -1,0 +1,12 @@
+.DocumentsNewTemplatePreviewCard {
+  display: inline-block;
+  position: relative;
+
+  &-options {
+    align-items: center; 
+    color: $text-color-light;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+}

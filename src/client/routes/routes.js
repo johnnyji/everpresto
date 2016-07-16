@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 /* eslint-disable spaced-comment */
 import React from 'react';
 import {Route, IndexRoute, Redirect} from 'react-router';
@@ -16,6 +17,8 @@ import DashboardView from '.././components/dashboard/DashboardView';
   // Documents
   import DocumentsIndex from '.././components/documents/DocumentsIndex';
   import DocumentsNew from '.././components/documents/DocumentsNew';
+    import DocumentsNewChooseTemplateView from '.././components/documents/DocumentsNewChooseTemplateView';
+    import DocumentsNewEditorView from '.././components/documents/DocumentsNewEditorView';
   // Templates
   import TemplatesIndex from '.././components/templates/TemplatesIndex';
   import TemplatesEdit from '.././components/templates/TemplatesEdit';
@@ -26,6 +29,7 @@ import DashboardView from '.././components/dashboard/DashboardView';
 import TestView from '../components/test/TestView';
 
 import SignatureView from '../components/signature';
+/* eslint-enable indent */
 
 const routes = (
   <Route component={AppHandler} path='/'>
@@ -48,8 +52,10 @@ const routes = (
       <Route path='collections' component={DashboardView}>
         <IndexRoute component={CollectionsIndex} />
         <Route path=':id' component={CollectionsShow} />
-        <Route path=':collection_id/documents/new' component={DocumentsNewChooseTemplateView} />
-        <Route path=':collection_id/documents/new/template/:template_id' component={DocumentsNewEditorView} />
+        <Route path=':collection_id/documents/new' component={DocumentsNew}>
+          <Route path='choose_template' component={DocumentsNewChooseTemplateView} />
+          <Route path='add_signers' component={DocumentsNewEditorView} />
+        </Route>
       </Route>
 
       <Route path='documents' component={DashboardView}>

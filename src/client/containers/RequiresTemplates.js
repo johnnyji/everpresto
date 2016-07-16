@@ -16,11 +16,11 @@ export default (ComposedComponent) => {
       fetched: PropTypes.bool.isRequired,
       fetchError: PropTypes.string,
       fetching: PropTypes.bool.isRequired,
-      templates: ImmutablePropTypes.listOf(CustomPropTypes.templates)
+      templates: ImmutablePropTypes.listOf(CustomPropTypes.template)
     };
 
     componentWillMount() {
-      const {dispatch} = this.props;
+      const {dispatch, fetched, fetching} = this.props;
       // Because this is the document signing view, we need to ensure the user is signing the correct document.
       // Therefore we must fetch a new document every single time this container mounts, regardless if one has already been
       // fetched
@@ -41,8 +41,8 @@ export default (ComposedComponent) => {
 
   return connect((state) => ({
     fetched: state.templatesFetching.get('fetched'),
-    fetchError: state.templatesFetching.getIn('fetchError'),
-    fetching: state.templatesFetching.getIn('fetching'),
+    fetchError: state.templatesFetching.get('fetchError'),
+    fetching: state.templatesFetching.get('fetching'),
     templates: state.templates.get('templates')
   }))(RequiresTemplates);
 

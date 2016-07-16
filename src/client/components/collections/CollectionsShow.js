@@ -91,7 +91,7 @@ export default class CollectionsShow extends Component {
   }
 
   _handleCreateDocuments = () => {
-    this.context.router.push(`/dashboard/collections/${this.props.params.id}/documents/new`);
+    this.context.router.push(`/dashboard/collections/${this.props.params.id}/documents/new/choose_template`);
   };
 
   _handleFilterDocuments = () => {

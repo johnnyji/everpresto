@@ -11,6 +11,7 @@ import {
   SET_COLLECTION,
   SET_EMAILS_SENT_COUNT,
   SET_TEMPLATE,
+  SET_TEMPLATE_FILTER_TERMS,
   UPDATE_GENERAL_PLACEHOLDER_FORM_FIELD,
   UPDATE_SPECIFIC_PLACEHOLDER_FORM_FIELD
 } from '.././action_types/DocumentNewActionTypes';
@@ -57,7 +58,11 @@ const INITIAL_STATE = Immutable.fromJS({
   specificPlaceholderForm: {
     values: [],
     errors: []
-  }
+  },
+  // When the user is choosing a template to use for the document
+  // they're creating, they might want to filter through all the templates
+  // to find the one they need. These are their filter terms
+  templateFilterTerms: ''
 });
 
 const isGeneral = matchesAttr('type', 'general');
@@ -80,6 +85,7 @@ export default createReducer(INITIAL_STATE, {
     onSetCollection: [SET_COLLECTION],
     onSetEmailsSentCount: [SET_EMAILS_SENT_COUNT],
     onSetTemplate: [SET_TEMPLATE],
+    onSetTemplateFilterTerms: [SET_TEMPLATE_FILTER_TERMS],
     updateGeneralPlaceholderFormField: [UPDATE_GENERAL_PLACEHOLDER_FORM_FIELD],
     updateSpecificPlaceholderFormField: [UPDATE_SPECIFIC_PLACEHOLDER_FORM_FIELD]
   },
@@ -191,6 +197,10 @@ export default createReducer(INITIAL_STATE, {
   onSetTemplate(state, {template}) {
     // `template` will already be an Immutable.Map
     return state.setIn(['doc', 'template'], template);
+  },
+
+  onSetTemplateFilterTerms(state, {terms}) {
+    return state.set('templateFilterTerms', terms);
   },
 
   // Finds a field in the general placeholders form by index and updates its values and errors
