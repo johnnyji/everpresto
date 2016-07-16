@@ -16,8 +16,7 @@ const DateHelper = {
   getWeekOf(currentDate) {
     const startOfWeek = moment(currentDate).startOf('week');
     const endOfWeek = moment(currentDate).endOf('week');
-
-    let days = [];
+    const days = [];
     let day = startOfWeek;
 
     while (day <= endOfWeek) {
@@ -55,6 +54,6 @@ const DateHelper = {
     return `${formattedStartOfWeek} - ${formattedEndOfWeek}`;
   }
 
-}
+};
 
 export default DateHelper;

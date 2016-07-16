@@ -1,7 +1,7 @@
+import {createFlashMessage} from './AppActionCreators';
 import DocumentNewActionTypes from './../action_types/DocumentNewActionTypes';
 import endpoints from '../utils/http/endpoints';
-import {sendAjaxRequest} from '.././utils/ApiCaller';
-import {createFlashMessage} from './AppActionCreators';
+import http from '../utils/http';
 import {setCollectionBeingViewed} from './CollectionActionCreators';
 
 const DocumentNewActionCreators = {
@@ -30,21 +30,14 @@ const DocumentNewActionCreators = {
     return (dispatch) => {
       dispatch(this.createDocumentsPending());
 
-      sendAjaxRequest({
-        url: endpoints.documents.create.path,
-        method: endpoints.documents.create.method,
-        data: {docs}
-      })
-        .then((response) => {
-          // const successMsg = `${pluralize(docs.length, 'document', 'documents')} successfully created!`;
-          // dispatch(createFlashMessage('green', successMsg));
-
+      http.post(endpoints.documents.create.path, {docs})
+        .then(({collection}) => {
           // We need to refetch the collectionBeingViewed so it will contain all the documents
           // we've just created
-          dispatch(setCollectionBeingViewed(response.data.collection));
+          dispatch(setCollectionBeingViewed(collection));
         })
-        .catch((response) => {
-          dispatch(createFlashMessage('red', response.data.message));
+        .catch(({message}) => {
+          dispatch(createFlashMessage('red', message));
         });
     };
   },

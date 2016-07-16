@@ -1,11 +1,10 @@
-import _ from 'lodash';
 import replaceWordWithHtml from './replaceWordWithHtml';
 import {template} from '.././config/main';
 
 const {placeholderTag: HIGHLIGHT_TAG} = template;
 const HIGHLIGHT_TAG_MATCHER = new RegExp(`(<${HIGHLIGHT_TAG}>|<\/${HIGHLIGHT_TAG}>)`, 'g');
 
-class TextEditorHelper {
+const TextEditorHelper = {
 
 
   /**
@@ -15,17 +14,17 @@ class TextEditorHelper {
    * @param  {Immutable.List} keywords - A list of words to highlight
    * @return {String}                  - The new string of text with every keyword highlighted
    */
-  highlightText = (text, keywords) => {
+  highlightText (text, keywords) {
     return keywords.reduce((alteredText, placeholder) => {
       return replaceWordWithHtml(alteredText, placeholder, HIGHLIGHT_TAG, null, true);
     }, text);
-  };
+  },
 
   /**
    * Places the caret at the very end of the text inside the given element
    * @param  {[type]} el - The content editable element we're focusing on
    */
-  placeCaretAtEnd = (el) => {
+  placeCaretAtEnd (el) {
     el.focus();
     if (typeof window.getSelection != "undefined" && typeof document.createRange != "undefined") {
       const range = document.createRange();
@@ -41,7 +40,7 @@ class TextEditorHelper {
       textRange.collapse(false);
       textRange.select();
     }
-  };
+  },
 
 
   /**
@@ -49,9 +48,9 @@ class TextEditorHelper {
    * @param  {String} text              - The string of text we'll be parsing
    * @return {String}                   - The new text with highlight tags removed
    */
-  removeHighlights = (text) => {
+  removeHighlights (text) {
     return text.replace(HIGHLIGHT_TAG_MATCHER, '');
-  };
+  },
 
 
   /**
@@ -59,10 +58,10 @@ class TextEditorHelper {
    * @param  {String} text - The string of text that possibly contains zero width spaces
    * @return {String}      - The new string of text with all the zero width spaces removed
    */
-  removeZeroWidthSpace = (text) => {
+  removeZeroWidthSpace (text) {
     return text.replace(/\u200B/g, '').replace(/\u0001/g, '');
-  };
+  }
 
 };
 
-export default new TextEditorHelper();
+export default TextEditorHelper;
