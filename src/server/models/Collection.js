@@ -31,6 +31,7 @@ const CollectionSchema = new Schema({
 
 // Removes dependency documents.
 CollectionSchema.pre('remove', function(next) {
+  debugger;
   Document.remove({_collection: this._id}, (err) => {
     // Must pass in an `Error` object on error, cannot be String.
     if (err) {

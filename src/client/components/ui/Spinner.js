@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import classNames from 'classnames';
 
-const CLS = 'Spinner';
+const CLS = 'ui-Spinner';
 
 export default class Spinner extends Component {
 
@@ -9,32 +9,19 @@ export default class Spinner extends Component {
 
   static propTypes = {
     className: PropTypes.string,
-    defaultQuotes: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-    fullScreen: PropTypes.bool.isRequired,
-    quote: PropTypes.string
+    fullScreen: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
-    defaultQuotes: [
-      'Money isn\'t important. But having it... that\'s a different question.',
-      'What do you call it when Batman skips church? Christian Bail.',
-      '3 A.M. Phone Calls: "Are you asleep?", Me: "No I\'m skydiving..."',
-      'Laughter is the best medicine, but if you\'re laughing for no reason, you probably need medicine.',
-      'Knowledge is knowing tomatos are a fruit. Wisdom is knowing not to put tomatos in a fruit salad.'
-    ],
     fullScreen: false
   };
 
   render() {
     if (this.props.fullScreen) {
-      const {quote, defaultQuotes} = this.props;
-      const spinnerQuote = quote || defaultQuotes[Math.floor(Math.random() * defaultQuotes.length)];
+
       return (
         <div className={`${CLS}-full-page`}>
-          <div className={`${CLS}-full-page-content`}>
-            {this._renderSpinner()}
-            <h2 className={`${CLS}-full-page-content-quote`}>{spinnerQuote}</h2>
-          </div>
+          {this._renderSpinner()}
         </div>
       );
     }

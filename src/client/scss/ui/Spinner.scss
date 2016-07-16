@@ -14,39 +14,14 @@
   }
 }
 
-// full screen spinner
-.Spinner {
-
+.ui-Spinner {
   &-center { margin: 0 auto }
-
   &-full-page {
     height: 100vh;
     width: 100vw;
-
-    &-content {
-      position: absolute;
-      transform: translate(-50%, -50%);
-      top: 40%;
-      left: 50%;
-      &-quote {
-        position: relative;
-        display: block;
-        text-align: center;
-        font-weight: 400;
-        color: $text-color-light;
-      }
-    }
-
-    #full-screen-spinner {
-      position: relative;
-      margin: 0 auto;
-      margin-bottom: 4rem;
-      .full-screen-spinner-rect {
-        width: 10px;
-        height: 80px;
-      }
-    }
-
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 
