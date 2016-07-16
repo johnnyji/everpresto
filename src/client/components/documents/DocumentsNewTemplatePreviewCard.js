@@ -46,12 +46,12 @@ export default class DocumentsNewTemplatePreviewCard extends Component {
     );
   };
 
-  _handlePreviewTemplate = (template) => {
+  _handlePreviewTemplate = () => {
     this.context.dispatch(
       AppActionCreators.createModal(
         <ModalDocumentPreview
-          body={template.get('body')}
-          title={template.get('title')} />
+          body={this.props.template.get('body')}
+          title={this.props.template.get('title')} />
       )
     );
   };

@@ -31,7 +31,6 @@ export default class DocumentsNewChooseTemplateView extends Component {
 
   render() {
     const {templateFilterTerms, templates} = this.props;
-    console.log(templateFilterTerms);
 
     return (
       <DashboardContentWrapper className={displayName}>
