@@ -4,16 +4,12 @@ import {
   DOCUMENT_SEND_EMAILS_COMPLETE
 } from '../../../server/sockets/action_types/documentSocketActionTypes';
 import React, {Component, PropTypes} from 'react';
-import {Tab} from 'material-ui/Tabs';
 import Button from '.././ui/Button';
 import clientConfig from '../.././config/main';
 import createDocuments from '../.././decorators/createDocuments';
 import CustomPropTypes from '.././CustomPropTypes';
-import handleFlashError from '../.././decorators/handleFlashError';
-import ImmutablePropTypes from 'react-immutable-proptypes';
-import io from 'socket.io-client';
-import IterableFunctions from '../.././utils/immutable/IterableFunctions';
 import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
+import DashboardSpinner from '../shared/DashboardSpinner';
 import DocumentNewActionCreators from '../.././actions/DocumentNewActionCreators';
 import DocumentViewer from '.././shared/DocumentViewer';
 import FormSidebar from '.././shared/FormSidebar';
@@ -23,9 +19,14 @@ import FormSidebarSection from '.././shared/FormSidebarSection';
 import FormSidebarSectionAddSigner from '.././shared/FormSidebarSectionAddSigner';
 import FormSidebarSectionFillGeneralPlaceholders from '.././shared/FormSidebarSectionFillGeneralPlaceholders';
 import FormSidebarSectionMessage from '.././shared/FormSidebarSectionMessage';
+import handleFlashError from '../.././decorators/handleFlashError';
+import ImmutablePropTypes from 'react-immutable-proptypes';
+import io from 'socket.io-client';
+import IterableFunctions from '../.././utils/immutable/IterableFunctions';
 import ListItem from '.././ui/ListItem';
 import pureRender from 'pure-render-decorator';
 import socketConfig from '../../../server/sockets/utils/config';
+import {Tab} from 'material-ui/Tabs';
 import Tabs from '.././ui/Tabs';
 
 const {get, isNull, isTruthy, matchesAttr} = IterableFunctions;
@@ -79,9 +80,13 @@ export default class DocumentsNewEditorView extends Component {
     emailsSentCount: PropTypes.number.isRequired,
     generalPlaceholderForm: CustomPropTypes.placeholderForm.isRequired,
     handleFlashError: PropTypes.func.isRequired,
+    params: PropTypes.shape({
+      template_id: PropTypes.string
+    }).isRequired,
     saving: PropTypes.bool.isRequired,
     shouldClearSpecificPlaceholderForm: PropTypes.bool.isRequired,
-    specificPlaceholderForm: CustomPropTypes.placeholderForm.isRequired
+    specificPlaceholderForm: CustomPropTypes.placeholderForm.isRequired,
+    templates: ImmutablePropTypes.listOf(CustomPropTypes.template)
   };
 
   constructor(props) {
@@ -91,6 +96,23 @@ export default class DocumentsNewEditorView extends Component {
     this.state = {
       templateBody: props.doc.getIn(['template', 'body'])
     };
+  }
+
+  componentWillMount () {
+    const {dispatch} = this.context;
+    const {doc, params, templates} = this.props;
+    // If this view is accessed directly from the URL, it will not have the `collectionId` nor
+    // the `template` available on load. Therefore we need to to manually set them before the view
+    // can render
+    if (doc.get('collectionId') === null){
+      dispatch(DocumentNewActionCreators.setCollection(params.collection_id));
+    }
+
+    if (doc.get('template') === null) {
+      // TODO: Change to 'id' when template fetch is refactored
+      const template = templates.find((t) => t.get('_id') === params.template_id);
+      dispatch(DocumentNewActionCreators.setTemplate(template));
+    }
   }
 
   componentDidMount() {
@@ -138,9 +160,19 @@ export default class DocumentsNewEditorView extends Component {
       shouldClearSpecificPlaceholderForm,
       specificPlaceholderForm
     } = this.props;
-    const {templateBody} = this.state;
+    
+    if (!doc.get('template') || !doc.get('collectionId')) {
+      return <DashboardSpinner />;
+    }
+
     const generalPlaceholders = doc.getIn(['template', 'placeholders']).filter(isGeneral);
     const specificPlaceholders = doc.getIn(['template', 'placeholders']).filter(isSpecific);
+
+    // The template body is first set in state when the component initally mounts. However
+    // if the user accesses this view from the URL, we initally have no template, therefore
+    // `this.state.templateBody` will be undefined. The template will only be available on a later
+    // render cycle, therefore to compensate we fallback to the prop if the state is not existing
+    const templateBody = this.state.templateBody || doc.getIn(['template', 'body']);
 
     return (
       <DashboardContentWrapper
@@ -154,7 +186,7 @@ export default class DocumentsNewEditorView extends Component {
             Step 2/2: <em className={`${displayName}-document-title-main`}>Tweak It, Send It!</em>
           </header>
           <DocumentViewer
-            body={templateBody}
+            body={templateBody || doc.getIn(['template', 'body'])}
             className={`${displayName}-document-preview`} />
         </div>
 

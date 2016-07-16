@@ -54,7 +54,7 @@ const routes = (
         <Route path=':id' component={CollectionsShow} />
         <Route path=':collection_id/documents/new' component={DocumentsNew}>
           <Route path='choose_template' component={DocumentsNewChooseTemplateView} />
-          <Route path='add_signers' component={DocumentsNewEditorView} />
+          <Route path=':template_id/add_signers' component={DocumentsNewEditorView} />
         </Route>
       </Route>
 

@@ -44,7 +44,8 @@ export default class DocumentsNew extends Component {
     }).isRequired,
     modalIsDisplayed: PropTypes.bool.isRequired,
     params: PropTypes.shape({
-      collection_id: PropTypes.string
+      collection_id: PropTypes.string.isRequired,
+      template_id: PropTypes.string
     }).isRequired,
     saved: PropTypes.bool.isRequired,
     saving: PropTypes.bool.isRequired,
@@ -102,7 +103,7 @@ export default class DocumentsNew extends Component {
   }
 
   render() {
-    const {children, docBeingCreated, location, params, templateFilterTerms} = this.props;
+    const {children, docBeingCreated, location, params, templateFilterTerms, templates} = this.props;
     const basePathname = `/dashboard/collections/${params.collection_id}/documents/new`;
 
     // This is the stage where users choose a template
@@ -117,14 +118,15 @@ export default class DocumentsNew extends Component {
 
     // This stage allows users to replace placeholders, add signers,
     // and create the documents
-    if (location.pathname === `${basePathname}/add_signers`) {
+    if (params.template_id && location.pathname === `${basePathname}/${params.template_id}/add_signers`) {
       return React.cloneElement(Children.only(children), {
         doc: this.props.docBeingCreated,
         emailsSentCount: this.props.emailsSentCount,
         generalPlaceholderForm: this.props.generalPlaceholderForm,
         saving: this.props.saving,
         shouldClearSpecificPlaceholderForm: this.props.shouldClearSpecificPlaceholderForm,
-        specificPlaceholderForm: this.props.specificPlaceholderForm
+        specificPlaceholderForm: this.props.specificPlaceholderForm,
+        templates
       });
     }
 
