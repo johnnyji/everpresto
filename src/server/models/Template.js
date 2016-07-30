@@ -1,4 +1,3 @@
-import set from 'lodash/set';
 import mongoose from 'mongoose';
 import xss from 'xss';
 
@@ -88,22 +87,24 @@ TemplateSchema.pre('save', function(next) {
 TemplateSchema.statics.updateTemplate = function(stringId, data) {
   return new Promise((resolve, reject) => {
     // Sanitizes the HTML text to remove any malicious tags
-    const sanitizedData = set(data, 'body', xss(data.body));
+    const sanitizedData = Object.assign({}, data, {body: xss(data.body)});
     
-    this.findOne(ObjectId(stringId), (err, template) => {
-      if (err) return reject(err);
-      if (!template) return reject('Sorry but this template doesn\'t exist...');
-      
-      // Whitelisting what attributes are set... Just in case ;)
-      template.body = sanitizedData.body;
-      template.placeholders = sanitizedData.placeholders;
-      template.rawText = sanitizedData.rawText;
-      template.title = sanitizedData.title;
-      template.save((err, template) => {
+    this.findOne(ObjectId(stringId))
+      .exec((err, template) => {
         if (err) return reject(err);
-        resolve(template.toObject());
+        if (!template) return reject('Sorry but this template doesn\'t exist...');
+        
+        // Whitelisting what attributes are set... Just in case ;)
+        template.body = sanitizedData.body;
+        template.placeholders = sanitizedData.placeholders;
+        template.rawText = sanitizedData.rawText;
+        template.title = sanitizedData.title;
+
+        template.save((err, template) => {
+          if (err) return reject(err);
+          resolve(template.toObject());
+        });
       });
-    });
 
   });
 };

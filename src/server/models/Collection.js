@@ -1,8 +1,6 @@
-import mongoose from 'mongoose';
-import set from 'lodash/set';
-import {toObjects} from '.././routes/utils/ResponseHelper';
 // Models must be imported from their direct source file due to cross-model dependency issues. See README
 import Document from './Document';
+import mongoose from 'mongoose';
 
 const ObjectId = mongoose.Types.ObjectId;
 const Schema = mongoose.Schema;
@@ -45,19 +43,24 @@ CollectionSchema.pre('remove', function(next) {
 // Finds a collection and sets it's documents as an attribute on itself.
 CollectionSchema.statics.findWithDocuments = function(stringId) {
   return new Promise((resolve, reject) => {
-    this.findById(ObjectId(stringId), (err, collection) => {
-      if (err) return reject(err);
-      if (!collection) return reject('Hmmm... This collection doesn\'t exist for some reason');
-      Document
-        .find({_collection: collection._id})
-        .sort({createdAt: -1})
-        .exec((err, documents) => {
-          if (err) return reject(err);
-          // Sets the the collection's documents as an attribute on the collection
-          // and returns the collection
-          resolve(set(collection.toObject(), 'documents', toObjects(documents)));
-        });
-    });
+
+    this.findById(ObjectId(stringId))
+      .lean()
+      .exec((err, collection) => {
+        if (err) return reject(err);
+        if (!collection) return reject('Hmmm... This collection doesn\'t exist for some reason');
+        // Fetches the documents for the collection
+        Document
+          .find({_collection: collection._id})
+          .sort({createdAt: -1})
+          .lean()
+          .exec((err, documents) => {
+            if (err) return reject(err);
+            // Sets the the collection's documents as an attribute on the collection
+            // and returns the collection
+            resolve(Object.assign({}, collection, {documents}));
+          });
+      });
   });
 };
 

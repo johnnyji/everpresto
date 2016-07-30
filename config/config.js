@@ -1,8 +1,9 @@
 var developmentDbName = 'tickit_development';
 var baseUrl = process.env.NODE_ENV === 'production' ?
-  'http://everpresto.com' : 'http://localhost:3000';
+  'http://everpresto.com' :
+  'http://localhost:3000';
 
-var config = {
+module.exports = {
   apiUrlPrefix: '/api',
   baseUrl,
   s3BucketPath: 'https://s3-us-west-2.amazonaws.com/tickit-app',
@@ -22,5 +23,3 @@ var config = {
     }
   }
 };
-
-module.exports = config;

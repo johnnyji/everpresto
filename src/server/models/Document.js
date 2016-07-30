@@ -92,14 +92,13 @@ DocumentSchema.statics.handleCreateBatch = function(docs, companyId, userId) {
 
     this.create(whitelistedDocs, (err, docs) => {
       if (err) return reject(err);
-      resolve(docs);
+      resolve(docs.map((doc) => doc.toObject()));
     });
   });
 };
 
 /**
  * handleCreate writes a document to the database
- *
  * @param {Object} doc - The document object we're creating
  * @param {String} companyId - The id of the company this document belongs to
  * @param {String} userId - The id of the user that created this document
@@ -122,7 +121,7 @@ DocumentSchema.statics.handleCreate = function(doc, companyId, userId) {
 
     this.create(whitelistedDoc, (err, doc) => {
       if (err) return reject(err);
-      resolve(doc);
+      resolve(doc.toObject());
     });
   });
 };

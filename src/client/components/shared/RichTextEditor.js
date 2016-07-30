@@ -2,8 +2,6 @@ import React, {Component, PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 import rangy from 'rangy/lib/rangy-selectionsaverestore';
 import classNames from 'classnames';
-import Immutable from 'immutable';
-import ImmutablePropTypes from 'react-immutable-proptypes';
 import MediumEditor from 'medium-editor';
 import onstop from 'onstop';
 
@@ -27,13 +25,14 @@ export default class RichTextEditor extends Component {
 
   constructor(props) {
     super(props);
+
     this.state = {
       savedSelection: null,
-      text: this.props.text
+      text: props.text
     };
-  };
+  }
 
-  shouldComponentUpdate(nextProps, nextState) {
+  shouldComponentUpdate(nextProps) {
     return nextProps.text !== findDOMNode(this).innerHTML;
   }
 
@@ -70,7 +69,7 @@ export default class RichTextEditor extends Component {
     if (this._updated) this._updated = false;
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     const textChanged = prevProps.text.length !== this.props.text.length;
 
     // If the text has changed and we have a saved selection,
@@ -91,7 +90,7 @@ export default class RichTextEditor extends Component {
       <div
         className={classes}
         contentEditable
-        dangerouslySetInnerHTML={{__html: this.state.text}}/>
+        dangerouslySetInnerHTML={{__html: this.state.text}} />
     );
   }
 

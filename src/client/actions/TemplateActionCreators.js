@@ -7,7 +7,9 @@ import TemplateActionTypes from '../action_types/TemplateActionTypes';
 const TemplateActionCreators = {
 
   addPlaceholder() {
-    return {type: TemplateActionTypes.ADD_PLACEHOLDER};
+    return {
+      type: TemplateActionTypes.ADD_PLACEHOLDER
+    };
   },
 
   /**
@@ -43,7 +45,7 @@ const TemplateActionCreators = {
    * @return {Function}  - The thunk that makes the API call
    */
   deleteTemplate(templateId) {
-    const {path} = endpoints.templates.delete.path(templateId);
+    const {path} = endpoints.templates.delete(templateId);
 
     return (dispatch) => {
       http.delete(path)

@@ -25,7 +25,6 @@ CompanySchema.pre('remove', function(next) {
   next();
 });
 
-// STATICS
 CompanySchema.statics.createWithUser = function(companyData, userData) {
   return new Promise((resolve, reject) => {
     const {name} = companyData;
@@ -33,9 +32,8 @@ CompanySchema.statics.createWithUser = function(companyData, userData) {
     this.create({name}, (err, company) => {
       if (err) return reject(err);
       // Creates the user as an admin of the company if the company was successfully created
-      const companyObj = company.toObject();
       User.register(companyObj._id, userData, 'admin')
-        .then((user) => resolve({company: companyObj, user}))
+        .then((user) => resolve({company: company.toObject(), user}))
         .catch((err) => reject(err));
     });
   });

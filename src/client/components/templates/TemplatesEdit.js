@@ -1,18 +1,19 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import CustomPropTypes from '.././CustomPropTypes';
-import DashboardSpinner from '.././shared/DashboardSpinner';
+import {createFlashMessage} from '../../actions/AppActionCreators';
+import CustomPropTypes from '../CustomPropTypes';
+import DashboardSpinner from '../shared/DashboardSpinner';
+import handleFlashError from '../../decorators/handleFlashError';
+import TemplateActionCreators from '../../actions/TemplateActionCreators';
 import TemplateEditorView from './TemplateEditorView';
-
-import {createFlashMessage} from '../.././actions/AppActionCreators';
-import TemplateActionCreators from '../.././actions/TemplateActionCreators';
-import handleFlashError from '../.././decorators/handleFlashError';
 
 @connect((state) => ({
   template: state.templates.get('templateBeingEdited')
 }))
 @handleFlashError
 export default class TemplatesEdit extends Component {
+
+  static displayName = 'TemplatesEdit';
 
   static contextTypes = {
     dispatch: PropTypes.func.isRequired,
@@ -24,6 +25,7 @@ export default class TemplatesEdit extends Component {
     params: PropTypes.shape({
       id: PropTypes.string.isRequired
     }).isRequired,
+    route: PropTypes.object.isRequired,
     template: CustomPropTypes.template
   };
 
@@ -38,24 +40,23 @@ export default class TemplatesEdit extends Component {
     }
   }
 
-  componentWillUnmount() {
-    this.context.dispatch(TemplateActionCreators.resetTemplateBeingEdited());
-  }
-
   componentWillUpdate(nextProps) {
     const {template} = this.props;
     const {template: nextTemplate} = nextProps;
+
     // If template is successfully edited (meaning theres no more `templateBeingEdited`),
     // log a flash message and redirect user to the template index view
     if (!nextTemplate) {
+      const {dispatch, router} = this.context;
       const title = template.get('title') ? <b>{template.get('title')}</b> : 'Template';
 
-      this.context.dispatch(
-        createFlashMessage('green', <span>{title} was successfully updated!</span>)
-      );
-      
-      this.context.router.push('/dashboard/templates');
+      dispatch(createFlashMessage('green', `${title} was successfully updated!`));
+      router.push('/dashboard/templates');
     }
+  }
+
+  componentWillUnmount() {
+    this.context.dispatch(TemplateActionCreators.resetTemplateBeingEdited());
   }
 
   render() {
@@ -64,6 +65,7 @@ export default class TemplatesEdit extends Component {
     return (
       <TemplateEditorView
         mode='edit'
+        route={this.props.route}
         template={this.props.template}
         onSave={this._handleSave} />
     );

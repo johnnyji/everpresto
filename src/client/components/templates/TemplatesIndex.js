@@ -4,6 +4,7 @@ import CustomPropTypes from '.././CustomPropTypes';
 import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
 import DashboardSpinner from '.././shared/DashboardSpinner';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import pureRender from 'pure-render-decorator';
 import TemplateCard from './TemplateCard';
 import TemplateCardPreviewEdit from './TemplateCardPreviewEdit';
 import TemplateActionCreators from '../.././actions/TemplateActionCreators';
@@ -15,6 +16,7 @@ const displayName = 'TemplatesIndex';
   templateBeingEdited: state.templates.get('templateBeingEdited'),
   templates: state.templates.get('templates')
 }))
+@pureRender
 export default class TemplatesIndex extends Component {
 
   static displayName = displayName;

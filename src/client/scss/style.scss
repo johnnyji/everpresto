@@ -52,6 +52,9 @@
 @import './documents/DocumentsNewEditorView';
 @import './documents/DocumentsNewTemplatePreviewCard';
 
+// Document Signing
+@import './signature/index';
+
 // Modals
 @import './modals/ModalConfirm';
 @import './modals/ModalDocumentPreview';

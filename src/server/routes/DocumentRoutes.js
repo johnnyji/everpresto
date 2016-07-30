@@ -3,27 +3,27 @@ import {
   DOCUMENT_SEND_EMAIL_SUCCESS,
   DOCUMENT_SEND_EMAILS_COMPLETE
 } from '../sockets/action_types/documentSocketActionTypes';
-import {extractErrorMessage, toObjects} from './utils/ResponseHelper';
+import {extractErrorMessage} from './utils/ResponseHelper';
 import express from 'express';
 import mongoose from 'mongoose';
-import Rx from 'rxjs/Rx';
+import {Observable} from 'rxjs/Rx';
 import {sendInitialEmail} from '../services/mailers/DocumentMailer';
 import socketConfig from '../sockets/utils/config';
 
 const ObjectId = mongoose.Types.ObjectId;
-const Observable = Rx.Observable;
 const Document = mongoose.model('Document');
 const User = mongoose.model('User');
 const router = express.Router();
 
 // Fetches all the documents for a given company
-router.get('/index', (req, res) => {
+router.get('/', (req, res) => {
   Document
     .find({_company: req.session.companyId})
     .sort({createdAt: -1})
+    .lean()
     .exec((err, docs) => {
       if (err) return res.status(422).json({message: extractErrorMessage(err)});
-      res.status(200).json({docs: toObjects(docs)});
+      res.status(200).json({docs});
     });
 });
 

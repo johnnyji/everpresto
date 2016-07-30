@@ -17,6 +17,7 @@ import FormSidebarBody from '.././shared/FormSidebarBody';
 import FormSidebarFooter from '.././shared/FormSidebarFooter';
 import FormSidebarPlaceholderInput from '.././shared/FormSidebarPlaceholderInput';
 import FormSidebarSection from '.././shared/FormSidebarSection';
+import pureRender from 'pure-render-decorator';
 
 // This allows us to add any other HTML cleaners directly to the flow of data
 const cleanTemplateHTML = flow(removeZeroWidthSpace);
@@ -25,17 +26,15 @@ const isGeneral = matchesAttr('type', 'general');
 const isNotRequired = matchesAttr('isRequired', false);
 const displayName = 'TemplateEditorView';
 
+@pureRender
 export default class TemplateEditorView extends Component {
 
   static displayName = displayName;
 
-  static contextTypes = {
-    dispatch: PropTypes.func.isRequired
-  };
-
   static propTypes = {
     mode: PropTypes.oneOf(['create', 'edit']).isRequired,
     onSave: PropTypes.func.isRequired,
+    route: PropTypes.object.isRequired,
     template: CustomPropTypes.template
   };
 
@@ -43,17 +42,21 @@ export default class TemplateEditorView extends Component {
     mode: 'create'
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      importingTemplate: false,
-      template: Immutable.fromJS({
-        body: '',
-        placeholders: [],
-        title: ''
-      })
-    };
-  }
+  static contextTypes = {
+    dispatch: PropTypes.func.isRequired,
+    router: PropTypes.shape({
+      setRouteLeaveHook: PropTypes.func.isRequired
+    })
+  };
+
+  state = {
+    importingTemplate: false,
+    template: Immutable.fromJS({
+      body: '',
+      placeholders: [],
+      title: ''
+    })
+  };
 
   componentWillMount() {
     const {template} = this.props;
@@ -69,6 +72,16 @@ export default class TemplateEditorView extends Component {
     }
   }
 
+  componentDidMount () {
+    const {route} = this.props;
+    const {router} = this.context;
+    router.setRouteLeaveHook(route, this.routerWillLeave);
+  }
+
+  routerWillLeave = () => {
+    debugger;
+  }
+
   render() {
     const {importingTemplate, template} = this.state;
     const {mode} = this.props;
@@ -80,8 +93,8 @@ export default class TemplateEditorView extends Component {
           body={template.get('body')}
           className={`${displayName}-editor`}
           isTemplateEditor={true}
-          onBodyChange={(value) => this._updateTemplateAttr('body', value)}
-          onTitleChange={(value) => this._updateTemplateAttr('title', value)}
+          onBodyChange={this._updateTemplateBody}
+          onTitleChange={this._updateTemplateTitle}
           templatePlaceholders={template.get('placeholders').map(getAttr('value'))}
           titlePlaceholder='Untitled Template'
           title={template.get('title')} />
@@ -99,18 +112,18 @@ export default class TemplateEditorView extends Component {
               <FormSidebarPlaceholderInput
                 allPlaceholders={template.get('placeholders')}
                 onAddPlaceholder={this._addPlaceholder}
-                onRemovePlaceholder={(p) => this._updateTemplateAttr('placeholders', this._removePlaceholder(p))}
+                onRemovePlaceholder={this._handleRemovePlaceholder}
                 placeholderInputLabel='ADD_SPECIFIC_PLACEHOLDER'
-                placeholderType='specific'
                 placeholders={template.get('placeholders').filter(isSpecific)}
+                placeholderType='specific'
                 title='Will Be Different For Each Signer' />
               <FormSidebarPlaceholderInput
                 allPlaceholders={template.get('placeholders')}
                 onAddPlaceholder={this._addPlaceholder}
-                onRemovePlaceholder={(p) => this._updateTemplateAttr('placeholders', this._removePlaceholder(p))}
-                placeholderType='general'
+                onRemovePlaceholder={this._handleRemovePlaceholder}
                 placeholderInputLabel='ADD_GENERAL_PLACEHOLDER'
                 placeholders={template.get('placeholders').filter(isGeneral)}
+                placeholderType='general'
                 title='Will Be Same For All Signers' />
             </FormSidebarSection>
           </FormSidebarBody>
@@ -167,14 +180,24 @@ export default class TemplateEditorView extends Component {
     this.setState({importingTemplate: true});
   };
 
-  _removePlaceholder = (placeholder) => {
-    const placeholderState = this.state.template.get('placeholders');
-    return placeholderState.splice(placeholderState.indexOf(placeholder), 1);
+  _handleRemovePlaceholder = (placeholder) => {
+    const {template} = this.state;
+    const placeholders = template.get('placeholders');
+    const newPlaceholders = placeholders.splice(placeholders.indexOf(placeholder), 1);
+    this.setState({
+      template: template.set('placeholders', newPlaceholders)
+    });
   };
 
-  _updateTemplateAttr = (attr, value) => {
+  _updateTemplateBody = (value) => {
     this.setState({
-      template: this.state.template.set(attr, value)
+      template: this.state.template.set('body', value)
+    });
+  };
+
+  _updateTemplateTitle = (value) => {
+    this.setState({
+      template: this.state.template.set('title', value)
     });
   };
 

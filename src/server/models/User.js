@@ -67,64 +67,90 @@ UserSchema.set('toObject', {
   }
 });
 
-UserSchema.statics.authenticate = function(conditions) {
+
+/**
+ * Authenticates the user and returns the the user and the company
+ * if successful, or an error string if not
+ *
+ * @params {Object} options - The argument options
+ * @param {String} options.email - The email the user provided
+ * @param {String} options.password - The password the user provided
+ * @returns {Promise} - The auth promise
+ */
+UserSchema.statics.authenticate = function({email, password}) {
   return new Promise((resolve, reject) => {
-    this.findOne(conditions, (err, user) => {
-      if (err) return reject('Oops! Invalid email or password... or both.');
-      if (!user) return reject(`Sorry! No user found.`);
-      // Finds the company associated with the user we just found
-      Company.findById(user._company, (err, company) => {
-        if (err) return reject(err);
-        if (!company) return reject('We couldn\'t find a company associated to this user');
-        // Returns the found user and company
-        resolve({
-          company: company.toObject(),
-          user: user.toObject()
-        });
+
+    this.findOne({email, password})
+      .exec((err, user) => {
+        if (err) return reject('Oops! Invalid email or password... or both.');
+        if (!user) return reject(`Sorry! No user found.`);
+
+        // Finds the company associated with the user we just found
+        Company.findById(user._company)
+          .lean()
+          .exec((err, company) => {
+            if (err) return reject(err);
+            if (!company) return reject('We couldn\'t find a company associated to this user');
+
+            // We must call `toObject` on user to manually in order to remove
+            // the password and the hash before returning
+            resolve({company, user: user.toObject()});
+          });
       });
-    });
+
   });
 };
 
-// Used in `server.js`, must use `bluebird` Promise to access `finally` method.
+
+/**
+ * Finds the user and their associated company. Used in `server.js` for
+ * server side rendering
+ * @param {String} stringId - The string id of the user we're trying to find
+ * @returns {Promise} - The promise returned
+ */
 UserSchema.statics.findWithCompany = function(stringId) {
   return new Promise((resolve, reject) => {
     if (!stringId) return reject();
 
-    this.findById(ObjectId(stringId), (err, user) => {
-      if (err) return reject(err);
-      if (!user) return reject(`No user found by id: ${stringId}`);
-      // Finds the company associated with the user we just found
-      Company.findById(user._company, (err, company) => {
+    this.findById(ObjectId(stringId))
+      .exec((err, user) => {
         if (err) return reject(err);
-        if (!company) return reject(`No company found from id: ${user._company.toString()}`);
-        // Returns the found user and company
-        resolve({
-          company: company.toObject(),
-          user: user.toObject()
-        });
+        if (!user) return reject(`No user found by id: ${stringId}`);
+
+        // Finds the company associated with the user we just found
+        Company.findById(user._company)
+          .lean()
+          .exec((err, company) => {
+            if (err) return reject(err);
+            if (!company) return reject(`No company found from id: ${user._company.toString()}`);
+
+            // We must call `toObject` on user to manually in order to remove
+            // the password and the hash before returning
+            resolve({company, user: user.toObject()});
+          });
       });
-    });
   });
 };
 
 // Finds a user WITHOUT the password and hash
-UserSchema.statics.findUser = function(conditions, notFoundMessage = 'No user found') {
+UserSchema.statics.findUser = function(options, notFoundMessage = 'No user found') {
   return new Promise((resolve, reject) => {
-    this.find(conditions, (err, user) => {
+    this.find(options, (err, user) => {
       if (err) return reject(err);
       if (!user) return reject(notFoundMessage);
+
       resolve(user.toObject());
     });
   });
 };
 
 // Finds multiple users WITHOUT the password and hash
-UserSchema.statics.findUsers = function(conditions, notFoundMessage = 'No users found') {
+UserSchema.statics.findUsers = function(options, notFoundMessage = 'No users found') {
   return new Promise((resolve, reject) => {
-    this.findOne(conditions, (err, users) => {
+    this.findOne(options, (err, users) => {
       if (err) return reject(err);
       if (!users || !users.length) return reject(notFoundMessage);
+
       resolve(users.map((user) => user.toObject()));
     });
   });
@@ -133,10 +159,12 @@ UserSchema.statics.findUsers = function(conditions, notFoundMessage = 'No users 
 UserSchema.statics.register = function(companyObjectId, data, clearanceLevel) {
   return new Promise((resolve, reject) => {
     const {firstName, lastName, email, password, passwordConfirmation} = data;
-    
-    if (password !== passwordConfirmation) return reject('Both your passwords have to match silly!');
+  
+    if (password !== passwordConfirmation) return reject('Both your passwords need to match');
+
     // Hashes the password
     const hash = bcrypt.hashSync(password);
+
     // Creates the user with the hashed password
     this.create({
       _company: companyObjectId,

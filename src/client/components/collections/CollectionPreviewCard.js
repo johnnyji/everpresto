@@ -4,9 +4,7 @@ import moment from 'moment';
 import CustomPropTypes from '.././CustomPropTypes';
 import {truncateString} from '../.././utils/TextHelper';
 import Config from '../.././config/main';
-
 import CollectionActionCreators from '../.././actions/CollectionActionCreators';
-
 import ClickableIcon from '.././ui/ClickableIcon';
 import FolderCard from '.././ui/FolderCard';
 
@@ -103,8 +101,8 @@ export default class CollectionPreviewCard extends Component {
     }
   }
 
-  _handleKeyPress = (e) => {
-    if (e.which === ENTER_KEY) this._handleUpdateCollection(e.target.value);
+  _handleKeyPress = (event) => {
+    if (event.which === ENTER_KEY) this._handleUpdateCollection(event);
   }
 
   _renderTitle = () => {
@@ -117,8 +115,8 @@ export default class CollectionPreviewCard extends Component {
           autoFocus
           className={`${displayName}-main-title-input`}
           defaultValue={title === DEFAULT_TITLE ? '' : title}
-          onKeyPress={this._handleKeyPress}
           onBlur={this._handleUpdateCollection}
+          onKeyPress={this._handleKeyPress}
           ref='titleInput' />
       );
     }

@@ -7,7 +7,7 @@ export default {
   collections: {
     create: formApiPath('/collections/create', 'POST'),
     delete: (id) => formApiPath(`/collections/${id}`, 'DELETE'),
-    index: formApiPath('/collections/index', 'GET'),
+    index: formApiPath('/collections', 'GET'),
     show: (id) => formApiPath(`/collections/${id}`, 'GET'),
     update: formApiPath('/collections/update', 'POST')
   },
@@ -18,13 +18,13 @@ export default {
     signatureLink: (id, signatureToken) => formApiPath(`/sign_document/${id}/token/${signatureToken}`, 'GET')
   },
   documents: {
-    index: formApiPath('/documents/index', 'GET'),
+    index: formApiPath('/documents', 'GET'),
     create: formApiPath('/documents/create', 'POST')
   },
   templates: {
     create: formApiPath('/templates/create', 'POST'),
     delete: (id) => formApiPath(`/templates/${id}`, 'DELETE'),
-    index: formApiPath('/templates/index', 'GET'),
+    index: formApiPath('/templates', 'GET'),
     show: (id) => formApiPath(`/templates/${id}`, 'GET'),
     update: formApiPath('/templates/update', 'POST')
   },
