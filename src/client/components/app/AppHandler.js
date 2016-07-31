@@ -54,9 +54,7 @@ export default class AppHandler extends Component {
       <MUIThemeProvider muiTheme={getMuiTheme(EverprestoMUITheme)}>
         <div className={displayName}>
           {/* Displays Flash Message */}
-          {Boolean(flashMessage) &&
-            <FlashMessage color={flash.get('color')} content={flashMessage} />
-          }
+          {flashMessage && <FlashMessage color={flash.get('color')} content={flashMessage} />}
           {/* Displays Modal */}
           {modalShouldDisplay &&
             <Overlay onExit={this._handleExitModal}>
@@ -64,7 +62,7 @@ export default class AppHandler extends Component {
             </Overlay>
           }
           <div className={`${displayName}-content-container`}>
-            {/*Allows the React Router to run the correct child route, replaced RouteHandler in v1.0.0*/}
+            {/* Allows the React Router to run the correct child route, replaced RouteHandler in v1.0.0 */}
             {this.props.children}
           </div>
         </div>

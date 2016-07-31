@@ -60,7 +60,10 @@ export default class DocumentsNewEditorView extends Component {
   static displayName = displayName;
 
   static contextTypes = {
-    dispatch: PropTypes.func.isRequired
+    dispatch: PropTypes.func.isRequired,
+    router: PropTypes.shape({
+      push: PropTypes.func.isRequired
+    }).isRequired
   };
 
   static propTypes = {
@@ -81,7 +84,8 @@ export default class DocumentsNewEditorView extends Component {
     generalPlaceholderForm: CustomPropTypes.placeholderForm.isRequired,
     handleFlashError: PropTypes.func.isRequired,
     params: PropTypes.shape({
-      template_id: PropTypes.string
+      collection_id: PropTypes.string.isRequired,
+      template_id: PropTypes.string.isRequired
     }).isRequired,
     saving: PropTypes.bool.isRequired,
     shouldClearSpecificPlaceholderForm: PropTypes.bool.isRequired,
@@ -271,7 +275,14 @@ export default class DocumentsNewEditorView extends Component {
   };
 
   _handleEmailError = () => {
-    console.log('EMAIL SEND ERROR');
+    const {
+      handleFlashError,
+      params: {collection_id: collectionId}
+    } = this.props;
+
+    handleFlashError('Error sending emails.');
+
+    this.context.router.push(`/dashboard/collections/${collectionId}`);
   };
 
   /**

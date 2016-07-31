@@ -1,5 +1,13 @@
-const DashboardView = ({children}) => children;
+import {Component} from 'react';
+import pureRender from 'pure-render-decorator';
 
-DashboardView.displayName =  'DashboardView';
+@pureRender
+export default class DashboardView extends Component {
 
-export default DashboardView;
+  static displayName = 'DashboardView';
+
+  render() {
+    return this.props.children;
+  }
+
+}

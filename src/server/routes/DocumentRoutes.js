@@ -50,11 +50,7 @@ router.post('/create', (req, res) => {
         // Creates a stream from the `sendInitialEmail` node callback
         const sendInitialEmail$$ = Observable.bindNodeCallback(sendInitialEmail);
         // Sends each document to their respective signers
-        return sendInitialEmail$$({
-          doc: doc.toObject(),
-          fromUser: user
-        });
-
+        return sendInitialEmail$$({doc, fromUser: user});
       });
 
   });

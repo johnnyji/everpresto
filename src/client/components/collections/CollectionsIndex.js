@@ -1,17 +1,15 @@
 import React, {Component, PropTypes} from 'react';
-import {connect} from 'react-redux';
-import ImmutablePropTypes from 'react-immutable-proptypes';
-import CustomPropTypes from '.././CustomPropTypes';
-
-import DashboardSpinner from '.././shared/DashboardSpinner';
 import Button from '.././ui/Button';
-import ClickableIcon from '.././ui/ClickableIcon';
-import FolderCard from '.././ui/FolderCard';
+import ClickableIcon from '../ui/ClickableIcon';
+import CollectionActionCreators from '../../actions/CollectionActionCreators';
 import CollectionPreviewCard from './CollectionPreviewCard';
+import {connect} from 'react-redux';
+import CustomPropTypes from '../CustomPropTypes';
 import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
-import DashboardMessage from '.././dashboard/DashboardMessage';
-
-import CollectionActionCreators from '../.././actions/CollectionActionCreators';
+import DashboardMessage from '../dashboard/DashboardMessage';
+import DashboardSpinner from '../shared/DashboardSpinner';
+import FolderCard from '../ui/FolderCard';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 import TemplateActionCreators from '../.././actions/TemplateActionCreators';
 
 const displayName = 'CollectionsIndex';
