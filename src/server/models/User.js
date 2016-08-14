@@ -33,13 +33,9 @@ const UserSchema = new Schema({
       type: String,
       required: 'Did you forget to enter your last name?'
     },
-    hash: {
-      type: Object,
-      required: 'Some fancy server error: Error generating password hash.'
-    },
-    password: {
+    passwordHash: {
       type: String,
-      required: 'I need to know your password! (Said the suspicious looking man...)'
+      required: 'Something wen\'t wrong! Unable to save password'
     },
     profilePictureUrl: {
       type: String,
@@ -59,11 +55,10 @@ const UserSchema = new Schema({
 // Allows for `unique` validations to return custom set message strings
 UserSchema.plugin(beautifyUnqiue);
 
-// Makes sure that everytime we call `toObject`, the password and hash fields are excluded.
+// Makes sure that everytime we call `toObject`, the password hash is excluded.
 UserSchema.set('toObject', {
   transform(doc, returnObj) {
-    delete returnObj.account.password;
-    delete returnObj.account.hash;
+    delete returnObj.account.passwordHash;
   }
 });
 
@@ -79,25 +74,27 @@ UserSchema.set('toObject', {
  */
 UserSchema.statics.authenticate = function({email, password}) {
   return new Promise((resolve, reject) => {
-
-    this.findOne({email, password})
+    this.findOne({'account.email': email})
       .exec((err, user) => {
-        if (err) return reject('Oops! Invalid email or password... or both.');
+        if (err) return reject('Oops, invalid email/password');
         if (!user) return reject(`Sorry! No user found.`);
 
-        // Finds the company associated with the user we just found
-        Company.findById(user._company)
-          .lean()
-          .exec((err, company) => {
-            if (err) return reject(err);
-            if (!company) return reject('We couldn\'t find a company associated to this user');
+        // Compares user provided password with hash
+        bcrypt.compare(password, user.account.passwordHash, (err, matches) => {
+          if (!matches) return reject('Oops, invalid password');
 
-            // We must call `toObject` on user to manually in order to remove
-            // the password and the hash before returning
-            resolve({company, user: user.toObject()});
-          });
+          Company
+            .findById(user._company)
+            .lean()
+            .exec((err, company) => {
+              if (err) return reject(err);
+              if (!company) return reject('We couldn\'t find a company associated to this user');
+              // We must call `toObject` on user to manually in order to remove
+              // the password and the hash before returning
+              resolve({company, user: user.toObject()});
+            });
+        });
       });
-
   });
 };
 
@@ -132,7 +129,6 @@ UserSchema.statics.findWithCompany = function(stringId) {
   });
 };
 
-// Finds a user WITHOUT the password and hash
 UserSchema.statics.findUser = function(options, notFoundMessage = 'No user found') {
   return new Promise((resolve, reject) => {
     this.find(options, (err, user) => {
@@ -144,7 +140,6 @@ UserSchema.statics.findUser = function(options, notFoundMessage = 'No user found
   });
 };
 
-// Finds multiple users WITHOUT the password and hash
 UserSchema.statics.findUsers = function(options, notFoundMessage = 'No users found') {
   return new Promise((resolve, reject) => {
     this.findOne(options, (err, users) => {
@@ -156,24 +151,28 @@ UserSchema.statics.findUsers = function(options, notFoundMessage = 'No users fou
   });
 };
 
-UserSchema.statics.register = function(companyObjectId, data, clearanceLevel) {
+UserSchema.statics.register = function(user, companyId, clearanceLevel) {
   return new Promise((resolve, reject) => {
-    const {firstName, lastName, email, password, passwordConfirmation} = data;
+    const {firstName, lastName, email, password, passwordConfirmation} = user;
   
     if (password !== passwordConfirmation) return reject('Both your passwords need to match');
 
-    // Hashes the password
-    const hash = bcrypt.hashSync(password);
+    // Salt and Hashes the password
+    //
+    // Bcrypt has internal built-in salts it defaults to if we
+    // don't specify a custom one
+    bcrypt.hash(password, null, null, (err, passwordHash) => {
+      if (err) return reject('Error saving password');
 
-    // Creates the user with the hashed password
-    this.create({
-      _company: companyObjectId,
-      account: {firstName, lastName, email, hash, password},
-      clearanceLevel: clearanceLevel || 'user'
-    }, (err, user) => {
-      if (err) return reject(err);
-      // Sends back the user without the password fields
-      resolve(user.toObject());
+      this.create({
+        _company: companyId,
+        account: {firstName, lastName, email, passwordHash},
+        clearanceLevel: clearanceLevel || 'user'
+      }, (err, user) => {
+        if (err) return reject(err);
+        // Sends back the user without the password fields
+        resolve(user.toObject());
+      });
     });
   });
 };

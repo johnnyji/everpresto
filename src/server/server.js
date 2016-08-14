@@ -55,8 +55,12 @@ const port = process.env.PORT || config.development.serverPort;
 const apiRouter = express.Router();
 
 // Connecting to the DB
-mongoose.connection.on('open', () => console.info('Connected to Mongo server...'));
-mongoose.connection.on('error', (err) => console.info('Mongo server connection error: ', err));
+mongoose.connection.on('open', () => {
+  console.info('Connected to Mongo server...');
+});
+mongoose.connection.on('error', (err) => {
+  console.info('Mongo server connection error: ', err);
+});
 mongoose.connect(config.development.dbConnectUrl, (err) => {
   if (err) throw err;
 });

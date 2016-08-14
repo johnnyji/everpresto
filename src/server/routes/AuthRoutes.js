@@ -10,10 +10,7 @@ const router = express.Router();
 router.post('/login', (req, res) => {
   const {email, password} = req.body.user;
 
-  User.authenticate({
-    'account.email': email,
-    'account.password': password
-  })
+  User.authenticate({email, password})
     .then((response) => {
       const {company, user} = response;
       req.session.userId = user._id;
@@ -32,6 +29,7 @@ router.get('/logout', (req, res) => {
   res.status(200).json({});
 });
 
+// TODO: This will not work unless there's a company id present. Route is currently broken
 // Creates a new user
 router.post('/register', (req, res) => {
   User.register(req.body.user)
@@ -41,7 +39,9 @@ router.post('/register', (req, res) => {
       req.session.companyId = user._company;
       res.status(201).json({user});
     })
-    .catch((err) => res.status(422).json({message: extractErrorMessage(err)}));
+    .catch((err) => {
+      res.status(422).json({message: extractErrorMessage(err)});
+    });
 });
 
 // Creates a user along with the company. The created user will be the admin and the very first
@@ -57,7 +57,9 @@ router.post('/register_with_company', (req, res) => {
       req.session.companyId = company._id;
       res.status(201).json({company, user});
     })
-    .catch((err) => res.status(422).json({message: extractErrorMessage(err)}));
+    .catch((err) => {
+      res.status(422).json({message: extractErrorMessage(err)});
+    });
 });
 
 export default router;

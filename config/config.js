@@ -1,4 +1,4 @@
-var developmentDbName = 'tickit_development';
+var developmentDbName = 'everpresto_dev';
 var baseUrl = process.env.NODE_ENV === 'production' ?
   'http://everpresto.com' :
   'http://localhost:3000';
