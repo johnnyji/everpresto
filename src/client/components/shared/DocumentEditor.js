@@ -7,7 +7,6 @@ import RichTextEditor from './RichTextEditor';
 import Card from '.././ui/Card';
 import pureRender from 'pure-render-decorator';
 
-
 const displayName = 'DocumentEditor';
 
 @pureRender

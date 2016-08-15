@@ -2,9 +2,10 @@
 div > .DocumentEditor {
   position: relative;
   font-weight: 400;
-  height: 100%;
+  min-height: 100%;
   width: 400px;
   overflow-y: scroll;
+
   &-title-input {
     border: none;
     display: block;
@@ -14,6 +15,7 @@ div > .DocumentEditor {
     padding: 8px;
     width: 100%;
   }
+
   &-content-input {
     display: block;
     height: auto;

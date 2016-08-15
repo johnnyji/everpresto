@@ -78,9 +78,7 @@ export default class TemplateEditorView extends Component {
     router.setRouteLeaveHook(route, this.routerWillLeave);
   }
 
-  routerWillLeave = () => {
-    debugger;
-  }
+  routerWillLeave = () => confirm('Leave before saving changes?');
 
   render() {
     const {importingTemplate, template} = this.state;
