@@ -3,9 +3,11 @@ import {connect} from 'react-redux';
 import CustomPropTypes from '../.././components/CustomPropTypes';
 import Spinner from '../.././components/ui/Spinner';
 
-export default function requireAuth(ComposedComponent) {
+export default (ComposedComponent) => {
 
-  class AuthComponent extends Component {
+  class RequiresAuth extends Component {
+
+    static displayName = 'RequiresAuth';
 
     static contextTypes = {
       router: PropTypes.object.isRequired
@@ -16,27 +18,26 @@ export default function requireAuth(ComposedComponent) {
     };
 
     componentWillMount() {
-      if (!Boolean(this.props.currentUser)) {
+      if (!this.props.currentUser) {
         // Here we `push` and not `replace` so the user has the option to
         // navigate back to previous content if they wish
         return this.context.router.push('/join');
       }
     }
 
-    componentWillUpdate(nextProps, nextState) {
+    componentWillReceiveProps(nextProps) {
       if (!nextProps.currentUser) this.context.router.replace('/');
     }
 
     render() {
-      if (!this.props.currentUser) return <Spinner fullScreen={true}/>;
-      return <ComposedComponent {...this.props}/>;
+      if (!this.props.currentUser) return <Spinner fullScreen={true} />;
+      return <ComposedComponent {...this.props} />;
     }
 
   }
 
-  // maps the store state to our component props
   return connect((state) => ({
     currentUser: state.auth.get('user')
-  }))(AuthComponent);
+  }))(RequiresAuth);
 
-}
+};

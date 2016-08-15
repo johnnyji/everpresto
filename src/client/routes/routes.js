@@ -2,7 +2,8 @@
 /* eslint-disable spaced-comment */
 import React from 'react';
 import {Route, IndexRoute, Redirect} from 'react-router';
-import requireAuth from './utils/requireAuth';
+import RequiresAdmin from './utils/RequiresAdmin';
+import RequiresAuth from './utils/RequiresAuth';
 
 import AppHandler from '.././components/app/AppHandler';
 import AuthHandler from '.././components/auth/AuthHandler';
@@ -24,6 +25,8 @@ import DashboardView from '.././components/dashboard/DashboardView';
   import TemplatesEdit from '.././components/templates/TemplatesEdit';
   // Profile Settings
   import ProfileSettings from '.././components/user/ProfileSettings';
+  // Admin
+  import Admin from '../components/admin';
 
 // This view is for testing out new components, REMOVE IN PROD
 import TestView from '../components/test/TestView';
@@ -46,7 +49,7 @@ const routes = (
     <Route component={AuthHandler} path='join' />
 
     {/*********** Protected Routes ************/}
-    <Route path='dashboard' component={requireAuth(DashboardHandler)}>
+    <Route path='dashboard' component={RequiresAuth(DashboardHandler)}>
       <IndexRoute component={DashboardView} />
 
       <Route path='collections' component={DashboardView}>
@@ -69,6 +72,10 @@ const routes = (
 
       <Route path='profile_settings' component={DashboardView}>
         <IndexRoute component={ProfileSettings} />
+      </Route>
+
+      <Route path='admin' component={RequiresAdmin(DashboardView)}>
+        <IndexRoute component={Admin} />
       </Route>
 
       <Route path='test' component={DashboardView}>
