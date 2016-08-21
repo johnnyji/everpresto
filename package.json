@@ -63,9 +63,10 @@
     "redux-thunk": "^2.0.1",
     "rxjs": "^5.0.0-beta.7",
     "sendgrid": "^3.0.6",
+    "signature_pad": "^1.5.3",
     "socket.io": "^1.4.5",
     "striptags": "^2.1.1",
-    "validator": "^5.4.0",
+    "validator": "^5.5.0",
     "whatwg-fetch": "^1.0.0",
     "xss": "^0.2.10"
   },

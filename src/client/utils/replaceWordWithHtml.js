@@ -3,7 +3,7 @@ import escapeRegExp from 'lodash/escapeRegExp';
 /**
  * Wraps an HTML tag (with class) around every instance of word in a body of text. Word should be some
  * unique identifier such as `CASED_LIKE_THIS`, so we don't accidentally replace real HTML tags with that word.
- * 
+ *
  * @param  {String} text      - The body of text to scan
  * @param  {String} word      - The word we're converting to HTML
  * @param  {String} tag       - The HTML tag we will use

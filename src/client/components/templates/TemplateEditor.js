@@ -44,7 +44,7 @@ export default class TemplateEditor extends Component {
         className={className}
         onStopTyping={this._handleStopTyping}
         onUpdate={this._handleUpdate}
-        text={text}/>
+        text={text} />
     );
   }
 

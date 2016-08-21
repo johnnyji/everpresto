@@ -1,5 +1,3 @@
-import moment from 'moment';
-
 const TextHelper = {
 
   truncateString(string, length) {
@@ -18,6 +16,6 @@ const TextHelper = {
     return `${count} ${plural}`;
   }
 
-}
+};
 
 export default TextHelper;
