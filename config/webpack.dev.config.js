@@ -19,10 +19,10 @@ const PLUGINS = [
 module.exports = {
   entry: path.join(ROOT_PATH, 'src/client/index.js'),
   output: {
-    // makes the public path for HTML/JavaScript http://localhost:8080/build/somefile.ext, needed for isomorphic hot module replacement
-    publicPath: `http://localhost:${config.development.webpackPort}/build/`,
+    filename: 'bundle.js',
     path: path.join(ROOT_PATH, 'build'),
-    filename: 'bundle.js'
+    // makes the public path for HTML/JavaScript http://localhost:8080/build/somefile.ext, needed for isomorphic hot module replacement
+    publicPath: `http://localhost:${config.development.webpackPort}/build/`
   },
   plugins: [
     // Extracts styles
@@ -63,7 +63,6 @@ module.exports = {
         loader: 'json-loader'
       }, {
         test: /.scss$/,
-        include: [SRC_PATH],
         loader: ExtractTextPlugin.extract('style', 'css!postcss!sass')
       }, {
         test: /\.css$/,

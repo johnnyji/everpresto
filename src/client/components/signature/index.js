@@ -1,8 +1,10 @@
 /* eslint-disable react/no-danger */
 import React, {Component} from 'react';
+import AppActionCreators from '../../actions/AppActionCreators';
 import Card from '../ui/Card';
 import Clickable from '../ui/Clickable';
 import CustomPropTypes from '../CustomPropTypes';
+import ModalSignature from '../modals/ModalSignature';
 import RequiresDocumentForSigning from '../../containers/RequiresDocumentForSigning';
 
 const CLS = 'SignatureView';
@@ -36,15 +38,24 @@ export default class SignatureView extends Component {
 
   _renderSignatureBox = () => {
     return (
-      <Clickable onClick={this._handleReadyToSign}>
+      <Clickable onClick={this._handleSignatureModal}>
         <span className={`${CLS}-document-footer-mark`}>X</span>
         <span className={`${CLS}-document-footer-sign`}>Sign Here!</span>
       </Clickable>
     );
   };
 
-  _handleReadyToSign = () => {
+  _handleSignatureModal = () => {
+    this.context.dispatch(
+      AppActionCreators.createModal(
+        <ModalSignature onSignature={this._handleSignature} />
+      )
+    );
   };
+
+  _handleSignature = (signature) => {
+    debugger;
+  }
 
 }
 /* eslint-enable react/no-danger */
