@@ -11,12 +11,11 @@
   "scripts": {
     "clean": "rm -rf lib",
     "eslint": "eslint ./src",
-    "transpile": "babel src --watch --presets es2015,stage-0,react --plugins add-module-exports,transform-decorators-legacy,handlebars-inline-precompile --out-dir lib",
-    "server-dev": "webpack-dev-server --devtool-eval --hot --inline --colors --progress --display-error-details --content-base build --config config/webpack.dev.config.js",
-    "server": "iron-node ./lib/server/server.js",
-    "write-to-disk": "webpack --watch --progress --colors --display-error-details -d",
-    "deploy": "NODE_ENV=production webpack -p --config config/webpack.prod.config.js",
-    "start": "npm run transpile & npm run server-dev & npm run server"
+    "server-dev:babel": "babel src --watch --presets es2015,stage-0,react --plugins add-module-exports,transform-decorators-legacy,handlebars-inline-precompile --out-dir lib",
+    "server-dev:debug": "iron-node ./lib/server/server.js",
+    "server-dev:webpack": "webpack-dev-server --devtool-eval --hot --inline --colors --progress --display-error-details --content-base build --config config/webpack.dev.config.js",
+    "server-dev": "npm run server-dev:babel & npm run server-dev:webpack & npm run server-dev:debug",
+    "deploy": "NODE_ENV=production webpack -p --config config/webpack.prod.config.js"
   },
   "dependencies": {
     "babel-polyfill": "^6.13.0",
@@ -64,7 +63,7 @@
     "sendgrid": "^4.0.2",
     "socket.io": "^1.4.8",
     "striptags": "^2.1.1",
-    "ui-components": "^1.0.14",
+    "ui-components": "^1.0.15",
     "validator": "^5.5.0",
     "whatwg-fetch": "^1.0.0",
     "xss": "^0.2.13"
@@ -90,7 +89,7 @@
     "eslint": "^3.4.0",
     "eslint-config-johnnyji": "0.1.6",
     "eslint-plugin-babel": "^3.3.0",
-    "eslint-plugin-react": "^6.1.2",
+    "eslint-plugin-react": "^6.2.0",
     "exports-loader": "^0.6.3",
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.9.0",
