@@ -4,7 +4,7 @@ import mergeDeep from '../.././utils/mergeDeep';
 import {email, minLength} from '../.././utils/RegexHelper';
 import {isTruthy} from '../.././utils/immutable/IterableFunctions';
 
-import Button from '.././ui/Button';
+import Button from 'ui-components/src/Button';
 import Card from '.././ui/Card';
 import Input from '.././ui/Input';
 import AppActionCreators from '../.././actions/AppActionCreators';
@@ -76,10 +76,7 @@ export default class LoginForm extends Component {
             Show password?
           </label>
           <footer className={`${displayName}-footer`}>
-            <Button
-              color='green'
-              onClick={this._handleLogin}
-              text='Login' />
+            <Button onClick={this._handleLogin}>Login</Button>
           </footer>
         </Card>
       </div>

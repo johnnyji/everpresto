@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import Button from '.././ui/Button';
+import Button from 'ui-components/src/Button';
 import ClickableIcon from '../ui/ClickableIcon';
 import CollectionActionCreators from '../../actions/CollectionActionCreators';
 import CollectionPreviewCard from './CollectionPreviewCard';
@@ -117,10 +117,7 @@ export default class CollectionsIndex extends Component {
           <div className={`${displayName}-create-template-message`}>
             Looks like you don't have any templates yet. Create one first so you can start sending documents for people to sign!
           </div>
-          <Button
-            color='green'
-            onClick={this._navigateTemplateView}
-            text='Create a Template!' />
+          <Button onClick={this._navigateTemplateView}>Create a template</Button>
         </DashboardMessage>
       </DashboardContentWrapper>
     );

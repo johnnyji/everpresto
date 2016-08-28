@@ -1,4 +1,9 @@
 .DashboardErrorMessage {
+  &-button {
+    color: $error-color;
+    border-color: $error-color;
+  }
+
   &-text {
     font-size: 28px;
     font-weight: lighter;

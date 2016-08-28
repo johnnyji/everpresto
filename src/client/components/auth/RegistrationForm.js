@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import Immutable from 'immutable';
 import mergeDeep from '../.././utils/mergeDeep';
-import Button from '.././ui/Button';
+import Button from 'ui-components/src/Button';
 import Card from '.././ui/Card';
 import Input from '.././ui/Input';
 import {email, matchValue, minLength} from '../.././utils/RegexHelper';
@@ -134,10 +134,7 @@ export default class RegistrationForm extends Component {
             type='password'
             value={formData.getIn(['user', 'values', 'passwordConfirmation'])} />
           <footer className={`${displayName}-footer`}>
-            <Button
-              color='yellow'
-              onClick={this._handleFormSubmission}
-              text="I'm done!" />
+            <Button onClick={this._handleFormSubmission}>Done!</Button>
           </footer>
         </Card>
       </div>

@@ -1,14 +1,13 @@
 .CollectionsShow {
 
   &-header {
-    align-items: center;
+    align-items: flex-start;
     display: flex;
     justify-content: space-between;
     &-options {
       &-create-button {
         position: relative;
         display: inline-block;
-        margin-right: 20px;
       }
     }
   }

@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import Button from '../ui/Button';
+import Button from 'ui-components/src/Button';
 import classNames from 'classnames';
 import DashboardMessage from './DashboardMessage';
 import pureRender from 'pure-render-decorator';
@@ -8,6 +8,7 @@ const CLS = 'DashboardErrorMessage';
 
 @pureRender
 export default class DashboardErrorMessage extends Component {
+
   static displayName = CLS;
 
   static propTypes = {
@@ -24,10 +25,7 @@ export default class DashboardErrorMessage extends Component {
       <DashboardMessage className={classNames(className, CLS)}>
         <p className={`${CLS}-text`}>{text}</p>
         {buttonText && onClick &&
-          <Button
-            color="red"
-            onClick={onClick}
-            text={buttonText} />
+          <Button className={`${CLS}-button`} onClick={onClick}>{buttonText}</Button>
         }
       </DashboardMessage>
     );
