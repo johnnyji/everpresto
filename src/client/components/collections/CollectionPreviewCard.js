@@ -6,7 +6,7 @@ import {truncateString} from '../.././utils/TextHelper';
 import Config from '../.././config/main';
 import CollectionActionCreators from '../.././actions/CollectionActionCreators';
 import ClickableIcon from '.././ui/ClickableIcon';
-import FolderCard from '.././ui/FolderCard';
+import Folder from 'ui-components/src/Folder';
 
 const DEFAULT_TITLE = Config.collection.defaultTitle;
 const ENTER_KEY = 13;
@@ -44,7 +44,7 @@ export default class CollectionPreviewCard extends Component {
     const createdAt = moment(collection.get('createdAt')).format('MMM DD, YYYY');
 
     return (
-      <FolderCard
+      <Folder
         className={classes}
         contentClassName={contentClasses}
         height={height}
@@ -65,7 +65,7 @@ export default class CollectionPreviewCard extends Component {
               size={20} />
           </div>
         </div>
-      </FolderCard>
+      </Folder>
     );
   }
 

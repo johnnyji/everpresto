@@ -1,7 +1,7 @@
 import sendgrid from 'sendgrid';
 import secrets from '../../../../../secrets.json';
 
-const mailer = sendgrid.SendGrid(secrets.sendgrid.apiKey);
+const mailer = sendgrid(secrets.sendgrid.apiKey);
 const mailerHelper = sendgrid.mail;
 
 export default {
@@ -20,13 +20,21 @@ export default {
       const from = new mailerHelper.Email(fromEmail);
       const content = new mailerHelper.Content('text/html', html);
       const mail = new mailerHelper.Mail(from, subject, to, content);
-      const request = mailer.emptyRequest();
+      const request = mailer.emptyRequest({
+        method: 'POST',
+        path: '/v3/mail/send',
+        body: mail.toJSON()
+      });
 
       request.method = 'POST';
       request.path = '/v3/mail/send';
       request.body = mail.toJSON();
 
-      mailer.API(request, ({body, statusCode}) => {
+      mailer.API(request, (err, {body, statusCode}) => {
+        if (err) {
+          reject(err);
+          return;
+        }
         if (statusCode > 199 && statusCode < 299) {
           resolve();
           return;

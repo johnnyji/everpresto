@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import Button from '.././ui/Button';
+import Button from 'ui-components/src/Button';
 import CollectionActionCreators from '../.././actions/CollectionActionCreators';
 import CustomPropTypes from '.././CustomPropTypes';
 import DashboardContentHeader from '.././dashboard/DashboardContentHeader';
@@ -75,10 +75,9 @@ export default class CollectionsShow extends Component {
           <div className={`${displayName}-header-options`}>
             <Button
               className={`${displayName}-header-options-create-button`}
-              color='green'
-              icon='group-add'
-              onClick={this._handleCreateDocuments}
-              text='Create Documents' />
+              onClick={this._handleCreateDocuments}>
+              Create Documents
+            </Button>
           </div>
           <SearchBar
             label="I'm lonely..."
