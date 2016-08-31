@@ -17,8 +17,8 @@
         @include display(flex);
         @include align-items(center);
         &-icon {
-          &-success {color: $brand-color-green;}
-          &-error {color: $brand-color-red;}
+          &-success { color: $brand-color-green }
+          &-error { color: $brand-color-red }
         }
         &-placeholder {
           margin-left: 8px;

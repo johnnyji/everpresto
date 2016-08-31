@@ -55,6 +55,7 @@ const port = process.env.PORT || config.development.serverPort;
 const apiRouter = express.Router();
 
 // Connecting to the DB
+mongoose.Promise = require('bluebird');
 mongoose.connection.on('open', () => {
   console.info('Connected to Mongo server...');
 });

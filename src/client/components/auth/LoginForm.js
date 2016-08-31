@@ -1,16 +1,15 @@
-import Immutable from 'immutable';
 import React, {Component, PropTypes} from 'react';
-import mergeDeep from '../.././utils/mergeDeep';
-import {email, minLength} from '../.././utils/RegexHelper';
-import {isTruthy} from '../.././utils/immutable/IterableFunctions';
-
-import Button from 'ui-components/src/Button';
-import Card from '.././ui/Card';
-import Input, {validators} from 'ui-components/src/Input';
 import AppActionCreators from '../.././actions/AppActionCreators';
 import AuthActionCreators from '../.././actions/AuthActionCreators';
+import Button from 'ui-components/src/Button';
+import Card from '.././ui/Card';
+import Immutable from 'immutable';
+import Input, {validators} from 'ui-components/src/Input';
 
 const displayName = 'LoginForm';
+
+const VALIDATE_EMAIL = validators.email('Hmmm, are you sure that\'s your email?');
+const VALIDATE_PASSWORD = validators.minLength(1, 'Don\'t forget to enter a password!');
 
 export default class LoginForm extends Component {
 
@@ -23,13 +22,13 @@ export default class LoginForm extends Component {
   state = {
     showPassword: false,
     user: Immutable.fromJS({
-      values: {
-        email: '',
-        password: ''
+      email: {
+        value: '',
+        error: null
       },
-      errors: {
-        email: null,
-        password: null
+      password: {
+        value: '',
+        error: null
       }
     })
   };
@@ -49,7 +48,7 @@ export default class LoginForm extends Component {
             name='email'
             onEnterKeyPress={this._handleLogin}
             onUpdate={this._handleInputUpdate}
-            patternMatches={validators.email('Hmmm, are you sure that\'s your email?')}
+            patternMatches={VALIDATE_EMAIL}
             value={user.getIn(['email', 'value'])} />
           <Input
             className={`${displayName}-input`}
@@ -58,7 +57,7 @@ export default class LoginForm extends Component {
             name='password'
             onEnterKeyPress={this._handleLogin}
             onUpdate={this._handleInputUpdate}
-            patternMatches={validators.minLength(1, 'Don\'t forget to enter a password!')}
+            patternMatches={VALIDATE_PASSWORD}
             type={showPassword ? 'text' : 'password'}
             value={user.getIn(['password', 'value'])} />
           <label className={`${displayName}-show-password`}>
@@ -87,7 +86,7 @@ export default class LoginForm extends Component {
     const {user} = this.state;
     const error = user.getIn(['email', 'error']) || user.getIn(['password', 'error']);
 
-    if (error)
+    if (error) {
       dispatch(AppActionCreators.createFlashMessage('red', error));
       return;
     }
@@ -101,5 +100,5 @@ export default class LoginForm extends Component {
   _toggleShowPassword = () => {
     this.setState({showPassword: !this.state.showPassword});
   };
-  
+
 }

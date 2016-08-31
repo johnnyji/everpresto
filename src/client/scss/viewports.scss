@@ -1,0 +1,13 @@
+// VIEWPORT MIXINS
+
+@mixin mobile-viewport {
+  @media (max-width: 550px) {
+    @content;
+  }
+}
+
+@mixin medium-viewport {
+  @media (min-width: 551px) and (max-width: 1000px) {
+    @content;
+  }
+}

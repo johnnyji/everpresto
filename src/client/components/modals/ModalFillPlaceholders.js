@@ -13,7 +13,7 @@ import DashboardQuote from '.././dashboard/DashboardQuote';
 import ModalSection from '.././modals/ModalSection';
 import FileUploader from '.././shared/FileUploader';
 import Button from '.././ui/Button';
-import Icon from '.././ui/Icon';
+import Icon from 'ui-components/src/Icon';
 import Input from '.././ui/Input';
 import Pill from '.././ui/Pill';
 import ModalWrapper from '.././ui/ModalWrapper';
@@ -73,7 +73,7 @@ export default class ModalFillPlaceholders extends Component {
     return (
       <ModalWrapper className={displayName} height={600} width={650}>
         <FileUploader
-          label={<span><Icon icon='file-upload' /> Import CSV File</span>}
+          label={<span><Icon name='upload' /> Import CSV File</span>}
           onReset={this._handleFileInputReset}
           onUpload={this._handleImportCsv}
           permittedExtensions={['.csv']} />

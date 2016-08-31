@@ -18,17 +18,17 @@ const ModalPlaceholderTipBox = ({className}) => (
      <div className={`${displayName}-content-example`}>
       <p>Examples: </p>
       <p className={`${displayName}-content-example-section`}>
-        <Icon icon='check' iconClass={`${displayName}-content-example-section-icon-success`}/>
+        <Icon className={`${displayName}-content-example-section-icon-success`} icon='check' />
         <mark className={`${displayName}-content-example-section-placeholder`}>FIRST_NAME</mark>
         <span className={`${displayName}-content-example-section-note`}>All capitalized</span>
       </p>
       <p className={`${displayName}-content-example-section`}>
-        <Icon icon='check' iconClass={`${displayName}-content-example-section-icon-success`}/>
+        <Icon className={`${displayName}-content-example-section-icon-success`} icon='check' />
         <mark className={`${displayName}-content-example-section-placeholder`}>EMAIL_ADDRESS</mark>
         <span className={`${displayName}-content-example-section-note`}>Consistent format</span>
       </p>
       <p className={`${displayName}-content-example-section`}>
-        <Icon icon='close' iconClass={`${displayName}-content-example-section-icon-error`}/>
+        <Icon className={`${displayName}-content-example-section-icon-error`} icon='close' />
         <mark className={`${displayName}-content-example-section-placeholder`}>birthdate</mark>
         <span className={`${displayName}-content-example-section-note`}>No lowercase letters!</span>
       </p>

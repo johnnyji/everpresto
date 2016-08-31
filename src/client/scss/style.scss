@@ -5,7 +5,7 @@
 @import '~bourbon/app/assets/stylesheets/_bourbon.scss';
 
 // Normalize.css
-@import '~normalize.css/normalize.css';
+@import './normalize.css';
 
 // Medium Rich Text Editor
 @import '~medium-editor/dist/css/medium-editor.css';
@@ -19,8 +19,8 @@
 // Import extends
 @import './extends';
 
-// my own SCSS helper file
-@import './clarity';
+// Import viewports
+@import './viewports';
 
 // App
 @import './app/AppContentWrapper';

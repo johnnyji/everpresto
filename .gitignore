@@ -1,6 +1,5 @@
-build
 lib
 node_modules
 secrets.json
 npm-debug.log
-erl_crash.dump
+npm-debug.log*
