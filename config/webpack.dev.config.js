@@ -21,7 +21,7 @@ module.exports = {
   output: {
     filename: 'bundle.js',
     path: path.join(ROOT_PATH, 'build'),
-    // makes the public path for HTML/JavaScript http://localhost:8080/build/somefile.ext, needed for isomorphic hot module replacement
+    // makes the public path for HTML/JavaScript http://localhost:8080/build/somefile.ext
     publicPath: `http://localhost:${config.development.webpackPort}/build/`
   },
   plugins: [
@@ -93,7 +93,6 @@ module.exports = {
     //   }
     // ]
   },
-  // Fixes the empty `fs` module error
   node: {
     fs: 'empty'
   }

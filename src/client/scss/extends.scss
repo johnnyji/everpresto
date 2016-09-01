@@ -5,6 +5,12 @@
   transform: translate(-50%, -50%);
 }
 
+.flex-center {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
 .grid-view {
   flex-wrap: wrap;
   justify-content: center;

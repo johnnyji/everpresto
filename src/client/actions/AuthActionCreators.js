@@ -12,6 +12,7 @@ const AuthActionCreators = {
    * @return {Function}    - The thunk that performs the API call
    */
   createCompanyWithUser(data) {
+    debugger;
     return (dispatch) => {
       http.post(endpoints.users.createWithCompany.path, data)
         .then((response) => {

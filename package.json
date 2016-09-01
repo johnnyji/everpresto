@@ -11,17 +11,17 @@
   "scripts": {
     "clean": "rm -rf lib",
     "eslint": "eslint ./src",
-    "server-dev:babel": "babel src --watch --presets es2015,stage-0,react --plugins add-module-exports,transform-decorators-legacy,handlebars-inline-precompile --out-dir lib",
-    "server-dev:debug": "iron-node ./lib/server/server.js",
+    "server-dev:babel": "babel ./src --watch --out-dir ./lib",
+    "server-dev:server": "iron-node ./lib/server/server.js",
     "server-dev:webpack": "webpack-dev-server --devtool-eval --hot --inline --colors --progress --display-error-details --content-base build --config config/webpack.dev.config.js",
-    "server-dev": "npm run server-dev:babel & npm run server-dev:webpack & npm run server-dev:debug",
+    "server-dev": "npm run server-dev:babel & npm run server-dev:webpack & npm run server-dev:server",
     "deploy": "NODE_ENV=production webpack -p --config config/webpack.prod.config.js"
   },
   "dependencies": {
     "babel-polyfill": "^6.13.0",
     "babyparse": "^0.4.6",
     "bcrypt-nodejs": "0.0.3",
-    "bluebird": "^3.4.4",
+    "bluebird": "^3.4.5",
     "body-parser": "^1.15.2",
     "bourbon": "^4.2.7",
     "camelcase-object": "^1.0.0",
@@ -61,8 +61,8 @@
     "sendgrid": "^4.0.2",
     "socket.io": "^1.4.8",
     "striptags": "^2.1.1",
-    "ui-components": "^0.0.4",
-    "validator": "^5.5.0",
+    "ui-components": "0.0.6",
+    "validator": "^5.6.0",
     "whatwg-fetch": "^1.0.0",
     "xss": "^0.2.13"
   },
@@ -95,12 +95,12 @@
     "iron-node": "^3.0.11",
     "json-loader": "^0.5.4",
     "node-sass": "^3.8.0",
-    "postcss-loader": "^0.11.0",
+    "postcss-loader": "^0.11.1",
     "redux-logger": "^2.6.1",
     "sass-loader": "^4.0.0",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
     "webpack": "^1.13.2",
-    "webpack-dev-server": "^1.15.0"
+    "webpack-dev-server": "^1.15.1"
   }
 }

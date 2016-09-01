@@ -1,15 +1,19 @@
 import React, {Component, PropTypes} from 'react';
-import Immutable from 'immutable';
-import mergeDeep from '../.././utils/mergeDeep';
-import Button from 'ui-components/src/Button';
-import Card from '.././ui/Card';
-import Input from '.././ui/Input';
-import {email, matchValue, minLength} from '../.././utils/RegexHelper';
 import AppActionCreators from './../../actions/AppActionCreators';
 import AuthActionCreators from './../../actions/AuthActionCreators';
+import Button from 'ui-components/src/Button';
+import Card from '.././ui/Card';
+import Immutable from 'immutable';
+import Input, {validators} from 'ui-components/src/Input';
+import pureRender from 'pure-render-decorator';
 
 const displayName = 'RegistrationForm';
+const VALIDATE_FIRST_NAME = validators.minLength(1, 'You\'re first name please!');
+const VALIDATE_LAST_NAME = validators.minLength(1, 'You\'re last name please!');
+const VALIDATE_EMAIL = validators.email('That\'s not a valid email');
+const VALIDATE_COMPANY_NAME = validators.minLength(1, 'Please provide your company\'s name');
 
+@pureRender
 export default class RegistrationForm extends Component {
 
   static displayName = displayName;
@@ -18,121 +22,97 @@ export default class RegistrationForm extends Component {
     dispatch: PropTypes.func.isRequired
   };
 
-  constructor (props) {
-    super(props);
-    this.state = {
-      formData: Immutable.fromJS({
-        company: {
-          values: {
-            name: ''
-          },
-          errors: {
-            name: ''
-          }
-        },
-        user: {
-          values: {
-            firstName: '',
-            lastName: '',
-            email: '',
-            password: '',
-            passwordConfirmation: ''
-          },
-          errors: {
-            firstName: null,
-            lastName: null,
-            email: null,
-            password: null,
-            passwordConfirmation: null
-          }
-        }
+  state = {
+    form: Immutable.fromJS({
+      company: {
+        name: {error: null, value: ''}
+      },
+      user: Immutable.fromJS({
+        firstName: {error: null, value: ''},
+        lastName: {error: null, value: ''},
+        email: {error: null, value: ''},
+        password: {error: null, value: ''},
+        passwordConfirmation: {error: null, value: ''}
       })
-    };
-  }
+    })
+  };
 
-  render () {
-    const {formData} = this.state;
+  render() {
+    const {form} = this.state;
+    const validatePasswordConfirm = Immutable.List([
+      validators.minLength(8, 'Passwords must be at least 8 characters!'),
+      validators.matchValue(form.getIn(['user', 'values', 'password']), 'Both your passwords must match!')
+    ]);
+    const validatePassword = Immutable.List([
+      validators.minLength(8, 'Passwords must be at least 8 characters!'),
+      validators.matchValue(form.getIn(['user', 'values', 'passwordConfirmation']), 'Both your passwords must match!')
+    ]);
+    const firstName = form.getIn(['user', 'firstName', 'value']);
 
     return (
-      <div className={`${displayName}`}>
-        <Card className={`${displayName}-card'`}>
-          <header className={`${displayName}-card-header`}>Welcome to the family!</header>
+      <div className={displayName}>
+        <Card className={`${displayName}-card`}>
+          <header className={`${displayName}-card-header`}>
+            {firstName.length ? `Welcome ${firstName}!` : 'Welcome!'}
+          </header>
           <Input
             autoFocus={true}
             className={`${displayName}-card-input`}
-            error={formData.getIn(['company', 'errors', 'name'])}
-            errorKeys='company:errors:name'
-            label='Company name'
+            error={form.getIn(['company', 'name', 'error'])}
+            label='Company'
+            name='company:name'
             onEnterKeyPress={this._handleFormSubmission}
             onUpdate={this._handleInputUpdate}
-            patternMatches={minLength(1, 'Please provide your company\'s name')}
-            ref='company-name'
-            successKeys='company:values:name'
-            value={formData.getIn(['company', 'values', 'name'])} />
+            patternMatches={VALIDATE_COMPANY_NAME}
+            value={form.getIn(['company', 'name', 'value'])} />
           <Input
             className={`${displayName}-card-input`}
-            error={formData.getIn(['user', 'errors', 'firstName'])}
-            errorKeys='user:errors:firstName'
-            label='First name...'
+            error={form.getIn(['user', 'firstName', 'error'])}
+            label='Jason'
+            name='user:firstName'
             onEnterKeyPress={this._handleFormSubmission}
             onUpdate={this._handleInputUpdate}
-            patternMatches={minLength(1, 'You\'re first name please!')}
-            ref='user-firstName'
-            successKeys='user:values:firstName'
-            value={formData.getIn(['user', 'values', 'firstName'])} />
+            patternMatches={VALIDATE_FIRST_NAME}
+            value={form.getIn(['user', 'firstName', 'value'])} />
           <Input
             className={`${displayName}-card-input`}
-            error={formData.getIn(['user', 'errors', 'lastName'])}
-            errorKeys='user:errors:lastName'
-            label='Last name!'
+            error={form.getIn(['user', 'lastName', 'error'])}
+            label='Bourne'
+            name='user:lastName'
             onEnterKeyPress={this._handleFormSubmission}
             onUpdate={this._handleInputUpdate}
-            patternMatches={minLength(1, 'You\'re last name please!')}
-            ref='user-lastName'
-            successKeys='user:values:lastName'
-            value={formData.getIn(['user', 'values', 'lastName'])} />
+            patternMatches={VALIDATE_LAST_NAME}
+            value={form.getIn(['user', 'lastName', 'value'])} />
           <Input
             className={`${displayName}-card-input`}
-            error={formData.getIn(['user', 'errors', 'email'])}
-            errorKeys='user:errors:email'
-            label='Email'
+            error={form.getIn(['user', 'email', 'error'])}
+            label='jasonbourne@gmail.com'
+            name='user:email'
             onEnterKeyPress={this._handleFormSubmission}
             onUpdate={this._handleInputUpdate}
-            patternMatches={email()}
-            ref='user-email'
-            successKeys='user:values:email'
+            patternMatches={VALIDATE_EMAIL}
             type='email'
-            value={formData.getIn(['user', 'values', 'email'])} />
+            value={form.getIn(['user', 'email', 'value'])} />
           <Input
             className={`${displayName}-card-input`}
-            error={formData.getIn(['user', 'errors', 'password'])}
-            errorKeys='user:errors:password'
+            error={form.getIn(['user', 'password', 'error'])}
             label='Password'
+            name='user:password'
             onEnterKeyPress={this._handleFormSubmission}
             onUpdate={this._handlePasswordUpdate}
-            patternMatches={[
-              minLength(8, 'Passwords must be at least 8 characters!'),
-              matchValue(formData.getIn(['user', 'values', 'passwordConfirmation']), 'Both your passwords must match!')
-            ]}
-            ref='user-password'
-            successKeys='user:values:password'
+            patternMatches={validatePassword}
             type='password'
-            value={formData.getIn(['user', 'values', 'password'])} />
+            value={form.getIn(['user', 'password', 'value'])} />
           <Input
             className={`${displayName}-card-input`}
-            error={formData.getIn(['user', 'errors', 'passwordConfirmation'])}
-            errorKeys='user:errors:passwordConfirmation'
+            error={form.getIn(['user', 'passwordConfirmation', 'error'])}
             label='Confirm Password'
+            name='user:passwordConfirmation'
             onEnterKeyPress={this._handleFormSubmission}
             onUpdate={this._handlePasswordConfirmationUpdate}
-            patternMatches={[
-              minLength(8, 'Passwords must be at least 8 characters!'),
-              matchValue(formData.getIn(['user', 'values', 'password']), 'Both your passwords must match!')
-            ]}
-            ref='user-passwordConfirmation'
-            successKeys='user:values:passwordConfirmation'
+            patternMatches={validatePasswordConfirm}
             type='password'
-            value={formData.getIn(['user', 'values', 'passwordConfirmation'])} />
+            value={form.getIn(['user', 'passwordConfirmation', 'value'])} />
           <footer className={`${displayName}-footer`}>
             <Button onClick={this._handleFormSubmission}>Done!</Button>
           </footer>
@@ -141,65 +121,70 @@ export default class RegistrationForm extends Component {
     );
   }
 
-  // TODO:: FIRST THING, Think of way to make this a universal functionality.
   _handleFormSubmission = () => {
-    const companyData = this.state.formData.get('company');
-    const userData = this.state.formData.get('user');
-    // Goes through each input field by ref, calls the `valid` method on them and on // the first invalid field, `find` will return the error message of that input field.
-    const firstUserError = userData.get('errors').find((v, k) => !this.refs[`user-${k}`].valid());
-    const firstCompanyError = companyData.get('errors').find((v, k) => !this.refs[`company-${k}`].valid());
+    const company = this.state.form.get('company');
+    const user = this.state.form.get('user');
 
-    // Dispatches the input error if there is one.
-    if (firstUserError) {
-      return this.context.dispatch(
-        AppActionCreators.createFlashMessage('red', firstUserError || 'Please fill out the form properly')
-      );
+    // Dispatches a message for any empty fields
+    const emptyFields = company.find((x) => x.get('value') == null) || user.find((x) => x.get('value') == null);
+    if (emptyFields) {
+      this.context.dispatch(AppActionCreators.createFlashMessage('red', 'Please fill out all the fields'));
+      return;
     }
-    if (firstCompanyError) {
-      return this.context.dispatch(
-        AppActionCreators.createFlashMessage('red', firstCompanyError || 'Please fill out the form properly')
-      );
+
+    // Dispatches a message for any errors
+    const firstError = company.find((x) => x.get('error') != null) || user.find((x) => x.get('error') != null);
+    if (firstError) {
+      this.context.dispatch(AppActionCreators.createFlashMessage('red', firstError));
+      return;
     }
 
     // Dispatches the create user
     this.context.dispatch(
       AuthActionCreators.createCompanyWithUser({
-        company: companyData.get('values').toJS(),
-        user: userData.get('values').toJS()
+        company: company.reduce((accum, value, key) => {
+          return Object.assign({}, accum, {[key]: value});
+        }, {}),
+        user: user.reduce((accum, value, key) => {
+          return Object.assign({}, accum, {[key]: value});
+        }, {})
       })
     );
   }
 
-  _handleInputUpdate = (value, error, nestedValueObj, nestedErrorObj) => {
-    // We're merging a newly created object with all our nested values and errors into the form data state,
-    // so that our state is up to date with the input's returns
-    const newFormData = this.state.formData.mergeDeep(mergeDeep(nestedValueObj, nestedErrorObj));
+  _handleInputUpdate = (value, error, name) => {
+    this.setState({form: this._updateForm(value, error, name)});
+  };
 
-    this.setState({formData: newFormData});
-  }
-
-  _handlePasswordUpdate = (value, error, nestedValueObj, nestedErrorObj) => {
-    let formData = this.state.formData.mergeDeep(nestedValueObj, nestedErrorObj);
+  _handlePasswordUpdate = (value, error, name) => {
+    let form = this._updateForm(value, error, name);
 
     // If the password has no errors and both the passwords match. We want to clear
     // the confirmation's errors as well
-    if (!error && this.state.formData.getIn(['user', 'values', 'passwordConfirmation']) === value) {
-      formData = formData.setIn(['user', 'errors', 'passwordConfirmation'], null);
+    if (!error && this.state.form.getIn(['user', 'passwordConfirmation', 'value']) === value) {
+      form = form.setIn(['user', 'passwordConfirmation', 'error'], null);
     }
 
-    this.setState({formData});
-  }
+    this.setState({form});
+  };
 
-  _handlePasswordConfirmationUpdate = (value, error, nestedValueObj, nestedErrorObj) => {
-    let formData = this.state.formData.mergeDeep(nestedValueObj, nestedErrorObj);
+  _handlePasswordConfirmationUpdate = (value, error, name) => {
+    let form = this._updateForm(value, error, name);
 
     // If the confirmation field has no errors and both the passwords match. We want to clear
     // the password's errors as well
-    if (!error && this.state.formData.getIn(['user', 'values', 'password']) === value) {
-      formData = formData.setIn(['user', 'errors', 'password'], null);
+    if (!error && this.state.form.getIn(['user', 'password', 'value']) === value) {
+      form = form.setIn(['user', 'password', 'error'], null);
     }
 
-    this.setState({formData});
-  }
+    this.setState({form});
+  };
+
+  _updateForm = (value, error, name) => {
+    const updatePath = name.split(':');
+    return this.state.form
+      .setIn(updatePath.concat(['value']), value)
+      .setIn(updatePath.concat(['error']), error);
+  };
 
 }
