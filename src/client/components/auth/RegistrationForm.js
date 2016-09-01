@@ -3,6 +3,7 @@ import AppActionCreators from './../../actions/AppActionCreators';
 import AuthActionCreators from './../../actions/AuthActionCreators';
 import Button from 'ui-components/src/Button';
 import Card from '.././ui/Card';
+import Icon from 'ui-components/src/Icon';
 import Immutable from 'immutable';
 import Input, {validators} from 'ui-components/src/Input';
 import pureRender from 'pure-render-decorator';
@@ -114,7 +115,10 @@ export default class RegistrationForm extends Component {
             type='password'
             value={form.getIn(['user', 'passwordConfirmation', 'value'])} />
           <footer className={`${displayName}-footer`}>
-            <Button onClick={this._handleFormSubmission}>Done!</Button>
+            <Button onClick={this._handleFormSubmission}>
+              <span className={`${displayName}-footer-buttontext`}>Done</span>
+              <Icon name='chevron-right' />
+            </Button>
           </footer>
         </Card>
       </div>

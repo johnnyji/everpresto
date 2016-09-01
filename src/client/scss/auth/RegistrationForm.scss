@@ -25,6 +25,10 @@
   &-footer {
     @extend .flex-center;
     margin: 24px auto;
+
+    &-buttontext {
+      margin-left: 4px;
+    }
   }
 
 }
