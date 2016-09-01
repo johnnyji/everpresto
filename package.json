@@ -61,7 +61,7 @@
     "sendgrid": "^4.0.2",
     "socket.io": "^1.4.8",
     "striptags": "^2.1.1",
-    "ui-components": "0.0.6",
+    "ui-components": "0.0.7",
     "validator": "^5.6.0",
     "whatwg-fetch": "^1.0.0",
     "xss": "^0.2.13"

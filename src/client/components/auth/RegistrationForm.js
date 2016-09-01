@@ -10,6 +10,7 @@ import pureRender from 'pure-render-decorator';
 
 const displayName = 'RegistrationForm';
 const VALIDATE_FIRST_NAME = validators.minLength(1, 'You\'re first name please!');
+const VALIDATE_PASSWORD = validators.minLength(8, 'Passwords must be at least 8 characters!');
 const VALIDATE_LAST_NAME = validators.minLength(1, 'You\'re last name please!');
 const VALIDATE_EMAIL = validators.email('That\'s not a valid email');
 const VALIDATE_COMPANY_NAME = validators.minLength(1, 'Please provide your company\'s name');
@@ -40,14 +41,6 @@ export default class RegistrationForm extends Component {
 
   render() {
     const {form} = this.state;
-    const validatePasswordConfirm = Immutable.List([
-      validators.minLength(8, 'Passwords must be at least 8 characters!'),
-      validators.matchValue(form.getIn(['user', 'values', 'password']), 'Both your passwords must match!')
-    ]);
-    const validatePassword = Immutable.List([
-      validators.minLength(8, 'Passwords must be at least 8 characters!'),
-      validators.matchValue(form.getIn(['user', 'values', 'passwordConfirmation']), 'Both your passwords must match!')
-    ]);
     const firstName = form.getIn(['user', 'firstName', 'value']);
 
     return (
@@ -101,7 +94,7 @@ export default class RegistrationForm extends Component {
             name='user:password'
             onEnterKeyPress={this._handleFormSubmission}
             onUpdate={this._handlePasswordUpdate}
-            patternMatches={validatePassword}
+            patternMatches={VALIDATE_PASSWORD}
             type='password'
             value={form.getIn(['user', 'password', 'value'])} />
           <Input
@@ -111,7 +104,7 @@ export default class RegistrationForm extends Component {
             name='user:passwordConfirmation'
             onEnterKeyPress={this._handleFormSubmission}
             onUpdate={this._handlePasswordConfirmationUpdate}
-            patternMatches={validatePasswordConfirm}
+            patternMatches={VALIDATE_PASSWORD}
             type='password'
             value={form.getIn(['user', 'passwordConfirmation', 'value'])} />
           <footer className={`${displayName}-footer`}>
@@ -163,10 +156,11 @@ export default class RegistrationForm extends Component {
   _handlePasswordUpdate = (value, error, name) => {
     let form = this._updateForm(value, error, name);
 
-    // If the password has no errors and both the passwords match. We want to clear
-    // the confirmation's errors as well
-    if (!error && this.state.form.getIn(['user', 'passwordConfirmation', 'value']) === value) {
-      form = form.setIn(['user', 'passwordConfirmation', 'error'], null);
+    // If password doesnt match confirm
+    if (this.state.form.getIn(['user', 'passwordConfirmation', 'value']) !== value) {
+      form = form
+        .setIn(['user', 'password', 'error'], 'Both passwords must match')
+        .setIn(['user', 'passwordConfirmation', 'error'], 'Both passwords must match');
     }
 
     this.setState({form});
@@ -177,8 +171,10 @@ export default class RegistrationForm extends Component {
 
     // If the confirmation field has no errors and both the passwords match. We want to clear
     // the password's errors as well
-    if (!error && this.state.form.getIn(['user', 'password', 'value']) === value) {
-      form = form.setIn(['user', 'password', 'error'], null);
+    if (this.state.form.getIn(['user', 'password', 'value']) !== value) {
+      form = form
+        .setIn(['user', 'password', 'error'], 'Both passwords must match')
+        .setIn(['user', 'passwordConfirmation', 'error'], 'Both passwords must match');
     }
 
     this.setState({form});
