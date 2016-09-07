@@ -4,11 +4,11 @@ import 'babel-polyfill';
 import './scss/style.scss';
 
 import React from 'react';
-import ReactDOM from 'react-dom';
+import {render} from 'react-dom';
 import {Router, browserHistory} from 'react-router';
 import {Provider} from 'react-redux';
 import {fromJS} from 'immutable';
-import routes from './routes/routes';
+import routes from './routes';
 import configureStore from './store/configureStore';
 
 // Needed until React 1.0.0, allows tap events to work for `material-ui`
@@ -26,7 +26,7 @@ Object.keys(initialStoreState).forEach((key) => {
 const store = configureStore(initialStoreState);
 
 // Renders the router client side
-ReactDOM.render((
+render((
   <Provider store={store}>
     <Router history={browserHistory}>
       {routes}

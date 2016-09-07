@@ -1,3 +1,5 @@
+// TODO: Delete this file in favour of `client/src/utils/CustomPropTypes.js`
+
 import {PropTypes} from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 

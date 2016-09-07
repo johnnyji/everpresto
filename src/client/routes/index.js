@@ -31,7 +31,7 @@ import DashboardView from '.././components/dashboard/DashboardView';
 // This view is for testing out new components, REMOVE IN PROD
 import TestView from '../components/test/TestView';
 
-import DocumentSigning from '../views/DocumentSigning';
+import SignatureView from '../components/signature';
 /* eslint-enable indent */
 
 const routes = (
@@ -41,8 +41,8 @@ const routes = (
     <Redirect from='profile' to='dashboard/profile_settings' />
     <IndexRoute component={LandingPageHandler} />
 
-    {/*********** Document Signing Route ************/}
-    <Route component={DocumentSigning} path='sign_document/:id/token/:signature_token' />
+    {/*********** Email Signature Route ************/}
+    <Route component={SignatureView} path='sign_document/:id/token/:signature_token' />
 
     {/*********** Auth Routes ************/}
     <Route component={AuthHandler} path='login' />
