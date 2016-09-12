@@ -11,7 +11,7 @@
   "scripts": {
     "clean": "rm -rf lib",
     "eslint": "eslint ./src",
-    "server-dev:babel": "BABEL_DISABLE_CACHE=1 BABEL_ENV=dev babel ./src --watch --out-dir ./lib",
+    "server-dev:babel": "BABEL_DISABLE_CACHE=1 NODE_ENV=dev babel ./src --watch --out-dir ./lib",
     "server-dev:server": "iron-node ./lib/server/server.js",
     "server-dev:webpack": "webpack-dev-server --devtool-eval --hot --inline --colors --progress --display-error-details --content-base build --config config/webpack.dev.config.js",
     "server-dev": "npm run server-dev:babel & npm run server-dev:webpack & npm run server-dev:server",
