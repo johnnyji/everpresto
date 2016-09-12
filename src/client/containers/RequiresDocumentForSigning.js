@@ -1,9 +1,9 @@
 import React, {PropTypes, PureComponent} from 'react';
 import {connect} from 'react-redux';
-import CustomPropTypes from '../../../components/CustomPropTypes';
-import DashboardMessage from '../../../components/dashboard/DashboardMessage';
-import DocumentSigningActionCreators from '../../../actions/DocumentSigningActionCreators';
-import Spinner from 'ui-components/src/Spinner';
+import CustomPropTypes from '../components/CustomPropTypes';
+import DashboardMessage from '../components/dashboard/DashboardMessage';
+import DocumentSigningActionCreators from '../actions/DocumentSigningActionCreators';
+import Spinner from '../components/ui/Spinner';
 
 export default (ComposedComponent) => {
   class RequiresDocumentForSigning extends PureComponent {

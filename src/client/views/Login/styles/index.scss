@@ -1,0 +1,30 @@
+@import '../../../scss/colors.scss';
+@import '../../../scss/extends.scss';
+
+.main {
+  @extend .center-absolute;
+  width: 400px;
+  height: 400px;
+}
+
+.title {
+  font-family: 'Indie Flower', 'Roboto', sans-serif;
+  text-align: center;
+}
+
+.input,
+.showPassword {
+  margin: 8px auto;
+}
+
+.showPassword {
+  color: $text-color-light;
+  display: block;
+  font-size: 14px;
+  text-align: center;
+}
+
+.footer {
+  @extend .flex-center;
+  margin-top: 30px;
+}

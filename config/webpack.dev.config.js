@@ -20,6 +20,7 @@ module.exports = {
   entry: path.join(ROOT_PATH, 'src/client/index.js'),
   output: {
     filename: 'bundle.js',
+    libraryTarget: 'commonjs2',
     path: path.join(ROOT_PATH, 'build'),
     // makes the public path for HTML/JavaScript http://localhost:8080/build/somefile.ext
     publicPath: `http://localhost:${config.development.webpackPort}/build/`

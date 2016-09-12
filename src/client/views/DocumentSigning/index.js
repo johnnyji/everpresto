@@ -1,16 +1,16 @@
 /* eslint-disable react/no-danger */
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import AppActionCreators from '../../actions/AppActionCreators';
 import Card from '../../components/ui/Card';
 import Clickable from 'ui-components/src/Clickable';
 import CustomPropTypes from '../../utils/CustomPropTypes';
-import ModalSignature from '../modals/ModalSignature';
-import RequiresDocumentForSigning from '../../containers/RequiresDocumentForSigning';
+import ModalSignature from './ModalSignature';
+import RequiresDocumentForSigning from './containers/RequiresDocumentForSigning';
 
 const CLS = 'DocumentSigningView';
 
 @RequiresDocumentForSigning
-export default class DocumentSigningView extends Component {
+export default class DocumentSigningView extends PureComponent {
 
   static displayName = CLS;
 
