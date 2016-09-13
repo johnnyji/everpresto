@@ -5,7 +5,6 @@
   background-color: $form-background-color;
   padding: 10px 0;
   &-item {
-    @extend .transition;
     background-color: inherit;
     border: none;
     color: $text-color-light;

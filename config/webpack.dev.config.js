@@ -20,7 +20,9 @@ module.exports = {
   entry: path.join(ROOT_PATH, 'src/client/index.js'),
   output: {
     filename: 'bundle.js',
-    libraryTarget: 'commonjs2',
+		// TODO: `libraryTarget` which is required for `babel-plugin-webpack-loaders`, might be
+		// causing a `module is not defined` error. Investigate
+		// libraryTarget: 'commonjs2',
     path: path.join(ROOT_PATH, 'build'),
     // makes the public path for HTML/JavaScript http://localhost:8080/build/somefile.ext
     publicPath: `http://localhost:${config.development.webpackPort}/build/`
@@ -64,18 +66,23 @@ module.exports = {
         loader: 'json-loader'
       }, {
         test: /.scss$/,
+        include: [SRC_PATH],
         loader: ExtractTextPlugin.extract('style', 'css!postcss!sass')
       }, {
         test: /\.css$/,
+        include: [SRC_PATH],
         loader: 'style!css!postcss'
       }, {
         test: /\.(gif)$/,
+        include: [SRC_PATH],
         loader: 'url-loader?mimetype=image/png'
       }, {
         test: /\.woff(2)?(\?v=[0-9].[0-9].[0-9])?$/,
+        include: [SRC_PATH],
         loader: 'url-loader?mimetype=application/font-woff'
       }, {
         test: /\.(ttf|eot|svg)(\?v=[0-9].[0-9].[0-9])?$/,
+        include: [SRC_PATH],
         loader: 'file-loader?name=[name].[ext]'
       }
     ],

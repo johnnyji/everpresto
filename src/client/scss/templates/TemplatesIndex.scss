@@ -7,7 +7,6 @@
       position: relative;
       &-button {
         @extend .center-absolute;
-        @include transition(all 200ms ease);
         top: 45%;
         outline: none;
         background-color: transparent;

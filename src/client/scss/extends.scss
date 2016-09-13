@@ -17,12 +17,7 @@
   align-content: flex-start;
 }
 
-.transition {
-  @include transition(all 200ms ease);
-}
-
 .link {
-  @extend .transition;
   color: $placeholder-color;
   text-decoration: underline;
   &:hover, &:active, &:focus {

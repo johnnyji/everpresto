@@ -4,18 +4,27 @@
 
   "env": {
 
+		"devdev": {
+			"plugins": [
+				"add-module-exports",
+				"handlebars-inline-precompile",
+				"transform-decorators-legacy",
+				["transform-assets", {
+					"extensions": ["css", "scss"],
+					"name": "[name].[ext]?[sha512:hash:base64:7]"
+				}]
+			]
+		},
+
     "development": {
       "plugins": [
         "add-module-exports",
         "handlebars-inline-precompile",
         "transform-decorators-legacy",
-        [
-          "css-modules-transform",
-          {
-            "preprocessCss": "./utils/configureSass.js",
-            "extensions": [".css", ".scss"]
-          }
-        ]
+				["css-modules-transform", {
+					"preprocessCss": "./utils/configureSass.js",
+					"extensions": [".css", ".scss"]
+				}]
       ]
     },
 
@@ -24,13 +33,7 @@
         "add-module-exports",
         "handlebars-inline-precompile",
         "transform-decorators-legacy",
-        [
-          "babel-plugin-webpack-loaders",
-          {
-            "config": "./config/webpack.dev.config.js",
-            "verbose": false
-          }
-        ]
+				["babel-plugin-webpack-loaders", {"config": "./config/webpack.babel.config.js"}]
       ]
     }
 
