@@ -1,4 +1,4 @@
-import createConstants from './utils/createConstants';
+import {createConstants} from 'create-reducer-redux';
 
 const DocumentNewActionTypes = createConstants([
   'ADD_SIGNER',

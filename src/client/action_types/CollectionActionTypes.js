@@ -1,4 +1,4 @@
-import createConstants from './utils/createConstants';
+import {createConstants} from 'create-reducer-redux';
 
 const CollectionActionTypes = createConstants([
   'CREATE_COLLECTION_SUCCESS',

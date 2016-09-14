@@ -4,8 +4,8 @@ import {
   DOCUMENT_SEND_EMAILS_COMPLETE
 } from '../../../server/sockets/action_types/documentSocketActionTypes';
 import React, {Component, PropTypes} from 'react';
+import appConfig from '../../../shared/config/app';
 import Button from '.././ui/Button';
-import clientConfig from '../.././config/main';
 import createDocuments from '../.././decorators/createDocuments';
 import CustomPropTypes from '.././CustomPropTypes';
 import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
@@ -43,7 +43,7 @@ const replacePlacholders = (type) => (body, placeholderFields) => {
 
     return alteredBody.replace(
       new RegExp(field.get('placeholder'), 'g'),
-      `<span class="${clientConfig.doc.placeholderClasses[type]}">${field.get('value')}</span>`
+      `<span class="${appConfig.doc.placeholderClasses[type]}">${field.get('value')}</span>`
     );
   }, body);
 };

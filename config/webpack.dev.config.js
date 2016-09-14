@@ -17,7 +17,9 @@ const PLUGINS = [
 ];
 
 module.exports = {
+
   entry: path.join(ROOT_PATH, 'src/client/index.js'),
+
   output: {
     filename: 'bundle.js',
 		// TODO: `libraryTarget` which is required for `babel-plugin-webpack-loaders`, might be
@@ -27,6 +29,7 @@ module.exports = {
     // makes the public path for HTML/JavaScript http://localhost:8080/build/somefile.ext
     publicPath: `http://localhost:${config.development.webpackPort}/build/`
   },
+
   plugins: [
     // Extracts styles
     new ExtractTextPlugin('style.css', {allChunks: true}),
@@ -35,19 +38,11 @@ module.exports = {
       'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch'
     })
   ],
+
   resolve: {
-    // TODO: Unfortunately this won't work for us because we're rendering on the server first,
-    // which won't be parsed by this webpack file...
-    //
-    // Allows import relative to the `src` folder instead of having to do '../.././'
-    // modulesDirectories: ['src', 'node_modules', 'web_modules'],
-    // fallback: [
-    //   path.join(ROOT_PATH, 'src/client'),
-    //   path.join(ROOT_PATH, 'src/server'),
-    //   path.join(ROOT_PATH, 'node_modules')
-    // ],
     extensions: ['', '.js', '.jsx', '.json', '.scss']
   },
+
   module: {
     loaders: [
       {
@@ -86,22 +81,16 @@ module.exports = {
         loader: 'file-loader?name=[name].[ext]'
       }
     ],
+
     noParse: /\.min\.js/,
+
     // autoprefixes CSS with vendor prefixes
     postcss: [autoprefixer({browsers: ['last 2 versions']})]
-    // postLoaders: [
-    //   {
-    //     test: /\.js$/,
-    //     include: [SRC_PATH],
-    //     loader: 'babel',
-    //     query: {
-    //       cacheDirectory: true,
-    //       presets: PRESETS.concat(['react-hmre'])
-    //     }
-    //   }
-    // ]
+
   },
+
   node: {
     fs: 'empty'
   }
+
 };

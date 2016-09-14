@@ -1,4 +1,3 @@
-/* eslint-disable indent */
 /* eslint-disable spaced-comment */
 import React from 'react';
 import {Route, IndexRoute, Redirect} from 'react-router';
@@ -12,27 +11,27 @@ import NotFoundHandler from '.././components/shared/NotFoundHandler';
 
 import DashboardHandler from '.././components/dashboard/DashboardHandler';
 import DashboardView from '.././components/dashboard/DashboardView';
-  // Collections
-  import CollectionsIndex from '.././components/collections/CollectionsIndex';
-  import CollectionsShow from '.././components/collections/CollectionsShow';
-  // Documents
-  import DocumentsIndex from '.././components/documents/DocumentsIndex';
-  import DocumentsNew from '.././components/documents/DocumentsNew';
-    import DocumentsNewChooseTemplateView from '.././components/documents/DocumentsNewChooseTemplateView';
-    import DocumentsNewEditorView from '.././components/documents/DocumentsNewEditorView';
-  // Templates
-  import TemplatesIndex from '.././components/templates/TemplatesIndex';
-  import TemplatesEdit from '.././components/templates/TemplatesEdit';
-  // Profile Settings
-  import ProfileSettings from '.././components/user/ProfileSettings';
-  // Admin
-  import Admin from '../components/admin';
+// Collections
+import CollectionsIndex from '.././components/collections/CollectionsIndex';
+import CollectionsShow from '.././components/collections/CollectionsShow';
+// Documents
+import DocumentsIndex from '.././components/documents/DocumentsIndex';
+import DocumentsNew from '.././components/documents/DocumentsNew';
+import DocumentsNewChooseTemplateView from '.././components/documents/DocumentsNewChooseTemplateView';
+import DocumentsNewEditorView from '.././components/documents/DocumentsNewEditorView';
+// Templates
+import TemplatesIndex from '.././components/templates/TemplatesIndex';
+import TemplatesEdit from '.././components/templates/TemplatesEdit';
+// Profile Settings
+import ProfileSettings from '.././components/user/ProfileSettings';
+// Admin
+import Admin from '../components/admin';
 
 // This view is for testing out new components, REMOVE IN PROD
 import TestView from '../components/test/TestView';
 
-import SignatureView from '../components/signature';
-/* eslint-enable indent */
+import DocumentSigning from '../views/DocumentSigning';
+import Login from '../views/Login';
 
 const routes = (
   <Route component={AppHandler} path='/'>
@@ -42,10 +41,10 @@ const routes = (
     <IndexRoute component={LandingPageHandler} />
 
     {/*********** Email Signature Route ************/}
-    <Route component={SignatureView} path='sign_document/:id/token/:signature_token' />
+    <Route component={DocumentSigning} path='sign_document/:id/token/:signature_token' />
 
     {/*********** Auth Routes ************/}
-    <Route component={AuthHandler} path='login' />
+    <Route component={Login} path='login' />
     <Route component={AuthHandler} path='join' />
 
     {/*********** Protected Routes ************/}

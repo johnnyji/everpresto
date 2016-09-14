@@ -1,14 +1,14 @@
 import React, {Component, PropTypes} from 'react';
+import appConfig from '../../.././shared/config/app';
 import classNames from 'classnames';
 import moment from 'moment';
 import CustomPropTypes from '.././CustomPropTypes';
 import {truncateString} from '../.././utils/TextHelper';
-import Config from '../.././config/main';
 import CollectionActionCreators from '../.././actions/CollectionActionCreators';
 import ClickableIcon from '.././ui/ClickableIcon';
 import Folder from 'ui-components/src/Folder';
 
-const DEFAULT_TITLE = Config.collection.defaultTitle;
+const DEFAULT_TITLE = appConfig.collection.defaultTitle;
 const ENTER_KEY = 13;
 const displayName = 'CollectionPreviewCard';
 

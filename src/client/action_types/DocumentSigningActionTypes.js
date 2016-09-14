@@ -1,4 +1,4 @@
-import createConstants from './utils/createConstants';
+import {createConstants} from 'create-reducer-redux';
 
 const DocumentSigningActionTypes = createConstants([
   'FETCH_DOCUMENT',

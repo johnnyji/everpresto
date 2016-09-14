@@ -1,4 +1,4 @@
-import createConstants from './utils/createConstants';
+import {createConstants} from 'create-reducer-redux';
 
 const DocumentActionTypes = createConstants([
   'FETCH_DOCUMENTS_ERROR',

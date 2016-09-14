@@ -1,5 +1,5 @@
 import replaceWordWithHtml from './replaceWordWithHtml';
-import {template} from '.././config/main';
+import {template} from '../../shared/config/app';
 
 const {placeholderTag: HIGHLIGHT_TAG} = template;
 const HIGHLIGHT_TAG_MATCHER = new RegExp(`(<${HIGHLIGHT_TAG}>|<\/${HIGHLIGHT_TAG}>)`, 'g');
