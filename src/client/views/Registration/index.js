@@ -1,35 +1,33 @@
-import React, {Component, PropTypes} from 'react';
-import AppActionCreators from './../../actions/AppActionCreators';
-import AuthActionCreators from './../../actions/AuthActionCreators';
+import React, {PropTypes, PureComponent} from 'react';
+import AppActionCreators from '../../actions/AppActionCreators';
+import AuthActionCreators from '../../actions/AuthActionCreators';
 import Button from 'ui-components/src/Button';
-import Card from '.././ui/Card';
+import Card from '../../components/ui/Card';
+import {fromJS} from 'immutable';
 import Icon from 'ui-components/src/Icon';
-import Immutable from 'immutable';
 import Input, {validators} from 'ui-components/src/Input';
-import pureRender from 'pure-render-decorator';
+import styles from './styles/index.scss';
 
-const displayName = 'RegistrationForm';
 const VALIDATE_FIRST_NAME = validators.minLength(1, 'You\'re first name please!');
 const VALIDATE_PASSWORD = validators.minLength(8, 'Passwords must be at least 8 characters!');
 const VALIDATE_LAST_NAME = validators.minLength(1, 'You\'re last name please!');
 const VALIDATE_EMAIL = validators.email('That\'s not a valid email');
 const VALIDATE_COMPANY_NAME = validators.minLength(1, 'Please provide your company\'s name');
 
-@pureRender
-export default class RegistrationForm extends Component {
+export default class RegistrationForm extends PureComponent {
 
-  static displayName = displayName;
+  static displayName = 'Registration';
 
   static contextTypes = {
     dispatch: PropTypes.func.isRequired
   };
 
   state = {
-    form: Immutable.fromJS({
+    form: fromJS({
       company: {
         name: {error: null, value: ''}
       },
-      user: Immutable.fromJS({
+      user: fromJS({
         firstName: {error: null, value: ''},
         lastName: {error: null, value: ''},
         email: {error: null, value: ''},
@@ -44,14 +42,14 @@ export default class RegistrationForm extends Component {
     const firstName = form.getIn(['user', 'firstName', 'value']);
 
     return (
-      <div className={displayName}>
-        <Card className={`${displayName}-card`}>
-          <header className={`${displayName}-card-header`}>
+      <div className={styles.main}>
+        <Card className={styles.card}>
+          <header className={styles.header}>
             {firstName.length ? `Welcome ${firstName}!` : 'Welcome!'}
           </header>
           <Input
             autoFocus={true}
-            className={`${displayName}-card-input`}
+            className={styles.input}
             error={form.getIn(['company', 'name', 'error'])}
             label='Company'
             name='company:name'
@@ -60,7 +58,7 @@ export default class RegistrationForm extends Component {
             patternMatches={VALIDATE_COMPANY_NAME}
             value={form.getIn(['company', 'name', 'value'])} />
           <Input
-            className={`${displayName}-card-input`}
+            className={styles.input}
             error={form.getIn(['user', 'firstName', 'error'])}
             label='Jason'
             name='user:firstName'
@@ -69,7 +67,7 @@ export default class RegistrationForm extends Component {
             patternMatches={VALIDATE_FIRST_NAME}
             value={form.getIn(['user', 'firstName', 'value'])} />
           <Input
-            className={`${displayName}-card-input`}
+            className={styles.input}
             error={form.getIn(['user', 'lastName', 'error'])}
             label='Bourne'
             name='user:lastName'
@@ -78,7 +76,7 @@ export default class RegistrationForm extends Component {
             patternMatches={VALIDATE_LAST_NAME}
             value={form.getIn(['user', 'lastName', 'value'])} />
           <Input
-            className={`${displayName}-card-input`}
+            className={styles.input}
             error={form.getIn(['user', 'email', 'error'])}
             label='jasonbourne@gmail.com'
             name='user:email'
@@ -88,7 +86,7 @@ export default class RegistrationForm extends Component {
             type='email'
             value={form.getIn(['user', 'email', 'value'])} />
           <Input
-            className={`${displayName}-card-input`}
+            className={styles.input}
             error={form.getIn(['user', 'password', 'error'])}
             label='Password'
             name='user:password'
@@ -98,7 +96,7 @@ export default class RegistrationForm extends Component {
             type='password'
             value={form.getIn(['user', 'password', 'value'])} />
           <Input
-            className={`${displayName}-card-input`}
+            className={styles.input}
             error={form.getIn(['user', 'passwordConfirmation', 'error'])}
             label='Confirm Password'
             name='user:passwordConfirmation'
@@ -107,10 +105,9 @@ export default class RegistrationForm extends Component {
             patternMatches={VALIDATE_PASSWORD}
             type='password'
             value={form.getIn(['user', 'passwordConfirmation', 'value'])} />
-          <footer className={`${displayName}-footer`}>
-            <Button onClick={this._handleFormSubmission}>
-              <span className={`${displayName}-footer-buttontext`}>Done</span>
-              <Icon name='chevron-right' />
+          <footer className={styles.footer}>
+            <Button className={styles.submitButton} onClick={this._handleFormSubmission} isPill={true}>
+							Done <Icon name='chevron-right' />
             </Button>
           </footer>
         </Card>

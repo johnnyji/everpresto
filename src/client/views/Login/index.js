@@ -6,8 +6,7 @@ import Card from '../../components/ui/Card';
 import cssModulesPath from '../../utils/cssModulesPath';
 import {fromJS} from 'immutable';
 import Input, {validators} from 'ui-components/src/Input';
-
-const styles = require('./styles/index.scss');
+import styles from './styles/index.scss';
 
 const VALIDATE_EMAIL = validators.email('Hmmm, are you sure that\'s your email?');
 const VALIDATE_PASSWORD = validators.minLength(1, 'Don\'t forget to enter a password!');
@@ -70,7 +69,12 @@ export default class Login extends PureComponent {
             Show password?
           </label>
           <footer className={styles.footer}>
-            <Button onClick={this._handleLogin}>Login</Button>
+						<Button
+							className={styles.loginButton}
+							isPill={true}
+							onClick={this._handleLogin}>
+							Login
+						</Button>
           </footer>
         </Card>
       </div>

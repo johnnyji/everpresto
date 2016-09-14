@@ -5,7 +5,6 @@ import RequiresAdmin from './utils/RequiresAdmin';
 import RequiresAuth from './utils/RequiresAuth';
 
 import AppHandler from '.././components/app/AppHandler';
-import AuthHandler from '.././components/auth/AuthHandler';
 import LandingPageHandler from '.././components/app/LandingPageHandler';
 import NotFoundHandler from '.././components/shared/NotFoundHandler';
 
@@ -32,6 +31,7 @@ import TestView from '../components/test/TestView';
 
 import DocumentSigning from '../views/DocumentSigning';
 import Login from '../views/Login';
+import Registration from '../views/Registration';
 
 const routes = (
   <Route component={AppHandler} path='/'>
@@ -45,7 +45,7 @@ const routes = (
 
     {/*********** Auth Routes ************/}
     <Route component={Login} path='login' />
-    <Route component={AuthHandler} path='join' />
+    <Route component={Registration} path='join' />
 
     {/*********** Protected Routes ************/}
     <Route path='dashboard' component={RequiresAuth(DashboardHandler)}>

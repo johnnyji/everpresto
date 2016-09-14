@@ -10,7 +10,7 @@ cssModulesHook({
 	preprocessCss: (css, filename) => {
 		return sass.renderSync({
 			data: css,
-			file: filename,
+			file: filename
 			// includePaths: [path.resolve(__dirname, '../client/scss')]
 		})
 			.css

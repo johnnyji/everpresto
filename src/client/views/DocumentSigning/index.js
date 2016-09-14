@@ -7,12 +7,10 @@ import CustomPropTypes from '../../utils/CustomPropTypes';
 import ModalSignature from './ModalSignature';
 import RequiresDocumentForSigning from './containers/RequiresDocumentForSigning';
 
-const CLS = 'DocumentSigningView';
-
 @RequiresDocumentForSigning
-export default class DocumentSigningView extends PureComponent {
+export default class DocumentSigning extends PureComponent {
 
-  static displayName = CLS;
+  static displayName = 'DocumentSigning';
 
   static propTypes = {
     document: CustomPropTypes.document.isRequired
@@ -22,13 +20,13 @@ export default class DocumentSigningView extends PureComponent {
     const {document} = this.props;
 
     return (
-      <div className={CLS}>
-        <header className={`${CLS}-header`}>everpresto!</header>
-        <Card className={`${CLS}-document`}>
+      <div className={styles.main}>
+        <header className={styles.header}>everpresto!</header>
+        <Card className={styles.document}>
           <main
-            className={`${CLS}-document-body`}
+            className={styles.docuemntContent}
             dangerouslySetInnerHTML={{__html: document.get('body')}} />
-          <footer className={`${CLS}-document-footer`}>
+          <footer className={styles.footer}>
             {this._renderSignatureBox()}
           </footer>
         </Card>
@@ -39,8 +37,8 @@ export default class DocumentSigningView extends PureComponent {
   _renderSignatureBox = () => {
     return (
       <Clickable onClick={this._handleSignatureModal}>
-        <span className={`${CLS}-document-footer-mark`}>X</span>
-        <span className={`${CLS}-document-footer-sign`}>Sign Here!</span>
+        <span className={styles.mark}>X</span>
+        <span className={styles.signLabel}>Sign Here!</span>
       </Clickable>
     );
   };

@@ -1,0 +1,36 @@
+@import '../../../scss/colors.scss';
+@import '../../../scss/extends.scss';
+
+.main {
+  left: 50%;
+  position: absolute;
+  top: 45%;
+  transform: translate(-50%, -50%);
+}
+
+.card {
+	padding: 16px 32px;
+	position: relative;
+}
+
+.header {
+	color: $brand-color-blue-dark;
+	font-family: 'Indie Flower';
+	font-size: 36px;
+	text-align: center;
+}
+
+.input {
+	margin: 24px auto;
+	width: 325px;
+}
+
+.footer {
+	@extend .flex-center;
+	margin: 24px auto;
+}
+
+.submitButton {
+	padding-left: 32px;
+	padding-right: 32px;
+}

@@ -1,0 +1,46 @@
+@import '../../../scss/colors.scss';
+@import '../../../scss/extends.scss';
+
+.main {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+	font-family: 'Indie Flower';
+	font-size: 24px;
+}
+
+.document {
+	@extend .box-shadow;
+	background-color: $ui-card-background-color;
+	padding: 1rem;
+	position: relative;
+	overflow: auto;
+}
+
+.documentContent {
+	& p { margin: 0 }
+}
+
+.footer {
+	display: flex;
+	font-family: 'Indie Flower';
+	font-size: 24px;
+	font-weight: lighter;
+	justify-content: flex-end;
+	margin-top: 1rem;
+	width: 100%;
+}
+
+.signLabel {
+	border-bottom: 2px dashed $placeholder-color;    
+	color: $placeholder-color;
+	padding: 0 16px;
+}
+
+.mark {
+	color: $placeholder-color;
+	font-size: 32px;
+}
