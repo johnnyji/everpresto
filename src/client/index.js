@@ -23,11 +23,9 @@ Object.keys(initialStoreState).forEach((key) => {
 });
 
 
-const store = configureStore(initialStoreState);
-
 // Renders the router client side
 render((
-  <Provider store={store}>
+  <Provider store={configureStore(initialStoreState)}>
     <Router history={browserHistory}>
       {routes}
     </Router>

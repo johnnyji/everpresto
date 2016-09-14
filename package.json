@@ -11,10 +11,10 @@
   "scripts": {
     "server-dev:clean": "rm -rf lib",
     "eslint": "eslint ./src",
-    "server-dev:babel": "BABEL_ENV=development babel ./src --watch --out-dir ./lib --copy-files",
+    "server-dev:babel": "NODE_ENV=development babel ./src --watch --out-dir ./lib --copy-files",
     "server-dev:server": "iron-node ./lib/server/index.js",
     "server-dev:webpack": "webpack-dev-server --devtool-eval --hot --inline --colors --progress --display-error-details --content-base build --config config/webpack.dev.config.js",
-    "server-dev": "npm run server-dev:clean && npm run server-dev:babel & npm run server-dev:webpack & npm run server-dev:server",
+    "server-dev": "npm run server-dev:babel & npm run server-dev:webpack & npm run server-dev:server",
     "validate-wp:dev": "webpack-validator ./config/webpack.dev.config.js",
     "validate-wp:server": "webpack-validator ./config/webpack.server.config.js"
   },

@@ -6,6 +6,8 @@ var baseUrl = process.env.NODE_ENV === 'production' ?
 module.exports = {
   apiUrlPrefix: '/api',
   baseUrl,
+	// cssModulesScopedName: '[name]_[local]__[hash:base64:5]',
+	// This ensures that both webpack and css-modules-require-hook are generating the same classes
 	cssModulesScopedName: '[name]_[local]__[hash:base64:5]',
   s3BucketPath: 'https://s3-us-west-2.amazonaws.com/tickit-app',
   development: {

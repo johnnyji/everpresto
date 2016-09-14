@@ -16,7 +16,7 @@ cssModulesHook({
 			.css
 			.toString('utf8');
 	},
-	rootDir: path.join(__dirname, '../.././')
+	// rootDir: path.join(__dirname, '../.././')
 });
 
 require('./server.js');
