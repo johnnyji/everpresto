@@ -6,6 +6,7 @@ var baseUrl = process.env.NODE_ENV === 'production' ?
 module.exports = {
   apiUrlPrefix: '/api',
   baseUrl,
+	cssModulesScopedName: '[name]_[local]__[hash:base64:5]',
   s3BucketPath: 'https://s3-us-west-2.amazonaws.com/tickit-app',
   development: {
     hostname: 'localhost',

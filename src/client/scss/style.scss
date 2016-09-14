@@ -2,13 +2,15 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto:400,300,500|Indie+Flower);
 
 // Bourbon for Node.js
-@import '~bourbon/app/assets/stylesheets/_bourbon.scss';
+// @import '~bourbon/app/assets/stylesheets/_bourbon.scss';
+// TODO: Remove bourbon completely
+@import './bourbon/_bourbon.scss';
 
 // Normalize.css
 @import './normalize.css';
 
 // Medium Rich Text Editor
-@import '~medium-editor/dist/css/medium-editor.css';
+// @import '~medium-editor/dist/css/medium-editor.css';
 
 // Import dimesions variables
 @import './dimensions';

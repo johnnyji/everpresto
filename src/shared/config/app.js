@@ -1,6 +1,6 @@
 // Global App Code Config for Everpresto
 
-export default {
+module.exports = {
   collection: {
     defaultTitle: 'Untitled'
   },

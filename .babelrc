@@ -2,41 +2,10 @@
 
   "presets": ["es2015", "stage-0", "react"],
 
-  "env": {
-
-		"devdev": {
-			"plugins": [
-				"add-module-exports",
-				"handlebars-inline-precompile",
-				"transform-decorators-legacy",
-				["transform-assets", {
-					"extensions": ["css", "scss"],
-					"name": "[name].[ext]?[sha512:hash:base64:7]"
-				}]
-			]
-		},
-
-    "development": {
-      "plugins": [
-        "add-module-exports",
-        "handlebars-inline-precompile",
-				"transform-decorators-legacy",
-				["css-modules-transform", {
-					"preprocessCss": "./utils/configureSass.js",
-					"extensions": [".css", ".scss"]
-				}]
-			]
-    },
-
-    "dev": {
-      "plugins": [
-        "add-module-exports",
-        "handlebars-inline-precompile",
-        "transform-decorators-legacy",
-				["babel-plugin-webpack-loaders", {"config": "./config/webpack.babel.config.js"}]
-      ]
-    }
-
-  }
-
+	"plugins": [
+		"add-module-exports",
+		"handlebars-inline-precompile",
+		"transform-decorators-legacy"
+	]
+	
 }

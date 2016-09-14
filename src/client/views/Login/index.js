@@ -7,7 +7,7 @@ import cssModulesPath from '../../utils/cssModulesPath';
 import {fromJS} from 'immutable';
 import Input, {validators} from 'ui-components/src/Input';
 
-const styles = require('!style!css?modules!postcss!sass!./styles/index.scss');
+const styles = require('./styles/index.scss');
 
 const VALIDATE_EMAIL = validators.email('Hmmm, are you sure that\'s your email?');
 const VALIDATE_PASSWORD = validators.minLength(1, 'Don\'t forget to enter a password!');

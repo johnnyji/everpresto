@@ -1,7 +1,10 @@
 const autoprefixer = require('autoprefixer');
-const webpack = require('webpack');
+const config = require('./config');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const path = require('path');
+const webpack = require('webpack');
 
+const ROOT_PATH = path.join(__dirname, '.././');
 const PRESETS = ['es2015', 'stage-0', 'react'];
 const PLUGINS = [
   'add-module-exports',
@@ -10,9 +13,9 @@ const PLUGINS = [
   'external-helpers-2',
   'transform-runtime'
 ];
-const ROOT_PATH = path.join(__dirname, '.././');
+const PUBLIC_PATH = `http://localhost:${process.env.NODE_ENV === 'production' ? config.production.webpackPort : config.development.webpackPort}/build/`;
 
-const config = {
+const webpackConfig = {
 	// Makes sure out webpack output can run in a node.js environment
   target: 'node',
 
@@ -28,6 +31,10 @@ const config = {
     console: true
   },
 
+	plugins: [
+		new ExtractTextPlugin('style.css', {allChunks: true})
+	],
+
   module: {
     loaders: [
 			{
@@ -41,7 +48,7 @@ const config = {
 			}, {
 				test: /\.scss$/,
 				exclude: /node_modules/,
-				loader: 'style!css!postcss!sass'
+        loader: ExtractTextPlugin.extract('style', 'css!postcss!sass')
 			}, {
 				test: /\.css$/,
 				exclude: /node_modules/,
@@ -56,32 +63,35 @@ const config = {
 
 // Config used for transpiling `routes/index.js`, so
 // the server can use it in `server.js`
-const routesConfig = Object.assign({}, config, {
+const routesConfig = Object.assign({}, webpackConfig, {
 	entry: path.join(ROOT_PATH, 'src/client/routes/index.js'),
   output: {
-		path: './lib/client/routes',
+		path: path.join(ROOT_PATH, 'lib/client/routes'),
     filename: 'index.js',
-    libraryTarget: 'commonjs2'
+		libraryTarget: 'commonjs2',
+		publicPath: PUBLIC_PATH
   }
 });
 
 // Config used for transpiling `store/configureStore.js`, so
 // the server can use it in `server.js`
-const configureStoreConfig = Object.assign({}, config, {
+const configureStoreConfig = Object.assign({}, webpackConfig, {
 	entry: path.join(ROOT_PATH, 'src/client/store/configureStore.js'),
   output: {
-		path: './lib/client/store',
+		path: path.join(ROOT_PATH, 'lib/client/store'),
     filename: 'configureStore.js',
-    libraryTarget: 'commonjs2'
+		libraryTarget: 'commonjs2',
+		publicPath: PUBLIC_PATH
   }
 });
 
-const notFoundComponentConfig = Object.assign({}, config, {
+const notFoundComponentConfig = Object.assign({}, webpackConfig, {
 	entry: path.join(ROOT_PATH, 'src/client/components/shared/NotFoundHandler.js'),
   output: {
-		path: './lib/client/components/shared',
+		path: path.join(ROOT_PATH, 'lib/client/components/shared'),
     filename: 'NotFoundHandler.js',
-    libraryTarget: 'commonjs2'
+		libraryTarget: 'commonjs2',
+		publicPath: PUBLIC_PATH
   }
 });
 

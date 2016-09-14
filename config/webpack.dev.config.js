@@ -62,11 +62,11 @@ module.exports = {
       }, {
         test: /.scss$/,
         include: [SRC_PATH],
-        loader: ExtractTextPlugin.extract('style', 'css!postcss!sass')
+        loader: ExtractTextPlugin.extract('style', `css?modules&localIdentName=${config.cssModulesScopedName}!postcss!sass`)
       }, {
         test: /\.css$/,
         include: [SRC_PATH],
-        loader: 'style!css!postcss'
+        loader: `style!css?modules&localIdentName=${config.cssModulesScopedName}!postcss`
       }, {
         test: /\.(gif)$/,
         include: [SRC_PATH],
