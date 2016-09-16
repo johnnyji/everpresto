@@ -11,14 +11,15 @@ import connectMongo from 'connect-mongo';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import morgan from 'morgan';
+import renderPage from './renderPage';
 
 // REACT/ROUTER
 import React from 'react';
-import Immutable from 'immutable';
+import {fromJS, Map} from 'immutable';
 import {renderToString} from 'react-dom/server';
 import {match, RouterContext} from 'react-router';
 import clientRoutes from './../client/routes/index';
-import NotFoundHandler from './../client/components/shared/NotFoundHandler';
+import NotFound from './../client/views/NotFound';
 
 // REDUX
 import {Provider} from 'react-redux';
@@ -115,9 +116,10 @@ app.use((req, res) => {
   // TODO: Add conditional for development/production
   const scriptPath = `http://localhost:${config.development.webpackPort}/build/bundle.js`;
   const stylePath = `http://localhost:${config.development.webpackPort}/build/style.css`;
+  let initialState = {auth: Map({company: null, user: null})};
 
   // Renders the router routes dependant on the request
-  match({routes: clientRoutes, location: req.url}, (err, redirectLocation, renderProps) => {
+  match({routes: clientRoutes(initialState), location: req.url}, (err, redirectLocation, renderProps) => {
     if (err) {
       // Handle server error
       // TODO: Have the response render a custom server error component to display a user friendly message.
@@ -126,24 +128,20 @@ app.use((req, res) => {
       // Handle route redirection
       res.redirect(302, redirectLocation.pathname + redirectLocation.search);
     } else if (renderProps) {
-      // Handle route rendering
-      let initialState;
       // Goes through the flow of loading the initial app state
       User.findWithCompany(req.session.userId)
-        .then((response) => {
-          const {company, user} = response;
-          const {_id: userObjId, _company: companyObjId} = user;
-
+        .then(({company, user}) => {
           // When the client side `fetch`es for the current user, the internal
           // `_id` and `_company` fields are automatically convrted to `id` and
           // `company` ID strings respectively. However when we first hydrate the
           // client side store, we don't have the automatic conversion, which is why
           // we must do it ourselves here.
+          const {_id: userObjId, _company: companyObjId} = user;
           delete user._id;
           delete user._company;
           
           initialState = {
-            auth: Immutable.fromJS({
+            auth: fromJS({
               company,
               user: Object.assign({}, user, {
                 id: userObjId.toString(),
@@ -152,69 +150,33 @@ app.use((req, res) => {
             })
           };
         })
-        .catch((err) => {
-          if (err) console.error(err);
-          initialState = {
-            auth: Immutable.Map({company: null, user: null})
-          };
-        })
+        .catch((err) => { if (err) console.error(err); })
         .finally(() => {
           const store = configureStore(initialState);
-
-          // Grabs the latest updated state from the store and sets it on the window so
-          // the client side and hydrate it's store with the same state
-          const hydrateInitialClientState = `
+          const initialState = `
             <script type='application/javascript'>
               window.__INITIAL_STORE_STATE__ = ${JSON.stringify(store.getState())}
             </script>
           `;
-          const componentToRender = renderToString(
+          const content = renderToString(
             <Provider store={store}>
               <RouterContext {...renderProps} />
             </Provider>
           );
-
           // Ends the response by sending the HTML string to the browser to render
-          res.end(`
-            <!DOCTYPE html>
-            <html>
-              <head>
-                <meta charset="utf-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <meta name="description" content="Reducing document signing time">
-                <meta name="author" content="everpresto">
-                <title>everpresto!</title>
-                <link rel="stylesheet" type="text/css" href="${stylePath}" />
-                ${hydrateInitialClientState}
-              </head>
-              <body>
-                <div id="app">${componentToRender}</div>
-                <script src="/socket.io/socket.io.js"></script>
-                <script type="application/javascript" src="${scriptPath}"></script>
-              </body>
-            </html>
-          `);
+          res.end(renderPage({
+            content,
+            initialState,
+            scriptPath,
+            stylePath
+          }));
         });
     } else {
-      // Handle route not found
-      res.status(404).end(`
-        <!DOCTYPE html>
-        <html>
-          <head>
-            <meta charset="utf-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <meta name="description" content="Reducing document signing time">
-            <meta name="author" content="everpresto">
-            <title>everpresto!</title>
-            <link rel="stylesheet" type="text/css" href="${stylePath}" />
-          </head>
-          <body>
-            <div id="app">${renderToString(<NotFoundHandler />)}</div>
-            <script src="/socket.io/socket.io.js"></script>
-            <script type="application/javascript" src="${scriptPath}"></script>
-          </body>
-        </html>
-      `);
+      res.status(404).end(renderPage({
+        content: renderToString(<NotFound />),
+        scriptPath,
+        stylePath
+      }));
     }
   });
 

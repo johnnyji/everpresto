@@ -1,12 +1,11 @@
 /* eslint-disable spaced-comment */
 import React from 'react';
 import {Route, IndexRoute, Redirect} from 'react-router';
-import RequiresAdmin from './utils/RequiresAdmin';
-import RequiresAuth from './utils/RequiresAuth';
+import redirectCurrentUser from './hooks/redirectCurrentUser';
+import requiresAdmin from './hooks/requiresAdmin';
+import requiresAuth from './hooks/requiresAuth';
 
-import AppHandler from '.././components/app/AppHandler';
-import LandingPageHandler from '.././components/app/LandingPageHandler';
-import NotFoundHandler from '.././components/shared/NotFoundHandler';
+import App from '.././components/app/App';
 
 import DashboardHandler from '.././components/dashboard/DashboardHandler';
 import DashboardView from '.././components/dashboard/DashboardView';
@@ -23,22 +22,24 @@ import TemplatesIndex from '.././components/templates/TemplatesIndex';
 import TemplatesEdit from '.././components/templates/TemplatesEdit';
 // Profile Settings
 import ProfileSettings from '.././components/user/ProfileSettings';
-// Admin
-import Admin from '../components/admin';
 
 // This view is for testing out new components, REMOVE IN PROD
 import TestView from '../components/test/TestView';
 
+import Admin from '../views/Admin';
 import DocumentSigning from '../views/DocumentSigning';
 import Login from '../views/Login';
+import LandingPage from '../views/LandingPage';
+import NotFound from '../views/NotFound';
 import Registration from '../views/Registration';
 
-const routes = (
-  <Route component={AppHandler} path='/'>
+export default (state) => (
+  <Route component={App} path='/'>
     <Redirect from='dashboard' to='dashboard/collections' />
     <Redirect from='settings' to='dashboard/profile_settings' />
     <Redirect from='profile' to='dashboard/profile_settings' />
-    <IndexRoute component={LandingPageHandler} />
+
+    <IndexRoute component={LandingPage} onEnter={redirectCurrentUser(state)} />
 
     {/*********** Email Signature Route ************/}
     <Route component={DocumentSigning} path='sign_document/:id/token/:signature_token' />
@@ -48,7 +49,7 @@ const routes = (
     <Route component={Registration} path='join' />
 
     {/*********** Protected Routes ************/}
-    <Route path='dashboard' component={RequiresAuth(DashboardHandler)}>
+    <Route path='dashboard' component={DashboardHandler} onEnter={requiresAuth(state)}>
       <IndexRoute component={DashboardView} />
 
       <Route path='collections' component={DashboardView}>
@@ -73,7 +74,7 @@ const routes = (
         <IndexRoute component={ProfileSettings} />
       </Route>
 
-      <Route path='admin' component={RequiresAdmin(DashboardView)}>
+      <Route path='admin' component={DashboardView} onEnter={requiresAdmin(state)}>
         <IndexRoute component={Admin} />
       </Route>
 
@@ -83,9 +84,7 @@ const routes = (
     </Route>
 
     {/*********** 404 Route ************/}
-    <Route component={NotFoundHandler} path='*' />
+    <Route component={NotFound} path='*' />
   </Route>
 );
-
-export default routes;
 /* eslint-enable spaced-comment */

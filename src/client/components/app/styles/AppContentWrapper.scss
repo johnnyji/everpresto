@@ -1,0 +1,10 @@
+@import '../../../scss/dimensions.scss';
+
+.main {
+  height: 100%;
+  margin: 0 auto;
+  max-width: $app-content-max-width;
+  min-width: $app-content-min-width;
+  position: relative;
+  width: 100%;
+}

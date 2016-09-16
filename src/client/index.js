@@ -15,19 +15,20 @@ import configureStore from './store/configureStore';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 
-const initialStoreState = window.__INITIAL_STORE_STATE__;
+const initialStoreState = window.__INITIAL_STORE_STATE__ || {};
 
 // Transforms into Immutable.js
 Object.keys(initialStoreState).forEach((key) => {
   initialStoreState[key] = fromJS(initialStoreState[key]);
 });
 
+const store = configureStore(initialStoreState);
 
 // Renders the router client side
 render((
-  <Provider store={configureStore(initialStoreState)}>
+  <Provider store={store}>
     <Router history={browserHistory}>
-      {routes}
+      {routes(store.getState())}
     </Router>
   </Provider>
 ), document.getElementById('app'));

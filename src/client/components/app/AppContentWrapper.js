@@ -1,12 +1,11 @@
-import React, {Component, PropTypes} from 'react';
+import React, {PropTypes, PureComponent} from 'react';
 import classNames from 'classnames';
+import styles from './styles/AppContentWrapper.scss';
 
 // This component restricts it's children to the app's min and max width
-const displayName = 'AppContentWrapper';
+export default class AppContentWrapper extends PureComponent {
 
-export default class AppContentWrapper extends Component {
-
-  static displayName = displayName;
+  static displayName = 'AppContentWrapper';
 
   static propTypes = {
     className: PropTypes.string
@@ -14,10 +13,9 @@ export default class AppContentWrapper extends Component {
 
   render() {
     const {children, className} = this.props;
-    const classes = classNames(className, displayName);
 
     return (
-      <div className={classes}>
+      <div className={classNames(styles.main, className)}>
         {children}
       </div>
     );

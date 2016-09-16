@@ -7,16 +7,15 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import MUIThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Overlay from '.././ui/Overlay';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-
-const displayName = 'AppHandler';
+import styles from './styles/App.scss';
 
 @connect((state) => ({
   flash: state.app.get('flash'),
   modal: state.app.get('modal')
 }))
-export default class AppHandler extends Component {
+export default class App extends Component {
 
-  static displayName = displayName;
+  static displayName = 'App';
 
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
@@ -52,20 +51,18 @@ export default class AppHandler extends Component {
 
     return (
       <MUIThemeProvider muiTheme={getMuiTheme(EverprestoMUITheme)}>
-        <div className={displayName}>
-          {/* Displays Flash Message */}
+        <main className={styles.main}>
           {flashMessage && <FlashMessage color={flash.get('color')} content={flashMessage} />}
-          {/* Displays Modal */}
           {modalShouldDisplay &&
             <Overlay onExit={this._handleExitModal}>
               {modalElement}
             </Overlay>
           }
-          <div className={`${displayName}-content-container`}>
+          <div className={styles.content}>
             {/* Allows the React Router to run the correct child route, replaced RouteHandler in v1.0.0 */}
             {this.props.children}
           </div>
-        </div>
+        </main>
       </MUIThemeProvider>
     );
 

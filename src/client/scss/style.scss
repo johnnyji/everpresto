@@ -106,7 +106,7 @@
 @import './ui/Spinner';
 @import './ui/TipBox';
 
-body {
+:global(body) {
   position: relative;
   box-sizing: border-box;
   color: $text-color;
@@ -120,11 +120,7 @@ body {
   overflow-x: hidden;
 }
 
-@include medium-viewport {
-  font-size: 14px;
-}
-
-#app {
+:global(#app) {
   // This lets #app be the same dimensions as the body
   position: absolute;
   left: 0;
@@ -144,7 +140,7 @@ body {
 }
 
 // Make all placeholder `mark` tags a bit lighter
-mark {
+:global(mark) {
   background-color: $highlight-yellow-color;
 }
 
@@ -159,6 +155,6 @@ mark {
 
   
 // Remove nasty autofill yellow on chrome
-input:-webkit-autofill {
-    -webkit-box-shadow: 0 0 0px 1000px white inset;
+:global(input:-webkit-autofill) {
+  -webkit-box-shadow: 0 0 0px 1000px white inset;
 }

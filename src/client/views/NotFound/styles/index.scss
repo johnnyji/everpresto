@@ -1,0 +1,22 @@
+.main {
+  bottom: 0;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.shrug {
+  font-weight: lighter;
+  font-size: 72px;
+}
+
+.status {
+  font-weight: normal;
+  font-style: italic;
+  font-size: 48px;
+}
