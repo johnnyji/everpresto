@@ -3,7 +3,8 @@ import AppActionCreators from '../../actions/AppActionCreators';
 import AuthActionCreators from '../../actions/AuthActionCreators';
 import Button from 'ui-components/src/Button';
 import Card from '../../components/ui/Card';
-import cssModulesPath from '../../utils/cssModulesPath';
+import {connect} from 'react-redux';
+import CustomPropTypes from '../../utils/CustomPropTypes';
 import {fromJS} from 'immutable';
 import Input, {validators} from 'ui-components/src/Input';
 import styles from './styles/index.scss';
@@ -11,12 +12,22 @@ import styles from './styles/index.scss';
 const VALIDATE_EMAIL = validators.email('Hmmm, are you sure that\'s your email?');
 const VALIDATE_PASSWORD = validators.minLength(1, 'Don\'t forget to enter a password!');
 
+@connect((state) => ({
+  currentUser: state.auth.get('user')
+}))
 export default class Login extends PureComponent {
 
   static displayName = 'Login';
 
+  static propTypes = {
+    currentUser: CustomPropTypes.user
+  };
+
   static contextTypes = {
-    dispatch: PropTypes.func.isRequired
+    dispatch: PropTypes.func.isRequired,
+    router: PropTypes.shape({
+      replace: PropTypes.func.isRequired
+    }).isRequired
   };
 
   state = {
@@ -32,6 +43,18 @@ export default class Login extends PureComponent {
       }
     })
   };
+
+  componentWillMount() {
+    if (this.props.currentUser) {
+      this.context.router.replace('/dashboard');
+    }
+  }
+
+  componentWillReceiveProps({currentUser}) {
+    if (!this.props.currentUser && currentUser) {
+      this.context.router.replace('/dashboard');
+    }
+  }
 
   render () {
     const {showPassword, user} = this.state;

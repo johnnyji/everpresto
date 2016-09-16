@@ -1,9 +1,10 @@
 /* eslint-disable spaced-comment */
 import React from 'react';
 import {Route, IndexRoute, Redirect} from 'react-router';
-import redirectCurrentUser from './hooks/redirectCurrentUser';
-import requiresAdmin from './hooks/requiresAdmin';
-import requiresAuth from './hooks/requiresAuth';
+
+// Route Hooks
+import RequiresAdmin from './hooks/RequiresAdmin';
+import RequiresAuth from './hooks/RequiresAuth';
 
 import App from '.././components/app/App';
 
@@ -33,13 +34,13 @@ import LandingPage from '../views/LandingPage';
 import NotFound from '../views/NotFound';
 import Registration from '../views/Registration';
 
-export default (state) => (
+export default (
   <Route component={App} path='/'>
     <Redirect from='dashboard' to='dashboard/collections' />
     <Redirect from='settings' to='dashboard/profile_settings' />
     <Redirect from='profile' to='dashboard/profile_settings' />
 
-    <IndexRoute component={LandingPage} onEnter={redirectCurrentUser(state)} />
+    <IndexRoute component={LandingPage} />
 
     {/*********** Email Signature Route ************/}
     <Route component={DocumentSigning} path='sign_document/:id/token/:signature_token' />
@@ -49,9 +50,9 @@ export default (state) => (
     <Route component={Registration} path='join' />
 
     {/*********** Protected Routes ************/}
-    <Route path='dashboard' component={DashboardHandler} onEnter={requiresAuth(state)}>
+    <Route path='dashboard' component={RequiresAuth(DashboardHandler)}>
       <IndexRoute component={DashboardView} />
-
+      /
       <Route path='collections' component={DashboardView}>
         <IndexRoute component={CollectionsIndex} />
         <Route path=':id' component={CollectionsShow} />
@@ -74,7 +75,7 @@ export default (state) => (
         <IndexRoute component={ProfileSettings} />
       </Route>
 
-      <Route path='admin' component={DashboardView} onEnter={requiresAdmin(state)}>
+      <Route path='admin' component={RequiresAdmin(DashboardView)}>
         <IndexRoute component={Admin} />
       </Route>
 

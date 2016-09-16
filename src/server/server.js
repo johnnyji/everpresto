@@ -18,7 +18,7 @@ import React from 'react';
 import {fromJS, Map} from 'immutable';
 import {renderToString} from 'react-dom/server';
 import {match, RouterContext} from 'react-router';
-import clientRoutes from './../client/routes/index';
+import clientRoutes from './../client/routes';
 import NotFound from './../client/views/NotFound';
 
 // REDUX
@@ -119,13 +119,11 @@ app.use((req, res) => {
   let initialState = {auth: Map({company: null, user: null})};
 
   // Renders the router routes dependant on the request
-  match({routes: clientRoutes(initialState), location: req.url}, (err, redirectLocation, renderProps) => {
+  match({routes: clientRoutes, location: req.url}, (err, redirectLocation, renderProps) => {
     if (err) {
-      // Handle server error
       // TODO: Have the response render a custom server error component to display a user friendly message.
       res.status(500).end('Internal Server Error :(');
     } else if (redirectLocation) {
-      // Handle route redirection
       res.redirect(302, redirectLocation.pathname + redirectLocation.search);
     } else if (renderProps) {
       // Goes through the flow of loading the initial app state

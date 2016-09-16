@@ -28,7 +28,7 @@ const store = configureStore(initialStoreState);
 render((
   <Provider store={store}>
     <Router history={browserHistory}>
-      {routes(store.getState())}
+      {routes}
     </Router>
   </Provider>
 ), document.getElementById('app'));

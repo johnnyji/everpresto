@@ -1,10 +1,19 @@
 import React, {PropTypes, PureComponent} from 'react';
 import Clickable from 'ui-components/src/Clickable';
+import {connect} from 'react-redux';
 import CustomPropTypes from '../../utils/CustomPropTypes';
 import {Link} from 'react-router';
-import Spinner from 'ui-components/src/Spinner';
 
-export default class LandingPageHandler extends PureComponent {
+@connect((state) => ({
+  currentUser: state.auth.get('user')
+}))
+export default class LandingPage extends PureComponent {
+
+  static displayName = 'LandingPage';
+
+  static propTypes = {
+    currentUser: CustomPropTypes.user
+  };
 
   static contextTypes = {
     router: PropTypes.shape({
@@ -12,16 +21,23 @@ export default class LandingPageHandler extends PureComponent {
     }).isRequired
   };
 
-  static propTypes = {
-    currentUser: CustomPropTypes.user
-  };
+  componentWillMount() {
+    if (this.props.currentUser) {
+      this.context.router.replace('/dashboard');
+    }
+  }
+
+  componentWillReceiveProps({currentUser}) {
+    if (!this.props.currentUser && currentUser) {
+      this.context.router.replace('/dashboard');
+    }
+  }
 
   render () {
     return (
       <div>
-        <Clickable onClick={this._handleLoginView}>Login</Clickable>
-        <h1>Tickit</h1>
-        <p>Track and manage time, the better way.</p>
+        <Link to='/login'>Login</Link>
+        <h1>Everpresto</h1>
         <Link to='/join'>Try for free!</Link>
       </div>
     );

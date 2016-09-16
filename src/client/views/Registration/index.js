@@ -3,6 +3,8 @@ import AppActionCreators from '../../actions/AppActionCreators';
 import AuthActionCreators from '../../actions/AuthActionCreators';
 import Button from 'ui-components/src/Button';
 import Card from '../../components/ui/Card';
+import {connect} from 'react-redux';
+import CustomPropTypes from '../../utils/CustomPropTypes';
 import {fromJS} from 'immutable';
 import Icon from 'ui-components/src/Icon';
 import Input, {validators} from 'ui-components/src/Input';
@@ -14,12 +16,22 @@ const VALIDATE_LAST_NAME = validators.minLength(1, 'You\'re last name please!');
 const VALIDATE_EMAIL = validators.email('That\'s not a valid email');
 const VALIDATE_COMPANY_NAME = validators.minLength(1, 'Please provide your company\'s name');
 
-export default class RegistrationForm extends PureComponent {
+@connect((state) => ({
+  currentUser: state.auth.get('user')
+}))
+export default class Registration extends PureComponent {
 
   static displayName = 'Registration';
 
+  static propTypes = {
+    currentUser: CustomPropTypes.user
+  };
+
   static contextTypes = {
-    dispatch: PropTypes.func.isRequired
+    dispatch: PropTypes.func.isRequired,
+    router: PropTypes.shape({
+      replace: PropTypes.func.isRequired
+    }).isRequired
   };
 
   state = {
@@ -36,6 +48,18 @@ export default class RegistrationForm extends PureComponent {
       })
     })
   };
+
+  componentWillMount() {
+    if (this.props.currentUser) {
+      this.context.router.replace('/dashboard');
+    }
+  }
+
+  componentWillReceiveProps({currentUser}) {
+    if (!this.props.currentUser && currentUser) {
+      this.context.router.replace('/dashboard');
+    }
+  }
 
   render() {
     const {form} = this.state;
@@ -136,12 +160,8 @@ export default class RegistrationForm extends PureComponent {
     // Dispatches the create user
     this.context.dispatch(
       AuthActionCreators.createCompanyWithUser({
-        company: company.reduce((accum, value, key) => {
-          return Object.assign({}, accum, {[key]: value});
-        }, {}),
-        user: user.reduce((accum, value, key) => {
-          return Object.assign({}, accum, {[key]: value});
-        }, {})
+        company: company.reduce((accum, value, key) => ({...accum, [key]: value.get('value')}), {}),
+        user: user.reduce((accum, value, key) => ({...accum, [key]: value.get('value')}), {})
       })
     );
   }
