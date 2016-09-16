@@ -50,10 +50,14 @@ export default class Login extends PureComponent {
     }
   }
 
-  componentWillReceiveProps({currentUser}) {
-    if (!this.props.currentUser && currentUser) {
-      this.context.router.replace('/dashboard');
-    }
+  componentWillReceiveProps(nextProps) {
+    const {currentUser} = this.props;
+    const {currentUser: nextUser} = nextProps;
+
+    // If there's currently no user, but there will be one coming up, redirect to dashboard
+    if (!currentUser && nextUser) return this.context.router.replace('/dashboard');
+    // If there's a current user and no next user, redirect to main page.
+    if (currentUser && !nextUser) this.context.router.replace('/');
   }
 
   render () {

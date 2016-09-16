@@ -11,7 +11,6 @@ export default (ComposedComponent) => {
 
     static contextTypes = {
       router: PropTypes.shape({
-        push: PropTypes.func.isRequired,
         replace: PropTypes.func.isRequired
       }).isRequired
     };
@@ -22,9 +21,7 @@ export default (ComposedComponent) => {
 
     componentWillMount() {
       if (!this.props.currentUser) {
-        // Here we `push` and not `replace` so the user has the option to
-        // navigate back to previous content if they wish
-        return this.context.router.push('/join');
+        return this.context.router.replace('/join');
       }
     }
 
