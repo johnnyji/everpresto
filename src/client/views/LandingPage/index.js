@@ -3,6 +3,7 @@ import Clickable from 'ui-components/src/Clickable';
 import {connect} from 'react-redux';
 import CustomPropTypes from '../../utils/CustomPropTypes';
 import {Link} from 'react-router';
+import Spinner from 'ui-components/src/Spinner';
 
 @connect((state) => ({
   currentUser: state.auth.get('user')
@@ -33,7 +34,11 @@ export default class LandingPage extends PureComponent {
     }
   }
 
-  render () {
+  render() {
+    // This is here to show a spinner while route redirects,
+    // this route will not be visible if theres a currentUser session
+    if (this.props.currentUser) return <Spinner />;
+
     return (
       <div>
         <Link to='/login'>Login</Link>
@@ -42,9 +47,5 @@ export default class LandingPage extends PureComponent {
       </div>
     );
   }
-
-  _handleLoginView = () => {
-    this.context.router.push('/login');
-  };
 
 }

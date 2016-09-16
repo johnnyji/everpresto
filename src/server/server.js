@@ -151,7 +151,7 @@ app.use((req, res) => {
         .catch((err) => { if (err) console.error(err); })
         .finally(() => {
           const store = configureStore(initialState);
-          const initialState = `
+          const state = `
             <script type='application/javascript'>
               window.__INITIAL_STORE_STATE__ = ${JSON.stringify(store.getState())}
             </script>
@@ -164,7 +164,7 @@ app.use((req, res) => {
           // Ends the response by sending the HTML string to the browser to render
           res.end(renderPage({
             content,
-            initialState,
+            initialState: state,
             scriptPath,
             stylePath
           }));

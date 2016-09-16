@@ -7,6 +7,7 @@ import {connect} from 'react-redux';
 import CustomPropTypes from '../../utils/CustomPropTypes';
 import {fromJS} from 'immutable';
 import Input, {validators} from 'ui-components/src/Input';
+import Spinner from 'ui-components/src/Spinner';
 import styles from './styles/index.scss';
 
 const VALIDATE_EMAIL = validators.email('Hmmm, are you sure that\'s your email?');
@@ -50,7 +51,7 @@ export default class Login extends PureComponent {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillUpdate(nextProps) {
     const {currentUser} = this.props;
     const {currentUser: nextUser} = nextProps;
 
@@ -60,7 +61,11 @@ export default class Login extends PureComponent {
     if (currentUser && !nextUser) this.context.router.replace('/');
   }
 
-  render () {
+  render() {
+    // This is here to show a spinner while route redirects,
+    // this route will not be visible if theres a currentUser session
+    if (this.props.currentUser) return <Spinner />;
+
     const {showPassword, user} = this.state;
 
     return (

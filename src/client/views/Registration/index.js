@@ -8,6 +8,7 @@ import CustomPropTypes from '../../utils/CustomPropTypes';
 import {fromJS} from 'immutable';
 import Icon from 'ui-components/src/Icon';
 import Input, {validators} from 'ui-components/src/Input';
+import Spinner from 'ui-components/src/Spinner';
 import styles from './styles/index.scss';
 
 const VALIDATE_FIRST_NAME = validators.minLength(1, 'You\'re first name please!');
@@ -55,7 +56,7 @@ export default class Registration extends PureComponent {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillUpdate(nextProps) {
     const {currentUser} = this.props;
     const {currentUser: nextUser} = nextProps;
 
@@ -66,6 +67,10 @@ export default class Registration extends PureComponent {
   }
 
   render() {
+    // This is here to show a spinner while route redirects,
+    // this route will not be visible if theres a currentUser session
+    if (this.props.currentUser) return <Spinner />;
+
     const {form} = this.state;
     const firstName = form.getIn(['user', 'firstName', 'value']);
 
