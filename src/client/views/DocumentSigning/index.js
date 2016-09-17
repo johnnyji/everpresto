@@ -6,6 +6,7 @@ import Clickable from 'ui-components/src/Clickable';
 import CustomPropTypes from '../../utils/CustomPropTypes';
 import ModalSignature from './ModalSignature';
 import RequiresDocumentForSigning from './containers/RequiresDocumentForSigning';
+import styles from './styles/index.scss';
 
 @RequiresDocumentForSigning
 export default class DocumentSigning extends PureComponent {
@@ -51,8 +52,8 @@ export default class DocumentSigning extends PureComponent {
     );
   };
 
-  _handleSignature = (signature) => {
-    debugger;
+  _handleSignature = () => {
+    // TODO: Handle when the user signs
   }
 
 }

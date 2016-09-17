@@ -28,6 +28,8 @@ import ProfileSettings from '.././components/user/ProfileSettings';
 import TestView from '../components/test/TestView';
 
 import Admin from '../views/Admin';
+// TODO: Not yet, still being refactored
+// import CollectionsIndex from '../views/CollectionsIndex';
 import DocumentSigning from '../views/DocumentSigning';
 import Login from '../views/Login';
 import LandingPage from '../views/LandingPage';

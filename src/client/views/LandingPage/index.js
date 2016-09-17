@@ -1,5 +1,4 @@
 import React, {PropTypes, PureComponent} from 'react';
-import Clickable from 'ui-components/src/Clickable';
 import {connect} from 'react-redux';
 import CustomPropTypes from '../../utils/CustomPropTypes';
 import {Link} from 'react-router';

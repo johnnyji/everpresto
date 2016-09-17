@@ -1,15 +1,18 @@
-import React from 'react';
+import React, {PropTypes, PureComponent} from 'react';
 import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
-import Spinner from '.././ui/Spinner';
+import Spinner from 'ui-components/src/Spinner';
+import styles from './styles/DashboardSpinner.scss';
 
-const displayName = 'DashboardSpinner';
+export default class DashboardSpinner extends PureComponent {
 
-const DashboardSpinner = () => (
-  <DashboardContentWrapper className={displayName}>
-    <Spinner className={`${displayName}-main`} />
-  </DashboardContentWrapper>
-);
+  static displayName = 'DashboardSpinner';
+  
+  render() {
+    return (
+      <DashboardContentWrapper>
+        <Spinner className={styles.spinner} />
+      </DashboardContentWrapper>
+    );
+  }
 
-DashboardSpinner.displayName = displayName;
-
-export default DashboardSpinner;
+}

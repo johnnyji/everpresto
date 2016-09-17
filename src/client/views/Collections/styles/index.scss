@@ -1,0 +1,29 @@
+@import '../../../scss/extends.scss';
+
+.main {
+  @extend .grid-view;
+}
+
+.createIcon {
+  @extend .center-absolute;
+  color: #FFF;
+}
+
+.folder {
+  margin: 20px;
+  position: relative;
+  &Content {
+    position: relative;
+
+  }
+}
+
+.createTemplate {
+  font-size: 18px;
+  text-align: center;
+
+  &Message {
+    line-height: 25px;
+    margin-bottom: 20px;
+  }
+}

@@ -29,7 +29,7 @@ const CollectionSchema = new Schema({
 
 // Removes dependency documents.
 CollectionSchema.pre('remove', function(next) {
-  debugger;
+  // TODO: Why is this not working?: https://trello.com/c/xyIG0Tmc/90-deleting-a-collection-should-delete-it-s-associated-documents
   Document.remove({_collection: this._id}, (err) => {
     // Must pass in an `Error` object on error, cannot be String.
     if (err) {

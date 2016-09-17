@@ -94,4 +94,5 @@ const http = {
 
 };
 
+export endpoints from './endpoints';
 export default http;

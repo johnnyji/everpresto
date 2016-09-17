@@ -148,7 +148,9 @@ app.use((req, res) => {
             })
           };
         })
-        .catch((err) => { if (err) console.error(err); })
+        .catch((err) => {
+          if (err) console.error(err);
+        })
         .finally(() => {
           const store = configureStore(initialState);
           const state = `
