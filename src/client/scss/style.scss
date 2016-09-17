@@ -1,8 +1,6 @@
-// Roboto font
-@import url(https://fonts.googleapis.com/css?family=Roboto:400,300,500|Indie+Flower);
+// Import fonts
+@import url(https://fonts.googleapis.com/css?family=Indie+Flower|Roboto:300,400);
 
-// Bourbon for Node.js
-// @import '~bourbon/app/assets/stylesheets/_bourbon.scss';
 // TODO: Remove bourbon completely
 @import './bourbon/_bourbon.scss';
 
@@ -12,14 +10,11 @@
 // Medium Rich Text Editor
 // @import '~medium-editor/dist/css/medium-editor.css';
 
-// Import dimesions variables
-@import './dimensions';
-
-// Import color variables
+// Import Variables
 @import './colors';
-
-// Import extends
+@import './dimensions';
 @import './extends';
+@import './fonts';
 
 // Import viewports
 @import './viewports';
@@ -109,9 +104,10 @@
   position: relative;
   box-sizing: border-box;
   color: $text-color;
-  font-family: 'Roboto', sans-serif;
+  font-family: $font;
   font-size: 16px;
-  font-weight: 400;
+  font-weight: 300;
+  letter-spacing: 0.2px;
   min-height: 100vh;
   // TODO: Implement min-height restriction
   // min-height: $app-content-min-height;

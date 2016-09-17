@@ -1,0 +1,27 @@
+@import '../../../scss/colors.scss';
+@import '../../../scss/extends.scss';
+
+.main {
+  background-color: $white;
+  padding: 72px;
+}
+
+.header {
+  @extend .brand-font;
+  font-size: 36px;
+  margin-bottom: 24px;
+}
+
+.input {
+  margin-bottom: 16px;
+  min-width: 325px;
+}
+
+.footer {
+  margin-top: 32px;
+}
+
+// TODO: Why must I do this hack in order for the specificity to take place?
+.submitButton.submitButton {
+  padding: 8px 32px;
+}

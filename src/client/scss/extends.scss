@@ -1,3 +1,6 @@
+@import './colors';
+@import './fonts';
+
 .center-absolute {
   left: 50%;
   position: absolute;
@@ -27,12 +30,16 @@
   }
 }
 
+.brand-font {
+  font-family: $font-brand;
+}
+
 .button-shadow {
   box-shadow: -2px 3px 11px -3px rgba(0,0,0,0.75);
 }
 
 .box-shadow {
-  box-shadow: 0 2px 4px 0 rgba(87, 71, 81, 0.3);  
+  box-shadow: 0 2px 4px 0 rgba(87, 71, 81, 0.3);
 }
 
 .text-shadow {

@@ -6,7 +6,9 @@ const webpack = require('webpack');
 
 const ROOT_PATH = path.join(__dirname, '.././');
 const SRC_PATH = path.join(ROOT_PATH, 'src/client');
+const PUBLIC_PATH = path.join(ROOT_PATH, 'public');
 const PRESETS = ['es2015', 'stage-0', 'react'];
+
 // TODO: 'undeclared-variables-check' plugin not being used because it will not allow globals like `window`
 const PLUGINS = [
   'add-module-exports',
@@ -22,9 +24,6 @@ module.exports = {
 
   output: {
     filename: 'bundle.js',
-		// TODO: `libraryTarget` which is required for `babel-plugin-webpack-loaders`, might be
-		// causing a `module is not defined` error. Investigate
-		// libraryTarget: 'commonjs2',
     path: path.join(ROOT_PATH, 'build'),
     // makes the public path for HTML/JavaScript http://localhost:8080/build/somefile.ext
     publicPath: `http://localhost:${config.development.webpackPort}/build/`
@@ -68,9 +67,9 @@ module.exports = {
         include: [SRC_PATH],
         loader: `style!css?modules&importLoaders=1&localIdentName=${config.cssModulesScopedName}!postcss`
       }, {
-        test: /\.(gif)$/,
-        include: [SRC_PATH],
-        loader: 'url-loader?mimetype=image/png'
+        test: /\.(png|jpg)$/,
+        include: [PUBLIC_PATH],
+        loader: 'url-loader?limit=8192' // inline base64 URLs for <=8k images, direct URLs for the rest
       }, {
         test: /\.woff(2)?(\?v=[0-9].[0-9].[0-9])?$/,
         include: [SRC_PATH],
