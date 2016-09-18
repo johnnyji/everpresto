@@ -19,7 +19,7 @@ export default {
 
       http.post(endpoints.collections.create.path)
         .then(({collection}) => {
-          dispatch(this.createCollectionSuccess(collection));
+          dispatch(this.createSuccess(collection));
         })
         .catch(({message}) => {
           dispatch(createFlashMessage('red', message));

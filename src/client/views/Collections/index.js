@@ -1,17 +1,15 @@
 import React, {Component, PropTypes} from 'react';
 import Button from 'ui-components/src/Button';
 import Clickable from 'ui-components/src/Clickable';
-import Icon from 'ui-components/src/Icon';
 import CollectionActionCreators from './actions/ActionCreators';
 import CollectionPreviewCard from './components/CollectionPreviewCard';
 import {connect} from 'react-redux';
 import CustomPropTypes from '../../utils/CustomPropTypes';
 import DashboardContentWrapper from '../../components/dashboard/DashboardContentWrapper';
 import DashboardMessage from '../../components/dashboard/DashboardMessage';
-import DashboardSpinner from '../../components/dashboard/DashboardSpinner';
-import Folder from 'ui-components/src/Folder';
+import Icon from 'ui-components/src/Icon';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import TemplateActionCreators from '../../actions/TemplateActionCreators';
+import Folder from 'ui-components/src/Folder';
 import RequireTemplates from '../Templates/containers/RequireTemplates';
 import RequireCollectionPreviews from './containers/RequireCollectionPreviews';
 import styles from './styles/index.scss';
@@ -36,42 +34,14 @@ export default class CollectionsIndex extends Component {
 
   static propTypes = {
     collectionBeingEdited: CustomPropTypes.collectionLite,
-    collections: ImmutablePropTypes.listOf(CustomPropTypes.collectionLite).isRequired,
-    shouldFetchCollections: PropTypes.bool.isRequired,
-    shouldFetchTemplates: PropTypes.bool.isRequired,
+    collectionPreviews: ImmutablePropTypes.listOf(CustomPropTypes.collectionLite).isRequired,
     templates: ImmutablePropTypes.listOf(CustomPropTypes.template).isRequired
   };
 
-  componentWillMount() {
-    // Fetches the templates and collections if needed, otherwise if the templates are already fetched, render the view.
-    if (this.props.shouldFetchCollections) {
-      return this.context.dispatch(CollectionActionCreators.fetchCollections());
-    }
-    if (this.props.shouldFetchTemplates) {
-      return this.context.dispatch(TemplateActionCreators.fetchTemplates());
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    // Fetches the templates and sets render view to true only if needed.
-    if (nextProps.shouldFetchCollections) {
-      return this.context.dispatch(CollectionActionCreators.fetchCollections());
-    }
-    if (nextProps.shouldFetchTemplates) {
-      return this.context.dispatch(TemplateActionCreators.fetchTemplates());
-    }
-  }
-
-  componentWillUnmount() {
-    this.context.dispatch(CollectionActionCreators.resetShouldFetchCollections());
-  }
-
   render() {
-    const {shouldFetchCollections, shouldFetchTemplates, templates} = this.props;
-
-    if (shouldFetchTemplates || shouldFetchCollections) return <DashboardSpinner />;
-
-    if (!shouldFetchTemplates && templates.size === 0) return this._renderCreateTemplateMessage();
+    // If there are no templates to begin with, we want to show the user
+    // a onboarding message
+    if (!this.props.templates.size) return this._renderCreateTemplateMessage();
 
     return (
       <DashboardContentWrapper className={styles.main}>
@@ -92,11 +62,11 @@ export default class CollectionsIndex extends Component {
   }
 
   _createCollection = () => {
-    this.context.dispatch(CollectionActionCreators.createCollection());
+    this.context.dispatch(CollectionActionCreators.create.create());
   };
 
   _renderCollections = () => {
-    const {collectionBeingEdited, collections} = this.props;
+    const {collectionBeingEdited, collectionPreviews: collections} = this.props;
 
     return collections.map((collection, i) => {
       const isBeingEdited = collectionBeingEdited
@@ -114,13 +84,14 @@ export default class CollectionsIndex extends Component {
   };
 
   _renderCreateTemplateMessage = () => {
+    // TODO: Graphic needed here
     return (
       <DashboardContentWrapper className={styles.main}>
         <DashboardMessage className={styles.createTemplate}>
           <div className={styles.createTemplateMessage}>
             Looks like you don't have any templates yet. Create one first so you can start sending documents for people to sign!
           </div>
-          <Button onClick={this._navigateTemplateView}>Create a template</Button>
+          <Button onClick={this._navigateTemplateView}>Create a Template</Button>
         </DashboardMessage>
       </DashboardContentWrapper>
     );
