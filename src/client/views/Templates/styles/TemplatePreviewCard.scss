@@ -1,0 +1,28 @@
+$template-preview-card-dropdown-height: 110px;
+
+@keyframes pop-in-up {
+  0% {
+    opacity: 0;
+    overflow: hidden;
+    height: 0px;
+  }
+  30% { opacity: 1 }
+  60% { height: $template-preview-card-dropdown-height + 30px }
+  80% { height: $template-preview-card-dropdown-height - 10px }
+  100% { height: $template-preview-card-dropdown-height }
+}
+
+.main {
+  div > .dropdown {
+    animation: pop-in-up 300ms ease-in-out;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: $template-preview-card-dropdown-height;
+    width: 100px;
+  }
+  div > .moreOptions {
+    position: absolute;
+    right: 0;
+  }
+}

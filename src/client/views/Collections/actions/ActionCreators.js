@@ -6,7 +6,7 @@ import {
   FETCH_COLLECTION_PREVIEWS_ERROR,
   FETCH_COLLECTION_PREVIEWS_SUCCESS,
 } from './ActionTypes';
-import http, {endpoints} from '../utils/http';
+import http, {endpoints} from '../../../utils/http';
 
 export default {
 

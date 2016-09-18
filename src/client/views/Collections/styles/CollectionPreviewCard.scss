@@ -1,0 +1,54 @@
+@import '../../../scss/colors.scss';
+@import '../../../scss/extends.scss';
+
+.content {
+  position: relative;
+}
+
+.title,
+.titleInput {
+  @extend .center-absolute;
+  background-color: transparent;
+  border: none;
+  color: $white;
+  outline: none;
+  text-align: center;
+  margin: 0;
+}
+
+.titleInput {
+  padding-bottom: 5px;
+  border-bottom: 1px solid #FFF;
+}
+
+.title {
+  width: 80%;
+  cursor: pointer;
+}
+
+.options {
+  align-items: center;
+  bottom: 0;
+  display: flex;
+  justify-content: space-between;
+  left: 0;
+  padding: 5px;
+  position: absolute;
+  right: 0;
+}
+
+.date {
+  color: $brand-color-blue-darker;
+  padding: 0 5px;
+  &:hover {
+    cursor: default;
+  }
+}
+
+.icon {
+  color: $brand-color-blue-lighter;
+  margin-left: 5px;
+  &:hover {
+    color: #FFF;
+  }
+}

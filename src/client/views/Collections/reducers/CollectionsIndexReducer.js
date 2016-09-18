@@ -5,16 +5,16 @@ import {
   FETCH_COLLECTION_PREVIEWS_ERROR,
   FETCH_COLLECTION_PREVIEWS_SUCCESS,
   UPDATE_COLLECTION_SUCCESS
-} from '../.././action_types/CollectionActionTypes';
+} from '../actions/ActionTypes';
 import createReducer from 'create-reducer-redux';
 import {fromJS} from 'immutable';
 
-const initState = {
+const initState = fromJS({
   fetchError: null,
   fetched: false,
   fetching: false,
   collectionPreviews: []
-};
+});
 
 export default createReducer(initState, {
 

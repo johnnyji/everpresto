@@ -15,9 +15,7 @@ import RequireCollectionPreviews from './containers/RequireCollectionPreviews';
 import styles from './styles/index.scss';
 
 @connect((state) => ({
-  collectionBeingEdited: state.collectionsEdit.get('collection'),
-  shouldFetchCollections: state.collectionsIndex.get('shouldFetchCollections'),
-  shouldFetchTemplates: state.templates.get('shouldFetchTemplates'),
+  collectionBeingEdited: state.collectionsEdit.get('collection')
 }))
 @RequireTemplates
 @RequireCollectionPreviews

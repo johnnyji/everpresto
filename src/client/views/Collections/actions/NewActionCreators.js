@@ -1,4 +1,4 @@
-import http, {endpoints} from '../utils/http';
+import http, {endpoints} from '../../../utils/http';
 import {CREATE_COLLECTION_SUCCESS} from './ActionTypes';
 import {createFlashMessage} from '../../../actions/AppActionCreators';
 

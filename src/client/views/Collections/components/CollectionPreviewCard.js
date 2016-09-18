@@ -1,21 +1,21 @@
 import React, {Component, PropTypes} from 'react';
 import appConfig from '../../../../shared/config/app';
 import classNames from 'classnames';
-import moment from 'moment';
-import CustomPropTypes from '../../CustomPropTypes';
-import {truncateString} from '../../../utils/TextHelper';
-import CollectionActionCreators from '../../../actions/CollectionActionCreators';
-import Icon from 'ui-components/src/Icon';
 import Clickable from 'ui-components/src/Clickable';
+import CollectionActionCreators from '../actions/ActionCreators';
+import CustomPropTypes from '../../../utils/CustomPropTypes';
 import Folder from 'ui-components/src/Folder';
+import Icon from 'ui-components/src/Icon';
+import moment from 'moment';
+import styles from '../styles/CollectionPreviewCard.scss';
+import {truncateString} from '../../../utils/TextHelper';
 
 const DEFAULT_TITLE = appConfig.collection.defaultTitle;
 const ENTER_KEY = 13;
-const displayName = 'CollectionPreviewCard';
 
 export default class CollectionPreviewCard extends Component {
 
-  static displayName = displayName;
+  static displayName = 'CollectionPreviewCard';
 
   static contextTypes = {
     dispatch: PropTypes.func.isRequired,
@@ -40,29 +40,27 @@ export default class CollectionPreviewCard extends Component {
 
   render() {
     const {className, collection, contentClassName, height, width} = this.props;
-    const classes = classNames(className, displayName);
-    const contentClasses = classNames(contentClassName, `${displayName}-main`);
     const createdAt = moment(collection.get('createdAt')).format('MMM DD, YYYY');
 
     return (
       <Folder
-        className={classes}
-        contentClassName={contentClasses}
+        className={className}
+        contentClassName={classNames(styles.content, contentClassName)}
         height={height}
         width={width}>
         {this._renderTitle()}
-        <div className={`${displayName}-main-options`}>
-          <small className={`${displayName}-main-options-date`}>{createdAt}</small>
+        <div className={styles.options}>
+          <small className={styles.date}>{createdAt}</small>
           <div>
             <Clickable onClick={this._handleEditCollection}>
               <Icon
-                className={`${displayName}-main-options-icon`}
+                className={styles.icon}
                 name='create'
                 size={20} />
             </Clickable>
             <Clickable onClick={this._handleDeleteCollection}>
               <Icon
-                className={`${displayName}-main-options-icon`}
+                className={styles.icon}
                 name='delete'
                 size={20} />
             </Clickable>
@@ -116,17 +114,17 @@ export default class CollectionPreviewCard extends Component {
       return (
         <input
           autoFocus
-          className={`${displayName}-main-title-input`}
+          className={styles.titleInput}
           defaultValue={title === DEFAULT_TITLE ? '' : title}
           onBlur={this._handleUpdateCollection}
           onKeyPress={this._handleKeyPress}
           ref='titleInput' />
       );
     }
-    
+
     return (
       <button
-        className={`${displayName}-main-title`}
+        className={styles.title}
         onClick={this._handleEnterCollection}>
         {truncateString(title, maxTitleLength)}
       </button>

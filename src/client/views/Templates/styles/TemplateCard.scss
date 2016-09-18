@@ -1,0 +1,42 @@
+@import '../../../scss/colors.scss';
+
+.header {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+  margin-top: 5px;
+
+  &Title {
+    cursor: pointer;
+    margin: 0;
+    height: 100%;
+  }
+
+}
+
+.body {
+  color: $text-color-light;
+  cursor: pointer;
+  filter: blur(1px);
+  font-size: 10px;
+  height: 211px;
+  overflow: hidden;
+  padding: 8px;
+  // Makes sure that no HTML elements created by the Rich Text editor will have a margin top or bottom
+  // when displayed, otherwise text looks weird disproportionate
+  & > * {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
+.options {
+  height: 24px;
+  margin-top: 5px;
+  position: relative;
+}
+
+.newButton {
+  @extend .center-absolute;
+}

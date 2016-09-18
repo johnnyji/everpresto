@@ -15,6 +15,7 @@ export default (ComposedComponent) => {
     static displayName = 'RequireCollectionPreviews';
 
     static propTypes = {
+      dispatch: PropTypes.func.isRequired,
       fetched: PropTypes.bool.isRequired,
       fetchError: PropTypes.string,
       fetching: PropTypes.bool.isRequired,
@@ -23,7 +24,7 @@ export default (ComposedComponent) => {
 
     componentWillMount() {
       if (!this.props.fetched && !this.props.fetching) {
-        this.context.dispatch(CollectionActionCreators.fetchPreviews());
+        this.props.dispatch(CollectionActionCreators.fetchPreviews());
       }
     }
 
@@ -41,10 +42,10 @@ export default (ComposedComponent) => {
   }
 
   return connect((state) => ({
-    fetching: state.collectionIndex.get('fetching'),
-    fetched: state.collectionIndex.get('fetched'),
-    fetchError: state.collectionIndex.get('fetchError'),
-    collectionPreviews: state.collectionIndex.get('collectionPreviews')
+    fetching: state.collectionsIndex.get('fetching'),
+    fetched: state.collectionsIndex.get('fetched'),
+    fetchError: state.collectionsIndex.get('fetchError'),
+    collectionPreviews: state.collectionsIndex.get('collectionPreviews')
   }))(RequireCollectionPreviews);
 
 };

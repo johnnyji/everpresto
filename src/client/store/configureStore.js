@@ -1,7 +1,7 @@
 import {applyMiddleware, createStore} from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import createLogger from 'redux-logger';
-import reducers from '.././reducers/index';
+import reducers from '../reducers';
 
 
 // Transforms state data from Immutable to JS
@@ -9,7 +9,9 @@ const transformToJs = (state) => {
   const transformedState = {};
 
   for (const key in state) {
-    if (state.hasOwnProperty(key)) transformedState[key] = state[key].toJS();
+    if (state.hasOwnProperty(key)) {
+      transformedState[key] = state[key].toJS();
+    }
   }
   return transformedState;
 };
@@ -31,7 +33,7 @@ if (process.env.NODE_ENV === 'production') {
 export default function configureStore(initialState) {
   const store = finalCreateStore(reducers, initialState);
 
-  if (module.hot) {
+  if (process.env.NODE_ENV !== 'production' && module.hot) {
     // Enable Webpack hot module replacement for reducers
     module.hot.accept('.././reducers/index', () => {
       const nextRootReducer = require('.././reducers/index');

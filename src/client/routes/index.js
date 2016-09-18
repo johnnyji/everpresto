@@ -11,7 +11,7 @@ import App from '.././components/app/App';
 import DashboardHandler from '.././components/dashboard/DashboardHandler';
 import DashboardView from '.././components/dashboard/DashboardView';
 // Collections
-import CollectionsIndex from '.././components/collections/CollectionsIndex';
+// import CollectionsIndex from '.././components/collections/CollectionsIndex';
 import CollectionsShow from '.././components/collections/CollectionsShow';
 // Documents
 import DocumentsIndex from '.././components/documents/DocumentsIndex';
@@ -33,6 +33,7 @@ import Admin from '../views/Admin';
 import DocumentSigning from '../views/DocumentSigning';
 import Login from '../views/Login';
 import LandingPage from '../views/LandingPage';
+import CollectionsIndex from '../views/Collections';
 import NotFound from '../views/NotFound';
 import Registration from '../views/Registration';
 

@@ -13,6 +13,7 @@ export default (ComposedComponent) => {
     static displayName = 'RequireTemplates';
 
     static propTypes = {
+      dispatch: PropTypes.func.isRequired,
       fetched: PropTypes.bool.isRequired,
       fetchError: PropTypes.string,
       fetching: PropTypes.bool.isRequired,
@@ -21,7 +22,7 @@ export default (ComposedComponent) => {
 
     componentWillMount() {
       if (!this.props.fetched && !this.props.fetching) {
-        this.context.dispatch(TemplateActionCreators.fetch());
+        this.props.dispatch(TemplateActionCreators.fetch());
       }
     }
 

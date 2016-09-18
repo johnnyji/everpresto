@@ -2,7 +2,7 @@ import React, {Children, Component, PropTypes} from 'react';
 import AppActionCreators from '../.././actions/AppActionCreators';
 import {connect} from 'react-redux';
 import CustomPropTypes from '.././CustomPropTypes';
-import DashboardErrorMessage from '../dashboard/DashboardErrorMessage';
+import DashboardError from '../dashboard/DashboardError';
 import DocumentNewActionCreators from '../.././actions/DocumentNewActionCreators';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import RequiresTemplates from '../../containers/RequiresTemplates';
@@ -134,7 +134,7 @@ export default class DocumentsNew extends Component {
     // and we need to show a message to the user
     // TODO: Test and style this
     return (
-      <DashboardErrorMessage
+      <DashboardError
         buttonText="Go Back"
         onClick={this._handleCollectionView}
         text="Ugh, Something Probably Went Wrong..." />
