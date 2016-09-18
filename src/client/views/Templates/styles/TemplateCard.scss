@@ -1,6 +1,15 @@
 @import '../../../scss/colors.scss';
 @import '../../../scss/extends.scss';
 
+.main {
+  border: 3px solid $placeholder-color;
+  width: 250px;
+}
+
+.addIcon {
+  color: $placeholder-color;
+}
+
 .header {
   align-items: center;
   display: flex;
@@ -13,7 +22,6 @@
     margin: 0;
     height: 100%;
   }
-
 }
 
 .body {

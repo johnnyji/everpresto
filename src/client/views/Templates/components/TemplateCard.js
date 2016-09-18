@@ -1,5 +1,6 @@
 /* eslint-disable react/no-danger */
 import React, {PropTypes, PureComponent} from 'react';
+import classNames from 'classnames';
 import Clickable from 'ui-components/src/Clickable';
 import GridViewCard from '../../../components/ui/GridViewCard';
 import Icon from 'ui-components/src/Icon';
@@ -46,7 +47,7 @@ export default class TemplateCard extends PureComponent {
     } = this.props;
 
     return (
-      <GridViewCard className={className}>
+      <GridViewCard className={classNames(styles.main, className)}>
         <header className={styles.header} onClick={onTitleClick}>
           <h4 className={styles.headerTitle}>
             {title ? truncateString(title, titleDisplayLength) : defaultTitle}
@@ -67,12 +68,12 @@ export default class TemplateCard extends PureComponent {
 
   _renderNewCard = () => {
     return (
-      <GridViewCard className={this.props.className}>
+      <GridViewCard className={classNames(styles.main, this.props.className)}>
         <Clickable
           className={styles.newButton}
           icon='add'
           onClick={this.props.onNewIconClick}>
-          <Icon name='add' size={72} />
+          <Icon className={styles.addIcon} name='add' size={72} />
         </Clickable>
       </GridViewCard>
     );

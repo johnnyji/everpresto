@@ -1,6 +1,6 @@
 .ui-GridViewCard {
-  @include flex(0 0 250px);
-  @include display(flex);
-  @include flex-flow(column);
+  flex: 0 0 250px;
+  display: flex;
+  flex-flow: column;
   margin: 20px;
 }

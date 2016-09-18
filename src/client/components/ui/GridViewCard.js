@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import pureRender from 'pure-render-decorator';
 import Card from './Card';
 
-const displayName = 'ui-GridViewCard'
+const displayName = 'ui-GridViewCard';
 
 @pureRender
 export default class GridViewCard extends Component {
@@ -23,8 +23,8 @@ export default class GridViewCard extends Component {
 
     return (
       <Card
-        className={classNames(className, displayName)}
-        style={{height: `${height}px`}}>
+        className={classNames(displayName, className)}
+        style={{height}}>
         {children}
       </Card>
     );
