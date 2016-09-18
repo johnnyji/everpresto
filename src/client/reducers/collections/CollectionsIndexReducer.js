@@ -2,51 +2,47 @@ import {
   CREATE_COLLECTION_SUCCESS,
   DELETE_COLLECTION_SUCCESS,
   FETCH_COLLECTIONS_SUCCESS,
-  RESET_SHOULD_FETCH_COLLECTIONS,
-  RESET_COLLECTION_BEING_VIEWED,
-  UPDATE_COLLECTION_SUCCESS} from '../.././action_types/CollectionActionTypes';
-import Immutable from 'immutable';
+  UPDATE_COLLECTION_SUCCESS
+} from '../.././action_types/CollectionActionTypes';
+import createReducer from 'create-reducer-redux';
+import {fromJS} from 'immutable';
 
-const initialState = Immutable.fromJS({
-  collections: [],
-  shouldFetchCollections: true,
-});
-
-export default function CollectionsIndexReducer(state = initialState, action) {
-  switch (action.type) {
-
-    case CREATE_COLLECTION_SUCCESS:
-      const collection = Immutable.fromJS(action.data.collection);
-      return state.update('collections', (collections) => collections.unshift(collection));
-
-    case FETCH_COLLECTIONS_SUCCESS:
-      return state.merge({
-        collections: action.data.collections,
-        shouldFetchCollections: false
-      });
-
-    case DELETE_COLLECTION_SUCCESS:
-      return state.update('collections', (collections) => {
-        return collections.delete(
-          collections.findIndex((collection) => collection.get('id') === action.data.deletedCollectionId)
-        );
-      });
-
-    case RESET_SHOULD_FETCH_COLLECTIONS:
-      return state.set('shouldFetchCollections', true);
-
-    case UPDATE_COLLECTION_SUCCESS:
-      const updatedCollection = Immutable.fromJS(action.data.collection);
-      const updatedCollectionIndex = state
-        .get('collections')
-        .findIndex((collection) => collection.get('id') === updatedCollection.get('id'));
-      // Sets the appropriate collection in the list to the newly updated collection
-      return state.update('collections', (collections) => {
-        return collections.splice(updatedCollectionIndex, 1, updatedCollection);
-      });
-
-    default:
-      return state;
-
-  }
+const initState = {
+  collectionPreviews: []
 };
+
+export default createReducer(initState, {
+
+  name: 'CollectionsReducer',
+
+  handlers: {
+    onCreate: [CREATE_COLLECTION_SUCCESS],
+    onDelete: [DELETE_COLLECTION_SUCCESS],
+    onPreviewsFetched: [FETCH_COLLECTIONS_SUCCESS],
+    onUpdate: [UPDATE_COLLECTION_SUCCESS]
+  },
+
+  onCreate(state, {collectionPreview}) {
+    return state.update('collectionPreviews', (previews) => previews.unshift(collectionPreview));
+  },
+
+  onPreviewsFetched(state, {collectionPreviews}) {
+    return state.set('collectionPreviews', fromJS(collectionPreviews));
+  },
+
+  onDelete(state, {deletedCollectionId}) {
+    const index = state.get('collectionPreviews').findIndex((c) => c.get('id') === deletedCollectionId);
+    return state.update('collectionPreviews', (previews) => previews.delete(index));
+  },
+
+  onUpdate(state, {collectionPreview}) {
+    const updated = fromJS(collectionPreview);
+    const updatedIndex = state
+      .get('collectionPreviews')
+      .findIndex((preview) => preview.get('id') === updated.get('id'));
+
+    // Updates the correct preview in the list
+    return state.update('collectionPreviews', (previews) => previews.splice(updatedIndex, 1, updated));
+  }
+
+});
