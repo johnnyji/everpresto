@@ -1,0 +1,57 @@
+.main {
+  background-color: $brand-color-yellow;
+  color: #FFF;
+  height: $app-header-height;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  width: 100%;
+
+  // This is so that certain AppHeader elements such as DropdownOptions are infront of the any Dashboard item
+  z-index: 2;
+
+  // TODO: Why is this here?
+  button {
+    position: relative;
+  }
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  height: 100%;
+  position: relative;
+  padding: 10px 20px;
+}
+
+.logo {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  margin: 0;
+}
+
+.logo,
+.nav {
+  position: relative;
+  display: inline-block;
+}
+
+.navItems {
+  align-items: center;
+  display: flex;
+}
+
+.profilePic {
+  width: 30px;
+  height: 30px;
+  border-radius: $border-radius;
+  vertical-align: middle;
+  margin-right: 1rem;
+}
+
+.profileName {
+  color: #FFF;
+  cursor: pointer;
+  margin-right: 1rem;
+}

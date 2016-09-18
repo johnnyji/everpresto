@@ -1,0 +1,12 @@
+@import '../../../scss/extends.scss';
+
+.main {
+  @extend .center-absolute;
+  color: $text-color-light;
+  margin: 0 auto;
+  max-width: 600px;
+}
+
+.isCentered {
+  text-align: center;
+}

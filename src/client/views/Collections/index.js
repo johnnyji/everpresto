@@ -8,7 +8,7 @@ import {connect} from 'react-redux';
 import CustomPropTypes from '../../utils/CustomPropTypes';
 import DashboardContentWrapper from '../../components/dashboard/DashboardContentWrapper';
 import DashboardMessage from '../../components/dashboard/DashboardMessage';
-import DashboardSpinner from '../../components/shared/DashboardSpinner';
+import DashboardSpinner from '../../components/dashboard/DashboardSpinner';
 import Folder from 'ui-components/src/Folder';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import TemplateActionCreators from '../../actions/TemplateActionCreators';

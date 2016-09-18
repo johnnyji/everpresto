@@ -1,13 +1,12 @@
-import React, {Component, PropTypes} from 'react';
+import React, {PropTypes, PureComponent} from 'react';
 import AppContentWrapper from '../app/AppContentWrapper';
 import classNames from 'classnames';
-import ProgressBar from '../ui/ProgressBar';
+import ProgressBar from 'ui-components/src/ProgressBar';
+import styles from './styles/DashboardContentWrapper';
 
-const displayName = 'DashboardContentWrapper';
+export default class DashboardContentWrapper extends PureComponent {
 
-export default class DashboardContentWrapper extends Component {
-
-  static displayName = displayName;
+  static displayName = 'DashboardContentWrapper';
 
   static propTypes = {
     className: PropTypes.string,
@@ -29,26 +28,18 @@ export default class DashboardContentWrapper extends Component {
       progressBarTotalCount,
       showProgressBar
     } = this.props;
-    const contentClasses = classNames(
-      className,
-      `${displayName}-content`
-    );
 
+    const contentClasses = classNames(styles.content, className);
 
     return (
-      <div className={displayName}>
+      <div className={styles.main}>
         {showProgressBar &&
           <ProgressBar
-            className={`${displayName}-progress-bar`}
             progressCount={progressBarProgressCount}
-            style={{
-              height: 6,
-              width: '100%'
-            }}
             totalCount={progressBarTotalCount} />
         }
         {!showProgressBar &&
-          <div className={`${displayName}-progress-bar-filler`} />
+          <div className={styles.progressBarFiller} />
         }
         <AppContentWrapper className={contentClasses}>
           {this.props.children}

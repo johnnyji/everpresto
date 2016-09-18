@@ -5,7 +5,7 @@ import CustomPropTypes from '.././CustomPropTypes';
 import DashboardContentHeader from '.././dashboard/DashboardContentHeader';
 import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
 import DashboardQuote from '.././dashboard/DashboardQuote';
-import DashboardSpinner from '.././shared/DashboardSpinner';
+import DashboardSpinner from '.././dashboard/DashboardSpinner';
 import DocumentCard from '.././documents/DocumentCard';
 import SearchBar from '.././ui/SearchBar';
 import io from 'socket.io-client';

@@ -1,24 +1,35 @@
-import React, {PropTypes} from 'react';
+import React, {PropTypes, PureComponent} from 'react';
+import classNames from 'classnames';
 import DashboardMessage from './DashboardMessage';
+import styles from './styles/DashboardQuote.scss';
 
-const displayName = 'DashboardQuote';
+// This is the random quotes that shows up on the dashboard
+// for the user when the dashboard is empty
+export default class DashboardQuote extends PureComponent {
 
-const DashboardQuote = ({className, quote, author}) => (
-  <DashboardMessage className={displayName}>
-    <div className={`${displayName}-quote`}>
-      <p className={`${displayName}-quote-message`}>{quote}</p>
-      <small className={`${displayName}-quote-author`}>- {author}</small>
-    </div>
-  </DashboardMessage>
-);
+  static displayName = 'DashboardQuote';
 
-DashboardQuote.displayName = displayName;
-DashboardQuote.propTypes = {
-  author: PropTypes.string.isRequired,
-  quote: PropTypes.string.isRequired
-};
-DashboardQuote.defaultProps = {
-  author: 'Anonoymous'
-};
+  static propTypes = {
+    author: PropTypes.string.isRequired,
+    className: PropTypes.string,
+    quote: PropTypes.string.isRequired
+  };
 
-export default DashboardQuote;
+  static defaultProps = {
+    author: 'Anonoymous'
+  };
+
+  render() {
+    const {author, className, quote} = this.props;
+
+    return (
+      <DashboardMessage className={classNames(styles.main, className)}>
+        <div className={styles.quote}>
+          <p className={styles.message}>{quote}</p>
+          {author && <small>- {author}</small>}
+        </div>
+      </DashboardMessage>
+    );
+  }
+
+}

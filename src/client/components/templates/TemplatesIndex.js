@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import CustomPropTypes from '.././CustomPropTypes';
 import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
-import DashboardSpinner from '.././shared/DashboardSpinner';
+import DashboardSpinner from '.././dashboard/DashboardSpinner';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import pureRender from 'pure-render-decorator';
 import TemplateCard from './TemplateCard';

@@ -71,7 +71,7 @@ export default class Login extends PureComponent {
     return (
       <div className={styles.main}>
         <Card>
-          <h1 className={styles.title}>Welcome Home!</h1>
+          <h1 className={styles.title}>Welcome Back!</h1>
           <Input
             autoFocus={true}
             className={styles.input}

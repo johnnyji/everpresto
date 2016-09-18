@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import CustomPropTypes from '.././CustomPropTypes';
 import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
-import DashboardSpinner from '.././shared/DashboardSpinner';
+import DashboardSpinner from '.././dashboard/DashboardSpinner';
 
 import DocumentActionCreators from '../.././actions/DocumentActionCreators';
 

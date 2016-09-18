@@ -1,0 +1,18 @@
+@import '../../../scss/extends.scss';
+@import '../../../scss/colors.scss'
+
+.main {
+  @extend .center-absolute;
+  color: $placeholder-color;
+  width: 70%;
+}
+
+.quote {
+  text-align: center;
+  &:hover { cursor: default }
+}
+
+.message {
+  font-size: 1.25rem;
+  margin-top: 0;
+}

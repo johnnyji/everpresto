@@ -1,0 +1,28 @@
+$progress-bar-height: 6px;
+
+.main {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  position: relative;
+}
+
+.progressBar {
+  height: $progress-bar-height; 
+}
+
+.progressBarFiller {
+  // This is a filler space for the progress bar in any Dashboard view
+  // for when the progress bar is not present, that way we don't have a
+  // sudden increase in height when the progress bar does appear
+  height: $progress-bar-height;
+  width: 100%;
+}
+
+.content {
+  display: flex;
+  flex: 1 1 auto;
+  flex-wrap: wrap;
+  padding: 16px;
+  width: 100%
+}

@@ -1,6 +1,8 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import CustomPropTypes from '../../../utils/CustomPropTypes';
+import DashboardError from '../../../components/dashboard/DashboardError';
+import DashboardSpinner from '../../../components/dashboard/DashboardSpinner';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import TemplateActionCreators from '../actions/ActionCreators';
 
@@ -31,8 +33,10 @@ export default (ComposedComponent) => {
         return <div>{fetchError}</div>;
       }
 
+      if (fetching && !fetched) return <DashboardSpinner />;
+
       return (
-        <ComposedComponent {...restProps} templatesFetched={fetched && !fetching} />
+        <ComposedComponent {...restProps} />
       );
     }
 

@@ -1,19 +1,25 @@
-import React, {Component, PropTypes} from 'react';
+import React, {PropTypes, PureComponent} from 'react';
 import {connect} from 'react-redux';
 import CustomPropTypes from '.././CustomPropTypes';
 import DashboardHeader from './DashboardHeader';
 import HorizontalNavbar from '.././ui/HorizontalNavbar';
+import styles from './styles/DashboardHandler.scss';
 
-const displayName = 'DashboardHandler';
+const DASHBOARD_TABS = [
+  {label: 'Collections', path: '/dashboard/collections'},
+  {label: 'Documents', path: '/dashboard/documents'},
+  {label: 'Activity', path: '/dashboard/activity'},
+  {label: 'Templates', path: '/dashboard/templates'},
+  {label: 'Profile Settings', path: '/dashboard/profile_settings'}
+];
 
 @connect((state) => ({
   currentUser: state.auth.get('user')
 }))
-export default class DashboardHandler extends Component {
+export default class DashboardHandler extends PureComponent {
 
-  static displayName = displayName;
+  static displayName = 'DashboardHandler';
 
-  // Router history
   static contextTypes = {
     router: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired
@@ -23,25 +29,17 @@ export default class DashboardHandler extends Component {
     currentUser: CustomPropTypes.user.isRequired
   };
 
-  componentWillReceiveProps(nextProps) {
-    if (!nextProps.currentUser) this.context.router.replace('/');
+  componentWillReceiveProps({currentUser}) {
+    if (!currentUser) this.context.router.replace('/');
   }
 
   render() {
-    const dashboardTabs = [
-      {label: 'Collections', path: '/dashboard/collections'},
-      {label: 'Documents', path: '/dashboard/documents'},
-      {label: 'Activity', path: '/dashboard/activity'},
-      {label: 'Templates', path: '/dashboard/templates'},
-      {label: 'Profile Settings', path: '/dashboard/profile_settings'}
-    ];
-
     return (
-      <div className={displayName}>
+      <div className={styles.main}>
         <DashboardHeader currentUser={this.props.currentUser} />
-        <HorizontalNavbar links={dashboardTabs} />
-        {/*Allows the React Router to run the correct child route,
-        replaced RouteHandler in v1.0.0*/}
+        <HorizontalNavbar links={DASHBOARD_TABS} />
+        {/* Allows the React Router to run the correct child route,
+        replaced RouteHandler in v1.0.0 */}
         {this.props.children}
       </div>
     );

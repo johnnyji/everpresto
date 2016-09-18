@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react';
+import React, {PropTypes, PureComponent} from 'react';
 import AuthActionCreators from '../.././actions/AuthActionCreators';
 import Clickable from '.././ui/Clickable';
 import CustomPropTypes from '.././CustomPropTypes';
@@ -7,14 +7,11 @@ import ListItem from '.././ui/ListItem';
 import MUIDivider from 'material-ui/Divider';
 import MUIMenu from 'material-ui/Menu';
 import MUIPopover from 'material-ui/Popover';
-import pureRender from 'pure-render-decorator';
+import styles from './styles/DashboardHeader.scss';
 
-const displayName = 'DashboardHeader';
+export default class DashboardHeader extends PureComponent {
 
-@pureRender
-export default class DashboardHeader extends Component {
-
-  static displayName = displayName;
+  static displayName = 'DashboardHeader';
 
   static contextTypes = {
     dispatch: PropTypes.func.isRequired,
@@ -43,17 +40,17 @@ export default class DashboardHeader extends Component {
     const {dropdownAnchorEl, showProfileOptions} = this.state;
 
     return (
-      <header className={displayName}>
-        <nav className={`${displayName}-navbar`} ref='navbar'>
-          <h2 className={`${displayName}-navbar-logo`} onClick={this._handleLogoClick}>everpresto!</h2>
-          <div className={`${displayName}-navbar-nav`}>
+      <header className={styles.main}>
+        <nav className={styles.nav} ref='navbar'>
+          <h2 className={styles.logo} onClick={this._handleLogoClick}>everpresto!</h2>
+          <div className={styles.navItems}>
             <Link to='profile'>
               <img
-                className={`${displayName}-navbar-nav-profile-pic`}
+                className={styles.profilePic}
                 src={currentUser.getIn(['account', 'profilePictureUrl'])} />
             </Link>
             <Clickable
-              className={`${displayName}-navbar-nav-profile-name`}
+              className={styles.profileName}
               onClick={this._handleToggleDropdownMenu}
               ref='dropdown-anchor'>
               {currentUser.getIn(['account', 'firstName'])} {currentUser.getIn(['account', 'lastName'])}

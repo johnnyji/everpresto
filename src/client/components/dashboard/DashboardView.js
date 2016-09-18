@@ -1,8 +1,8 @@
-import {Component} from 'react';
-import pureRender from 'pure-render-decorator';
+import {PureComponent} from 'react';
 
-@pureRender
-export default class DashboardView extends Component {
+// This is used in `routes.js` as a route wrapper component
+
+export default class DashboardView extends PureComponent {
 
   static displayName = 'DashboardView';
 

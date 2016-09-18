@@ -1,4 +1,4 @@
-import React, {PropTypes, PureComponent} from 'react';
+import React, {PureComponent} from 'react';
 import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
 import Spinner from 'ui-components/src/Spinner';
 import styles from './styles/DashboardSpinner.scss';

@@ -1,30 +1,29 @@
-import React, {Component, PropTypes} from 'react';
+import React, {PropTypes, PureComponent} from 'react';
 import classNames from 'classnames';
-import pureRender from 'pure-render-decorator';
+import styles from './styles/DashboardMessage.scss';
 
-const CLS = 'DashboardMessage';
+// This component positions messages along the dashboard
+export default class DashboardMessage extends PureComponent {
 
-@pureRender
-export default class DashboardMessage extends Component {
-  static displayName = CLS;
+  static displayName = 'DashboardMessage';
 
   static propTypes = {
-    center: PropTypes.bool.isRequired,
+    isCentered: PropTypes.bool.isRequired,
     className: PropTypes.string,
     message: PropTypes.string
   };
 
   static defaultProps = {
-    center: true
+    isCentered: true
   };
 
   render() {
-    const {center, children, className, message} = this.props;
+    const {children, className, isCentered, message} = this.props;
 
     const classes = classNames(
-      className,
-      CLS,
-      {[`${CLS}-center`]: center}
+      {[styles.center]: isCentered},
+      styles.main,
+      className
     );
 
     return (

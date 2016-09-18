@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {createFlashMessage} from '../../actions/AppActionCreators';
 import CustomPropTypes from '../CustomPropTypes';
-import DashboardSpinner from '../shared/DashboardSpinner';
+import DashboardSpinner from '../dashboard/DashboardSpinner';
 import handleFlashError from '../../decorators/handleFlashError';
 import TemplateActionCreators from '../../actions/TemplateActionCreators';
 import TemplateEditorView from './TemplateEditorView';

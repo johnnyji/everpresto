@@ -1,17 +1,13 @@
-import React, {Component, PropTypes} from 'react';
+import React, {PropTypes, PureComponent} from 'react';
 import AppContentWrapper from '../app/AppContentWrapper';
 import classNames from 'classnames';
-import pureRender from 'pure-render-decorator';
+import styles from './styles/DashboardContentHeader.scss';
 
-const displayName = 'DashboardContentHeader';
+export default class DashboardContentHeader extends PureComponent {
 
-@pureRender
-export default class DashboardContentHeader extends Component {
-
-  static displayName = displayName;
+  static displayName = 'DashboardContentHeader';
 
   static propTypes = {
-    children: PropTypes.any,
     className: PropTypes.string
   };
 
@@ -19,7 +15,7 @@ export default class DashboardContentHeader extends Component {
     const {children, className} = this.props;
 
     return (
-      <AppContentWrapper className={classNames(className, displayName)}>
+      <AppContentWrapper className={classNames(styles.main, className)}>
         {children}
       </AppContentWrapper>
     );

@@ -1,9 +1,0 @@
-.DashboardMessage {
-  @extend .center-absolute;
-  color: $text-color-light;
-  max-width: 600px;
-  margin: 0 auto;
-  &-center {
-    text-align: center;
-  }
-}
