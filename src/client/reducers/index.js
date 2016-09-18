@@ -3,7 +3,7 @@ import app from './AppReducer';
 import auth from './AuthReducer';
 
 import collectionsEdit from './collections/CollectionsEditReducer';
-import collectionsIndex from './collections/CollectionsIndexReducer';
+// import collectionsIndex from './collections/CollectionsIndexReducer';
 import collectionsShow from './collections/CollectionsShowReducer';
 
 import documentSigning from './DocumentSigningReducer';
@@ -17,8 +17,7 @@ export default combineReducers({
   app,
   auth,
 
-  // collections,
-  collectionsIndex,
+  collectionsIndex: require('../views/Collections/reducers/CollectionsIndexReducer'),
   collectionsEdit,
   collectionsShow,
 
@@ -26,6 +25,6 @@ export default combineReducers({
   documents,
   documentsNew,
 
-  templates: require('../views/Templates/reducers/TemplatesReducer'),
+  templatesIndex: require('../views/Templates/reducers/TemplatesIndexReducer'),
   templatesEdit: require('../views/Templates/reducers/TemplatesEditReducer')
 });

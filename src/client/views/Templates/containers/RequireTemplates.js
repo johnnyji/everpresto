@@ -39,10 +39,10 @@ export default (ComposedComponent) => {
   }
 
   return connect((state) => ({
-    fetching: state.templates.get('fetching'),
-    fetched: state.templates.get('fetched'),
-    fetchError: state.templates.get('fetchError'),
-    templates: state.templates.get('templates')
+    fetching: state.templatesIndex.get('fetching'),
+    fetched: state.templatesIndex.get('fetched'),
+    fetchError: state.templatesIndex.get('fetchError'),
+    templates: state.templatesIndex.get('templates')
   }))(RequireTemplates);
 
 };

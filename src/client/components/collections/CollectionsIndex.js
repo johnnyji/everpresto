@@ -31,8 +31,8 @@ export default class CollectionsIndex extends Component {
   };
 
   static propTypes = {
-    collectionBeingEdited: CustomPropTypes.collectionLite,
-    collections: ImmutablePropTypes.listOf(CustomPropTypes.collectionLite).isRequired,
+    collectionBeingEdited: CustomPropTypes.collectionPreview,
+    collections: ImmutablePropTypes.listOf(CustomPropTypes.collectionPreview).isRequired,
     shouldFetchCollections: PropTypes.bool.isRequired,
     shouldFetchTemplates: PropTypes.bool.isRequired,
     templates: ImmutablePropTypes.listOf(CustomPropTypes.template).isRequired

@@ -17,7 +17,7 @@ const initialState = fromJS({
 
 export default createReducer(initialState, {
 
-  name: 'TemplatesReducer',
+  name: 'TemplatesIndexReducer',
 
   handlers: {
     onDelete: [DELETE_TEMPLATE_SUCCESS],

@@ -24,7 +24,7 @@ export default {
   // This is the propType for collections that
   // do not contain `documents`, the light version
   // of a collection
-  collectionLite: ImmutablePropTypes.mapContains({
+  collectionPreview: ImmutablePropTypes.mapContains({
     company: STR.isRequired,
     creator: STR.isRequired,
     id: STR.isRequired,

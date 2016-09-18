@@ -24,7 +24,7 @@ const CustomPropTypes = {
   // This is the propType for collections that
   // do not contain `documents`, the light version
   // of a collection
-  collectionLite: ImmutablePropTypes.mapContains({
+  collectionPreview: ImmutablePropTypes.mapContains({
     company: PropTypes.string.isRequired,
     creator: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,

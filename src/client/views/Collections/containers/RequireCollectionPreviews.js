@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react';
+import React, {PropTypes, PureComponent} from 'react';
 import {connect} from 'react-redux';
 import CustomPropTypes from '../../../utils/CustomPropTypes';
 import CollectionActionCreators from '../actions/ActionCreators';
@@ -10,7 +10,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 // from the database
 export default (ComposedComponent) => {
 
-  class RequireCollectionPreviews extends Component {
+  class RequireCollectionPreviews extends PureComponent {
 
     static displayName = 'RequireCollectionPreviews';
 
@@ -18,12 +18,12 @@ export default (ComposedComponent) => {
       fetched: PropTypes.bool.isRequired,
       fetchError: PropTypes.string,
       fetching: PropTypes.bool.isRequired,
-      collectionPreviews: ImmutablePropTypes.listOf(CustomPropTypes.collectionLite)
+      collectionPreviews: ImmutablePropTypes.listOf(CustomPropTypes.collectionPreview)
     };
 
     componentWillMount() {
       if (!this.props.fetched && !this.props.fetching) {
-        this.context.dispatch(CollectionActionCreators.previews.fetch());
+        this.context.dispatch(CollectionActionCreators.fetchPreviews());
       }
     }
 
@@ -41,10 +41,10 @@ export default (ComposedComponent) => {
   }
 
   return connect((state) => ({
-    fetching: state.collectionPreviews.get('fetching'),
-    fetched: state.collectionPreviews.get('fetched'),
-    fetchError: state.collectionPreviews.get('fetchError'),
-    collectionPreviews: state.collectionPreviews.get('collections')
+    fetching: state.collectionIndex.get('fetching'),
+    fetched: state.collectionIndex.get('fetched'),
+    fetchError: state.collectionIndex.get('fetchError'),
+    collectionPreviews: state.collectionIndex.get('collectionPreviews')
   }))(RequireCollectionPreviews);
 
 };

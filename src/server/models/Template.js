@@ -12,17 +12,18 @@ const REQUIRED_PLACEHOLDERS = [
     isRequired: true,
     tip: "First names are unique to each signer and required. You don't have to use this in your template if you don't need to, but you probably should!",
     type: 'specific',
-    value: 'FIRST_NAME'},
-  {
+    value: 'FIRST_NAME'
+  }, {
     isRequired: true,
     tip: "Last names are unique to each signer and required. You don't have to use this in your template if you don't need to, but you probably should!",
     type: 'specific',
-    value: 'LAST_NAME'},
-  {
+    value: 'LAST_NAME'
+  }, {
     isRequired: true,
     tip: "Email is required and unique for each signer. You don't have to use this field in your template if you don't need to.",
     type: 'specific',
-    value: 'EMAIL'}
+    value: 'EMAIL'
+  }
 ];
 
 const TemplateSchema = new Schema({
@@ -105,7 +106,6 @@ TemplateSchema.statics.updateTemplate = function(stringId, data) {
           resolve(template.toObject());
         });
       });
-
   });
 };
 

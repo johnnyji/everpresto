@@ -54,8 +54,8 @@ router.post('/update', (req, res) => {
   const {templateData, templateId} = req.body;
 
   Template.updateTemplate(templateId, templateData)
-    .then(() => {
-      res.status(200).json({});
+    .then((template) => {
+      res.status(200).json({template});
     })
     .catch((err) => {
       res.status(422).json({message: extractErrorMessage(err)});

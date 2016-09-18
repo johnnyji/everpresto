@@ -1,42 +1,58 @@
+import {
+  FETCH_COLLECTION,
+  FETCH_COLLECTION_ERROR,
+  FETCH_COLLECTION_SUCCESS,
+  FETCH_COLLECTION_PREVIEWS,
+  FETCH_COLLECTION_PREVIEWS_ERROR,
+  FETCH_COLLECTION_PREVIEWS_SUCCESS,
+} from './ActionTypes';
 import http, {endpoints} from '../utils/http';
-import {createFlashMessage} from '../../../actions/AppActionCreators';
-import CollectionActionTypes from './ActionTypes';
 
 export default {
 
-  create: require('./CreateActionCreators'),
+  new: require('./NewActionCreators'),
   delete: require('./DeleteActionCreators'),
   edit: require('./EditActionCreators'),
-  previews: require('./PreviewActionCreators'),
 
-  /**
-   * Fetches the collection being viewed, along with it's documents
-   * @param  {String} id - The `_id` of the collection we're fetching
-   * @return {Function}  - The thunk that makes the API call
-   */
-  fetchCollection(id) {
+  fetchById(id) {
     return (dispatch) => {
-      const {path} = endpoints.collections.show(id);
+      // Initiate fetch
+      dispatch({type: FETCH_COLLECTION});
 
-      http.get(path)
+      http.get(endpoints.collections.show(id).path)
         .then(({collection}) => {
-          dispatch(this.fetchCollectionBeingViewedSuccess(collection));
+          dispatch({
+            type: FETCH_COLLECTION_SUCCESS,
+            data: {collection}
+          });
         })
         .catch(({message}) => {
-          dispatch(createFlashMessage('red', message));
+          dispatch({
+            type: FETCH_COLLECTION_ERROR,
+            data: {error: message}
+          });
         });
     };
   },
 
-  /**
-   * Handles the collection returned from the collection show fetch
-   * @param  {Array} collections - The collection returned from the API
-   * @return {Object}            - The data passed to the Collection Reducer
-   */
-  fetchCollectionSuccess(collection) {
-    return {
-      type: CollectionActionTypes.FETCH_COLLECTION_BEING_VIEWED_SUCCESS,
-      data: {collection}
+  fetchPreviews() {
+    return (dispatch) => {
+      // Initiate fetch
+      dispatch({type: FETCH_COLLECTION_PREVIEWS});
+
+      http.get(endpoints.collections.index.path)
+        .then(({collections}) => {
+          dispatch({
+            type: FETCH_COLLECTION_PREVIEWS_SUCCESS,
+            data: {collectionPreviews: collections}
+          });
+        })
+        .catch(({message}) => {
+          dispatch({
+            type: FETCH_COLLECTION_PREVIEWS_ERROR,
+            data: {error: message}
+          });
+        });
     };
   }
 
