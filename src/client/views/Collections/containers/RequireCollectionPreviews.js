@@ -2,6 +2,8 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import CustomPropTypes from '../../../utils/CustomPropTypes';
 import CollectionActionCreators from '../actions/ActionCreators';
+import DashboardError from '../../../components/dashboard/DashboardError';
+import DashboardSpinner from '../../../components/dashboard/DashboardSpinner';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
 // This containers fetches all the collection preview cards
@@ -28,13 +30,11 @@ export default (ComposedComponent) => {
     render() {
       const {fetched, fetching, fetchError, ...restProps} = this.props;
 
-      if (fetchError) {
-        // TODO: Return a proper dashboard error instead
-        return <div>{fetchError}</div>;
-      }
+      if (fetchError) return <DashboardError>{fetchError}</DashboardError>;
+      if (fetching && !fetched) return <DashboardSpinner />;
 
       return (
-        <ComposedComponent {...restProps} collectionPreviewsFetched={fetched && !fetching} />
+        <ComposedComponent {...restProps} />
       );
     }
 

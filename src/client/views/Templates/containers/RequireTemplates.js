@@ -28,11 +28,7 @@ export default (ComposedComponent) => {
     render() {
       const {fetched, fetching, fetchError, ...restProps} = this.props;
 
-      if (fetchError) {
-        // TODO: Return a proper dashboard error instead
-        return <div>{fetchError}</div>;
-      }
-
+      if (fetchError) return <DashboardError>{fetchError}</DashboardError>;
       if (fetching && !fetched) return <DashboardSpinner />;
 
       return (
