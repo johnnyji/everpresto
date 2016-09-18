@@ -2,11 +2,11 @@ import React, {PropTypes, PureComponent} from 'react';
 import CustomPropTypes from '../../utils/CustomPropTypes';
 import DashboardContentWrapper from '../../components/dashboard/DashboardContentWrapper';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import styles from './styles/index.scss';
-import TemplateCard from './components/TemplateCard';
-import TemplateCardPreviewEdit from './components/TemplateCardPreviewEdit';
-import TemplateActionCreators from './actions/TemplateActionCreators';
 import RequireTemplates from './containers/RequireTemplates';
+import styles from './styles/index.scss';
+import TemplateActionCreators from './actions/ActionCreators';
+import TemplateCard from './components/TemplateCard';
+import TemplatePreviewCard from './components/TemplatePreviewCard';
 
 @RequireTemplates
 export default class TemplatesIndex extends PureComponent {
@@ -40,7 +40,7 @@ export default class TemplatesIndex extends PureComponent {
 
   _renderTemplatePreviews = () => {
     return this.props.templates.map((template, i) => {
-      return <TemplateCardPreviewEdit key={i} template={template} />;
+      return <TemplatePreviewCard key={i} template={template} />;
     });
   };
 

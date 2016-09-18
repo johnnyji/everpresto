@@ -5,9 +5,9 @@ import Clickable from 'ui-components/src/Clickable';
 import CustomPropTypes from '../../../utils/CustomPropTypes';
 import DropdownOptions from '../../../components/ui/DropdownOptions';
 import Icon from 'ui-components/src/Icon';
-import ModalDocumentPreview from '.././modals/ModalDocumentPreview';
+import ModalDocumentPreview from '../../../components/modals/ModalDocumentPreview';
 import styles from '../styles/TemplatePreviewCard.scss';
-import TemplateActionCreators from '../.././actions/TemplateActionCreators';
+import TemplateActionCreators from '../actions/ActionCreators';
 import TemplateCard from './TemplateCard';
 
 export default class TemplatePreviewCard extends PureComponent {
@@ -62,8 +62,10 @@ export default class TemplatePreviewCard extends PureComponent {
   }
 
   _handleEditView = () => {
+    // TODO: Change this to a route push, and in the edit view, have a `RequireTemplateBeingEdited` container
+    // that then set it
     this.context.dispatch(
-      TemplateActionCreators.setTemplateBeingEdited(this.props.template)
+      TemplateActionCreators.edit.setTemplateBeingEdited(this.props.template)
     );
   }
 
@@ -80,7 +82,7 @@ export default class TemplatePreviewCard extends PureComponent {
       AppActionCreators.createModal(
         <ModalDocumentPreview
           body={template.get('body')}
-          title={template.get('title')}/>
+          title={template.get('title')} />
       )
     );
   }

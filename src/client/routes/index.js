@@ -19,7 +19,7 @@ import DocumentsNew from '.././components/documents/DocumentsNew';
 import DocumentsNewChooseTemplateView from '.././components/documents/DocumentsNewChooseTemplateView';
 import DocumentsNewEditorView from '.././components/documents/DocumentsNewEditorView';
 // Templates
-import TemplatesIndex from '.././components/templates/TemplatesIndex';
+// import TemplatesIndex from '.././components/templates/TemplatesIndex';
 import TemplatesEdit from '.././components/templates/TemplatesEdit';
 // Profile Settings
 import ProfileSettings from '.././components/user/ProfileSettings';
@@ -28,14 +28,13 @@ import ProfileSettings from '.././components/user/ProfileSettings';
 import TestView from '../components/test/TestView';
 
 import Admin from '../views/Admin';
-// TODO: Not yet, still being refactored
-// import CollectionsIndex from '../views/CollectionsIndex';
-import DocumentSigning from '../views/DocumentSigning';
-import Login from '../views/Login';
-import LandingPage from '../views/LandingPage';
 import CollectionsIndex from '../views/Collections';
+import DocumentSigning from '../views/DocumentSigning';
+import LandingPage from '../views/LandingPage';
+import Login from '../views/Login';
 import NotFound from '../views/NotFound';
 import Registration from '../views/Registration';
+import TemplatesIndex from '../views/Templates';
 
 export default (
   <Route component={App} path='/'>
