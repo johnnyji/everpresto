@@ -54,7 +54,7 @@ export default (
     {/*********** Protected Routes ************/}
     <Route path='dashboard' component={RequiresAuth(DashboardHandler)}>
       <IndexRoute component={DashboardView} />
-      /
+
       <Route path='collections' component={DashboardView}>
         <IndexRoute component={CollectionsIndex} />
         <Route path=':id' component={CollectionsShow} />

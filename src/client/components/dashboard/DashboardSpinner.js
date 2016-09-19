@@ -10,7 +10,7 @@ export default class DashboardSpinner extends PureComponent {
   render() {
     return (
       <DashboardContentWrapper>
-        <Spinner className={styles.spinner} />
+        <Spinner className={styles.spinner} size='medium' />
       </DashboardContentWrapper>
     );
   }

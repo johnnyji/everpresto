@@ -1,7 +1,8 @@
 import React, {PropTypes, PureComponent} from 'react';
-import AuthActionCreators from '../.././actions/AuthActionCreators';
-import Clickable from '.././ui/Clickable';
-import CustomPropTypes from '.././CustomPropTypes';
+import AuthActionCreators from '../../actions/AuthActionCreators';
+import Clickable from 'ui-components/src/Clickable';
+import CustomPropTypes from '../../utils/CustomPropTypes';
+import Icon from 'ui-components/src/Icon';
 import {Link} from 'react-router';
 import ListItem from '.././ui/ListItem';
 import MUIDivider from 'material-ui/Divider';
@@ -20,7 +21,8 @@ export default class DashboardHeader extends PureComponent {
   };
 
   static propTypes = {
-    currentUser: CustomPropTypes.user.isRequired
+    currentUser: CustomPropTypes.user.isRequired,
+    onOpenMenu: PropTypes.func.isRequired
   };
 
   constructor (props) {
@@ -32,44 +34,44 @@ export default class DashboardHeader extends PureComponent {
   }
 
   render() {
-    const {currentUser} = this.props;
+    const {currentUser, onOpenMenu} = this.props;
     // DO NOT REMOVE: This guard prevents the console from throwing a `getIn of undefined` error
     // after the user logs out... Need to figure out why that's happening
     if (!currentUser) return <div />;
-    
+
     const {dropdownAnchorEl, showProfileOptions} = this.state;
 
     return (
-      <header className={styles.main}>
-        <nav className={styles.nav} ref='navbar'>
-          <h2 className={styles.logo} onClick={this._handleLogoClick}>everpresto!</h2>
-          <div className={styles.navItems}>
-            <Link to='profile'>
-              <img
-                className={styles.profilePic}
-                src={currentUser.getIn(['account', 'profilePictureUrl'])} />
-            </Link>
-            <Clickable
-              className={styles.profileName}
-              onClick={this._handleToggleDropdownMenu}
-              ref='dropdown-anchor'>
-              {currentUser.getIn(['account', 'firstName'])} {currentUser.getIn(['account', 'lastName'])}
-            </Clickable>
-            <MUIPopover
-              anchorEl={dropdownAnchorEl}
-              anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
-              canAutoPosition={false}
-              open={showProfileOptions}
-              onRequestClose={() => this.setState({showProfileOptions: false})}
-              targetOrigin={{horizontal: 'right', vertical: 'top'}}>
-              <MUIMenu>
-                <ListItem onClick={this._viewProfile}>Profile Settings</ListItem>
-                <MUIDivider />
-                <ListItem onClick={this._handleLogout}>Logout</ListItem>
-              </MUIMenu>
-            </MUIPopover>
-          </div>
-        </nav>
+      <header className={styles.main} ref='navbar'>
+        <h2 className={styles.logo} onClick={onOpenMenu}>
+          <Icon name='add' />
+        </h2>
+        <div className={styles.nav}>
+          <Link to='profile'>
+            <img
+              className={styles.profilePic}
+              src={currentUser.getIn(['account', 'profilePictureUrl'])} />
+          </Link>
+          <Clickable
+            className={styles.profileName}
+            onClick={this._handleToggleDropdownMenu}
+            ref='dropdown-anchor'>
+            {currentUser.getIn(['account', 'firstName'])} {currentUser.getIn(['account', 'lastName'])}
+          </Clickable>
+          <MUIPopover
+            anchorEl={dropdownAnchorEl}
+            anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
+            canAutoPosition={false}
+            open={showProfileOptions}
+            onRequestClose={() => this.setState({showProfileOptions: false})}
+            targetOrigin={{horizontal: 'right', vertical: 'top'}}>
+            <MUIMenu>
+              <ListItem onClick={this._viewProfile}>Profile Settings</ListItem>
+              <MUIDivider />
+              <ListItem onClick={this._handleLogout}>Logout</ListItem>
+            </MUIMenu>
+          </MUIPopover>
+        </div>
       </header>
     );
 

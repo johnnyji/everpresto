@@ -1,6 +1,7 @@
 import React, {PropTypes, PureComponent} from 'react';
 import AppContentWrapper from '../app/AppContentWrapper';
 import classNames from 'classnames';
+import menuConfig from '../../config/menu';
 import ProgressBar from 'ui-components/src/ProgressBar';
 import styles from './styles/DashboardContentWrapper';
 
@@ -32,7 +33,7 @@ export default class DashboardContentWrapper extends PureComponent {
     const contentClasses = classNames(styles.content, className);
 
     return (
-      <div className={styles.main}>
+      <div className={styles.main} id={menuConfig.pageWrapId}>
         {showProgressBar &&
           <ProgressBar
             progressCount={progressBarProgressCount}
