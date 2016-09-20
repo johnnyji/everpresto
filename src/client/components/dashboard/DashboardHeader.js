@@ -22,7 +22,8 @@ export default class DashboardHeader extends PureComponent {
   };
 
   static propTypes = {
-    currentUser: CustomPropTypes.user.isRequired
+    currentUser: CustomPropTypes.user.isRequired,
+    sidenavShown: PropTypes.bool.isRequired
   };
 
   constructor (props) {
@@ -34,7 +35,7 @@ export default class DashboardHeader extends PureComponent {
   }
 
   render() {
-    const {currentUser} = this.props;
+    const {currentUser, sidenavShown} = this.props;
     // DO NOT REMOVE: This guard prevents the console from throwing a `getIn of undefined` error
     // after the user logs out... Need to figure out why that's happening
     if (!currentUser) return <div />;
@@ -44,7 +45,7 @@ export default class DashboardHeader extends PureComponent {
     return (
       <header className={styles.main} ref='navbar'>
         <Clickable className={styles.logo} onClick={this._handleOpenSidebar}>
-          <Icon name='menu' />
+          {sidenavShown ? null : <Icon name='menu' size={28} />}
         </Clickable>
         <div className={styles.nav}>
           <Link to='profile'>

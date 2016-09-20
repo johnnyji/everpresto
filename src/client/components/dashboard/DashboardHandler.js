@@ -3,19 +3,11 @@ import {connect} from 'react-redux';
 import CustomPropTypes from '.././CustomPropTypes';
 import DashboardHeader from './DashboardHeader';
 import menuConfig from '../../config/menu';
-// import HorizontalNavbar from '.././ui/HorizontalNavbar';
 import styles from './styles/DashboardHandler.scss';
 
-// const DASHBOARD_TABS = [
-//   {label: 'Collections', path: '/dashboard/collections'},
-//   {label: 'Documents', path: '/dashboard/documents'},
-//   {label: 'Activity', path: '/dashboard/activity'},
-//   {label: 'Templates', path: '/dashboard/templates'},
-//   {label: 'Profile Settings', path: '/dashboard/profile_settings'}
-// ];
-
 @connect((state) => ({
-  currentUser: state.auth.get('user')
+  currentUser: state.auth.get('user'),
+  sidenavShown: state.app.get('sidenavShown')
 }))
 export default class DashboardHandler extends PureComponent {
 
@@ -26,7 +18,8 @@ export default class DashboardHandler extends PureComponent {
   };
 
   static propTypes = {
-    currentUser: CustomPropTypes.user.isRequired
+    currentUser: CustomPropTypes.user.isRequired,
+    sidenavShown: PropTypes.bool.isRequired
   };
 
   componentWillReceiveProps({currentUser}) {
@@ -36,7 +29,7 @@ export default class DashboardHandler extends PureComponent {
   render() {
     return (
       <div className={styles.main} id={menuConfig.pageWrapId}>
-        <DashboardHeader currentUser={this.props.currentUser} />
+        <DashboardHeader currentUser={this.props.currentUser} sidenavShown={this.props.sidenavShown} />
         {/* <HorizontalNavbar links={DASHBOARD_TABS} /> */}
         {/* Allows the React Router to run the correct child route, replaced RouteHandler in v1.0.0 */}
         {this.props.children}
