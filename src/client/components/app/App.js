@@ -18,7 +18,7 @@ const RouterLink = Radium(Link);
 const MENU_STYLES = {
   bmMenu: {
     background: '#F5F5F5',
-    paddingTop: '2.5rem',
+    paddingTop: '3.25rem',
     fontSize: '1.15rem'
   },
   bmCrossButton: {
