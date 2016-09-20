@@ -1,35 +1,52 @@
-import AppActionTypes from './../action_types/AppActionTypes';
+import {
+  CLOSE_SIDENAV,
+  CREATE_FLASH_MESSAGE,
+  CREATE_MODAL,
+  DISMISS_FLASH_MESSAGE,
+  DISMISS_MODAL,
+  OPEN_SIDENAV
+} from './../action_types/AppActionTypes';
 
-const AppActionCreators = {
+export default {
 
   createFlashMessage(color = 'blue', message) {
     return {
-      type: AppActionTypes.CREATE_FLASH_MESSAGE,
+      type: CREATE_FLASH_MESSAGE,
       data: {color, message}
     };
   },
 
   dismissFlashMessage() {
     return {
-      type: AppActionTypes.DISMISS_FLASH_MESSAGE,
+      type: DISMISS_FLASH_MESSAGE,
       data: {color: null, message: null}
     };
   },
 
   createModal(modalElement) {
     return {
-      type: AppActionTypes.CREATE_MODAL,
+      type: CREATE_MODAL,
       data: {modalElement}
     };
   },
 
   dismissModal() {
     return {
-      type: AppActionTypes.DISMISS_MODAL,
+      type: DISMISS_MODAL,
       data: {modalElement: null}
+    };
+  },
+
+  openSidebar() {
+    return {
+      type: OPEN_SIDENAV,
+    };
+  },
+
+  closeSidebar() {
+    return {
+      type: CLOSE_SIDENAV
     };
   }
 
 };
-
-export default AppActionCreators;

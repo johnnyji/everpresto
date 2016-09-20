@@ -1,10 +1,10 @@
 import {createConstants} from 'create-reducer-redux';
 
-const AppActionTypes = createConstants([
+export default createConstants([
+  'CLOSE_SIDENAV',
   'CREATE_FLASH_MESSAGE',
   'CREATE_MODAL',
   'DISMISS_FLASH_MESSAGE',
-  'DISMISS_MODAL'
+  'DISMISS_MODAL',
+  'OPEN_SIDENAV'
 ]);
-
-export default AppActionTypes;

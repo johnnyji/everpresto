@@ -4,46 +4,33 @@ import {connect} from 'react-redux';
 import EverprestoMUITheme from '../.././config/mui-theme';
 import FlashMessage from '.././ui/FlashMessage';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import Icon from 'ui-components/src/Icon';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import {Link} from 'react-router';
 import menuConfig from '../../config/menu';
 import MUIThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Overlay from '.././ui/Overlay';
 import Radium from 'radium';
-import {pushRotate as Menu} from 'react-burger-menu';
+import {push as Menu} from 'react-burger-menu';
 import styles from './styles/App.scss';
 
 const RouterLink = Radium(Link);
 const MENU_STYLES = {
-  bmBurgerButton: {
-    position: 'fixed',
-    width: '36px',
-    height: '30px',
-    left: '36px',
-    top: '36px'
-  },
-  bmBurgerBars: {
-    background: '#373a47'
-  },
-  bmCrossButton: {
-    height: '24px',
-    width: '24px'
-  },
-  bmCross: {
-    background: '#bdc3c7'
-  },
   bmMenu: {
     background: '#FFF',
-    padding: '2.5em 1.5em 0',
-    fontSize: '1.15em'
+    paddingTop: '2.5rem',
+    fontSize: '1.15rem'
+  },
+  bmCrossButton: {
+    cursor: 'pointer',
+    right: 16,
+    top: 16
   },
   bmMenuWrap: {
     zIndex: 6
   },
   bmMorphShape: {
     fill: '#373a47'
-  },
-  bmItemList: {
   },
   bmOverlay: {
     zIndex: 5
@@ -54,7 +41,7 @@ const MENU_STYLES = {
   currentUser: state.auth.get('user'),
   flash: state.app.get('flash'),
   modal: state.app.get('modal'),
-  menuShown: state.app.get('menuShown', true)
+  sidenavShown: state.app.get('sidenavShown')
 }))
 export default class App extends Component {
 
@@ -70,7 +57,7 @@ export default class App extends Component {
         PropTypes.element
       ])
     }).isRequired,
-    menuShown: PropTypes.bool.isRequired,
+    sidenavShown: PropTypes.bool.isRequired,
     modal: ImmutablePropTypes.contains({
       display: PropTypes.bool.isRequired,
       element: PropTypes.element
@@ -108,17 +95,22 @@ export default class App extends Component {
   }
 
   _renderMenu = () => {
+    const closeIcon = <Icon name='close' size={28} />;
+
     return (
       <Menu
-        isOpen={this.props.menuShown}
+        customBurgerIcon={false}
+        customCrossIcon={closeIcon}
+        isOpen={this.props.sidenavShown}
+        onStateChange={this._handleMenuState}
         outerContainerId={menuConfig.outerContainerId}
         pageWrapId={menuConfig.pageWrapId}
         styles={MENU_STYLES}>
-        <RouterLink to='/dashboard/collections'>Collections</RouterLink>
-        <RouterLink to='/dashboard/documents'>Documents</RouterLink>
-        <RouterLink to='/dashboard/activity'>Activity</RouterLink>
-        <RouterLink to='/dashboard/templates'>Templates</RouterLink>
-        <RouterLink to='/dashboard/profile_settings'>Profile Settings</RouterLink>
+        <RouterLink activeClassName={styles.menuItemActive} className={styles.menuItem} to='/dashboard/collections'>Collections</RouterLink>
+        <RouterLink activeClassName={styles.menuItemActive} className={styles.menuItem} to='/dashboard/documents'>Documents</RouterLink>
+        <RouterLink activeClassName={styles.menuItemActive} className={styles.menuItem} to='/dashboard/activity'>Activity</RouterLink>
+        <RouterLink activeClassName={styles.menuItemActive} className={styles.menuItem} to='/dashboard/templates'>Templates</RouterLink>
+        <RouterLink activeClassName={styles.menuItemActive} className={styles.menuItem} to='/dashboard/profile_settings'>Profile Settings</RouterLink>
       </Menu>
     );
   };
@@ -126,6 +118,12 @@ export default class App extends Component {
 
   _handleExitModal = () => {
     this.props.dispatch(AppActionCreators.dismissModal());
-  }
+  };
+
+  _handleMenuState = ({isOpen}) => {
+    if (!isOpen) {
+      this.props.dispatch(AppActionCreators.closeSidebar());
+    }
+  };
 
 }

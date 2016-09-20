@@ -1,4 +1,5 @@
 import React, {PropTypes, PureComponent} from 'react';
+import AppActionCreators from '../../actions/AppActionCreators';
 import AuthActionCreators from '../../actions/AuthActionCreators';
 import Clickable from 'ui-components/src/Clickable';
 import CustomPropTypes from '../../utils/CustomPropTypes';
@@ -21,8 +22,7 @@ export default class DashboardHeader extends PureComponent {
   };
 
   static propTypes = {
-    currentUser: CustomPropTypes.user.isRequired,
-    onOpenMenu: PropTypes.func.isRequired
+    currentUser: CustomPropTypes.user.isRequired
   };
 
   constructor (props) {
@@ -34,7 +34,7 @@ export default class DashboardHeader extends PureComponent {
   }
 
   render() {
-    const {currentUser, onOpenMenu} = this.props;
+    const {currentUser} = this.props;
     // DO NOT REMOVE: This guard prevents the console from throwing a `getIn of undefined` error
     // after the user logs out... Need to figure out why that's happening
     if (!currentUser) return <div />;
@@ -43,9 +43,9 @@ export default class DashboardHeader extends PureComponent {
 
     return (
       <header className={styles.main} ref='navbar'>
-        <h2 className={styles.logo} onClick={onOpenMenu}>
-          <Icon name='add' />
-        </h2>
+        <Clickable className={styles.logo} onClick={this._handleOpenSidebar}>
+          <Icon name='menu' />
+        </Clickable>
         <div className={styles.nav}>
           <Link to='profile'>
             <img
@@ -91,6 +91,10 @@ export default class DashboardHeader extends PureComponent {
 
   _handleLogout = () => {
     this.context.dispatch(AuthActionCreators.logout());
+  };
+
+  _handleOpenSidebar = () => {
+    this.context.dispatch(AppActionCreators.openSidebar());
   };
 
   _viewProfile = () => {

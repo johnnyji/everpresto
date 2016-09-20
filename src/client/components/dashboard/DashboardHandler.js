@@ -36,7 +36,7 @@ export default class DashboardHandler extends PureComponent {
   render() {
     return (
       <div className={styles.main} id={menuConfig.pageWrapId}>
-        <DashboardHeader currentUser={this.props.currentUser} onOpenMenu={this._handleOpenMenu} />
+        <DashboardHeader currentUser={this.props.currentUser} />
         {/* <HorizontalNavbar links={DASHBOARD_TABS} /> */}
         {/* Allows the React Router to run the correct child route, replaced RouteHandler in v1.0.0 */}
         {this.props.children}

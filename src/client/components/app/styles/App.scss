@@ -3,3 +3,13 @@
   height: 100%;
   width: 100%;
 }
+
+.menuItem {
+  padding: 16px;
+  text-decoration: none;
+  font-weight: normal;
+
+  &Active {
+    border-left: 3px solid red;
+  }
+}

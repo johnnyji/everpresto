@@ -1,7 +1,7 @@
-import Immutable from 'immutable';
+import {fromJS, Map} from 'immutable';
 import AppActionTypes from './../action_types/AppActionTypes';
 
-const initialState = Immutable.fromJS({
+const initialState = fromJS({
   flash: {
     color: null,
     message: null
@@ -9,7 +9,8 @@ const initialState = Immutable.fromJS({
   modal: {
     display: false,
     element: null
-  }
+  },
+  sidenavShown: false
 });
 
 // Do NOT mutate state passed in by doing `state = state.set(...)`, simply return `state.set(...)`
@@ -28,19 +29,25 @@ export default function appReducer(state = initialState, action) {
 
     // Creates a flash message
     case AppActionTypes.CREATE_FLASH_MESSAGE:
-      return state.set('flash', Immutable.Map(action.data));
+      return state.set('flash', Map(action.data));
 
     // Dismiss a flash message
     case AppActionTypes.DISMISS_FLASH_MESSAGE:
-      return state.set('flash', Immutable.Map({color: null, message: null}));
+      return state.set('flash', Map({color: null, message: null}));
 
     // Creates the modal box
     case AppActionTypes.CREATE_MODAL:
-      return state.set('modal', Immutable.Map({display: true, element: action.data.modalElement}));
+      return state.set('modal', Map({display: true, element: action.data.modalElement}));
 
     // Dismiss the modal box
     case AppActionTypes.DISMISS_MODAL:
-      return state.set('modal', Immutable.Map({display: false, element: null}));
+      return state.set('modal', Map({display: false, element: null}));
+
+    case AppActionTypes.CLOSE_SIDENAV:
+      return state.set('sidenavShown', false);
+
+    case AppActionTypes.OPEN_SIDENAV:
+      return state.set('sidenavShown', true);
 
     default:
       return state;
