@@ -1,4 +1,34 @@
-// BRAND COLORS
+$purple: #673AB7;
+$purple-light: #913CE7;
+$purple-lighter: #9578FF;
+$orange: #FF4202;
+$white: #FFF;
+
+$gray-dark: #404040;
+$gray-light: #CCC;
+$gray-lighter: #EBEBEB;
+$gray-lightest: #F5F5F5;
+$gray: #999;
+
+$brand-primary: $purple;
+$brand-primary-light: $purple-light;
+$brand-primary-lighter: $purple-lighter;
+
+$brand-secondary: $gray;
+$brand-secondary-dark: $gray-dark;
+$brand-secondary-light: $gray-light;
+$brand-secondary-lighter: darken($gray-lighter, 2%);
+$brand-secondary-lightest: $gray-lightest;
+
+$brand-tertiary: $orange;
+
+$error: #CF000F;
+$disabled: $brand-secondary-lighter;
+$placeholder: $gray;
+$text: #282828;
+$warning: #F39C12;
+
+// BRAND COLOR
 $brand-color-green: #4DCF86;
 $brand-color-green-dark: #2EBD6C;
 $brand-color-green-darker: #0BAF52;

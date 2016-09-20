@@ -1,3 +1,5 @@
+@import '../../../scss/colors.scss';
+
 .main {
   position: relative;
   height: 100%;
@@ -5,11 +7,18 @@
 }
 
 .menuItem {
+  border-left: 6px solid transparent;
+  color: $brand-secondary;
   padding: 16px;
   text-decoration: none;
   font-weight: normal;
 
+  &:hover {
+    background-color: $brand-secondary-lighter;
+  }
+
   &Active {
-    border-left: 3px solid red;
+    border-left-color: $brand-primary-light;
+    color: $brand-primary-light;
   }
 }

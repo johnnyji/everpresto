@@ -17,7 +17,7 @@ import styles from './styles/App.scss';
 const RouterLink = Radium(Link);
 const MENU_STYLES = {
   bmMenu: {
-    background: '#FFF',
+    background: '#F5F5F5',
     paddingTop: '2.5rem',
     fontSize: '1.15rem'
   },
