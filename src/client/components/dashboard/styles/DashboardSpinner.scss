@@ -1,4 +1,7 @@
+@import '../../../scss/colors.scss';
+
 .spinner {
+  color: $brand-color-tertiary;
   left: 50%;
   position: absolute;
   top: 45%;
