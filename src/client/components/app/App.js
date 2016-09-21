@@ -17,11 +17,12 @@ import styles from './styles/App.scss';
 const RouterLink = Radium(Link);
 const MENU_STYLES = {
   bmMenu: {
-    background: '#F5F5F5',
+    background: '#404040',
     paddingTop: '3.25rem',
     fontSize: '1.15rem'
   },
   bmCrossButton: {
+    color: '#999',
     cursor: 'pointer',
     right: 16,
     top: 16
@@ -106,15 +107,53 @@ export default class App extends Component {
         outerContainerId={menuConfig.outerContainerId}
         pageWrapId={menuConfig.pageWrapId}
         styles={MENU_STYLES}>
-        <RouterLink activeClassName={styles.menuItemActive} className={styles.menuItem} to='/dashboard/collections'>Collections</RouterLink>
-        <RouterLink activeClassName={styles.menuItemActive} className={styles.menuItem} to='/dashboard/documents'>Documents</RouterLink>
-        <RouterLink activeClassName={styles.menuItemActive} className={styles.menuItem} to='/dashboard/activity'>Activity</RouterLink>
-        <RouterLink activeClassName={styles.menuItemActive} className={styles.menuItem} to='/dashboard/templates'>Templates</RouterLink>
-        <RouterLink activeClassName={styles.menuItemActive} className={styles.menuItem} to='/dashboard/profile_settings'>Profile Settings</RouterLink>
+        <RouterLink
+          activeClassName={styles.menuItemActive}
+          className={styles.menuItem}
+          onClick={this._handleCloseMenu}
+          to='/dashboard/collections'>
+          <Icon className={styles.menuItemIcon} name='folder' />
+          Collections
+        </RouterLink>
+        <RouterLink
+          activeClassName={styles.menuItemActive}
+          className={styles.menuItem}
+          onClick={this._handleCloseMenu}
+          to='/dashboard/documents'>
+          <Icon className={styles.menuItemIcon} name='documents' />
+          Documents
+        </RouterLink>
+        <RouterLink
+          activeClassName={styles.menuItemActive}
+          className={styles.menuItem}
+          onClick={this._handleCloseMenu}
+          to='/dashboard/activity'>
+          <Icon className={styles.menuItemIcon} name='clock' />
+          Activity
+        </RouterLink>
+        <RouterLink
+          activeClassName={styles.menuItemActive}
+          className={styles.menuItem}
+          onClick={this._handleCloseMenu}
+          to='/dashboard/templates'>
+          <Icon className={styles.menuItemIcon} name='write' />
+          Templates
+        </RouterLink>
+        <RouterLink
+          activeClassName={styles.menuItemActive}
+          className={styles.menuItem}
+          onClick={this._handleCloseMenu}
+          to='/dashboard/profile_settings'>
+          <Icon className={styles.menuItemIcon} name='settings' />
+          Profile Settings
+        </RouterLink>
       </Menu>
     );
   };
 
+  _handleCloseMenu = () => {
+    this.props.dispatch(AppActionCreators.closeSidebar());
+  };
 
   _handleExitModal = () => {
     this.props.dispatch(AppActionCreators.dismissModal());

@@ -21,6 +21,7 @@ $brand-secondary-lighter: darken($gray-lighter, 2%);
 $brand-secondary-lightest: $gray-lightest;
 
 $brand-tertiary: $orange;
+$brand-tertiary-light: lighten($orange, 5%);
 
 $error: #CF000F;
 $disabled: $brand-secondary-lighter;

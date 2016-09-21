@@ -40,7 +40,7 @@ export default class TemplatesIndex extends PureComponent {
 
   _renderTemplatePreviews = () => {
     return this.props.templates.map((template, i) => {
-      return <TemplatePreviewCard key={i} template={template} />;
+      return <TemplatePreviewCard className={styles.template} key={i} template={template} />;
     });
   };
 

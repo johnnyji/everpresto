@@ -3,7 +3,8 @@
 @import '../../../scss/extends.scss';
 
 .main {
-  background-color: $brand-color-yellow;
+  background-color: $white;
+  border-bottom: 3px solid $brand-secondary-lighter;
   color: #FFF;
   height: $app-header-height;
   margin: 0;
@@ -17,9 +18,14 @@
   z-index: 2;
 }
 
-.logo {
+// TODO: Remove when UI-Components error is fixed
+.logo.logo {
+  color: $brand-secondary;
   cursor: pointer;
   margin: 0;
+  &:hover {
+    color: $brand-tertiary-light;
+  }
 }
 
 .nav {
@@ -30,14 +36,12 @@
 .profilePic {
   width: 30px;
   height: 30px;
-  border-radius: $border-radius;
+  border-radius: 100%;
   vertical-align: middle;
-  margin-right: 1rem;
+  margin-right: 8px;
 }
 
 // TODO: Remove the double name specificity when I figure out the UI Components bug
 // that doesn't allow current class names to take specificity
 .profileName.profileName {
-  color: #FFF;
-  margin-right: 1rem;
 }

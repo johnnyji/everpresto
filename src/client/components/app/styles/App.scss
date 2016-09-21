@@ -14,11 +14,16 @@
   font-weight: normal;
 
   &:hover {
-    background-color: $brand-secondary-lighter;
+    background-color: lighten($brand-secondary-dark, 5%);
   }
 
   &Active {
-    border-left-color: $brand-primary-light;
-    color: $brand-primary-light;
+    border-left-color: $brand-primary-lighter;
+    color: $brand-primary-lighter;
+  }
+
+  &Icon {
+    margin-top: -3px;
+    margin-right: 12px;
   }
 }

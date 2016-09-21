@@ -39,7 +39,7 @@ export default {
 
   openSidebar() {
     return {
-      type: OPEN_SIDENAV,
+      type: OPEN_SIDENAV
     };
   },
 
