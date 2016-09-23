@@ -11,6 +11,12 @@ import MUIMenu from 'material-ui/Menu';
 import MUIPopover from 'material-ui/Popover';
 import styles from './styles/DashboardHeader.scss';
 
+const POPOVER = {
+  anchorOrigin: {horizontal: 'right', vertical: 'bottom'},
+  targetOrigin: {horizontal: 'right', vertical: 'top'},
+  style: {boxShadow: 'none', border: '3px solid #E6E6E6', borderTopWidth: 0}
+};
+
 export default class DashboardHeader extends PureComponent {
 
   static displayName = 'DashboardHeader';
@@ -61,11 +67,12 @@ export default class DashboardHeader extends PureComponent {
           </Clickable>
           <MUIPopover
             anchorEl={dropdownAnchorEl}
-            anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
+            anchorOrigin={POPOVER.anchorOrigin}
             canAutoPosition={false}
             open={showProfileOptions}
-            onRequestClose={() => this.setState({showProfileOptions: false})}
-            targetOrigin={{horizontal: 'right', vertical: 'top'}}>
+            onRequestClose={this._hideProfileOptions}
+            targetOrigin={POPOVER.targetOrigin}
+            style={POPOVER.style}>
             <MUIMenu>
               <ListItem onClick={this._viewProfile}>Profile Settings</ListItem>
               <MUIDivider />
@@ -96,6 +103,10 @@ export default class DashboardHeader extends PureComponent {
 
   _handleOpenSidebar = () => {
     this.context.dispatch(AppActionCreators.openSidebar());
+  };
+
+  _hideProfileOptions = () => {
+    this.setState({showProfileOptions: false});
   };
 
   _viewProfile = () => {

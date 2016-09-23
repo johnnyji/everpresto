@@ -5,7 +5,7 @@
   @extend .grid-view;
 }
 
-.createIcon.createIcon {
+.createIcon {
   @extend .center-absolute;
   color: $white;
   &:hover { color: $white }

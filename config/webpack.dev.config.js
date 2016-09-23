@@ -55,7 +55,7 @@ const opts = {
     }, {
       test: /\.css$/,
       include: [SRC_PATH],
-      loader: `style!css?modules&importLoaders=1&localIdentName=${config.cssModulesScopedName}!postcss`
+      loader: ExtractTextPlugin.extract('style', `css?modules&importLoaders=1&localIdentName=${config.cssModulesScopedName}!postcss`)
     }, {
       test: /\.(png|jpg)$/,
       include: [PUBLIC_PATH],
