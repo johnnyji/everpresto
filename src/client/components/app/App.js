@@ -23,7 +23,6 @@ const MENU_STYLES = {
   },
   bmCrossButton: {
     color: '#999',
-    cursor: 'pointer',
     right: 16,
     top: 16
   },
