@@ -2,35 +2,36 @@ import {
   CREATE_COLLECTION_SUCCESS,
   SET_COLLECTION_BEING_EDITED,
   RESET_COLLECTION_BEING_EDITED,
-  UPDATE_COLLECTION_SUCCESS} from '../.././action_types/CollectionActionTypes';
-import Immutable from 'immutable';
+  UPDATE_COLLECTION_SUCCESS
+} from '../.././action_types/CollectionActionTypes';
+import createReducer from 'create-reducer-redux';
+import {fromJS} from 'immutable';
 
-const initialState = Immutable.fromJS({
+const initialState = fromJS({
   collection: null
 });
 
-export default function CollectionsEditReducer(state = initialState, action) {
-  switch (action.type) {
+export default createReducer(initialState, {
 
-    case CREATE_COLLECTION_SUCCESS:
-      // We want to set the collection as the one being edited right away
-      // so they can change the name of the folder immediately after creating it
-      return state.set('collection', Immutable.fromJS(action.data.collection));
+  name: 'CollectionsEditReducer',
 
-    case SET_COLLECTION_BEING_EDITED:
-      // No need to convert to Immutable.Map, because it already is.
-      return state.set('collection', action.data.collection);
+  handlers: {
+    onSet: [
+      CREATE_COLLECTION_SUCCESS,
+      SET_COLLECTION_BEING_EDITED
+    ],
+    onReset: [
+      RESET_COLLECTION_BEING_EDITED,
+      UPDATE_COLLECTION_SUCCESS
+    ]
+  },
 
-    case RESET_COLLECTION_BEING_EDITED:
-      return state.set('collection', null);
+  onSet(state, {collection}) {
+    return state.merge({collection});
+  },
 
-    case UPDATE_COLLECTION_SUCCESS:
-      // Once we've succesfully updated the collection we were editing, we are safe
-      // to reset the state
-      return state.set('collection', null);
-
-    default:
-      return state;
-
+  onReset(state) {
+    return state.set('collection', null);
   }
-}
+
+});

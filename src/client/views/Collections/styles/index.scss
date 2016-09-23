@@ -1,18 +1,21 @@
+@import '../../../scss/colors.scss';
 @import '../../../scss/extends.scss';
 
 .main {
   @extend .grid-view;
 }
 
-.createIcon {
+.createIcon.createIcon {
   @extend .center-absolute;
-  color: #FFF;
+  color: $white;
+  &:hover { color: $white }
 }
 
 .folder {
   margin: 20px;
   position: relative;
   &Content {
+    color: $white;
     position: relative;
   }
 }

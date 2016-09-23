@@ -60,13 +60,14 @@ export default class CollectionsIndex extends Component {
   }
 
   _createCollection = () => {
-    this.context.dispatch(CollectionActionCreators.create.create());
+    this.context.dispatch(CollectionActionCreators.new.create());
   };
 
   _renderCollections = () => {
     const {collectionBeingEdited, collectionPreviews: collections} = this.props;
 
     return collections.map((collection, i) => {
+      console.log('Collection: ', collection);
       const isBeingEdited = collectionBeingEdited
         ? collectionBeingEdited.get('id') === collection.get('id')
         : false;

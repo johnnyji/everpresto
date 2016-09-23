@@ -29,8 +29,8 @@ export default createReducer(initState, {
     onUpdate: [UPDATE_COLLECTION_SUCCESS]
   },
 
-  onCreate(state, {collectionPreview}) {
-    return state.update('collectionPreviews', (previews) => previews.unshift(collectionPreview));
+  onCreate(state, {collection}) {
+    return state.update('collectionPreviews', (previews) => previews.unshift(fromJS(collection)));
   },
 
   onFetchError(state, {error}) {
@@ -63,8 +63,8 @@ export default createReducer(initState, {
     return state.update('collectionPreviews', (previews) => previews.delete(index));
   },
 
-  onUpdate(state, {collectionPreview}) {
-    const updated = fromJS(collectionPreview);
+  onUpdate(state, {collection}) {
+    const updated = fromJS(collection);
     const updatedIndex = state
       .get('collectionPreviews')
       .findIndex((preview) => preview.get('id') === updated.get('id'));

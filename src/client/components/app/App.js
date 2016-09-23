@@ -11,7 +11,7 @@ import menuConfig from '../../config/menu';
 import MUIThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Overlay from '.././ui/Overlay';
 import Radium from 'radium';
-import {push as Menu} from 'react-burger-menu';
+import {slide as Menu} from 'react-burger-menu';
 import styles from './styles/App.scss';
 
 const RouterLink = Radium(Link);
