@@ -33,6 +33,14 @@
   display: flex;
 }
 
+.popover {
+  border: 3px solid #E6E6E6;
+  border-top-width: 0;
+  // To override existing Material UI inline styles
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
 .profilePic {
   width: 30px;
   height: 30px;

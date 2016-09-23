@@ -13,8 +13,7 @@ import styles from './styles/DashboardHeader.scss';
 
 const POPOVER = {
   anchorOrigin: {horizontal: 'right', vertical: 'bottom'},
-  targetOrigin: {horizontal: 'right', vertical: 'top'},
-  style: {boxShadow: 'none', border: '3px solid #E6E6E6', borderTopWidth: 0}
+  targetOrigin: {horizontal: 'right', vertical: 'top'}
 };
 
 export default class DashboardHeader extends PureComponent {
@@ -69,10 +68,10 @@ export default class DashboardHeader extends PureComponent {
             anchorEl={dropdownAnchorEl}
             anchorOrigin={POPOVER.anchorOrigin}
             canAutoPosition={false}
+            className={styles.popover}
             open={showProfileOptions}
             onRequestClose={this._hideProfileOptions}
-            targetOrigin={POPOVER.targetOrigin}
-            style={POPOVER.style}>
+            targetOrigin={POPOVER.targetOrigin}>
             <MUIMenu>
               <ListItem onClick={this._viewProfile}>Profile Settings</ListItem>
               <MUIDivider />
