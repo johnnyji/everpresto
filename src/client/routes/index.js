@@ -3,8 +3,8 @@ import React from 'react';
 import {Route, IndexRoute, Redirect} from 'react-router';
 
 // Route Hooks
-import RequiresAdmin from './hooks/RequiresAdmin';
-import RequiresAuth from './hooks/RequiresAuth';
+import RequireAdmin from './hooks/RequireAdmin';
+import RequireAuth from './hooks/RequireAuth';
 
 import App from '.././components/app/App';
 
@@ -52,7 +52,7 @@ export default (
     <Route component={Registration} path='join' />
 
     {/*********** Protected Routes ************/}
-    <Route path='dashboard' component={RequiresAuth(DashboardHandler)}>
+    <Route path='dashboard' component={RequireAuth(DashboardHandler)}>
       <IndexRoute component={DashboardView} />
 
       <Route path='collections' component={DashboardView}>
@@ -77,7 +77,7 @@ export default (
         <IndexRoute component={ProfileSettings} />
       </Route>
 
-      <Route path='admin' component={RequiresAdmin(DashboardView)}>
+      <Route path='admin' component={RequireAdmin(DashboardView)}>
         <IndexRoute component={Admin} />
       </Route>
 
