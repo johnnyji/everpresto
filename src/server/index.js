@@ -6,6 +6,9 @@ import sass from 'node-sass';
 cssModulesHook({
   extensions: ['.scss', '.css'],
   generateScopedName: config.cssModulesScopedName,
+  // generateScopedName: (local, path) => {
+  //   return '';
+  // },
   preprocessCss: (css, filename) => {
     return sass.renderSync({
       data: css,

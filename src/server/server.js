@@ -114,7 +114,7 @@ apiRouter.use('/users', allowCredentials, requireUser, UserRoutes);
 // Server-side rendering
 app.use((req, res) => {
   // TODO: Add conditional for development/production
-  const scriptPath = `http://localhost:${config.development.webpackPort}/build/bundle.js`;
+  const scriptPath = `http://localhost:${config.development.webpackPort}/build/client.js`;
   const stylePath = `http://localhost:${config.development.webpackPort}/build/style.css`;
   let initialState = {auth: Map({company: null, user: null})};
 

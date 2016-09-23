@@ -120,7 +120,7 @@ export default class CollectionPreviewCard extends Component {
           ref='titleInput' />
       );
     }
-    
+
     return (
       <button
         className={`${displayName}-main-title`}

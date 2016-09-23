@@ -1,8 +1,24 @@
 import http, {endpoints} from '../../../utils/http';
-import {UPDATE_COLLECTION_SUCCESS} from './ActionTypes';
+import {
+  SET_COLLECTION_BEING_EDITED,
+  UPDATE_COLLECTION_SUCCESS
+} from './ActionTypes';
 import {createFlashMessage} from '../../../actions/AppActionCreators';
 
 export default {
+
+
+  /**
+   * Sets a collection to be edited
+   * @param  {Immutable.Map} collection - The collection being edited
+   * @return {Object} The action
+   */
+  set(collection) {
+    return {
+      type: SET_COLLECTION_BEING_EDITED,
+      data: {collection}
+    };
+  },
 
   /**
    * Sends an API call to update the collection passed in
@@ -10,7 +26,7 @@ export default {
    * @param  {Object} collectionData - The new collection data
    * @return {Function} - The thunk that makes the API call
    */
-  updateCollection(collectionId, collectionData) {
+  update(collectionId, collectionData) {
     return (dispatch) => {
       http.post(endpoints.collections.update.path, {collectionId, collectionData})
         .then(({collection}) => {

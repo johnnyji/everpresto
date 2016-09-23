@@ -52,17 +52,11 @@ export default class CollectionPreviewCard extends Component {
         <div className={styles.options}>
           <small className={styles.date}>{createdAt}</small>
           <div>
-            <Clickable onClick={this._handleEditCollection}>
-              <Icon
-                className={styles.icon}
-                name='create'
-                size={20} />
+            <Clickable className={styles.icon} onClick={this._handleEditCollection}>
+              <Icon name='edit' size={20} />
             </Clickable>
-            <Clickable onClick={this._handleDeleteCollection}>
-              <Icon
-                className={styles.icon}
-                name='delete'
-                size={20} />
+            <Clickable className={styles.icon} onClick={this._handleDeleteCollection}>
+              <Icon name='close' size={20} />
             </Clickable>
           </div>
         </div>
@@ -71,19 +65,14 @@ export default class CollectionPreviewCard extends Component {
   }
 
   _handleEditCollection = () => {
-    this.context.dispatch(
-      CollectionActionCreators.setCollectionBeingEdited(this.props.collection)
-    );
+    this.context.dispatch(CollectionActionCreators.edit.set(this.props.collection));
   }
 
   _handleUpdateCollection = (event) => {
     const title = event.target.value || DEFAULT_TITLE;
 
     this.context.dispatch(
-      CollectionActionCreators.updateCollection(
-        this.props.collection.get('id'),
-        {title}
-      )
+      CollectionActionCreators.edit.update(this.props.collection.get('id'), {title})
     );
   }
 
@@ -97,7 +86,7 @@ export default class CollectionPreviewCard extends Component {
 
     if (confirm(confirmMessage)) {
       return this.context.dispatch(
-        CollectionActionCreators.deleteCollection(this.props.collection.get('id'))
+        CollectionActionCreators.delete.destroy(this.props.collection.get('id'))
       );
     }
   }

@@ -9,12 +9,12 @@
     "git": "https://github.com/johnnyji/everpresto"
   },
   "scripts": {
-    "server-dev:clean": "rm -rf lib",
+    "server-dev:clean": "rm -rf build",
     "eslint": "eslint ./src",
-    "server-dev:babel": "NODE_ENV=development babel ./src --watch --out-dir ./lib --copy-files",
-    "server-dev:server": "iron-node ./lib/server/index.js",
-    "server-dev:webpack": "webpack-dev-server --devtool-eval --hot --inline --colors --progress --display-error-details --content-base build --config config/webpack.dev.config.js",
-    "server-dev": "npm run server-dev:babel & npm run server-dev:webpack & npm run server-dev:server",
+    "server-dev:node": "iron-node ./build/server.js",
+    "server-dev:server": "webpack -w --content-base build --config config/webpack.dev.config.js",
+    "server-dev:client": "webpack-dev-server --devtool-eval --hot --inline --colors --progress --display-error-details --content-base build --config config/webpack.dev.config.js",
+    "server-dev": "npm run server-dev:clean && npm run server-dev:server & npm run server-dev:client & npm run server-dev:node",
     "validate-wp:dev": "webpack-validator ./config/webpack.dev.config.js",
     "validate-wp:server": "webpack-validator ./config/webpack.server.config.js"
   },
@@ -64,7 +64,7 @@
     "sendgrid": "^4.3.0",
     "socket.io": "^1.4.8",
     "striptags": "^2.1.1",
-    "ui-components": "0.1.0",
+    "ui-components": "0.1.1",
     "validator": "^5.7.0",
     "whatwg-fetch": "^1.0.0",
     "xss": "^0.2.13"
@@ -99,10 +99,12 @@
     "postcss-loader": "^0.13.0",
     "redux-logger": "^2.6.1",
     "sass-loader": "^4.0.2",
+    "source-map-support": "^0.4.2",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
     "webpack": "^1.13.2",
     "webpack-dev-server": "^1.16.1",
+    "webpack-node-externals": "^1.4.3",
     "webpack-validator": "^2.2.7"
   }
 }

@@ -38,7 +38,7 @@
 }
 
 .date {
-  color: $brand-color-blue-darker;
+  color: $white;
   padding: 0 5px;
   &:hover {
     cursor: default;
@@ -46,9 +46,7 @@
 }
 
 .icon {
-  color: $brand-color-blue-lighter;
+  color: $brand-primary-lighter;
   margin-left: 5px;
-  &:hover {
-    color: #FFF;
-  }
+  &:hover { color: $brand-primary-light }
 }
