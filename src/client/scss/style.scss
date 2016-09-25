@@ -121,6 +121,11 @@
   }
 }
 
+// Font weights for titles are always lighter
+:global(h1, h2, h3) {
+  font-weight: lighter;
+}
+
 // Make all placeholder `mark` tags a bit lighter
 :global(mark) {
   background-color: $highlight-yellow-color;

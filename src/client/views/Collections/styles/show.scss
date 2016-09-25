@@ -1,0 +1,11 @@
+@import '../../../scss/extends.scss';
+
+.header {
+  align-items: flex-start;
+  display: flex;
+  justify-content: space-between;
+}
+
+.documents {
+  @extend .grid-view;
+}

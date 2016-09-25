@@ -1,11 +1,11 @@
 import {combineReducers} from 'redux';
+
 import app from './AppReducer';
 import auth from './AuthReducer';
 
-import collectionsEdit from './collections/CollectionsEditReducer';
-// import collectionsIndex from './collections/CollectionsIndexReducer';
+import collectionsEdit from '../views/Collections/reducers/CollectionsEditReducer';
 import collectionsIndex from '../views/Collections/reducers/CollectionsIndexReducer';
-import collectionsShow from './collections/CollectionsShowReducer';
+import collectionsShow from '../views/Collections/reducers/CollectionsShowReducer';
 
 import documentSigning from './DocumentSigningReducer';
 import documents from './DocumentsReducer';

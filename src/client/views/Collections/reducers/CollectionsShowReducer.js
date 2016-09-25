@@ -1,27 +1,53 @@
 import {
+  FETCH_COLLECTION_BEING_VIEWED,
   FETCH_COLLECTION_BEING_VIEWED_SUCCESS,
-  SET_COLLECTION_BEING_VIEWED,
-  RESET_COLLECTION_BEING_VIEWED} from '../.././action_types/CollectionActionTypes';
-import Immutable from 'immutable';
+  FETCH_COLLECTION_BEING_VIEWED_ERROR,
+} from '../.././action_types/CollectionActionTypes';
+import {fromJS} from 'immutable';
+import createReducer from 'create-reducer-redux';
 
-const initialState = Immutable.fromJS({
-  collection: null
+const initialState = fromJS({
+  collection: null,
+  fetching: false,
+  fetched: false,
+  fetchError: false
 });
 
-export default function CollectionsShowReducer(state = initialState, action) {
-  switch (action.type) {
+export default createReducer(initialState, {
 
-    case FETCH_COLLECTION_BEING_VIEWED_SUCCESS:
-      return state.set('collection', Immutable.fromJS(action.data.collection));
+  name: 'CollectionsShowReducer',
 
-    case SET_COLLECTION_BEING_VIEWED:
-      return state.set('collection', Immutable.fromJS(action.data.collection));
+  handlers: {
+    onFetching: FETCH_COLLECTION_BEING_VIEWED,
+    onFetchError: FETCH_COLLECTION_BEING_VIEWED_ERROR,
+    onFetched: FETCH_COLLECTION_BEING_VIEWED_SUCCESS,
+  },
 
-    case RESET_COLLECTION_BEING_VIEWED:
-      return state.set('collection', null);
+  onFetched(state, {collection}) {
+    return state.merge({
+      collection,
+      fetching: false,
+      fetched: true,
+      fetchError: null
+    });
+  },
 
-    default:
-      return state;
+  onFetching(state) {
+    return state.merge({
+      collection: null,
+      fetching: true,
+      fetched: false,
+      fetchError: null
+    });
+  },
 
+  onFetchError(state, {error}) {
+    return state.merge({
+      collection: null,
+      fetching: false,
+      fetched: true,
+      fetchError: error
+    });
   }
-}
+
+});

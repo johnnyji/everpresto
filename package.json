@@ -13,7 +13,7 @@
     "eslint": "eslint ./src",
     "server-dev:node": "iron-node ./build/server.js",
     "server-dev:server": "webpack -w --content-base build --config config/webpack.dev.config.js",
-    "server-dev:client": "webpack-dev-server --devtool-eval --hot --inline --colors --progress --display-error-details --content-base build --config config/webpack.dev.config.js",
+    "server-dev:client": "webpack-dev-server --hot --inline --colors --progress --display-error-details --content-base build --config config/webpack.dev.config.js",
     "server-dev": "npm run server-dev:clean && npm run server-dev:server & npm run server-dev:client & npm run server-dev:node",
     "validate-wp:dev": "webpack-validator ./config/webpack.dev.config.js",
     "validate-wp:server": "webpack-validator ./config/webpack.server.config.js"
@@ -88,6 +88,7 @@
     "css-modules-require-hook": "^4.0.3",
     "eslint": "^3.5.0",
     "eslint-config-johnnyji": "0.1.6",
+    "eslint-loader": "^1.5.0",
     "eslint-plugin-babel": "^3.3.0",
     "eslint-plugin-react": "^6.3.0",
     "exports-loader": "^0.6.3",

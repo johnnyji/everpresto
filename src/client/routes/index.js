@@ -12,7 +12,8 @@ import DashboardHandler from '.././components/dashboard/DashboardHandler';
 import DashboardView from '.././components/dashboard/DashboardView';
 // Collections
 // import CollectionsIndex from '.././components/collections/CollectionsIndex';
-import CollectionsShow from '.././components/collections/CollectionsShow';
+// import CollectionsShow from '.././components/collections/CollectionsShow';
+//
 // Documents
 import DocumentsIndex from '.././components/documents/DocumentsIndex';
 import DocumentsNew from '.././components/documents/DocumentsNew';
@@ -29,6 +30,7 @@ import TestView from '../components/test/TestView';
 
 import Admin from '../views/Admin';
 import CollectionsIndex from '../views/Collections';
+import CollectionsShow from '../views/Collections/show';
 import DocumentSigning from '../views/DocumentSigning';
 import LandingPage from '../views/LandingPage';
 import Login from '../views/Login';

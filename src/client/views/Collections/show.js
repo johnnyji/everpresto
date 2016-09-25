@@ -1,26 +1,21 @@
 import React, {Component, PropTypes} from 'react';
 import Button from 'ui-components/src/Button';
-import CollectionActionCreators from '../.././actions/CollectionActionCreators';
-import CustomPropTypes from '.././CustomPropTypes';
-import DashboardContentHeader from '.././dashboard/DashboardContentHeader';
-import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
-import DashboardQuote from '.././dashboard/DashboardQuote';
-import DashboardSpinner from '.././dashboard/DashboardSpinner';
-import DocumentCard from '.././documents/DocumentCard';
-import SearchBar from '.././ui/SearchBar';
+import CollectionActionCreators from './actions/ActionCreators';
+import CustomPropTypes from '../../utils/CustomPropTypes';
+import DashboardContentHeader from '../../components/dashboard/DashboardContentHeader';
+import DashboardContentWrapper from '../../components/dashboard/DashboardContentWrapper';
+import DashboardQuote from '../../components/dashboard/DashboardQuote';
+import DashboardSpinner from '../../components/dashboard/DashboardSpinner';
+import DocumentPreviewCard from './components/DocumentPreviewCard';
+import SearchBar from '../../components/ui/SearchBar';
 import io from 'socket.io-client';
-import {connect} from 'react-redux';
-import {matchesAttr} from '../.././utils/immutable/IterableFunctions';
+import RequireCollectionBeingViewed from './containers/RequireCollectionBeingViewed';
+import styles from './styles/show.scss';
 
-const displayName = 'CollectionsShow';
-const isSent = matchesAttr('status', /(^sent$|^signed$)/);
-
-@connect((state) => ({
-  collection: state.collectionsShow.get('collection')
-}))
+@RequireCollectionBeingViewed
 export default class CollectionsShow extends Component {
 
-  static displayName = displayName;
+  static displayName = 'CollectionsShow';
 
   static contextTypes = {
     dispatch: PropTypes.func.isRequired,
@@ -42,15 +37,6 @@ export default class CollectionsShow extends Component {
     };
   }
 
-  componentWillMount() {
-    // If the collection being viewed do not exist, fetch it
-    if (!this.props.collection) {
-      this.context.dispatch(
-        CollectionActionCreators.fetchCollectionBeingViewed(this.props.params.id)
-      );
-    }
-  }
-
   componentDidMount() {
     // Remove?
     this.socket = io.connect('http://localhost:3000/collections');
@@ -70,11 +56,12 @@ export default class CollectionsShow extends Component {
     if (!collection) return <DashboardSpinner />;
 
     return (
-      <DashboardContentWrapper className={displayName}>
-        <DashboardContentHeader className={`${displayName}-header`}>
-          <div className={`${displayName}-header-options`}>
+      <DashboardContentWrapper>
+        <DashboardContentHeader className={styles.header}>
+          <div>
+            <h1>{collection.get('title')}</h1>
             <Button
-              className={`${displayName}-header-options-create-button`}
+              isPill={true}
               onClick={this._handleCreateDocuments}>
               Create Documents
             </Button>
@@ -100,7 +87,7 @@ export default class CollectionsShow extends Component {
   _handleSocketConnection = () => {
     const {collection} = this.props;
 
-    if (collection && collection.get('documents').every(isSent)) {
+    if (collection && collection.get('documents').every((d) => d.get('status') === 'sent' || d.get('status') === 'signed')) {
       return this.setState({sentStatus: 'All Sent'});
     }
   };
@@ -117,8 +104,8 @@ export default class CollectionsShow extends Component {
     }
 
     return (
-      <div className={`${displayName}-documents`}>
-        {documents.map((doc, i) => <DocumentCard doc={doc} key={i} />)}
+      <div className={styles.documents}>
+        {documents.map((doc, i) => <DocumentPreviewCard doc={doc} key={i} />)}
       </div>
     );
   };

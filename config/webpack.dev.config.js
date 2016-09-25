@@ -35,6 +35,14 @@ const opts = {
     extensions: ['', '.js', '.jsx', '.json', '.scss']
   },
 
+  preLoaders: [
+    {
+      test: /.js$/,
+      loader: 'eslint',
+      include: [SRC_PATH]
+    }
+  ],
+
   loaders: [
     {
       test: /.js$/,

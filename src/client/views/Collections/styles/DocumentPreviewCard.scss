@@ -1,0 +1,15 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.status {
+}
+
+.statusIcon-created { color: yellow }
+.statusIcon-sent { color: green }
+.statusIcon-signed { color: green }
+
+.body {
+  flex-grow: 1;
+}

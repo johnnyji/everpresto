@@ -16,7 +16,8 @@ export default class TipBox extends Component {
     className: PropTypes.string,
     headerAlign: PropTypes.oneOf(['left', 'center', 'right']).isRequired,
     iconSize: PropTypes.number.isRequired,
-    title: PropTypes.string
+    title: PropTypes.string,
+    titleClass: PropTypes.string
   };
 
   static defaultProps = {
@@ -43,7 +44,7 @@ export default class TipBox extends Component {
     return (
       <div className={classes}>
         <header className={headerClasses}>
-          <Icon icon='info' iconClass={`${displayName}-header-icon`} size={iconSize}/>
+          <Icon icon='info' iconClass={`${displayName}-header-icon`} size={iconSize} />
           {title && <span className={titleClasses}>{title}</span>}
         </header>
         <div className={`${displayName}-body`}>

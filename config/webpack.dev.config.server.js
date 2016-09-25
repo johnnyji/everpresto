@@ -10,6 +10,8 @@ module.exports = function(opts) {
   return {
     name: 'Server',
 
+    devtool: 'cheap-module-source-map',
+
     entry: path.join(ROOT_PATH, 'src/server/server.js'),
 
     libraryTarget: 'commonjs',
@@ -31,6 +33,7 @@ module.exports = function(opts) {
     resolve: opts.resolve,
 
     module: {
+      preLoaders: opts.preLoaders,
       loaders: opts.loaders,
       noParse: /\.min\.js/,
       postcss: [autoprefixer({browsers: ['last 2 versions']})] // autoprefixes CSS with vendor prefixes

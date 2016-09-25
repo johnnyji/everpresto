@@ -1,9 +1,8 @@
+import http, {endpoints} from '../utils/http';
 import AuthActionTypes from '.././action_types/AuthActionTypes';
 import {createFlashMessage} from '.././actions/AppActionCreators';
-import endpoints from '../utils/http/endpoints';
-import http from '../utils/http';
 
-const AuthActionCreators = {
+export default {
 
   /**
    * Sends an API call to create the company with it's initial user
@@ -15,8 +14,11 @@ const AuthActionCreators = {
     debugger;
     return (dispatch) => {
       http.post(endpoints.users.createWithCompany.path, data)
-        .then((response) => {
-          dispatch(this.createCompanyWithUserSuccess(response));
+        .then(({company, user}) => {
+          dispatch({
+            type: AuthActionTypes.CREATE_COMPANY_WITH_USER_SUCCESS,
+            data: {company, user}
+          });
         })
         .catch(({message}) => {
           dispatch(createFlashMessage('red', message));
@@ -24,25 +26,14 @@ const AuthActionCreators = {
     };
   },
 
-  /**
-   * Handles the success of the creation
-   *
-   * @param  {Object} options.company - The created company
-   * @param  {Object} options.user    - The created user
-   * @return {Object}                 - Data sent to the Auth Reducer
-   */
-  createCompanyWithUserSuccess({company, user}) {
-    return {
-      type: AuthActionTypes.CREATE_COMPANY_WITH_USER_SUCCESS,
-      data: {company, user}
-    };
-  },
-
   login(user) {
     return (dispatch) => {
       http.post(endpoints.users.login.path, {user})
         .then((response) => {
-          dispatch(this.loginSuccess(response));
+          dispatch({
+            type: AuthActionTypes.LOGIN_SUCCESS,
+            data: response
+          });
         })
         .catch(() => {
           dispatch(createFlashMessage('red', 'Oops! Invalid Email/Password'));
@@ -50,36 +41,16 @@ const AuthActionCreators = {
     };
   },
 
-  loginSuccess(data) {
-    return {
-      type: AuthActionTypes.LOGIN_SUCCESS,
-      data
-    };
-  },
-
-  // loginError(message) {
-  //   return {
-  //     type: AuthActionTypes.LOGIN_ERROR,
-  //     data: {message}
-  //   }
-  // },
-
   logout() {
     return (dispatch) => {
       http.get(endpoints.users.logout.path)
         .then(() => {
-          dispatch(this.logoutSuccess());
+          dispatch({type: AuthActionTypes.LOGOUT_SUCCESS});
         })
         .catch(() => {
           dispatch(createFlashMessage('red', 'Oops! Unable to logout at this time.'));
         });
     };
-  },
-
-  logoutSuccess() {
-    return {type: AuthActionTypes.LOGOUT_SUCCESS};
   }
 
 };
-
-export default AuthActionCreators;

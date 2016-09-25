@@ -1,6 +1,6 @@
 import {createConstants} from 'create-reducer-redux';
 
-const AuthActionTypes = createConstants([
+export default createConstants([
   'CREATE_COMPANY_WITH_USER_SUCCESS',
   'CREATE_COMPANY_WITH_USER_SUCCESS_SUCCESS',
   'LOGIN',
@@ -8,5 +8,3 @@ const AuthActionTypes = createConstants([
   'LOGOUT',
   'LOGOUT_SUCCESS'
 ]);
-
-export default AuthActionTypes;
