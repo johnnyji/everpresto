@@ -2,7 +2,7 @@ import {
   FETCH_COLLECTION_BEING_VIEWED,
   FETCH_COLLECTION_BEING_VIEWED_SUCCESS,
   FETCH_COLLECTION_BEING_VIEWED_ERROR,
-} from '../.././action_types/CollectionActionTypes';
+} from '../actions/ActionTypes';
 import {fromJS} from 'immutable';
 import createReducer from 'create-reducer-redux';
 
