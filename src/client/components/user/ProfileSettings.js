@@ -1,7 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {EditorState} from 'draft-js';
 import DashboardContentWrapper from '.././dashboard/DashboardContentWrapper';
-import DraftEditor from '.././editor/DraftEditor';
 
 const displayName = 'ProfileSettings';
 
@@ -27,13 +25,6 @@ export default class ProfileSettings extends Component {
     return (
       <div>
         <h3>Save Count: {saveCount}</h3>
-        <div>
-          <DraftEditor
-            customStyleMap={this.props.customStyleMap}
-            editorState={editorState}
-            onEditorStateChange={this._handleEditorStateChange}
-            onSave={this._handleSave} />
-        </div>
       </div>
     );
   }

@@ -11,7 +11,7 @@ import escapeRegExp from 'lodash/escapeRegExp';
  * @return {String}           - The newly altered text
  */
 const replaceWordWithHtml = (text, word, tag = 'span', className, isContentEditable = false) => {
-  const openingTag = Boolean(className) ? `<${tag} class="${className}">` : `<${tag}>`;
+  const openingTag = className ? `<${tag} class="${className}">` : `<${tag}>`;
   const closingTag = `</${tag}>`;
 
   // JavaScript doesn't support negative lookbehinds... Of course.

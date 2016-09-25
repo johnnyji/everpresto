@@ -2,7 +2,7 @@ import {createFlashMessage} from './AppActionCreators';
 import DocumentNewActionTypes from './../action_types/DocumentNewActionTypes';
 import endpoints from '../utils/http/endpoints';
 import http from '../utils/http';
-import {setCollectionBeingViewed} from './CollectionActionCreators';
+import {setCollectionBeingViewed} from '../views/Collections/actions/ActionCreators';
 
 const DocumentNewActionCreators = {
 

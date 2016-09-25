@@ -14,6 +14,7 @@ export default {
 
       http.get(endpoints.collections.show(id).path)
         .then(({collection}) => {
+          debugger;
           dispatch({
             type: FETCH_COLLECTION_BEING_VIEWED_SUCCESS,
             data: {collection}

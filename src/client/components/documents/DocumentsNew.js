@@ -5,11 +5,11 @@ import CustomPropTypes from '.././CustomPropTypes';
 import DashboardError from '../dashboard/DashboardError';
 import DocumentNewActionCreators from '../.././actions/DocumentNewActionCreators';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import RequiresTemplates from '../../containers/RequiresTemplates';
+import RequireTemplates from '../../views/Templates/containers/RequireTemplates';
 
 const displayName = 'DocumentsNew';
 
-@RequiresTemplates
+@RequireTemplates
 @connect((state) => ({
   docBeingCreated: state.documentsNew.get('doc'),
   emailsSentCount: state.documentsNew.get('emailsSentCount'),

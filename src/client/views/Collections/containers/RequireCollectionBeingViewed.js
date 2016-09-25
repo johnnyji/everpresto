@@ -25,7 +25,9 @@ export default (ComposedComponent) => {
     };
 
     componentWillMount() {
+      debugger;
       if (!this.props.fetched && !this.props.fetching) {
+        debugger;
         this.props.dispatch(CollectionActionCreators.show.fetch(this.props.params.id));
       }
     }

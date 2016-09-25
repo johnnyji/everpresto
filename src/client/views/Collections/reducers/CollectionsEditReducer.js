@@ -3,7 +3,7 @@ import {
   SET_COLLECTION_BEING_EDITED,
   RESET_COLLECTION_BEING_EDITED,
   UPDATE_COLLECTION_SUCCESS
-} from '../actions/action_types/CollectionActionTypes';
+} from '../actions/ActionTypes';
 import createReducer from 'create-reducer-redux';
 import {fromJS} from 'immutable';
 
