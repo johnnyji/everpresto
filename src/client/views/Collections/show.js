@@ -5,7 +5,6 @@ import CustomPropTypes from '../../utils/CustomPropTypes';
 import DashboardContentHeader from '../../components/dashboard/DashboardContentHeader';
 import DashboardContentWrapper from '../../components/dashboard/DashboardContentWrapper';
 import DashboardQuote from '../../components/dashboard/DashboardQuote';
-import DashboardSpinner from '../../components/dashboard/DashboardSpinner';
 import DocumentPreviewCard from './components/DocumentPreviewCard';
 import SearchBar from '../../components/ui/SearchBar';
 import io from 'socket.io-client';
@@ -29,13 +28,10 @@ export default class CollectionsShow extends Component {
     }).isRequired
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      filter: null,
-      sentStatus: 'Checking...'
-    };
-  }
+  state = {
+    filter: null,
+    sentStatus: 'Checking...'
+  };
 
   componentDidMount() {
     // Remove?
@@ -45,15 +41,11 @@ export default class CollectionsShow extends Component {
 
   componentWillUnmount() {
     this.socket.emit('disconnect');
-    this.context.dispatch(
-      CollectionActionCreators.resetCollectionBeingViewed()
-    );
+    this.context.dispatch(CollectionActionCreators.resetCollectionBeingViewed());
   }
 
   render() {
     const {collection} = this.props;
-
-    if (!collection) return <DashboardSpinner />;
 
     return (
       <DashboardContentWrapper>

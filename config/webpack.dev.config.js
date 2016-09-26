@@ -36,11 +36,11 @@ const opts = {
   },
 
   preLoaders: [
-    {
-      test: /.js$/,
-      loader: 'eslint',
-      include: [SRC_PATH]
-    }
+    // {
+    //   test: /.js$/,
+    //   loader: 'eslint',
+    //   include: [SRC_PATH]
+    // }
   ],
 
   loaders: [

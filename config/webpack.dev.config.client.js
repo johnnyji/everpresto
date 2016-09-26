@@ -9,7 +9,7 @@ module.exports = function(opts) {
   return {
     name: 'Client',
 
-    devtool: 'cheap-module-source-map',
+    devtool: 'eval',
 
     entry: path.join(ROOT_PATH, 'src/client/index.js'),
 

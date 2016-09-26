@@ -24,10 +24,8 @@ export default (ComposedComponent) => {
       }).isRequired
     };
 
-    componentWillMount() {
-      debugger;
+    componentDidMount() {
       if (!this.props.fetched && !this.props.fetching) {
-        debugger;
         this.props.dispatch(CollectionActionCreators.show.fetch(this.props.params.id));
       }
     }
@@ -36,7 +34,7 @@ export default (ComposedComponent) => {
       const {fetched, fetching, fetchError, ...restProps} = this.props;
 
       if (fetchError) return <DashboardError>{fetchError}</DashboardError>;
-      if (fetching && !fetched) return <DashboardSpinner />;
+      if (fetching || !fetched) return <DashboardSpinner />;
 
       return (
         <ComposedComponent {...restProps} />
@@ -46,10 +44,10 @@ export default (ComposedComponent) => {
   }
 
   return connect((state) => ({
-    fetching: state.collectionsIndex.get('fetching'),
-    fetched: state.collectionsIndex.get('fetched'),
-    fetchError: state.collectionsIndex.get('fetchError'),
-    collectionPreviews: state.collectionsIndex.get('collectionPreviews')
+    fetching: state.collectionsShow.get('fetching'),
+    fetched: state.collectionsShow.get('fetched'),
+    fetchError: state.collectionsShow.get('fetchError'),
+    collection: state.collectionsShow.get('collection')
   }))(RequireCollectionPreviews);
 
 };

@@ -25,7 +25,7 @@ export default class DropdownOptions extends Component {
 
   render() {
     // If `showDropdownOptions` is false, the menu is not shown to begin with.
-    if (!this.props.showDropdownOptions) return <div/>;
+    if (!this.props.showDropdownOptions) return <div />;
 
     const classes = classNames(displayName, this.props.className);
 

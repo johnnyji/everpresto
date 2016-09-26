@@ -21,8 +21,12 @@ router.get('/', (req, res) => {
 // Shows a collection with all it's documents
 router.get('/:id', (req, res) => {
   Collection.findWithDocuments(req.params.id)
-    .then((collection) => res.status(200).json({collection}))
-    .catch((err) => res.status(422).json({message: extractErrorMessage(err)}));
+    .then((collection) => {
+      res.status(200).json({collection});
+    })
+    .catch((err) => {
+      res.status(422).json({message: extractErrorMessage(err)});
+    });
 });
 
 // Creates a new collection
