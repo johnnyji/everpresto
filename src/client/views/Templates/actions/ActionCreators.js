@@ -12,11 +12,7 @@ export default {
 
   edit: require('./EditActionCreators'),
 
-  /**
-   * Sends the AJAX request to create the template on the server
-   * @return {Function} - The thunk that makes the API call
-   */
-  createTemplate() {
+  create() {
     return (dispatch) => {
       http.post(endpoints.templates.create.path)
         .then(({template}) => {

@@ -141,10 +141,11 @@ app.use((req, res) => {
           initialState = {
             auth: fromJS({
               company,
-              user: Object.assign({}, user, {
+              user: {
+                ...user,
                 id: userObjId.toString(),
                 company: companyObjId.toString()
-              })
+              }
             })
           };
         })

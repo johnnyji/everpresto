@@ -1,4 +1,5 @@
 import React, {PropTypes, PureComponent} from 'react';
+import {connect} from 'react-redux';
 import CustomPropTypes from '../../utils/CustomPropTypes';
 import DashboardContentWrapper from '../../components/dashboard/DashboardContentWrapper';
 import ImmutablePropTypes from 'react-immutable-proptypes';
@@ -9,6 +10,9 @@ import TemplateCard from './components/TemplateCard';
 import TemplatePreviewCard from './components/TemplatePreviewCard';
 
 @RequireTemplates
+@connect(({templatesEdit}) => ({
+  templateBeingEdited: templatesEdit.get('template')
+}))
 export default class TemplatesIndex extends PureComponent {
 
   static displayName = 'TemplatesIndex';
@@ -19,8 +23,15 @@ export default class TemplatesIndex extends PureComponent {
   };
 
   static propTypes = {
+    templateBeingEdited: CustomPropTypes.template,
     templates: ImmutablePropTypes.listOf(CustomPropTypes.template).isRequired
   };
+
+  componentWillReceiveProps({templateBeingEdited}) {
+    if (!this.props.templateBeingEdited && templateBeingEdited) {
+      this.context.router.push(`/dashboard/templates/edit/${templateBeingEdited.get('id')}`);
+    }
+  }
 
   render() {
     return (
@@ -35,7 +46,7 @@ export default class TemplatesIndex extends PureComponent {
   }
 
   _handleCreateTemplate = () => {
-    this.context.dispatch(TemplateActionCreators.createTemplate());
+    this.context.dispatch(TemplateActionCreators.create());
   };
 
   _renderTemplatePreviews = () => {

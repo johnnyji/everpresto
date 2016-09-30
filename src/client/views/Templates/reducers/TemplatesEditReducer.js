@@ -1,5 +1,8 @@
 import {
   CREATE_TEMPLATE_SUCCESS,
+  FETCH_TEMPLATE_BEING_EDITED,
+  FETCH_TEMPLATE_BEING_EDITED_ERROR,
+  FETCH_TEMPLATE_BEING_EDITED_SUCCESS,
   RESET_TEMPLATE_BEING_EDITED,
   SET_TEMPLATE_BEING_EDITED,
   UPDATE_TEMPLATE,
@@ -7,63 +10,90 @@ import {
   UPDATE_TEMPLATE_SUCCESS
 } from '../actions/ActionTypes';
 import {fromJS, is} from 'immutable';
-import createReducer from 'create-reducer-redux';
 
 const initState = fromJS({
   template: null,
+  fetching: false,
+  fetched: false,
+  fetchError: null,
   saving: false,
   saved: false
 });
 
-export default createReducer(initState, {
+const onSetTemplate = (state, {template}) => {
+  // No need to convert to Immutable.js, the template being passed in is already
+  // and Immutable.Map
+  const templateBeingEdited = is(template) ? template : fromJS(template);
+  return state.set('template', templateBeingEdited);
+};
 
-  name: 'TemplatesEditReducer',
+const onSaving = (state) => {
+  return state.merge({
+    saved: false,
+    saving: true
+  });
+};
 
-  handlers: {
-    onClear: [
-      RESET_TEMPLATE_BEING_EDITED,
-      UPDATE_TEMPLATE_SUCCESS
-    ],
-    onSaveError: [UPDATE_TEMPLATE_ERROR],
-    onSaving: [UPDATE_TEMPLATE],
-    onSetTemplate: [
-      // When the user creates a template, we want to set it as the template being edited
-      // so they can start to edit it right away
-      CREATE_TEMPLATE_SUCCESS,
-      SET_TEMPLATE_BEING_EDITED
-    ]
-  },
+const onSaved = (state) => {
+  return state.merge({
+    saved: true,
+    saving: false
+  });
+};
 
-  onClear() {
-    return initState;
-  },
+const onSaveError = (state) => {
+  return state.merge({
+    saved: false,
+    saving: false
+  });
+};
 
-  onSaveError(state) {
-    return state.merge({
-      saved: false,
-      saving: false
-    });
-  },
+export default (state = initState, {type, data}) => {
+  switch (type) {
 
-  onSaving(state) {
-    return state.merge({
-      saved: false,
-      saving: true
-    });
-  },
+    case RESET_TEMPLATE_BEING_EDITED:
+      return initState;
 
-  onSaved(state) {
-    return state.merge({
-      saved: true,
-      saving: false
-    });
-  },
+    case FETCH_TEMPLATE_BEING_EDITED:
+      return state.merge({
+        fetchError: null,
+        fetching: true,
+        fetched: false,
+        template: null
+      });
 
-  onSetTemplate(state, {template}) {
-    // No need to convert to Immutable.js, the template being passed in is already
-    // and Immutable.Map
-    const templateBeingEdited = is(template) ? template : fromJS(template);
-    return state.set('template', templateBeingEdited);
+    case FETCH_TEMPLATE_BEING_EDITED_ERROR:
+      return state.merge({
+        fetchError: data.error,
+        fetching: false,
+        fetched: true,
+        template: null
+      });
+
+    case FETCH_TEMPLATE_BEING_EDITED_SUCCESS:
+      return state.merge({
+        fetchError: null,
+        fetching: false,
+        fetched: true,
+        template: data.template
+      });
+
+    case UPDATE_TEMPLATE:
+      return onSaving(state);
+
+    case UPDATE_TEMPLATE_ERROR:
+      return onSaveError(state, data);
+
+    case UPDATE_TEMPLATE_SUCCESS:
+      return onSaved(state);
+    
+    case CREATE_TEMPLATE_SUCCESS:
+    case SET_TEMPLATE_BEING_EDITED:
+      return onSetTemplate(state, data);
+    
+    default: {
+      return state;
+    }
+
   }
-
-});
+};

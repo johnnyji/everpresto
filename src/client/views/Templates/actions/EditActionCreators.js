@@ -1,5 +1,8 @@
 import {
   ADD_PLACEHOLDER,
+  FETCH_TEMPLATE_BEING_EDITED,
+  FETCH_TEMPLATE_BEING_EDITED_ERROR,
+  FETCH_TEMPLATE_BEING_EDITED_SUCCESS,
   RESET_TEMPLATE_BEING_EDITED,
   SET_TEMPLATE_BEING_EDITED,
   UPDATE_TEMPLATE,
@@ -17,11 +20,31 @@ export default {
     };
   },
 
+  fetch(id) {
+    return (dispatch) => {
+      dispatch({type: FETCH_TEMPLATE_BEING_EDITED});
+
+      http.get(endpoints.templates.show(id).path)
+        .then(({template}) => {
+          dispatch({
+            type: FETCH_TEMPLATE_BEING_EDITED_SUCCESS,
+            data: {template}
+          });
+        })
+        .catch(({message}) => {
+          dispatch({
+            type: FETCH_TEMPLATE_BEING_EDITED_ERROR,
+            data: {error: message}
+          });
+        });
+    };
+  },
+
   /**
    * Resets the template being edited to no template.
    * @return {Object} - The data passed to the Template Reducer
    */
-  resetTemplateBeingEdited() {
+  reset() {
     return {
       type: RESET_TEMPLATE_BEING_EDITED
     };
@@ -45,7 +68,7 @@ export default {
    * @param  {Object} templateData - The new template data
    * @return {Function}            - The thunk that makes the API call
    */
-  updateTemplate(templateId, templateData) {
+  update(templateId, templateData) {
     return (dispatch) => {
       // Beginning the update procedure
       dispatch({type: UPDATE_TEMPLATE});

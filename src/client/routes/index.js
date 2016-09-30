@@ -10,18 +10,16 @@ import App from '.././components/app/App';
 
 import DashboardHandler from '.././components/dashboard/DashboardHandler';
 import DashboardView from '.././components/dashboard/DashboardView';
-// Collections
-// import CollectionsIndex from '.././components/collections/CollectionsIndex';
-// import CollectionsShow from '.././components/collections/CollectionsShow';
-//
+
 // Documents
 import DocumentsIndex from '.././components/documents/DocumentsIndex';
 import DocumentsNew from '.././components/documents/DocumentsNew';
 import DocumentsNewChooseTemplateView from '.././components/documents/DocumentsNewChooseTemplateView';
 import DocumentsNewEditorView from '.././components/documents/DocumentsNewEditorView';
+
 // Templates
-// import TemplatesIndex from '.././components/templates/TemplatesIndex';
-import TemplatesEdit from '.././components/templates/TemplatesEdit';
+// import TemplatesEdit from '.././components/templates/TemplatesEdit';
+
 // Profile Settings
 import ProfileSettings from '.././components/user/ProfileSettings';
 
@@ -37,6 +35,7 @@ import Login from '../views/Login';
 import NotFound from '../views/NotFound';
 import Registration from '../views/Registration';
 import TemplatesIndex from '../views/Templates';
+import TemplatesEdit from '../views/Templates/edit';
 
 export default (
   <Route component={App} path='/'>
